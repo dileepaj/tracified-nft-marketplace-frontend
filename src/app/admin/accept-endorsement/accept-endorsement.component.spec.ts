@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AcceptEndorsmentComponent } from './accept-endorsment.component';
+import { AcceptEndorsementComponent } from './accept-endorsement.component';
 
-describe('AcceptEndorsmentComponent', () => {
-  let component: AcceptEndorsmentComponent;
-  let fixture: ComponentFixture<AcceptEndorsmentComponent>;
+describe('AcceptEndorsementComponent', () => {
+  let component: AcceptEndorsementComponent;
+  let fixture: ComponentFixture<AcceptEndorsementComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AcceptEndorsmentComponent ]
+      declarations: [ AcceptEndorsementComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AcceptEndorsmentComponent);
+    fixture = TestBed.createComponent(AcceptEndorsementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

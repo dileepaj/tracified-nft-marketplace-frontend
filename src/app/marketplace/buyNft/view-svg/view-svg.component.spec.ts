@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewSVGComponent } from './view-svg.component';
+import { ViewSvgComponent } from './view-svg.component';
 
-describe('ViewSVGComponent', () => {
-  let component: ViewSVGComponent;
-  let fixture: ComponentFixture<ViewSVGComponent>;
+describe('ViewSvgComponent', () => {
+  let component: ViewSvgComponent;
+  let fixture: ComponentFixture<ViewSvgComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewSVGComponent ]
+      declarations: [ ViewSvgComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewSVGComponent);
+    fixture = TestBed.createComponent(ViewSvgComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

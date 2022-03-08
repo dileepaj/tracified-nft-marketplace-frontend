@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './view-svg.component.html',
   styleUrls: ['./view-svg.component.css']
 })
-export class ViewSVGComponent implements OnInit {
+export class ViewSvgComponent implements OnInit {
 
   constructor() { }
 

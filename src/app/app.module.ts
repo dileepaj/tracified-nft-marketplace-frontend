@@ -19,6 +19,8 @@ import { ActivityComponent } from './activity/activity.component';
 import { HomeComponent } from './home/home.component';
 import { ExploreComponent } from './explore/explore.component';
 import { AddNftReviewComponent } from './add-nft-review/add-nft-review.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -39,10 +41,12 @@ import { AddNftReviewComponent } from './add-nft-review/add-nft-review.component
     ActivityComponent,
     HomeComponent,
     ExploreComponent,
-    AddNftReviewComponent
+    AddNftReviewComponent,
+    LoginComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

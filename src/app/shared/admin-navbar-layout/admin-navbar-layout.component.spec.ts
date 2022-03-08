@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MarketplaceComponent } from './marketplace.component';
+import { AdminNavbarLayoutComponent } from './admin-navbar-layout.component';
 
-describe('MarketplaceComponent', () => {
-  let component: MarketplaceComponent;
-  let fixture: ComponentFixture<MarketplaceComponent>;
+describe('AdminNavbarLayoutComponent', () => {
+  let component: AdminNavbarLayoutComponent;
+  let fixture: ComponentFixture<AdminNavbarLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MarketplaceComponent ]
+      declarations: [ AdminNavbarLayoutComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MarketplaceComponent);
+    fixture = TestBed.createComponent(AdminNavbarLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

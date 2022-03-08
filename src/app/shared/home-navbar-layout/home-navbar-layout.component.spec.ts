@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminNavigatorComponent } from './admin-navigator.component';
+import { HomeNavbarLayoutComponent } from './home-navbar-layout.component';
 
-describe('AdminNavigatorComponent', () => {
-  let component: AdminNavigatorComponent;
-  let fixture: ComponentFixture<AdminNavigatorComponent>;
+describe('HomeNavbarLayoutComponent', () => {
+  let component: HomeNavbarLayoutComponent;
+  let fixture: ComponentFixture<HomeNavbarLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdminNavigatorComponent ]
+      declarations: [ HomeNavbarLayoutComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdminNavigatorComponent);
+    fixture = TestBed.createComponent(HomeNavbarLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

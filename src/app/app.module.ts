@@ -27,6 +27,15 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MintComponent } from './nft/mint/mint.component';
 import { SellNftComponent } from './nft/sell-nft/sell-nft.component';
+import { ResetProfileComponent } from './user/reset-profile/reset-profile.component';
+import { ViewDashboardComponent } from './user/view-dashboard/view-dashboard.component';
+import { BlogViewerComponent } from './blog/blog-viewer/blog-viewer.component';
+import { RichTextEditorComponent } from './blog/rich-text-editor/rich-text-editor.component';
+import { CreateCollectionComponent } from './collections/create-collection/create-collection.component';
+import { ViewCollectionsComponent } from './collections/view-collections/view-collections.component';
+import { AdminNavbarLayoutComponent } from './shared/admin-navbar-layout/admin-navbar-layout.component';
+import { HomeNavbarLayoutComponent } from './shared/home-navbar-layout/home-navbar-layout.component';
+import { NftCardComponent } from './shared/nft-card/nft-card.component';
 
 
 @NgModule({
@@ -49,7 +58,16 @@ import { SellNftComponent } from './nft/sell-nft/sell-nft.component';
     ActivityComponent,
     HomeComponent,
     ExploreComponent,
-    LoginComponent
+    LoginComponent,
+    ResetProfileComponent,
+    ViewDashboardComponent,
+    BlogViewerComponent,
+    RichTextEditorComponent,
+    CreateCollectionComponent,
+    ViewCollectionsComponent,
+    AdminNavbarLayoutComponent,
+    HomeNavbarLayoutComponent,
+    NftCardComponent
   ],
   imports: [
     BrowserModule,

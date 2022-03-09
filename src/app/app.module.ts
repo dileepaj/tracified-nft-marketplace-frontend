@@ -19,12 +19,6 @@ import { HomeComponent } from './marketplace/home/home.component';
 import { ExploreComponent } from './marketplace/explore/explore.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import { MatInputModule } from '@angular/material/input'; 
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MintComponent } from './nft/mint/mint.component';
 import { SellNftComponent } from './nft/sell-nft/sell-nft.component';
 import { ResetProfileComponent } from './user/reset-profile/reset-profile.component';
@@ -73,12 +67,7 @@ import { NftCardComponent } from './shared/nft-card/nft-card.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatToolbarModule
+ 
   ],
   providers: [],
   bootstrap: [AppComponent]

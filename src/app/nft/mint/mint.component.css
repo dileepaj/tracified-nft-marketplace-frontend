@@ -1,0 +1,48 @@
+.main-div{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+
+  }
+
+  .example-full-width {
+    height: 250%;
+    width: 400px;
+    margin-top: 3%;
+    margin-left: 25%;
+  }
+
+  
+
+  .mint1Button{
+      height:40px;
+      width: 15%;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      margin-left: 40%;
+      margin-top: -5%;
+      background-color: green;
+      color: white;
+      border-radius: 5%;
+  }
+
+
+  .example-card{
+    width: 700px;
+    height: 300px;
+  }
+
+ .composer{
+     width:230px;
+     height:280px;
+     margin-left: 23px;
+     align-items: center;
+    justify-content: center;
+      display: flex;
+      margin-top: -43.5%;
+      background-color: gray;
+   
+ }

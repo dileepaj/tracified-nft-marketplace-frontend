@@ -30,8 +30,39 @@ import { ViewCollectionsComponent } from './collections/view-collections/view-co
 import { AdminNavbarLayoutComponent } from './shared/admin-navbar-layout/admin-navbar-layout.component';
 import { HomeNavbarLayoutComponent } from './shared/home-navbar-layout/home-navbar-layout.component';
 import { NftCardComponent } from './shared/nft-card/nft-card.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatInputModule } from '@angular/material/input'; 
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { RouterModule, Routes } from '@angular/router';
+import { Mint2Component } from './nft/mint2/mint2.component';
+import { Mint3Component } from './nft/mint3/mint3.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
+import { HttpClientModule } from '@angular/common/http';
+import {MatStepperModule} from '@angular/material/stepper';
 
-
+const appRoutes:Routes=[
+  {
+    path:'home',
+    component:HomeComponent
+  },
+  {
+    path:'mint',
+    component:MintComponent
+  },
+  {
+    path:'mint2',
+    component:Mint2Component
+  },
+  {
+    path:'mint3',
+    component:Mint3Component
+  },
+];
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,12 +92,26 @@ import { NftCardComponent } from './shared/nft-card/nft-card.component';
     ViewCollectionsComponent,
     AdminNavbarLayoutComponent,
     HomeNavbarLayoutComponent,
-    NftCardComponent
+    NftCardComponent,
+    Mint2Component,
+    Mint3Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatToolbarModule,
+    RouterModule.forRoot(appRoutes),
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    HttpClientModule,
+    MatStepperModule,
  
   ],
   providers: [],

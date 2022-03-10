@@ -1,0 +1,87 @@
+<mat-card class="card2">
+<mat-accordion class="mint2">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+       Select your Blockchain
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+<table>
+  <tr>
+   
+        <span>
+      <td>  <mat-checkbox class="blockchain">Ethereum</mat-checkbox></td>
+      <td>  <mat-checkbox class="blockchain">Polygon</mat-checkbox></td>
+       <td> <mat-checkbox class="blockchain">Stellar</mat-checkbox></td>
+       <td> <mat-checkbox class="blockchain">Solana</mat-checkbox></td>
+      </span>
+   
+  </tr>
+    </table>
+  </mat-expansion-panel>
+  <mat-expansion-panel >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        NFT Features
+      </mat-panel-title>
+      
+    </mat-expansion-panel-header>
+    <table>
+      <tr>
+        <mat-form-field>
+        <input matInput type="text" name="copies" placeholder="Amount">
+        </mat-form-field>
+      </tr>
+      <tr>
+        <span>
+        <td>  <mat-checkbox class="traits">Limited Edition</mat-checkbox></td>
+        <td>  <mat-checkbox class="traits">Unique</mat-checkbox></td>
+         <td> <mat-checkbox class="traits">N/A</mat-checkbox></td>
+        </span>
+      </tr>
+        </table>
+  </mat-expansion-panel>
+  <mat-expansion-panel >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        NFT Details
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <table>
+      <tr>
+        <mat-form-field class="info">
+          <input matInput type="text"   name="tags" placeholder="Tags">
+        </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field class="info">
+          <input matInput type="text"   name="nftLink" placeholder="NFT Profile Link">
+        </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field class="info">
+          <input matInput type="text"   name="artist" placeholder="Artist Name">
+        </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field class="info">
+          <input matInput type="text"   name="artistLink" placeholder="Artist Profile Link">
+        </mat-form-field>
+      </tr>
+      <tr>
+        <mat-label>
+          Issuer:
+        </mat-label>
+        <mat-card-actions>
+          <mat-button [routerLink]="" class="issue">Get Issuer</mat-button>
+        </mat-card-actions>
+        
+      </tr>
+        </table>
+  </mat-expansion-panel>
+</mat-accordion>
+<mat-card-actions>
+  <mat-button [routerLink]="'/mint3'" class="mint2Button" color="primary">Proceed</mat-button>
+</mat-card-actions><br>
+<h3 class="mint2w">You are almost done! Proceed to mint your token</h3>
+</mat-card>

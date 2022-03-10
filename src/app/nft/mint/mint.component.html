@@ -1,1 +1,57 @@
-<p>mint works!</p>
+<head> 
+  <script src="jquery.js"></script> 
+  <script> 
+  $(function(){
+    $("#Content").load("nft-card.component.html"); 
+  });
+</script> 
+</head> 
+  <!-- Classes main-div and example-card are catagorized in .css file -->
+<div class="main-div">
+
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div id="Content"></div>
+      </mat-card-header>
+      <mat-card-content>
+          
+        <form class="example-form">
+           
+          <table class="example-full-width" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Choose Collection</mat-label>
+                  <mat-select>
+                    <mat-option *ngFor="let collection of collection" [value]="collection.value">
+                      {{ collection.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                <input matInput placeholder="NFT Name" name="nftName" required>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+            <td><mat-form-field class="example-full-width">
+              <textarea matInput placeholder="Description" type="desc" name="desc" required></textarea>
+            </mat-form-field></td>
+          </tr>
+         
+        </table>
+        </form>
+       
+      </mat-card-content>
+      <mat-card-actions>
+        <mat-button [routerLink]="'/mint2'" class="mint1Button" color="primary">Proceed</mat-button>
+      </mat-card-actions>
+      <mat-card-actions>
+        <mat-button [routerLink]="'/contacts'" class="composer" color="primary">Image</mat-button>
+      </mat-card-actions>
+    </mat-card>
+  </div>

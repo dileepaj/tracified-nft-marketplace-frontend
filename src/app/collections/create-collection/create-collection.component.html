@@ -1,1 +1,55 @@
 <p>create-collection works!</p>
+<div class="main-div">
+
+    <mat-card class="example-card">
+      <mat-card-header>
+       Create a Collection Now!
+      </mat-card-header>
+      <mat-card-content>
+          
+        <form class="example-form" [formGroup]="controlGroup">
+           
+          <table class="example-full-width" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Temporary PK" formControlName="userPK" required>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Name of Collection" formControlName="collectionName" required>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                <input matInput placeholder="Name of Organization" formControlName="orgName" required>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+            <td><mat-form-field class="example-full-width">
+                <mat-label>Choose Blockchain</mat-label>
+                <mat-select>
+                  <mat-option *ngFor="let blockchain of blockchain" [value]="blockchain.value" formControlName="blockchain">
+                    {{ blockchain.viewValue }}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field></td>
+          </tr>
+         
+        </table>
+        </form>
+       
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="save()"
+        [disabled]="!controlGroup.valid">Create Now!</button>
+      </mat-card-actions>
+
+    </mat-card>
+  </div>

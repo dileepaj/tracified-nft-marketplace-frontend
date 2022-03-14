@@ -36,13 +36,22 @@
   }
 
  .composer{
-     width:230px;
-     height:280px;
-     margin-left: 23px;
+     width:210px;
+     height:260px;
+     margin-left: 1px;
      align-items: center;
     justify-content: center;
       display: flex;
-      margin-top: -43.5%;
+      margin-top: -44.5%;
       background-color: gray;
+      align-content: center;
    
+ }
+
+ .upload-drop-zone{
+   margin-left: 150px;
+ }
+
+ .link{
+   font-size:xx-small;
  }

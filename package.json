@@ -24,7 +24,13 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "angular-material-fileupload": "^3.0.2",
+    "jwt-service": "^8.0.0",
+    "ngx-device-detector": "^3.0.0",
+    "ngx-mat-file-input": "^3.0.0-beta.0",
     "rxjs": "~7.5.0",
+    "rxjs-observable": "0.0.7",
+    "services": "0.0.3",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

@@ -50,8 +50,22 @@
       <mat-card-actions>
         <mat-button [routerLink]="'/mint2'" class="mint1Button" color="primary">Proceed</mat-button>
       </mat-card-actions>
-      <mat-card-actions>
-        <mat-button [routerLink]="'/contacts'" class="composer" color="primary">Image</mat-button>
-      </mat-card-actions>
+<mat-card class="composer">
+  <table>
+    <tr>
+      <div [fileUploadInputFor]="fileUploadQueue" class="upload-drop-zone">
+        Just drag and drop files here
+    </div></tr>
+     <tr> <div style="width: 500px">
+      <mat-file-upload-queue #fileUploadQueue
+          [fileAlias]="'file'"
+          [httpUrl]="'http://localhost:4200/mint'" multiple>
+  
+          <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
+      </mat-file-upload-queue>
+  </div>
+  </tr>
+    </table>
+    </mat-card>
     </mat-card>
   </div>

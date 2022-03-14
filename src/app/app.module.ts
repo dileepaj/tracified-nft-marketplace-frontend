@@ -44,6 +44,13 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 import {MatStepperModule} from '@angular/material/stepper';
+import { MatFileUploadModule } from 'angular-material-fileupload';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatDialogModule} from "@angular/material/dialog";
+import { CollectionService } from './services/api-services/collection.service';
+
+
+
 
 const appRoutes:Routes=[
   {
@@ -61,6 +68,10 @@ const appRoutes:Routes=[
   {
     path:'mint3',
     component:Mint3Component
+  },
+  {
+    path:'collections',
+    component:CreateCollectionComponent
   },
 ];
 @NgModule({
@@ -94,7 +105,9 @@ const appRoutes:Routes=[
     HomeNavbarLayoutComponent,
     NftCardComponent,
     Mint2Component,
-    Mint3Component
+    Mint3Component,
+    
+    
   ],
   imports: [
     BrowserModule,
@@ -112,9 +125,15 @@ const appRoutes:Routes=[
     MatSelectModule,
     HttpClientModule,
     MatStepperModule,
- 
+    MatFileUploadModule,
+    FormsModule, ReactiveFormsModule,
+    MatDialogModule,
+    
+    
   ],
-  providers: [],
+  providers: [
+ CollectionService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

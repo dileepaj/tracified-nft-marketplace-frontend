@@ -130,9 +130,10 @@ const appRoutes:Routes=[
     MatDialogModule,
     
     
+    
   ],
   providers: [
- CollectionService
+ //CollectionService
   ],
   bootstrap: [AppComponent]
 })

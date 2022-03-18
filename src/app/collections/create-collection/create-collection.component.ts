@@ -5,15 +5,14 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from 'rxjs';
 
 
+
 export interface Blockchain {
   value: string;
   viewValue: string;
 }
 @Component({
   selector: 'app-create-collection',
-  providers: [
-   
-     ],
+  providers: [CollectionService],
   templateUrl: './create-collection.component.html',
   styleUrls: ['./create-collection.component.css']
 })
@@ -22,42 +21,52 @@ export class CreateCollectionComponent implements OnInit {
   addSubscription: Subscription;
  
   
-  blockchain: Blockchain[] = [
-    { value: 'Ethereum', viewValue: 'Ethereum' },
-    { value: 'Polygon', viewValue: 'Polygon' },
-    { value: 'Stellar', viewValue: 'Stellar' },
-    { value: 'Solana', viewValue: 'Solana' },
-  ];
+  // blockchains: Blockchain[] = [
+  //   { value: 'Ethereum', viewValue: 'Ethereum' },
+  //   { value: 'Polygon', viewValue: 'Polygon' },
+  //   { value: 'Stellar', viewValue: 'Stellar' },
+  //   { value: 'Solana', viewValue: 'Solana' },
+  // ];
 
-  constructor(public collection:Collection,
-  public service: CollectionService) {
-    this.controlGroup = new FormGroup({
-      userPK: new FormControl(collection.userPK, Validators.required),
-      collectionName:new FormControl(collection.collectionName,Validators.required),
-      orgName:new FormControl(collection.orgName,Validators.required),
-      blockchain: new FormControl(collection.blockchain,Validators.required)
-    });
-   }
-   
+  blockchains=['Stellar','Solana','Polygon','Ethereum']
+ 
+  selectVal: string = "";
+  
+
+  constructor(public service: CollectionService) {}
+  collection: Collection = new Collection('user1', 'collectionName', 'org', 'Polygon')
+
    save(): void {
-    this.collection.userPK = this.formValue('userPK');
+     console.log("-------------------------------------testing 1 -----------------------------------");
+    this.collection.userId = this.formValue('userId');
     this.collection.collectionName = this.formValue('collectionName');
-    this.collection.orgName = this.formValue('orgName');
+    this.collection.organizationName = this.formValue('organizationName');
     this.collection.blockchain = this.formValue('blockchain');
-    if (this.collection.userPK!=null) {
-      this.addSubscription = this.service.add(this.collection)
-        .subscribe();
-        console.log(this.addSubscription);
+    console.log("----------test 2 ----------------------",this.collection.userId,this.collection.collectionName,this.collection.organizationName,this.collection.blockchain)
+    if (this.collection.userId!=null) {
+      console.log("----------------------------test 3-------------------------")
+      this.addSubscription = this.service.add(this.collection).subscribe();
+      console.log(this.addSubscription);
     } else {
       console.log("User PK not connected or not endorsed");
     }
+  }
+
+  
+  ngOnInit(): void {
+    this.controlGroup = new FormGroup({
+      userId: new FormControl(this.collection.userId, Validators.required),
+      collectionName:new FormControl(this.collection.collectionName,Validators.required),
+      organizationName:new FormControl(this.collection.organizationName,Validators.required),
+      blockchain: new FormControl(this.collection.blockchain,Validators.required)
+    });
+
+    this.save();
   }
 
   private formValue(controlName: string): any {
     return this.controlGroup.get(controlName)!.value;
   }
 
-  ngOnInit(): void {
-  }
 
 }

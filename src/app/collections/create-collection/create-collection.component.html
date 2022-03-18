@@ -13,31 +13,29 @@
             <tr>
               <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Temporary PK" formControlName="userPK" required>
+                    <input matInput placeholder="Temporary PK" formControlName="userId" >
                 </mat-form-field>
               </td>
             </tr>
             <tr>
               <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Name of Collection" formControlName="collectionName" required>
+                    <input matInput placeholder="Name of Collection" formControlName="collectionName" >
                 </mat-form-field>
               </td>
             </tr>
             <tr>
               <td>
                 <mat-form-field class="example-full-width">
-                <input matInput placeholder="Name of Organization" formControlName="orgName" required>
+                <input matInput placeholder="Name of Organization" formControlName="organizationName" >
                 </mat-form-field>
               </td>
             </tr>
             <tr>
             <td><mat-form-field class="example-full-width">
                 <mat-label>Choose Blockchain</mat-label>
-                <mat-select>
-                  <mat-option *ngFor="let blockchain of blockchain" [value]="blockchain.value" formControlName="blockchain">
-                    {{ blockchain.viewValue }}
-                  </mat-option>
+                <mat-select ([value])="selectVal" formControlName="blockchain">
+                  <mat-option *ngFor="let blockchain of blockchains" [value]="blockchain"  ngDefaultControl>{{ blockchain}} </mat-option>
                 </mat-select>
             </mat-form-field></td>
           </tr>
@@ -47,9 +45,8 @@
        
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button (click)="save()"
-        [disabled]="!controlGroup.valid">Create Now!</button>
+        <button mat-button (click)="save()">Create Now!</button>
       </mat-card-actions>
-
+<p>Your collection for {{selectVal}} has been created!</p>
     </mat-card>
   </div>

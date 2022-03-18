@@ -1,8 +1,8 @@
 export class Collection {
     constructor(
-      public userPK: string,
+      public userId: string,
       public collectionName:string,
-      public  orgName:string,
+      public  organizationName:string,
       public  blockchain:string,
     ) {}
   }

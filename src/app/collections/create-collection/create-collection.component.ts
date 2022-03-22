@@ -28,21 +28,21 @@ export class CreateCollectionComponent implements OnInit {
   //   { value: 'Solana', viewValue: 'Solana' },
   // ];
 
-  blockchains=['Stellar','Solana','Polygon','Ethereum']
+  //blockchains=['Stellar','Solana','Polygon','Ethereum']
  
   selectVal: string = "";
   
 
   constructor(public service: CollectionService) {}
-  collection: Collection = new Collection('user1', 'collectionName', 'org', 'Polygon')
+  collection: Collection = new Collection('user1', 'collectionName', 'org')
 
    save(): void {
      console.log("-------------------------------------testing 1 -----------------------------------");
     this.collection.userId = this.formValue('userId');
     this.collection.collectionName = this.formValue('collectionName');
     this.collection.organizationName = this.formValue('organizationName');
-    this.collection.blockchain = this.formValue('blockchain');
-    console.log("----------test 2 ----------------------",this.collection.userId,this.collection.collectionName,this.collection.organizationName,this.collection.blockchain)
+   // this.collection.blockchain = this.formValue('blockchain');
+    console.log("----------test 2 ----------------------",this.collection.userId,this.collection.collectionName,this.collection.organizationName)
     if (this.collection.userId!=null) {
       console.log("----------------------------test 3-------------------------")
       this.addSubscription = this.service.add(this.collection).subscribe();
@@ -58,7 +58,7 @@ export class CreateCollectionComponent implements OnInit {
       userId: new FormControl(this.collection.userId, Validators.required),
       collectionName:new FormControl(this.collection.collectionName,Validators.required),
       organizationName:new FormControl(this.collection.organizationName,Validators.required),
-      blockchain: new FormControl(this.collection.blockchain,Validators.required)
+     // blockchain: new FormControl(this.collection.blockchain,Validators.required)
     });
 
     this.save();

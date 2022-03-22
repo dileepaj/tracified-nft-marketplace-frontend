@@ -6,23 +6,21 @@ import { Collection } from 'src/app/models/collection';
 @Injectable({
   providedIn: 'root'
 })
-export class CollectionService {
-  baseUrlSave: string = 'http://localhost:6081/api/collection/save';
-  baseUrlGet: string = 'http://localhost:6081/api/collection/userpk';
-
+export class MintService {
+  //baseUrlSave: string = 'http://localhost:6081/api/collection/save';
+  baseUrlGet: string = 'http://localhost:6081/api/collection/save';
 
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
-  getCollectionName(userId:string): Observable<Collection[]> {
-    return this.http.get<Collection[]>(`${this.baseUrlGet}/${userId}`);
+  getAll(): Observable<Collection[]> {
+    return this.http.get<Collection[]>(this.baseUrlGet);
   }
-
-  add(st: Collection): Observable<Collection> {
-    console.log("-------------------------------------test 4 ------------------------------",st.organizationName)
-    return this.http.post<Collection>(this.baseUrlSave, st, {headers: this.headers});
-  }
+  // add(st: Collection): Observable<Collection> {
+  //   console.log("-------------------------------------test 4 ------------------------------",st.organizationName)
+  //   return this.http.post<Collection>(this.baseUrlSave, st, {headers: this.headers});
+  // }
 
   // update(st: Collection): Observable<Collection> {
   //   return this.http.put<Collection>(

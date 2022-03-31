@@ -41,8 +41,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatDialogModule} from '@angular/material/dialog';
 /*import {FormControl, FormGroup, Validators} from "@angular/forms";*/
 const appRoutes:Routes=[
+  {
+      path:'home',
+      component:HomeComponent
+  },
   {
       path:'userreview',
       component:NftReviewsComponent
@@ -50,6 +55,10 @@ const appRoutes:Routes=[
   {
       path:'adminlogin',
       component:LoginComponent
+  },
+  {
+      path:'walletTest',
+      component:WalletComponent
   },
 ];
 @NgModule({
@@ -97,7 +106,8 @@ const appRoutes:Routes=[
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

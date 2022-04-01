@@ -15,15 +15,15 @@
       </mat-card-header>
       <mat-card-content>
           
-        <form class="example-form" >
+        <form class="example-form" [formGroup]="controlGroupMint">
            
           <table class="example-full-width" cellspacing="0">
             <tr>
               <td>
                 <mat-form-field class="example-full-width">
                   <mat-label>Choose Collection</mat-label>
-                  <mat-select >
-                    <mat-option *ngFor="let collection of CollectionList" [value]="collection.CollectionName">
+                  <mat-select formControlName="Collection" >
+                    <mat-option *ngFor="let collection of CollectionList" [value]="collection.CollectionName" >
                       {{ collection.CollectionName }}
                     </mat-option>
                   </mat-select>
@@ -33,13 +33,13 @@
             <tr>
               <td>
                 <mat-form-field class="example-full-width">
-                <input matInput placeholder="NFT Name" name="nftName" required>
+                <input matInput placeholder="NFT Name"   formControlName="NFTName">
                 </mat-form-field>
               </td>
             </tr>
             <tr>
             <td><mat-form-field class="example-full-width">
-              <textarea matInput placeholder="Description" type="desc" name="desc" required></textarea>
+              <textarea matInput placeholder="Description" type="desc" formControlName="Description" ></textarea>
             </mat-form-field></td>
           </tr>
          
@@ -48,7 +48,7 @@
        
       </mat-card-content>
       <mat-card-actions>
-        <mat-button [routerLink]="'/mint2'" class="mint1Button" color="primary">Proceed</mat-button>
+        <button mat-button  class="mint1Button" color="primary" (click)="sendToMint2()">Proceed</button>
       </mat-card-actions>
 <mat-card class="composer">
   <table>

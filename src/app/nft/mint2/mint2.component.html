@@ -1,23 +1,26 @@
 <mat-card class="card2">
 <mat-accordion class="mint2">
+  <form [formGroup]="controlGroup">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
        Select your Blockchain
       </mat-panel-title>
     </mat-expansion-panel-header>
-<table>
+    
+<table >
   <tr>
    
-        <span>
-      <td>  <mat-checkbox class="blockchain" name="blockchain">Ethereum</mat-checkbox></td>
-      <td>  <mat-checkbox class="blockchain" name="blockchain">Polygon</mat-checkbox></td>
-       <td> <mat-checkbox class="blockchain" name="blockchain">Stellar</mat-checkbox></td>
-       <td> <mat-checkbox class="blockchain" name="blockchain">Solana</mat-checkbox></td>
+        <span formControlName="Blockchain" ngDefaultControl>
+      <td>  <mat-checkbox class="blockchain" value="ethereum">Ethereum</mat-checkbox></td>
+      <td>  <mat-checkbox class="blockchain" value="polygon" >Polygon</mat-checkbox></td>
+       <td> <mat-checkbox class="blockchain" value="stellar">Stellar</mat-checkbox></td>
+       <td> <mat-checkbox class="blockchain" value="solana">Solana</mat-checkbox></td>
       </span>
    
   </tr>
     </table>
+ 
   </mat-expansion-panel>
   <mat-expansion-panel >
     <mat-expansion-panel-header>
@@ -26,20 +29,22 @@
       </mat-panel-title>
       
     </mat-expansion-panel-header>
+    
     <table>
       <tr>
         <mat-form-field>
-        <input matInput type="text" name="copies" placeholder="Amount">
+        <input matInput type="text" formControlName="Copies" placeholder="Amount">
         </mat-form-field>
       </tr>
       <tr>
-        <span>
-        <td>  <mat-checkbox class="traits" name="traits">Limited Edition</mat-checkbox></td>
-        <td>  <mat-checkbox class="traits" name="traits">Unique</mat-checkbox></td>
-         <td> <mat-checkbox class="traits" name="traits">N/A</mat-checkbox></td>
+        <span formControlName="Categories" ngDefaultControl>
+        <td>  <mat-checkbox class="traits" value="LE">Limited Edition</mat-checkbox></td>
+        <td>  <mat-checkbox class="traits"value="U" >Unique</mat-checkbox></td>
+         <td> <mat-checkbox class="traits" value="NA" >N/A</mat-checkbox></td>
         </span>
       </tr>
         </table>
+
   </mat-expansion-panel>
   <mat-expansion-panel >
     <mat-expansion-panel-header>
@@ -47,41 +52,36 @@
         NFT Details
       </mat-panel-title>
     </mat-expansion-panel-header>
+     
     <table>
       <tr>
         <mat-form-field class="info">
-          <input matInput type="text"   name="tags" placeholder="Tags">
+          <input matInput type="text"   formControlName="Tags" placeholder="Tags">
         </mat-form-field>
       </tr>
       <tr>
         <mat-form-field class="info">
-          <input matInput type="text"   name="nftLink" placeholder="NFT Profile Link">
+          <input matInput type="text"   formControlName="NftContentURL" placeholder="NFT Profile Link">
         </mat-form-field>
       </tr>
       <tr>
         <mat-form-field class="info">
-          <input matInput type="text"   name="artist" placeholder="Artist Name">
+          <input matInput type="text"   formControlName="ArtistName" placeholder="Artist Name">
         </mat-form-field>
       </tr>
       <tr>
         <mat-form-field class="info">
-          <input matInput type="text"   name="artistLink" placeholder="Artist Profile Link">
+          <input matInput type="text"   formControlName="ArtistProfileLink" placeholder="Artist Profile Link">
         </mat-form-field>
       </tr>
-      <tr>
-        <mat-label>
-          Issuer:
-        </mat-label>
-        <mat-card-actions>
-          <mat-button [routerLink]="" class="issue">Get Issuer</mat-button>
-        </mat-card-actions>
-        
-      </tr>
+    
         </table>
+  
   </mat-expansion-panel>
+</form>
 </mat-accordion>
 <mat-card-actions>
-  <mat-button [routerLink]="'/mint3'" class="mint2Button" color="primary">Proceed</mat-button>
+  <button mat-button  class="mint2Button" color="primary" (click)="getIssuer()">Proceed</button>
 </mat-card-actions><br>
 <h3 class="mint2w">You are almost done! Proceed to mint your token</h3>
 </mat-card>

@@ -1,34 +1,47 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import Swal from 'sweetalert2';
 import { Collection } from 'src/app/models/collection';
 import { CollectionService } from 'src/app/services/api-services/collection.service';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from 'rxjs';
-// export interface CollectionList {
-//   value: string;
-//   viewValue: string;
-// }
+import { Mint2 } from 'src/app/models/minting';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-mint',
-  providers: [CollectionService],
   templateUrl: './mint.component.html',
   styleUrls: ['./mint.component.css']
 })
 export class MintComponent implements OnInit {
   addSubscription: Subscription;
+  controlGroupMint: FormGroup;
   
-  // collection: CollectionList[] = [
-  //   { value: 'Animals', viewValue: 'Animals' },
-  //   { value: 'Gucci', viewValue: 'Gucci' },
-  //   { value: 'Ruri', viewValue: 'Ruri' },
-  //   { value: 'Kantela', viewValue: 'Kantela' },
-  // ];
+
   CollectionList: any;
 
-  constructor(private service:CollectionService) { }
-  collection:Collection = new Collection('user1', 'collectionName', 'org')
+  constructor(private service:CollectionService,private router:Router) { }
+  collection:Collection = new Collection('user1', 'collectionName', 'org')//declaring model to get collections
+  mint:Mint2 = new Mint2('','','','')//declaring model to mint and post
+ 
+
+  sendToMint2(): void {//function to pass data to the next component
+    console.log("-------------------------------------testing 1 -----------------------------------");
+    //getting form data and equaling it to the model
+    this.mint.NftContentURL = "something";
+    this.mint.Collection = this.formValue('Collection');
+    this.mint.NFTName = this.formValue('NFTName');
+    this.mint.Description = this.formValue('Description');
+    console.log("test 2 ---------------------",this.mint.NftContentURL,this.mint.Collection,this.mint.NFTName,this.mint.Description)
+   
+    //using routers to pass parameters of data into the next component
+   let data :any=this.controlGroupMint.value;
+   this.router.navigate(['./mint2'],{
+     queryParams:{data:JSON.stringify(data)}
+   })
+
+ 
+   }
 
   ngOnInit(): void {
+   //getting collection data according to user PK
     this.collection.userId="A101";
     if (this.collection.userId!=null) {
       console.log("----------------------------test 3-------------------------",this.collection.userId)
@@ -39,7 +52,18 @@ export class MintComponent implements OnInit {
     } else {
       console.log("User PK not connected or not endorsed");
     }
+    //validation of form data
+    this.controlGroupMint = new FormGroup({
+      Collection: new FormControl(this.mint.Collection, Validators.required),
+      NFTName:new FormControl(this.mint.NFTName,Validators.required),
+      Description:new FormControl(this.mint.Description,Validators.required),
     
+    });
+  
+  }
+//getting input to formValue function from html code
+  private formValue(controlName: string): any {
+    return this.controlGroupMint.get(controlName)!.value;
   }
 
 }

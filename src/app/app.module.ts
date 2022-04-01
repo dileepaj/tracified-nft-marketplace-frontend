@@ -48,7 +48,9 @@ import { MatFileUploadModule } from 'angular-material-fileupload';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDialogModule} from "@angular/material/dialog";
 import { CollectionService } from './services/api-services/collection.service';
-import { MintService } from './services/api-services/mint.service';
+import { MintService } from './services/blockchain-services/mint.service';
+import { TrustlinesService } from './services/blockchain-services/stellar-services/trustlines.service';
+import { Properties } from './shared/properties';
 
 
 
@@ -135,7 +137,9 @@ const appRoutes:Routes=[
   ],
   providers: [
  //CollectionService
-  // MintService
+   //MintService
+   
+   
   ],
   bootstrap: [AppComponent]
 })

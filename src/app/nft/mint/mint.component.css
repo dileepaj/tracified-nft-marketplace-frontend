@@ -22,7 +22,7 @@
       align-items: center;
       justify-content: center;
       display: flex;
-      margin-left: 40%;
+      margin-left: -400%;
       margin-top: -5%;
       background-color: green;
       color: white;
@@ -42,7 +42,7 @@
      align-items: center;
     justify-content: center;
       display: flex;
-      margin-top: -44.5%;
+      margin-top: -50%;
       background-color: gray;
       align-content: center;
    

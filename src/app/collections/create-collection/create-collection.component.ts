@@ -20,31 +20,24 @@ export class CreateCollectionComponent implements OnInit {
   controlGroup: FormGroup;
   addSubscription: Subscription;
  
-  
-  // blockchains: Blockchain[] = [
-  //   { value: 'Ethereum', viewValue: 'Ethereum' },
-  //   { value: 'Polygon', viewValue: 'Polygon' },
-  //   { value: 'Stellar', viewValue: 'Stellar' },
-  //   { value: 'Solana', viewValue: 'Solana' },
-  // ];
-
-  //blockchains=['Stellar','Solana','Polygon','Ethereum']
  
   selectVal: string = "";
   
 
   constructor(public service: CollectionService) {}
-  collection: Collection = new Collection('user1', 'collectionName', 'org')
+  collection: Collection = new Collection('user1', 'collectionName', 'org')//declaring the model
 
-   save(): void {
+   save(): void {//getting form data and sending it to the collection service to post
      console.log("-------------------------------------testing 1 -----------------------------------");
+     //getting form data and equalling it to to model variables
     this.collection.userId = this.formValue('userId');
     this.collection.collectionName = this.formValue('collectionName');
     this.collection.organizationName = this.formValue('organizationName');
-   // this.collection.blockchain = this.formValue('blockchain');
+   
     console.log("----------test 2 ----------------------",this.collection.userId,this.collection.collectionName,this.collection.organizationName)
     if (this.collection.userId!=null) {
       console.log("----------------------------test 3-------------------------")
+      //sending data to the service
       this.addSubscription = this.service.add(this.collection).subscribe();
       console.log(this.addSubscription);
     } else {
@@ -54,16 +47,17 @@ export class CreateCollectionComponent implements OnInit {
 
   
   ngOnInit(): void {
+    //validating form data
     this.controlGroup = new FormGroup({
       userId: new FormControl(this.collection.userId, Validators.required),
       collectionName:new FormControl(this.collection.collectionName,Validators.required),
       organizationName:new FormControl(this.collection.organizationName,Validators.required),
-     // blockchain: new FormControl(this.collection.blockchain,Validators.required)
+     
     });
-
+    //calling the save function
     this.save();
   }
-
+  //initializing input in html to formValue function
   private formValue(controlName: string): any {
     return this.controlGroup.get(controlName)!.value;
   }

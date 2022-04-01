@@ -9,9 +9,16 @@
         </div>
       </mat-card-header>
       <mat-card-content class="mint">
+        <table>
+          <tr>
+            Issuer: <mat-label >
+              {{issuer.NFTIssuer}}
+            </mat-label>
+          </tr>
+        </table>
          <h1>Do you wish to Mint your NFT? Just Confirm Now!</h1>
          <mat-card-actions>
-            <mat-button [routerLink]="'/home'" class="mint3Button" color="primary">Mint Now!</mat-button>
+          <button mat-button (click)="save()">Mint Now!</button>
           </mat-card-actions>
         
       </mat-card-content>

@@ -42,6 +42,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatDialogModule} from '@angular/material/dialog';
+import {AdminDashboardComponent} from './admin/admin-dashboard/admin-dashboard.component'
+import { MatListModule } from '@angular/material/list';
 /*import {FormControl, FormGroup, Validators} from "@angular/forms";*/
 const appRoutes:Routes=[
   {
@@ -60,6 +62,10 @@ const appRoutes:Routes=[
       path:'walletTest',
       component:WalletComponent
   },
+  {
+    path:'adminDashboard',
+    component:AdminDashboardComponent
+},
 ];
 @NgModule({
   declarations: [
@@ -90,7 +96,8 @@ const appRoutes:Routes=[
     ViewCollectionsComponent,
     AdminNavbarLayoutComponent,
     HomeNavbarLayoutComponent,
-    NftCardComponent
+    NftCardComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -108,6 +115,7 @@ const appRoutes:Routes=[
     HttpClientModule,
     FlexLayoutModule,
     MatDialogModule,
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,1 +1,51 @@
-<p>admin-dashboard works!</p>
+<mat-card id="header">
+    <img id="tracifiedLogo" src="assets\images\tracified-white.png">
+    <span id="dashboard-header">   |Admin Dashboard</span>
+</mat-card>
+<div id="profile-container">
+    <div id="profile-panel" >
+        <mat-card id="adminProfileInfo">
+            <img src="assets\images\admin-profile-pic.png">
+            <br>
+            <br>
+            <span>john smith</span> 
+        </mat-card>
+        <mat-list>
+            <mat-list-item><a class="links" href="#">BROWSE MARKETPLACE</a></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><a class="links" href="#">PATNERS</a></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><a class="links" href="#">FAQ's</a></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><a class="links" href="#">REVIEWS</a></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><a class="links" href="#">DOCUMENTATION</a></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><a class="links" href="#">NOTFICATIONS</a></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><a class="links" href="#">ENDORSMENTS</a></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><a class="links" href="#">NEWSLETTERS</a></mat-list-item>
+          </mat-list>
+    </div>
+    <div id="panel2">
+        <div class="badgeSection">
+            <img src="assets\images\inboxicon.png"><br>
+            <a class="links">Inbox</a>
+        </div>
+        <div class="badgeSection">
+            <img src="assets\images\nfticon.png"><br>
+            <a class="links">Create nft/collection</a>
+        </div>
+        <div class="badgeSection">
+            <img src="assets\images\walleticon.png"><br>
+            <a class="links" (click)="openDialog()">My Wallet</a>
+        </div>
+    </div>
+    <div id="panel3">
+        scroll
+    </div>
+    <div id="notifcation">
+        notifcation
+    </div>
+</div>

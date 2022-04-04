@@ -6,11 +6,11 @@ body{
     background-color: #301414;
 }
 #tracifiedLogo{
-    max-width:300px;
-    max-height:50px;
+    max-width:200px;
+    max-height:40px;
 }
 #dashboard-header{
-    font-size:60px;
+    font-size:40px;
     color:white;
 }
 

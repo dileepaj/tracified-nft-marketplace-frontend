@@ -19,16 +19,19 @@ export class NftReviewsComponent implements OnInit {
   
 
   save():void{
-    
     this.review.NFTIdentifier="ABC1"
     this.review.UserID="U0045"
-    this.review.Rating=this.formValue('rating');
+    this.review.Rating=parseFloat(this.formValue('rating'));
     console.log("Rating value retireved : ",this.review.Rating)
     this.review.Description=this.formValue('description');
-    console.log("Description value retireved : ",this.review.Description)
+    if(this.review.Description == "" || this.review.Rating==null){
+      alert("Please enter data for both feilds")
+    }
+    else{
+      this.addSubscription = this.service.add(this.review).subscribe()
+      console.log(this.addSubscription);
+    }
     
-    this.addSubscription = this.service.add(this.review).subscribe()
-    console.log(this.addSubscription);
   }
 
   ngOnInit(): void {

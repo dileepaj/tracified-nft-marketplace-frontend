@@ -1,23 +1,22 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-.userRating-form {
-    min-width: 150px;
-    max-width: 450px;
-    width: 100%;
-  }
-  
-  .userRating-full-width {
-    width: 100%;
-  }
-
+#outer-container{
+  height:100%;
+  width: 100%;
+  background-image: url("../../assets/images/reviews-bg.png");
+  background-size: 100% ;  
+  background-size: cover; 
+  color: white;
+}
 .container {
-  border: 3px solid black;
-  border-radius: 30px;
+  position: relative;
+  float: right;
   padding: 30px;
-  margin-left:450px;
-  margin-right:0px;
-  margin-top: 70px;
-  width:440px;
-  min-width: 150px;
+  width:540px;
+  height:370px;
+  margin-right: 200px;
+  margin-top: 200px;
+  background-color: black;
+ 
 }
 .submitbtn{
   position: relative;
@@ -28,7 +27,7 @@
 
 
 fieldset, label { margin: 0; padding: 0; }
-body{ margin: 20px; }
+body{ margin: 20px;}
 h1 { font-size: 1.5em; margin: 10px; }
 
 /****** Style Star Rating Widget *****/
@@ -41,7 +40,7 @@ h1 { font-size: 1.5em; margin: 10px; }
 .rating > input { display: none; } 
 .rating > label:before { 
   margin: 5px;
-  font-size: 1.25em;
+  font-size: 5.25em;
   font-family: FontAwesome;
   display: inline-block;
   content: "\f005";
@@ -67,3 +66,29 @@ h1 { font-size: 1.5em; margin: 10px; }
 .rating > input:checked ~ label:hover,
 .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+.userRating-form {
+  min-width: 150px;
+  max-width: 450px;
+  width: 100%;
+  margin-left:50px;
+}
+
+.userRating-full-width {
+  width: 100%;
+}
+.rating-text{
+  font-size:20px;
+}
+
+#txtarea{
+    background-color: rgb(153, 150, 150);
+    margin-bottom: 10px;
+}
+#submitbtn{
+    padding: 5px;
+    width: 300px;
+    margin-left: 70px;
+    background-color: #E0B210;
+    color: black;
+}

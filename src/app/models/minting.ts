@@ -52,6 +52,14 @@ export class Issuer{
     ){}
 }
 
+export class Minter{
+    constructor(
+        public NFTIssuerPK:string,
+        public ImageBase64:string,
+       
+    ){}
+}
+
 export class Ownership{
     constructor(
    public NFTIdentifier: string,
@@ -63,4 +71,11 @@ export class Ownership{
     ){}
 }
 
+export class UpdateMint{
+    constructor(
+        public MinterPK:string,
+        public ImageBase64:string,
+       
+    ){}
+}
 

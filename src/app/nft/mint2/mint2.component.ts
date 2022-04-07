@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from 'rxjs';
-import { NFT, Ownership, tags,Issuer} from 'src/app/models/minting';
+import { NFT, Ownership, tags,Issuer,Minter} from 'src/app/models/minting';
 import { MintService } from 'src/app/services/blockchain-services/mint.service';
 import { ActivatedRoute } from '@angular/router';
 import { TrustlinesService } from 'src/app/services/blockchain-services/stellar-services/trustlines.service';
@@ -18,6 +18,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   own:Ownership=new Ownership('','','','',1)
   controlGroup: FormGroup;
   issuer:Issuer=new Issuer('');
+  solMinter:any
   addSubscription: Subscription;
   isLoadingPresent: boolean;
   loading:any;
@@ -27,6 +28,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   constructor(private route:ActivatedRoute, private service:MintService ,private trustService:TrustlinesService) { }
  data:any;
   mint:NFT= new NFT('','','','','','',0,'','','','','','','','','','','','','','','','')
+  minter:Minter=new Minter('','')
   
  sendToMint3():void{//getting form data to mint and post
    
@@ -37,7 +39,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   this.mint.Copies=this.formValue('Copies');
   this.mint.Categories=this.formValue('Categories');
   this.mint.Tags=this.formValue('Tags');
-  this.mint.Imagebase64="something";
+  this.mint.Imagebase64="so8iiil00779911122j";
   this.mint.ArtistName=this.formValue('ArtistName');
   this.mint.ArtistProfileLink=this.formValue('ArtistProfileLink');
   this.mint.NFTIdentifier="";
@@ -107,7 +109,14 @@ pushTag():void{//posting tag data via service to backend
   }
   if(this.mint.Blockchain =="solana"){//minting if blockchain == solana
     console.log("This is for solana")
-    this.data ="solana"
+    this.mint.NFTIssuerPK="still to be generated as minter token";
+    this.sendToMint3()
+    console.log("---------------------------------This NFT is saved under solana-------------------------------")
+    this.mintNftSolana()
+      console.log("---------------------------------minting in solana done -----------------------------")
+      
+   
+    
   }
   if(this.mint.Blockchain =="ethereum"){//minting if blockchain == ethereum
     console.log("This is for ethereum")
@@ -119,6 +128,37 @@ pushTag():void{//posting tag data via service to backend
   }
   
  }
+
+updateMinter():void{
+console.log("------------------------inside update",this.minter.NFTIssuerPK)
+  if (this.minter.NFTIssuerPK!=null){
+    console.log("this minter -------whats sent---------",this.minter)
+    this.service.updateNFT(this.minter).subscribe();
+    
+ }else{
+  console.log("------------------Update didn't go through-------------------------")
+  this.Minter()
+  console.log("Retrying....")
+ }
+
+ }
+
+  Minter():void{
+    if(this.mint.Imagebase64!=null){
+      this.minter.ImageBase64=this.mint.Imagebase64;
+    this.service.getMinter(this.minter.ImageBase64).subscribe((data:any)=>{
+      console.log("Data was retrieved",data)
+      this.mint.NFTIssuerPK=data;
+      this.minter.NFTIssuerPK=this.mint.NFTIssuerPK;
+      console.log("---------------------------------mint-----------------",this.minter.NFTIssuerPK)
+      console.log("---------------------------------minter-----------------",this.minter.NFTIssuerPK,this.minter.ImageBase64)
+    this.updateMinter()
+    
+    })
+  }
+  }
+
+
 
   mintNFT():void{//minting nft using stellar 
     if (this.mint.CreatorUserId!=null) {
@@ -203,4 +243,42 @@ pushTag():void{//posting tag data via service to backend
     return this.controlGroup.get(controlName)!.value;
   }
 
+  mintNftSolana(){
+    return new Promise((resolve, reject) => {
+      this.service.minNFTSolana( 
+        'GALRVGEUDFELLDOXNAFNZVY4TPB3THXPJQUY3ZRIYE4YAHE7BAG22YFZ',
+        this.mint.NFTName,
+        this.mint.Imagebase64,
+        this.mint.Description,
+        this.mint.Collection,
+        this.mint.Blockchain,
+        this.mint.Tags,
+        this.mint.Categories,
+        this.mint.Copies,
+        this.mint.NftContentURL,
+        this.mint.ArtistName,
+        this.mint.ArtistProfileLink)
+         .then(nft => {
+          if (this.isLoadingPresent) {
+            this.dissmissLoading();
+          }
+          console.log("NFT was created-----------------------------------and minted-----------")
+          
+          this.mint.NFTName="";
+          this.Minter()
+        }).catch(error => {
+          if (this.isLoadingPresent) {
+            this.dissmissLoading();
+          }
+          console.log("----------------------Incorrect Password-------------------------")
+         
+        })
+  
+      console.log("------------------------------------------Minting in Solana is complete------------------------")
+  
+    });
+   
+  }
+
 }
+

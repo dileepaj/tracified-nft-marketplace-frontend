@@ -3,7 +3,7 @@ import {HttpClient,HttpParams, HttpHeaders} from "@angular/common/http";
 import {Observable,BehaviorSubject,Subject} from "rxjs";
 import { Collection } from 'src/app/models/collection';
 import { Mint2Component } from 'src/app/nft/mint2/mint2.component';
-import { Issuer, Ownership ,NFT,tags} from 'src/app/models/minting';
+import { Issuer, Ownership ,NFT,tags, Minter} from 'src/app/models/minting';
 import { Properties } from '../../shared/properties';
 import {Subscription} from 'rxjs';
 
@@ -17,6 +17,9 @@ export class MintService {
   baseUrlGet: string = 'http://localhost:6081/api/collection/save';
   baseUrlGetIssuer = 'http://localhost:9080/nft/createNFTIssuerAccount';
   baseUrlMintStellar='http://localhost:9080/nft/mintStellar';
+  baseUrlMintSolana = 'http://localhost:9080/nft/mintSolana';
+  baseUrlMinter='http://localhost:9080/nft/mintSolana/getMinter';
+  baseUrlUpdate="http://localhost:6081/api/marketplace/nft";
 
   
  
@@ -62,6 +65,9 @@ createIssuer():Observable<Issuer>{
     return this.http.get<Issuer>(this.baseUrlGetIssuer, {headers: this.headers});
 }
 
+ getMinter(ImageBase64:string): Observable<Minter[]> {
+    return this.http.get<Minter[]>(`${this.baseUrlMinter}/${ImageBase64}`, {headers: this.headers});
+  }
 
   getAll(): Observable<Collection[]> {
     return this.http.get<Collection[]>(this.baseUrlGet);
@@ -80,11 +86,10 @@ createIssuer():Observable<Issuer>{
   //   return this.http.post<Collection>(this.baseUrlSave, st, {headers: this.headers});
   // }
 
-  // update(st: Collection): Observable<Collection> {
-  //   return this.http.put<Collection>(
-  //     `${this.baseUrl}/${st.collectionId}`, st, {headers: this.headers}
-  //   );
-  // }
+  updateNFT(st: Minter): Observable<Minter> {
+    console.log("------------------------inside the update------------------------------",st)
+    return this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
+  }
 
   // delete(id: string): Observable<Collection> {
   //   return this.http.delete<Collection>(`${this.baseUrl}/${id}`);
@@ -135,6 +140,58 @@ createIssuer():Observable<Issuer>{
       };
       this.http
         .post(this.baseUrlMintStellar, NFTModel, this.reqOpts)
+        .subscribe(
+          (response) => {
+            console.log("------------------------------------response caught--------------------------------")
+            resolve(response);
+          },
+          (error) => {
+            console.log(error);
+            reject(error);
+          }
+        );
+    });
+  }
+
+  minNFTSolana(
+    distributorPublickKey:string,
+    asset_code:string,
+    asset_url:string,
+    description:string,
+    collection:string,
+    NFTBlockChain:string,
+    tags:string,
+    categories:string,
+    copies:number,
+    nftLink:string,
+    artist:string,
+    artistLink:string
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.reqOpts = {
+        observe: "response",
+        headers: new HttpHeaders({
+          Accept: "application/json",
+          "Content-Type": "Application/json",
+        }),
+      };
+      let NFTModel = {
+        OwnerPK: distributorPublickKey,
+        Asset_code: asset_code,
+        NFTURL: asset_url,
+        Description: description,
+        Collection: collection,
+        NFTBlockChain: NFTBlockChain,
+        Tags: tags,
+        Categories:categories,
+        Copies:copies,
+        NFTLinks:nftLink,
+        ArtistName:artist,
+        ArtistLink:artistLink,
+        
+      };
+      this.http
+        .post(this.baseUrlMintSolana, NFTModel, this.reqOpts)
         .subscribe(
           (response) => {
             console.log("------------------------------------response caught--------------------------------")

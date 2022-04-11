@@ -17,8 +17,10 @@ export class AddNewsletterComponent implements OnInit {
   constructor(public service : NewsletterService) { 
 
   }
+  //creating an object form the newsletter class
   newsletter : NewsLetter = new NewsLetter("","","","","","");
 
+  //applied the required validator to all inputs in the html page
   ngOnInit(): void {
     this.controlGroup = new FormGroup({
       topic : new FormControl(this.newsletter.topic,Validators.required),
@@ -30,6 +32,9 @@ export class AddNewsletterComponent implements OnInit {
     });
   }
 
+ /**
+  * save() function will retrieve the data from the input feilds in the html page and add it to the newletter class 
+  */
   save(){
     this.newsletter.topic=this.formValue('topic');
     this.newsletter.author=this.formValue('author');
@@ -37,6 +42,8 @@ export class AddNewsletterComponent implements OnInit {
     this.newsletter.publisher=this.formValue('publisher');
     this.newsletter.weblink=this.formValue('weblink');
     this.newsletter.description=this.formValue('description');
+    // If condition does a prescesnse check on each of the input feilds to check if there are any epmty entries and will show an alert
+    // message to the user informing them to fill all the feilds
     if(
       this.newsletter.topic=="" ||
       this.newsletter.author==""||
@@ -48,11 +55,12 @@ export class AddNewsletterComponent implements OnInit {
       alert("please data in all feilds!")
     }
     else{
+      //If there is no empty feilds the service call will be made
       this.addnewsLetter=this.service.add(this.newsletter).subscribe()
       alert("news paper has been published!")
     }
   }
-  csvInputChange(fileInputEvent: any) {
+  imageSelection(fileInputEvent: any) {
     console.log(fileInputEvent.target.files[0]);
   }
   private formValue(controlName: string): any {

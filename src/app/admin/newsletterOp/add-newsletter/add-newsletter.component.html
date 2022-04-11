@@ -39,8 +39,8 @@
             <mat-label>Description: </mat-label>
             <textarea matInput formControlName="description"></textarea>
           </mat-form-field><br>
-          <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="csvInputChange($event)" accept=".jpeg,.png"/>
-         <button mat-flat-button color="primary" (click)="csvInput.click()" id="newsimage">Choose Headline Image for News Letter</button>
+          <input #imgSelection hidden="true" type="file" onclick="this.value=null" (change)="imageSelection($event)" accept=".jpeg,.png"/>
+         <button mat-flat-button color="primary" (click)="imgSelection.click()" id="newsimage">Choose Headline Image for News Letter</button>
          <br><br>
          <mat-card-actions>
             <button  mat-raised-button color="primary" (click)="save()">Submit NewLetter</button>

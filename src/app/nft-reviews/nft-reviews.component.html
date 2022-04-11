@@ -3,22 +3,25 @@
 
     <form class="userRating-form" [formGroup]="controlGroup">
       <mat-label class="rating-text">Rating for NFT</mat-label><br><br><br>
+      <!--Will generate a five star rating element with tool tips-->
       <fieldset class="rating">
         <input type="radio" id="star5" formControlName="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
-        <input type="radio" id="star4half" formControlName="rating" value="4.5" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+        <input type="radio" id="star4half" formControlName="rating" value="4.5" /><label class="half" for="star4half" title="Very good - 4.5 stars"></label>
         <input type="radio" id="star4" formControlName="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
-        <input type="radio" id="star3half" formControlName="rating" value="3.5" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-        <input type="radio" id="star3" formControlName="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
-        <input type="radio" id="star2half" formControlName="rating" value="2.5" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
-        <input type="radio" id="star2" formControlName="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
-        <input type="radio" id="star1half" formControlName="rating" value="1.5" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-        <input type="radio" id="star1" formControlName="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
-        <input type="radio" id="starhalf" formControlName="rating" value="0.5" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+        <input type="radio" id="star3half" formControlName="rating" value="3.5" /><label class="half" for="star3half" title="Satisfactory - 3.5 stars"></label>
+        <input type="radio" id="star3" formControlName="rating" value="3" /><label class = "full" for="star3" title="Marginal - 3 stars"></label>
+        <input type="radio" id="star2half" formControlName="rating" value="2.5" /><label class="half" for="star2half" title="Marginaly bad - 2.5 stars"></label>
+        <input type="radio" id="star2" formControlName="rating" value="2" /><label class = "full" for="star2" title=" bad - 2 stars"></label>
+        <input type="radio" id="star1half" formControlName="rating" value="1.5" /><label class="half" for="star1half" title="vary bad - 1.5 stars"></label>
+        <input type="radio" id="star1" formControlName="rating" value="1" /><label class = "full" for="star1" title="very bad - 1 star"></label>
+        <input type="radio" id="starhalf" formControlName="rating" value="0.5" /><label class="half" for="starhalf" title="This should not exist - 0.5 stars"></label>
     </fieldset>
     <br><br><br>
+    <!-- will Display User related information which are not editable-->
     <mat-label class="rating-text">Name : </mat-label> <mat-label class="rating-text">#name</mat-label> <br><br>
     <mat-label class="rating-text">email : </mat-label> <mat-label class="rating-text">#email</mat-label> <br><br>
     <mat-label class="rating-text">public key : </mat-label> <mat-label class="rating-text">#email</mat-label> <br><br>
+    <!-- renderes a texarea element for the user to enter feedback-->
       <mat-form-field class="userRating-full-width" appearance="fill" id="txtarea">
         <mat-label>Leave a comment</mat-label>
         <textarea matInput placeholder="Ex. It makes me feel..." formControlName="description"></textarea>

@@ -12,23 +12,8 @@ export class ReviewService {
     .set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
-  // getAll(): Observable<Collection[]> {
-  //   return this.http.get<Collection[]>(this.baseUrl);
-  // }
-
+  //Does the service call to the nft backend server transmitting data using the POST method
   add(st: Review): Observable<Review> {
-    console.log("service call")
-    console.log("serive rating : ",st.Rating)
     return this.http.post<Review>(this.baseUrl, st, {headers: this.headers});
   }
-
-  // update(st: Collection): Observable<Collection> {
-  //   return this.http.put<Collection>(
-  //     `${this.baseUrl}/${st.collectionId}`, st, {headers: this.headers}
-  //   );
-  // }
-
-  // delete(id: string): Observable<Collection> {
-  //   return this.http.delete<Collection>(`${this.baseUrl}/${id}`);
-  // }
 }

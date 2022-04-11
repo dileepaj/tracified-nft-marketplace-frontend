@@ -1,0 +1,13 @@
+.container{
+    width:50%;
+    height:60%;
+    position:relative;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+    text-align: center;
+}
+.example-form-field{
+    width:450px;
+}

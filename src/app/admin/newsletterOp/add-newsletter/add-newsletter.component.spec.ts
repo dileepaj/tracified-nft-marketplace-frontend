@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatDialog } from '@angular/material/dialog';
 import { AddNewsletterComponent } from './add-newsletter.component';
 
 describe('AddNewsletterComponent', () => {

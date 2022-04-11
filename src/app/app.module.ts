@@ -44,6 +44,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AdminDashboardComponent} from './admin/admin-dashboard/admin-dashboard.component'
 import { MatListModule } from '@angular/material/list';
+import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-newsletter.component';
 /*import {FormControl, FormGroup, Validators} from "@angular/forms";*/
 const appRoutes:Routes=[
   {
@@ -65,7 +66,11 @@ const appRoutes:Routes=[
   {
     path:'adminDashboard',
     component:AdminDashboardComponent
-},
+  },
+  {
+    path:'adminAddNewsLetter',
+    component:AddNewsletterComponent
+  }
 ];
 @NgModule({
   declarations: [
@@ -97,7 +102,8 @@ const appRoutes:Routes=[
     AdminNavbarLayoutComponent,
     HomeNavbarLayoutComponent,
     NftCardComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    AddNewsletterComponent
   ],
   imports: [
     BrowserModule,

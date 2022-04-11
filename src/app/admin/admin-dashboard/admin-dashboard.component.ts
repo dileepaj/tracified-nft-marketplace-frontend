@@ -8,7 +8,6 @@ import { WalletComponent } from 'src/app/wallet/wallet.component';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
-
   constructor(private dialogref :MatDialog) { }
 
   ngOnInit(): void {

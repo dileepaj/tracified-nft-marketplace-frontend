@@ -1,1 +1,50 @@
-<p>add-newsletter works!</p>
+<div class="container">
+    <form class="userRating-form" [formGroup]="controlGroup">
+        <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>News paper Topic:</mat-label>
+            <input matInput type="text" formControlName="topic">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Author:</mat-label>
+            <input matInput type="text" formControlName="author">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Date: </mat-label>
+            <input matInput type="date"  formControlName="date">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>Publisher: </mat-label>
+            <input matInput type="text" formControlName="publisher">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field class="example-form-field" appearance="fill">
+            <mat-label>WebLink: </mat-label>
+            <input matInput type="text" formControlName="weblink">
+            <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="example-form-field">
+            <mat-label>Description: </mat-label>
+            <textarea matInput formControlName="description"></textarea>
+          </mat-form-field><br>
+          <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="csvInputChange($event)" accept=".jpeg,.png"/>
+         <button mat-flat-button color="primary" (click)="csvInput.click()" id="newsimage">Choose Headline Image for News Letter</button>
+         <br><br>
+         <mat-card-actions>
+            <button  mat-raised-button color="primary" (click)="save()">Submit NewLetter</button>
+        </mat-card-actions>    
+    </form>
+    
+</div>

@@ -22,11 +22,13 @@
       align-items: center;
       justify-content: center;
       display: flex;
-      margin-left: -400%;
-      margin-top: -5%;
+      margin-left: 700px;
+      margin-top: 10px;
       background-color: green;
       color: white;
       border-radius: 5%;
+      position: relative;
+      
   }
 
 
@@ -55,3 +57,5 @@
  .link{
    font-size:xx-small;
  }
+
+ 

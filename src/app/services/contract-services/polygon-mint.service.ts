@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { ethers } from "ethers";
 import { environment } from 'src/environments/environment';
 import detectEthereumProvider from "@metamask/detect-provider";
-import NFT from "src/contracts/ethereum/mint.json";
+import NFT from "src/contracts/polygon/mint.json";
 
 @Injectable({
   providedIn: 'root'
 })
-export class EthereumMintService {
+export class PolygonMintService {
 
   constructor() { }
 
@@ -23,25 +23,23 @@ export class EthereumMintService {
 
 
   private static async getContract(bySigner=false) {
-   
-    const provider = await EthereumMintService.getWebProvider()
+
+    const provider = await PolygonMintService.getWebProvider()
     const signer = provider.getSigner()
 
     return new ethers.Contract(
-      environment.contractAddressNFTEthereum,
+      environment.contractAddressNFTPolygon,
       NFT,
       bySigner ? signer : provider,
     )
   }
 
   
-  public async mintInEthereum(reciever: string,name:string,proofBotData:string,tdpData:string, tokenURI: string): Promise<boolean> {
-    const contract = await EthereumMintService.getContract(true)
-    const transaction = await contract['mint'](
+  public async mintInPolygon(reciever: string, tokenURI: string): Promise<boolean> {
+    console.log(reciever,tokenURI)
+    const contract = await PolygonMintService.getContract(true)
+    const transaction = await contract['mintNFT'](
       reciever,
-      name,
-      proofBotData,
-      tdpData,
       tokenURI
     )
     const tx = await transaction.wait()

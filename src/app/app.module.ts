@@ -136,9 +136,7 @@ const appRoutes:Routes=[
     
   ],
   providers: [
- //CollectionService
-   //MintService
-   
+
    
   ],
   bootstrap: [AppComponent]

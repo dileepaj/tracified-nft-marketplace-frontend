@@ -1,10 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Collection } from 'src/app/models/collection';
 import { CollectionService } from 'src/app/services/api-services/collection.service';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from 'rxjs';
-
-
 
 export interface Blockchain {
   value: string;
@@ -19,24 +17,19 @@ export interface Blockchain {
 export class CreateCollectionComponent implements OnInit {
   controlGroup: FormGroup;
   addSubscription: Subscription;
- 
- 
   selectVal: string = "";
-  
-
-  constructor(public service: CollectionService) {}
   collection: Collection = new Collection('user1', 'collectionName', 'org')//declaring the model
 
+  constructor(public service: CollectionService) {}
+ 
+
    save(): void {//getting form data and sending it to the collection service to post
-     console.log("-------------------------------------testing 1 -----------------------------------");
      //getting form data and equalling it to to model variables
     this.collection.userId = this.formValue('userId');
     this.collection.collectionName = this.formValue('collectionName');
     this.collection.organizationName = this.formValue('organizationName');
    
-    console.log("----------test 2 ----------------------",this.collection.userId,this.collection.collectionName,this.collection.organizationName)
     if (this.collection.userId!=null) {
-      console.log("----------------------------test 3-------------------------")
       //sending data to the service
       this.addSubscription = this.service.add(this.collection).subscribe();
       console.log(this.addSubscription);
@@ -52,11 +45,11 @@ export class CreateCollectionComponent implements OnInit {
       userId: new FormControl(this.collection.userId, Validators.required),
       collectionName:new FormControl(this.collection.collectionName,Validators.required),
       organizationName:new FormControl(this.collection.organizationName,Validators.required),
-     
     });
     //calling the save function
     this.save();
   }
+  
   //initializing input in html to formValue function
   private formValue(controlName: string): any {
     return this.controlGroup.get(controlName)!.value;

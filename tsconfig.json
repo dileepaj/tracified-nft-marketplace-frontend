@@ -6,6 +6,8 @@
       "http":["node_modules/stream-http"],
       "https":["node_modules/https-browserify"]
     },
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -32,7 +34,8 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+   
   },
   "paths": {
     "@app/env": [

@@ -1,12 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient,HttpParams, HttpHeaders} from "@angular/common/http";
-import {Observable,BehaviorSubject,Subject} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Observable,Subject} from "rxjs";
 import { Collection } from 'src/app/models/collection';
-import { Mint2Component } from 'src/app/nft/mint2/mint2.component';
 import { Issuer, Ownership ,NFT,tags, Minter} from 'src/app/models/minting';
-import { Properties } from '../../shared/properties';
-import {Subscription} from 'rxjs';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -20,48 +16,25 @@ export class MintService {
   baseUrlMintSolana = 'http://localhost:9080/nft/mintSolana';
   baseUrlMinter='http://localhost:9080/nft/mintSolana/getMinter';
   baseUrlUpdate="http://localhost:6081/api/marketplace/nft";
-
-  
- 
   mint:NFT
-  
   tag:tags
   reqOpts: any;
-
   private content= new Subject<any>();
   
 
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
-  constructor(private http: HttpClient) { }
-
-setData(st:any){
-  this.content.next(st);
-  console.log("-------------set------",this.content)
- 
-}
-
-
-
-getData():Observable<any>{
-  console.log("-------------------get------------------",this.content)
-  return this.content.asObservable();
-}
-
-
-
+  constructor(private http: HttpClient) {}
+   
   addOwner(st:Ownership):Observable<Ownership>{
-    console.log("-------------------------------------test 4 ------------------------------Minted NFT ",st)
     return this.http.post<Ownership>(this.baseUrlOwner, st, {headers: this.headers});
   }
 
-  add(st: NFT): Observable<NFT> {
-    console.log("-------------------------------------test 4 ------------------------------Minted NFT ",st)
+  addNFT(st: NFT): Observable<NFT> {
     return this.http.post<NFT>(this.baseUrlSave, st, {headers: this.headers});
   }
 
-createIssuer():Observable<Issuer>{
-  console.log("-------------------------------------create issuer on stellar ------------------------------ ")
+  createIssuer():Observable<Issuer>{
     return this.http.get<Issuer>(this.baseUrlGetIssuer, {headers: this.headers});
 }
 
@@ -74,26 +47,13 @@ createIssuer():Observable<Issuer>{
   }
 
   addTags(st: tags): Observable<tags> {
-    console.log("-------------------------------------test 4 ------------------------------Minted NFT ",st.NFTName)
     return this.http.post<tags>(this.baseUrlTags, st, {headers: this.headers});
   }
 
-  // getIssuerPK(userId:string): Observable<Collection[]> {
-  //   return this.http.get<Collection[]>(`${this.baseUrlGet}/${userId}`);
-  // }
-  // add(st: Collection): Observable<Collection> {
-  //   console.log("-------------------------------------test 4 ------------------------------",st.organizationName)
-  //   return this.http.post<Collection>(this.baseUrlSave, st, {headers: this.headers});
-  // }
-
+  
   updateNFT(st: Minter): Observable<Minter> {
-    console.log("------------------------inside the update------------------------------",st)
     return this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
   }
-
-  // delete(id: string): Observable<Collection> {
-  //   return this.http.delete<Collection>(`${this.baseUrl}/${id}`);
-  // }
 
   minNFTStellar(
     transactionResultSuccessful:string,
@@ -142,7 +102,6 @@ createIssuer():Observable<Issuer>{
         .post(this.baseUrlMintStellar, NFTModel, this.reqOpts)
         .subscribe(
           (response) => {
-            console.log("------------------------------------response caught--------------------------------")
             resolve(response);
           },
           (error) => {
@@ -194,7 +153,6 @@ createIssuer():Observable<Issuer>{
         .post(this.baseUrlMintSolana, NFTModel, this.reqOpts)
         .subscribe(
           (response) => {
-            console.log("------------------------------------response caught--------------------------------")
             resolve(response);
           },
           (error) => {
@@ -204,6 +162,8 @@ createIssuer():Observable<Issuer>{
         );
     });
   }
+
+ 
 }
 
 

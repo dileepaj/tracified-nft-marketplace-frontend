@@ -24,6 +24,7 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "@metamask/detect-provider": "^1.2.0",
     "@ngx-translate/core": "^14.0.0",
     "@openzeppelin/contracts": "^4.5.0",
     "angular-material-fileupload": "^3.0.2",
@@ -42,7 +43,7 @@
     "tslib": "^2.3.0",
     "url": "^0.11.0",
     "util": "^0.12.4",
-    "web3": "^1.7.1",
+    "web3": "^1.7.3",
     "web3modal": "^1.9.5",
     "zone.js": "~0.11.4"
   },

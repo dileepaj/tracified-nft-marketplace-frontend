@@ -6,6 +6,10 @@ import { MintService } from 'src/app/services/blockchain-services/mint.service';
 import { ActivatedRoute } from '@angular/router';
 import { TrustlinesService } from 'src/app/services/blockchain-services/stellar-services/trustlines.service';
 import { Properties } from '../../shared/properties';
+import { PolygonMintService } from 'src/app/services/contract-services/polygon-mint.service';
+import { environment } from 'src/environments/environment';
+import { EthereumMintService } from 'src/app/services/contract-services/ethereum-mint.service';
+
 
 @Component({
   selector: 'app-mint2',
@@ -22,24 +26,19 @@ export class Mint2Component implements OnInit { //declaring models and variables
   addSubscription: Subscription;
   isLoadingPresent: boolean;
   loading:any;
-  private properties: Properties
   signerSK ="SAUD6CUMHSDAN2LTOUGLZLSB2N6YDMYUVKP22RYYHEHYUW5M5YKFWUX4"
-
-  constructor(private route:ActivatedRoute, private service:MintService ,private trustService:TrustlinesService) { }
- data:any;
+  data:any;
   mint:NFT= new NFT('','','','','','',0,'','','','','','','','','','','','','','','','')
   minter:Minter=new Minter('','')
+
+  constructor(private route:ActivatedRoute, private service:MintService ,private trustService:TrustlinesService,private pmint:PolygonMintService,private emint:EthereumMintService) { }
   
  sendToMint3():void{//getting form data to mint and post
-   
-  this.mint.NftContentURL=this.formValue('NftContentURL');
+
   this.mint.Collection=this.data.Collection;
-  this.mint.NFTName=this.data.NFTName;
-  this.mint.Description=this.data.Description;
   this.mint.Copies=this.formValue('Copies');
   this.mint.Categories=this.formValue('Categories');
   this.mint.Tags=this.formValue('Tags');
-  this.mint.Imagebase64="so8iiil00779911122j";
   this.mint.ArtistName=this.formValue('ArtistName');
   this.mint.ArtistProfileLink=this.formValue('ArtistProfileLink');
   this.mint.NFTIdentifier="";
@@ -50,124 +49,111 @@ export class Mint2Component implements OnInit { //declaring models and variables
   this.mint.DistributorPK=this.mint.CreatorUserId;
   this.mint.Status=""
  
-  console.log("testing -------------------------------------------------- 2 ----------screen 2",this.mint)
+  console.log(this.mint)
 
   //posting of mint data to backend via service
   if (this.mint.CreatorUserId!=null) {
-    console.log("----------------------------test 3-------------------------")
-    this.addSubscription = this.service.add(this.mint).subscribe();
+    this.addSubscription = this.service.addNFT(this.mint).subscribe();
     console.log(this.addSubscription);
 
  }
- this.pushOwner()//calling
- console.log("---------------------------------------after owner---------------------")
- this.pushTag()//calling
- console.log("---------------------------------------after pushing tags---------------------")
-
-
+ this.pushOwner()//calling function
+ this.pushTag()//calling fnction
 }
 
 pushOwner():void{//posting owner data via service to backend
-  console.log("-----------------------------------adding owner--------------------")
 this.own.NFTIdentifier=this.mint.NFTIdentifier;
 this.own.CurentOwnerPK=this.mint.CurrentOwnerPK;
 this.own.PreviousOwnerPK="none";
 this.own.Status=this.mint.Status;
 this.own.OwnerRevisionID=1;
 if (this.mint.CreatorUserId!=null) {
-  console.log("----------------------------test 3-------------------------")
   this.addSubscription = this.service.addOwner(this.own).subscribe();
   console.log(this.addSubscription);
-  console.log("--------------------Owner data inserted---------------------------")
 }
 }
 
 pushTag():void{//posting tag data via service to backend
-  console.log("-----------------------------------adding tags--------------------")
     this.tag.NFTName=this.mint.NFTName;
     this.tag.userId=this.mint.CreatorUserId;
     this.tag.tags=this.mint.Tags;
     this.addSubscription=this.service.addTags(this.tag).subscribe();
-    console.log("---------------------------tag data inserted---------------------",this.addSubscription);
+    console.log(this.addSubscription);
 }
 
  getIssuer():void{//minting according to blockchain
   this.mint.Blockchain=this.formValue('Blockchain');
+  this.mint.NFTName=this.data.NFTName;
+  this.mint.NftContentURL=this.formValue('NftContentURL');
+  this.mint.Imagebase64="sonewwllpl16909022j";
+  this.mint.Description=this.data.Description;
   if(this.mint.Blockchain =="stellar"){//minting if blockchain == stellar
   
     this.service.createIssuer().subscribe((data:any)=>{
       console.log("Data was retrieved",data)
       this.mint.NFTIssuerPK=data.NFTIssuerPK;
       if (this.mint.NFTIssuerPK !=null){
-        console.log("--------------------------------------------------",this.mint.NFTIssuerPK)
-       this.sendToMint3()
-      this.mintNFT()
-      console.log("---------------------------------This NFT is minted on stellar-------------------------------")
+         console.log("-----------------------Stellar Issuer---------------------------",this.mint.NFTIssuerPK)
+         this.sendToMint3()
+         this.mintNFT()
      }
     })
-   
   }
+
   if(this.mint.Blockchain =="solana"){//minting if blockchain == solana
     console.log("This is for solana")
     this.mint.NFTIssuerPK="still to be generated as minter token";
     this.sendToMint3()
-    console.log("---------------------------------This NFT is saved under solana-------------------------------")
     this.mintNftSolana()
-      console.log("---------------------------------minting in solana done -----------------------------")
-      
-   
-    
-  }
+ }
+
   if(this.mint.Blockchain =="ethereum"){//minting if blockchain == ethereum
     console.log("This is for ethereum")
-    this.data ="ethereum"
+    this.mint.NFTIssuerPK="0x999C020c60CFE6d1BCA6C4d540FA9Dac1F16C163";
+    this.mint.DistributorPK="0xD85E667594EC848895466Fb702D35F6111f258e8";
+    this.mint.MintedContract=environment.contractAddressNFTEthereum;
+    this.emint.mintInEthereum(this.mint.DistributorPK,this.mint.NFTName,this.mint.NftContentURL,this.mint.Description,this.mint.NftContentURL);
+    this.sendToMint3();
   }
+
   if(this.mint.Blockchain =="polygon"){//minting if blockchain == polygon
     console.log("This is for polygon")
-    this.data ="polygon"
+   this.mint.NFTIssuerPK="0x999C020c60CFE6d1BCA6C4d540FA9Dac1F16C163";
+   this.mint.DistributorPK="0xD85E667594EC848895466Fb702D35F6111f258e8";
+   this.mint.MintedContract=environment.contractAddressNFTPolygon;
+   this.mint.MarketContract=environment.contractAddressMKPolygon;
+   this.pmint.mintInPolygon(this.mint.DistributorPK,this.mint.Imagebase64);
+   this.sendToMint3();
   }
   
  }
 
 updateMinter():void{
-console.log("------------------------inside update",this.minter.NFTIssuerPK)
   if (this.minter.NFTIssuerPK!=null){
     console.log("this minter -------whats sent---------",this.minter)
     this.service.updateNFT(this.minter).subscribe();
-    
- }else{
-  console.log("------------------Update didn't go through-------------------------")
+  }else{
   this.Minter()
   console.log("Retrying....")
  }
-
- }
+}
 
   Minter():void{
     if(this.mint.Imagebase64!=null){
       this.minter.ImageBase64=this.mint.Imagebase64;
-    this.service.getMinter(this.minter.ImageBase64).subscribe((data:any)=>{
+      this.service.getMinter(this.minter.ImageBase64).subscribe((data:any)=>{
       console.log("Data was retrieved",data)
       this.mint.NFTIssuerPK=data;
       this.minter.NFTIssuerPK=this.mint.NFTIssuerPK;
-      console.log("---------------------------------mint-----------------",this.minter.NFTIssuerPK)
-      console.log("---------------------------------minter-----------------",this.minter.NFTIssuerPK,this.minter.ImageBase64)
-    this.updateMinter()
-    
+      this.updateMinter()
     })
   }
   }
 
-
-
   mintNFT():void{//minting nft using stellar 
-    if (this.mint.CreatorUserId!=null) {
-     //step 1. - change trust by distributor
-      console.log("----------------------------------------minting starts now---------------------------",this.mint.NFTName,this.mint.NFTIssuerPK,this.signerSK)
+    if (this.mint.CreatorUserId!=null) {//step 1. - change trust by distributor
       this.trustService.changeTrustByDistributor(this.mint.NFTName,this.mint.NFTIssuerPK,this.signerSK).then((transactionResult: any) => {
-        console.log("--------------------------------------trustline creation done-----------")
         if (transactionResult.successful) {
-          console.log("-------------------------------------sending to mint NFT service--------------------")
           this.service.minNFTStellar(//step 2. - mint
             transactionResult.successful,
             this.mint.NFTIssuerPK,
@@ -189,23 +175,17 @@ console.log("------------------------inside update",this.minter.NFTIssuerPK)
               if (this.isLoadingPresent) {
                 this.dissmissLoading();
               }
-              console.log("NFT was created-----------------------------------and minted-----------")
-              
               this.mint.NFTName="";
             }).catch(error => {
               if (this.isLoadingPresent) {
                 this.dissmissLoading();
               }
-              console.log("----------------------Incorrect Password-------------------------")
-             
             })
         }
         else {
           if (this.isLoadingPresent) {
             this.dissmissLoading();
           }
-          console.log("---------------------------Incorrect Transaction-------------------")
-        
         }
       })
      
@@ -235,10 +215,9 @@ console.log("------------------------inside update",this.minter.NFTIssuerPK)
       NftContentURL:new FormControl(this.mint.NftContentURL,Validators.required),
       ArtistName:new FormControl(this.mint.ArtistName,Validators.required),
      ArtistProfileLink: new FormControl(this.mint.ArtistProfileLink,Validators.required),
-    
     });
+}
 
-  }
   private formValue(controlName: string): any {
     return this.controlGroup.get(controlName)!.value;
   }
@@ -261,23 +240,15 @@ console.log("------------------------inside update",this.minter.NFTIssuerPK)
          .then(nft => {
           if (this.isLoadingPresent) {
             this.dissmissLoading();
-          }
-          console.log("NFT was created-----------------------------------and minted-----------")
-          
+          } 
           this.mint.NFTName="";
           this.Minter()
         }).catch(error => {
           if (this.isLoadingPresent) {
             this.dissmissLoading();
           }
-          console.log("----------------------Incorrect Password-------------------------")
-         
         })
-  
-      console.log("------------------------------------------Minting in Solana is complete------------------------")
-  
     });
-   
   }
 
 }

@@ -15,24 +15,15 @@ export class CollectionService {
     .set('Content-Type', 'application/json');
   constructor(private http: HttpClient) { }
 
-  getCollectionName(userId:string): Observable<Collection[]> {
+  getCollectionName(userId:string): Observable<Collection[]> {//request to get collection name according to user public key
     return this.http.get<Collection[]>(`${this.baseUrlGet}/${userId}`);
   }
 
-  add(st: Collection): Observable<Collection> {
-    console.log("-------------------------------------test 4 ------------------------------",st.organizationName)
+  add(st: Collection): Observable<Collection> {//request to add collection into the nft backend DB
     return this.http.post<Collection>(this.baseUrlSave, st, {headers: this.headers});
   }
 
-  // update(st: Collection): Observable<Collection> {
-  //   return this.http.put<Collection>(
-  //     `${this.baseUrl}/${st.collectionId}`, st, {headers: this.headers}
-  //   );
-  // }
-
-  // delete(id: string): Observable<Collection> {
-  //   return this.http.delete<Collection>(`${this.baseUrl}/${id}`);
-  // }
+ 
 }
 
 

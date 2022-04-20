@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './marketplace/home/home.component';
+//import { HomeComponent } from './marketplace/home/home.component';
 //import { FlexLayoutModule } from '@angular/flex-layout';
-const routes: Routes = [
-  {path: 'home', component:HomeComponent}
-];
+const routes: Routes = [ ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

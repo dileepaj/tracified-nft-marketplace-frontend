@@ -1,0 +1,79 @@
+<p>view-nft-card works!</p>
+<div class="main-div">
+
+  <mat-card class="example-card" >
+    <mat-card-header>
+      <div class="navbar">
+        <a mat-button [routerLink]="'/sell'"> Put to Sale</a>
+        <a mat-button [routerLink]="'/create-account'"> Explore </a>
+        <a mat-button [routerLink]="'/getNft'"> View NFT </a>
+     
+       <!-- <a mat-button [routerLink]="'/create-contact'"> Create Contact </a>
+        <a mat-button [routerLink]="'/activities'"> Activities </a>
+        <a mat-button [routerLink]="'/create-activity'"> Create Activity </a>-->
+  
+      </div>
+    </mat-card-header>
+    <mat-card-content class="mint">
+      <table >
+        <tr>
+         <td>Creator: </td> <td><mat-label >
+           {{NFTList.OriginPK}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Issuer: </td><td><mat-label  >
+           {{NFTList.InitialIssuerPK}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td>Blockchain: </td><td><mat-label >
+           {{NFTList.NftIssuingBlockchain}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td>  NFT Name: </td><td><mat-label >
+           {{NFTList.NftContentName}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Collection:</td><td> <mat-label  >
+           {{NFTList.Collection}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Description:</td><td> <mat-label  >
+           {{NFTList.Description}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Category: </td><td><mat-label >
+           {{NFTList.Categories}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Amount:</td><td> <mat-label >
+           {{NFTList.Copies}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> More on the NFT: </td><td><mat-label >
+           {{NFTList.NftContent}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Artist Name: </td><td><mat-label>
+           {{NFTList.NFTArtistName}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> More on the Artist: </td><td><mat-label >
+           {{NFTList.NFTArtistURL}} 
+          </mat-label></td>
+        </tr>
+      </table>
+    </mat-card-content>
+   
+  </mat-card>
+
+</div>

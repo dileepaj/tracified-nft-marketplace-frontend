@@ -30,8 +30,33 @@ import { ViewCollectionsComponent } from './collections/view-collections/view-co
 import { AdminNavbarLayoutComponent } from './shared/admin-navbar-layout/admin-navbar-layout.component';
 import { HomeNavbarLayoutComponent } from './shared/home-navbar-layout/home-navbar-layout.component';
 import { NftCardComponent } from './shared/nft-card/nft-card.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatInputModule } from '@angular/material/input'; 
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { RouterModule, Routes } from '@angular/router';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
+import { HttpClientModule } from '@angular/common/http';
+import {MatStepperModule} from '@angular/material/stepper';
+import { MatFileUploadModule } from 'angular-material-fileupload';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatDialogModule} from "@angular/material/dialog";
+import { ViewNftCardComponent } from './nft/view-nft-card/view-nft-card.component';
 
-
+const appRoutes:Routes=[
+  {
+    path:'sell',
+    component:SellNftComponent
+  },
+  {
+    path:'getNft',
+    component:ViewNftCardComponent
+  },
+];
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,12 +86,28 @@ import { NftCardComponent } from './shared/nft-card/nft-card.component';
     ViewCollectionsComponent,
     AdminNavbarLayoutComponent,
     HomeNavbarLayoutComponent,
-    NftCardComponent
+    NftCardComponent,
+    ViewNftCardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatToolbarModule,
+    RouterModule.forRoot(appRoutes),
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    HttpClientModule,
+    MatStepperModule,
+    MatFileUploadModule,
+    FormsModule, ReactiveFormsModule,
+    MatDialogModule
  
   ],
   providers: [],

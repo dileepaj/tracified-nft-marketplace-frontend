@@ -1,1 +1,57 @@
-<p>sell-nft works!</p>
+
+<div class="main-div">
+
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div id="Content"></div>
+    </mat-card-header>
+    <mat-card-content>
+        
+      <form class="example-form" [formGroup]="controlGroupSell">
+         
+        <table class="example-full-width" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="example-full-width">
+              <input matInput placeholder="Price"   formControlName="Price">
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field class="example-full-width">
+              <input matInput placeholder="Royalty"   formControlName="Royalty">
+              </mat-form-field>
+            </td>
+          </tr>
+          <tr>
+            <td>Creator: </td> <td><mat-label >
+              <!-- {{NFTList.OriginPK}}  -->
+             </mat-label></td>
+          </tr>
+      </table>
+      </form>
+     
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button  class="mint1Button" color="primary" (click)="Sell()">Proceed</button>
+    </mat-card-actions>
+<mat-card class="composer">
+<table id="table1">
+  <tr>
+    <div [fileUploadInputFor]="fileUploadQueue" class="upload-drop-zone">
+      Just drag and drop files here
+  </div></tr>
+   <tr> <div style="width: 500px">
+    <mat-file-upload-queue #fileUploadQueue
+        [fileAlias]="'file'"
+        [httpUrl]="'http://localhost:4200/mint'" multiple>
+
+        <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
+    </mat-file-upload-queue>
+</div>
+</tr>
+  </table>
+  </mat-card>
+  </mat-card>
+</div>

@@ -35,7 +35,7 @@ export class EthereumMintService {
   }
 
   
-  public async mintInEthereum(reciever: string,name:string,proofBotData:string,tdpData:string, tokenURI: string): Promise<boolean> {
+  public async mintInEthereum(reciever: string,name:string,proofBotData:string,tdpData:string, tokenURI: string): Promise<any> {
     const contract = await EthereumMintService.getContract(true)
     const transaction = await contract['mint'](
       reciever,
@@ -45,8 +45,11 @@ export class EthereumMintService {
       tokenURI
     )
     const tx = await transaction.wait()
-
-    return tx.status === 1
+    console.log("----------------------------tx",tx)
+    console.log("----------------------------transaction",transaction.value._hex)
+    console.log("----------------------------token id ",parseInt(tx.logs[0].topics[3]))
+    console.log("----------------------------tx hash ",transaction.hash)
+    return tx
   }
 
 

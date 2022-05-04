@@ -22,7 +22,8 @@ export class NFT{
     public MarketContract:string,
     public MintedContract:string,
     public TokenType:string,
-    public Status:string
+    public Status:string,
+    public NFTTxnHash:string
    
     ){}
 }
@@ -56,7 +57,8 @@ export class Minter{
     constructor(
         public NFTIssuerPK:string,
         public ImageBase64:string,
-       
+        public NFTIdentifier: string,
+        public NFTTxnHash:string
     ){}
 }
 
@@ -75,7 +77,45 @@ export class UpdateMint{
     constructor(
         public MinterPK:string,
         public ImageBase64:string,
+        public NFTTxnHash:string
        
+    ){}
+}
+
+export class UpdateStellarTXN{
+    constructor(
+        public ImageBase64:string,
+        public NFTTxnHash:string
+       
+    ){}
+}
+
+export class StellarTXN{
+    constructor(
+       
+        public ImageBase64:string,
+        public NFTTxnHash:string
+    ){}
+}
+
+export class Contracts{
+    constructor(
+       public NFTContract           :string,
+       public   MarketplaceContract : string,
+       public  MintNFTTxn           : string,
+       public  OwnerPK              : string,
+       public  Asset_code           : string,
+       public  NFTURL               : string,
+       public  Description          : string,
+       public  Collection           : string,
+       public  NFTBlockChain        : string,
+       public  Tags                 : string,
+       public  Categories           : string,
+       public  Copies               : number,
+       public  NFTLinks             : string,
+       public  ArtistName           : string,
+       public  ArtistLink           : string,
+       public  Identifier           : string,
     ){}
 }
 

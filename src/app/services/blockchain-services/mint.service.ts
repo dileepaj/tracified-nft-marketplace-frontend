@@ -2,12 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable,Subject} from "rxjs";
 import { Collection } from 'src/app/models/collection';
-import { Issuer, Ownership ,NFT,tags, Minter} from 'src/app/models/minting';
+import { Issuer, Ownership ,NFT,tags, Minter,StellarTXN,Contracts} from 'src/app/models/minting';
+
 @Injectable({
   providedIn: 'root'
 })
 export class MintService {
   baseUrlSave: string = 'http://localhost:6081/api/marketplace/save';
+  baseUrlSaveGW: string = 'http://localhost:9080/nft/mintcontract';
   baseUrlOwner: string ='http://localhost:6081/api/marketplace/owner';
   baseUrlTags:string='http://localhost:6081/api/tags/save';
   baseUrlGet: string = 'http://localhost:6081/api/collection/save';
@@ -16,6 +18,8 @@ export class MintService {
   baseUrlMintSolana = 'http://localhost:9080/nft/mintSolana';
   baseUrlMinter='http://localhost:9080/nft/mintSolana/getMinter';
   baseUrlUpdate="http://localhost:6081/api/marketplace/nft";
+  baseUrlStellarUpdate="http://localhost:6081/api/marketplace/txn";
+  baseUrlGetStellarTXN='http://localhost:9080/nft/mintStellar/gettxn';
   mint:NFT
   tag:tags
   reqOpts: any;
@@ -30,8 +34,12 @@ export class MintService {
     return this.http.post<Ownership>(this.baseUrlOwner, st, {headers: this.headers});
   }
 
-  addNFT(st: NFT): Observable<NFT> {
+  addNFTBE(st: NFT): Observable<NFT> {
     return this.http.post<NFT>(this.baseUrlSave, st, {headers: this.headers});
+  }
+
+  addNFTGW(st: Contracts): Observable<Contracts> {
+    return this.http.post<Contracts>(this.baseUrlSaveGW, st, {headers: this.headers});
   }
 
   createIssuer():Observable<Issuer>{
@@ -39,7 +47,13 @@ export class MintService {
 }
 
  getMinter(ImageBase64:string): Observable<Minter[]> {
+   console.log("------------------------------------------------",ImageBase64)
     return this.http.get<Minter[]>(`${this.baseUrlMinter}/${ImageBase64}`, {headers: this.headers});
+  }
+
+  getStellarTXN(ImageBase64:string): Observable<StellarTXN[]> {
+    console.log("----------------------------------------get txn",ImageBase64)
+    return this.http.get<StellarTXN[]>(`${this.baseUrlGetStellarTXN}/${ImageBase64}`, {headers: this.headers});
   }
 
   getAll(): Observable<Collection[]> {
@@ -51,8 +65,12 @@ export class MintService {
   }
 
   
-  updateNFT(st: Minter): Observable<Minter> {
+  updateNFTSolana(st: Minter): Observable<Minter> {
     return this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
+  }
+
+  updateTXNStellar(st: StellarTXN): Observable<StellarTXN> {
+    return this.http.put<StellarTXN>(this.baseUrlStellarUpdate, st, {headers: this.headers});
   }
 
   minNFTStellar(

@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import detectEthereumProvider from "@metamask/detect-provider";
 import NFT from "src/contracts/polygon/mint.json";
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,7 +36,7 @@ export class PolygonMintService {
   }
 
   
-  public async mintInPolygon(reciever: string, tokenURI: string): Promise<boolean> {
+  public async mintInPolygon(reciever: string, tokenURI: string): Promise<any> {
     console.log(reciever,tokenURI)
     const contract = await PolygonMintService.getContract(true)
     const transaction = await contract['mintNFT'](
@@ -43,8 +44,11 @@ export class PolygonMintService {
       tokenURI
     )
     const tx = await transaction.wait()
-
-    return tx.status === 1
+    console.log("----------------------------tx",tx)
+    console.log("----------------------------transaction",transaction)
+    console.log("----------------------------token id ",parseInt(tx.logs[0].topics[3]))
+    console.log("----------------------------tx hash ",transaction.hash)
+    return tx
   }
 
 

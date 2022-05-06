@@ -32,6 +32,7 @@ contract NFT is ERC721{
     }
 
     constructor(address marketplaceAddress) ERC721("Tracified", "NFT") {
+        marketplaceAddress=0x4FAD8Bc8735A9927c1e9183a75751211B87a2e88;
         contractAddress = marketplaceAddress;
 
         svgheaderInfo = "<svg width='100%' height='100%' viewBox='0 0 400 370' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>";

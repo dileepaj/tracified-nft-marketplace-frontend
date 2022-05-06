@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  contractAddressNFTPolygon:"0x7EF2e0048f5bAeDe046f6BF797943daF4ED8CB47",
-  contractAddressMKPolygon:"0xd9145CCE52D386f254917e481eB44e9943F39138",
+  contractAddressNFTPolygon:"0xd610a8dA8d1D2A11aE48471358f1e0a27F2AC1FD",
+  contractAddressMKPolygon:"0x86fbd6851D37a3682c9e95E6da2B36E3DB86219E",
   contractAddressNFTEthereum:"0x6Bd3259830dC99Fd827bDB4Ce5e8565FAb54f1D6"
 
 };

@@ -44,9 +44,10 @@ export class EthereumMintService {
       tdpData,
       tokenURI
     )
+    console.log("----------------------------------------------------------------kkkkkk")
     const tx = await transaction.wait()
     console.log("----------------------------tx",tx)
-    console.log("----------------------------transaction",transaction.value._hex)
+    console.log("----------------------------transaction",transaction)
     console.log("----------------------------token id ",parseInt(tx.logs[0].topics[3]))
     console.log("----------------------------tx hash ",transaction.hash)
     return tx

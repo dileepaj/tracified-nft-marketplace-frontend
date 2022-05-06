@@ -11,13 +11,14 @@ contract NFT is ERC721 {
     Counters.Counter private _tokenIds;
     address contractAddress; 
     mapping(uint256 => Attr) public attributes;
+    mapping (string => uint256) public tokenIDTrack;
     struct Attr {
         string name;
     }
 
 
     constructor(address marketplaceAddress) ERC721("Eat The Blocks NFTs", "ETBNFT") {
-        marketplaceAddress==0xd9145CCE52D386f254917e481eB44e9943F39138 ;
+        marketplaceAddress==0x86fbd6851D37a3682c9e95E6da2B36E3DB86219E ;
         contractAddress = marketplaceAddress;
     }
 
@@ -28,8 +29,15 @@ contract NFT is ERC721 {
         _mint(reciver, newItemId);
          attributes[newItemId] = Attr(tokenURI);
         setApprovalForAll(contractAddress, true);
-        return newItemId;
+        tokenIDTrack[tokenURI] = newItemId; 
+        return _tokenIds.current();
     }
+
+    function getTokenID(string memory tokenURI) public view returns (uint itemId) {
+       uint256 ItemId = tokenIDTrack[tokenURI];
+         return ItemId;
+    }
+
 
     
 }

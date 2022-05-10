@@ -20,7 +20,7 @@ export class TrustLineByBuyerServiceService {
 
   constructor() { }
   trustlineByBuyer(asset_code:string, asset_issuer:string, signerSK:string, buyerpk:string,nftPrice:string) {
-
+console.log("inside trust line service-----------------")
     let royalty=(parseFloat(nftPrice)*(0.02)).toFixed(6).toString();
 
 
@@ -33,12 +33,12 @@ export class TrustLineByBuyerServiceService {
       }
       const senderPublickKey = buyerpk;
       var asset = new Asset(asset_code, asset_issuer); //for buyer --> gateway
-      var claimer ='GC6SZI57VRGFULGMBEJGNMPRMDWEJYNL647CIT7P2G2QKNLUHTTOVFO3'
+      var claimer ='GA6KKDBU4S55QV4T5777DGYJ7WULG7K3RPV5RTSYJ37KBQXJ2OKKIFDL'
       let server = new Server(blockchainNet);
       server
         .loadAccount(sourceKeypair.publicKey())
         .then((account) => {
-          var transaction = new TransactionBuilder(account, { fee:'100'})
+          var transaction = new TransactionBuilder(account, { fee:'100', networkPassphrase: Networks.TESTNET,})
             .addOperation(
               Operation.changeTrust({
                 asset: asset,

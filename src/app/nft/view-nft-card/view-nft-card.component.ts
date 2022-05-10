@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { NFTMarket } from 'src/app/models/nft';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-view-nft-card',
   templateUrl: './view-nft-card.component.html',
@@ -10,18 +10,22 @@ import { NFTMarket } from 'src/app/models/nft';
 export class ViewNftCardComponent implements OnInit {
 NFTList:any;
 nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','','','','','','','','')
-  constructor(private service:NftServicesService) { }
-  sell():void{
-    
+  constructor(private service:NftServicesService,private router:Router) { }
+  sendToSellNFT():void{
+    let data :any=this.NFTList;
+    console.log("Before routing -----------------------",data)
+   this.router.navigate(['./sell'],{
+   queryParams:{data:JSON.stringify(data)}
+   })
   }
 
-  getNft():void{}
+ 
   
   ngOnInit(): void {
     console.log("------------------------loading...")
-    this.nft.Identifier="GZPTCQam8YZVrczgEfDvhQw34zWyohAw9wsqBCMzaVuY";
-    if (this.nft.Identifier!=null) {
-      this.service.getNFTDetails(this.nft.Identifier).subscribe((data:any)=>{
+    this.nft.InitialDistributorPK="0xE5e991238830f884A9487e558AcB4B3a15B0067E";
+    if (this.nft.InitialDistributorPK!=null) {
+      this.service.getLastNFTDetails(this.nft.InitialDistributorPK).subscribe((data:any)=>{
         console.log("--------------------------------------------------------------------------------------")
         console.log("Data was retrieved",data)
         this.NFTList=data;

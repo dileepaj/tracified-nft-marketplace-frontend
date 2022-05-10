@@ -4,14 +4,11 @@
   <mat-card class="example-card" >
     <mat-card-header>
       <div class="navbar">
-        <a mat-button [routerLink]="'/sell'"> Put to Sale</a>
+        <button mat-button (click)="sendToSellNFT()"> Put to Sale</button>
         <a mat-button [routerLink]="'/create-account'"> Explore </a>
         <a mat-button [routerLink]="'/getNft'"> View NFT </a>
      
-       <!-- <a mat-button [routerLink]="'/create-contact'"> Create Contact </a>
-        <a mat-button [routerLink]="'/activities'"> Activities </a>
-        <a mat-button [routerLink]="'/create-activity'"> Create Activity </a>-->
-  
+      
       </div>
     </mat-card-header>
     <mat-card-content class="mint">
@@ -26,6 +23,11 @@
            {{NFTList.InitialIssuerPK}} 
           </mat-label></td>
         </tr>
+        <tr>
+          <td> NFT TXN Hash: </td><td><mat-label  >
+             {{NFTList.NFTTXNhash}} 
+            </mat-label></td>
+          </tr>
         <tr>
         <td>Blockchain: </td><td><mat-label >
            {{NFTList.NftIssuingBlockchain}} 

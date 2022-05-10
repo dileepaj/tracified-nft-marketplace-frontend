@@ -23,15 +23,17 @@ export class SellOfferServiceService {
     asset_issuer: string,
     signerSK: string,
     nftAmmount: string,
-    nftPrice: string
+    nftPrice: number
   ) {
     return new Promise((resolve, reject) => {
+      console.log("----------------------------------inside sell offer-----------------",asset_code,asset_issuer,signerSK,nftAmmount,nftPrice)
       let sourceKeypair = Keypair.fromSecret(signerSK); //because the distributor has the authority to sell
       if (blockchainNetType === "live") {
         Networks.TESTNET
       } else {
         Networks.PUBLIC
       }
+      console.log("ntw type------------------------------",blockchainNet)
       var asset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();
       var opts = {
@@ -40,7 +42,9 @@ export class SellOfferServiceService {
           minTime: '0',
           maxTime: '0',
         },
+        networkPassphrase: Networks.TESTNET,
       };
+      console.log("-------------------------opts--------",opts)
       let server = new Server(blockchainNet);
       server
         .loadAccount(sourceKeypair.publicKey())
@@ -52,8 +56,9 @@ export class SellOfferServiceService {
                 buying: sellingAsset,
                 amount: nftAmmount,
                 price: nftPrice,
-                offerId: "0",
+                offerId: '0',
               })
+              
             )
             .setTimeout(60000)
             .build();

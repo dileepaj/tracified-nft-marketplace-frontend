@@ -4,9 +4,17 @@
 
 export const environment = {
   production: false,
-  contractAddressNFTPolygon:"0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8",
-  contractAddressMKPolygon:"0xd9145CCE52D386f254917e481eB44e9943F39138",
-  contractAddressNFTEthereum:"0x6Bd3259830dC99Fd827bDB4Ce5e8565FAb54f1D6"
+  contractAddressNFTPolygon:"0x0670545E7153f005196fC2c7b59D1254F1100d63",
+  contractAddressMKPolygon:"0xE5e991238830f884A9487e558AcB4B3a15B0067E",
+  contractAddressNFTEthereum:"0xD1eCC3A4861021B8515A962F22aCa55067CB37C2",
+  contractAddressMKEthereum:"0xdEcf2B82E134Da9615bD47D51204D80204690DD1",
+  TRACIFIED_MIDDLE_MAN : new Uint8Array([
+    223, 119, 171,   5, 237, 138,  42, 140, 176, 163,  74,
+    107,  25, 143,  90,  97, 250, 158, 203, 102, 238,  19,
+    77, 228, 211, 238, 147, 149,  40,  50, 211, 155,  51,
+    207,  14,  53,  86, 230, 164,  27,  14, 202,  78, 181,
+    185, 250,  16,  52, 134, 242,  96,  16,  12,  67,   2,
+    178, 106, 241, 156, 212,  11, 150, 114,  72])
 
 };
 export const ENV: any = {

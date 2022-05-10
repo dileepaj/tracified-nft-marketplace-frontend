@@ -30,6 +30,7 @@ import { ViewCollectionsComponent } from './collections/view-collections/view-co
 import { AdminNavbarLayoutComponent } from './shared/admin-navbar-layout/admin-navbar-layout.component';
 import { HomeNavbarLayoutComponent } from './shared/home-navbar-layout/home-navbar-layout.component';
 import { NftCardComponent } from './shared/nft-card/nft-card.component';
+import { BuyViewComponent } from './marketplace/buyNft/buy-view/buy-view.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input'; 
 import { MatButtonModule } from '@angular/material/button';
@@ -55,6 +56,10 @@ const appRoutes:Routes=[
   {
     path:'getNft',
     component:ViewNftCardComponent
+  },
+  {
+    path:'buyNft',
+    component:BuyViewComponent
   },
 ];
 @NgModule({
@@ -87,7 +92,8 @@ const appRoutes:Routes=[
     AdminNavbarLayoutComponent,
     HomeNavbarLayoutComponent,
     NftCardComponent,
-    ViewNftCardComponent
+    ViewNftCardComponent,
+    BuyViewComponent
   ],
   imports: [
     BrowserModule,

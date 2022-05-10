@@ -29,9 +29,73 @@ export class NFTMarket{
     ){}
 }
 
-export class Sales{
+export class GetNFT{
+    constructor(
+    public NFTIdentifier        :               string,
+	public CreatorUserId:string,
+	public Category       :                string,
+	public Collection      :                 string,
+	public Imagebase64        :              string,
+	public Blockchain     :        string,
+	public NFTTxnhash       :                string,
+	public Timestamp       :                 string,
+	public NftContentURL        :                   string,
+	public NFTName      :             string,
+	public ArtistName          :          string,
+	public ArtistProfileLink     :              string,
+	public Description        :              string,
+	public Copies          :                 string,
+	public SellingStatus            :        string,
+	public TokenType                    :       string,
+	public CurrentPrice      :                      string,
+	public DistributorPK       :      string,
+	public NFTIssuerPK        :          string,
+	public MarketContract     :               string,
+	public MintedContract      :         string,
+	public CurrentOwnerPK    :            string,
+	public Tags:string,
+	public SellingType:string,
+	public Status:string,
+
+   
+    ){}
+}
+
+export class SalesBE{
+    constructor(
+		public	NFTIdentifier : string   ,       
+		public Timestamp   :string,   
+		public CurrentPrice  : string     ,       
+		public SellingStatus  :string   ,         
+		public	SellingType  :  string     ,       
+		public MarketContract :string,
+		public CurrentOwnerPK :string,
+		
+    ){}
+}
+
+export class SalesGW{
     constructor(
         public Price : string,
-        public Royalty: string,
+        public Status: string,
+		public Amount: string,
+		public NFTTXNhash : string,
+    ){}
+}
+
+export class BuyNFTGW{
+    constructor(
+		public PreviousOwnerNFTPK    :  string,
+		public CurrentOwnerNFTPK: string,
+        public SellingStatus:string,
+		public NFTTXNhash : string,
+    ){}
+}
+
+export class Sales{
+    constructor(
+		public	Price : string   ,       
+		public Royalty   :string,   
+		
     ){}
 }

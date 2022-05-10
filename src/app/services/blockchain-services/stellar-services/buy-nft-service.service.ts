@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
 import {
   Operation,
   Keypair,
@@ -18,6 +17,7 @@ export class BuyNftServiceService {
 
   constructor() { }
   buyNft(
+   transactionResult:string,
     asset_code:string,
     signerSK:string,
     asset_issuer:string,
@@ -25,6 +25,7 @@ export class BuyNftServiceService {
     nftPrice: string
   ) {
     return new Promise((resolve, reject) => {
+      console.log("iside buying service ---------------------",asset_code,signerSK,nftPrice, asset_issuer)
       let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
       if (blockchainNetType === "live") {
         Networks.TESTNET
@@ -42,7 +43,9 @@ export class BuyNftServiceService {
           minTime: '0',
           maxTime: '0',
         },
+        networkPassphrase: Networks.TESTNET,
       };
+      console.log("-------------buy control after ops ------------------")
       let server = new Server(blockchainNet);
       server
         .loadAccount(sourceKeypair.publicKey())
@@ -63,6 +66,12 @@ export class BuyNftServiceService {
             //     asset: Asset.native(),
             //     destination:
             //       "GC6SZI57VRGFULGMBEJGNMPRMDWEJYNL647CIT7P2G2QKNLUHTTOVFO3",
+            //   })
+            // )
+            // .addOperation(
+            //   Operation.manageData({
+            //     name: "Trust Line Result",
+            //     value: transactionResult,
             //   })
             // )
             .addOperation(

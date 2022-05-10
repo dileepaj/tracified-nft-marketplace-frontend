@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-import "./minting.sol";
+//import "./NFT721.sol";
 
 contract Market is ReentrancyGuard {
     using Counters for Counters.Counter;
@@ -25,7 +25,7 @@ contract Market is ReentrancyGuard {
         owner = payable(msg.sender);
     }
 
-    /* Returns the listing price of the contract */
+    // Returns the listing price of the contract /
     // function getListingPrice() public view returns (uint256) {
     //   return listingPrice;
     // }
@@ -123,7 +123,6 @@ contract Market is ReentrancyGuard {
         uint256 itemId = _itemsIds.current();
 
         
-        previousOwners[itemId].push(payable(msg.sender));
 
         idToMarketItem[itemId] = MarketItem(
             itemId,
@@ -153,6 +152,7 @@ contract Market is ReentrancyGuard {
         public 
         payable
         onlyProductSeller(id)
+
     {
         MarketItem storage item = idToMarketItem[id];
         uint256 oldPrice = item.price;
@@ -175,7 +175,7 @@ contract Market is ReentrancyGuard {
             "Please submit the asking price in order to complete the purchase"
         );
 
-        
+        previousOwners[itemId].push(idToMarketItem[itemId].owner);
         idToMarketItem[itemId].seller.transfer(msg.value);
         IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
         idToMarketItem[itemId].owner = payable(msg.sender);
@@ -209,12 +209,11 @@ contract Market is ReentrancyGuard {
             "Price must be equal to listing price"
         );
 
-        NFT tokenContract = NFT(nftContract);
+        //NFT tokenContract = NFT(nftContract);
 
-        tokenContract.transferToken(msg.sender, address(this), tokenId);
+       // tokenContract.transferToken(msg.sender, address(this), tokenId);
         
         address payable oldOwner = idToMarketItem[itemId].owner;
-        previousOwners[itemId].push(oldOwner);
         idToMarketItem[itemId].owner = payable(address(0));
         idToMarketItem[itemId].seller = oldOwner;
         idToMarketItem[itemId].price = newPrice;

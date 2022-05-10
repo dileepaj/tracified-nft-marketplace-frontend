@@ -88,7 +88,7 @@ pushTag():void{//posting tag data via service to backend
   this.mint.Blockchain=this.formValue('Blockchain');
   this.mint.NFTName=this.data.NFTName;
   this.mint.NftContentURL=this.formValue('NftContentURL');
-  this.mint.Imagebase64="poooormadiloiiinuuurrsrs";
+  this.mint.Imagebase64="iiiioormadiloiiinuuurrsrs";
   this.mint.Description=this.data.Description;
   if(this.mint.Blockchain =="stellar"){//minting if blockchain == stellar
   
@@ -118,6 +118,7 @@ pushTag():void{//posting tag data via service to backend
     this.mint.NFTIssuerPK="0x999C020c60CFE6d1BCA6C4d540FA9Dac1F16C163";
     this.mint.DistributorPK="0xD85E667594EC848895466Fb702D35F6111f258e8";
     this.mint.MintedContract=environment.contractAddressNFTEthereum;
+    this.mint.MarketContract=environment.contractAddressMKEthereum;
     this.emint.mintInEthereum(this.mint.NFTIssuerPK,this.mint.NFTName,this.mint.NftContentURL,this.mint.Description,this.mint.NftContentURL)
     .then(res => {
       console.log("----------ethereum hash ",res)

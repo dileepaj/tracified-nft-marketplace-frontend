@@ -1,6 +1,12 @@
 [
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "marketplaceAddress",
+				"type": "address"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -76,7 +82,7 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "to",
+				"name": "reciver",
 				"type": "address"
 			},
 			{
@@ -100,8 +106,14 @@
 				"type": "string"
 			}
 		],
-		"name": "mint",
-		"outputs": [],
+		"name": "mintNFT",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -363,6 +375,44 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getSvg",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "getTokenIDfromTokenURI",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
 				"name": "owner",
 				"type": "address"
@@ -379,30 +429,6 @@
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "listings",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "seller",
-				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -480,6 +506,25 @@
 				"internalType": "string",
 				"name": "",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "tokenIDTrack",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",

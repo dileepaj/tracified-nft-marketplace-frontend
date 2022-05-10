@@ -7,13 +7,14 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "./Base64.sol";
 //import "hardhat/console.sol";
 
-contract NFT is ERC721{
+contract NFT is ERC721,ERC721URIStorage,Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     address contractAddress;
 
     mapping(uint256 => Attr) public attributes;
     mapping (address => uint256) public balances;
+    mapping (string => uint256) public tokenIDTrack;
 
     string svgheaderInfo;
     string metaDataOpenTag;
@@ -32,8 +33,7 @@ contract NFT is ERC721{
     }
 
     constructor(address marketplaceAddress) ERC721("Tracified", "NFT") {
-        marketplaceAddress=0x4FAD8Bc8735A9927c1e9183a75751211B87a2e88;
-        contractAddress = marketplaceAddress;
+        contractAddress = 0xdEcf2B82E134Da9615bD47D51204D80204690DD1;
 
         svgheaderInfo = "<svg width='100%' height='100%' viewBox='0 0 400 370' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>";
         metaDataOpenTag = "<metadata>";
@@ -47,7 +47,7 @@ contract NFT is ERC721{
         
     }
 
-    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
+    function uint2str(uint _i) internal pure returns (string memory uintAsString) {
         if (_i == 0) {
             return "0";
         }
@@ -70,7 +70,7 @@ contract NFT is ERC721{
     }
 
 
-    function _burn(uint256 tokenId) internal override(ERC721) {
+    function _burn(uint256 tokenId) internal override(ERC721URIStorage,ERC721) {
         super._burn(tokenId);
     }
 
@@ -82,7 +82,8 @@ contract NFT is ERC721{
         string memory _tdpdata,
         string memory _imagedata
         ) 
-    public returns (uint) 
+    public 
+    returns (uint) 
     {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
@@ -92,8 +93,19 @@ contract NFT is ERC721{
         //_setTokenURI(newItemId, tokenURI);
         setApprovalForAll(contractAddress, true);
         attributes[newItemId] = Attr(_name);
+        tokenIDTrack[_name] = newItemId; 
         return newItemId;
     }
+
+    function getTokenIDfromTokenURI(string memory _name)
+    public
+    view
+    returns (uint256)
+    {
+        return tokenIDTrack[_name];
+    }
+
+
 /*
     function createTokenURI(uint256 tokenID) public{
         string memory tokenURI = _getTokenURI(tokenID);
@@ -109,10 +121,12 @@ contract NFT is ERC721{
         svg = _svg;
     }
 
-    function generateSvg(string memory _proofbotdata, string memory _tdpdata, string memory _imagedata) internal returns (string memory) {
+    
+
+    function generateSvg(string memory proofbotdata, string memory tdpdata, string memory _imagedata) internal returns (string memory) {
         string memory svgheader = string(abi.encodePacked(svgheaderInfo,metaDataOpenTag));
-        string memory proofBotdata = string(abi.encodePacked(svgProofBotTitle,descriptionOpenTag,_proofbotdata,descriptionClosingTag));
-        string memory tdpdata = string(abi.encodePacked(svgTdpDatatitle,descriptionOpenTag,_tdpdata,descriptionClosingTag));
+        string memory proofBotdata = string(abi.encodePacked(svgProofBotTitle,descriptionOpenTag,proofbotdata,descriptionClosingTag));
+        string memory tdpdata = string(abi.encodePacked(svgTdpDatatitle,descriptionOpenTag,tdpdata,descriptionClosingTag));
         string memory svgFooter = string(abi.encodePacked(metaDataClosingTag,hrefAttribute,_imagedata,svgfooterInfo));
 
         string memory newSvg = string(abi.encodePacked(svgheader,proofBotdata,tdpdata,svgFooter));
@@ -120,19 +134,19 @@ contract NFT is ERC721{
         return newSvg;
     }
 
-    // function tokenURI(uint256 tokenId) override(ERC721,ERC721URIStorage) public view returns (string memory) {
-    //     string memory json = Base64.encode(
-    //         bytes(string(
-    //             abi.encodePacked(
-    //                 '{"name": "', attributes[tokenId].name, '",',
-    //                 '"image_data": "', getSvg(tokenId), '",',
-    //                 '"Description": "Issued By Tracified.",',
-    //                 '"attributes": []}'
-    //             )
-    //         ))
-    //     );
-    //     return string(abi.encodePacked('data:application/json;base64,', json));
-    // }
+    function tokenURI(uint256 tokenId) override(ERC721,ERC721URIStorage) public view returns (string memory) {
+        string memory json = Base64.encode(
+            bytes(string(
+                abi.encodePacked(
+                    '{"name": "', attributes[tokenId].name, '",',
+                    '"image_data": "', getSvg(tokenId), '",',
+                    '"Description": "Issued By Tracified.",',
+                    '"attributes": []}'
+                )
+            ))
+        );
+        return string(abi.encodePacked('data:application/json;base64,', json));
+    }
 
     function transferToken(address from, address to, uint256 tokenId) external {
         require(ownerOf(tokenId) == from, "From address must be token owner");
@@ -145,7 +159,7 @@ contract NFT is ERC721{
         uint256 tokenId,
         bytes memory _data
     ) public virtual override {
-        _safeTransfer(from, to, tokenId, _data);
+        safeTransfer(from, to, tokenId, data);
     } */
 
 }

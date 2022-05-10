@@ -4,9 +4,10 @@
 
 export const environment = {
   production: false,
-  contractAddressNFTPolygon:"0xd610a8dA8d1D2A11aE48471358f1e0a27F2AC1FD",
-  contractAddressMKPolygon:"0x86fbd6851D37a3682c9e95E6da2B36E3DB86219E",
-  contractAddressNFTEthereum:"0x6Bd3259830dC99Fd827bDB4Ce5e8565FAb54f1D6"
+  contractAddressNFTPolygon:"0x0670545E7153f005196fC2c7b59D1254F1100d63",
+  contractAddressMKPolygon:"0xE5e991238830f884A9487e558AcB4B3a15B0067E",
+  contractAddressNFTEthereum:"0xD1eCC3A4861021B8515A962F22aCa55067CB37C2",
+  contractAddressMKEthereum:"0xdEcf2B82E134Da9615bD47D51204D80204690DD1",
 
 };
 export const ENV: any = {

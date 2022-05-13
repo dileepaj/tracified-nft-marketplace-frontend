@@ -4,11 +4,10 @@ import { NFTMarket,SalesBE,BuyNFTGW, GetNFT } from 'src/app/models/nft';
 import { environment } from 'src/environments/environment';
 import { TrustLineByBuyerServiceService } from 'src/app/services/blockchain-services/stellar-services/trust-line-by-buyer-service.service';
 import { BuyNftServiceService } from 'src/app/services/blockchain-services/stellar-services/buy-nft-service.service';
-import { CreateAssociateTokenAccountService } from 'src/app/services/blockchain-services/solana-services/create-associate-token-account.service';
-import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
+import { Trac2buyerService } from 'src/app/services/blockchain-services/solana-services/trac2buyer.service';
 import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
-import { GetAssociatedTokenAccountService } from 'src/app/services/blockchain-services/solana-services/get-associated-token-account.service';
+
 @Component({
   selector: 'app-buy-view',
   templateUrl: './buy-view.component.html',
@@ -23,14 +22,15 @@ export class BuyViewComponent implements OnInit {
   buyGW:BuyNFTGW=new BuyNFTGW('','','','')
   nftbe:GetNFT=new GetNFT('','','','','','','','','','','','','','','','','','','','','','','','','')
   signerSK="SBKFJD35H4EZBMBELBB7SZQR4ZZ2H5WMRO4N6KWALXMF63DWJVMR2K5D"
+  newATA: any;
   constructor(private service:NftServicesService,
     private trust:TrustLineByBuyerServiceService,
     private buyNftService:BuyNftServiceService,
-    private ata:CreateAssociateTokenAccountService,
-    private transfer:TransferNftService,
+    private ata:Trac2buyerService,
+    
     private emarket:EthereumMarketServiceService,
     private pmarket:PolygonMarketServiceService,
-    private getATA:GetAssociatedTokenAccountService) { }
+    ) { }
 
   buyNFT():void{
     console.log("-------------------inside buynft------------------")
@@ -58,14 +58,24 @@ export class BuyViewComponent implements OnInit {
     if(this.NFTList.blockchain=='solana'){
       this.saleBE.SellingType="NFT"
       this.saleBE.MarketContract="Not Applicable"
-      this.saleBE.NFTIdentifier=this.nftbe.NFTIssuerPK
-      this.ata.createATA("",this.nftbe.NFTIssuerPK,"").then(res => {
-        console.log("----------current owner ATA ",res)
-        this.getATA.findAssociatedTokenAddress(environment.TRACIFIED_MIDDLE_MAN,this.nftbe.NFTIssuerPK).then(ata => {
-          this.transfer.transferNFT("",ata,res,this.nftbe.NFTIssuerPK,"")
-        })
-       
+      this.saleBE.NFTIdentifier=this.NFTList.nftidentifier
+      console.log("MintKey",this.NFTList.nftissuerpk,this.NFTList.nftidentifier)
+      //const TOWALLETSECRET="[]byte{10, 75, 10, 90, 145, 78, 142, 248, 104, 3, 36, 7, 69, 207, 109, 98, 82, 58, 146, 202, 44, 188, 70, 70, 64, 173, 35, 130, 18, 133, 107, 236, 231, 43, 70, 165, 182, 191, 162, 242, 126, 119, 49, 3, 231, 43, 249, 47, 228, 225, 70, 91, 254, 22, 160, 42, 20, 186, 184, 196, 240, 151, 157, 207}"
+      this.ata.createATA(environment.fromWalletSecret,this.NFTList.nftissuerpk,this.NFTList.nftidentifier).then(res=>{
+        console.log("New ATA results",res)
+        this.newATA =res;
+        this.saleBE.NFTIdentifier=this.newATA;
+        this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+        this.updateGateway();
       })
+      
+      // .then(res => {
+      //   console.log("----------current owner ATA ",res)
+      //   this.getATA.findAssociatedTokenAddress(environment.TRACIFIED_MIDDLE_MAN,this.nftbe.NFTIssuerPK).then(ata => {
+      //     this.transfer.transferNFT("",ata,res,this.nftbe.NFTIssuerPK,"")
+      //   })
+       
+      // })
       
     }
     if(this.NFTList.blockchain=='polygon'){
@@ -137,35 +147,35 @@ export class BuyViewComponent implements OnInit {
   } 
 
 
-  buyNFTOnSolana():void{
-    this.ata.createATA(this.nftbe.DistributorPK,this.nftbe.NFTIssuerPK,this.nftbe.DistributorPK).then((transactionResult: any) => {
-      if (transactionResult.successful) {
-        this.transfer.transferNFT(//step 2. - mint
-          transactionResult.successful,
-          this.nftbe.NFTName,
-          'signer',
-          this.nftbe.NFTIssuerPK,
-          this.nftbe.DistributorPK,
-         )
-          .then(nft => {
-            if (this.isLoadingPresent) {
-              this.dissmissLoading();
-            }
-            this.nft.NftContentName="";
-          }).catch(error => {
-            if (this.isLoadingPresent) {
-              this.dissmissLoading();
-            }
-          })
-      }
-      else {
-        if (this.isLoadingPresent) {
-          this.dissmissLoading();
-        }
-      }
-    })
+  // buyNFTOnSolana():void{
+  //   this.ata.createATA(this.nftbe.DistributorPK,this.NFTList.NFTIssuerPK,this.nftbe.DistributorPK).then((transactionResult: any) => {
+  //     if (transactionResult.successful) {
+  //       this.transfer.transferNFT(//step 2. - mint
+  //         transactionResult.successful,
+  //         this.nftbe.NFTName,
+  //         'signer',
+  //         this.nftbe.NFTIssuerPK,
+  //         this.nftbe.DistributorPK,
+  //        )
+  //         .then(nft => {
+  //           if (this.isLoadingPresent) {
+  //             this.dissmissLoading();
+  //           }
+  //           this.nft.NftContentName="";
+  //         }).catch(error => {
+  //           if (this.isLoadingPresent) {
+  //             this.dissmissLoading();
+  //           }
+  //         })
+  //     }
+  //     else {
+  //       if (this.isLoadingPresent) {
+  //         this.dissmissLoading();
+  //       }
+  //     }
+  //   })
    
-  } 
+  // } 
 
   dissmissLoading() {
     this.isLoadingPresent = false;
@@ -175,10 +185,10 @@ export class BuyViewComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("------------------------loading...")
-    this.nftbe.Blockchain="polygon";
-    this.nftbe.NFTIdentifier="2";
+    this.nftbe.Blockchain="solana";
+    this.nftbe.NFTIdentifier="9LZCJWkjuecs68RKdvpnG4yckMHKcZ9CGhe9rhgTvyxX";
    this.nftbe.SellingStatus="ON SALE";
-    if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="polygon") {
+    if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="solana") {
       this.service.getNFTDetails(this.nftbe.NFTIdentifier,this.nftbe.SellingStatus,this.nftbe.Blockchain).subscribe((data:any)=>{
         console.log("--------------------------------------------------------------------------------------")
         console.log("Data was retrieved",data.Response[0])

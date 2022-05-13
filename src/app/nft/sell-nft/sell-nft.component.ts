@@ -5,11 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { SellOfferServiceService } from 'src/app/services/blockchain-services/stellar-services/sell-offer-service.service';
-import { CreateAssociateTokenAccountService } from 'src/app/services/blockchain-services/solana-services/create-associate-token-account.service';
+import { Seller2tracService } from 'src/app/services/blockchain-services/solana-services/seller2trac.service';
 import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
-import { GetAssociatedTokenAccountService } from 'src/app/services/blockchain-services/solana-services/get-associated-token-account.service';
-import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
+
 @Component({
   selector: 'app-sell-nft',
   templateUrl: './sell-nft.component.html',
@@ -29,14 +28,14 @@ export class SellNftComponent implements OnInit {
   signer="SAUD6CUMHSDAN2LTOUGLZLSB2N6YDMYUVKP22RYYHEHYUW5M5YKFWUX4"
   tokenid: number;
   itemId: number;
+  newATA: any;
   constructor(private route:ActivatedRoute,
     private service:NftServicesService,
     private stellarService:SellOfferServiceService,
-    private middleman:CreateAssociateTokenAccountService,
+    private middleman:Seller2tracService,
     private emarket:EthereumMarketServiceService,
     private pmarket:PolygonMarketServiceService,
-    private getATA:GetAssociatedTokenAccountService,
-    private transfer :TransferNftService) { }
+    ) { }
 
   calculatePrice():void{
     this.royalty=parseInt(this.formValue('Royalty'));
@@ -88,18 +87,22 @@ Sell():void{
       this.saleBE.MarketContract="Not Applicable"
       this.saleBE.SellingType="NFT"
       this.calculatePrice()
-      this.saleBE.NFTIdentifier=this.data.Identifier
+     
       if(this.data.CurrentOwnerNFTPK==this.data.OriginPK){
           console.log("Already set for sale")
+          this.saleBE.NFTIdentifier=this.data.InitialDistributorPK
+          this.addDBBackend()
+          this.addDBGateway()
       }else{
-          this.getATA.findAssociatedTokenAddress(environment.TRACIFIED_MIDDLE_MAN,this.data.InitialIssuerPK).then(res=>{
-            this.getATA.findAssociatedTokenAddress("owner",this.data.InitialIssuerPK).then(ata=>{
-              this.transfer.transferNFT("",res,ata,this.nft.InitialIssuerPK,"").then(res=>{
-              //  this.addDB()
-              })
-            })
-           
+          this.middleman.createATA(environment.seller,environment.TRACIFIED_MIDDLE_MAN, this.data.InitialIssuerPK.publicKey,this.data.Identifier.publicKey).then(res=>{
+            console.log("The result ata of trac is", res)
+            this.newATA =res;
+            this.saleBE.NFTIdentifier=this.newATA
+            this.addDBBackend()
+            this.addDBGateway()
           })
+               
+            
          
       }
       //this.middleman.createATA(environment.TRACIFIED_MIDDLE_MAN,this.nft.InitialIssuerPK,environment.TRACIFIED_MIDDLE_MAN)

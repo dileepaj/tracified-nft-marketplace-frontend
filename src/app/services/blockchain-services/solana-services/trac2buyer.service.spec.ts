@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TransferNftService } from './transfer-nft.service';
+import { Trac2buyerService } from './trac2buyer.service';
 
-describe('TransferNftService', () => {
-  let service: TransferNftService;
+describe('Trac2buyerService', () => {
+  let service: Trac2buyerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TransferNftService);
+    service = TestBed.inject(Trac2buyerService);
   });
 
   it('should be created', () => {

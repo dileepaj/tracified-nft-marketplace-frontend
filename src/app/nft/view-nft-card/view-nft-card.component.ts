@@ -23,7 +23,7 @@ nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','
   
   ngOnInit(): void {
     console.log("------------------------loading...")
-    this.nft.InitialDistributorPK="0xE5e991238830f884A9487e558AcB4B3a15B0067E";
+    this.nft.InitialDistributorPK="9LZCJWkjuecs68RKdvpnG4yckMHKcZ9CGhe9rhgTvyxX";
     if (this.nft.InitialDistributorPK!=null) {
       this.service.getLastNFTDetails(this.nft.InitialDistributorPK).subscribe((data:any)=>{
         console.log("--------------------------------------------------------------------------------------")

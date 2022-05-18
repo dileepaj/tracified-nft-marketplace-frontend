@@ -119,3 +119,31 @@ export class Contracts{
     ){}
 }
 
+export interface Image {
+    WidgetId: string;
+    ProjectId?: string;
+    Title?: string;
+    Type: string;
+    Base64Image: string;
+  }
+
+  export class SVG{
+    constructor(
+       
+        public Hash:string,
+        public Base64ImageSVG:string
+    ){}
+}
+
+export class TXN{
+    constructor(
+       
+        public Blockchain:string,
+        public NFTIdentifier:string,
+        public Status:string,
+        public NFTName:string,
+        public ImageURL:string,
+        public NFTTxnHash:string
+        
+    ){}
+}

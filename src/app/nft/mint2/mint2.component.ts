@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from 'rxjs';
-import { NFT, Ownership, tags,Issuer,Minter,StellarTXN,Contracts} from 'src/app/models/minting';
+import { NFT, Ownership, tags,Issuer,Minter,StellarTXN,Contracts,TXN} from 'src/app/models/minting';
 import { MintService } from 'src/app/services/blockchain-services/mint.service';
 import { ActivatedRoute } from '@angular/router';
 import { TrustlinesService } from 'src/app/services/blockchain-services/stellar-services/trustlines.service';
@@ -9,7 +9,7 @@ import { Properties } from '../../shared/properties';
 import { PolygonMintService } from 'src/app/services/contract-services/polygon-mint.service';
 import { environment } from 'src/environments/environment';
 import { EthereumMintService } from 'src/app/services/contract-services/ethereum-mint.service';
-
+import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 
 @Component({
   selector: 'app-mint2',
@@ -33,8 +33,9 @@ export class Mint2Component implements OnInit { //declaring models and variables
   mint:NFT= new NFT('','','','','','',0,'','','','','','','','','','','','','','','','','')
   minter:Minter=new Minter('','','','')
   tokenId: number;
+  txn:TXN=new TXN('','','','','','')
 
-  constructor(private route:ActivatedRoute, private service:MintService ,private trustService:TrustlinesService,private pmint:PolygonMintService,private emint:EthereumMintService) { }
+  constructor(private route:ActivatedRoute, private service:MintService ,private trustService:TrustlinesService,private pmint:PolygonMintService,private emint:EthereumMintService,private apiService:ApiServicesService) { }
   
  sendToMint3():void{//getting form data to mint and post
 
@@ -50,7 +51,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   this.mint.SellingStatus="";
   this.mint.SellingType="NFT";
   this.mint.DistributorPK=this.mint.CreatorUserId;
-  this.mint.Status=""
+  this.mint.Status="Minted";
  
   console.log(this.mint)
 
@@ -84,14 +85,26 @@ pushTag():void{//posting tag data via service to backend
     console.log(this.addSubscription);
 }
 
+saveTXNs():void{
+  console.log("inside txn save")
+this.txn.Blockchain=this.mint.Blockchain;
+this.txn.ImageURL=this.mint.Imagebase64;
+this.txn.NFTIdentifier=this.mint.NFTIdentifier;
+this.txn.NFTName=this.mint.NFTName;
+this.txn.NFTTxnHash=this.mint.NFTTxnHash;
+this.txn.Status=this.mint.Status;
+
+this.apiService.addTXN(this.txn).subscribe();
+}
+
  getIssuer():void{//minting according to blockchain
   this.mint.Blockchain=this.formValue('Blockchain');
   this.mint.NFTName=this.data.NFTName;
   this.mint.NftContentURL=this.formValue('NftContentURL');
-  this.mint.Imagebase64="iiiioormadiloiiinuuurrsrs";
+  this.mint.Imagebase64=this.data.NftContentURL;
   this.mint.Description=this.data.Description;
+
   if(this.mint.Blockchain =="stellar"){//minting if blockchain == stellar
-  
     this.service.createIssuer().subscribe((data:any)=>{
       console.log("Data was retrieved",data)
       this.mint.NFTIssuerPK=data.NFTIssuerPK;
@@ -100,6 +113,7 @@ pushTag():void{//posting tag data via service to backend
          console.log("-----------------------Stellar Issuer---------------------------",this.mint.NFTIssuerPK)
          this.sendToMint3()
          this.mintNFT()
+         this.saveTXNs()
      }
     })
   }
@@ -110,6 +124,7 @@ pushTag():void{//posting tag data via service to backend
     this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
     this.sendToMint3()
     this.mintNftSolana()
+    this.saveTXNs()
  }
 
   if(this.mint.Blockchain =="ethereum"){//minting if blockchain == ethereum
@@ -119,7 +134,7 @@ pushTag():void{//posting tag data via service to backend
     this.mint.DistributorPK="0xD85E667594EC848895466Fb702D35F6111f258e8";
     this.mint.MintedContract=environment.contractAddressNFTEthereum;
     this.mint.MarketContract=environment.contractAddressMKEthereum;
-    this.emint.mintInEthereum(this.mint.NFTIssuerPK,this.mint.NFTName,this.mint.NftContentURL,this.mint.Description,this.mint.NftContentURL)
+    this.emint.mintInEthereum(this.mint.NFTIssuerPK,this.mint.NFTName,this.mint.Description,this.mint.NftContentURL,this.mint.Imagebase64,)
     .then(res => {
       console.log("----------ethereum hash ",res)
       this.mint.NFTTxnHash = res.transactionHash;
@@ -128,6 +143,7 @@ pushTag():void{//posting tag data via service to backend
       console.log("--------------------------NFT hash for Ethereum",this.mint.NFTTxnHash, this.mint.NFTIdentifier)
       this.sendToMint3();
       this.saveContractInGateway();
+      this.saveTXNs()
     })
   }
 
@@ -147,6 +163,7 @@ pushTag():void{//posting tag data via service to backend
     console.log("--------------------------NFT hash for Polygon",this.mint.NFTTxnHash,this.mint.NFTIdentifier)
    this.sendToMint3();
    this.saveContractInGateway();
+   this.saveTXNs()
   })
 
    
@@ -205,9 +222,10 @@ updateStellarTXN():void{
       }
       this.mint.NFTIssuerPK=data.NFTIssuerPK;
       this.mint.NFTTxnHash=data.NFTTxnHash;
+      //this.mint.NFTIdentifier=
       this.minter.NFTIssuerPK=this.mint.NFTIssuerPK;
       this.minter.NFTTxnHash=this.mint.NFTTxnHash
-      this.minter.NFTIdentifier=this.minter.NFTIssuerPK;
+      this.minter.NFTIdentifier=data.NFTIdentifier;
       this.updateMinter()
     })
   }

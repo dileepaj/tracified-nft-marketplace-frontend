@@ -2,13 +2,24 @@
   flex: 1 1 auto;
 }
 
-.example-icon{
-    color: white;
+.spacer{
+  padding: 0.5%;
 }
 
-.navbar{
-    background: transparent;
-    align-items:left;
+.example-icon{
+    color: white;
+    padding-top: 8px;
+}
+
+.navbar-text{
+    padding-top: 15px;
     color: white;
     float: right;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    order: inherit;
 }

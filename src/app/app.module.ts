@@ -53,7 +53,7 @@ import { TrustlinesService } from './services/blockchain-services/stellar-servic
 import { Properties } from './shared/properties';
 import { HeaderComponent } from './shared/header/header.component';
 import { MatSidenavModule } from '@angular/material/sidenav'; 
-
+import { MatMenuModule } from '@angular/material/menu';
 
 
 
@@ -78,6 +78,11 @@ const appRoutes:Routes=[
     path:'collections',
     component:CreateCollectionComponent
   },
+  {
+    path:'',
+    redirectTo:'/home',
+    pathMatch:'full'
+  }
 ];
 @NgModule({
   declarations: [
@@ -134,7 +139,8 @@ const appRoutes:Routes=[
     MatFileUploadModule,
     FormsModule, ReactiveFormsModule,
     MatDialogModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatMenuModule
     
     
   ],

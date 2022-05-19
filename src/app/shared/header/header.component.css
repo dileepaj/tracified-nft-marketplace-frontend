@@ -1,0 +1,14 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.example-icon{
+    color: white;
+}
+
+.navbar{
+    background: transparent;
+    align-items:left;
+    color: white;
+    float: right;
+}

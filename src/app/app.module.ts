@@ -30,53 +30,53 @@ import { ViewCollectionsComponent } from './collections/view-collections/view-co
 import { AdminNavbarLayoutComponent } from './shared/admin-navbar-layout/admin-navbar-layout.component';
 import { HomeNavbarLayoutComponent } from './shared/home-navbar-layout/home-navbar-layout.component';
 import { NftCardComponent } from './shared/nft-card/nft-card.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import { MatInputModule } from '@angular/material/input'; 
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterModule, Routes } from '@angular/router';
 import { Mint2Component } from './nft/mint2/mint2.component';
 import { Mint3Component } from './nft/mint3/mint3.component';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatSelectModule} from '@angular/material/select';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatFileUploadModule } from 'angular-material-fileupload';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatDialogModule} from "@angular/material/dialog";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { CollectionService } from './services/api-services/collection.service';
 import { MintService } from './services/blockchain-services/mint.service';
 import { TrustlinesService } from './services/blockchain-services/stellar-services/trustlines.service';
 import { Properties } from './shared/properties';
 import { HeaderComponent } from './shared/header/header.component';
-import { MatSidenavModule } from '@angular/material/sidenav'; 
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
-
-
-
-const appRoutes:Routes=[
+const appRoutes: Routes = [
   {
-    path:'home',
-    component:HomeComponent
+    path: 'home',
+    component: HomeComponent,
   },
   {
-    path:'mint',
-    component:MintComponent
+    path: 'mint',
+    component: MintComponent,
   },
   {
-    path:'mint2',
-    component:Mint2Component
+    path: 'mint2',
+    component: Mint2Component,
   },
   {
-    path:'mint3',
-    component:Mint3Component
+    path: 'mint3',
+    component: Mint3Component,
   },
   {
-    path:'collections',
-    component:CreateCollectionComponent
+    path: 'collections',
+    component: CreateCollectionComponent,
   },
 ];
 @NgModule({
@@ -112,8 +112,6 @@ const appRoutes:Routes=[
     Mint2Component,
     Mint3Component,
     HeaderComponent,
-    
-    
   ],
   imports: [
     BrowserModule,
@@ -132,16 +130,15 @@ const appRoutes:Routes=[
     HttpClientModule,
     MatStepperModule,
     MatFileUploadModule,
-    FormsModule, ReactiveFormsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatDialogModule,
-    MatSidenavModule
-    
-    
+    MatSidenavModule,
+    MatTooltipModule,
+    MatTabsModule,
+    FlexLayoutModule,
   ],
-  providers: [
-
-   
-  ],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

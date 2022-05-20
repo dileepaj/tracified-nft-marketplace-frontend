@@ -1,17 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
 
-body{
-    background: 
-        radial-gradient(107.46% 107.46% at 92.81% 151.49%, #138B45 19.79%, rgba(0, 0, 0, 0) 100%),
-        radial-gradient(74.55% 188.74% at -19.17% 100%, #138B45 19.79%, rgba(0, 0, 0, 0) 100%),
-        #000000;
+body {
+  background: radial-gradient(
+      107.46% 107.46% at 92.81% 151.49%,
+      #138b45 19.79%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    radial-gradient(
+      74.55% 188.74% at -19.17% 100%,
+      #138b45 19.79%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    #000000;
+  background-attachment: fixed;
 }
 
-html, body { 
-    height: 100%;
-    padding: 2px 15px 0px 15px;
+html,
+body {
+  height: 100%;
+  padding: 2px 15px 0px 15px;
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

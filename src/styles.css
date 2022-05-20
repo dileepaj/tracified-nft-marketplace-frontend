@@ -1,22 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
-
-body{
-    background: 
-        radial-gradient(107.46% 107.46% at 92.81% 151.49%, #138B45 19.79%, rgba(0, 0, 0, 0) 100%),
-        radial-gradient(74.55% 188.74% at -19.17% 100%, #138B45 19.79%, rgba(0, 0, 0, 0) 100%),
-        #000000;
-    background-repeat:no-repeat;
+body {
+  background: radial-gradient(
+      107.46% 107.46% at 92.81% 151.49%,
+      #138b45 19.79%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    radial-gradient(
+      74.55% 188.74% at -19.17% 100%,
+      #138b45 19.79%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    #000000;
+  background-repeat: no-repeat;
 }
 
-html, body { 
-    height: 100%;
-    padding: 2px 15px 0px 15px;
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+html,
+body {
+  height: 100%;
+  padding: 2px 15px 0px 15px;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
-body { margin: 0; font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;}
+body {
+  margin: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}

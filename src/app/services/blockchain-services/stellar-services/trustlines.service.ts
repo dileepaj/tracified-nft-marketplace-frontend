@@ -31,7 +31,7 @@ export class TrustlinesService {
       }
       const senderPublickKey = "GALRVGEUDFELLDOXNAFNZVY4TPB3THXPJQUY3ZRIYE4YAHE7BAG22YFZ"; //distributor
       var asset = new Asset(asset_code, asset_issuer);
-      var opts = { fee: 100 ,networkPassphrase: Networks.TESTNET};
+      var opts = { fee: "100" ,networkPassphrase: Networks.TESTNET};
       let server = new Server(blockchainNet);
       server
         .loadAccount(sourceKeypair.publicKey())

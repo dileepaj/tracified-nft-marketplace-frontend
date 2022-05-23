@@ -10,6 +10,10 @@ import { PolygonMintService } from 'src/app/services/contract-services/polygon-m
 import { environment } from 'src/environments/environment';
 import { EthereumMintService } from 'src/app/services/contract-services/ethereum-mint.service';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
+import { UserWallet } from 'src/app/models/userwallet';
+import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
+import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
+import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 
 @Component({
   selector: 'app-mint2',
@@ -28,7 +32,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   addSubscription: Subscription;
   isLoadingPresent: boolean;
   loading:any;
-  signerSK ="SAUD6CUMHSDAN2LTOUGLZLSB2N6YDMYUVKP22RYYHEHYUW5M5YKFWUX4"
+ // signerSK ="SAUD6CUMHSDAN2LTOUGLZLSB2N6YDMYUVKP22RYYHEHYUW5M5YKFWUX4"
   data:any;
   mint:NFT= new NFT('','','','','','',0,'','','','','','','','','','','','','','','','','')
   minter:Minter=new Minter('','','','')
@@ -97,7 +101,7 @@ this.txn.Status=this.mint.Status;
 this.apiService.addTXN(this.txn).subscribe();
 }
 
- getIssuer():void{//minting according to blockchain
+ async getIssuer():Promise<void>{//minting according to blockchain
   this.mint.Blockchain=this.formValue('Blockchain');
   this.mint.NFTName=this.data.NFTName;
   this.mint.NftContentURL=this.formValue('NftContentURL');
@@ -105,22 +109,30 @@ this.apiService.addTXN(this.txn).subscribe();
   this.mint.Description=this.data.Description;
 
   if(this.mint.Blockchain =="stellar"){//minting if blockchain == stellar
-    this.service.createIssuer().subscribe((data:any)=>{
+    this.service.createIssuer().subscribe(async (data:any)=>{
       console.log("Data was retrieved",data)
       this.mint.NFTIssuerPK=data.NFTIssuerPK;
       this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
       if (this.mint.NFTIssuerPK !=null){
          console.log("-----------------------Stellar Issuer---------------------------",this.mint.NFTIssuerPK)
          this.sendToMint3()
-         this.mintNFT()
+         let freighter = new UserWallet();
+         freighter = new FreighterComponent(freighter);
+         await freighter.initWallelt();
+         let userPK =await freighter.getWalletaddress();
+         this.mintNFT(userPK)
          this.saveTXNs()
      }
     })
   }
 
   if(this.mint.Blockchain =="solana"){//minting if blockchain == solana
+    let phantomWallet = new UserWallet();
+    phantomWallet = new PhantomComponent(phantomWallet);
+    await phantomWallet.initWallelt()
     console.log("This is for solana")
-    this.mint.NFTIssuerPK="still to be generated as minter token";
+    console.log("address recived:",phantomWallet.getWalletaddress())
+    this.mint.NFTIssuerPK=phantomWallet.getWalletaddress();
     this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
     this.sendToMint3()
     this.mintNftSolana()
@@ -129,9 +141,11 @@ this.apiService.addTXN(this.txn).subscribe();
 
   if(this.mint.Blockchain =="ethereum"){//minting if blockchain == ethereum
     console.log("This is for ethereum")
-    
-    this.mint.NFTIssuerPK="0x999C020c60CFE6d1BCA6C4d540FA9Dac1F16C163";
-    this.mint.DistributorPK="0xD85E667594EC848895466Fb702D35F6111f258e8";
+    let metamask = new UserWallet();
+    metamask = new MetamaskComponent(metamask)
+    await metamask.initWallelt()
+    this.mint.NFTIssuerPK=metamask.getWalletaddress();
+    this.mint.DistributorPK=metamask.getWalletaddress();
     this.mint.MintedContract=environment.contractAddressNFTEthereum;
     this.mint.MarketContract=environment.contractAddressMKEthereum;
     this.emint.mintInEthereum(this.mint.NFTIssuerPK,this.mint.NFTName,this.mint.Description,this.mint.NftContentURL,this.mint.Imagebase64,)
@@ -149,9 +163,11 @@ this.apiService.addTXN(this.txn).subscribe();
 
   if(this.mint.Blockchain =="polygon"){//minting if blockchain == polygon
     console.log("This is for polygon")
-   
-   this.mint.NFTIssuerPK="0x999C020c60CFE6d1BCA6C4d540FA9Dac1F16C163";
-   this.mint.DistributorPK="0xD85E667594EC848895466Fb702D35F6111f258e8";
+    let metamask = new UserWallet();
+    metamask = new MetamaskComponent(metamask)
+    await metamask.initWallelt()
+   this.mint.NFTIssuerPK=metamask.getWalletaddress();
+   this.mint.DistributorPK=metamask.getWalletaddress();
    this.mint.MintedContract=environment.contractAddressNFTPolygon;
    this.mint.MarketContract=environment.contractAddressMKPolygon;
    this.pmint.mintInPolygon(this.mint.NFTIssuerPK,this.mint.Imagebase64)
@@ -247,14 +263,14 @@ updateStellarTXN():void{
   }
   }
 
-  mintNFT():void{//minting nft using stellar 
+  mintNFT(userPK:string):void{//minting nft using stellar 
     if (this.mint.CreatorUserId!=null) {//step 1. - change trust by distributor
-      this.trustService.changeTrustByDistributor(this.mint.NFTName,this.mint.NFTIssuerPK,this.signerSK).then((transactionResult: any) => {
+      this.trustService.changeTrustByDistributor(this.mint.NFTName,this.mint.NFTIssuerPK,userPK).then((transactionResult: any) => {
         if (transactionResult.successful) {
           this.service.minNFTStellar(//step 2. - mint
             transactionResult.successful,
             this.mint.NFTIssuerPK,
-            'GALRVGEUDFELLDOXNAFNZVY4TPB3THXPJQUY3ZRIYE4YAHE7BAG22YFZ',
+            userPK,
             this.mint.NFTName,
             this.mint.Imagebase64,
             this.mint.Description,

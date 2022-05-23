@@ -51,6 +51,9 @@ import { CollectionService } from './services/api-services/collection.service';
 import { MintService } from './services/blockchain-services/mint.service';
 import { TrustlinesService } from './services/blockchain-services/stellar-services/trustlines.service';
 import { Properties } from './shared/properties';
+import { FreighterComponent } from './wallet/freighter/freighter.component';
+import { PhantomComponent } from './wallet/phantom/phantom.component';
+import { MetamaskComponent } from './wallet/metamask/metamask.component';
 
 
 
@@ -109,6 +112,9 @@ const appRoutes:Routes=[
     NftCardComponent,
     Mint2Component,
     Mint3Component,
+    FreighterComponent,
+    PhantomComponent,
+    MetamaskComponent,
     
     
   ],

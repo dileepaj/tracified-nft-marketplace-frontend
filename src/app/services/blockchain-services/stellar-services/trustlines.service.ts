@@ -11,19 +11,20 @@ import {
 import { Properties } from 'src/app/shared/properties';
 import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
+import { UserWallet } from 'src/app/models/userwallet';
+import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrustlinesService {
-
+  userSignedTransaction: string;
   constructor(
     public http: HttpClient
   ) { }
 
-  changeTrustByDistributor(asset_code:string, asset_issuer:string, signerSK:string) {
+  changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string) {
     return new Promise((resolve, reject) => {
-      let sourceKeypair = Keypair.fromSecret(signerSK);
       if (blockchainNetType === "live") {
         Networks.TESTNET
       } else {
@@ -34,21 +35,29 @@ export class TrustlinesService {
       var opts = { fee: "100" ,networkPassphrase: Networks.TESTNET};
       let server = new Server(blockchainNet);
       server
-        .loadAccount(sourceKeypair.publicKey())
-        .then((account) => {
+        .loadAccount(userPK)
+        .then(async (account) => {
           var transaction = new TransactionBuilder(account, opts)
             .addOperation(
               Operation.changeTrust({
                 asset: asset,
                 limit: "1",
-                source: sourceKeypair.publicKey(),
+                source: userPK,
               })
             )
           
             .setTimeout(60000)
             .build();
-          transaction.sign(sourceKeypair);
-          return server.submitTransaction(transaction);
+            let walletf = new UserWallet();
+            walletf = new FreighterComponent(walletf);
+            await walletf.initWallelt();
+            this.userSignedTransaction = await walletf.signTransaction(transaction)
+            const transactionToSubmit = TransactionBuilder.fromXDR(
+              this.userSignedTransaction,
+              Networks.TESTNET
+            );
+          console.log("transaction to submit: ",transactionToSubmit)
+          return server.submitTransaction(transactionToSubmit);
         })
         .then((transactionResult) => {
           resolve(transactionResult);

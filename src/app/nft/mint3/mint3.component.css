@@ -1,0 +1,45 @@
+.main-div{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+
+  }
+
+  .example-full-width {
+    height: 100%;
+  }
+
+  .mat-card-content{
+    width: 100%;
+  }
+
+  .main-div.mat-card-content{
+      max-width: 200px;
+      max-height: 100px;
+     
+  }
+
+
+  .example-card{
+    width: 700px;
+    height: 300px;
+  }
+
+  .mint3Button{
+    height:40px;
+    width: 15%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-left: 30%;
+    background-color: green;
+    color: white;
+    border-radius: 5%;
+}
+
+.mint{
+    margin-left: 12%;
+    margin-top: 15%;
+}

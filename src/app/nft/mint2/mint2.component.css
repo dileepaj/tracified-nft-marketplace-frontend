@@ -1,0 +1,62 @@
+.main-div{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+
+  }
+
+  .card2{
+width : 700px ;
+height:300px ;
+margin-top: 10%;
+margin-left: 23%;
+  }
+
+  .mint2Button{
+    height:40px;
+    width: 15%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-left: 250px;
+    float:right;
+    margin-top: 1%;
+    background-color: green;
+    color: white;
+    border-radius: 5%;
+}
+
+.mint2{
+  display:grid;
+  margin: auto;
+  width: 90%;
+  margin-top: 5%;
+  
+}
+
+.info{
+  width: 600px;
+}
+
+.traits{
+  margin: 0 20px 0;
+}
+
+.blockchain{
+margin: 0 20px 0;
+
+}
+
+.mint2w{
+ margin-left: 25%;
+}
+
+.issue{
+  background-color: green;
+  color: white;
+  height:40px;
+  width: 20px;
+}
+

@@ -2,13 +2,21 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths":{
+      "http":["node_modules/stream-http"],
+      "https":["node_modules/https-browserify"]
+    },
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "strictPropertyInitialization": false,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
+    "noImplicitAny": false ,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
@@ -27,6 +35,12 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+   
+  },
+  "paths": {
+    "@app/env": [
+      "environments/environment"
+    ]
   }
 }

@@ -30,8 +30,56 @@ import { ViewCollectionsComponent } from './collections/view-collections/view-co
 import { AdminNavbarLayoutComponent } from './shared/admin-navbar-layout/admin-navbar-layout.component';
 import { HomeNavbarLayoutComponent } from './shared/home-navbar-layout/home-navbar-layout.component';
 import { NftCardComponent } from './shared/nft-card/nft-card.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatInputModule } from '@angular/material/input'; 
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { RouterModule, Routes } from '@angular/router';
+import { Mint2Component } from './nft/mint2/mint2.component';
+import { Mint3Component } from './nft/mint3/mint3.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
+import { HttpClientModule } from '@angular/common/http';
+import {MatStepperModule} from '@angular/material/stepper';
+import { MatFileUploadModule } from 'angular-material-fileupload';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatDialogModule} from "@angular/material/dialog";
+import { CollectionService } from './services/api-services/collection.service';
+import { MintService } from './services/blockchain-services/mint.service';
+import { TrustlinesService } from './services/blockchain-services/stellar-services/trustlines.service';
+import { Properties } from './shared/properties';
+import { FreighterComponent } from './wallet/freighter/freighter.component';
+import { PhantomComponent } from './wallet/phantom/phantom.component';
+import { MetamaskComponent } from './wallet/metamask/metamask.component';
 
 
+
+
+const appRoutes:Routes=[
+  {
+    path:'home',
+    component:HomeComponent
+  },
+  {
+    path:'mint',
+    component:MintComponent
+  },
+  {
+    path:'mint2',
+    component:Mint2Component
+  },
+  {
+    path:'mint3',
+    component:Mint3Component
+  },
+  {
+    path:'collections',
+    component:CreateCollectionComponent
+  },
+];
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,15 +109,42 @@ import { NftCardComponent } from './shared/nft-card/nft-card.component';
     ViewCollectionsComponent,
     AdminNavbarLayoutComponent,
     HomeNavbarLayoutComponent,
-    NftCardComponent
+    NftCardComponent,
+    Mint2Component,
+    Mint3Component,
+    FreighterComponent,
+    PhantomComponent,
+    MetamaskComponent,
+    
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
- 
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatToolbarModule,
+    RouterModule.forRoot(appRoutes),
+    MatExpansionModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    HttpClientModule,
+    MatStepperModule,
+    MatFileUploadModule,
+    FormsModule, ReactiveFormsModule,
+    MatDialogModule,
+    
+    
+    
   ],
-  providers: [],
+  providers: [
+
+   
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

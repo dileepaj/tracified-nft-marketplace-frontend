@@ -1,0 +1,48 @@
+.main-div{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+
+  }
+
+  .example-full-width {
+    height: 250%;
+    width: 600px;
+    margin-top: 1%;
+    margin-left: 3%;
+  }
+
+  
+
+  .mint1Button{
+      height:40px;
+      width: 15%;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      margin-left: 40%;
+      margin-top: -5%;
+      background-color: green;
+      color: white;
+      border-radius: 5%;
+  }
+
+
+  .example-card{
+    width: 700px;
+    height: 300px;
+  }
+
+ 
+   
+
+
+ .upload-drop-zone{
+   margin-left: 150px;
+ }
+
+ .example-form{
+  overflow-y: hidden;
+ }

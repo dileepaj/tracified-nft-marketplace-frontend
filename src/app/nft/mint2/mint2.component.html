@@ -1,0 +1,87 @@
+<mat-card class="card2">
+<mat-accordion class="mint2">
+  <form [formGroup]="controlGroup">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+       Select your Blockchain
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    
+<table >
+  <tr>
+   
+        <span formControlName="Blockchain" ngDefaultControl>
+      <td>  <mat-checkbox class="blockchain" value="ethereum">Ethereum</mat-checkbox></td>
+      <td>  <mat-checkbox class="blockchain" value="polygon" >Polygon</mat-checkbox></td>
+       <td> <mat-checkbox class="blockchain" value="stellar">Stellar</mat-checkbox></td>
+       <td> <mat-checkbox class="blockchain" value="solana">Solana</mat-checkbox></td>
+      </span>
+   
+  </tr>
+    </table>
+ 
+  </mat-expansion-panel>
+  <mat-expansion-panel >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        NFT Features
+      </mat-panel-title>
+      
+    </mat-expansion-panel-header>
+    
+    <table>
+      <tr>
+        <mat-form-field>
+        <input matInput type="text" formControlName="Copies" placeholder="Amount">
+        </mat-form-field>
+      </tr>
+      <tr>
+        <span formControlName="Categories" ngDefaultControl>
+        <td>  <mat-checkbox class="traits" value="LE">Limited Edition</mat-checkbox></td>
+        <td>  <mat-checkbox class="traits"value="U" >Unique</mat-checkbox></td>
+         <td> <mat-checkbox class="traits" value="NA" >N/A</mat-checkbox></td>
+        </span>
+      </tr>
+        </table>
+
+  </mat-expansion-panel>
+  <mat-expansion-panel >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        NFT Details
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+     
+    <table>
+      <tr>
+        <mat-form-field class="info">
+          <input matInput type="text"   formControlName="Tags" placeholder="Tags">
+        </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field class="info">
+          <input matInput type="text"   formControlName="NftContentURL" placeholder="NFT Profile Link">
+        </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field class="info">
+          <input matInput type="text"   formControlName="ArtistName" placeholder="Artist Name">
+        </mat-form-field>
+      </tr>
+      <tr>
+        <mat-form-field class="info">
+          <input matInput type="text"   formControlName="ArtistProfileLink" placeholder="Artist Profile Link">
+        </mat-form-field>
+      </tr>
+    
+        </table>
+  
+  </mat-expansion-panel>
+</form>
+</mat-accordion>
+<mat-card-actions>
+  <button mat-button  class="mint2Button" color="primary" (click)="getIssuer()">Proceed</button>
+</mat-card-actions><br>
+<h3 class="mint2w">You are almost done! Proceed to mint your token</h3>
+</mat-card>

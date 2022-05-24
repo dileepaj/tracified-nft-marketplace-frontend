@@ -1,1 +1,22 @@
-<p>home works!</p>
+
+<mat-toolbar color="green">
+    <mat-toolbar-row>
+     
+      <h1>TRACIFIED</h1>
+      <span class="menu-spacer"></span>
+      <div class="navbar">
+        <a mat-button [routerLink]="'/mint'"> Create</a>
+        <a mat-button [routerLink]="'/create-account'"> Explore </a>
+        <a mat-button [routerLink]="'/contacts'"> Resources </a>
+      <a mat-button [routerLink]="'/collections'"> Collections </a>
+      <button (click)="openDialog()">Connect wallet</button>
+      </div>
+    </mat-toolbar-row>
+  
+    <mat-toolbar-row>
+      <table>
+        <tr>
+        <span style="font-size: 12px;">Tracified NFT Marketplace being built underway.</span></tr>
+    </table>
+      </mat-toolbar-row>
+  </mat-toolbar>

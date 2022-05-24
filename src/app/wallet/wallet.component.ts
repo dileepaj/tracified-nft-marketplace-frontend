@@ -27,7 +27,6 @@ export class WalletComponent implements OnInit {
     freighterWallet = new FreighterComponent(freighterWallet);
     freighterWallet.initWallelt();
     let userPK = await freighterWallet.getWalletaddress()
-    alert("Wallet address"+userPK)
   }
   async phantom(){
     let phantomWallet = new UserWallet();

@@ -34,45 +34,13 @@ export class PolygonMintService {
       bySigner ? signer : provider,
     )
   }
-
-  
   public async mintInPolygon(reciever: string, tokenURI: string): Promise<any> {
-    console.log(reciever,tokenURI)
     const contract = await PolygonMintService.getContract(true)
     const transaction = await contract['mintNFT'](
       reciever,
       tokenURI
     )
     const tx = await transaction.wait()
-  
-    console.log("----------------------------tx",tx)
-    console.log("----------------------------tx",transaction)
-    console.log("----------------------------token id ",parseInt(tx.logs[0].topics[3]))
     return tx
   }
-
-  // public async getTokenID(tokenURI: string): Promise<any> {
-  //   console.log(tokenURI)
-  //   const contract = await PolygonMintService.getContract(true)
-  //   const transaction = await contract['getTokenID'](
-  //     tokenURI
-  //   )
-  //   const tx = await transaction.wait()
-    
-  //   console.log("----------------------------tx",tx)
-  //   console.log("----------------------------tx[]",tx[1])
-  //   console.log("----------------------------tx",transaction)
-  //   console.log("----------------------------tx",transaction[0])
-  //   return tx
-  // }
-
-  // public async getTokenID(tokenURI: string): Promise<any[]> {
-  //   const contract = await PolygonMintService.getContract(true)
-
-  //   return await contract['getTokenID'](tokenURI)
-  // }
-
-  
-
-
 }

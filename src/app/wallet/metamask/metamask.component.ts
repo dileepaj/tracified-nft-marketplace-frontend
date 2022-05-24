@@ -19,17 +19,19 @@ export class MetamaskComponent extends walletOptions implements OnInit {
 
   ngOnInit(): void {
   }
-
   async initWallelt(): Promise<void> {
-    if (typeof (window as any).ethereum.request  !== 'undefined') {
-      console.log('MetaMask is installed!');
+    if (typeof (window as any).ethereum  !== 'undefined') {
       const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' })
         .catch((e: { message: any; }) => {
           console.error(e.message)
           return
         })
         this.walletAddress=accounts;
-        console.log("address Registered : ",this.walletAddress)
+    }
+    else{
+      alert("Please Install Metamask")
+      window.location.href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn"
+      
     }
   }
   public getWalletaddress(): string {
@@ -38,7 +40,4 @@ export class MetamaskComponent extends walletOptions implements OnInit {
   public disconenctWallet(): void {
     throw new Error('Method not implemented.');
   }
-
-  
-
 }

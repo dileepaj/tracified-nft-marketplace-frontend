@@ -22,12 +22,10 @@ export class PhantomComponent extends walletOptions implements OnInit {
 
   override async initWallelt(): Promise<void> {
     try {
-        console.log("connectiong phantom")
         const resp = await (window as any).solana.connect();
         this.walletAddress= resp.publicKey.toString()
-        console.log("phantom address : ",this.walletAddress)
     } catch (err) {
-        console.log("cant get address : ")
+        console.log("cant get address !")
     }
   }
   override getWalletaddress(): string {

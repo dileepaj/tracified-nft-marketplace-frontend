@@ -25,8 +25,11 @@ export class FreighterComponent implements Wallet, OnInit {
 
    initWallelt(){
     if ((window as any).freighterApi.isConnected()) {
-      //this.address = this.retrievePublicKey();
       return ;
+    }
+    else {
+      alert("Please Install Freighter")
+      window.location.href ="https://chrome.google.com/webstore/detail/freighter/bcacfldlkkdogcmkkibnjlakofdplcbk?hl=en"
     }
       
   }
@@ -44,7 +47,6 @@ export class FreighterComponent implements Wallet, OnInit {
   }
 
   retrievePublicKey = async () => {
-    let publicKey = "";
     let error = "";
   
     try {

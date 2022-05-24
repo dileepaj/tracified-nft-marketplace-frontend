@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import {
   Operation,
-  Keypair,
   TransactionBuilder,
   Server,
   Asset,
   Networks
 } from "stellar-sdk";
-import { Properties } from 'src/app/shared/properties';
 import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
 import { UserWallet } from 'src/app/models/userwallet';
@@ -30,7 +28,6 @@ export class TrustlinesService {
       } else {
         Networks.PUBLIC
       }
-      const senderPublickKey = "GALRVGEUDFELLDOXNAFNZVY4TPB3THXPJQUY3ZRIYE4YAHE7BAG22YFZ"; //distributor
       var asset = new Asset(asset_code, asset_issuer);
       var opts = { fee: "100" ,networkPassphrase: Networks.TESTNET};
       let server = new Server(blockchainNet);
@@ -45,7 +42,6 @@ export class TrustlinesService {
                 source: userPK,
               })
             )
-          
             .setTimeout(60000)
             .build();
             let walletf = new UserWallet();
@@ -56,7 +52,6 @@ export class TrustlinesService {
               this.userSignedTransaction,
               Networks.TESTNET
             );
-          console.log("transaction to submit: ",transactionToSubmit)
           return server.submitTransaction(transactionToSubmit);
         })
         .then((transactionResult) => {

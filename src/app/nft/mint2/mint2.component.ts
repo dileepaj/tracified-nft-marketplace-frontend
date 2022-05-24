@@ -32,7 +32,6 @@ export class Mint2Component implements OnInit { //declaring models and variables
   addSubscription: Subscription;
   isLoadingPresent: boolean;
   loading:any;
- // signerSK ="SAUD6CUMHSDAN2LTOUGLZLSB2N6YDMYUVKP22RYYHEHYUW5M5YKFWUX4"
   data:any;
   mint:NFT= new NFT('','','','','','',0,'','','','','','','','','','','','','','','','','')
   minter:Minter=new Minter('','','','')
@@ -49,26 +48,19 @@ export class Mint2Component implements OnInit { //declaring models and variables
   this.mint.Tags=this.formValue('Tags');
   this.mint.ArtistName=this.formValue('ArtistName');
   this.mint.ArtistProfileLink=this.formValue('ArtistProfileLink');
- 
   this.mint.CreatorUserId="A101";
   this.mint.CurrentOwnerPK=this.mint.CreatorUserId;
   this.mint.SellingStatus="";
   this.mint.SellingType="NFT";
   this.mint.DistributorPK=this.mint.CreatorUserId;
   this.mint.Status="Minted";
- 
-  console.log(this.mint)
-
   //posting of mint data to backend via service
   if (this.mint.CreatorUserId!=null) {
     this.addSubscription = this.service.addNFTBE(this.mint).subscribe();
-    console.log(this.addSubscription);
-
  }
  this.pushOwner()//calling function
  this.pushTag()//calling fnction
 }
-
 pushOwner():void{//posting owner data via service to backend
 this.own.NFTIdentifier=this.mint.NFTIdentifier;
 this.own.CurentOwnerPK=this.mint.CurrentOwnerPK;
@@ -77,7 +69,6 @@ this.own.Status=this.mint.Status;
 this.own.OwnerRevisionID=1;
 if (this.mint.CreatorUserId!=null) {
   this.addSubscription = this.service.addOwner(this.own).subscribe();
-  console.log(this.addSubscription);
 }
 }
 
@@ -86,11 +77,9 @@ pushTag():void{//posting tag data via service to backend
     this.tag.userId=this.mint.CreatorUserId;
     this.tag.tags=this.mint.Tags;
     this.addSubscription=this.service.addTags(this.tag).subscribe();
-    console.log(this.addSubscription);
 }
 
 saveTXNs():void{
-  console.log("inside txn save")
 this.txn.Blockchain=this.mint.Blockchain;
 this.txn.ImageURL=this.mint.Imagebase64;
 this.txn.NFTIdentifier=this.mint.NFTIdentifier;
@@ -110,11 +99,9 @@ this.apiService.addTXN(this.txn).subscribe();
 
   if(this.mint.Blockchain =="stellar"){//minting if blockchain == stellar
     this.service.createIssuer().subscribe(async (data:any)=>{
-      console.log("Data was retrieved",data)
       this.mint.NFTIssuerPK=data.NFTIssuerPK;
       this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
       if (this.mint.NFTIssuerPK !=null){
-         console.log("-----------------------Stellar Issuer---------------------------",this.mint.NFTIssuerPK)
          this.sendToMint3()
          let freighter = new UserWallet();
          freighter = new FreighterComponent(freighter);
@@ -130,12 +117,10 @@ this.apiService.addTXN(this.txn).subscribe();
     let phantomWallet = new UserWallet();
     phantomWallet = new PhantomComponent(phantomWallet);
     await phantomWallet.initWallelt()
-    console.log("This is for solana")
-    console.log("address recived:",phantomWallet.getWalletaddress())
     this.mint.NFTIssuerPK=phantomWallet.getWalletaddress();
     this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
     this.sendToMint3()
-    this.mintNftSolana()
+    this.mintNftSolana(this.mint.NFTIssuerPK)
     this.saveTXNs()
  }
 
@@ -150,11 +135,9 @@ this.apiService.addTXN(this.txn).subscribe();
     this.mint.MarketContract=environment.contractAddressMKEthereum;
     this.emint.mintInEthereum(this.mint.NFTIssuerPK,this.mint.NFTName,this.mint.Description,this.mint.NftContentURL,this.mint.Imagebase64,)
     .then(res => {
-      console.log("----------ethereum hash ",res)
       this.mint.NFTTxnHash = res.transactionHash;
       this.tokenId=parseInt(res.logs[0].topics[3]);
       this.mint.NFTIdentifier=this.tokenId.toString()
-      console.log("--------------------------NFT hash for Ethereum",this.mint.NFTTxnHash, this.mint.NFTIdentifier)
       this.sendToMint3();
       this.saveContractInGateway();
       this.saveTXNs()
@@ -172,11 +155,9 @@ this.apiService.addTXN(this.txn).subscribe();
    this.mint.MarketContract=environment.contractAddressMKPolygon;
    this.pmint.mintInPolygon(this.mint.NFTIssuerPK,this.mint.Imagebase64)
    .then(res => {
-    console.log("----------polygon  ")
     this.mint.NFTTxnHash = res.transactionHash;
     this.tokenId=parseInt(res.logs[0].topics[3]);
     this.mint.NFTIdentifier=this.tokenId.toString()
-    console.log("--------------------------NFT hash for Polygon",this.mint.NFTTxnHash,this.mint.NFTIdentifier)
    this.sendToMint3();
    this.saveContractInGateway();
    this.saveTXNs()
@@ -210,21 +191,17 @@ saveContractInGateway(){
 
 updateMinter():void{
   if (this.minter.NFTIssuerPK!=null){
-    console.log("this minter -------whats sent---------",this.minter)
     this.service.updateNFTSolana(this.minter).subscribe();
   }else{
   this.Minter()
-  console.log("Retrying....")
  }
 }
 
 updateStellarTXN():void{
   if (this.stxn.NFTTxnHash!=null){
-    console.log("this txn -------whats sent---------",this.stxn)
     this.service.updateTXNStellar(this.stxn).subscribe();
   }else{
   this.TXNStellar()
-  console.log("Retrying....")
  }
 }
 
@@ -232,13 +209,11 @@ updateStellarTXN():void{
     if(this.mint.Imagebase64!=null){
       this.minter.ImageBase64=this.mint.Imagebase64;
       this.service.getMinter(this.minter.ImageBase64).subscribe((data:any)=>{
-      console.log("Data was retrieved",data)
       if(data==null){
         this.Minter()
       }
       this.mint.NFTIssuerPK=data.NFTIssuerPK;
       this.mint.NFTTxnHash=data.NFTTxnHash;
-      //this.mint.NFTIdentifier=
       this.minter.NFTIssuerPK=this.mint.NFTIssuerPK;
       this.minter.NFTTxnHash=this.mint.NFTTxnHash
       this.minter.NFTIdentifier=data.NFTIdentifier;
@@ -250,9 +225,7 @@ updateStellarTXN():void{
   TXNStellar():void{
     if(this.mint.Imagebase64!=null){
       this.stxn.ImageBase64=this.mint.Imagebase64;
-      console.log("------------------------------------------data",this.stxn.ImageBase64)
       this.service.getStellarTXN(this.stxn.ImageBase64).subscribe((txn:any)=>{
-      console.log("Data was retrieved",txn)
       if(txn==null){
         this.TXNStellar()
       }
@@ -318,9 +291,7 @@ updateStellarTXN():void{
 
   ngOnInit(): void {//retrieving data from mint component
    this.route.queryParams.subscribe((params)=>{
-    console.log(params);
     this.data=JSON.parse(params['data']);
-    console.log("---------------------",this.data)
    })
    
     this.controlGroup = new FormGroup({//validation
@@ -338,10 +309,10 @@ updateStellarTXN():void{
     return this.controlGroup.get(controlName)!.value;
   }
 
-  mintNftSolana(){
+  mintNftSolana(ownerPK : string){
     return new Promise((resolve, reject) => {
       this.service.minNFTSolana( 
-        'GALRVGEUDFELLDOXNAFNZVY4TPB3THXPJQUY3ZRIYE4YAHE7BAG22YFZ',
+        ownerPK,//distributer Public key
         this.mint.NFTName,
         this.mint.Imagebase64,
         this.mint.Description,

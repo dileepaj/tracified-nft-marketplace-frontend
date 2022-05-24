@@ -54,6 +54,9 @@ import { Properties } from './shared/properties';
 import { HeaderComponent } from './shared/header/header.component';
 import { MatSidenavModule } from '@angular/material/sidenav'; 
 import { MatMenuModule } from '@angular/material/menu';
+import { FreighterComponent } from './wallet/freighter/freighter.component';
+import { PhantomComponent } from './wallet/phantom/phantom.component';
+import { MetamaskComponent } from './wallet/metamask/metamask.component';
 
 
 
@@ -117,8 +120,10 @@ const appRoutes:Routes=[
     Mint2Component,
     Mint3Component,
     HeaderComponent,
-    
-    
+    FreighterComponent,
+    PhantomComponent,
+    MetamaskComponent,
+
   ],
   imports: [
     BrowserModule,

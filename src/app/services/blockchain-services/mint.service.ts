@@ -47,12 +47,10 @@ export class MintService {
 }
 
  getMinter(ImageBase64:string): Observable<Minter[]> {
-   console.log("------------------------------------------------",ImageBase64)
     return this.http.get<Minter[]>(`${this.baseUrlMinter}/${ImageBase64}`, {headers: this.headers});
   }
 
   getStellarTXN(ImageBase64:string): Observable<StellarTXN[]> {
-    console.log("----------------------------------------get txn",ImageBase64)
     return this.http.get<StellarTXN[]>(`${this.baseUrlGetStellarTXN}/${ImageBase64}`, {headers: this.headers});
   }
 

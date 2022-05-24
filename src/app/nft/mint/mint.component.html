@@ -6,7 +6,6 @@
   });
 </script> 
 </head> 
-  <!-- Classes main-div and example-card are catagorized in .css file -->
 <div class="main-div">
 
     <mat-card class="example-card">
@@ -47,9 +46,6 @@
               <label for="file">File</label>
               <input formControlName="file" id="file" type="file" accept="image/*,video/*,audio/*,.glb,.gltf,.svg" class="form-control"
               (change)="onFileChange($event)">
-              <!-- <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
-                <div *ngIf="f.file.errors.required">File is required</div>
-              </div> -->
             </div>
             <img [src]="imageSrc" *ngIf="imageSrc" style="height: 310px; width: 250px; margin-bottom: -50px; margin-left: 50px;">
           </tr>

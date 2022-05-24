@@ -32,7 +32,6 @@ export class CreateCollectionComponent implements OnInit {
     if (this.collection.userId!=null) {
       //sending data to the service
       this.addSubscription = this.service.add(this.collection).subscribe();
-      console.log(this.addSubscription);
     } else {
       console.log("User PK not connected or not endorsed");
     }

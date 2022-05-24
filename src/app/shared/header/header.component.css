@@ -1,0 +1,25 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.spacer{
+  padding: 0.5%;
+}
+
+.example-icon{
+    color: white;
+    padding-top: 8px;
+}
+
+.navbar-text{
+    padding-top: 15px;
+    color: white;
+    float: right;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    order: inherit;
+}

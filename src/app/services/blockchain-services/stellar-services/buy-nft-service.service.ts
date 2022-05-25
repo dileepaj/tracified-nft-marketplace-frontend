@@ -34,9 +34,7 @@ export class BuyNftServiceService {
       }
       var buyAsset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();
-      // var price = parseInt(nftPrice)
-      // var royalty = price * (20 / 100);
-      // var royaltyToBePaid = royalty.toString()
+      
       var opts = {
         fee: '100',
         timebounds: {

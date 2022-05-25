@@ -15,7 +15,7 @@ export class Seller2tracService {
     from:Uint8Array,
     to:Uint8Array,
     mintPubkey: PublicKey,
-    ata:PublicKey){
+    ata:PublicKey): Promise<any>{
   
     (async () => {
       // Connect to cluster
@@ -64,7 +64,8 @@ export class Seller2tracService {
     
       console.log("SIGNATURE", signature);
       console.log("-----------------------transferred--------------first buy");
-      return toTokenAccount.address.toString()
+      let array=[toTokenAccount.address.toString(),signature]
+      return array
     })();
   }
 }

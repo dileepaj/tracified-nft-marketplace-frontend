@@ -14,7 +14,9 @@
     <mat-card-content class="mint">
       <table >
         <tr>
-         <td>Creator: </td> <td><mat-label >
+       <td>
+        <img [src]="imageSrc" *ngIf="imageSrc" style="height: 310px; width: 250px; margin-bottom: -50px; margin-left: 50px;">
+       </td>  <td>Creator: </td> <td><mat-label >
            {{NFTList.OriginPK}} 
           </mat-label></td>
         </tr>
@@ -75,7 +77,28 @@
         </tr>
       </table>
     </mat-card-content>
-   
+    <mat-accordion class="mint2">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+           See NFT Image Content
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+    <table >
+      <tr>
+       
+            <span  ngDefaultControl>
+              <td><mat-label >
+                {{Decryption}} 
+               </mat-label></td>
+          </span>
+       
+      </tr>
+        </table>
+     
+      </mat-expansion-panel>
+    </mat-accordion>
   </mat-card>
 
 </div>

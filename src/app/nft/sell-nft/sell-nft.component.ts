@@ -8,6 +8,8 @@ import { SellOfferServiceService } from 'src/app/services/blockchain-services/st
 import { Seller2tracService } from 'src/app/services/blockchain-services/solana-services/seller2trac.service';
 import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
+import { TXN } from 'src/app/models/minting';
+import { ApiServiceService } from 'src/app/services/api-services/api-service.service';
 
 @Component({
   selector: 'app-sell-nft',
@@ -29,12 +31,16 @@ export class SellNftComponent implements OnInit {
   tokenid: number;
   itemId: number;
   newATA: any;
+  txn:TXN=new TXN('','','','','','')
+  selltxn: any;
+
   constructor(private route:ActivatedRoute,
     private service:NftServicesService,
     private stellarService:SellOfferServiceService,
     private middleman:Seller2tracService,
     private emarket:EthereumMarketServiceService,
     private pmarket:PolygonMarketServiceService,
+    private apiService:ApiServiceService
     ) { }
 
   calculatePrice():void{
@@ -43,6 +49,18 @@ export class SellNftComponent implements OnInit {
     this.royaltyCharge=this.firstPrice*(this.royalty/100)
     this.sellingPrice=this.firstPrice+this.royaltyCharge;
     console.log("---------------------selling price-----------",this.sellingPrice)
+  }
+
+  saveTXNs():void{
+    console.log("inside txn save")
+  this.txn.Blockchain=this.data.NftIssuingBlockchain;
+  this.txn.ImageURL=this.data.ImageBase64;
+  this.txn.NFTIdentifier=this.data.Identifier;
+  this.txn.NFTName=this.data.NftContentName;
+  this.txn.NFTTxnHash=this.selltxn;
+  this.txn.Status=this.data.SellingStatus;
+  
+  this.apiService.addTXN(this.txn).subscribe();
   }
 
   addDBBackend():void{
@@ -81,31 +99,39 @@ Sell():void{
         this.data.InitialIssuerPK,
         this.signer,
         '1',
-        this.sellingPrice)
+        this.sellingPrice).then((res:any)=>{
+          this.selltxn=res.hash
+          console.log("on sale txn hash",this.selltxn)
+          this.saveTXNs();
+        })
     }
     if(this.data.NftIssuingBlockchain=='solana'){
       this.saleBE.MarketContract="Not Applicable"
       this.saleBE.SellingType="NFT"
       this.calculatePrice()
      
-      if(this.data.CurrentOwnerNFTPK==this.data.OriginPK){
+      if(this.data.InitialDistributorPK==this.data.OriginPK){
           console.log("Already set for sale")
+          this.selltxn=this.data.NFTTxnHash;
           this.saleBE.NFTIdentifier=this.data.InitialDistributorPK
           this.addDBBackend()
           this.addDBGateway()
+          
       }else{
-          this.middleman.createATA(environment.seller,environment.TRACIFIED_MIDDLE_MAN, this.data.InitialIssuerPK.publicKey,this.data.Identifier.publicKey).then(res=>{
-            console.log("The result ata of trac is", res)
-            this.newATA =res;
+          this.middleman.createATA(environment.seller,environment.TRACIFIED_MIDDLE_MAN, this.data.InitialIssuerPK.publicKey,this.data.Identifier.publicKey).then(result=>{
+            console.log("The result ata of trac is", result)
+            this.newATA =result[0];
+            this.selltxn=result[1];
             this.saleBE.NFTIdentifier=this.newATA
             this.addDBBackend()
             this.addDBGateway()
+            this.saveTXNs()
           })
                
             
          
       }
-      //this.middleman.createATA(environment.TRACIFIED_MIDDLE_MAN,this.nft.InitialIssuerPK,environment.TRACIFIED_MIDDLE_MAN)
+     
 
     }
     if(this.data.NftIssuingBlockchain=='polygon'){
@@ -117,9 +143,12 @@ Sell():void{
       console.log("-----------------parameters-------",environment.contractAddressNFTPolygon,this.data.ImageBase64,this.sellingPrice)
       this.pmarket.createSaleOffer(environment.contractAddressNFTPolygon,this.tokenid,this.sellingPrice)
       .then(res=>{
+        console.log("***********",res)
         console.log("inside the controller item id",parseInt(res.logs[3].topics[1]))
+        this.selltxn=res.transactionHash
         this.itemId=parseInt(res.logs[3].topics[1])
         this.saleBE.SellingType=this.itemId.toString();
+        this.saveTXNs()
         this.addDBBackend()
       this.addDBGateway()
       })
@@ -132,8 +161,10 @@ Sell():void{
      
       this.emarket.createSaleOffer(environment.contractAddressNFTEthereum,this.tokenid,this.sellingPrice).then(res=>{
         console.log("inside the controller item id",parseInt(res.logs[2].topics[1]))
+        this.selltxn=res.transactionHash
         this.itemId=parseInt(res.logs[2].topics[1])
         this.saleBE.SellingType=this.itemId.toString();
+        this.saveTXNs()
         this.addDBBackend()
         this.addDBGateway()
       })

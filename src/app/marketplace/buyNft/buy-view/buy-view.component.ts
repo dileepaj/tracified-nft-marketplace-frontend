@@ -7,6 +7,10 @@ import { BuyNftServiceService } from 'src/app/services/blockchain-services/stell
 import { Trac2buyerService } from 'src/app/services/blockchain-services/solana-services/trac2buyer.service';
 import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
+import CryptoJS from 'crypto-js';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SVG, TXN } from 'src/app/models/minting';
+import { ApiServiceService } from 'src/app/services/api-services/api-service.service';
 
 @Component({
   selector: 'app-buy-view',
@@ -16,6 +20,7 @@ import { PolygonMarketServiceService } from 'src/app/services/contract-services/
 export class BuyViewComponent implements OnInit {
   isLoadingPresent: boolean;
   loading:any;
+  imageSrc: any;
   NFTList:any;
   nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','','','','','','','','')
   saleBE:SalesBE=new SalesBE('','','','','','','')
@@ -23,13 +28,19 @@ export class BuyViewComponent implements OnInit {
   nftbe:GetNFT=new GetNFT('','','','','','','','','','','','','','','','','','','','','','','','','')
   signerSK="SBKFJD35H4EZBMBELBB7SZQR4ZZ2H5WMRO4N6KWALXMF63DWJVMR2K5D"
   newATA: any;
+  Decryption:any;
+  buytxn:any;
+  svg:SVG=new SVG('','')
+  txn:TXN = new TXN('','','','','','')
+  dec: string;
   constructor(private service:NftServicesService,
     private trust:TrustLineByBuyerServiceService,
     private buyNftService:BuyNftServiceService,
     private ata:Trac2buyerService,
-    
+    private _sanitizer: DomSanitizer,
     private emarket:EthereumMarketServiceService,
     private pmarket:PolygonMarketServiceService,
+    private apiService:ApiServiceService
     ) { }
 
   buyNFT():void{
@@ -60,22 +71,17 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.MarketContract="Not Applicable"
       this.saleBE.NFTIdentifier=this.NFTList.nftidentifier
       console.log("MintKey",this.NFTList.nftissuerpk,this.NFTList.nftidentifier)
-      //const TOWALLETSECRET="[]byte{10, 75, 10, 90, 145, 78, 142, 248, 104, 3, 36, 7, 69, 207, 109, 98, 82, 58, 146, 202, 44, 188, 70, 70, 64, 173, 35, 130, 18, 133, 107, 236, 231, 43, 70, 165, 182, 191, 162, 242, 126, 119, 49, 3, 231, 43, 249, 47, 228, 225, 70, 91, 254, 22, 160, 42, 20, 186, 184, 196, 240, 151, 157, 207}"
-      this.ata.createATA(environment.fromWalletSecret,this.NFTList.nftissuerpk,this.NFTList.nftidentifier).then(res=>{
-        console.log("New ATA results",res)
-        this.newATA =res;
+     
+      this.ata.createATA(environment.fromWalletSecret,this.NFTList.nftissuerpk,this.NFTList.nftidentifier).then((result:any)=>{
+        console.log("New ATA results******************************",result)
+        this.newATA =result[0];
+        this.buytxn=result[1];
         this.saleBE.NFTIdentifier=this.newATA;
         this.service.updateNFTStatusBackend(this.saleBE).subscribe();
         this.updateGateway();
+        this.saveTXNs();
       })
       
-      // .then(res => {
-      //   console.log("----------current owner ATA ",res)
-      //   this.getATA.findAssociatedTokenAddress(environment.TRACIFIED_MIDDLE_MAN,this.nftbe.NFTIssuerPK).then(ata => {
-      //     this.transfer.transferNFT("",ata,res,this.nftbe.NFTIssuerPK,"")
-      //   })
-       
-      // })
       
     }
     if(this.NFTList.blockchain=='polygon'){
@@ -84,11 +90,16 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.SellingType=this.NFTList.sellingtype
       console.log("-------------price in ts",this.NFTList.currentprice)
       console.log("-------------itemid in ts",this.NFTList.sellingtype)
-      // this.pmarket.BuyNFT(environment.contractAddressNFTPolygon,parseInt(this.NFTList.sellingtype),parseInt(this.NFTList.currentprice)).then(res=>{
-      //   console.log("Transaction succesful",res)
+     
+      this.pmarket.BuyNFT(environment.contractAddressNFTPolygon,parseInt(this.NFTList.sellingtype),parseInt(this.NFTList.currentprice)).then(res=>{
+        console.log("Transaction successful",res)
+        this.buytxn=res.transactionHash;
+        console.log("txn hash",this.buytxn)
+        this.saveTXNs()
         this.service.updateNFTStatusBackend(this.saleBE).subscribe();
         this.updateGateway();
-      // })
+      })
+      
     }
     if(this.NFTList.blockchain=='ethereum'){
       this.saleBE.MarketContract=environment.contractAddressMKEthereum
@@ -98,7 +109,11 @@ export class BuyViewComponent implements OnInit {
       console.log("-------------itemid in ts",this.NFTList.sellingtype)
       this.emarket.BuyNFT(environment.contractAddressNFTEthereum,parseInt(this.NFTList.sellingtype),parseInt(this.NFTList.currentprice)).then(res=>{
         console.log("Transaction successful",res)
+        this.buytxn=res.transactionHash;
+        console.log("txn hash",this.buytxn)
+        this.saveTXNs()
         this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+        this.updateGateway();
       })
     }
   }
@@ -112,6 +127,17 @@ export class BuyViewComponent implements OnInit {
     this.service.updateNFTBuyStatusGateway(this.buyGW.SellingStatus,this.buyGW.CurrentOwnerNFTPK,this.buyGW.PreviousOwnerNFTPK,this.buyGW.NFTTXNhash).subscribe()
   }
 
+  saveTXNs():void{
+    console.log("inside txn save")
+  this.txn.Blockchain=this.NFTList.blockchain;
+  this.txn.ImageURL=this.NFTList.imagebase64;
+  this.txn.NFTIdentifier=this.NFTList.nftidentifier;
+  this.txn.NFTName=this.NFTList.nftname;
+  this.txn.NFTTxnHash=this.buytxn;
+  this.txn.Status=this.NFTList.sellingstatus;
+  
+  this.apiService.addTXN(this.txn).subscribe();
+  }
 
   buyNFTOnStellar():void{
     console.log("-------------buy control ------------------")
@@ -126,10 +152,13 @@ export class BuyViewComponent implements OnInit {
           this.NFTList.distributorpk,
           this.NFTList.currentprice
          )
-          .then(nft => {
+          .then((nft:any) => {
             if (this.isLoadingPresent) {
               this.dissmissLoading();
             }
+            console.log("buy txn",nft.hash)
+            this.buytxn=nft.hash;
+            this.saveTXNs();
             this.NFTList.nftname="";
           }).catch(error => {
             if (this.isLoadingPresent) {
@@ -147,35 +176,7 @@ export class BuyViewComponent implements OnInit {
   } 
 
 
-  // buyNFTOnSolana():void{
-  //   this.ata.createATA(this.nftbe.DistributorPK,this.NFTList.NFTIssuerPK,this.nftbe.DistributorPK).then((transactionResult: any) => {
-  //     if (transactionResult.successful) {
-  //       this.transfer.transferNFT(//step 2. - mint
-  //         transactionResult.successful,
-  //         this.nftbe.NFTName,
-  //         'signer',
-  //         this.nftbe.NFTIssuerPK,
-  //         this.nftbe.DistributorPK,
-  //        )
-  //         .then(nft => {
-  //           if (this.isLoadingPresent) {
-  //             this.dissmissLoading();
-  //           }
-  //           this.nft.NftContentName="";
-  //         }).catch(error => {
-  //           if (this.isLoadingPresent) {
-  //             this.dissmissLoading();
-  //           }
-  //         })
-  //     }
-  //     else {
-  //       if (this.isLoadingPresent) {
-  //         this.dissmissLoading();
-  //       }
-  //     }
-  //   })
-   
-  // } 
+  
 
   dissmissLoading() {
     this.isLoadingPresent = false;
@@ -186,7 +187,7 @@ export class BuyViewComponent implements OnInit {
   ngOnInit(): void {
     console.log("------------------------loading...")
     this.nftbe.Blockchain="solana";
-    this.nftbe.NFTIdentifier="9LZCJWkjuecs68RKdvpnG4yckMHKcZ9CGhe9rhgTvyxX";
+    this.nftbe.NFTIdentifier="6zbqLf2vwHoj3GmefBPCDnZbQiju9UZQ4BMqceyhzzsj";
    this.nftbe.SellingStatus="ON SALE";
     if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="solana") {
       this.service.getNFTDetails(this.nftbe.NFTIdentifier,this.nftbe.SellingStatus,this.nftbe.Blockchain).subscribe((data:any)=>{
@@ -195,12 +196,26 @@ export class BuyViewComponent implements OnInit {
       // console.log("--------------------checking data",data.Response[0])
         this.NFTList=data.Response[0];
         console.log("-----------",this.NFTList.nftidentifier)
-      // this.nftbe=this.NFTList//see models here
-      // console.log("-----------",this.nftbe.NFTIdentifier)
+        console.log("-----------",this.NFTList.imagebase64)
+        
         if(this.NFTList==null){
           console.log("retrying...")
           this.ngOnInit()
         }
+        console.log("Imagebase 64 string",this.NFTList.imagebase64)
+        this.svg.Hash=this.NFTList.imagebase64
+        this.service.getSVGByHash(this.svg.Hash).subscribe((res:any)=>{
+          console.log("svg result",res)
+          this.Decryption = res.Response[0].Base64ImageSVG
+         this.dec = btoa(this.Decryption);
+          console.log(this.dec);
+        var str2 = this.dec.toString(); 
+        var str1 = new String( "data:image/svg+xml;base64,"); 
+        var src = str1.concat(str2.toString());
+        console.log("str1 + str2 : "+src)
+        this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        })
+
        if(this.NFTList.Blockchain=="stellar") {
           this.NFTList.NFTIssuerPK=this.NFTList.NFTIssuerPK
        }

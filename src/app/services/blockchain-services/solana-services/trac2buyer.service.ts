@@ -14,7 +14,7 @@ export class Trac2buyerService {
   async createATA(
     from:Uint8Array,
     mintPubkey: PublicKey,
-    ata:PublicKey){
+    ata:PublicKey): Promise<any>{
   
     (async () => {
       // Connect to cluster
@@ -64,7 +64,9 @@ export class Trac2buyerService {
     
       console.log("SIGNATURE", signature);
       console.log("-----------------------transferred--------------first buy");
-      return toTokenAccount.address.toString()
+      let array=[toTokenAccount.address.toString(),signature]
+      console.log("array",array)
+      return array
     })();
   }
 }

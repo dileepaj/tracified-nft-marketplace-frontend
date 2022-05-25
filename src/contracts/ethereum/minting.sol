@@ -90,7 +90,7 @@ contract NFT is ERC721,ERC721URIStorage,Ownable {
 
         setSvg(generateSvg(_proofbotdata, _tdpdata, _imagedata));
         _mint(reciver, newItemId);
-        //_setTokenURI(newItemId, tokenURI);
+        _setTokenURI(newItemId, _name);
         setApprovalForAll(contractAddress, true);
         attributes[newItemId] = Attr(_name);
         tokenIDTrack[_name] = newItemId; 

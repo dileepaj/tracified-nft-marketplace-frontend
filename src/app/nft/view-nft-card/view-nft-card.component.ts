@@ -2,15 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { NFTMarket } from 'src/app/models/nft';
 import { Router } from '@angular/router';
+import CryptoJS from 'crypto-js';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SVG } from 'src/app/models/minting';
 @Component({
   selector: 'app-view-nft-card',
   templateUrl: './view-nft-card.component.html',
   styleUrls: ['./view-nft-card.component.css']
 })
 export class ViewNftCardComponent implements OnInit {
+Decryption:any;
 NFTList:any;
+svg:SVG=new SVG('','')
 nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','','','','','','','','')
-  constructor(private service:NftServicesService,private router:Router) { }
+  imageSrc: any;
+  dec: string;
+  constructor(private service:NftServicesService,private router:Router,private _sanitizer: DomSanitizer) { }
   sendToSellNFT():void{
     let data :any=this.NFTList;
     console.log("Before routing -----------------------",data)
@@ -23,7 +30,7 @@ nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','
   
   ngOnInit(): void {
     console.log("------------------------loading...")
-    this.nft.InitialDistributorPK="9LZCJWkjuecs68RKdvpnG4yckMHKcZ9CGhe9rhgTvyxX";
+    this.nft.InitialDistributorPK="49sj8Ujz4RfxNmyiq5SQBYgL41A3bR6rmDNBYeuQxKd8";
     if (this.nft.InitialDistributorPK!=null) {
       this.service.getLastNFTDetails(this.nft.InitialDistributorPK).subscribe((data:any)=>{
         console.log("--------------------------------------------------------------------------------------")
@@ -33,6 +40,20 @@ nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','
           console.log("retrying...")
           this.ngOnInit()
         }
+        console.log("Imagebase 64 string",this.NFTList.ImageBase64)
+        this.svg.Hash=this.NFTList.ImageBase64
+        this.service.getSVGByHash(this.svg.Hash).subscribe((res:any)=>{
+          console.log("svg result",res)
+          this.Decryption = res.Response[0].Base64ImageSVG
+         this.dec = btoa(this.Decryption);
+          console.log(this.dec);
+        var str2 = this.dec.toString(); 
+        var str1 = new String( "data:image/svg+xml;base64,"); 
+        var src = str1.concat(str2.toString());
+        console.log("str1 + str2 : "+src)
+        this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        })
+       
        if(this.NFTList.NftIssuingBlockchain=="stellar") {
           this.NFTList.NFTIssuerPK=this.NFTList.NFTIssuerPK
        }

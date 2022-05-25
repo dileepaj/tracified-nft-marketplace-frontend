@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BuyNFTGW, GetNFT, NFTMarket, SalesBE, SalesGW } from 'src/app/models/nft';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import { SVG } from 'src/app/models/minting';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class NftServicesService {
   baseUrlGetNFT:string='http://localhost:6081/api/buying'
   baseUrlUpdateStatusBE:string='http://localhost:6081/api/nft/sale';
   baseUrlUpdateStatusGW:string='http://localhost:9080';
-  //baseUrlUpdateBuyStatusGW:string='http://localhost:9080/nft/updateStellarMarketplaceBuy';
+  baseUrlSVG:string='http://localhost:6081/api/svg';
+  
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +23,12 @@ export class NftServicesService {
     //request to get collection name according to user public key
     console.log("inside the service ---------------------------",InitialDistributorPK)
     return this.http.get<NFTMarket[]>(`${this.baseUrlGetLastNFT}/${InitialDistributorPK}`);
+  }
+
+  getSVGByHash(Hash:string): Observable<SVG[]> {
+    //request to get collection name according to user public key
+    console.log("inside the service ---------------------------",Hash)
+    return this.http.get<SVG[]>(`${this.baseUrlSVG}/${Hash}`);
   }
 
   getNFTDetails(NFTIdentifier:string,SellingStatus:string,Blockchain:string): Observable<GetNFT[]> {
@@ -38,13 +46,7 @@ export class NftServicesService {
 
   updateNFTStatusGateway(price:string,status:string,amount:string,nfttxnhash:string): Observable<any> {
     console.log("---------------------------------------in service for gw-----------------",price,status,amount,nfttxnhash)
-    // let params = new HttpParams()
-    //             .set('Price', price)
-    //             .set('Status', status)
-    //             .set('Amount', amount)
-    //             .set('NFTTxnHash', nfttxnhash);
    
-        //console.log(params.toString());
     return this.http.put<any>(this.baseUrlUpdateStatusGW
       + `/nft/updateStellarMarketplaceSell?Price=${price}&Status=${status}&Amount=${amount}&NFTTxnHash=${nfttxnhash}`,
       {headers: this.headers});

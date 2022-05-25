@@ -37,10 +37,8 @@ export class PolygonMarketServiceService {
 
   
   public async createSaleOffer(nftcontract: string,tokenId:number,price:number): Promise<any> {
-    console.log("-----------------inside polygon sell-----------------",nftcontract,price,tokenId)
     const contract = await PolygonMarketServiceService.getContract(true)
     
-    // await contract['YOUR_PAYABLE_FUNCTION'](ALL, OTHER, PARAMETERS, {value: ethers.utils.parseEther(ETH_VALUE_AS_STRING)});
     const transaction = await contract['createMarketItem'](
       nftcontract,
       tokenId,
@@ -48,14 +46,11 @@ export class PolygonMarketServiceService {
       {value: ethers.utils.parseEther('0.25')}
     )
     const tx = await transaction.wait()
-    console.log(tx)
-    console.log("----------------------------item id ",parseInt(tx.logs[3].topics[1]))
     return tx
   }
 
   public async BuyNFT(nftContract: string,itemId:number,price:number): Promise<any> {
     const contract = await PolygonMarketServiceService.getContract(true)
-    console.log("----------price----------------",price.toString(),itemId,nftContract)
     const transaction = await contract['createMarketSale'](
       nftContract,
       itemId,
@@ -63,8 +58,6 @@ export class PolygonMarketServiceService {
      }
     )
     const tx = await transaction.wait()
-
-    console.log(tx)
     return tx
   }
 

@@ -22,17 +22,8 @@ export class Seller2tracService {
       const connection = new Connection(clusterApiUrl("testnet"), "confirmed");
     
       // Generate a new wallet keypair and airdrop SOL
-      console.log(to);
       let toKeypair  = Keypair.fromSecretKey(to);
-      console.log("fromKeypair",toKeypair)
-      console.log("public key from fromKeypair",toKeypair.publicKey)
-
-      
     
-      
-  
-    console.log("Destination acquired");
-    console.log("Mint public key",mintPubkey);
       
       // Get the token account of the fromWallet Solana address. If it does not exist, create it.
       const toTokenAccount = await getOrCreateAssociatedTokenAccount(
@@ -41,18 +32,9 @@ export class Seller2tracService {
         new PublicKey(mintPubkey),
         toKeypair.publicKey
       );
-      console.log("ata of trac",toTokenAccount)
-      console.log("ata of trac",toTokenAccount.address.toString())
-    
-    
-  
-       console.log(from);
+     
        let fromKeypair  = Keypair.fromSecretKey(from);
-       console.log("fromKeypair",fromKeypair)
-       console.log("public key from fromKeypair",fromKeypair.publicKey)
-      
-       console.log("The ATA of the seller",ata)
-    //---------------------------------------------
+   
      let signature = await transfer(
         connection,
         fromKeypair,               // Payer of the transaction fees 
@@ -63,7 +45,6 @@ export class Seller2tracService {
       );
     
       console.log("SIGNATURE", signature);
-      console.log("-----------------------transferred--------------first buy");
       let array=[toTokenAccount.address.toString(),signature]
       return array
     })();

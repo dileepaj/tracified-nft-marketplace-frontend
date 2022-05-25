@@ -48,11 +48,9 @@ export class SellNftComponent implements OnInit {
     this.firstPrice=parseInt(this.formValue('Price'));
     this.royaltyCharge=this.firstPrice*(this.royalty/100)
     this.sellingPrice=this.firstPrice+this.royaltyCharge;
-    console.log("---------------------selling price-----------",this.sellingPrice)
   }
 
   saveTXNs():void{
-    console.log("inside txn save")
   this.txn.Blockchain=this.data.NftIssuingBlockchain;
   this.txn.ImageURL=this.data.ImageBase64;
   this.txn.NFTIdentifier=this.data.Identifier;
@@ -64,13 +62,10 @@ export class SellNftComponent implements OnInit {
   }
 
   addDBBackend():void{
-    //this.nft.SellingStatus="ON SALE"
     this.saleBE.SellingStatus="ON SALE"
     this.saleBE.CurrentPrice=this.sellingPrice.toString();
-    
     this.saleBE.Timestamp="2022-4-20:17:28"
     this.saleBE.CurrentOwnerPK=this.data.OriginPK
-   
     this.service.updateNFTStatusBackend(this.saleBE).subscribe();
     
 
@@ -101,7 +96,6 @@ Sell():void{
         '1',
         this.sellingPrice).then((res:any)=>{
           this.selltxn=res.hash
-          console.log("on sale txn hash",this.selltxn)
           this.saveTXNs();
         })
     }
@@ -111,7 +105,6 @@ Sell():void{
       this.calculatePrice()
      
       if(this.data.InitialDistributorPK==this.data.OriginPK){
-          console.log("Already set for sale")
           this.selltxn=this.data.NFTTxnHash;
           this.saleBE.NFTIdentifier=this.data.InitialDistributorPK
           this.addDBBackend()
@@ -119,7 +112,6 @@ Sell():void{
           
       }else{
           this.middleman.createATA(environment.seller,environment.TRACIFIED_MIDDLE_MAN, this.data.InitialIssuerPK.publicKey,this.data.Identifier.publicKey).then(result=>{
-            console.log("The result ata of trac is", result)
             this.newATA =result[0];
             this.selltxn=result[1];
             this.saleBE.NFTIdentifier=this.newATA
@@ -139,12 +131,9 @@ Sell():void{
       this.saleBE.NFTIdentifier=this.data.Identifier
       this.tokenid=parseInt(this.data.Identifier)
       this.calculatePrice()
-      
-      console.log("-----------------parameters-------",environment.contractAddressNFTPolygon,this.data.ImageBase64,this.sellingPrice)
+
       this.pmarket.createSaleOffer(environment.contractAddressNFTPolygon,this.tokenid,this.sellingPrice)
       .then(res=>{
-        console.log("***********",res)
-        console.log("inside the controller item id",parseInt(res.logs[3].topics[1]))
         this.selltxn=res.transactionHash
         this.itemId=parseInt(res.logs[3].topics[1])
         this.saleBE.SellingType=this.itemId.toString();
@@ -160,7 +149,6 @@ Sell():void{
       this.calculatePrice()
      
       this.emarket.createSaleOffer(environment.contractAddressNFTEthereum,this.tokenid,this.sellingPrice).then(res=>{
-        console.log("inside the controller item id",parseInt(res.logs[2].topics[1]))
         this.selltxn=res.transactionHash
         this.itemId=parseInt(res.logs[2].topics[1])
         this.saleBE.SellingType=this.itemId.toString();
@@ -177,15 +165,12 @@ Sell():void{
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
-      console.log(params);
       this.data=JSON.parse(params['data']);
-      console.log("---------------------",this.data)
      })
 
     this.controlGroupSell = new FormGroup({
       Price: new FormControl(this.sale.Price, Validators.required),
       Royalty:new FormControl(this.sale.Royalty,Validators.required),
-      //SellingStatus:new FormControl(this.nft.SellingStatus,Validators.required),
     });
   }
 

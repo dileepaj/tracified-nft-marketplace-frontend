@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
 import {
   Operation,
   Keypair,
@@ -9,7 +8,6 @@ import {
   Networks,
   Memo
 } from "stellar-sdk";
-//import { Properties } from 'src/app/shared/properties';
 import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
 
@@ -20,7 +18,6 @@ export class TrustLineByBuyerServiceService {
 
   constructor() { }
   trustlineByBuyer(asset_code:string, asset_issuer:string, signerSK:string, buyerpk:string,nftPrice:string) {
-console.log("inside trust line service-----------------")
     let royalty=(parseFloat(nftPrice)*(0.02)).toFixed(6).toString();
 
 
@@ -45,8 +42,7 @@ console.log("inside trust line service-----------------")
                 limit: "1",
                 source: senderPublickKey,
               })
-            ) //trustline from buyer to issuer
-            //.addMemo(Memo.text(`Payment has been made of ${royalty}to ${claimer}`))
+            ) 
             .addMemo(Memo.text("Payment has been made!"))
             .addOperation(
               Operation.payment({

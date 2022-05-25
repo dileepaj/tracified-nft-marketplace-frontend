@@ -18,9 +18,9 @@ nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','
   imageSrc: any;
   dec: string;
   constructor(private service:NftServicesService,private router:Router,private _sanitizer: DomSanitizer) { }
+
   sendToSellNFT():void{
     let data :any=this.NFTList;
-    console.log("Before routing -----------------------",data)
    this.router.navigate(['./sell'],{
    queryParams:{data:JSON.stringify(data)}
    })
@@ -29,28 +29,21 @@ nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','
  
   
   ngOnInit(): void {
-    console.log("------------------------loading...")
     this.nft.InitialDistributorPK="49sj8Ujz4RfxNmyiq5SQBYgL41A3bR6rmDNBYeuQxKd8";
     if (this.nft.InitialDistributorPK!=null) {
       this.service.getLastNFTDetails(this.nft.InitialDistributorPK).subscribe((data:any)=>{
-        console.log("--------------------------------------------------------------------------------------")
-        console.log("Data was retrieved",data)
         this.NFTList=data;
         if(this.NFTList==null){
           console.log("retrying...")
           this.ngOnInit()
         }
-        console.log("Imagebase 64 string",this.NFTList.ImageBase64)
         this.svg.Hash=this.NFTList.ImageBase64
         this.service.getSVGByHash(this.svg.Hash).subscribe((res:any)=>{
-          console.log("svg result",res)
           this.Decryption = res.Response[0].Base64ImageSVG
          this.dec = btoa(this.Decryption);
-          console.log(this.dec);
         var str2 = this.dec.toString(); 
         var str1 = new String( "data:image/svg+xml;base64,"); 
         var src = str1.concat(str2.toString());
-        console.log("str1 + str2 : "+src)
         this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         })
        

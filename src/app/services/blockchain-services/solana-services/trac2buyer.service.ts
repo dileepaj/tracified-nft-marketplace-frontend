@@ -27,13 +27,9 @@ export class Trac2buyerService {
         LAMPORTS_PER_SOL
       );
 
-      console.log("to pk",toWallet.publicKey)
-      console.log("to sk",toWallet.secretKey)
     
       // Wait for airdrop confirmation
       await connection.confirmTransaction(fromAirdropSignature);
-    console.log("air drop succeeded",fromAirdropSignature);
-    console.log("Mint public key",mintPubkey);
       
       // Get the token account of the fromWallet Solana address. If it does not exist, create it.
       const toTokenAccount = await getOrCreateAssociatedTokenAccount(
@@ -42,17 +38,9 @@ export class Trac2buyerService {
         new PublicKey(mintPubkey),
         toWallet.publicKey
       );
-      console.log("ata of buyer",toTokenAccount)
-      console.log("ata of buyer",toTokenAccount.address.toString())
-    
-    
-  
-       console.log(from);
+     
        let fromKeypair  = Keypair.fromSecretKey(from);
-       console.log("fromKeypair",fromKeypair)
-       console.log("public key from fromKeypair",fromKeypair.publicKey)
       
-    //---------------------------------------------
      let signature = await transfer(
         connection,
         toWallet,               // Payer of the transaction fees 
@@ -63,9 +51,7 @@ export class Trac2buyerService {
       );
     
       console.log("SIGNATURE", signature);
-      console.log("-----------------------transferred--------------first buy");
       let array=[toTokenAccount.address.toString(),signature]
-      console.log("array",array)
       return array
     })();
   }

@@ -36,7 +36,6 @@ export class EthereumMarketServiceService {
 
   
   public async createSaleOffer(nftcontract: string,tokenId:number,price:number): Promise<any> {
-    console.log("---------------------------------------inside ethereum-----------------")
     const contract = await EthereumMarketServiceService.getContract(true)
     const transaction = await contract['sellNFT'](
       nftcontract,
@@ -46,14 +45,11 @@ export class EthereumMarketServiceService {
       }
     )
     const tx = await transaction.wait()
-    console.log(tx)
-    console.log("----------------------------item id ",parseInt(tx.logs[2].topics[1]))
     return tx
   }
 
   public async BuyNFT(nftcontract: string,itemId:number,price:number): Promise<any> {
     const contract = await EthereumMarketServiceService.getContract(true)
-    console.log("----------price----------------",price.toString(),itemId,nftcontract)
     const val =price.toString()
     const transaction = await contract['createMarketSale'](
       nftcontract,
@@ -62,7 +58,6 @@ export class EthereumMarketServiceService {
      }
     )
     const tx = await transaction.wait()
-    console.log(tx)
     return tx
   }
 

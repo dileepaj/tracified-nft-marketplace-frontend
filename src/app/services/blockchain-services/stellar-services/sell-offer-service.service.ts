@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
 import {
   Operation,
   Keypair,
@@ -8,7 +7,6 @@ import {
   Asset,
   Networks
 } from "stellar-sdk";
-//import { Properties } from 'src/app/shared/properties';
 import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
 
@@ -26,14 +24,12 @@ export class SellOfferServiceService {
     nftPrice: number
   ) {
     return new Promise((resolve, reject) => {
-      console.log("----------------------------------inside sell offer-----------------",asset_code,asset_issuer,signerSK,nftAmmount,nftPrice)
       let sourceKeypair = Keypair.fromSecret(signerSK); //because the distributor has the authority to sell
       if (blockchainNetType === "live") {
         Networks.TESTNET
       } else {
         Networks.PUBLIC
       }
-      console.log("ntw type------------------------------",blockchainNet)
       var asset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();
       var opts = {
@@ -44,7 +40,6 @@ export class SellOfferServiceService {
         },
         networkPassphrase: Networks.TESTNET,
       };
-      console.log("-------------------------opts--------",opts)
       let server = new Server(blockchainNet);
       server
         .loadAccount(sourceKeypair.publicKey())

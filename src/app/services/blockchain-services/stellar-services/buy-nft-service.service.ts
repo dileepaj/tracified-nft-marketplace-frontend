@@ -7,7 +7,6 @@ import {
   Asset,
   Networks
 } from "stellar-sdk";
-//import { Properties } from 'src/app/shared/properties';
 import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
 @Injectable({
@@ -25,7 +24,6 @@ export class BuyNftServiceService {
     nftPrice: string
   ) {
     return new Promise((resolve, reject) => {
-      console.log("iside buying service ---------------------",asset_code,signerSK,nftPrice, asset_issuer)
       let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
       if (blockchainNetType === "live") {
         Networks.TESTNET
@@ -43,7 +41,6 @@ export class BuyNftServiceService {
         },
         networkPassphrase: Networks.TESTNET,
       };
-      console.log("-------------buy control after ops ------------------")
       let server = new Server(blockchainNet);
       server
         .loadAccount(sourceKeypair.publicKey())
@@ -58,20 +55,6 @@ export class BuyNftServiceService {
                 offerId: "0",
               })
             )
-            // .addOperation(
-            //   Operation.payment({
-            //     amount: royaltyToBePaid,
-            //     asset: Asset.native(),
-            //     destination:
-            //       "GC6SZI57VRGFULGMBEJGNMPRMDWEJYNL647CIT7P2G2QKNLUHTTOVFO3",
-            //   })
-            // )
-            // .addOperation(
-            //   Operation.manageData({
-            //     name: "Trust Line Result",
-            //     value: transactionResult,
-            //   })
-            // )
             .addOperation(
               Operation.manageData({
                 name: "Origin Issuer",

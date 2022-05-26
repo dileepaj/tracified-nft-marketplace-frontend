@@ -1,1 +1,103 @@
-<p>buy-view works!</p>
+
+<div class="main-div">
+
+  <mat-card class="buyNFTcard">
+    <mat-card-header>
+     
+    </mat-card-header>
+    <mat-card-content class="buynftContent">
+      <table >
+        <tr>
+          <td>
+            <img [src]="imageSrc" *ngIf="imageSrc" style="height: 310px; width: 250px; margin-bottom: -50px; margin-left: 50px;">
+           </td>
+         <td>Creator: </td> <td><mat-label>
+           {{NFTList.creatoruserid}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Issuer: </td><td><mat-label>
+           {{NFTList.nftissuerpk}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+          <td> NFT TXN Hash: </td><td><mat-label>
+             {{NFTList.nfttxnhash}} 
+            </mat-label></td>
+          </tr>
+        <tr>
+        <td>Blockchain: </td><td><mat-label>
+           {{NFTList.blockchain}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td>  NFT Name: </td><td><mat-label>
+           {{NFTList.nftname}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Collection:</td><td> <mat-label>
+           {{NFTList.collection}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Description:</td><td> <mat-label>
+           {{NFTList.description}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Category: </td><td><mat-label>
+           {{NFTList.category}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Amount:</td><td> <mat-label>
+           {{NFTList.copies}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> More on the NFT: </td><td><mat-label>
+           {{NFTList.nftcontenturl}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> Artist Name: </td><td><mat-label>
+           {{NFTList.artistname}} 
+          </mat-label></td>
+        </tr>
+        <tr>
+        <td> More on the Artist: </td><td><mat-label>
+           {{NFTList.artistprofilelink}} 
+          </mat-label></td>
+        </tr>
+      </table>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button  class="mint1Button" color="primary" (click)="buyNFT()">Buy NFT</button>
+      </mat-card-actions>
+      <mat-accordion class="mint2">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+             See NFT Image Content
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          
+      <table >
+        <tr>
+         
+              <span  ngDefaultControl>
+                <td><mat-label >
+                  {{Decryption}} 
+                 </mat-label></td>
+            </span>
+         
+        </tr>
+          </table>
+       
+        </mat-expansion-panel>
+      </mat-accordion>
+  </mat-card>
+
+</div>
+

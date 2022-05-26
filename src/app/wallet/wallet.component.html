@@ -1,13 +1,148 @@
-<mat-dialog-content>
-    <button class="walletbtn" (click)="metmask()">
-        <img class="walletIcon" src="assets\images\metmaskicon.png">
-        MetaMask
-    </button><br>
-    <button class="walletbtn" (click)="freighter()">Freighter</button><br>
-    <button class="walletbtn" (click)="phantom()">Phantom</button>
-    <button class="walletbtn">WalletConnect</button>
-    <button class="walletbtn">CoinBase</button>
-    <button class="walletbtn">Fortmatic</button>
-    <button class="walletbtn">bitski</button>
-    <button class="walletbtn">Kaikas</button>      
+<mat-dialog-content class="wallet-popup-dialog">
+  <div class="tab-group">
+    <div class="tab-group-header">
+      <div
+        class="tab-group-header-item"
+        [class.active]="tabIndex === 0"
+        (click)="changeTab(0)"
+        matRipple
+      >
+        Wallets
+      </div>
+      <div
+        class="tab-group-header-item"
+        [class.active]="tabIndex === 1"
+        (click)="changeTab(1)"
+        matRipple
+      >
+        Balances
+      </div>
+    </div>
+    <div class="tab-group-content">
+      <div class="tab-1" *ngIf="tabIndex === 0">
+        <div class="wallets">
+          <div class="wallet-item" (click)="metmask()" matRipple>
+            <div class="wallet-title">
+              <img src="../../assets/images/wallet-logos/metamask.png" /><label
+                >MetaMask</label
+              >
+            </div>
+            <span title="Connected" class="active-wallet"></span>
+          </div>
+          <div class="wallet-item" (click)="freighter()" matRipple>
+            <div class="wallet-title">
+              <img
+                src="../../assets/images/wallet-logos/logo-freighter.png"
+              /><label>Freighter</label>
+            </div>
+          </div>
+          <div class="wallet-item" (click)="phantom()" matRipple>
+            <div class="wallet-title">
+              <img src="../../assets/images/wallet-logos/phantom.jpg" /><label
+                >Phantom</label
+              >
+            </div>
+          </div>
+          <div class="wallet-item" matRipple>
+            <div class="wallet-title">
+              <img src="../../assets/images/wallet-logos/coinbase.png" /><label
+                >Coinbase</label
+              >
+            </div>
+          </div>
+
+          <div *ngIf="showAllWallets">
+            <div class="wallet-item" matRipple>
+              <div class="wallet-title">
+                <img
+                  src="../../assets/images/wallet-logos/wallet-connect.png"
+                /><label>Wallet Connect</label>
+              </div>
+            </div>
+            <div class="wallet-item" matRipple>
+              <div class="wallet-title">
+                <img
+                  src="../../assets/images/wallet-logos/logo-fortmatic.png"
+                /><label>Fortmatic</label>
+              </div>
+            </div>
+            <div class="wallet-item" matRipple>
+              <div class="wallet-title">
+                <img
+                  src="../../assets/images/wallet-logos/logo-bitski.png"
+                /><label>Bitski</label>
+              </div>
+            </div>
+            <div class="wallet-item" matRipple>
+              <div class="wallet-title">
+                <img
+                  src="../../assets/images/wallet-logos/logo-kaikas.png"
+                /><label>Kaikas</label>
+              </div>
+            </div>
+            <div class="wallet-item" matRipple>
+              <div class="wallet-title">
+                <img
+                  src="../../assets/images/wallet-logos/logo-venly.png"
+                /><label>Venly</label>
+              </div>
+            </div>
+            <div class="wallet-item" matRipple>
+              <div class="wallet-title">
+                <img
+                  src="../../assets/images/wallet-logos/logo-dapper.png"
+                /><label>Dapper</label>
+              </div>
+            </div>
+
+            <div class="wallet-item" matRipple>
+              <div class="wallet-title">
+                <img
+                  src="../../assets/images/wallet-logos/logo-authereum.png"
+                /><label>Authereum</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wallet-expand" *ngIf="!showAllWallets">
+          <label>More Options</label>
+          <img
+            src="../../assets/images/expand-collapse.png"
+            (click)="expand()"
+            matRipple
+          />
+        </div>
+        <div class="wallet-collapse" *ngIf="showAllWallets">
+          <label>Less Options</label>
+          <img
+            src="../../assets/images/expand-collapse.png"
+            (click)="collapse()"
+            matRipple
+          />
+        </div>
+      </div>
+      <div class="tab-2" *ngIf="tabIndex === 1">
+        <div class="balance-parent" *ngIf="walletConnected">
+          <img src="../../assets/images/wallet-logos/metamask.png" />
+          <label>Account</label>
+          <label>0xABCDE12345</label>
+          <div class="connected">
+            <div title="Connected" class="active-wallet"></div>
+            <label>Connected</label>
+          </div>
+          <div class="balance">
+            <label class="balance-title">Balance</label>
+            <label class="balance-amount">0.5 ETH</label>
+            <label class="balance-usd">USD 957.51</label>
+          </div>
+          <button class="btn-disconnect" matRipple>Disconnect</button>
+        </div>
+        <div class="error" *ngIf="!walletConnected">
+          <img src="../../assets/images/wallet.png" />
+          <label class="error-msg">Your wallet is not connected</label>
+        </div>
+      </div>
+    </div>
+  </div>
 </mat-dialog-content>

@@ -14,8 +14,6 @@ export class HomeComponent implements OnInit {
   openDialog() {
     this.dialogref.open(WalletComponent, {
       autoFocus: false,
-      maxHeight: '90vh',
-      maxWidth: '101vh',
       panelClass: 'popUpDialog',
     });
   }

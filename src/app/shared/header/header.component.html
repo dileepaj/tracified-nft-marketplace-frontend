@@ -28,7 +28,14 @@
     <img src="../../../assets/icons/bellicon.png" style="flex-basis: 40%" />
   </button>
   <span class="spacer"></span>
-  <button mat-icon-button class="example-icon" aria-label="Wallet">
+
+  <button
+    id="btnWallet"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Wallet"
+    (click)="openDialog()"
+  >
     <img src="../../../assets/icons/walleticon.png" style="flex-basis: 40%" />
   </button>
   <span class="spacer"></span>

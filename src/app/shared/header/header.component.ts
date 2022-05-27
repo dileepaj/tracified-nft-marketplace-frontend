@@ -16,8 +16,6 @@ export class HeaderComponent implements OnInit {
 
   ngAfterViewChecked() {
     this.rect = document.getElementById('btnWallet')?.getBoundingClientRect();
-    console.log(this.rect);
-    // console.log("datas = ", datas);
   }
 
   openDialog() {
@@ -27,7 +25,7 @@ export class HeaderComponent implements OnInit {
       panelClass: 'popUpDialog',
       position: {
         right: `${
-          this.rect.right - this.rect.left + this.rect.width * 2 - 20
+          this.rect.right - this.rect.left + this.rect.width * 2 + 40
         }px`,
         top: `${this.rect.bottom + 20}px`,
       },

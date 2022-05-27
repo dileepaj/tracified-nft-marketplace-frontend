@@ -60,6 +60,7 @@ import { MetamaskComponent } from './wallet/metamask/metamask.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const appRoutes: Routes = [
   {
@@ -150,6 +151,8 @@ const appRoutes: Routes = [
     MatTooltipModule,
     MatTabsModule,
     FlexLayoutModule,
+    MatSnackBarModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,84 +1,92 @@
-<head> 
-  <script src="jquery.js"></script> 
-  <script> 
-  $(function(){
-    $("#Content").load("nft-card.component.html"); 
-  });
-</script> 
-</head> 
-<div class="main-div">
-
-    <mat-card class="example-card">
-      <mat-card-header>
-        <div id="Content"></div>
-      </mat-card-header>
-      <mat-card-content>
-          
-        <form class="example-form" [formGroup]="controlGroupMint">
-           
-          <table class="example-full-width" cellspacing="0">
-            <tr>
-              <td>
-                <mat-form-field class="example-full-width">
-                  <mat-label>Choose Collection</mat-label>
-                  <mat-select formControlName="Collection" >
-                    <mat-option *ngFor="let collection of CollectionList" [value]="collection.CollectionName" >
-                      {{ collection.CollectionName }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <mat-form-field class="example-full-width">
-                <input matInput placeholder="NFT Name"   formControlName="NFTName">
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-            <td><mat-form-field class="example-full-width">
-              <textarea matInput placeholder="Description" type="desc" formControlName="Description" ></textarea>
-            </mat-form-field></td>
-          </tr>
-          <tr>
-            <div class="form-group">
-              <label for="file">File</label>
-              <input formControlName="file" id="file" type="file" accept="image/*,video/*,audio/*,.glb,.gltf,.svg" class="form-control"
-              (change)="onFileChange($event)">
+<head>
+  <script src="jquery.js"></script>
+  <script>
+    $(function () {
+      $("#Content").load("nft-card.component.html");
+    });
+  </script>
+</head>
+<p class="heading">Get Started</p>
+<p class="subheading">Create your first NFT.</p>
+<div class="seperator"></div>
+<div class="mintone-view" style="background: transparent">
+  <mat-card class="main-card" fxLayout="row" fxLayoutAlign="start center" style="background: transparent">
+    <div class="card-holder" style="background: transparent" fxFlex="100%">
+      <form class="example-form" [formGroup]="controlGroupMint" style="width: 100%">
+        <mat-card class="img-card" fxFlex="40%">
+          <div class="form-group">
+            <div class="upload-area">
+              <img *ngIf="!imageSrc"
+                src="../../../assets/icons/imguploadicon.png"
+                height="86.06px"
+                width="83px"
+              />
+              <div *ngIf="!imageSrc" style="text-align: center">
+                <p class="img-text">Drag and Drop</p>
+                <p class="img-text">or Browse</p>
+                <p class="img-text">SVG file</p>
+              </div>
+              <input
+                formControlName="file"
+                id="file"
+                type="file"
+                accept="image/*,video/*,audio/*,.glb,.gltf,.svg"
+                class="form-control file"
+                (change)="onFileChange($event)"
+              />
+              <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/>
             </div>
-            <img [src]="imageSrc" *ngIf="imageSrc" style="height: 310px; width: 250px; margin-bottom: -50px; margin-left: 50px;">
-          </tr>
-         
-        </table>
+          </div>
+          <div class="composer-btn-container">
+            <button mat-button class="composer-btn">
+              <a href="https://qa.nftcomposer.tracified.com/login"  target="_blank">Create with Tracified</a>
+            </button>
+            <mat-icon matTooltip="Create your NFTs on NFT Composer" matTooltipClass="example-tooltip-red" class="help-icon">help</mat-icon>
+          </div>
+        </mat-card>
         
-        </form>
-       
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button  class="mint1Button" color="primary" (click)="sendToMint2()">Proceed</button>
-      </mat-card-actions>
-      <mat-accordion class="mint2">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-             See NFT Image Content
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          
-      <table >
-        <tr>
-         
-              <span  ngDefaultControl>
-                <td><mat-label >
-                  {{Encoded}} 
-                 </mat-label></td>
-            </span>
-         
-        </tr>
-          </table>
-       
-        </mat-expansion-panel>
-      </mat-accordion>
-    </mat-card>
-  </div>
+        <mat-card class="form-card" fxFlex="60%">
+          <div class="row">
+            <mat-form-field class="dropdown block" appearance="fill">
+              <mat-label style="padding-left:5px ;font-family: 'Inter';font-style: normal; font-weight: 400; font-size: medium; line-height: 27px; color: #000000;">
+                Choose your Collection
+              </mat-label>
+              <mat-select formControlName="Collection" >
+                <mat-option 
+                  *ngFor="let collection of CollectionList"
+                  [value]="collection.CollectionName"
+                >
+                  {{ collection.CollectionName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button [routerLink]="'/collections'" mat-icon-button class="example-icon block icon" aria-label="Notifications">
+              <img src="../../../assets/icons/collection-route-icon.png" width="30px" height="30px">
+            </button>
+          </div>
+          <label class="lable-text" style="padding-right: 300px;">Name your NFT</label>
+          <mat-form-field class="inputs" appearance="outline">
+            <input matInput formControlName="NFTName" />
+          </mat-form-field>
+          <label class="lable-text" style="padding-right: 330px;">Description</label>
+          <mat-form-field class="inputs" appearance="outline">
+            <textarea
+              matInput
+              type="desc"
+              rows="6"
+              formControlName="Description"
+            ></textarea>
+          </mat-form-field>
+          <mat-card-actions class="mint-btn-container">
+            <button mat-icon-button color="primary" style="padding-bottom: 8px;" class="reset-btn" (click)="controlGroupMint.reset()">
+              <img src="../../../assets/icons/reset-icon.png" width="24px" height="21px">
+            </button>
+            <button mat-button class="mint1Button" color="primary" (click)="onClickSubmit()">
+              Proceed
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+  </mat-card>
+</div>

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import CryptoJS from 'crypto-js';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 @Component({
   selector: 'app-mint',
   templateUrl: './mint.component.html',
@@ -30,7 +31,7 @@ export class MintComponent implements OnInit {
   hash: any;
   svg:SVG=new SVG('','')
  
-  constructor(private service:CollectionService,private router:Router,private _sanitizer: DomSanitizer,private apiService:ApiServicesService) { }
+  constructor(private service:CollectionService,private router:Router,private _sanitizer: DomSanitizer,private apiService:ApiServicesService, private snackBar: SnackbarServiceService) { }
  
   sendToMint2(): void {//function to pass data to the next component
     //getting form data and equaling it to the model
@@ -117,6 +118,28 @@ export class MintComponent implements OnInit {
 //getting input to formValue function from html code
   private formValue(controlName: string): any {
     return this.controlGroupMint.get(controlName)!.value;
+  }
+
+  /**
+   * @function reset - reset the entered form values
+   */
+  reset(){
+    this.controlGroupMint.reset()
+  }
+
+  /**
+   * @function onClickSubmit - User input validations
+   */
+  onClickSubmit(){ 
+    if (this.formValue('Collection') == '') {
+      this.snackBar.openSnackBar('Please select a collection for your NFT');
+    } else if (this.formValue('NFTName') == '') {
+      this.snackBar.openSnackBar('Please name your NFT');
+    } else if (this.formValue('Description') == '') {
+      this.snackBar.openSnackBar('Please add a discription for your NFT');
+    } else{
+      this.sendToMint2();
+    }
   }
 
 }

@@ -47,10 +47,6 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatFileUploadModule } from 'angular-material-fileupload';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CollectionService } from './services/api-services/collection.service';
-import { MintService } from './services/blockchain-services/mint.service';
-import { TrustlinesService } from './services/blockchain-services/stellar-services/trustlines.service';
-import { Properties } from './shared/properties';
 import { HeaderComponent } from './shared/header/header.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
@@ -61,6 +57,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatRippleModule } from '@angular/material/core';
+import { ViewNftCardComponent } from './nft/view-nft-card/view-nft-card.component';
+import { BuyViewComponent } from './marketplace/buyNft/buy-view/buy-view.component';
+import {CKEditorModule} from 'ng2-ckeditor';
 
 const appRoutes: Routes = [
   {
@@ -87,6 +87,22 @@ const appRoutes: Routes = [
     path: '',
     redirectTo: '/home',
     pathMatch: 'full',
+  },
+  {
+    path:'sell',
+    component:SellNftComponent
+  },
+  {
+    path:'getNft',
+    component:ViewNftCardComponent
+  },
+  {
+    path:'buyNft',
+    component:BuyViewComponent
+  },
+  {
+    path:'createblog',
+    component:RichTextEditorComponent
   },
 ];
 @NgModule({
@@ -125,6 +141,8 @@ const appRoutes: Routes = [
     FreighterComponent,
     PhantomComponent,
     MetamaskComponent,
+    ViewNftCardComponent,
+    BuyViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -151,8 +169,9 @@ const appRoutes: Routes = [
     MatTooltipModule,
     MatTabsModule,
     FlexLayoutModule,
-    MatSnackBarModule
-    
+    MatSnackBarModule,
+    MatRippleModule,
+    CKEditorModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

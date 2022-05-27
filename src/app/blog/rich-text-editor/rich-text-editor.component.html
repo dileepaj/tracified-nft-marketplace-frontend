@@ -1,1 +1,11 @@
-<p>rich-text-editor works!</p>
+<ckeditor class="txteditor" [(ngModel)]="data"
+[readonly]="false"
+>
+  <ckbutton [name]="'tracified'"
+  [command]="'saveCmd'"
+  (click)="save()"
+  [label]="'Save Document'"
+  [toolbar]="'clipboard,2'">
+  >test</ckbutton>
+  
+</ckeditor>

@@ -1,1 +1,39 @@
-<p>sell-nft works!</p>
+<div class="main-div">
+
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div id="Content"></div>
+      </mat-card-header>
+      <mat-card-content>
+          
+        <form class="example-form" [formGroup]="controlGroupSell">
+           
+          <table class="example-full-width" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+               Price <input matInput placeholder=""   formControlName="Price">
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width">
+                Royalty <input matInput placeholder=""   formControlName="Royalty">
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>Creator: </td> <td><mat-label >
+                {{data.OriginPK}} 
+               </mat-label></td>
+            </tr>
+        </table>
+        </form>
+       
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button  class="mint1Button" color="primary" (click)="Sell()">Proceed</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>

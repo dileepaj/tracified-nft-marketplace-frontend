@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -13,6 +13,15 @@
    <script>
     var global = global || window;
 </script>
+<script src="https://cdn.ckeditor.com/4.17.1/full-all/ckeditor.js"></script>
+  <script type="text/javascript">
+    CKEDITOR.on('instanceReady',
+      function( evt )
+      {
+         var editor = evt.editor;
+         editor.execCommand('maximize');
+      });
+  </script>
 </head>
 <body class="mat-typography">
   <app-root></app-root>

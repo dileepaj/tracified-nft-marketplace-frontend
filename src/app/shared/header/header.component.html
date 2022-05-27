@@ -1,34 +1,64 @@
-<mat-toolbar style="background: transparent;">
-    <button [routerLink]="'/home'" mat-icon-button class="example" aria-label="Tracified logo">
-        <img src="../../../../assets/images/tracified-header.png" style="flex-basis: 40%" height="100%" width="178px"/>
-    </button>
-    <span class="example-spacer"></span>
-    <a class="navbar-text" mat-button [routerLink]="'/create-account'"> EXPLORE </a>
-    <a class="navbar-text" mat-button [routerLink]="'/contacts'"> RESOURCES </a>
-    <a class="navbar-text" mat-button [routerLink]="'/mint'"> CREATE </a>
-    <a class="navbar-text" mat-button [routerLink]="'/collections'"> COLLECTIONS </a>
-    <!-- <a mat-button [routerLink]="'/create-contact'"> Create Contact </a>
+<mat-toolbar class="nav-bar">
+  <button
+    [routerLink]="'/home'"
+    mat-icon-button
+    class="example"
+    aria-label="Tracified logo"
+  >
+    <img
+      src="../../../../assets/images/tracified-header.png"
+      style="flex-basis: 40%"
+      height="100%"
+      width="178px"
+    />
+  </button>
+  <span class="example-spacer"></span>
+  <a class="navbar-text" mat-button [routerLink]="'/create-account'">
+    EXPLORE
+  </a>
+  <a class="navbar-text" mat-button [routerLink]="'/contacts'"> RESOURCES </a>
+  <a class="navbar-text" mat-button [routerLink]="'/mint'"> CREATE </a>
+  <a class="navbar-text" mat-button [routerLink]="'/collections'">
+    COLLECTIONS
+  </a>
+  <!-- <a mat-button [routerLink]="'/create-contact'"> Create Contact </a>
     <a mat-button [routerLink]="'/activities'"> Activities </a>
     <a mat-button [routerLink]="'/create-activity'"> Create Activity </a>-->
-    <button mat-icon-button class="example-icon" aria-label="Notifications">
-        <img src="../../../assets/icons/bellicon.png" style="flex-basis: 40%;"/>
-    </button>
-    <span class="spacer"></span>
-    <button mat-icon-button class="example-icon" aria-label="Wallet">
-        <img src="../../../assets/icons/walleticon.png" style="flex-basis: 40%;"/>
-    </button>
-    <span class="spacer"></span>
-    <button mat-icon-button class="example-icon" aria-label="User">
-        <img src="../../../assets/icons/usericon.png" style="flex-basis: 40%;" width="45px" height="45px"/>
-    </button>
-    <button mat-icon-button class="example-icon" [matMenuTriggerFor]="menu" aria-label="Dropdown">
-        <img src="../../../assets/icons/dropicon.png" style="flex-basis: 40%;"/>
-    </button>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-            <mat-icon>dialpad</mat-icon>
-            <span>Sample text</span>
-        </button>
-    </mat-menu>
-</mat-toolbar>
+  <button mat-icon-button class="example-icon" aria-label="Notifications">
+    <img src="../../../assets/icons/bellicon.png" style="flex-basis: 40%" />
+  </button>
+  <span class="spacer"></span>
 
+  <button
+    id="btnWallet"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Wallet"
+    (click)="openDialog()"
+  >
+    <img src="../../../assets/icons/walleticon.png" style="flex-basis: 40%" />
+  </button>
+  <span class="spacer"></span>
+  <button mat-icon-button class="example-icon" aria-label="User">
+    <img
+      src="../../../assets/icons/usericon.png"
+      style="flex-basis: 40%"
+      width="45px"
+      height="45px"
+    />
+  </button>
+  <button
+    mat-icon-button
+    class="example-icon"
+    [matMenuTriggerFor]="menu"
+    aria-label="Dropdown"
+  >
+    <img src="../../../assets/icons/dropicon.png" style="flex-basis: 40%" />
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>dialpad</mat-icon>
+      <span>Sample text</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>

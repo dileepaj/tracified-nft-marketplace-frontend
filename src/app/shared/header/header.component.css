@@ -2,24 +2,34 @@
   flex: 1 1 auto;
 }
 
-.spacer{
+.spacer {
   padding: 0.5%;
 }
 
-.example-icon{
-    color: white;
-    padding-top: 8px;
+.example-icon {
+  color: white;
+  padding-top: 8px;
 }
 
-.navbar-text{
-    padding-top: 15px;
-    color: white;
-    float: right;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: center;
-    order: inherit;
+.navbar-text {
+  padding-top: 15px;
+  color: white;
+  float: right;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  order: inherit;
+}
+
+.nav-bar {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+  padding: 0px 80px 0px 80px;
 }

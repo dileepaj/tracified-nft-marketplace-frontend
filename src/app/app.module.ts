@@ -56,13 +56,11 @@ import { MetamaskComponent } from './wallet/metamask/metamask.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatRippleModule } from '@angular/material/core';
 import { ViewNftCardComponent } from './nft/view-nft-card/view-nft-card.component';
 import { BuyViewComponent } from './marketplace/buyNft/buy-view/buy-view.component';
 import {CKEditorModule} from 'ng2-ckeditor';
-
-
-
 
 const appRoutes: Routes = [
   {
@@ -171,6 +169,7 @@ const appRoutes: Routes = [
     MatTooltipModule,
     MatTabsModule,
     FlexLayoutModule,
+    MatSnackBarModule,
     MatRippleModule,
     CKEditorModule,
   ],

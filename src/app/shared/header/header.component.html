@@ -1,64 +1,217 @@
-<mat-toolbar class="nav-bar">
-  <button
-    [routerLink]="'/home'"
-    mat-icon-button
-    class="example"
-    aria-label="Tracified logo"
+<mat-toolbar
+  id="navbar"
+  class="nav-bar"
+  fxfLex="row wrap"
+  fxLayoutAlign="space-between center"
+>
+  <div
+    fxFlex.xs="50%"
+    fxFlex.sm="50%"
+    fxFlex.md="20%"
+    fxFlex.lg="10%"
+    fxFlex.xl="10%"
   >
     <img
       src="../../../../assets/images/tracified-header.png"
-      style="flex-basis: 40%"
-      height="100%"
-      width="178px"
+      fxFlex.xl="100%"
+      fxFlex.lg="100%"
+      fxFlex.gt-md="80%"
+      fxFlex.md="70%"
+      fxFlex.gt-sm="60%"
+      fxFlex.sm="60%"
+      fxFlex.xs="60%"
+      [routerLink]="'/home'"
+      style="cursor: pointer"
     />
-  </button>
-  <span class="example-spacer"></span>
-  <a class="navbar-text" mat-button [routerLink]="'/create-account'">
-    EXPLORE
-  </a>
-  <a class="navbar-text" mat-button [routerLink]="'/contacts'"> RESOURCES </a>
-  <a class="navbar-text" mat-button [routerLink]="'/mint'"> CREATE </a>
-  <a class="navbar-text" mat-button [routerLink]="'/collections'">
-    COLLECTIONS
-  </a>
-  <!-- <a mat-button [routerLink]="'/create-contact'"> Create Contact </a>
-    <a mat-button [routerLink]="'/activities'"> Activities </a>
-    <a mat-button [routerLink]="'/create-activity'"> Create Activity </a>-->
-  <button mat-icon-button class="example-icon" aria-label="Notifications">
-    <img src="../../../assets/icons/bellicon.png" style="flex-basis: 40%" />
-  </button>
-  <span class="spacer"></span>
+  </div>
 
-  <button
-    id="btnWallet"
-    mat-icon-button
-    class="example-icon"
-    aria-label="Wallet"
-    (click)="openDialog()"
+  <div
+    class="search-input-group"
+    fxFlex.lg="50%"
+    fxFlex.xl="50%"
+    fxHide.md
+    fxHide.sm
+    fxHide.xs
   >
-    <img src="../../../assets/icons/walleticon.png" style="flex-basis: 40%" />
-  </button>
-  <span class="spacer"></span>
-  <button mat-icon-button class="example-icon" aria-label="User">
-    <img
-      src="../../../assets/icons/usericon.png"
-      style="flex-basis: 40%"
-      width="45px"
-      height="45px"
-    />
-  </button>
+    <input type="text" placeholder="Search here" />
+    <mat-icon class="material-symbols-outlined">search</mat-icon>
+  </div>
   <button
     mat-icon-button
     class="example-icon"
-    [matMenuTriggerFor]="menu"
-    aria-label="Dropdown"
+    fxHide.xl
+    fxHide.lg
+    fxShow.md
+    fxShow.sm
+    fxShow.xs
   >
-    <img src="../../../assets/icons/dropicon.png" style="flex-basis: 40%" />
+    <mat-icon class="material-symbols-outlined" (click)="openSideNav()">
+      menu
+    </mat-icon>
   </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-      <mat-icon>dialpad</mat-icon>
-      <span>Sample text</span>
-    </button>
-  </mat-menu>
+  <div fxFlex.lg="40%" fxFlex.xl="40%" fxHide.md fxHide.sm fxHide.xs>
+    <div fxFlex="row wrap" fxLayoutAlign="space-between center">
+      <a
+        class="navbar-text"
+        mat-button
+        [routerLink]="'/create-account'"
+        [routerLinkActive]="['active-link']"
+      >
+        Explore
+      </a>
+      <a
+        class="navbar-text"
+        mat-button
+        [routerLink]="'/contacts'"
+        [routerLinkActive]="['active-link']"
+      >
+        Resources
+      </a>
+      <a
+        class="navbar-text"
+        mat-button
+        [routerLink]="'/mint'"
+        [routerLinkActive]="['active-link']"
+      >
+        Create
+      </a>
+      <a
+        class="navbar-text"
+        mat-button
+        [routerLink]="'/collections'"
+        [routerLinkActive]="['active-link']"
+      >
+        Collections
+      </a>
+      <button
+        mat-icon-button
+        class="example-icon"
+        aria-label="Notifications"
+        style="color: #00c853"
+      >
+        <mat-icon>notifications</mat-icon>
+      </button>
+      <button
+        id="btnWallet"
+        mat-icon-button
+        class="example-icon"
+        aria-label="Wallet"
+        style="margin-left: -8px"
+        (click)="openDialog(false)"
+      >
+        <mat-icon class="material-symbols-outlined">
+          account_balance_wallet
+        </mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        class="example-icon"
+        aria-label="User"
+        disableRipple
+      >
+        <mat-icon class="material-symbols-outlined"> account_circle </mat-icon>
+        <mat-icon
+          class="material-symbols-outlined"
+          [matMenuTriggerFor]="menu"
+          matRipple
+        >
+          arrow_drop_down
+        </mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>dialpad</mat-icon>
+          <span>Sample text</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
 </mat-toolbar>
+<mat-drawer-container
+  class="side-nav-container"
+  *ngIf="sideNavOpened"
+  fxHide.xl
+  fxHide.lg
+  fxShow.md
+  fxShow.sm
+  fxShow.xs
+  #sidenav
+>
+  <mat-drawer-content class="side-nav-content">
+    <div>
+      <button mat-icon-button (click)="closeSideNav()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <br />
+
+    <div class="side-nav-search-input-group">
+      <input type="text" placeholder="Search here" />
+      <mat-icon class="material-symbols-outlined">search</mat-icon>
+    </div>
+
+    <br />
+    <div class="side-nav-link">
+      <a
+        class="navbar-text"
+        mat-button
+        [routerLink]="'/home'"
+        [routerLinkActive]="['active-link']"
+      >
+        Home
+      </a>
+    </div>
+    <div class="side-nav-link">
+      <a
+        class="navbar-text"
+        mat-button
+        [routerLink]="'/create-account'"
+        [routerLinkActive]="['active-link']"
+      >
+        Explore
+      </a>
+    </div>
+    <div class="side-nav-link">
+      <a
+        class="navbar-text"
+        mat-button
+        [routerLink]="'/contacts'"
+        [routerLinkActive]="['active-link']"
+      >
+        Resources
+      </a>
+    </div>
+    <div class="side-nav-link">
+      <a
+        class="navbar-text"
+        mat-button
+        [routerLink]="'/mint'"
+        [routerLinkActive]="['active-link']"
+      >
+        Create
+      </a>
+    </div>
+    <div class="side-nav-link">
+      <a
+        class="navbar-text"
+        mat-button
+        [routerLink]="'/collections'"
+        [routerLinkActive]="['active-link']"
+      >
+        Collections
+      </a>
+    </div>
+    <div class="side-nav-link">
+      <a class="navbar-text" mat-button> Notifications </a>
+    </div>
+    <div class="side-nav-link">
+      <a class="navbar-text" mat-button (click)="openDialog(true)">
+        Connect Wallet
+      </a>
+    </div>
+    <div class="side-nav-link">
+      <a class="navbar-text" mat-button> Account </a>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

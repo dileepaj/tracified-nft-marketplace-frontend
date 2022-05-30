@@ -8,17 +8,16 @@
 
 .example-icon {
   color: white;
-  padding-top: 8px;
+  padding-top: 0px;
 }
 
 .navbar-text {
-  padding-top: 15px;
+  padding-top: 0px;
   color: white;
-  float: right;
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 22px;
   text-align: center;
   order: inherit;
@@ -30,6 +29,118 @@
   top: 0;
   left: 0;
   right: 0;
-  background: transparent;
   padding: 0px 80px 0px 80px;
+  background: transparent;
+  transition: 0.25s ease-in-out;
+}
+
+.search-input-group {
+  width: 100%;
+  background: #2d2d2d;
+  border-radius: 20px;
+  margin: 0px 38px 0px 38px;
+  transition: 0.15s ease;
+}
+
+.search-input-group:focus-within {
+  background: white;
+}
+
+.search-input-group input[type="text"] {
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 14px;
+  float: right;
+  width: 95%;
+  height: 36px;
+  background: transparent;
+  border: none;
+  color: black;
+}
+
+.search-input-group input[type="text"]:focus {
+  outline: none;
+}
+
+::placeholder {
+  color: #686868;
+  opacity: 1;
+}
+
+.search-input-group mat-icon {
+  box-sizing: border-box;
+  float: left;
+  width: 5%;
+  padding: 8px 10px 10px 10px;
+  font-size: 20px;
+  height: 36px;
+  color: #686868;
+}
+
+.active-link {
+  color: #00c853;
+  text-decoration: underline solid #00c853 3px;
+  text-underline-offset: 5px;
+}
+
+.header-colored {
+  background: #212121;
+}
+
+.side-nav-container {
+  max-width: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  color: white;
+  background-color: #212121;
+}
+
+.side-nav-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.side-nav-link {
+  margin: 5px 38px 20px 38px;
+}
+
+.side-nav-search-input-group {
+  width: 220px;
+  background: #2d2d2d;
+  border-radius: 20px;
+  margin: 0px 45px 0px 45px;
+  transition: 0.15s ease;
+}
+
+.side-nav-search-input-group:focus-within {
+  background: white;
+}
+
+.side-nav-search-input-group input[type="text"] {
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 14px;
+  float: right;
+  width: 90%;
+  height: 36px;
+  background: transparent;
+  border: none;
+  color: black;
+}
+
+.side-nav-search-input-group input[type="text"]:focus {
+  outline: none;
+}
+
+.side-nav-search-input-group mat-icon {
+  box-sizing: border-box;
+  float: left;
+  width: 10%;
+  padding: 8px 10px 10px 10px;
+  font-size: 20px;
+  height: 36px;
+  color: #686868;
 }

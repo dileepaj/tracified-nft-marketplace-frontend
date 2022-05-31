@@ -50,7 +50,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   this.mint.ArtistProfileLink=this.formValue('ArtistProfileLink');
   this.mint.CreatorUserId="A101";
   this.mint.CurrentOwnerPK=this.mint.CreatorUserId;
-  this.mint.SellingStatus="";
+  this.mint.SellingStatus="Minted";
   this.mint.SellingType="NFT";
   this.mint.DistributorPK=this.mint.CreatorUserId;
   this.mint.Status="Minted";

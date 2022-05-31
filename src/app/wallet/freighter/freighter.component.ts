@@ -18,6 +18,15 @@ export class FreighterComponent implements Wallet, OnInit {
   constructor(wallet:Wallet) {
     this.decoratorWallet = wallet;
   }
+  signTransactionPhantom(userPK: string, tracifiedAta: string): void {
+    throw new Error('Method not implemented.');
+  }
+  buynft(blockchain: string, nftcontract: string, tokenId: number, price: number, listingPrice: string): void {
+    throw new Error('Method not implemented.');
+  }
+  createSaleOffer(blockchain:string,nftcontract: string, tokenId: number, price: number): void {
+    throw new Error('Method not implemented.');
+  }
   currentUserAddress: string;
 
   ngOnInit(): void {

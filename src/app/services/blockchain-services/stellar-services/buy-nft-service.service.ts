@@ -9,22 +9,25 @@ import {
 } from "stellar-sdk";
 import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
+import { UserWallet } from 'src/app/models/userwallet';
+import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 @Injectable({
   providedIn: 'root'
 })
 export class BuyNftServiceService {
+  userSignedTransaction: any;
 
   constructor() { }
   buyNft(
-   transactionResult:string,
+   /*transactionResult:string,*/
     asset_code:string,
-    signerSK:string,
     asset_issuer:string,
-    previousOwnerNFTPK: string,
+    previousOwnerNFTPK: string, //* Distributor PK
+    userPK:string,
     nftPrice: string
   ) {
-    return new Promise((resolve, reject) => {
-      let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
+    return new Promise((resolve, reject) => {//buyers secret key
+      console.log("params in buy : ",asset_code,asset_issuer,userPK,previousOwnerNFTPK,nftPrice)
       if (blockchainNetType === "live") {
         Networks.TESTNET
       } else {
@@ -42,9 +45,10 @@ export class BuyNftServiceService {
         networkPassphrase: Networks.TESTNET,
       };
       let server = new Server(blockchainNet);
+      console.log("server starting")
       server
-        .loadAccount(sourceKeypair.publicKey())
-        .then((account) => {
+        .loadAccount(userPK)
+        .then(async (account) => {
           var transaction = new TransactionBuilder(account, opts)
             .addOperation(
               Operation.manageBuyOffer({
@@ -64,7 +68,7 @@ export class BuyNftServiceService {
             .addOperation(
               Operation.manageData({
                 name: "Current Owner",
-                value: sourceKeypair.publicKey(),
+                value: userPK,
               })
             )
             .addOperation(
@@ -75,8 +79,15 @@ export class BuyNftServiceService {
             )
             .setTimeout(80000)
             .build();
-          transaction.sign(sourceKeypair);
-          return server.submitTransaction(transaction);
+          console.log("sign start")
+          let walletf = new UserWallet();
+          walletf = new FreighterComponent(walletf);
+          this.userSignedTransaction = await walletf.signTransaction(transaction)
+          const transactionToSubmit = TransactionBuilder.fromXDR(
+            this.userSignedTransaction,
+            Networks.TESTNET
+          );
+          return server.submitTransaction(transactionToSubmit);
         })
         .then((transactionResult) => {
           console.log("Buying of NFT was successful");

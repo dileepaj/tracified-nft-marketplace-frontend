@@ -255,12 +255,12 @@
 
 .seperator{
   margin-top: 4%;
-  width: 1450px;
+  width: 90%;
   height: 0px;
   left: 80px;
   top: 421px;
   border: 1px solid #FFFFFF;
-  align-items: center;
+  margin-left: 4%;
   margin-bottom: 4%;
 }
 
@@ -294,7 +294,7 @@
 }
 
 .composer-btn-container{
-  margin-top: 135%;
+  margin-top: 150%;
   display: flex;
 }
 
@@ -330,4 +330,31 @@ a {
 
 ::ng-deep .mat-tooltip{
   background: #2D2D2D !important;
+}
+
+.code-behind{
+  margin-top: 850%;
+}
+
+.code-behind-btn{
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  background-color: #FFFFFF;
+}
+
+.edit-btn{
+  padding-top: 116%;
+}
+
+.edit-container{
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  background-color: #FFFFFF;
+}
+
+.edit-icon{
+  color: #000000;
+  padding: 8px;
 }

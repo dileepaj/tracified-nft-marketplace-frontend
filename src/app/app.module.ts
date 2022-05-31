@@ -61,6 +61,8 @@ import { MatRippleModule } from '@angular/material/core';
 import { ViewNftCardComponent } from './nft/view-nft-card/view-nft-card.component';
 import { BuyViewComponent } from './marketplace/buyNft/buy-view/buy-view.component';
 import {CKEditorModule} from 'ng2-ckeditor';
+import { CodeviewComponent } from './nft/codeview/codeview.component';
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 const appRoutes: Routes = [
   {
@@ -143,6 +145,7 @@ const appRoutes: Routes = [
     MetamaskComponent,
     ViewNftCardComponent,
     BuyViewComponent,
+    CodeviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -172,8 +175,16 @@ const appRoutes: Routes = [
     MatSnackBarModule,
     MatRippleModule,
     CKEditorModule,
+    HighlightModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        fullLibraryLoader: () => import('highlight.js'),
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~highlight.js/styles/github.css';
 body {
   background: radial-gradient(
       107.46% 107.46% at 92.81% 151.49%,

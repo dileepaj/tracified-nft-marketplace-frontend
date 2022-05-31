@@ -36,12 +36,22 @@
               />
               <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/>
             </div>
+            <div *ngIf="imageSrc" class="code-behind">
+              <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
+                <img src="../../../assets/icons/code-icon.png" style="flex-basis: 40%" />
+              </button>
+            </div>
           </div>
           <div class="composer-btn-container">
             <button mat-button class="composer-btn">
               <a href="https://qa.nftcomposer.tracified.com/login"  target="_blank">Create with Tracified</a>
             </button>
             <mat-icon matTooltip="Create your NFTs on NFT Composer" matTooltipClass="example-tooltip-red" class="help-icon">help</mat-icon>
+          </div>
+          <div *ngIf="imageSrc" class="edit-btn">
+            <div class="edit-container">
+                <mat-icon matTooltip="Click on the SVG to update the SVG" matTooltipClass="example-tooltip-red" class="edit-icon">edit</mat-icon>
+            </div>
           </div>
         </mat-card>
         

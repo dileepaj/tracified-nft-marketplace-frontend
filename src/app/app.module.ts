@@ -61,6 +61,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { ViewNftCardComponent } from './nft/view-nft-card/view-nft-card.component';
 import { BuyViewComponent } from './marketplace/buyNft/buy-view/buy-view.component';
 import {CKEditorModule} from 'ng2-ckeditor';
+import { MintPopupComponent } from './nft/mint-popup/mint-popup.component';
 
 const appRoutes: Routes = [
   {
@@ -143,6 +144,7 @@ const appRoutes: Routes = [
     MetamaskComponent,
     ViewNftCardComponent,
     BuyViewComponent,
+    MintPopupComponent,
   ],
   imports: [
     BrowserModule,

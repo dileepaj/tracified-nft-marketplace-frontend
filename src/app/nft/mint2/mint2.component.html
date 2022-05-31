@@ -1,87 +1,266 @@
-<mat-card class="card2">
-<mat-accordion class="mint2">
-  <form [formGroup]="controlGroup">
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-       Select your Blockchain
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    
-<table >
-  <tr>
-   
-        <span formControlName="Blockchain" ngDefaultControl>
-      <td>  <mat-checkbox class="blockchain" value="ethereum">Ethereum</mat-checkbox></td>
-      <td>  <mat-checkbox class="blockchain" value="polygon" >Polygon</mat-checkbox></td>
-       <td> <mat-checkbox class="blockchain" value="stellar">Stellar</mat-checkbox></td>
-       <td> <mat-checkbox class="blockchain" value="solana">Solana</mat-checkbox></td>
-      </span>
-   
-  </tr>
-    </table>
- 
-  </mat-expansion-panel>
-  <mat-expansion-panel >
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        NFT Features
-      </mat-panel-title>
-      
-    </mat-expansion-panel-header>
-    
-    <table>
-      <tr>
-        <mat-form-field>
-        <input matInput type="text" formControlName="Copies" placeholder="Amount">
-        </mat-form-field>
-      </tr>
-      <tr>
-        <span formControlName="Categories" ngDefaultControl>
-        <td>  <mat-checkbox class="traits" value="LE">Limited Edition</mat-checkbox></td>
-        <td>  <mat-checkbox class="traits"value="U" >Unique</mat-checkbox></td>
-         <td> <mat-checkbox class="traits" value="NA" >N/A</mat-checkbox></td>
-        </span>
-      </tr>
-        </table>
+<div class="step-container">
+  <p class="heading">Halfway there...</p>
+  <p class="subheading">You are a step away from launching your NFT.</p>
+  <div class="seperator"></div>
+  <div class="step-content">
+    <div class="nft-card">
+      <img class="nft-image" src="https://via.placeholder.com/150" />
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+        "
+      >
+        <p class="nft-card-text nft-card-title">NFT Name</p>
+      </div>
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+        "
+      >
+        <p class="nft-card-text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mollis
+          ultrices diam nec pretium. Nullam aliquam tempor erat eu efficitur.
+        </p>
+      </div>
+    </div>
+    <div class="nft-mint">
+      <mat-accordion class="mint2">
+        <form [formGroup]="controlGroup">
+          <mat-expansion-panel
+            class="panel"
+            #selectbc
+            hideToggle="true"
+            [expanded]="true"
+          >
+            <mat-expansion-panel-header class="panel-header">
+              <mat-panel-title> Choose Your Blockchain </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon *ngIf="!selectbc.expanded">arrow_right</mat-icon>
+                <mat-icon *ngIf="selectbc.expanded">arrow_drop_down</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-radio-group
+              formControlName="Blockchain"
+              aria-label="Select an option"
+              class="blockchain-list"
+            >
+              <mat-radio-button value="ethereum" [checked]="true"
+                ><img
+                  class="blockchain-logo"
+                  src="../../../assets/images/ethereum.png"
+                /><label>Ethereum</label></mat-radio-button
+              >
+              <mat-radio-button value="polygon"
+                ><img
+                  class="blockchain-logo"
+                  src="../../../assets/images/polygon.png"
+                /><label>Polygon</label></mat-radio-button
+              >
+              <mat-radio-button value="stellar"
+                ><img
+                  class="blockchain-logo"
+                  src="../../../assets/images/stellar.png"
+                /><label>Stellar</label></mat-radio-button
+              >
+              <mat-radio-button value="solana"
+                ><img
+                  class="blockchain-logo"
+                  src="../../../assets/images/solana.png"
+                /><label>Solana</label></mat-radio-button
+              >
+            </mat-radio-group>
+          </mat-expansion-panel>
+          <mat-expansion-panel class="panel" #features hideToggle>
+            <mat-expansion-panel-header class="panel-header">
+              <mat-panel-title> Number of Copies </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon *ngIf="!features.expanded">arrow_right</mat-icon>
+                <mat-icon *ngIf="features.expanded">arrow_drop_down</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                padding: 20px 0px 10px 0px;
+                column-gap: 40px;
+              "
+            >
+              <div>
+                <label class="label-text" style="font-size: 22px">Amount:</label
+                ><br /><br />
+                <mat-form-field class="inputs" appearance="outline">
+                  <input matInput formControlName="Copies" />
+                </mat-form-field>
+              </div>
+              <div>
+                <label class="label-text" style="font-size: 22px"
+                  >Edition:</label
+                ><br /><br />
 
-  </mat-expansion-panel>
-  <mat-expansion-panel >
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        NFT Details
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-     
-    <table>
-      <tr>
-        <mat-form-field class="info">
-          <input matInput type="text"   formControlName="Tags" placeholder="Tags">
-        </mat-form-field>
-      </tr>
-      <tr>
-        <mat-form-field class="info">
-          <input matInput type="text"   formControlName="NftContentURL" placeholder="NFT Profile Link">
-        </mat-form-field>
-      </tr>
-      <tr>
-        <mat-form-field class="info">
-          <input matInput type="text"   formControlName="ArtistName" placeholder="Artist Name">
-        </mat-form-field>
-      </tr>
-      <tr>
-        <mat-form-field class="info">
-          <input matInput type="text"   formControlName="ArtistProfileLink" placeholder="Artist Profile Link">
-        </mat-form-field>
-      </tr>
-    
-        </table>
-  
-  </mat-expansion-panel>
-</form>
-</mat-accordion>
-<mat-card-actions>
-  <button mat-button  class="mint2Button" color="primary" (click)="getIssuer()">Proceed</button>
-</mat-card-actions><br>
-<h3 class="mint2w">You are almost done! Proceed to mint your token</h3>
-</mat-card>
+                <span formControlName="Categories" ngDefaultControl>
+                  <mat-checkbox class="traits" value="LE"
+                    ><label style="color: white"
+                      >Limited Edition</label
+                    ></mat-checkbox
+                  >
+
+                  <mat-checkbox class="traits" value="U"
+                    ><label style="color: white">Unique</label></mat-checkbox
+                  >
+
+                  <mat-checkbox class="traits" value="NA"
+                    ><label style="color: white">N/A</label></mat-checkbox
+                  >
+                </span>
+              </div>
+            </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel class="panel" #nftdetails hideToggle>
+            <mat-expansion-panel-header class="panel-header">
+              <mat-panel-title> Other Information </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon *ngIf="!nftdetails.expanded">arrow_right</mat-icon>
+                <mat-icon *ngIf="nftdetails.expanded">arrow_drop_down</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                padding: 20px 0px 10px 0px;
+                row-gap: 40px;
+              "
+            >
+              <table>
+                <tr>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: space-between;
+                      align-items: baseline;
+                    "
+                  >
+                    <label style="width: 40%; font-size: 22px">Tags : </label>
+                    <mat-form-field
+                      class="info"
+                      appearance="outline"
+                      style="width: 60%"
+                    >
+                      <input matInput type="text" formControlName="Tags" />
+                    </mat-form-field>
+                  </div>
+                </tr>
+                <tr>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: space-between;
+                      align-items: baseline;
+                    "
+                  >
+                    <label style="width: 40%; font-size: 22px"
+                      >NFT Content URL :
+                    </label>
+                    <mat-form-field
+                      class="info"
+                      appearance="outline"
+                      style="width: 60%"
+                    >
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="NftContentURL"
+                      />
+                    </mat-form-field>
+                  </div>
+                </tr>
+                <tr>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: space-between;
+                      align-items: baseline;
+                    "
+                  >
+                    <label style="width: 40%; font-size: 22px"
+                      >Artist Name :
+                    </label>
+                    <mat-form-field
+                      class="info"
+                      appearance="outline"
+                      style="width: 60%"
+                    >
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="ArtistName"
+                      />
+                    </mat-form-field>
+                  </div>
+                </tr>
+                <tr>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: space-between;
+                      align-items: baseline;
+                    "
+                  >
+                    <label style="width: 40%; font-size: 22px"
+                      >Artist Profile Link :
+                    </label>
+                    <mat-form-field
+                      class="info"
+                      appearance="outline"
+                      style="width: 60%"
+                    >
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="ArtistProfileLink"
+                      />
+                    </mat-form-field>
+                  </div>
+                </tr>
+                <tr>
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: row;
+                      justify-content: space-between;
+                      align-items: baseline;
+                    "
+                  >
+                    <label style="width: 40%; font-size: 22px">Issuer : </label>
+                    <mat-form-field
+                      class="info"
+                      appearance="outline"
+                      style="width: 60%"
+                    >
+                      <input matInput type="text" formControlName="Issuer" />
+                    </mat-form-field>
+                  </div>
+                </tr>
+              </table>
+            </div>
+          </mat-expansion-panel>
+        </form>
+      </mat-accordion>
+      <button class="mint2Button" (click)="getIssuer()" matRipple>
+        Proceed
+      </button>
+    </div>
+  </div>
+</div>

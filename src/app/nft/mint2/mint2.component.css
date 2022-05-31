@@ -24,7 +24,7 @@
   color: black;
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
+  font-size: medium;
   border-radius: 20px;
   padding: 10px 40px 10px 40px;
   cursor: pointer;
@@ -115,8 +115,8 @@
   row-gap: 20px;
   padding: 20px;
   align-items: center;
-  height: 400px;
-  width: 350px;
+  height: 370px;
+  width: 300px;
   border: 3px solid #10ceac;
   border-radius: 20px;
   overflow: auto;
@@ -125,8 +125,8 @@
 .nft-card-text {
   font-style: normal;
   font-weight: 400;
-  font-size: 22px;
-  line-height: 22px;
+  font-size: medium;
+  line-height: medium;
   color: #ffffff;
 }
 
@@ -154,7 +154,7 @@
 .mat-expansion-panel-header-title {
   color: white;
   font-weight: 400;
-  font-size: 22px;
+  font-size: medium;
 }
 
 .mat-expansion-panel-header-title,
@@ -201,7 +201,7 @@
 .lable-text {
   float: inline-end;
   font-weight: 400;
-  font-size: 22px;
+  font-size: medium;
   color: #ffffff;
 }
 
@@ -226,7 +226,7 @@
 }
 
 ::ng-deep .mat-radio-button.mat-accent {
-  font-size: 22px;
+  font-size: medium;
 }
 
 ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
@@ -249,7 +249,7 @@
 
 ::ng-deep .mat-checkbox.mat-accent {
   color: white !important;
-  font-size: 22px;
+  font-size: medium;
 }
 
 ::ng-deep .mat-checkbox-frame {

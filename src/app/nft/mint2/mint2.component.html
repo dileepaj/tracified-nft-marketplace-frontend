@@ -21,6 +21,7 @@
           display: flex;
           flex-direction: row;
           justify-content: flex-start;
+          margin-top: -15px;
         "
       >
         <p class="nft-card-text">
@@ -32,12 +33,7 @@
     <div class="nft-mint">
       <mat-accordion class="mint2">
         <form [formGroup]="controlGroup">
-          <mat-expansion-panel
-            class="panel"
-            #selectbc
-            hideToggle="true"
-            [expanded]="true"
-          >
+          <mat-expansion-panel class="panel" #selectbc hideToggle="true">
             <mat-expansion-panel-header class="panel-header">
               <mat-panel-title> Choose Your Blockchain </mat-panel-title>
               <mat-panel-description>
@@ -93,16 +89,27 @@
               "
             >
               <div>
-                <label class="label-text" style="font-size: 22px">Amount:</label
-                ><br /><br />
+                <label class="label-text" style="font-size: medium"
+                  >Amount:</label
+                ><br />
                 <mat-form-field class="inputs" appearance="outline">
-                  <input matInput formControlName="Copies" />
+                  <input
+                    matInput
+                    type="number"
+                    formControlName="Copies"
+                    max="4"
+                    min="0"
+                  />
+                  <mat-hint
+                    style="color: rgba(168, 168, 168, 0.618); font-size: small"
+                    >Maximum amount is 4</mat-hint
+                  >
                 </mat-form-field>
               </div>
               <div>
-                <label class="label-text" style="font-size: 22px"
+                <label class="label-text" style="font-size: medium"
                   >Edition:</label
-                ><br /><br />
+                ><br />
 
                 <span formControlName="Categories" ngDefaultControl>
                   <mat-checkbox class="traits" value="LE"
@@ -149,7 +156,7 @@
                       align-items: baseline;
                     "
                   >
-                    <label style="width: 40%; font-size: 22px">Tags : </label>
+                    <label style="width: 40%; font-size: medium">Tags : </label>
                     <mat-form-field
                       class="info"
                       appearance="outline"
@@ -168,7 +175,7 @@
                       align-items: baseline;
                     "
                   >
-                    <label style="width: 40%; font-size: 22px"
+                    <label style="width: 40%; font-size: medium"
                       >NFT Content URL :
                     </label>
                     <mat-form-field
@@ -193,7 +200,7 @@
                       align-items: baseline;
                     "
                   >
-                    <label style="width: 40%; font-size: 22px"
+                    <label style="width: 40%; font-size: medium"
                       >Artist Name :
                     </label>
                     <mat-form-field
@@ -218,7 +225,7 @@
                       align-items: baseline;
                     "
                   >
-                    <label style="width: 40%; font-size: 22px"
+                    <label style="width: 40%; font-size: medium"
                       >Artist Profile Link :
                     </label>
                     <mat-form-field
@@ -243,7 +250,9 @@
                       align-items: baseline;
                     "
                   >
-                    <label style="width: 40%; font-size: 22px">Issuer : </label>
+                    <label style="width: 40%; font-size: medium"
+                      >Issuer :
+                    </label>
                     <mat-form-field
                       class="info"
                       appearance="outline"

@@ -9,10 +9,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 import CryptoJS from 'crypto-js';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CodeviewComponent } from '../codeview/codeview.component';
+
 @Component({
   selector: 'app-mint',
   templateUrl: './mint.component.html',
-  styleUrls: ['./mint.component.css']
+  styleUrls: ['./mint.component.css'],
 })
 export class MintComponent implements OnInit {
   public image: Image;
@@ -30,36 +33,43 @@ export class MintComponent implements OnInit {
   imgSrc: any;
   hash: any;
   svg:SVG=new SVG('','')
- 
-  constructor(private service:CollectionService,private router:Router,private _sanitizer: DomSanitizer,private apiService:ApiServicesService, private snackBar: SnackbarServiceService) { }
- 
-  sendToMint2(): void {//function to pass data to the next component
+
+  constructor(
+    private service: CollectionService,
+    private router: Router,
+    private _sanitizer: DomSanitizer,
+    private apiService: ApiServicesService,
+    private snackBar: SnackbarServiceService,
+    public dialog: MatDialog
+  ) {}
+
+  sendToMint2(): void {
+    //function to pass data to the next component
     //getting form data and equaling it to the model
     this.mint.NftContentURL = this.hash;
     this.mint.Collection = this.formValue('Collection');
     this.mint.NFTName = this.formValue('NFTName');
     this.mint.Description = this.formValue('Description');
-    this.convertSvg()
+    this.convertSvg();
     //using routers to pass parameters of data into the next component
-   let data :any=this.mint;
-   this.router.navigate(['./mint2'],{
-   queryParams:{data:JSON.stringify(data)}
-   })
-   }
+    let data :any=this.mint;
+    this.router.navigate(['./mint2'],{
+    queryParams:{data:JSON.stringify(data)}
+    })
+  }
 
-   convertSvg():void{
-   this.svg.Base64ImageSVG=this.Encoded ;
-   this.svg.Hash= this.hash;
-   this.apiService.addSVG(this.svg).subscribe();
+  convertSvg():void{
+    this.svg.Base64ImageSVG=this.Encoded ;
+    this.svg.Hash= this.hash;
+    this.apiService.addSVG(this.svg).subscribe();
+  }
 
-   }
-
-   onFileChange(event: any){
+  onFileChange(event: any){
     this.file = event.target.files[0];
     this.uploadImage(event);
-   }
+  }
 
-   public uploadImage(event: Event) {
+  public uploadImage(event: Event) {
     this.loading = !this.loading;
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
@@ -67,15 +77,15 @@ export class MintComponent implements OnInit {
     this.loading = false; // Flag variable
   }
 
-   //create base64 image
+  //create base64 image
   private _handleReaderLoaded(readerEvt: any) {
     this.base64 = readerEvt.target.result;
     const unwantedText = "data:image/svg+xml;base64,";
     this.base64 = this.base64.replace(unwantedText, "");
     let encoded: string = atob(this.base64);
     this.Encoded=encoded;
-    
-    this.hash=CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex)
+
+    this.hash=CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
     this.updateImage();
     this.updateHTML();
   }
@@ -84,7 +94,7 @@ export class MintComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
     reader.onload = (_event) => {
-      this.imgSrc = reader.result;    
+      this.imgSrc = reader.result;
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.imgSrc);
     };
   }
@@ -97,12 +107,12 @@ export class MintComponent implements OnInit {
     };
   }
   ngOnInit(): void {
-   //getting collection data according to user PK
+    //getting collection data according to user PK
     this.collection.userId="A101";
     if (this.collection.userId!=null) {
       this.service.getCollectionName(this.collection.userId).subscribe((data:any)=>{
-        this.CollectionList=data;
-      })
+          this.CollectionList=data;
+        });
     } else {
       console.log("User PK not connected or not endorsed");
     }
@@ -114,8 +124,8 @@ export class MintComponent implements OnInit {
       file: new FormControl(this.mint.NftContentURL, [Validators.required]),
     });
   }
-  
-//getting input to formValue function from html code
+
+  //getting input to formValue function from html code
   private formValue(controlName: string): any {
     return this.controlGroupMint.get(controlName)!.value;
   }
@@ -124,14 +134,16 @@ export class MintComponent implements OnInit {
    * @function reset - reset the entered form values
    */
   reset(){
-    this.controlGroupMint.reset()
+    this.controlGroupMint.reset();
   }
 
   /**
    * @function onClickSubmit - User input validations
    */
-  onClickSubmit(){ 
-    if (this.formValue('Collection') == '') {
+  onClickSubmit() {
+    if (!this.image) {
+      this.snackBar.openSnackBar('Please upload an SVG');
+    } else if (this.formValue('Collection') == '') {
       this.snackBar.openSnackBar('Please select a collection for your NFT');
     } else if (this.formValue('NFTName') == '') {
       this.snackBar.openSnackBar('Please name your NFT');
@@ -142,4 +154,12 @@ export class MintComponent implements OnInit {
     }
   }
 
+  //open the popup for the code view
+  public openDialog() {
+    const dialogRef = this.dialog.open(CodeviewComponent,{
+      data:{
+        imgSrc:this.Encoded
+      },
+    });
+  }
 }

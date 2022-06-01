@@ -63,6 +63,8 @@ import { BuyViewComponent } from './marketplace/buyNft/buy-view/buy-view.compone
 import {CKEditorModule} from 'ng2-ckeditor';
 import { CodeviewComponent } from './nft/codeview/codeview.component';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { MintPopupComponent } from './nft/mint-popup/mint-popup.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 const appRoutes: Routes = [
   {
@@ -91,20 +93,20 @@ const appRoutes: Routes = [
     pathMatch: 'full',
   },
   {
-    path:'sell',
-    component:SellNftComponent
+    path: 'sell',
+    component: SellNftComponent,
   },
   {
-    path:'getNft',
-    component:ViewNftCardComponent
+    path: 'getNft',
+    component: ViewNftCardComponent,
   },
   {
-    path:'buyNft',
-    component:BuyViewComponent
+    path: 'buyNft',
+    component: BuyViewComponent,
   },
   {
-    path:'createblog',
-    component:RichTextEditorComponent
+    path: 'createblog',
+    component: RichTextEditorComponent,
   },
 ];
 @NgModule({
@@ -146,6 +148,7 @@ const appRoutes: Routes = [
     ViewNftCardComponent,
     BuyViewComponent,
     CodeviewComponent,
+    MintPopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -176,6 +179,7 @@ const appRoutes: Routes = [
     MatRippleModule,
     CKEditorModule,
     HighlightModule,
+    MatRadioModule,
   ],
   providers: [
     {
@@ -184,6 +188,7 @@ const appRoutes: Routes = [
         fullLibraryLoader: () => import('highlight.js'),
       },
     },
+    
   ],
   bootstrap: [AppComponent],
 })

@@ -1,62 +1,269 @@
-.main-div{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
-
-  }
-
-  .card2{
-width : 700px ;
-height:300px ;
-margin-top: 10%;
-margin-left: 23%;
-  }
-
-  .mint2Button{
-    height:40px;
-    width: 15%;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    margin-left: 250px;
-    float:right;
-    margin-top: 1%;
-    background-color: green;
-    color: white;
-    border-radius: 5%;
+.main-div {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.mint2{
-  display:grid;
+.card2 {
+  width: 700px;
+  height: 300px;
+  margin-top: 10%;
+  margin-left: 23%;
+}
+
+.mint2Button {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  float: right;
+  margin: 0px 40px 0px 40px;
+  margin-top: 1%;
+  background-color: #10ceac;
+  border: 1px solid #10ceac;
+  color: black;
+  font-style: normal;
+  font-weight: 500;
+  font-size: medium;
+  border-radius: 20px;
+  padding: 10px 40px 10px 40px;
+  cursor: pointer;
+}
+
+.mint2 {
+  display: grid;
   margin: auto;
   width: 90%;
   margin-top: 5%;
-  
 }
 
-.info{
+.info {
   width: 600px;
 }
 
-.traits{
+.traits {
   margin: 0 20px 0;
 }
 
-.blockchain{
-margin: 0 20px 0;
-
+.blockchain {
+  margin: 0 20px 0;
 }
 
-.mint2w{
- margin-left: 25%;
+.mint2w {
+  margin-left: 25%;
 }
 
-.issue{
+.issue {
   background-color: green;
   color: white;
-  height:40px;
+  height: 40px;
   width: 20px;
 }
 
+.heading {
+  margin-top: 4%;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 73px;
+  /* identical to box height */
+  text-align: center;
+  color: #ffffff;
+}
+
+.subheading {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  /* identical to box height */
+  text-align: center;
+  color: #ffffff;
+}
+
+.seperator {
+  margin-top: 4%;
+  width: 1450px;
+  height: 0px;
+  left: 80px;
+  top: 421px;
+  border: 1px solid #ffffff;
+  align-items: center;
+  margin-bottom: 4%;
+}
+
+.step-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0px 20px 0px;
+}
+
+.step-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  column-gap: 50px;
+}
+
+.nft-card {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding: 20px;
+  align-items: center;
+  height: 370px;
+  width: 300px;
+  border: 3px solid #10ceac;
+  border-radius: 20px;
+  overflow: auto;
+}
+
+.nft-card-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: medium;
+  line-height: medium;
+  color: #ffffff;
+}
+
+.nft-card-title {
+  text-align: left;
+  color: #10ceac;
+}
+
+.nft-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 20px;
+}
+
+.blockchain-logo {
+  background: white;
+  border-radius: 5px;
+  padding: 5px;
+  margin-right: 10px;
+  width: 15px;
+  height: 15px;
+  vertical-align: middle;
+}
+
+.mat-expansion-panel-header-title {
+  color: white;
+  font-weight: 400;
+  font-size: medium;
+}
+
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+  flex-basis: 1 1;
+}
+
+.mat-expansion-panel-header-description {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  color: #ffffff;
+}
+
+.mat-expansion-panel-header.mat-expanded,
+.mat-expansion-panel-header.mat-expanded:hover {
+  background: #2d2d2d !important;
+  height: 50px !important;
+}
+
+.panel {
+  color: #ffffff;
+  margin-bottom: 35px;
+  background: transparent;
+  box-shadow: none;
+}
+.panel-header {
+  background: #2d2d2d;
+  border-radius: 20px;
+  height: 50px !important;
+}
+
+.panel-header:hover {
+  background: #2d2d2d !important;
+}
+
+.blockchain-list {
+  margin: 10px 0px 10px 0px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}
+
+.lable-text {
+  float: inline-end;
+  font-weight: 400;
+  font-size: medium;
+  color: #ffffff;
+}
+
+/* default and hover color */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #10ceac;
+  border-radius: 30px 30px 30px 30px !important;
+}
+
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: #10ceac;
+  border-radius: 30px 30px 30px 30px !important;
+}
+
+/* floating label color */
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+  color: #10ceac;
+  border-radius: 30px 30px 30px 30px !important;
+}
+
+::ng-deep .mat-radio-button.mat-accent {
+  font-size: medium;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: #10ceac;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-outer-circle {
+  border-color: #10ceac;
+}
+
+::ng-deep
+  .mat-radio-button.mat-accent.mat-radio-checked
+  .mat-radio-outer-circle {
+  border-color: #10ceac;
+}
+
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color: #10ceac;
+}
+
+::ng-deep .mat-checkbox.mat-accent {
+  color: white !important;
+  font-size: medium;
+}
+
+::ng-deep .mat-checkbox-frame {
+  border-color: #10ceac;
+}
+
+::ng-deep
+  .mat-checkbox-checked.mat-accent
+  .mat-checkbox-ripple
+  .mat-ripple-element {
+  background-color: #10ceac !important;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #10ceac;
+}

@@ -60,7 +60,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatRippleModule } from '@angular/material/core';
 import { ViewNftCardComponent } from './nft/view-nft-card/view-nft-card.component';
 import { BuyViewComponent } from './marketplace/buyNft/buy-view/buy-view.component';
-import {CKEditorModule} from 'ng2-ckeditor';
+import { CKEditorModule } from 'ng2-ckeditor';
+import { MatRadioModule } from '@angular/material/radio';
 
 const appRoutes: Routes = [
   {
@@ -89,20 +90,20 @@ const appRoutes: Routes = [
     pathMatch: 'full',
   },
   {
-    path:'sell',
-    component:SellNftComponent
+    path: 'sell',
+    component: SellNftComponent,
   },
   {
-    path:'getNft',
-    component:ViewNftCardComponent
+    path: 'getNft',
+    component: ViewNftCardComponent,
   },
   {
-    path:'buyNft',
-    component:BuyViewComponent
+    path: 'buyNft',
+    component: BuyViewComponent,
   },
   {
-    path:'createblog',
-    component:RichTextEditorComponent
+    path: 'createblog',
+    component: RichTextEditorComponent,
   },
 ];
 @NgModule({
@@ -172,6 +173,7 @@ const appRoutes: Routes = [
     MatSnackBarModule,
     MatRippleModule,
     CKEditorModule,
+    MatRadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -60,7 +60,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatRippleModule } from '@angular/material/core';
 import { ViewNftCardComponent } from './nft/view-nft-card/view-nft-card.component';
 import { BuyViewComponent } from './marketplace/buyNft/buy-view/buy-view.component';
-import { CKEditorModule } from 'ng2-ckeditor';
+import {CKEditorModule} from 'ng2-ckeditor';
+import { MintPopupComponent } from './nft/mint-popup/mint-popup.component';
 import { MatRadioModule } from '@angular/material/radio';
 
 const appRoutes: Routes = [
@@ -144,6 +145,7 @@ const appRoutes: Routes = [
     MetamaskComponent,
     ViewNftCardComponent,
     BuyViewComponent,
+    MintPopupComponent,
   ],
   imports: [
     BrowserModule,

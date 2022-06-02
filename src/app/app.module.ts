@@ -108,6 +108,10 @@ const appRoutes: Routes = [
     path: 'createblog',
     component: RichTextEditorComponent,
   },
+  {
+    path:"explore",
+    component: ExploreComponent
+  },
 ];
 @NgModule({
   declarations: [

@@ -1,8 +1,4 @@
-import { Signer } from './Signer';
-import { base58 } from 'ethers/lib/utils';
-import { Keypair } from '@solana/web3.js';
-import { sendAndConfirmTransaction } from '@solana/web3.js';
-import { Transaction } from 'stellar-sdk';
+import { Keypair, sendAndConfirmTransaction } from '@solana/web3.js';
 import { FreighterComponent } from './../../../wallet/freighter/freighter.component';
 import { UserWallet } from 'src/app/models/userwallet';
 import { Component, OnInit } from '@angular/core';
@@ -19,7 +15,8 @@ import { SVG, TXN } from 'src/app/models/minting';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { clusterApiUrl, Connection,Transaction as solanaTransaction } from '@solana/web3.js';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
-import {PhantomWalletAdapter} from "@solana/wallet-adapter-phantom"
+import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
+
 @Component({
   selector: 'app-buy-view',
   templateUrl: './buy-view.component.html',
@@ -41,7 +38,8 @@ export class BuyViewComponent implements OnInit {
   svg:SVG=new SVG('','')
   txn:TXN = new TXN('','','','','','')
   dec: string;
-
+  transaction:Uint8Array;
+  signer:Uint8Array
   constructor(private service:NftServicesService,
     private trust:TrustLineByBuyerServiceService,
     private buyNftService:BuyNftServiceService,
@@ -49,7 +47,8 @@ export class BuyViewComponent implements OnInit {
     private _sanitizer: DomSanitizer,
     private emarket:EthereumMarketServiceService,
     private pmarket:PolygonMarketServiceService,
-    private apiService:ApiServicesService
+    private apiService:ApiServicesService,
+    private transfer:TransferNftService
     ) { }  
   buyNFT():void{
    this.updateBackend();
@@ -76,112 +75,34 @@ export class BuyViewComponent implements OnInit {
       phantomWallet = new PhantomComponent(phantomWallet)
       await phantomWallet.initWallelt()
 
-      const bs58 = require('bs58')
-      let adapter = new PhantomWalletAdapter()
-      adapter.connect()
-      console.log("user PK from adapter:",adapter.publicKey)
-
       this.saleBE.SellingType="NFT"
       this.saleBE.MarketContract="Not Applicable"
       this.saleBE.NFTIdentifier=this.NFTList.nftidentifier
 
-       const getProvider = ()  => {
-        if ("solana" in (window as any)) {
-            const anyWindow = window;
-            const provider = (anyWindow as any).solana;
-            if (provider.isPhantom) {
-                return provider;
-            }
-        }
-        window.open("https://phantom.app/", "_blank");
-
+      this.transfer.createATA(environment.fromWalletSecret,parseInt(this.NFTList.currentprice),phantomWallet.getWalletaddress(),this.NFTList.nftissuerpk,this.NFTList.nftidentifier).then(async(res:solanaTransaction)=>{
+        console.log("result is ",res)
+        this.buytxn=res;
+        this.saveTXNs()
+        this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+        this.updateGateway();
         
-      };
-      const provider = getProvider();
-      this.ata.createATA(environment.fromWalletSecret,phantomWallet.getWalletaddress(),this.NFTList.nftissuerpk,this.NFTList.nftidentifier).then(async (result:solanaTransaction)=>{
-        //console.log("result RECIVED: ", result)
-
-        // this.newATA =result[0];
-        // this.buytxn=result[1];
-        // this.saleBE.NFTIdentifier=this.newATA;
-        // this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-        // this.updateGateway();
-        // this.saveTXNs();
-        // console.log("Inside buy component: ",result)
-        // const {signature}  = await (window as any).solana.request({
-        //   method:"signTransaction",
-        //   params:{
-        //     message: base58.encode(result.serializeMessage()),
-        //   }
-        // });
-        // await connection.sendRawTransaction(signature.serialize());
-        
-        // console.log("Result: ",result)
-        // console.log("Result 0: ",result.instructions[0].keys[0].pubkey.toString())
-        // console.log("Result 2: ",result.instructions[0].keys[2].pubkey.toString())
-        // console.log("Result 3: ",result.instructions[0].keys[3].pubkey.toString())
-        try{
-            let fromKeypair = Keypair.fromSecretKey(environment.fromWalletSecret);
-            
-            const signed =await provider.signTransaction(result)
-            //console.log("trans signed by adapater : ",signed)
-            result.partialSign(fromKeypair)
-
-            // result.partialSign(fromKeypair)
-            // const signed = await provider.signTransaction(result)
-
-            console.log("Recived PK 1",result.signatures[0].publicKey.toString())
-           // const pk1 = Keypair.fromSecretKey(this.signed.signatures[0].publicKey).publicKey
-           // console.log("to String PK1:",pk1.toString())
-            
-              console.log("Recived PK 2",result.signatures[1].publicKey.toString())
-              //const pk2 = Keypair.fromSecretKey(result.signatures[1].publicKey)
-              //console.log("to String PK2:",pk2.toString())
-             // const signature = await provider.signAndSendTransaction(signed)
-            
-             // let toKeyPair = Keypair.fromSecretKey(result.signatures[0].signature)
-            //const signature = await (window as any).solana.sendTransaction(signed, connection);
-           // console.log("signature before catch",signed)
-            //signer : fromKeypair
-            //await connection.confirmTransaction(bs58.encode(signed.signatures[0].signature),bs58.encode(signed.signatures[1].signature))
-           // const signers=[bs58.decode(signed.signatures[0].signature),bs58.decode(signed.signatures[1].signature)]
-            // const Signer1 : Signer[] = [
-            //   {publicKey: bs58.encode(enc.encode(signed.signatures[0].publicKey)),secretKey:bs58.encode(signed.signatures[0].signature)},
-            //   {publicKey: bs58.encode(enc.encode(signed.signatures[1].publicKey)),secretKey:bs58.encode(signed.signatures[1].signature)},
-            // ]
-            
-            // await connection.sendTransaction(
-            //   result,
-            //   Signer1
-            // )
-        //    console.log("value passed:",signed)
-           // const { signature } = await (window as any).solana.signAndSendTransaction(result);
-            //let answer = await connection.confirmTransaction(signature);
-            // const latestBlockHash = await connection.getLatestBlockhash();
-            // let answer = await connection.confirmTransaction({
-            //   blockhash: latestBlockHash.blockhash,
-            //   lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
-            //   signature: bs58.encode(signed.signatures[0].signature),
-            // });
-            console.log("BEFORE SIGN AND SEND RECIVED: ", result)
-            console.log("singature :",result.verifySignatures())
-            const  signedTransaction   = await (window as any).solana.signTransaction(result);
-            console.log("singature after sign:",signedTransaction)
-            console.log("serialzed result: ",signedTransaction.serialize())
-            const signature = await connection.sendRawTransaction(signedTransaction.serialize());
           
-            console.log("start confirmation")
-            await connection.confirmTransaction(bs58.decode(signature));
-          // console.log("finished: ",answer)
+      }
+    )
+
+      this.ata.createATA(environment.fromWalletSecret,parseInt(this.NFTList.currentprice),phantomWallet.getWalletaddress(),this.NFTList.nftissuerpk,this.NFTList.nftidentifier).then(async (result:solanaTransaction)=>{
+      
+        try{
+      
+            const { signature } = await (window as any).solana.signAndSendTransaction(result);
+            await connection.confirmTransaction(signature);
+            alert("Sucessfully Bought!!!")
             
         }catch(err){
-          console.log(err)
+          alert(err)
         }
-        
-      })
-      
-      
-    }
+        })
+       }
     if(this.NFTList.blockchain=='polygon'){
       this.saleBE.MarketContract=environment.contractAddressMKPolygon
       this.saleBE.NFTIdentifier=this.nftbe.NFTIdentifier
@@ -275,7 +196,7 @@ export class BuyViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.nftbe.Blockchain="solana";
-    this.nftbe.NFTIdentifier="GeABJnremajkFuLViuS5JdojfhqCmdKQNJ6XiB8SzFsY";
+    this.nftbe.NFTIdentifier="ANkqbw8wbZPhffocb28D1Dbjtzd4ctVe1icm5YPqDJfq";
    this.nftbe.SellingStatus="ON SALE";
     if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="solana") {
       this.service.getNFTDetails(this.nftbe.NFTIdentifier,this.nftbe.SellingStatus,this.nftbe.Blockchain).subscribe((data:any)=>{

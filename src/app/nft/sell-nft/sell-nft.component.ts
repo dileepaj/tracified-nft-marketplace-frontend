@@ -13,7 +13,7 @@ import { PolygonMarketServiceService } from 'src/app/services/contract-services/
 import { TXN } from 'src/app/models/minting';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
-import { clusterApiUrl, Connection } from '@solana/web3.js';
+import { clusterApiUrl, Connection, Keypair } from '@solana/web3.js';
 
 @Component({
   selector: 'app-sell-nft',
@@ -37,6 +37,7 @@ export class SellNftComponent implements OnInit {
   newATA: any;
   txn:TXN=new TXN('','','','','','')
   selltxn: any;
+  transaction:Uint8Array;
 
   constructor(private route:ActivatedRoute,
     private service:NftServicesService,
@@ -122,31 +123,30 @@ async Sell():Promise<void>{
           this.addDBGateway()
           
       }else{
+        console.log("mint ", this.data.InitialIssuerPK)
           const connection = new Connection(clusterApiUrl("testnet"), "confirmed");
           let phantomWallet = new UserWallet()
           phantomWallet = new PhantomComponent(phantomWallet)
           await phantomWallet.initWallelt()
-          this.middleman.createATA(phantomWallet.getWalletaddress(),environment.TRACIFIED_MIDDLE_MAN, this.data.InitialIssuerPK.publicKey,this.data.Identifier.publicKey).then(async result=>{
-            //console.log("result 0 : ",result[0])
-            //console.log("result 1 : ",result[1])
-            //this.newATA =await result[0];
-           // this.selltxn=await result[1];
-           // console.log("hash:",this.selltxn)
-          //  this.saleBE.NFTIdentifier=this.newATA
-            //this.addDBBackend()
-            //this.addDBGateway()
-            //this.saveTXNs()
-            console.log("Inside seller component: ",result)
-            const signature = await (window as any).solana.signAndSendTransaction(result);
-            await connection.confirmTransaction(signature);
-          })
-               
+          this.middleman.createATA(phantomWallet.getWalletaddress(),environment.fromWalletSecret, this.data.InitialIssuerPK).then(async result=>{
+          
+            try{
+              const  signedTransaction   = await (window as any).solana.signTransaction(result);
             
-         
-      }
-     
-
-    }
+             this.transaction =signedTransaction.serialize()
+              const signature = await connection.sendRawTransaction(this.transaction);
+            
+              alert("successfully sold!")
+              this.selltxn=signature;
+            this.addDBBackend()
+            this.addDBGateway()
+            this.saveTXNs()
+              
+          }catch(err){
+            alert(err)
+          }
+          }) }
+     }
     if(this.data.NftIssuingBlockchain=='polygon'){
       this.saleBE.MarketContract=environment.contractAddressMKPolygon
       this.saleBE.NFTIdentifier=this.data.Identifier

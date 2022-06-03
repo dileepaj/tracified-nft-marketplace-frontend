@@ -29,7 +29,7 @@ nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','
  
   
   ngOnInit(): void {
-    this.nft.InitialDistributorPK="49sj8Ujz4RfxNmyiq5SQBYgL41A3bR6rmDNBYeuQxKd8";
+    this.nft.InitialDistributorPK="ANkqbw8wbZPhffocb28D1Dbjtzd4ctVe1icm5YPqDJfq";
     if (this.nft.InitialDistributorPK!=null) {
       this.service.getLastNFTDetails(this.nft.InitialDistributorPK).subscribe((data:any)=>{
         this.NFTList=data;
@@ -38,9 +38,13 @@ nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','
           this.ngOnInit()
         }
         this.svg.Hash=this.NFTList.ImageBase64
+        console.log("svg : ",this.svg.Hash)
         this.service.getSVGByHash(this.svg.Hash).subscribe((res:any)=>{
-          this.Decryption = res.Response[0].Base64ImageSVG
+          console.log("service res:",res)
+          this.Decryption = res.Response.Base64ImageSVG
+          console.log("decrypted sg:",this.Decryption)
          this.dec = btoa(this.Decryption);
+         console.log("dec : ",this.dec)
         var str2 = this.dec.toString(); 
         var str1 = new String( "data:image/svg+xml;base64,"); 
         var src = str1.concat(str2.toString());

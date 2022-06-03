@@ -10,31 +10,34 @@ import {
 } from "stellar-sdk";
 import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
+import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
+import { UserWallet } from 'src/app/models/userwallet';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrustLineByBuyerServiceService {
+  userSignedTransaction: any;
 
   constructor() { }
-  trustlineByBuyer(asset_code:string, asset_issuer:string, signerSK:string, buyerpk:string,nftPrice:string) {
+  trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string) {
     let royalty=(parseFloat(nftPrice)*(0.02)).toFixed(6).toString();
 
 
     return new Promise((resolve, reject) => {
-      let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
+      //let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
       if (blockchainNetType === "live") {
         Networks.TESTNET
       } else {
         Networks.PUBLIC
       }
-      const senderPublickKey = buyerpk;
+      const senderPublickKey = userPK;
       var asset = new Asset(asset_code, asset_issuer); //for buyer --> gateway
       var claimer ='GA6KKDBU4S55QV4T5777DGYJ7WULG7K3RPV5RTSYJ37KBQXJ2OKKIFDL'
       let server = new Server(blockchainNet);
       server
-        .loadAccount(sourceKeypair.publicKey())
-        .then((account) => {
+        .loadAccount(userPK)
+        .then(async (account) => {
           var transaction = new TransactionBuilder(account, { fee:'100', networkPassphrase: Networks.TESTNET,})
             .addOperation(
               Operation.changeTrust({
@@ -54,8 +57,14 @@ export class TrustLineByBuyerServiceService {
             )
             .setTimeout(60000)
             .build();
-          transaction.sign(sourceKeypair);
-          return server.submitTransaction(transaction);
+            let walletf = new UserWallet();
+            walletf = new FreighterComponent(walletf);
+            this.userSignedTransaction = await walletf.signTransaction(transaction)
+            const transactionToSubmit = TransactionBuilder.fromXDR(
+              this.userSignedTransaction,
+              Networks.TESTNET
+            );
+          return server.submitTransaction(transactionToSubmit);
         })
         .then((transactionResult) => {
           resolve(transactionResult);
@@ -66,4 +75,5 @@ export class TrustLineByBuyerServiceService {
         });
     });
   }
+
 }

@@ -1,3 +1,6 @@
+import { Keypair, sendAndConfirmTransaction } from '@solana/web3.js';
+import { FreighterComponent } from './../../../wallet/freighter/freighter.component';
+import { UserWallet } from 'src/app/models/userwallet';
 import { Component, OnInit } from '@angular/core';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { NFTMarket,SalesBE,BuyNFTGW, GetNFT } from 'src/app/models/nft';
@@ -10,6 +13,9 @@ import { PolygonMarketServiceService } from 'src/app/services/contract-services/
 import { DomSanitizer } from '@angular/platform-browser';
 import { SVG, TXN } from 'src/app/models/minting';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
+import { clusterApiUrl, Connection,Transaction as solanaTransaction } from '@solana/web3.js';
+import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
+import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
 
 @Component({
   selector: 'app-buy-view',
@@ -32,6 +38,8 @@ export class BuyViewComponent implements OnInit {
   svg:SVG=new SVG('','')
   txn:TXN = new TXN('','','','','','')
   dec: string;
+  transaction:Uint8Array;
+  signer:Uint8Array
   constructor(private service:NftServicesService,
     private trust:TrustLineByBuyerServiceService,
     private buyNftService:BuyNftServiceService,
@@ -39,14 +47,14 @@ export class BuyViewComponent implements OnInit {
     private _sanitizer: DomSanitizer,
     private emarket:EthereumMarketServiceService,
     private pmarket:PolygonMarketServiceService,
-    private apiService:ApiServicesService
-    ) { }
-
+    private apiService:ApiServicesService,
+    private transfer:TransferNftService
+    ) { }  
   buyNFT():void{
    this.updateBackend();
   }
 
-  updateBackend():void{
+  async updateBackend():Promise<void>{
     this.saleBE.CurrentPrice=this.NFTList.currentprice
     this.saleBE.SellingStatus="NOT FOR SALE"
     this.saleBE.Timestamp="2022-04-21:13:41:00"
@@ -61,21 +69,40 @@ export class BuyViewComponent implements OnInit {
       
     }
     if(this.NFTList.blockchain=='solana'){
+     
+      const connection = new Connection(clusterApiUrl("testnet"), "confirmed");
+      let phantomWallet = new UserWallet()
+      phantomWallet = new PhantomComponent(phantomWallet)
+      await phantomWallet.initWallelt()
+
       this.saleBE.SellingType="NFT"
       this.saleBE.MarketContract="Not Applicable"
       this.saleBE.NFTIdentifier=this.NFTList.nftidentifier
-     
-      this.ata.createATA(environment.fromWalletSecret,this.NFTList.nftissuerpk,this.NFTList.nftidentifier).then((result:any)=>{
-        this.newATA =result[0];
-        this.buytxn=result[1];
-        this.saleBE.NFTIdentifier=this.newATA;
+
+      this.transfer.createATA(environment.fromWalletSecret,parseInt(this.NFTList.currentprice),phantomWallet.getWalletaddress(),this.NFTList.nftissuerpk,this.NFTList.nftidentifier).then(async(res:solanaTransaction)=>{
+        console.log("result is ",res)
+        this.buytxn=res;
+        this.saveTXNs()
         this.service.updateNFTStatusBackend(this.saleBE).subscribe();
         this.updateGateway();
-        this.saveTXNs();
-      })
+        
+          
+      }
+    )
+
+      this.ata.createATA(environment.fromWalletSecret,parseInt(this.NFTList.currentprice),phantomWallet.getWalletaddress(),this.NFTList.nftissuerpk,this.NFTList.nftidentifier).then(async (result:solanaTransaction)=>{
       
+        try{
       
-    }
+            const { signature } = await (window as any).solana.signAndSendTransaction(result);
+            await connection.confirmTransaction(signature);
+            alert("Sucessfully Bought!!!")
+            
+        }catch(err){
+          alert(err)
+        }
+        })
+       }
     if(this.NFTList.blockchain=='polygon'){
       this.saleBE.MarketContract=environment.contractAddressMKPolygon
       this.saleBE.NFTIdentifier=this.nftbe.NFTIdentifier
@@ -121,15 +148,19 @@ export class BuyViewComponent implements OnInit {
   this.apiService.addTXN(this.txn).subscribe();
   }
 
-  buyNFTOnStellar():void{
-    this.trust.trustlineByBuyer(this.NFTList.nftname,this.NFTList.nftissuerpk,this.signerSK,this.saleBE.CurrentOwnerPK,this.NFTList.currentprice).then((transactionResult: any) => {
-      if (transactionResult.successful) {
+  async buyNFTOnStellar():Promise<void>{
+    let walletf = new UserWallet()
+    walletf = new FreighterComponent(walletf)
+    await walletf.initWallelt()
+    let userPK =await walletf.getWalletaddress()
+     this.trust.trustlineByBuyer(this.NFTList.nftname,this.NFTList.nftissuerpk,userPK,this.NFTList.currentprice).then((transactionResult: any) => {
+       if (transactionResult.successful) {
         this.buyNftService.buyNft(//step 2. - mint
-          transactionResult.successful,
+         // transactionResult.successful,
           this.NFTList.nftname,
-          this.signerSK,
           this.NFTList.nftissuerpk,
           this.NFTList.distributorpk,
+          userPK,
           this.NFTList.currentprice
          )
           .then((nft:any) => {
@@ -150,7 +181,7 @@ export class BuyViewComponent implements OnInit {
           this.dissmissLoading();
         }
       }
-    })
+   })
    
   } 
 
@@ -165,7 +196,7 @@ export class BuyViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.nftbe.Blockchain="solana";
-    this.nftbe.NFTIdentifier="6zbqLf2vwHoj3GmefBPCDnZbQiju9UZQ4BMqceyhzzsj";
+    this.nftbe.NFTIdentifier="ANkqbw8wbZPhffocb28D1Dbjtzd4ctVe1icm5YPqDJfq";
    this.nftbe.SellingStatus="ON SALE";
     if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="solana") {
       this.service.getNFTDetails(this.nftbe.NFTIdentifier,this.nftbe.SellingStatus,this.nftbe.Blockchain).subscribe((data:any)=>{
@@ -176,7 +207,7 @@ export class BuyViewComponent implements OnInit {
         }
         this.svg.Hash=this.NFTList.imagebase64
         this.service.getSVGByHash(this.svg.Hash).subscribe((res:any)=>{
-          this.Decryption = res.Response[0].Base64ImageSVG
+          this.Decryption = res.Response.Base64ImageSVG
          this.dec = btoa(this.Decryption);
         var str2 = this.dec.toString(); 
         var str1 = new String( "data:image/svg+xml;base64,"); 

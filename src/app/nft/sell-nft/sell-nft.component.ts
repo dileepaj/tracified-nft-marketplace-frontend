@@ -1,3 +1,5 @@
+import { FreighterComponent } from './../../wallet/freighter/freighter.component';
+import { UserWallet } from 'src/app/models/userwallet';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NFTMarket ,SalesBE,SalesGW,Sales} from 'src/app/models/nft';
@@ -10,6 +12,8 @@ import { EthereumMarketServiceService } from 'src/app/services/contract-services
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
 import { TXN } from 'src/app/models/minting';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
+import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
+import { clusterApiUrl, Connection, Keypair } from '@solana/web3.js';
 
 @Component({
   selector: 'app-sell-nft',
@@ -33,6 +37,7 @@ export class SellNftComponent implements OnInit {
   newATA: any;
   txn:TXN=new TXN('','','','','','')
   selltxn: any;
+  transaction:Uint8Array;
 
   constructor(private route:ActivatedRoute,
     private service:NftServicesService,
@@ -81,8 +86,14 @@ export class SellNftComponent implements OnInit {
   }
 
 
-Sell():void{
+async Sell():Promise<void>{
+    
     if(this.data.NftIssuingBlockchain=='stellar'){
+      let freighterWallet = new UserWallet();
+      freighterWallet = new FreighterComponent(freighterWallet)
+      await freighterWallet.initWallelt()
+      let signerpK = await freighterWallet.getWalletaddress()
+      console.log("user PK: ",signerpK)
       this.saleBE.SellingType="NFT"
       this.saleBE.MarketContract="Not Applicable"
       this.saleBE.NFTIdentifier=this.data.Identifier
@@ -92,7 +103,7 @@ Sell():void{
       this.stellarService.sellNft(
         this.data.NftContentName,
         this.data.InitialIssuerPK,
-        this.signer,
+        signerpK,
         '1',
         this.sellingPrice).then((res:any)=>{
           this.selltxn=res.hash
@@ -100,6 +111,7 @@ Sell():void{
         })
     }
     if(this.data.NftIssuingBlockchain=='solana'){
+      console.log("Solana going on sale")
       this.saleBE.MarketContract="Not Applicable"
       this.saleBE.SellingType="NFT"
       this.calculatePrice()
@@ -111,21 +123,30 @@ Sell():void{
           this.addDBGateway()
           
       }else{
-          this.middleman.createATA(environment.seller,environment.TRACIFIED_MIDDLE_MAN, this.data.InitialIssuerPK.publicKey,this.data.Identifier.publicKey).then(result=>{
-            this.newATA =result[0];
-            this.selltxn=result[1];
-            this.saleBE.NFTIdentifier=this.newATA
+        console.log("mint ", this.data.InitialIssuerPK)
+          const connection = new Connection(clusterApiUrl("testnet"), "confirmed");
+          let phantomWallet = new UserWallet()
+          phantomWallet = new PhantomComponent(phantomWallet)
+          await phantomWallet.initWallelt()
+          this.middleman.createATA(phantomWallet.getWalletaddress(),environment.fromWalletSecret, this.data.InitialIssuerPK).then(async result=>{
+          
+            try{
+              const  signedTransaction   = await (window as any).solana.signTransaction(result);
+            
+             this.transaction =signedTransaction.serialize()
+              const signature = await connection.sendRawTransaction(this.transaction);
+            
+              alert("successfully sold!")
+              this.selltxn=signature;
             this.addDBBackend()
             this.addDBGateway()
             this.saveTXNs()
-          })
-               
-            
-         
-      }
-     
-
-    }
+              
+          }catch(err){
+            alert(err)
+          }
+          }) }
+     }
     if(this.data.NftIssuingBlockchain=='polygon'){
       this.saleBE.MarketContract=environment.contractAddressMKPolygon
       this.saleBE.NFTIdentifier=this.data.Identifier
@@ -139,8 +160,9 @@ Sell():void{
         this.saleBE.SellingType=this.itemId.toString();
         this.saveTXNs()
         this.addDBBackend()
-      this.addDBGateway()
+        this.addDBGateway()
       })
+      //this.addDBBackend()
     }
     if(this.data.NftIssuingBlockchain=='ethereum'){
       this.saleBE.MarketContract=environment.contractAddressMKEthereum
@@ -156,6 +178,7 @@ Sell():void{
         this.addDBBackend()
         this.addDBGateway()
       })
+
     }
   }
     

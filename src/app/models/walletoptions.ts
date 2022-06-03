@@ -7,4 +7,8 @@ export abstract class walletOptions extends Wallet{
     public  abstract override getWalletaddress(): string ;
     public abstract override disconenctWallet(): void;  
     public abstract override signTransaction(): any; 
+    public abstract override createSaleOffer(blockchain:string,nftcontract: string,tokenId:number,price:number,listingPrice :string):Promise<any>;
+    public abstract override buynft(blockchain:string,nftcontract: string,tokenId:number,price:number,listingPrice :string):Promise<any>;
+    public override signTransactionPhantom(userPK:string,tracifiedAta:string){}
+    
 }

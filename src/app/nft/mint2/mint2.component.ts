@@ -23,7 +23,7 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 })
 export class Mint2Component implements OnInit { //declaring models and variables
   stxn:StellarTXN=new StellarTXN('','')
-  contract:Contracts=new Contracts('','','','','','','','','','','',0,'','','','')
+  contract:Contracts=new Contracts('','','','','','','','','','','','','','','','')
   tag:tags=new tags('','','')
   own:Ownership=new Ownership('','','','',1)
   controlGroup: FormGroup;
@@ -33,7 +33,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   isLoadingPresent: boolean;
   loading:any;
   data:any;
-  mint:NFT= new NFT('','','','','','',0,'','','','','','','','','','','','','','','','','')
+  mint:NFT= new NFT('','','','','','','','','','','','','','','','','','','','','','','','')
   minter:Minter=new Minter('','','','')
   tokenId: number;
   txn:TXN=new TXN('','','','','','')
@@ -50,7 +50,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   this.mint.ArtistProfileLink=this.formValue('ArtistProfileLink');
   this.mint.CreatorUserId="A101";
   this.mint.CurrentOwnerPK=this.mint.CreatorUserId;
-  this.mint.SellingStatus="";
+  this.mint.SellingStatus="Minted";
   this.mint.SellingType="NFT";
   this.mint.DistributorPK=this.mint.CreatorUserId;
   this.mint.Status="Minted";

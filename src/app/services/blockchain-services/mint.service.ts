@@ -82,7 +82,7 @@ export class MintService {
     NFTBlockChain:string,
     tags:string,
     categories:string,
-    copies:number,
+    copies:string,
     nftLink:string,
     created_at:string,
     artist:string,
@@ -137,7 +137,7 @@ export class MintService {
     NFTBlockChain:string,
     tags:string,
     categories:string,
-    copies:number,
+    copies:string,
     nftLink:string,
     artist:string,
     artistLink:string

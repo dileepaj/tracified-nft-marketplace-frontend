@@ -13,7 +13,7 @@ import { SVG } from 'src/app/models/minting';
 export class ViewNftCardComponent implements OnInit {
 Decryption:any;
 NFTList:any;
-svg:SVG=new SVG('','')
+svg:SVG=new SVG('','','NA','')
 nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','','','','','','','','')
   imageSrc: any;
   dec: string;

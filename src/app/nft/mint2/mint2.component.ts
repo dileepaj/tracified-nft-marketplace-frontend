@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from 'rxjs';
-import { NFT, Ownership, tags,Issuer,Minter,StellarTXN,Contracts,TXN} from 'src/app/models/minting';
+import { NFT, Ownership, tags,Issuer,Minter,StellarTXN,Contracts,TXN, UpdateSVG} from 'src/app/models/minting';
 import { MintService } from 'src/app/services/blockchain-services/mint.service';
 import { ActivatedRoute } from '@angular/router';
 import { TrustlinesService } from 'src/app/services/blockchain-services/stellar-services/trustlines.service';
@@ -23,7 +23,7 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 })
 export class Mint2Component implements OnInit { //declaring models and variables
   stxn:StellarTXN=new StellarTXN('','')
-  contract:Contracts=new Contracts('','','','','','','','','','','',0,'','','','')
+  contract:Contracts=new Contracts('','','','','','','','','','','',"0",'','','','')
   tag:tags=new tags('','','')
   own:Ownership=new Ownership('','','','',1)
   controlGroup: FormGroup;
@@ -33,10 +33,11 @@ export class Mint2Component implements OnInit { //declaring models and variables
   isLoadingPresent: boolean;
   loading:any;
   data:any;
-  mint:NFT= new NFT('','','','','','',0,'','','','','','','','','','','','','','','','','')
+  mint:NFT= new NFT('','','','','','',"0",'','','','','','','','','','','','','','','','','')
   minter:Minter=new Minter('','','','')
   tokenId: number;
   txn:TXN=new TXN('','','','','','')
+  svgUpdate:UpdateSVG =new UpdateSVG ('','')
 
   constructor(private route:ActivatedRoute, private service:MintService ,private trustService:TrustlinesService,private pmint:PolygonMintService,private emint:EthereumMintService,private apiService:ApiServicesService) { }
   
@@ -91,16 +92,20 @@ this.apiService.addTXN(this.txn).subscribe();
 }
 
  async getIssuer():Promise<void>{//minting according to blockchain
+  console.log("data : ",this.data)
   this.mint.Blockchain=this.formValue('Blockchain');
   this.mint.NFTName=this.data.NFTName;
   this.mint.NftContentURL=this.formValue('NftContentURL');
   this.mint.Imagebase64=this.data.NftContentURL;
   this.mint.Description=this.data.Description;
-
+  this.svgUpdate.Id=this.data.imgObjectID;
+  console.log("svg ID recived: ",this.svgUpdate.Id)
   if(this.mint.Blockchain =="stellar"){//minting if blockchain == stellar
     this.service.createIssuer().subscribe(async (data:any)=>{
       this.mint.NFTIssuerPK=data.NFTIssuerPK;
       this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
+      this.svgUpdate.blockchain="stellar"
+      this.apiService.updateSVGBlockchain(this.svgUpdate)
       if (this.mint.NFTIssuerPK !=null){
          this.sendToMint3()
          let freighter = new UserWallet();
@@ -119,6 +124,8 @@ this.apiService.addTXN(this.txn).subscribe();
     await phantomWallet.initWallelt()
     this.mint.NFTIssuerPK=phantomWallet.getWalletaddress();
     this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
+    this.svgUpdate.blockchain="solana"
+    this.apiService.updateSVGBlockchain(this.svgUpdate)
     this.sendToMint3()
     this.mintNftSolana(this.mint.NFTIssuerPK)
     this.saveTXNs()
@@ -133,11 +140,13 @@ this.apiService.addTXN(this.txn).subscribe();
     this.mint.DistributorPK=metamask.getWalletaddress();
     this.mint.MintedContract=environment.contractAddressNFTEthereum;
     this.mint.MarketContract=environment.contractAddressMKEthereum;
+    this.svgUpdate.blockchain="ethereum"
     this.emint.mintInEthereum(this.mint.NFTIssuerPK,this.mint.NFTName,this.mint.Description,this.mint.NftContentURL,this.mint.Imagebase64,)
     .then(res => {
       this.mint.NFTTxnHash = res.transactionHash;
       this.tokenId=parseInt(res.logs[0].topics[3]);
       this.mint.NFTIdentifier=this.tokenId.toString()
+      this.apiService.updateSVGBlockchain(this.svgUpdate)
       this.sendToMint3();
       this.saveContractInGateway();
       this.saveTXNs()
@@ -153,11 +162,13 @@ this.apiService.addTXN(this.txn).subscribe();
    this.mint.DistributorPK=metamask.getWalletaddress();
    this.mint.MintedContract=environment.contractAddressNFTPolygon;
    this.mint.MarketContract=environment.contractAddressMKPolygon;
+   this.svgUpdate.blockchain="polygon"
    this.pmint.mintInPolygon(this.mint.NFTIssuerPK,this.mint.Imagebase64)
    .then(res => {
     this.mint.NFTTxnHash = res.transactionHash;
     this.tokenId=parseInt(res.logs[0].topics[3]);
     this.mint.NFTIdentifier=this.tokenId.toString()
+    this.apiService.updateSVGBlockchain(this.svgUpdate)
    this.sendToMint3();
    this.saveContractInGateway();
    this.saveTXNs()

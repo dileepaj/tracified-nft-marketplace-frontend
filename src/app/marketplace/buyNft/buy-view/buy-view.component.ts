@@ -35,7 +35,7 @@ export class BuyViewComponent implements OnInit {
   newATA: any;
   Decryption:any;
   buytxn:any;
-  svg:SVG=new SVG('','')
+  svg:SVG=new SVG('','','NA','')
   txn:TXN = new TXN('','','','','','')
   dec: string;
   transaction:Uint8Array;

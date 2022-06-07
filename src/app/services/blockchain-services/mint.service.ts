@@ -82,7 +82,7 @@ export class MintService {
     NFTBlockChain:string,
     tags:string,
     categories:string,
-    copies:number,
+    copies:string,
     nftLink:string,
     created_at:string,
     artist:string,
@@ -114,6 +114,7 @@ export class MintService {
         TrustLineCreatedAt: created_at,
         
       };
+      console.log("Stellar Mint",NFTModel)
       this.http
         .post(this.baseUrlMintStellar, NFTModel, this.reqOpts)
         .subscribe(
@@ -137,7 +138,7 @@ export class MintService {
     NFTBlockChain:string,
     tags:string,
     categories:string,
-    copies:number,
+    copies:string,
     nftLink:string,
     artist:string,
     artistLink:string
@@ -165,6 +166,7 @@ export class MintService {
         ArtistLink:artistLink,
         
       };
+      console.log("solana mint data",NFTModel)
       this.http
         .post(this.baseUrlMintSolana, NFTModel, this.reqOpts)
         .subscribe(

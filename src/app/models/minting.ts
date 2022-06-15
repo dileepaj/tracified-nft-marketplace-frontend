@@ -6,7 +6,7 @@ export class NFT{
     public NFTName:string,
     public Description:string,
     public  Blockchain:string,
-    public  Copies:number,
+    public  Copies:string,
     public  Categories:string,
     public Tags:string,
     public Imagebase64:string,
@@ -35,6 +35,8 @@ export class Mint2{
     public Collection:string,
     public NFTName:string,
     public Description:string,
+    public imgObjectID:string,
+    public svg:SVG,
    ){}
  }
 
@@ -58,7 +60,8 @@ export class Minter{
         public NFTIssuerPK:string,
         public ImageBase64:string,
         public NFTIdentifier: string,
-        public NFTTxnHash:string
+        public NFTTxnHash:string,
+        public Blockchain:string,
     ){}
 }
 
@@ -94,7 +97,8 @@ export class StellarTXN{
     constructor(
        
         public ImageBase64:string,
-        public NFTTxnHash:string
+        public NFTTxnHash:string,
+        public Blockchain:string
     ){}
 }
 
@@ -111,7 +115,7 @@ export class Contracts{
        public  NFTBlockChain        : string,
        public  Tags                 : string,
        public  Categories           : string,
-       public  Copies               : number,
+       public  Copies               : string,
        public  NFTLinks             : string,
        public  ArtistName           : string,
        public  ArtistLink           : string,
@@ -129,9 +133,16 @@ export interface Image {
 
   export class SVG{
     constructor(
-       
         public Hash:string,
-        public Base64ImageSVG:string
+        public Base64ImageSVG:string,
+        public blockchain:string="NA",
+    ){}
+}
+
+export class UpdateSVG{
+    constructor(
+        public blockchain:string="NA",
+        public Id:string
     ){}
 }
 

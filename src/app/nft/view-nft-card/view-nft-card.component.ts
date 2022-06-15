@@ -13,7 +13,7 @@ import { SVG } from 'src/app/models/minting';
 export class ViewNftCardComponent implements OnInit {
 Decryption:any;
 NFTList:any;
-svg:SVG=new SVG('','')
+svg:SVG=new SVG('','','NA')
 nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','','','','','','','','')
   imageSrc: any;
   dec: string;
@@ -29,7 +29,7 @@ nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','
  
   
   ngOnInit(): void {
-    this.nft.InitialDistributorPK="ANkqbw8wbZPhffocb28D1Dbjtzd4ctVe1icm5YPqDJfq";
+    this.nft.InitialDistributorPK="AKwD9g7Zb7AsWt5VY6xDgbQszKGMvCTM2QeCTCvX3yXk";
     if (this.nft.InitialDistributorPK!=null) {
       this.service.getLastNFTDetails(this.nft.InitialDistributorPK).subscribe((data:any)=>{
         this.NFTList=data;

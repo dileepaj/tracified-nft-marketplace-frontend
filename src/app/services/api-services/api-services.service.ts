@@ -17,7 +17,10 @@ export class ApiServicesService {
   constructor(private http: HttpClient) { }
 
   addSVG(st: SVG): Observable<SVG> {//request to add collection into the nft backend DB
-    return this.http.post<SVG>(this.baseUrlSaveSvg, st, {headers: this.headers});
+    console.log("svg data to add",st)
+    const svgToAdd = this.http.post<SVG>(this.baseUrlSaveSvg, st, {headers: this.headers});
+    console.log("Add svg response:",svgToAdd.toString())
+    return svgToAdd
   }
 
   updateSVGBlockchain(st:UpdateSVG):Observable<UpdateSVG>{

@@ -28,11 +28,12 @@ export class MintComponent implements OnInit {
   CollectionList: any;
   Encoded:string;
   collection:Collection = new Collection('user1', 'collectionName', 'org')//declaring model to get collections
-  mint:Mint2 = new Mint2('','','','','')//declaring model to mint and post
+ // mint:Mint2 = new Mint2('','','','','',this.svg)//declaring model to mint and post
   loading: boolean;
   imgSrc: any;
   hash: any;
-  svg:SVG=new SVG('','','NA','')
+  svg:SVG=new SVG('','','NA')
+  mint:Mint2 = new Mint2('','','','','',this.svg)//declaring model to mint and post
   svgresult
   constructor(
     private service: CollectionService,
@@ -50,23 +51,20 @@ export class MintComponent implements OnInit {
     this.mint.Collection = this.formValue('Collection');
     this.mint.NFTName = this.formValue('NFTName');
     this.mint.Description = this.formValue('Description');
-    this.convertSvgAndSend();
+    this.convert();
+    this.mint.svg=this.svg
+    console.log("svg data sent to mint 2 :",this.svg)
+    //let data :any=this.mint;
+    this.router.navigate(['./mint2'],{
+    queryParams:{data:JSON.stringify(this.mint)}
+    });
+    
   }
 
-  convertSvgAndSend():void{
+  convert():void{
     this.svg.Base64ImageSVG=this.Encoded ;
     this.svg.Hash= this.hash;
-    this.svgresult= this.apiService.addSVG(this.svg).subscribe(result=>{
-      this.svg.svgObjectID = result.toString();
-      this.mint.imgObjectID = result.toString();
-      console.log("mint data for svg:", this.mint.imgObjectID);
-
-      let data :any=this.mint;
-      this.router.navigate(['./mint2'],{
-      queryParams:{data:JSON.stringify(data)}
-    });
-  });
-}
+  }
 
   onFileChange(event: any){
     this.file = event.target.files[0];

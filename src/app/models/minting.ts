@@ -36,6 +36,7 @@ export class Mint2{
     public NFTName:string,
     public Description:string,
     public imgObjectID:string,
+    public svg:SVG,
    ){}
  }
 
@@ -59,7 +60,8 @@ export class Minter{
         public NFTIssuerPK:string,
         public ImageBase64:string,
         public NFTIdentifier: string,
-        public NFTTxnHash:string
+        public NFTTxnHash:string,
+        public Blockchain:string,
     ){}
 }
 
@@ -95,7 +97,8 @@ export class StellarTXN{
     constructor(
        
         public ImageBase64:string,
-        public NFTTxnHash:string
+        public NFTTxnHash:string,
+        public Blockchain:string
     ){}
 }
 
@@ -133,7 +136,6 @@ export interface Image {
         public Hash:string,
         public Base64ImageSVG:string,
         public blockchain:string="NA",
-        public svgObjectID:string
     ){}
 }
 

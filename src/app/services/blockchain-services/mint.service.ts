@@ -46,12 +46,17 @@ export class MintService {
     return this.http.get<Issuer>(this.baseUrlGetIssuer, {headers: this.headers});
 }
 
- getMinter(ImageBase64:string): Observable<Minter[]> {
-    return this.http.get<Minter[]>(`${this.baseUrlMinter}/${ImageBase64}`, {headers: this.headers});
+ getMinter(ImageBase64:string,blockChain:string): Observable<Minter[]> {
+    console.log("data to be sent:"+ImageBase64+" bc name: "+blockChain)
+    const response:Observable<Minter[]>=this.http.get<Minter[]>(`${this.baseUrlMinter}/${ImageBase64}/${blockChain}`, {headers: this.headers});
+    console.log("Get minter response:",response)
+    return response
   }
 
-  getStellarTXN(ImageBase64:string): Observable<StellarTXN[]> {
-    return this.http.get<StellarTXN[]>(`${this.baseUrlGetStellarTXN}/${ImageBase64}`, {headers: this.headers});
+  getStellarTXN(ImageBase64:string,Blockchain:string): Observable<StellarTXN[]> {
+    console.log("data sent getstellar txn : ",ImageBase64,Blockchain)
+    const stellarTxnResponse = this.http.get<StellarTXN[]>(`${this.baseUrlGetStellarTXN}/${ImageBase64}/${Blockchain}`, {headers: this.headers});
+    return stellarTxnResponse
   }
 
   getAll(): Observable<Collection[]> {
@@ -64,11 +69,16 @@ export class MintService {
 
   
   updateNFTSolana(st: Minter): Observable<Minter> {
-    return this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
+    const updateMinterResult: Observable<Minter>= this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
+    console.log("updateMinter Result: ",updateMinterResult)
+    return updateMinterResult
   }
 
   updateTXNStellar(st: StellarTXN): Observable<StellarTXN> {
-    return this.http.put<StellarTXN>(this.baseUrlStellarUpdate, st, {headers: this.headers});
+    console.log("stellar update data sent : ",st)
+    const stellarTxnUpdateResponse= this.http.put<StellarTXN>(this.baseUrlStellarUpdate, st, {headers: this.headers});
+    console.log("Stellar txn update response : ",stellarTxnUpdateResponse)
+    return stellarTxnUpdateResponse
   }
 
   minNFTStellar(
@@ -171,10 +181,11 @@ export class MintService {
         .post(this.baseUrlMintSolana, NFTModel, this.reqOpts)
         .subscribe(
           (response) => {
+            console.log("Soalana mint response: ",response)
             resolve(response);
           },
           (error) => {
-            console.log(error);
+            console.log("solana mint err : ",error);
             reject(error);
           }
         );

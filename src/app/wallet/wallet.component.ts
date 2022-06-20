@@ -14,6 +14,7 @@ export class WalletComponent implements OnInit {
   showAllWallets: boolean = false;
   tabIndex: number = 0;
   walletConnected: boolean = true;
+  userPK:any;
 
   constructor() {}
 
@@ -23,17 +24,19 @@ export class WalletComponent implements OnInit {
     let metmaskWallet = new UserWallet();
     metmaskWallet = new MetamaskComponent(metmaskWallet);
     metmaskWallet.initWallelt();
+    this.userPK = await metmaskWallet.getWalletaddress();
   }
   async freighter() {
     let freighterWallet = new UserWallet();
     freighterWallet = new FreighterComponent(freighterWallet);
     freighterWallet.initWallelt();
-    let userPK = await freighterWallet.getWalletaddress();
+    this.userPK = await freighterWallet.getWalletaddress();
   }
   async phantom() {
     let phantomWallet = new UserWallet();
     phantomWallet = new PhantomComponent(phantomWallet);
     phantomWallet.initWallelt();
+    this.userPK = await phantomWallet.getWalletaddress();
   }
 
   //exapnd popup
@@ -50,4 +53,6 @@ export class WalletComponent implements OnInit {
   public changeTab(index: number) {
     this.tabIndex = index;
   }
+
+  
 }

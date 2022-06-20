@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BuyNFTGW, GetNFT, NFTMarket, SalesBE, SalesGW } from 'src/app/models/nft';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import { SVG } from 'src/app/models/minting';
+import { NFT, SVG } from 'src/app/models/minting';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,10 @@ export class NftServicesService {
   baseUrlUpdateStatusBE:string='http://localhost:6081/api/nft/sale';
   baseUrlUpdateStatusGW:string='http://localhost:9080';
   baseUrlSVG:string='http://localhost:6081/api/svg';
+  baseUrlGetAllNFT:string='http://localhost:6081/api/marketplace';
+  baseUrlGetOnSaleNFT:string='http://localhost:6081/api/nft';
+  baseUrlGetMyNFTByStatus:string='http://localhost:6081/api/selling'
+  baseUrlGetMyNFT:string='http://localhost:6081/api/userid'
   
 
   constructor(private http: HttpClient) { }
@@ -34,7 +38,12 @@ export class NftServicesService {
     return this.http.get<GetNFT[]>(`${this.baseUrlGetNFT}/${SellingStatus}/${NFTIdentifier}/${Blockchain}`);
   }
 
+  getNFTByBlockchain(Blockchain:string): Observable<GetNFT[]> {
+    //request to get collection name according to user public key
+    return this.http.get<GetNFT[]>(`${this.baseUrlGetNFT}/${Blockchain}`);
+  }
 
+  
   updateNFTStatusBackend(st: SalesBE): Observable<SalesBE> {
     return this.http.put<SalesBE>(this.baseUrlUpdateStatusBE, st, {headers: this.headers});
   }
@@ -51,4 +60,25 @@ export class NftServicesService {
       + `/nft/updateStellarMarketplaceBuy?sellingStatus=${sellingStatus}&currentPK=${currentPK}&previousPK=${previousPK}&nfthash=${nfthash}`,
       {headers: this.headers});
   }
+
+  getNFT(): Observable<NFT[]> {
+    //request to get collection name according to user public key
+    return this.http.get<NFT[]>(`${this.baseUrlGetAllNFT}`);
+  }
+
+  getNFTOnSale(sellingstatus):Observable<NFT[]>{
+     //request to get collection name according to user public key
+     return this.http.get<NFT[]>(`${this.baseUrlGetAllNFT}/${sellingstatus}`);
+    }
+  
+
+getMyNFTStatus(sellingstatus,userId):Observable<NFT[]>{
+  //request to get collection name according to user public key
+  return this.http.get<NFT[]>(`${this.baseUrlGetMyNFTByStatus}/${sellingstatus}/${userId}`);
+ }
+
+ getMyNFT(userId):Observable<NFT[]>{
+  //request to get collection name according to user public key
+  return this.http.get<NFT[]>(`${this.baseUrlGetMyNFT}/${userId}`);
+ }
 }

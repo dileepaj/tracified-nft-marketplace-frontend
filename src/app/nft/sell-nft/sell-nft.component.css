@@ -3,8 +3,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-   
-
   }
 
   .example-full-width {
@@ -16,7 +14,7 @@
   }
 
   .main-div.mat-card-content{
-      max-width: 200px;
+      max-width: 600px;
       max-height: 100px;
      
   }
@@ -25,6 +23,11 @@
   .example-card{
     width: 700px;
     height: 300px;
+    background: transparent;
+    color: white;
+    border: 3px solid #10CEAC;
+    border-radius: 20px;
+    margin-left: 370px;
   }
 
   .mint3Button{
@@ -42,4 +45,49 @@
 .mint{
     margin-left: 12%;
     margin-top: 15%;
+}
+
+.example-full-width{
+  width: 100%;
+}
+
+.formbtn{
+  border: 3px solid white;
+  height: 30px;
+  width:100%;
+}
+
+.mint1Button{
+  border: 3px solid white;
+  color:white;
+  width:600px;
+  margin-left: 20%;
+  
+}
+.btnCard{
+  width:100%;
+  text-align: center
+}
+.mint1Button:hover{
+  background-color: #10CEAC ;
+  border-radius:5%;
+  transition: 0.5s;
+}
+.svgArea{
+  /* Rectangle 481 */
+box-sizing: border-box;
+position: absolute;
+width: 431px;
+height: 428.7px;
+left: calc(40% - 431px/3 - 424.5px);
+top: 0px;
+
+}
+.svgimg{
+  border: 3px solid #feffff;
+  border-radius: 20px;
+  background: white;
+  color: white;
+  margin-top: 180px;
+  margin-left: 12%;
 }

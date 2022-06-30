@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-   
+   background: transparent;
 
   }
 
@@ -32,12 +32,30 @@
 
   .example-card{
     width: 700px;
-    height: 300px;
+    height: 350px;
+    background:transparent;
+    color:white;
+    border: 3px solid #10CEAC;
+    border-radius: 20px;
   }
 
- 
-   
+  .txtbox{
+    border: 2px solid white;
+    padding:10px;
+    color:white;
+  }
+  
+  #collectionbtn{
+    border: 2px solid white;
+    width: 650px;
+    margin-left:30px;
+    font-size: 22px;
+  }
 
+  #collectionbtn:hover{
+    background-color:#10CEAC;
+    transition:0.5s
+  }
 
  .upload-drop-zone{
    margin-left: 150px;

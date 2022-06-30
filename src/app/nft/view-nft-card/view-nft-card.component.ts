@@ -29,7 +29,7 @@ nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','
  
   
   ngOnInit(): void {
-    this.nft.InitialDistributorPK="AKwD9g7Zb7AsWt5VY6xDgbQszKGMvCTM2QeCTCvX3yXk";
+    this.nft.InitialDistributorPK="GZPTCQam8YZVrczgEfDvhQw34zWyohAw9wsqBCMzaVuY";
     if (this.nft.InitialDistributorPK!=null) {
       this.service.getLastNFTDetails(this.nft.InitialDistributorPK).subscribe((data:any)=>{
         this.NFTList=data;
@@ -49,6 +49,7 @@ nft:NFTMarket=new NFTMarket('','','','','','','','','','','','','','','','','','
         var str1 = new String( "data:image/svg+xml;base64,"); 
         var src = str1.concat(str2.toString());
         this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        console.log("imgsrc",this.imageSrc)
         })
        
        if(this.NFTList.NftIssuingBlockchain=="stellar") {

@@ -10,10 +10,11 @@ import { SellOfferServiceService } from 'src/app/services/blockchain-services/st
 import { Seller2tracService } from 'src/app/services/blockchain-services/solana-services/seller2trac.service';
 import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
-import { TXN } from 'src/app/models/minting';
+import { SVG, TXN } from 'src/app/models/minting';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { clusterApiUrl, Connection, Keypair } from '@solana/web3.js';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-sell-nft',
@@ -38,14 +39,19 @@ export class SellNftComponent implements OnInit {
   txn:TXN=new TXN('','','','','','')
   selltxn: any;
   transaction:Uint8Array;
-
+  imageSrc:any;
+  Decryption: any;
+  dec: string;
+  
+  svg:SVG=new SVG('','','NA')
   constructor(private route:ActivatedRoute,
     private service:NftServicesService,
     private stellarService:SellOfferServiceService,
     private middleman:Seller2tracService,
     private emarket:EthereumMarketServiceService,
     private pmarket:PolygonMarketServiceService,
-    private apiService:ApiServicesService
+    private apiService:ApiServicesService,
+    private _sanitizer: DomSanitizer 
     ) { }
 
   calculatePrice():void{
@@ -189,7 +195,22 @@ async Sell():Promise<void>{
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
       this.data=JSON.parse(params['data']);
+      console.log("data passed :",this.data)
+      this.svg.Hash=this.data.ImageBase64;
+      console.log("HASH",this.svg.Hash)
      })
+     this.service.getSVGByHash(this.svg.Hash).subscribe((res:any)=>{
+      console.log("service res:",res)
+      this.Decryption = res.Response.Base64ImageSVG
+      console.log("decrypted sg:",this.Decryption)
+     this.dec = btoa(this.Decryption);
+     console.log("dec : ",this.dec)
+    var str2 = this.dec.toString(); 
+    var str1 = new String( "data:image/svg+xml;base64,"); 
+    var src = str1.concat(str2.toString());
+    this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+    console.log("imgsrc",this.imageSrc)
+    });
 
     this.controlGroupSell = new FormGroup({
       Price: new FormControl(this.sale.Price, Validators.required),

@@ -26,21 +26,21 @@
             <tr>
               <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Temporary PK" formControlName="userId" class="txtbox" >
+                    <input matInput placeholder={{signerPK}} formControlName="userId" >
                 </mat-form-field>
               </td>
             </tr>
             <tr>
               <td>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Name of Collection" formControlName="collectionName" class="txtbox" >
+                    <input matInput placeholder="Name of Collection" formControlName="collectionName" >
                 </mat-form-field>
               </td>
             </tr>
             <tr>
               <td>
                 <mat-form-field class="example-full-width">
-                <input matInput placeholder="Name of Organization" formControlName="organizationName" class="txtbox" >
+                <input matInput placeholder="Name of Organization" formControlName="organizationName" >
                 </mat-form-field>
               </td>
             </tr>
@@ -49,7 +49,7 @@
        
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button (click)="save()" id="collectionbtn">Create Now!</button>
+        <button mat-button (click)="save()">Create Now!</button>
       </mat-card-actions>
 <p>Your collection for {{selectVal}} has been created!</p>
     </mat-card>

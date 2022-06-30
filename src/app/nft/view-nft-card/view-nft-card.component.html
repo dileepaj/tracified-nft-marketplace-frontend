@@ -4,28 +4,23 @@
   <mat-card class="example-card" >
     <mat-card-header>
       <div class="navbar">
-        <button class="viewnftnavbtn" mat-button (click)="sendToSellNFT()"> Put to Sale</button>
-        <button class="viewnftnavbtn" mat-button [routerLink]="'/create-account'"> Explore </button>
-        <button class="viewnftnavbtn" mat-button [routerLink]="'/getNft'"> View NFT </button>
-        <button class="viewnftnavbtn" mat-button [routerLink]="'/createblog'"> Make NFT Story </button>
+        <button mat-button (click)="sendToSellNFT()"> Put to Sale</button>
+        <a mat-button [routerLink]="'/create-account'"> Explore </a>
+        <a mat-button [routerLink]="'/getNft'"> View NFT </a>
+        <a mat-button [routerLink]="'/createblog'"> Make NFT Story </a>
+     
+      
       </div>
-      <mat-card-content class="svgArea">
-        <table style="width:100%;height:100%">
-          <tr>
-            <td>
-             <img class="svgimg" [src]="imageSrc" *ngIf="imageSrc" style="height: 80%; width: 100%;padding:3px">
-            </td> 
-            </tr>
-        </table>
-      </mat-card-content>
     </mat-card-header>
     <mat-card-content class="mint">
-      <table>
-       <td>Creator: 
-
-       </td> <td><mat-label >
+      <table >
+        <tr>
+       <td>
+        <img [src]="imageSrc" *ngIf="imageSrc" style="height: 310px; width: 250px; margin-bottom: -50px; margin-left: 50px;">
+       </td>  <td>Creator: </td> <td><mat-label >
            {{NFTList.OriginPK}} 
           </mat-label></td>
+        </tr>
         <tr>
         <td> Issuer: </td><td><mat-label  >
            {{NFTList.InitialIssuerPK}} 
@@ -83,10 +78,10 @@
         </tr>
       </table>
     </mat-card-content>
-    <mat-accordion class="mint2" class="svgcontent">
-      <mat-expansion-panel class="svgcontent">
+    <mat-accordion class="mint2">
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title class="svgcontent2">
+          <mat-panel-title>
            See NFT Image Content
           </mat-panel-title>
         </mat-expansion-panel-header>

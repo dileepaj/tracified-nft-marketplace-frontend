@@ -195,10 +195,10 @@ export class BuyViewComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.nftbe.Blockchain="solana";
-    this.nftbe.NFTIdentifier="AKwD9g7Zb7AsWt5VY6xDgbQszKGMvCTM2QeCTCvX3yXk";
+    this.nftbe.Blockchain="stellar";
+    this.nftbe.NFTIdentifier="GDX4TWHT4C3ZWBSWEL5V2OMXZQ5J7KP65NJFNQDB5IAINIOTZPEZR7RV";
    this.nftbe.SellingStatus="ON SALE";
-    if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="solana") {
+    if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="stellar") {
       this.service.getNFTDetails(this.nftbe.NFTIdentifier,this.nftbe.SellingStatus,this.nftbe.Blockchain).subscribe((data:any)=>{
         this.NFTList=data.Response[0];
         

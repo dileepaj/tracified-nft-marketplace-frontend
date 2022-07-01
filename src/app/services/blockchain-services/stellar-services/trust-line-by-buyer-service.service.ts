@@ -33,7 +33,7 @@ export class TrustLineByBuyerServiceService {
       }
       const senderPublickKey = userPK;
       var asset = new Asset(asset_code, asset_issuer); //for buyer --> gateway
-      var claimer ='GA6KKDBU4S55QV4T5777DGYJ7WULG7K3RPV5RTSYJ37KBQXJ2OKKIFDL'
+      var claimer ='GDHV5JPMQXAFASJS6TNRCOTGH7VPYDKLLHQ4C3VYT6ELR56CFA4XOTSC'
       let server = new Server(blockchainNet);
       server
         .loadAccount(userPK)

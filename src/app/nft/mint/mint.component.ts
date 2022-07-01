@@ -27,7 +27,7 @@ export class MintComponent implements OnInit {
   controlGroupMint: FormGroup;
   CollectionList: any;
   Encoded:string;
-  collection:Collection = new Collection('user1', 'collectionName', 'org')//declaring model to get collections
+  collection:Collection = new Collection('user1', 'collectionName', 'org','blockchain')//declaring model to get collections
  // mint:Mint2 = new Mint2('','','','','',this.svg)//declaring model to mint and post
   loading: boolean;
   imgSrc: any;

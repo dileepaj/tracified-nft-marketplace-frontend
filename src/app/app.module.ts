@@ -60,7 +60,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatRippleModule } from '@angular/material/core';
 import { ViewNftCardComponent } from './nft/view-nft-card/view-nft-card.component';
 import { BuyViewComponent } from './marketplace/buyNft/buy-view/buy-view.component';
-import {CKEditorModule} from 'ng2-ckeditor';
+import { CKEditorModule } from 'ng2-ckeditor';
 import { CodeviewComponent } from './nft/codeview/codeview.component';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { MintPopupComponent } from './nft/mint-popup/mint-popup.component';
@@ -107,6 +107,10 @@ const appRoutes: Routes = [
   {
     path: 'createblog',
     component: RichTextEditorComponent,
+  },
+  {
+    path: 'explore',
+    component: ExploreComponent,
   },
 ];
 @NgModule({
@@ -188,7 +192,6 @@ const appRoutes: Routes = [
         fullLibraryLoader: () => import('highlight.js'),
       },
     },
-    
   ],
   bootstrap: [AppComponent],
 })

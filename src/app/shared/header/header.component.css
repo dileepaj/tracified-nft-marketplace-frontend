@@ -144,3 +144,26 @@
   height: 36px;
   color: #686868;
 }
+
+.mat-menu-item {
+  color: white !important;
+}
+
+button.mat-menu-item {
+  background-color: #2d2d2d;
+}
+
+button.mat-menu-item:hover {
+  background-color: #565656;
+  color: #fff !important;
+}
+
+::ng-deep .mat-menu-content {
+  background-color: #2d2d2d !important;
+}
+
+.bc-icon {
+  vertical-align: middle;
+  margin-right: 10px;
+  transform: scale(0.9);
+}

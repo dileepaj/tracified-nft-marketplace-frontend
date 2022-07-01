@@ -54,11 +54,31 @@
       <a
         class="navbar-text"
         mat-button
-        [routerLink]="'/create-account'"
-        [routerLinkActive]="['active-link']"
+        [matMenuTriggerFor]="menu"
+        [class.active-link]="checkPath() === '/explore'"
       >
         Explore
       </a>
+      <mat-menu #menu="matMenu" class="explore-menu">
+        <button mat-menu-item (click)="goToExplore('ethereum')">
+          <img
+            class="bc-icon"
+            src="../../../assets/images/ethereum.png"
+          />Ethereum
+        </button>
+        <button mat-menu-item (click)="goToExplore('polygon')">
+          <img
+            class="bc-icon"
+            src="../../../assets/images/polygon.png"
+          />Polygon
+        </button>
+        <button mat-menu-item (click)="goToExplore('stellar')">
+          <img
+            class="bc-icon"
+            src="../../../assets/images/stellar_black.png"
+          />Stellar
+        </button>
+      </mat-menu>
       <a
         class="navbar-text"
         mat-button
@@ -166,7 +186,7 @@
       <a
         class="navbar-text"
         mat-button
-        [routerLink]="'/create-account'"
+        [routerLink]="'/explore'"
         [routerLinkActive]="['active-link']"
       >
         Explore

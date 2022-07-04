@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NewsletterComponent } from './resources/newsletter/newsletter.component';
 import { FaqsComponent } from './resources/faqs/faqs.component';
-import { PartnersComponent } from './resources/partners/partners.component';
+import { PartnerViewComponent } from './resources/partner-view/partner-view.component';
 import { DocsComponent } from './resources/docs/docs.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { WalletComponent } from './wallet/wallet.component';
@@ -65,6 +65,8 @@ import { CodeviewComponent } from './nft/codeview/codeview.component';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { MintPopupComponent } from './nft/mint-popup/mint-popup.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { PartnersComponent } from './admin/partnersOp/partners/partners.component';
+import { AcceptEndorsementComponent } from './admin/accept-endorsement/accept-endorsement.component';
 
 const appRoutes: Routes = [
   {
@@ -112,6 +114,18 @@ const appRoutes: Routes = [
     path: 'explore',
     component: ExploreComponent,
   },
+  {
+    path: 'partners',
+    component: PartnersComponent,
+  },
+  {
+    path: 'signup',
+    component: SignUpComponent,
+  },
+  {
+    path: 'endorse',
+    component: AcceptEndorsementComponent,
+  },
 ];
 @NgModule({
   declarations: [
@@ -120,7 +134,7 @@ const appRoutes: Routes = [
     MintComponent,
     NewsletterComponent,
     FaqsComponent,
-    PartnersComponent,
+    PartnerViewComponent,
     DocsComponent,
     SignUpComponent,
     WalletComponent,
@@ -153,6 +167,8 @@ const appRoutes: Routes = [
     BuyViewComponent,
     CodeviewComponent,
     MintPopupComponent,
+    PartnersComponent,
+    AcceptEndorsementComponent
   ],
   imports: [
     BrowserModule,

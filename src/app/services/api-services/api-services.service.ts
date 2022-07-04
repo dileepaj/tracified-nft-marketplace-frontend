@@ -3,7 +3,8 @@ import { SVG, TXN, UpdateSVG } from 'src/app/models/minting';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { Favourites, WatchList } from 'src/app/models/marketPlaceModel';
-import { Endorse, UpdateEndorse } from 'src/app/models/endorse';
+import { Endorse, UpdateEndorse, UpdateStatus } from 'src/app/models/endorse';
+import { Partners } from 'src/app/models/admin';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,8 @@ export class ApiServicesService {
   baseUrlGetWatchlist:string='http://localhost:6081/api/watchlists';
   baseUrlEndorse:string='http://localhost:6081/api/endorser/save';
   baseUrlEndorsement='http://localhost:6081/api/endorsement';
+  baseUrlPartner='http://localhost:6081/partner/'
+  baseUrlUpdateEndorse='http://localhost:6081/api/endorsementstatus';
 
 
   readonly headers = new HttpHeaders()
@@ -99,4 +102,18 @@ export class ApiServicesService {
   updateEndorsement(st:UpdateEndorse):Observable<UpdateEndorse>{
   return this.http.put<UpdateEndorse>(this.baseUrlEndorsement, st, { headers: this.headers }); 
   }
+
+  registerPartner(st: Partners): Observable<Partners> {//request to add collection into the nft backend DB
+    console.log("partner service",Partners)
+    return this.http.post<Partners>(this.baseUrlPartner, st, {headers: this.headers});
+  }
+
+  updateEndorsementStatus(st:UpdateStatus):Observable<UpdateStatus>{
+    return this.http.put<UpdateStatus>(this.baseUrlUpdateEndorse, st, { headers: this.headers }); 
+    }
+
+  getEndorsementByStatus(status:string): Observable<Endorse[]> {
+      //request to get collection name according to user public key
+      return this.http.get<Endorse[]>(`${this.baseUrlEndorsement}/${status}`);
+    }
 }

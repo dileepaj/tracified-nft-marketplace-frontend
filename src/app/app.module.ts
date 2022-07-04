@@ -112,6 +112,10 @@ const appRoutes: Routes = [
     path: 'explore',
     component: ExploreComponent,
   },
+  {
+    path: 'signUp',
+    component: SignUpComponent,
+  },
 ];
 @NgModule({
   declarations: [

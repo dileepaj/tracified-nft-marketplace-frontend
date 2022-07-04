@@ -1,0 +1,139 @@
+.main-div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  color: white;
+}
+
+.dropdown {
+  width: 600px !important;
+  margin-bottom: 10px;
+}
+
+.block {
+  width: 100px;
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: #fff;
+  border-radius: 20px 20px 20px 20px !important;
+  padding: 0.75em 0.75em 0 0.75em;
+}
+
+.example-full-width {
+  height: 250%;
+  width: 600px;
+  margin-top: 1%;
+}
+
+.mint1Button {
+  height: 40px;
+  width: 15%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-left: 40%;
+  margin-top: -5%;
+  background-color: green;
+  color: white;
+  border-radius: 5%;
+}
+
+.example-card {
+  width: 700px;
+  height: 350px;
+  background: transparent;
+  color: white;
+  border: 3px solid #10ceac;
+  border-radius: 20px;
+}
+
+.txtbox {
+  border: 2px solid white;
+  padding: 10px;
+  color: white;
+}
+
+#collectionbtn {
+  border: 2px solid white;
+  width: 650px;
+  margin-left: 30px;
+  font-size: 22px;
+}
+
+#collectionbtn:hover {
+  background-color: #10ceac;
+  transition: 0.5s;
+}
+
+.upload-drop-zone {
+  margin-left: 150px;
+}
+
+.example-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.registration-header {
+  width: 80%;
+  margin-top: 60px;
+  margin-bottom: 60px;
+
+  text-align: center;
+  padding-bottom: 50px;
+  border-bottom: 1px solid white;
+}
+
+.registration-content {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* default and hover color */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #10ceac;
+  border-radius: 30px 30px 30px 30px !important;
+}
+
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: #10ceac;
+  border-radius: 30px 30px 30px 30px !important;
+}
+
+/* floating label color */
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+  color: #10ceac;
+  border-radius: 30px 30px 30px 30px !important;
+}
+
+.btn-create-col {
+  background: #10ceac;
+  color: black;
+  font-size: medium;
+  border-radius: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  float: right;
+}
+
+.back-icon {
+  transform: scale(1.6);
+  vertical-align: middle;
+  margin-right: 83%;
+  position: relative;
+  top: 25px;
+  cursor: pointer;
+}

@@ -1,4 +1,106 @@
-<p>sign-up works!</p>
+<div class="main-div">
+  <div class="registration-header">
+    <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
+      >arrow_back</mat-icon
+    >
+    <h1 style="font-size: 40px">Get Endorsed Now!</h1>
+  </div>
+  <div class="registration-content">
+    <form class="example-form" [formGroup]="controlGroup">
+      <div>
+        <mat-form-field class="dropdown block" appearance="fill">
+          <mat-label
+            style="
+              padding-left: 5px;
+              font-family: 'Inter';
+              font-style: normal;
+              font-weight: 400;
+              font-size: medium;
+              line-height: 27px;
+
+              color: #000000;
+            "
+          >
+            Choose the Blockchain for your account
+          </mat-label>
+          <mat-select formControlName="Blockchain">
+            <mat-option value="metamask">Ethereum</mat-option>
+            <mat-option value="metamask">Polygon</mat-option>
+            <mat-option value="freighter">Stellar</mat-option>
+            <mat-option value="phantom">Solana</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <input
+            matInput
+            placeholder="{{ signerPK }}"
+            formControlName="userId"
+          />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <input matInput placeholder="Enter the Name" formControlName="Name" />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <input
+            matInput
+            placeholder="Enter the Email "
+            formControlName="Email"
+          />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <input
+            matInput
+            placeholder="Enter the Contact "
+            formControlName="Contact"
+          />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <input
+            matInput
+            placeholder="Enter the Description "
+            formControlName="Description"
+          />
+        </mat-form-field>
+      </div>
+    </form>
+    <div
+      style="
+        width: 600px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+      "
+    >
+      <mat-icon
+        style="
+          float: right;
+          margin-right: 10px;
+          color: #d94d4d;
+          cursor: pointer;
+          transform: scaleX(-1);
+        "
+        matTooltip="Reset"
+        (click)="resetValues()"
+        >refresh</mat-icon
+      >
+      <button mat-flat-button class="btn-create-col" (click)="save()">
+        Get Endorsed Now!
+      </button>
+    </div>
+  </div>
+</div>
+<!-- <p>sign-up works!</p>
 <div class="main-div">
 
     <mat-card class="example-card">
@@ -6,9 +108,9 @@
        Get Endorsed Now!
       </mat-card-header>
       <mat-card-content>
-          
+
         <form class="example-form" [formGroup]="controlGroup">
-           
+
           <table class="example-full-width" cellspacing="0">
             <tr>
               <mat-form-field class="dropdown block" appearance="fill">
@@ -60,10 +162,11 @@
               </tr>
         </table>
         </form>
-       
+
       </mat-card-content>
       <mat-card-actions>
         <button mat-button (click)="save()">Get Endorsed Now!</button>
       </mat-card-actions>
     </mat-card>
   </div>
+ -->

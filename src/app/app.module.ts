@@ -126,6 +126,7 @@ const appRoutes: Routes = [
     path: 'endorse',
     component: AcceptEndorsementComponent,
   },
+
 ];
 @NgModule({
   declarations: [

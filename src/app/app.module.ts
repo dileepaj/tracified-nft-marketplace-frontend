@@ -114,13 +114,13 @@ const appRoutes: Routes = [
     path: 'explore',
     component: ExploreComponent,
   },
+   {
+    path: 'signup',
+    component: SignUpComponent,
+  },
   {
     path: 'partners',
     component: PartnersComponent,
-  },
-  {
-    path: 'signup',
-    component: SignUpComponent,
   },
   {
     path: 'endorse',

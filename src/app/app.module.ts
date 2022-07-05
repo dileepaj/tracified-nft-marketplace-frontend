@@ -168,7 +168,8 @@ const appRoutes: Routes = [
     CodeviewComponent,
     MintPopupComponent,
     PartnersComponent,
-    AcceptEndorsementComponent
+    AcceptEndorsementComponent,
+  
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { Favourites, WatchList } from 'src/app/models/marketPlaceModel';
 import { Endorse, UpdateEndorse, UpdateStatus } from 'src/app/models/endorse';
-import { Partners } from 'src/app/models/admin';
+import { Partners, UpdatePartners } from 'src/app/models/admin';
 
 @Injectable({
   providedIn: 'root'
@@ -115,5 +115,15 @@ export class ApiServicesService {
       console.log("partner service",Partners)
       return this.http.post<Partners>(this.baseUrlPartner, st, {headers: this.headers});
     }
+  
+  getPartners(): Observable<Partners[]> {
+      //request to get collection name according to user public key
+      return this.http.get<Partners[]>(`${this.baseUrlPartner}`);
+    }
+  
+    updatePartner(st:UpdatePartners):Observable<UpdatePartners>{
+      return this.http.put<UpdatePartners>(this.baseUrlPartner, st, { headers: this.headers }); 
+      }
+  
 }
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 
 @Component({
   selector: 'app-view-partners',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./view-partners.component.css']
 })
 export class ViewPartnersComponent implements OnInit {
+partnerList:any
 
-  constructor() { }
+  constructor(private service:ApiServicesService) { }
 
   ngOnInit(): void {
+    this.service.getPartners().subscribe(res=>{
+    res=this.partnerList
+    })
   }
 
 }

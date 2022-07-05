@@ -115,12 +115,12 @@ const appRoutes: Routes = [
     component: ExploreComponent,
   },
   {
-    path: 'partners',
-    component: PartnersComponent,
-  },
-  {
     path: 'signup',
     component: SignUpComponent,
+  },
+  {
+    path: 'partners',
+    component: PartnersComponent,
   },
   {
     path: 'endorse',

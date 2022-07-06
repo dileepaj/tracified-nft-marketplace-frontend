@@ -20,3 +20,11 @@ export class Endorse {
       public Blockchain:string,
     ) {}
   }
+
+  export class UpdateStatus {
+    constructor(
+      public Status:string,
+      public PublicKey:string,
+     
+    ) {}
+  }

@@ -1,37 +1,71 @@
-.main-div{
-  height: 100vh;
+.main-div {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  color: white;
 }
 
 .example-full-width {
-  height: 100%;
+  height: 250%;
+  width: 600px;
+  margin-top: 1%;
 }
 
-.mat-card-content{
+.example-form {
+  width: 90%;
+}
+
+/* default and hover color */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #10ceac;
+  border-radius: 30px 30px 30px 30px !important;
+}
+
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: #10ceac;
+  border-radius: 30px 30px 30px 30px !important;
+}
+
+/* floating label color */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-label {
+  color: rgba(164, 164, 164, 0.66);
+}
+
+/* floating label color */
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+  color: #10ceac;
+}
+
+::ng-deep .mat-input-element::placeholder {
+  color: rgba(164, 164, 164, 0.66);
+}
+
+.mat-card-content {
   width: 100%;
 }
 
-.main-div.mat-card-content{
-    max-width: 600px;
-    max-height: 100px;
-   
+.main-div.mat-card-content {
+  max-width: 600px;
+  max-height: 100px;
 }
 
-
-.example-card{
+.example-card {
   width: 700px;
   height: 300px;
   background: transparent;
   color: white;
-  border: 3px solid #10CEAC;
+  border: 3px solid #10ceac;
   border-radius: 20px;
   margin-left: 370px;
 }
 
-.mint3Button{
-  height:40px;
+.mint3Button {
+  height: 40px;
   width: 15%;
   align-items: center;
   justify-content: center;
@@ -42,52 +76,218 @@
   border-radius: 5%;
 }
 
-.mint{
+.mint {
   margin-left: 12%;
   margin-top: 15%;
 }
 
-.example-full-width{
-width: 100%;
+.example-full-width {
+  width: 100%;
 }
 
-.formbtn{
-border: 3px solid white;
-height: 30px;
-width:100%;
+.formbtn {
+  border: 3px solid white;
+  height: 30px;
+  width: 100%;
 }
 
-.mint1Button{
-border: 3px solid white;
-color:white;
-width:600px;
-margin-left: 20%;
+.mint1Button {
+  border: 3px solid white;
+  color: white;
+  width: 600px;
+  margin-left: 20%;
+}
+.btnCard {
+  width: 100%;
+  text-align: center;
+}
+.mint1Button:hover {
+  background-color: #10ceac;
+  border-radius: 5%;
+  transition: 0.5s;
+}
+.svgArea {
+  /* Rectangle 481 */
+  box-sizing: border-box;
+  position: absolute;
+  width: 431px;
+  height: 428.7px;
+  left: calc(40% - 431px / 3 - 424.5px);
+  top: 0px;
+}
+.svgimg {
+  border: 3px solid #feffff;
+  border-radius: 20px;
+  background: white;
+  color: white;
+  margin-top: 180px;
+  margin-left: 12%;
+}
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5px;
+  background: #ffffff;
+  border-radius: 20px;
+  color: black;
 
+  /* width: 803.25px; */
+  min-height: 65px;
+  margin-top: -4px;
+  width: 100.75%;
+  margin-left: -3px;
 }
-.btnCard{
-width:100%;
-text-align: center
-}
-.mint1Button:hover{
-background-color: #10CEAC ;
-border-radius:5%;
-transition: 0.5s;
-}
-.svgArea{
-/* Rectangle 481 */
-box-sizing: border-box;
-position: absolute;
-width: 431px;
-height: 428.7px;
-left: calc(40% - 431px/3 - 424.5px);
-top: 0px;
 
+.viewnftnavbtn {
+  font-size: 18px;
+  font-weight: 400px;
+
+  width: 170px;
+  height: 35px;
 }
-.svgimg{
-border: 3px solid #feffff;
-border-radius: 20px;
-background: white;
-color: white;
-margin-top: 180px;
-margin-left: 12%;
+
+.viewnftnavbtn:hover {
+  background: #10ceac;
+  border-radius: 20px;
+  transition: 0.5s;
+}
+
+.viewnftnavbtn-active {
+  background: #10ceac;
+  border-radius: 20px;
+}
+
+.nft-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  column-gap: 20px;
+  row-gap: 20px;
+}
+
+.b-nft-img {
+  width: 80%;
+  height: 305px;
+  margin-top: 40px;
+}
+
+.nft-img-div {
+  height: 425px;
+  border: 3px solid white;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.nft-details {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 425px;
+  border: 3px solid #10ceac;
+  border-radius: 20px;
+}
+
+.nft-name {
+  width: 100%;
+  background-color: white;
+  color: black;
+  text-align: center;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  font-weight: 700;
+  font-size: 25px;
+  padding: 15px 0px 15px 0px;
+}
+
+.nft-details-cont {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+
+  row-gap: 15px;
+}
+
+.info-title {
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.info-detail {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.vl {
+  border: 1px solid #6b6b6b;
+  background-color: #6b6b6b;
+  height: 150px;
+}
+
+.btn-buy {
+  background: #10ceac;
+  color: black;
+  font-size: medium;
+  border-radius: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 153.52%;
+}
+
+.help-icon {
+  filter: brightness(100%) saturate(0);
+  transform: scale(0.5);
+}
+
+.link {
+  color: #10ceac;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.nft-view-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 1250px;
+  margin-top: 80px;
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.breadcrumb-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 350px;
+}
+
+.breadcrumb-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
 }

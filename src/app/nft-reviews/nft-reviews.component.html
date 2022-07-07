@@ -1,1 +1,220 @@
-<p>nft-reviews works!</p>
+<div class="main-div" fxLayout="row wrap">
+  <div class="nft-view-header" fxFlex="100%">
+    <div
+      style="
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      "
+    >
+      <div class="breadcrumb-div">
+        <a class="breadcrumb-link">Explore</a>
+        <mat-icon
+          class="material-symbols-outlined"
+          style="vertical-align: middle"
+        >
+          navigate_next
+        </mat-icon>
+        <a [routerLink]="'/userreview'" class="breadcrumb-link">Review</a>
+        <mat-icon
+          class="material-symbols-outlined"
+          style="vertical-align: middle"
+        >
+          navigate_next
+        </mat-icon>
+        <a style="color: #00c853">TOMATOE - T0001</a>
+      </div>
+      <div>
+        <h1 style="font-size: 40px" fxHide.lt-md="true">Review</h1>
+      </div>
+    </div>
+  </div>
+  <div class="nft-div" fxFlex="100%" fxLayout="row wrap">
+    <div
+      class="nft-img-div"
+      fxFlex.lg="25%"
+      fxFlex.xl="20%"
+      fxFlex.md="30%"
+      fxFlex.sm="80%"
+      fxFlex.xs="80%"
+    >
+      <img src="https://via.placeholder.com/295x160" class="b-nft-img" />
+      <div class="nft-name"><label>TOMATOE - T0001</label></div>
+    </div>
+    <div
+      fxFlex.lg="55%"
+      fxFlex.xl="60%"
+      fxFlex.md="50%"
+      fxFlex.sm="80%"
+      fxFlex.xs="80%"
+    >
+      <div class="nft-details">
+        <form
+          class="userRating-form"
+          [formGroup]="controlGroup"
+          fxLayout="row wrap"
+        >
+          <div fxFlex.lg="50%" fxLayout="row wrap" style="row-gap: 30px">
+            <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+              >Name</label
+            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
+              >#name</label
+            >
+            <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+              >Email</label
+            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
+              >#email</label
+            >
+            <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+              >Public Key</label
+            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
+              >#GGHJNDHBSDJBKJBKFBJBJKFBKJF</label
+            >
+          </div>
+          <div
+            fxFlex.lg="50%"
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              row-gap: 20px;
+            "
+          >
+            <label class="label-title" style="margin-left: 20px"
+              >Select Star Rating</label
+            >
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+              "
+            >
+              <fieldset class="rating">
+                <input
+                  type="radio"
+                  id="star5"
+                  formControlName="rating"
+                  value="5"
+                /><label
+                  class="full"
+                  for="star5"
+                  title="Awesome - 5 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star4half"
+                  formControlName="rating"
+                  value="4.5"
+                /><label
+                  class="half"
+                  for="star4half"
+                  title="Very good - 4.5 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star4"
+                  formControlName="rating"
+                  value="4"
+                /><label
+                  class="full"
+                  for="star4"
+                  title="Pretty good - 4 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star3half"
+                  formControlName="rating"
+                  value="3.5"
+                /><label
+                  class="half"
+                  for="star3half"
+                  title="Satisfactory - 3.5 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star3"
+                  formControlName="rating"
+                  value="3"
+                /><label
+                  class="full"
+                  for="star3"
+                  title="Marginal - 3 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star2half"
+                  formControlName="rating"
+                  value="2.5"
+                /><label
+                  class="half"
+                  for="star2half"
+                  title="Marginaly bad - 2.5 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star2"
+                  formControlName="rating"
+                  value="2"
+                /><label
+                  class="full"
+                  for="star2"
+                  title=" bad - 2 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star1half"
+                  formControlName="rating"
+                  value="1.5"
+                /><label
+                  class="half"
+                  for="star1half"
+                  title="vary bad - 1.5 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star1"
+                  formControlName="rating"
+                  value="1"
+                /><label
+                  class="full"
+                  for="star1"
+                  title="very bad - 1 star"
+                ></label>
+                <input
+                  type="radio"
+                  id="starhalf"
+                  formControlName="rating"
+                  value="0.5"
+                /><label
+                  class="half"
+                  for="starhalf"
+                  title="This should not exist - 0.5 stars"
+                ></label>
+              </fieldset>
+            </div>
+          </div>
+          <div fxFlex="95%" fxFlex.lt-sm="85%">
+            <div class="txtarea-input-group">
+              <textarea
+                placeholder="Leave a comment..."
+                formControlName="description"
+              ></textarea>
+            </div>
+          </div>
+          <div>
+            <button
+              mat-flat-button
+              class="btn-submit"
+              (click)="save()"
+              id="submitbtn"
+            >
+              Submit Review
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

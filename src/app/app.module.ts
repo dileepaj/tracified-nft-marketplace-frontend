@@ -66,6 +66,9 @@ import { MintPopupComponent } from './nft/mint-popup/mint-popup.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { PartnersComponent } from './admin/partnersOp/partners/partners.component';
 import { ViewPartnersComponent } from './resources/view-partners/view-partners.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { MatListModule } from '@angular/material/list';
+import { BrowseMarketplaceComponent } from './admin/browse-marketplace/browse-marketplace.component';
 
 const appRoutes: Routes = [
   {
@@ -117,6 +120,18 @@ const appRoutes: Routes = [
     path: 'signUp',
     component: SignUpComponent,
   },
+  {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    children: [
+      {
+        path: '',
+        outlet: 'browse',
+        component: BrowseMarketplaceComponent,
+        pathMatch: 'full',
+      },
+    ],
+  },
 ];
 @NgModule({
   declarations: [
@@ -158,7 +173,9 @@ const appRoutes: Routes = [
     CodeviewComponent,
     MintPopupComponent,
     PartnersComponent,
-    ViewPartnersComponent
+    ViewPartnersComponent,
+    AdminDashboardComponent,
+    BrowseMarketplaceComponent,
   ],
   imports: [
     BrowserModule,
@@ -190,6 +207,7 @@ const appRoutes: Routes = [
     CKEditorModule,
     HighlightModule,
     MatRadioModule,
+    MatListModule,
   ],
   providers: [
     {

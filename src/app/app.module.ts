@@ -132,6 +132,10 @@ const appRoutes: Routes = [
       },
     ],
   },
+  {
+    path: 'userreview',
+    component: NftReviewsComponent,
+  },
 ];
 @NgModule({
   declarations: [

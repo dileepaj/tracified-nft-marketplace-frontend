@@ -1,0 +1,361 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+.main-div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  color: white;
+}
+
+.example-full-width {
+  height: 100%;
+}
+
+.mat-card-content {
+  width: 100%;
+}
+
+.main-div.mat-card-content {
+  max-width: 200px;
+  max-height: 100px;
+}
+
+.example-card {
+  width: 700px;
+  height: 300px;
+}
+
+.mint3Button {
+  height: 40px;
+  width: 15%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-left: 30%;
+  background-color: green;
+  color: white;
+  border-radius: 5%;
+}
+
+.mint {
+  margin-left: 5%;
+}
+
+.example-card {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 797px;
+  height: 429px;
+  left: 563px;
+  top: 304px;
+
+  border: 3px solid #10ceac;
+  border-radius: 20px;
+  background: transparent;
+  color: white;
+}
+.svgimg {
+  border: 3px solid #feffff;
+  border-radius: 20px;
+  background: white;
+  color: white;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 5px;
+  background: #ffffff;
+  border-radius: 20px;
+  color: black;
+
+  /* width: 803.25px; */
+  min-height: 65px;
+  margin-top: -4px;
+  width: 100.75%;
+  margin-left: -3px;
+}
+
+.viewnftnavbtn {
+  font-size: 18px;
+  font-weight: 400px;
+
+  width: 170px;
+  height: 35px;
+}
+
+.viewnftnavbtn:hover {
+  background: #10ceac;
+  border-radius: 20px;
+  transition: 0.5s;
+}
+
+.viewnftnavbtn-active {
+  background: #10ceac;
+  border-radius: 20px;
+}
+
+.svgArea {
+  /* Rectangle 481 */
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 431px;
+  height: 428.7px;
+  left: calc(10% - 431px / 3 - 424.5px);
+  top: 0px;
+}
+
+.svgcontent {
+  background: transparent;
+  color: white;
+}
+.svgcontent2 {
+  background: transparent;
+  padding: 5px;
+  color: white;
+  border: 3px solid #ffffff;
+  border-radius: 20px;
+  padding-left: 35%;
+}
+
+.nft-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  column-gap: 20px;
+  row-gap: 20px;
+}
+
+.b-nft-img {
+  width: 80%;
+  height: 305px;
+  margin-top: 40px;
+}
+
+.nft-img-div {
+  height: 425px;
+  border: 3px solid white;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.nft-details {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 425px;
+  border: 3px solid #10ceac;
+  border-radius: 20px;
+}
+
+.nft-name {
+  width: 100%;
+  background-color: white;
+  color: black;
+  text-align: center;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  font-weight: 700;
+  font-size: 25px;
+  padding: 15px 0px 15px 0px;
+}
+
+.nft-details-cont {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 25px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+
+  row-gap: 15px;
+}
+
+.info-title {
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.info-detail {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.vl {
+  border: 1px solid #6b6b6b;
+  background-color: #6b6b6b;
+  height: 150px;
+}
+
+.btn-submit {
+  background: #10ceac;
+  color: black;
+  font-size: medium;
+  border-radius: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 153.52%;
+}
+
+.help-icon {
+  filter: brightness(100%) saturate(0);
+  transform: scale(0.5);
+}
+
+.link {
+  color: #10ceac;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.nft-view-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 1250px;
+  margin-top: 80px;
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.breadcrumb-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 350px;
+}
+
+.breadcrumb-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
+
+/****** Style Star Rating Widget *****/
+
+.rating {
+  border: none;
+}
+
+.rating > input {
+  display: none;
+}
+.rating > label:before {
+  margin: 5px;
+  font-size: 36px;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > .half:before {
+  content: "\f089";
+  position: absolute;
+}
+
+.rating > label {
+  color: #ddd;
+  float: right;
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label {
+  color: #52d65f;
+} /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label {
+  color: #79ec85;
+}
+
+.userRating-form {
+  width: 100%;
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  row-gap: 30px;
+}
+
+.userRating-full-width {
+  width: 100%;
+}
+.rating-text {
+  font-size: 20px;
+}
+
+.label-title {
+  color: #10ceac;
+  font-weight: 700;
+  font-size: 16px;
+
+  margin-right: 60px;
+}
+
+.label-data {
+  max-width: 50px;
+}
+
+.txtarea-input-group {
+  overflow: hidden;
+  width: 100%;
+  background: #2d2d2d;
+  border-radius: 20px;
+  transition: 0.15s ease;
+}
+
+.txtarea-input-group:focus-within {
+  background: white;
+}
+
+.txtarea-input-group textarea {
+  padding: 10px;
+  font-size: 14px;
+  width: 95%;
+  margin: 10px;
+  height: 125px;
+  background: transparent;
+  border: none;
+  color: white;
+}
+
+.txtarea-input-group textarea:focus {
+  outline: none;
+  color: black;
+}
+
+::placeholder {
+  color: #686868;
+  opacity: 1;
+}

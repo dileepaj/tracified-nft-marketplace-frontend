@@ -84,3 +84,9 @@
   width: 100%;
   cursor: pointer;
 }
+
+.mat-nav-list .mat-list-item:focus,
+.mat-action-list .mat-list-item:focus,
+.mat-list-option:focus {
+  background: #10ceac !important;
+}

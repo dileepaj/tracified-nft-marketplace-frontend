@@ -69,6 +69,8 @@ import { ViewPartnersComponent } from './resources/view-partners/view-partners.c
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { MatListModule } from '@angular/material/list';
 import { BrowseMarketplaceComponent } from './admin/browse-marketplace/browse-marketplace.component';
+import { EndorsementsComponent } from './admin/endorsements/endorsements.component';
+import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-newsletter.component';
 
 const appRoutes: Routes = [
   {
@@ -125,9 +127,20 @@ const appRoutes: Routes = [
     component: AdminDashboardComponent,
     children: [
       {
-        path: '',
-        outlet: 'browse',
+        path: 'browse-marketplace',
         component: BrowseMarketplaceComponent,
+      },
+      {
+        path: 'endorsements',
+        component: EndorsementsComponent,
+      },
+      {
+        path: 'add-news-letter',
+        component: AddNewsletterComponent,
+      },
+      {
+        path: '',
+        redirectTo: 'browse-marketplace',
         pathMatch: 'full',
       },
     ],
@@ -180,6 +193,9 @@ const appRoutes: Routes = [
     ViewPartnersComponent,
     AdminDashboardComponent,
     BrowseMarketplaceComponent,
+    EndorsementsComponent,
+    NewsletterComponent,
+    AddNewsletterComponent,
   ],
   imports: [
     BrowserModule,

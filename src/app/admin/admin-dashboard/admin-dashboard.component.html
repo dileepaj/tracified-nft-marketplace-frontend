@@ -1,4 +1,4 @@
-<div class="dsb-main-div">
+<div class="dsb-main-div" fxLayout="row wrap">
   <mat-drawer-container class="sidenav-container">
     <mat-drawer mode="side" class="dsb-drawer" [opened]="opened">
       <button mat-icon-button id="btn-sidenav-toggle">
@@ -16,32 +16,58 @@
           <label style="font-size: 25px; font-weight: 700">JOHN SMITH</label>
         </div>
         <mat-nav-list id="navlist">
-          <mat-list-item class="nav-list-item active-item">
-            <!-- <mat-list-item
+          <mat-list-item
             class="nav-list-item"
-            [routerLink]="'admin-dashboard/inbox'"
+            [routerLink]="'browse-marketplace'"
             [routerLinkActive]="'active-item'"
-          > -->
+          >
             <label>Browse Marketplace</label>
           </mat-list-item>
-          <mat-list-item class="nav-list-item">
+          <mat-list-item
+            class="nav-list-item"
+            [routerLink]="'endorsements'"
+            [routerLinkActive]="'active-item'"
+          >
             <label>Endorsement</label>
           </mat-list-item>
+          <mat-list-item
+            class="nav-list-item"
+            [routerLink]="'add-news-letter'"
+            [routerLinkActive]="'active-item'"
+          >
+            <label>News Letter</label>
+          </mat-list-item>
         </mat-nav-list>
+        <button
+          mat-icon-button
+          style="color: #f17272; margin-top: 20px"
+          matTooltip="Logout"
+        >
+          <mat-icon>logout</mat-icon>
+        </button>
       </div>
     </mat-drawer>
     <mat-drawer-content class="dsb-content">
       <button
         mat-icon-button
         id="btn-sidenav-toggle"
-        style="float: left; transform: rotate(180deg)"
+        style="
+          transform: rotate(180deg);
+          background-color: white;
+          color: black;
+          position: absolute;
+          top: 20px;
+          left: 0;
+          border-bottom-right-radius: 0%;
+          border-top-right-radius: 0%;
+        "
         *ngIf="!opened"
       >
         <mat-icon class="material-symbols-outlined" (click)="toggleSidenav()">
           menu_open
         </mat-icon>
       </button>
-      <router-outlet name="browse"></router-outlet>
+      <router-outlet></router-outlet>
     </mat-drawer-content>
   </mat-drawer-container>
 </div>

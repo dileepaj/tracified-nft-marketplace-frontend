@@ -1,24 +1,39 @@
 <div id="inbox-outer-div">
   <div id="inbox-header" fxLayout="row wrap">
-    <div fxFlex.lg="40%" class="header-cont">
+    <div
+      fxFlex.xl="40%"
+      fxFlex.lg="40%"
+      fxFlex.md="40%"
+      fxFlex.lt-md="100%"
+      class="header-cont"
+    >
       <img src="../../../assets/images/inbox.png" /><label>Inbox</label>
     </div>
     <div
+      fxFlex.xl="20%"
       fxFlex.lg="20%"
+      fxFlex.md="20%"
+      fxHide.lt-md="true"
       style="
         border-left: 1px solid white;
         border-right: 1px solid white;
         height: 72px;
       "
     ></div>
-    <div fxFlex.lg="40%" class="header-cont">
+    <div
+      fxFlex.xl="40%"
+      fxFlex.lg="40%"
+      fxFlex.md="40%"
+      fxFlex.lt-md="100%"
+      class="header-cont"
+    >
       <img src="../../../assets/images/create.png" /><label
         >Create NFT or Collection</label
       >
     </div>
   </div>
   <div id="inbox-content" fxLayout="row wrap">
-    <div id="inbox-cont-1" fxFlex.lg="50%">
+    <div id="inbox-cont-1" fxFlex.xl="50%" fxFlex.lg="50%" fxFlex.lt-lg="100%">
       <mat-list id="inbox-list">
         <mat-list-item
           class="inbox-list-item"
@@ -31,7 +46,12 @@
         </mat-list-item>
       </mat-list>
     </div>
-    <div id="inbox-cont-2" fxFlex.lg="50%">
+    <div
+      style="border-bottom: 1px solid #6d6d6d"
+      fxHide.gt-md="true"
+      fxFlex="100%"
+    ></div>
+    <div id="inbox-cont-2" fxFlex.xl="50%" fxFlex.lg="50%" fxFlex.lt-lg="100%">
       <div
         class="notification-card"
         [class.separator]="i !== notifications.length - 1"

@@ -61,7 +61,6 @@
 }
 
 .heading {
-  margin-top: 4%;
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
@@ -85,12 +84,10 @@
 
 .seperator {
   margin-top: 4%;
-  width: 1450px;
+  width: 90%;
   height: 0px;
-  left: 80px;
-  top: 421px;
   border: 1px solid #ffffff;
-  align-items: center;
+  background-color: #fff;
   margin-bottom: 4%;
 }
 
@@ -99,7 +96,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 20px 0px 20px 0px;
+  margin: 10px 0px 20px 0px;
 }
 
 .step-content {

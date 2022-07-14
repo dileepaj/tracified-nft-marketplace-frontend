@@ -71,11 +71,16 @@ import { MatListModule } from '@angular/material/list';
 import { BrowseMarketplaceComponent } from './admin/browse-marketplace/browse-marketplace.component';
 import { EndorsementsComponent } from './admin/endorsements/endorsements.component';
 import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-newsletter.component';
+import { MintNftComponent } from './nft/mint-nft/mint-nft.component';
 
 const appRoutes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+  },
+  {
+    path: 'mint-nft',
+    component: MintNftComponent,
   },
   {
     path: 'mint',
@@ -201,6 +206,7 @@ const appRoutes: Routes = [
     EndorsementsComponent,
     NewsletterComponent,
     AddNewsletterComponent,
+    MintNftComponent,
   ],
   imports: [
     BrowserModule,

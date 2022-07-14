@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { Collection } from 'src/app/models/collection';
 import { CollectionService } from 'src/app/services/api-services/collection.service';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Subscription} from 'rxjs';
-import { Mint2,Image,SVG } from 'src/app/models/minting';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { Mint2, Image, SVG } from 'src/app/models/minting';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import CryptoJS from 'crypto-js';
@@ -18,23 +18,29 @@ import { CodeviewComponent } from '../codeview/codeview.component';
   styleUrls: ['./mint.component.css'],
 })
 export class MintComponent implements OnInit {
+  @Output() proceed: EventEmitter<any> = new EventEmitter();
   public image: Image;
   addSubscription: Subscription;
-  imageSrc:any='';
+  imageSrc: any = '';
   base64: string = '';
   file: File;
-  base64Output : string;
+  base64Output: string;
   controlGroupMint: FormGroup;
   CollectionList: any;
-  Encoded:string;
-  collection:Collection = new Collection('user1', 'collectionName', 'org','blockchain')//declaring model to get collections
- // mint:Mint2 = new Mint2('','','','','',this.svg)//declaring model to mint and post
+  Encoded: string;
+  collection: Collection = new Collection(
+    'user1',
+    'collectionName',
+    'org',
+    'blockchain'
+  ); //declaring model to get collections
+  // mint:Mint2 = new Mint2('','','','','',this.svg)//declaring model to mint and post
   loading: boolean;
   imgSrc: any;
   hash: any;
-  svg:SVG=new SVG('','','NA')
-  mint:Mint2 = new Mint2('','','','','',this.svg)//declaring model to mint and post
-  svgresult
+  svg: SVG = new SVG('', '', 'NA');
+  mint: Mint2 = new Mint2('', '', '', '', '', this.svg); //declaring model to mint and post
+  svgresult;
   constructor(
     private service: CollectionService,
     private router: Router,
@@ -52,21 +58,25 @@ export class MintComponent implements OnInit {
     this.mint.NFTName = this.formValue('NFTName');
     this.mint.Description = this.formValue('Description');
     this.convert();
-    this.mint.svg=this.svg
-    console.log("svg data sent to mint 2 :",this.svg)
+    this.mint.svg = this.svg;
+    console.log('svg data sent to mint 2 :', this.svg);
     //let data :any=this.mint;
-    this.router.navigate(['./mint2'],{
-    queryParams:{data:JSON.stringify(this.mint)}
+    /* this.router.navigate(['./mint2'], {
+      queryParams: { data: JSON.stringify(this.mint) },
+    }); */
+
+    this.proceed.emit({
+      image: this.imageSrc,
+      mint: this.mint,
     });
-    
   }
 
-  convert():void{
-    this.svg.Base64ImageSVG=this.Encoded ;
-    this.svg.Hash= this.hash;
+  convert(): void {
+    this.svg.Base64ImageSVG = this.Encoded;
+    this.svg.Hash = this.hash;
   }
 
-  onFileChange(event: any){
+  onFileChange(event: any) {
     this.file = event.target.files[0];
     this.uploadImage(event);
   }
@@ -82,12 +92,12 @@ export class MintComponent implements OnInit {
   //create base64 image
   private _handleReaderLoaded(readerEvt: any) {
     this.base64 = readerEvt.target.result;
-    const unwantedText = "data:image/svg+xml;base64,";
-    this.base64 = this.base64.replace(unwantedText, "");
+    const unwantedText = 'data:image/svg+xml;base64,';
+    this.base64 = this.base64.replace(unwantedText, '');
     let encoded: string = atob(this.base64);
-    this.Encoded=encoded;
+    this.Encoded = encoded;
 
-    this.hash=CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
+    this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
     this.updateImage();
     this.updateHTML();
   }
@@ -97,7 +107,9 @@ export class MintComponent implements OnInit {
     reader.readAsDataURL(this.file);
     reader.onload = (_event) => {
       this.imgSrc = reader.result;
-      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.imgSrc);
+      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(
+        this.imgSrc
+      );
     };
   }
 
@@ -110,19 +122,21 @@ export class MintComponent implements OnInit {
   }
   ngOnInit(): void {
     //getting collection data according to user PK
-    this.collection.userId="A101";
-    if (this.collection.userId!=null) {
-      this.service.getCollectionName(this.collection.userId).subscribe((data:any)=>{
-          this.CollectionList=data;
+    this.collection.userId = 'A101';
+    if (this.collection.userId != null) {
+      this.service
+        .getCollectionName(this.collection.userId)
+        .subscribe((data: any) => {
+          this.CollectionList = data;
         });
     } else {
-      console.log("User PK not connected or not endorsed");
+      console.log('User PK not connected or not endorsed');
     }
     //validation of form data
     this.controlGroupMint = new FormGroup({
       Collection: new FormControl(this.mint.Collection, Validators.required),
-      NFTName:new FormControl(this.mint.NFTName,Validators.required),
-      Description:new FormControl(this.mint.Description,Validators.required),
+      NFTName: new FormControl(this.mint.NFTName, Validators.required),
+      Description: new FormControl(this.mint.Description, Validators.required),
       file: new FormControl(this.mint.NftContentURL, [Validators.required]),
     });
   }
@@ -135,7 +149,7 @@ export class MintComponent implements OnInit {
   /**
    * @function reset - reset the entered form values
    */
-  reset(){
+  reset() {
     this.controlGroupMint.reset();
   }
 
@@ -151,16 +165,17 @@ export class MintComponent implements OnInit {
       this.snackBar.openSnackBar('Please name your NFT');
     } else if (this.formValue('Description') == '') {
       this.snackBar.openSnackBar('Please add a discription for your NFT');
-    } else{
+    } else {
       this.sendToMint2();
     }
+    //this.sendToMint2();
   }
 
   //open the popup for the code view
   public openDialog() {
-    const dialogRef = this.dialog.open(CodeviewComponent,{
-      data:{
-        imgSrc:this.Encoded
+    const dialogRef = this.dialog.open(CodeviewComponent, {
+      data: {
+        imgSrc: this.Encoded,
       },
     });
   }

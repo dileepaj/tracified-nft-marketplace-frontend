@@ -1,4 +1,4 @@
-.main-div{
+.main-div {
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -9,49 +9,49 @@
   width: 100%;
 }
 
-.mint1Button{
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    background-color: #10CEAC;
-    width: 146px;
-    height: 35px;
-    border-radius: 20px;
-    position: relative;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
-    font-size: medium;
-    line-height: 24px;
-    color: #000000;
+.mint1Button {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  background-color: #10ceac;
+  width: 146px;
+  height: 35px;
+  border-radius: 20px;
+  position: relative;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: medium;
+  line-height: 24px;
+  color: #000000;
 }
 
-.example-card{
+.example-card {
   width: 700px;
   height: 300px;
 }
 
-.composer{
-  width:200px;
-  height:250px;
+.composer {
+  width: 200px;
+  height: 250px;
   margin-left: 1px;
   align-items: center;
   justify-content: center;
   display: flex;
   margin-top: -50%;
-  background-color:gray;
+  background-color: gray;
   align-content: center;
- }
+}
 
-.upload-drop-zone{
+.upload-drop-zone {
   margin-left: 150px;
 }
 
-.link{
-  font-size:xx-small;
+.link {
+  font-size: xx-small;
 }
 
-.mintone-view{
+.mintone-view {
   /* padding-top: 10%; */
   height: 100%;
   min-height: 100%;
@@ -64,7 +64,7 @@
   align-items: center;
 }
 
-.main-card{
+.main-card {
   place-content: center;
   align-items: center;
   flex-direction: row;
@@ -75,7 +75,7 @@
   box-shadow: none;
 }
 
-.card-holder{
+.card-holder {
   height: 100%;
   width: 100%;
   place-content: center;
@@ -86,9 +86,9 @@
   flex: 1 1 100%;
   max-width: 100%;
   box-shadow: none;
- }
+}
 
-.img-card{
+.img-card {
   background-color: transparent;
   place-content: center;
   align-items: center;
@@ -101,7 +101,7 @@
   box-shadow: none;
 }
 
-.form-card{
+.form-card {
   padding-top: 0.5%;
   background-color: transparent;
   margin: 5px;
@@ -114,8 +114,8 @@
   box-shadow: none;
 }
 
-.upload-area{
-  border: 3px dashed #10CEAC;
+.upload-area {
+  border: 3px dashed #10ceac;
   box-sizing: border-box;
   position: absolute;
   bottom: 1px;
@@ -129,27 +129,27 @@
   gap: 40px;
 }
 
-.img-text{
+.img-text {
   line-height: 20px;
   margin: 0px;
   padding: 0px;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: small;
   font-weight: 400;
   line-height: 22px;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
-.upload-btn{
+.upload-btn {
   width: 150px;
   height: 34px;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 20px;
   line-height: 20px;
   margin: 0px;
   padding: 0px;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: small;
   font-weight: 400;
   line-height: 22px;
@@ -159,30 +159,32 @@
 
 /* default and hover color */
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: #10CEAC;
+  color: #10ceac;
   border-radius: 30px 30px 30px 30px !important;
 }
 
 /* focused color */
-::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-  color:#10CEAC;
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: #10ceac;
   border-radius: 30px 30px 30px 30px !important;
 }
 
 /* floating label color */
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
-  color: #10CEAC;
+  color: #10ceac;
   border-radius: 30px 30px 30px 30px !important;
 }
 
-.lable-text{
+.lable-text {
   float: inline-end;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: medium;
   line-height: 27px;
-  color: #FFFFFF;
+  color: #ffffff;
   padding-bottom: -2em;
 }
 
@@ -191,11 +193,11 @@
   color: white;
 }
 
-.dropdown{
+.dropdown {
   width: 63% !important;
 }
 
-.row{
+.row {
   padding-right: 14%;
   width: 100%;
   display: flex;
@@ -207,7 +209,7 @@
   width: 100px;
 }
 
-.icon{
+.icon {
   padding-top: 2%;
 }
 
@@ -219,7 +221,7 @@
 ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
   background-color: #fff;
   border-radius: 20px 20px 20px 20px !important;
-  padding: .75em .75em 0 .75em;
+  padding: 0.75em 0.75em 0 0.75em;
 }
 
 .mat-select-min-line:empty::before {
@@ -230,61 +232,59 @@
   opacity: 0;
 }
 
-.heading{
-  margin-top: 4%;
-  font-family: 'Inter';
+.heading {
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 60px;
   line-height: 73px;
   /* identical to box height */
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
-.subheading{
-  font-family: 'Inter';
+.subheading {
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 22px;
   line-height: 27px;
   /* identical to box height */
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
-.seperator{
+.seperator {
   margin-top: 4%;
   width: 90%;
   height: 0px;
-  left: 80px;
-  top: 421px;
-  border: 1px solid #FFFFFF;
-  margin-left: 4%;
+
+  border: 1px solid #ffffff;
+  background-color: #fff;
   margin-bottom: 4%;
 }
 
-.mint-btn-container{
+.mint-btn-container {
   padding-left: 56%;
   display: flex;
 }
 
-.reset-btn{
-  font-family: 'Inter';
+.reset-btn {
+  font-family: "Inter";
   font-style: normal;
   font-weight: 500;
   font-size: medium;
   line-height: 24px;
-  color: #FF5252;
+  color: #ff5252;
 }
 
-.file{
+.file {
   opacity: 0;
   position: absolute;
   z-index: 2;
   width: 100%;
   height: 100%;
-  top:0;
+  top: 0;
   left: 0;
 }
 
@@ -293,12 +293,12 @@
   padding-top: 5px;
 }
 
-.composer-btn-container{
+.composer-btn-container {
   margin-top: 150%;
   display: flex;
 }
 
-.composer-btn{
+.composer-btn {
   align-items: center;
   justify-content: center;
   display: flex;
@@ -307,54 +307,53 @@
   height: 35px;
   border-radius: 20px;
   position: relative;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 500;
   font-size: medium;
   line-height: 24px;
-  color: #FFFFFF;
+  color: #ffffff;
   border-style: solid;
   border-width: thin;
-  
 }
 
 a {
   all: unset;
 }
 
-.help-icon{
-  color:#FFFFFF;
+.help-icon {
+  color: #ffffff;
   padding-left: 5%;
   padding-top: 2%;
 }
 
-::ng-deep .mat-tooltip{
-  background: #2D2D2D !important;
+::ng-deep .mat-tooltip {
+  background: #2d2d2d !important;
 }
 
-.code-behind{
+.code-behind {
   margin-top: 850%;
 }
 
-.code-behind-btn{
+.code-behind-btn {
   align-items: center;
   justify-content: center;
   border-radius: 40px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
-.edit-btn{
+.edit-btn {
   padding-top: 116%;
 }
 
-.edit-container{
+.edit-container {
   align-items: center;
   justify-content: center;
   border-radius: 100px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
-.edit-icon{
+.edit-icon {
   color: #000000;
   padding: 8px;
 }

@@ -2,9 +2,9 @@
   <p class="heading">Halfway there...</p>
   <p class="subheading">You are a step away from launching your NFT.</p>
   <div class="seperator"></div>
-  <div class="step-content">
-    <div class="nft-card">
-      <img class="nft-image" src="https://via.placeholder.com/150" />
+  <div class="step-content" fxLayout="row wrap">
+    <div class="nft-card" fxFlex.lt-md="80%">
+      <img class="nft-image" [src]="imageSrc" />
       <div
         style="
           width: 100%;
@@ -13,7 +13,7 @@
           justify-content: flex-start;
         "
       >
-        <p class="nft-card-text nft-card-title">NFT Name</p>
+        <p class="nft-card-text nft-card-title">{{ mint.NFTName }}</p>
       </div>
       <div
         style="
@@ -25,12 +25,11 @@
         "
       >
         <p class="nft-card-text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mollis
-          ultrices diam nec pretium. Nullam aliquam tempor erat eu efficitur.
+          {{ mint.Description }}
         </p>
       </div>
     </div>
-    <div class="nft-mint">
+    <div class="nft-mint" fxFlex.lt-md="80%">
       <mat-accordion class="mint2">
         <form [formGroup]="controlGroup">
           <mat-expansion-panel class="panel" #selectbc hideToggle="true">

@@ -121,6 +121,10 @@ const appRoutes: Routes = [
     path: 'userreview',
     component: NftReviewsComponent,
   },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
 ];
 @NgModule({
   declarations: [
@@ -163,6 +167,7 @@ const appRoutes: Routes = [
     MintPopupComponent,
     PartnersComponent,
     ViewPartnersComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

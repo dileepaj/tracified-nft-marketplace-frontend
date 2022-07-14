@@ -1,0 +1,72 @@
+.main-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding-top: 20px;
+  color: white;
+}
+
+/* default and hover color */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: transparent;
+  background-color: #2d2d2d;
+  border-radius: 16px;
+}
+
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: transparent;
+  background-color: #2d2d2d;
+  border-radius: 16px;
+}
+
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 30px;
+  width: 90%;
+  padding: 20px;
+}
+
+.login-input-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 15px;
+  width: 40%;
+}
+.login-input-group label {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 29px;
+  /* identical to box height */
+
+  color: #10ceac;
+}
+
+.login-input-group mat-icon {
+  color: #10ceac;
+}
+
+.btn-login {
+  background: #10ceac;
+  width: 120px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  border-radius: 20px;
+}
+
+.back-icon {
+  transform: scale(1.6);
+  position: relative;
+  top: 40px;
+  margin-right: 83%;
+  cursor: pointer;
+}

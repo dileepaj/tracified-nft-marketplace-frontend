@@ -1,0 +1,175 @@
+<div class="endrs-main-div" fxLayout="row wrap">
+  <div class="nft-div" fxFlex="100%" fxLayout="row wrap">
+    <div>
+      <div>
+        <form
+          class="userRating-form"
+          [formGroup]="controlGroup"
+          fxLayout="row wrap"
+        >
+          <h2 fxFlex="100%">Endorsements</h2>
+          <div fxFlex.lg="50%" fxLayout="row wrap" style="row-gap: 30px">
+            <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+              >Name</label
+            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
+              >#name</label
+            >
+            <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+              >Email</label
+            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
+              >#email</label
+            >
+            <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+              >Public Key</label
+            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
+              >#GGHJNDHBSDJBKJBKFBJBJKFBKJF</label
+            >
+          </div>
+          <div
+            fxFlex.lg="50%"
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              row-gap: 20px;
+            "
+          >
+            <label class="label-title" style="margin-left: 20px"
+              >Select Star Rating</label
+            >
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+              "
+            >
+              <fieldset class="rating">
+                <input
+                  type="radio"
+                  id="star5"
+                  formControlName="rating"
+                  value="5"
+                /><label
+                  class="full"
+                  for="star5"
+                  title="Awesome - 5 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star4half"
+                  formControlName="rating"
+                  value="4.5"
+                /><label
+                  class="half"
+                  for="star4half"
+                  title="Very good - 4.5 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star4"
+                  formControlName="rating"
+                  value="4"
+                /><label
+                  class="full"
+                  for="star4"
+                  title="Pretty good - 4 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star3half"
+                  formControlName="rating"
+                  value="3.5"
+                /><label
+                  class="half"
+                  for="star3half"
+                  title="Satisfactory - 3.5 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star3"
+                  formControlName="rating"
+                  value="3"
+                /><label
+                  class="full"
+                  for="star3"
+                  title="Marginal - 3 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star2half"
+                  formControlName="rating"
+                  value="2.5"
+                /><label
+                  class="half"
+                  for="star2half"
+                  title="Marginaly bad - 2.5 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star2"
+                  formControlName="rating"
+                  value="2"
+                /><label
+                  class="full"
+                  for="star2"
+                  title=" bad - 2 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star1half"
+                  formControlName="rating"
+                  value="1.5"
+                /><label
+                  class="half"
+                  for="star1half"
+                  title="vary bad - 1.5 stars"
+                ></label>
+                <input
+                  type="radio"
+                  id="star1"
+                  formControlName="rating"
+                  value="1"
+                /><label
+                  class="full"
+                  for="star1"
+                  title="very bad - 1 star"
+                ></label>
+                <input
+                  type="radio"
+                  id="starhalf"
+                  formControlName="rating"
+                  value="0.5"
+                /><label
+                  class="half"
+                  for="starhalf"
+                  title="This should not exist - 0.5 stars"
+                ></label>
+              </fieldset>
+            </div>
+          </div>
+          <div
+            fxFlex="95%"
+            fxFlex.lt-sm="85%"
+            style="display: flex; flex-direction: column; row-gap: 20px"
+          >
+            <label class="label-title">Type Your Review</label>
+            <div class="txtarea-input-group">
+              <textarea formControlName="description"></textarea>
+            </div>
+          </div>
+          <div>
+            <button
+              mat-flat-button
+              class="btn-submit"
+              (click)="save()"
+              id="submitbtn"
+            >
+              Endorse Now
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

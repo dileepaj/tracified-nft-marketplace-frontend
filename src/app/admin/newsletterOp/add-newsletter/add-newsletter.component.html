@@ -1,1 +1,150 @@
-<p>add-newsletter works!</p>
+<div id="news-main-div" fxLayout="row wrap">
+  <form
+    class="example-form"
+    fxFlex="100%"
+    fxLayout="row wrap"
+    [formGroup]="controlGroup"
+  >
+    <div
+      id="img-section"
+      fxFlex.xl="50%"
+      fxFlex.lg="50%"
+      fxFlex.lt-lg="100%"
+      (click)="triggerClick()"
+    >
+      <div id="img-upload-area" matTooltip="Upload Image" matRipple>
+        <img
+          src="../../../../assets/images/img-upload.png"
+          *ngIf="base64 === ''"
+        />
+        <img [src]="base64" *ngIf="base64 !== ''" id="img" />
+        <input
+          type="file"
+          accept="image/*"
+          #fileUpload
+          (change)="onChange($event)"
+          hidden
+        />
+      </div>
+    </div>
+    <div
+      id="details-section"
+      fxFlex.xl="50%"
+      fxFlex.lg="50%"
+      fxFlex.lt-lg="100%"
+    >
+      <div class="input-group" fxLayout="row wrap">
+        <label
+          fxFlex.md="20%"
+          fxFlex.lg="20%"
+          fxFlex.xl="20%"
+          fxFlex.lt-md="100%"
+          class="form-label"
+          >Topic</label
+        >
+        <mat-form-field
+          class="example-full-width"
+          appearance="outline"
+          fxFlex.xl="60%"
+          fxFlex.lg="60%"
+          fxFlex.md="60%"
+          fxFlex.lt-md="100%"
+        >
+          <input matInput formControlName="topic" />
+        </mat-form-field>
+      </div>
+      <div class="input-group" fxLayout="row wrap">
+        <label
+          fxFlex.md="20%"
+          fxFlex.lg="20%"
+          fxFlex.xl="20%"
+          fxFlex.lt-md="100%"
+          class="form-label"
+          >Author</label
+        >
+        <mat-form-field
+          class="example-full-width"
+          appearance="outline"
+          fxFlex.xl="60%"
+          fxFlex.lg="60%"
+          fxFlex.md="60%"
+          fxFlex.lt-md="100%"
+        >
+          <input matInput formControlName="author" />
+        </mat-form-field>
+      </div>
+      <div class="input-group" fxLayout="row wrap">
+        <label
+          fxFlex.md="20%"
+          fxFlex.lg="20%"
+          fxFlex.xl="20%"
+          fxFlex.lt-md="100%"
+          class="form-label"
+          >Date</label
+        >
+        <mat-form-field
+          class="example-full-width"
+          appearance="outline"
+          fxFlex.xl="60%"
+          fxFlex.lg="60%"
+          fxFlex.md="60%"
+          fxFlex.lt-md="100%"
+        >
+          <input matInput formControlName="date" />
+        </mat-form-field>
+      </div>
+      <div class="input-group" fxLayout="row wrap">
+        <label
+          fxFlex.md="20%"
+          fxFlex.lg="20%"
+          fxFlex.xl="20%"
+          fxFlex.lt-md="100%"
+          class="form-label"
+          >Publisher</label
+        >
+        <mat-form-field
+          class="example-full-width"
+          appearance="outline"
+          fxFlex.xl="60%"
+          fxFlex.lg="60%"
+          fxFlex.md="60%"
+          fxFlex.lt-md="100%"
+        >
+          <input matInput formControlName="publisher" />
+        </mat-form-field>
+      </div>
+      <div class="input-group" fxLayout="row wrap">
+        <label
+          fxFlex.md="20%"
+          fxFlex.lg="20%"
+          fxFlex.xl="20%"
+          fxFlex.lt-md="100%"
+          class="form-label"
+          >Web Link</label
+        >
+        <mat-form-field
+          class="example-full-width"
+          appearance="outline"
+          fxFlex.xl="60%"
+          fxFlex.lg="60%"
+          fxFlex.md="60%"
+          fxFlex.lt-md="100%"
+        >
+          <input matInput formControlName="webLink" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div id="hl" fxFlex="100%"></div>
+    <div fxFlex="100%" fxLayout="row wrap">
+      <label fxFlex="100%" class="form-label">Add a description</label>
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        fxFlex="100%"
+      >
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+    </div>
+    <button mat-flat-button class="btn-post" (click)="save()">Post</button>
+  </form>
+</div>

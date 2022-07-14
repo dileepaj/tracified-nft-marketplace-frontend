@@ -66,6 +66,11 @@ import { MintPopupComponent } from './nft/mint-popup/mint-popup.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { PartnersComponent } from './admin/partnersOp/partners/partners.component';
 import { ViewPartnersComponent } from './resources/view-partners/view-partners.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { MatListModule } from '@angular/material/list';
+import { BrowseMarketplaceComponent } from './admin/browse-marketplace/browse-marketplace.component';
+import { EndorsementsComponent } from './admin/endorsements/endorsements.component';
+import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-newsletter.component';
 
 const appRoutes: Routes = [
   {
@@ -118,6 +123,29 @@ const appRoutes: Routes = [
     component: SignUpComponent,
   },
   {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    children: [
+      {
+        path: 'browse-marketplace',
+        component: BrowseMarketplaceComponent,
+      },
+      {
+        path: 'endorsements',
+        component: EndorsementsComponent,
+      },
+      {
+        path: 'add-news-letter',
+        component: AddNewsletterComponent,
+      },
+      {
+        path: '',
+        redirectTo: 'browse-marketplace',
+        pathMatch: 'full',
+      },
+    ],
+  },
+  {
     path: 'userreview',
     component: NftReviewsComponent,
   },
@@ -168,6 +196,11 @@ const appRoutes: Routes = [
     PartnersComponent,
     ViewPartnersComponent,
     LoginComponent,
+    AdminDashboardComponent,
+    BrowseMarketplaceComponent,
+    EndorsementsComponent,
+    NewsletterComponent,
+    AddNewsletterComponent,
   ],
   imports: [
     BrowserModule,
@@ -199,6 +232,7 @@ const appRoutes: Routes = [
     CKEditorModule,
     HighlightModule,
     MatRadioModule,
+    MatListModule,
   ],
   providers: [
     {

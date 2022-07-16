@@ -1,12 +1,13 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-.main-div {
+.endrs-main-div {
   width: 100%;
   display: flex;
   flex-direction: column;
 
   align-items: center;
-  margin-top: 60px;
-  margin-bottom: 60px;
+  padding-left: 75px;
+  padding-right: 75px;
+  padding-top: 20px;
   color: white;
 }
 
@@ -82,104 +83,12 @@
   margin-left: -3px;
 }
 
-.viewnftnavbtn {
-  font-size: 18px;
-  font-weight: 400px;
-
-  width: 170px;
-  height: 35px;
-}
-
-.viewnftnavbtn:hover {
-  background: #10ceac;
-  border-radius: 20px;
-  transition: 0.5s;
-}
-
-.viewnftnavbtn-active {
-  background: #10ceac;
-  border-radius: 20px;
-}
-
-.svgArea {
-  /* Rectangle 481 */
-  box-sizing: border-box;
-
-  position: absolute;
-  width: 431px;
-  height: 428.7px;
-  left: calc(10% - 431px / 3 - 424.5px);
-  top: 0px;
-}
-
-.svgcontent {
-  background: transparent;
-  color: white;
-}
-.svgcontent2 {
-  background: transparent;
-  padding: 5px;
-  color: white;
-  border: 3px solid #ffffff;
-  border-radius: 20px;
-  padding-left: 35%;
-}
-
 .nft-div {
   display: flex;
   flex-direction: row;
   justify-content: center;
   column-gap: 20px;
   row-gap: 20px;
-}
-
-.b-nft-img {
-  width: 80%;
-  height: 305px;
-  margin-top: 40px;
-}
-
-.nft-img-div {
-  height: 425px;
-  border: 3px solid white;
-  border-radius: 20px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-.nft-details {
-  display: flex;
-  flex-direction: column;
-
-  min-height: 425px;
-  border: 3px solid #10ceac;
-  border-radius: 20px;
-}
-
-.nft-name {
-  width: 100%;
-  background-color: white;
-  color: black;
-  text-align: center;
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  left: 0px;
-  font-weight: 700;
-  font-size: 25px;
-  padding: 15px 0px 15px 0px;
-}
-
-.nft-details-cont {
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 25px;
 }
 
 .info {
@@ -199,12 +108,6 @@
   font-size: 24px;
 }
 
-.vl {
-  border: 1px solid #6b6b6b;
-  background-color: #6b6b6b;
-  height: 150px;
-}
-
 .btn-submit {
   background: #10ceac;
   color: black;
@@ -216,46 +119,6 @@
   font-weight: 400;
   font-size: 20px;
   line-height: 153.52%;
-}
-
-.help-icon {
-  filter: brightness(100%) saturate(0);
-  transform: scale(0.5);
-}
-
-.link {
-  color: #10ceac;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 400;
-}
-
-.link:hover {
-  text-decoration: underline;
-}
-
-.nft-view-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 1250px;
-  margin-top: 80px;
-  margin-bottom: 40px;
-  font-size: 16px;
-}
-
-.breadcrumb-div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 350px;
-}
-
-.breadcrumb-link {
-  cursor: pointer;
-  text-decoration: none;
-  color: white;
 }
 
 /****** Style Star Rating Widget *****/

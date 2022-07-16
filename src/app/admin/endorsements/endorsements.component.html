@@ -1,60 +1,13 @@
-<div class="main-div" fxLayout="row wrap">
-  <div class="nft-view-header" fxFlex="100%">
-    <div
-      style="
-        width: 80%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-      "
-    >
-      <div class="breadcrumb-div">
-        <a class="breadcrumb-link">Explore</a>
-        <mat-icon
-          class="material-symbols-outlined"
-          style="vertical-align: middle"
-        >
-          navigate_next
-        </mat-icon>
-        <a [routerLink]="'/userreview'" class="breadcrumb-link">Review</a>
-        <mat-icon
-          class="material-symbols-outlined"
-          style="vertical-align: middle"
-        >
-          navigate_next
-        </mat-icon>
-        <a style="color: #00c853">TOMATOE - T0001</a>
-      </div>
-      <div>
-        <h1 style="font-size: 40px" fxHide.lt-md="true">Review</h1>
-      </div>
-    </div>
-  </div>
+<div class="endrs-main-div" fxLayout="row wrap">
   <div class="nft-div" fxFlex="100%" fxLayout="row wrap">
-    <div
-      class="nft-img-div"
-      fxFlex.lg="25%"
-      fxFlex.xl="20%"
-      fxFlex.md="30%"
-      fxFlex.sm="80%"
-      fxFlex.xs="80%"
-    >
-      <img src="https://via.placeholder.com/295x160" class="b-nft-img" />
-      <div class="nft-name"><label>TOMATOE - T0001</label></div>
-    </div>
-    <div
-      fxFlex.lg="55%"
-      fxFlex.xl="60%"
-      fxFlex.md="50%"
-      fxFlex.sm="80%"
-      fxFlex.xs="80%"
-    >
-      <div class="nft-details">
+    <div>
+      <div>
         <form
           class="userRating-form"
           [formGroup]="controlGroup"
           fxLayout="row wrap"
         >
+          <h2 fxFlex="100%">Endorsements</h2>
           <div fxFlex.lg="50%" fxLayout="row wrap" style="row-gap: 30px">
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >Name</label
@@ -195,12 +148,14 @@
               </fieldset>
             </div>
           </div>
-          <div fxFlex="95%" fxFlex.lt-sm="85%">
+          <div
+            fxFlex="95%"
+            fxFlex.lt-sm="85%"
+            style="display: flex; flex-direction: column; row-gap: 20px"
+          >
+            <label class="label-title">Type Your Review</label>
             <div class="txtarea-input-group">
-              <textarea
-                placeholder="Leave a comment..."
-                formControlName="description"
-              ></textarea>
+              <textarea formControlName="description"></textarea>
             </div>
           </div>
           <div>
@@ -210,7 +165,7 @@
               (click)="save()"
               id="submitbtn"
             >
-              Submit Review
+              Endorse Now
             </button>
           </div>
         </form>

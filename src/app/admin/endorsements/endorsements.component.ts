@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ExecFileSyncOptionsWithStringEncoding } from 'child_process';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-nft-reviews',
-  templateUrl: './nft-reviews.component.html',
-  styleUrls: ['./nft-reviews.component.css'],
+  selector: 'app-endorsements',
+  templateUrl: './endorsements.component.html',
+  styleUrls: ['./endorsements.component.css'],
 })
-export class NftReviewsComponent implements OnInit {
+export class EndorsementsComponent implements OnInit {
   controlGroup: FormGroup;
   addSubscription: Subscription;
   rating: number;

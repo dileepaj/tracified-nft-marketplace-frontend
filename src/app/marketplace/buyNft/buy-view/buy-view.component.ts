@@ -16,6 +16,7 @@ import { ApiServicesService } from 'src/app/services/api-services/api-services.s
 import { clusterApiUrl, Connection,Transaction as solanaTransaction } from '@solana/web3.js';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-buy-view',
@@ -35,6 +36,7 @@ export class BuyViewComponent implements OnInit {
   newATA: any;
   Decryption:any;
   buytxn:any;
+  data:any;
   svg:SVG=new SVG('','','NA')
   txn:TXN = new TXN('','','','','','')
   dec: string;
@@ -48,7 +50,8 @@ export class BuyViewComponent implements OnInit {
     private emarket:EthereumMarketServiceService,
     private pmarket:PolygonMarketServiceService,
     private apiService:ApiServicesService,
-    private transfer:TransferNftService
+    private transfer:TransferNftService,
+    private route:ActivatedRoute,
     ) { }  
   buyNFT():void{
    this.updateBackend();
@@ -195,8 +198,12 @@ export class BuyViewComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params)=>{
+      this.data=JSON.parse(params['data']);
+      console.log("data passed :",this.data)
+
     this.nftbe.Blockchain="stellar";
-    this.nftbe.NFTIdentifier="GDX4TWHT4C3ZWBSWEL5V2OMXZQ5J7KP65NJFNQDB5IAINIOTZPEZR7RV";
+    this.nftbe.NFTIdentifier=this.data;
    this.nftbe.SellingStatus="ON SALE";
     if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="stellar") {
       this.service.getNFTDetails(this.nftbe.NFTIdentifier,this.nftbe.SellingStatus,this.nftbe.Blockchain).subscribe((data:any)=>{
@@ -231,6 +238,7 @@ export class BuyViewComponent implements OnInit {
     } else {
       console.log("User PK not connected or not endorsed");
     }
+  });
   }
 
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SVG, TXN, UpdateSVG } from 'src/app/models/minting';
+import { NFT, SVG, TXN, UpdateSVG } from 'src/app/models/minting';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { Favourites, WatchList } from 'src/app/models/marketPlaceModel';
@@ -28,33 +28,26 @@ export class ApiServicesService {
   constructor(private http: HttpClient) { }
 
   addSVG(st: SVG): Observable<SVG> {//request to add collection into the nft backend DB
-    console.log("svg data to add",st)
     const svgToAdd = this.http.post<SVG>(this.baseUrlSaveSvg, st, {headers: this.headers});
-    console.log("Add svg response:",svgToAdd.toString())
     return svgToAdd
   }
 
   updateSVGBlockchain(st:UpdateSVG):Observable<UpdateSVG>{
-    console.log("update data sent: ",st)
     this.UpdatesvgResponseObservable= this.http.put<UpdateSVG>(this.baseUrlUpdateSVGBC, st, {headers: this.headers})
     this.UpdatesvgResponseObservable.subscribe(res=>{
-      console.log("res : ",res)
     })
     return this.UpdatesvgResponseObservable
   }
 
   addTXN(st: TXN): Observable<TXN> {//request to add collection into the nft backend DB
-    console.log("txn service",TXN)
     return this.http.post<TXN>(this.baseUrlSaveTxn, st, {headers: this.headers});
   }
 
   addToWatchList(st:WatchList):Observable<WatchList>{
-    console.log("watchlist service",WatchList)
     return this.http.post<WatchList>(this.baseUrlSaveWatchlist, st, {headers: this.headers});
   }
 
   addToFavourites(st:Favourites):Observable<Favourites>{
-    console.log("favourites service",Favourites)
     return this.http.post<Favourites>(this.baseUrlSaveFavs, st, {headers: this.headers});
   }
 
@@ -89,7 +82,6 @@ export class ApiServicesService {
   }
 
   endorse(st: Endorse): Observable<Endorse> {//request to add collection into the nft backend DB
-    console.log("endorse service",Endorse)
     return this.http.post<Endorse>(this.baseUrlEndorse, st, {headers: this.headers});
   }
 
@@ -112,7 +104,6 @@ export class ApiServicesService {
     }
 
   registerPartner(st: Partners): Observable<Partners> {//request to add collection into the nft backend DB
-      console.log("partner service",Partners)
       return this.http.post<Partners>(this.baseUrlPartner, st, {headers: this.headers});
     }
   
@@ -124,6 +115,13 @@ export class ApiServicesService {
     updatePartner(st:UpdatePartners):Observable<UpdatePartners>{
       return this.http.put<UpdatePartners>(this.baseUrlPartner, st, { headers: this.headers }); 
       }
+
+    getFavouritesByBlockchainAndNFTIdentifier(blockchain:string,nftidentifier:string):Observable<NFT[]>{
+      return this.http.get<NFT[]>(`${this.baseUrlGetFavs}/${blockchain}/${nftidentifier}`);
+    }
   
+    getWatchlistByBlockchainAndNFTIdentifier(blockchain:string,nftidentifier:string):Observable<NFT[]>{
+      return this.http.get<NFT[]>(`${this.baseUrlGetWatchlist}/${blockchain}/${nftidentifier}`);
+    }
 }
 

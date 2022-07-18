@@ -23,7 +23,9 @@ export class NFT{
     public MintedContract:string,
     public TokenType:string,
     public Status:string,
-    public NFTTxnHash:string
+    public NFTTxnHash:string,
+    public Trending:boolean,
+    public HotPicks:boolean
    
     ){}
 }

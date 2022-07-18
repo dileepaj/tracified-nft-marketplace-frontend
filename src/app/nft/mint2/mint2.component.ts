@@ -34,7 +34,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   isLoadingPresent: boolean;
   loading:any;
   data:any;
-  mint:NFT= new NFT('','','','','','',"0",'','','','','','','','','','','','','','','','','')
+  mint:NFT= new NFT('','','','','','',"0",'','','','','','','','','','','','','','','','','',false,false)
   minter:Minter=new Minter('','','','','')
   tokenId: number;
   txn:TXN=new TXN('','','','','','')
@@ -57,6 +57,8 @@ export class Mint2Component implements OnInit { //declaring models and variables
   this.mint.SellingType="NFT";
   this.mint.DistributorPK=this.mint.CreatorUserId;
   this.mint.Status="Minted";
+  this.mint.Trending= false,
+  this.mint.HotPicks=false;
   //posting of mint data to backend via service
   if (this.mint.CreatorUserId!=null) {
     this.addSubscription = this.service.addNFTBE(this.mint).subscribe();

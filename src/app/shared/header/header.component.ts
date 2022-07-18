@@ -69,7 +69,7 @@ export class HeaderComponent implements OnInit {
 
   public goToExplore(blockchain: string) {
     this.router.navigate(['/explore'], {
-      queryParams: { blockchain: blockchain, filter: 'uptodate' },
+      queryParams: { blockchain: blockchain, filter: 'all' },
     });
   }
 }

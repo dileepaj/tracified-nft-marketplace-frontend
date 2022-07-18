@@ -157,7 +157,7 @@ export class SellNftComponent implements OnInit {
 
       if (this.data.InitialDistributorPK == this.data.OriginPK) {
         this.selltxn = this.data.NFTTxnHash;
-        this.saleBE.NFTIdentifier = this.data.InitialDistributorPK;
+        this.saleBE.NFTIdentifier = this.data.Identifier;
         this.addDBBackend();
         this.addDBGateway();
       } else {

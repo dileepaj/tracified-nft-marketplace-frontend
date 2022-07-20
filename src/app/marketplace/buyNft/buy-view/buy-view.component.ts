@@ -20,7 +20,7 @@ import {
 } from '@solana/web3.js';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-buy-view',
@@ -109,6 +109,7 @@ export class BuyViewComponent implements OnInit {
     private apiService:ApiServicesService,
     private transfer:TransferNftService,
     private route:ActivatedRoute,
+    private router: Router,
     ) { }  
   buyNFT():void{
    this.updateBackend();
@@ -292,10 +293,10 @@ export class BuyViewComponent implements OnInit {
       this.data=JSON.parse(params['data']);
       console.log("data passed :",this.data)
 
-    this.nftbe.Blockchain="stellar";
+    this.nftbe.Blockchain="ethereum";
     this.nftbe.NFTIdentifier=this.data;
    this.nftbe.SellingStatus="ON SALE";
-    if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="stellar") {
+    if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="ethereum") {
       this.service.getNFTDetails(this.nftbe.NFTIdentifier,this.nftbe.SellingStatus,this.nftbe.Blockchain).subscribe((data:any)=>{
         this.NFTList=data.Response[0];
         

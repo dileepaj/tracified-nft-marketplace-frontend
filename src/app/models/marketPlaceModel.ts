@@ -26,3 +26,15 @@ export class Favourites {
      
     ) {}
   }
+
+
+  export class HomeCard {
+    constructor(
+      public NFTName:string,
+        public NFTIdentifier: string,
+        public ImageBase64:string,
+        public Blockchain:string,
+       
+     
+    ) {}
+  }

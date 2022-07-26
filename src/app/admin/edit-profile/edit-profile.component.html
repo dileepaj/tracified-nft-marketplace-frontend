@@ -1,0 +1,193 @@
+<div class="ep-main-div" fxLayout="row wrap">
+  <div id="ep-header-title" fxFlex="100%"><label>Edit Profile</label></div>
+  <form
+    [formGroup]="controlGroupProfile"
+    class="example-form"
+    fxFlex.lg="50%"
+    fxFlex.lt-lg="100%"
+    fxLayout="row wrap"
+  >
+    <div class="form-field-div" fxLayout="row wrap" fxFlex="100%">
+      <label class="form-field-label" fxFlex.lg="30%" fxFlex.lt-lg="98%"
+        >Change Profile Picture</label
+      >
+      <div
+        id="img-section"
+        (click)="triggerClick()"
+        fxFlex.lg="50%"
+        fxFlex.lt-lg="98%"
+      >
+        <div id="img-upload-area" matTooltip="Upload Image" matRipple>
+          <img
+            src="../../../../assets/images/img-upload.png"
+            id="img-placeholder"
+            *ngIf="base64 === ''"
+          />
+          <img [src]="base64" *ngIf="base64 !== ''" id="img" />
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onChange($event)"
+            #fileUpload
+            hidden
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="form-field-div"
+      style="align-items: center"
+      fxLayout="row wrap"
+      fxFlex="100%"
+    >
+      <label class="form-field-label" fxFlex.lg="30%" fxFlex.lt-lg="98%"
+        >Edit Name</label
+      >
+      <div class="ep-input-group" fxFlex.lg="58%" fxFlex.lt-lg="98%">
+        <mat-form-field appearance="outline">
+          <input type="text" matInput formControlName="name" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      class="form-field-div"
+      style="align-items: center; justify-content: flex-end"
+      fxFlex="98%"
+    >
+      <button mat-flat-button class="btn-save" (click)="saveProfile()">
+        Save Changes
+      </button>
+    </div>
+  </form>
+
+  <div class="separator" fxFlex.lg="52%" fxFlex.lt-lg="98%"></div>
+  <form
+    [formGroup]="controlGroupEmail"
+    class="example-form"
+    fxFlex.lg="50%"
+    fxFlex.lt-lg="100%"
+    fxLayout="row wrap"
+  >
+    <div
+      class="form-field-div"
+      style="align-items: center"
+      fxLayout="row wrap"
+      fxFlex="100%"
+    >
+      <label class="form-field-label" fxFlex.lg="30%" fxFlex.lt-lg="98%"
+        >Change Email</label
+      >
+      <div class="ep-input-group" fxFlex.lg="58%" fxFlex.lt-lg="98%">
+        <mat-form-field appearance="outline">
+          <input type="email" matInput formControlName="newEmail" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      class="form-field-div"
+      style="align-items: center"
+      fxLayout="row wrap"
+      fxFlex="100%"
+    >
+      <label class="form-field-label" fxFlex.lg="30%" fxFlex.lt-lg="98%"
+        >Confirm Email</label
+      >
+      <div class="ep-input-group" fxFlex.lg="58%" fxFlex.lt-lg="98%">
+        <mat-form-field appearance="outline">
+          <input type="email" matInput formControlName="confirmEmail" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      class="form-field-div"
+      style="align-items: center; justify-content: flex-end"
+      fxFlex="98%"
+    >
+      <button mat-flat-button class="btn-save" (click)="saveEmail()">
+        Save Changes
+      </button>
+    </div>
+  </form>
+  <div class="separator" fxFlex.lg="52%" fxFlex.lt-lg="98%"></div>
+  <form
+    [formGroup]="controlGroupPassword"
+    class="example-form"
+    fxFlex.lg="50%"
+    fxFlex.lt-lg="100%"
+    fxLayout="row wrap"
+  >
+    <div
+      class="form-field-div"
+      style="align-items: center"
+      fxLayout="row wrap"
+      fxFlex="100%"
+    >
+      <label class="form-field-label" fxFlex.lg="30%" fxFlex.lt-lg="98%"
+        >Change Password</label
+      >
+      <div class="ep-input-group" fxFlex.lg="58%" fxFlex.lt-lg="98%">
+        <mat-form-field appearance="outline">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            matInput
+            formControlName="newPassword"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="togglePwdVisibility()"
+            [matTooltip]="showPassword ? 'Hide Password' : 'Show Password'"
+          >
+            <mat-icon
+              class="material-symbols-outlined"
+              style="color: whitesmoke"
+            >
+              {{ !showPassword ? "visibility_off" : "visibility" }}
+            </mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      class="form-field-div"
+      style="align-items: center"
+      fxLayout="row wrap"
+      fxFlex="100%"
+    >
+      <label class="form-field-label" fxFlex.lg="30%" fxFlex.lt-lg="98%"
+        >Confirm Password</label
+      >
+      <div class="ep-input-group" fxFlex.lg="58%" fxFlex.lt-lg="98%">
+        <mat-form-field appearance="outline">
+          <input
+            [type]="showConfPassword ? 'text' : 'password'"
+            matInput
+            formControlName="confirmPassword"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="toggleConfPwdVisibility()"
+            [matTooltip]="showConfPassword ? 'Hide Password' : 'Show Password'"
+          >
+            <mat-icon
+              class="material-symbols-outlined"
+              style="color: whitesmoke"
+            >
+              {{ !showConfPassword ? "visibility_off" : "visibility" }}
+            </mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+      class="form-field-div"
+      style="align-items: center; justify-content: flex-end"
+      fxFlex="98%"
+    >
+      <button mat-flat-button class="btn-save" (click)="savePassword()">
+        Save Changes
+      </button>
+    </div>
+  </form>
+</div>

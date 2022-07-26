@@ -71,6 +71,7 @@ import { MatListModule } from '@angular/material/list';
 import { BrowseMarketplaceComponent } from './admin/browse-marketplace/browse-marketplace.component';
 import { EndorsementsComponent } from './admin/endorsements/endorsements.component';
 import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-newsletter.component';
+import { EditProfileComponent } from './admin/edit-profile/edit-profile.component';
 
 const appRoutes: Routes = [
   {
@@ -139,6 +140,10 @@ const appRoutes: Routes = [
         component: AddNewsletterComponent,
       },
       {
+        path: 'edit-profile',
+        component: EditProfileComponent,
+      },
+      {
         path: '',
         redirectTo: 'browse-marketplace',
         pathMatch: 'full',
@@ -201,6 +206,7 @@ const appRoutes: Routes = [
     EndorsementsComponent,
     NewsletterComponent,
     AddNewsletterComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

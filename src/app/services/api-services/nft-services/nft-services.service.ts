@@ -92,7 +92,7 @@ export class NftServicesService {
 
   getNFTOnSale(sellingstatus):Observable<NFT[]>{
      //request to get collection name according to user public key
-     return this.http.get<NFT[]>(`${this.baseUrlGetAllNFT}/${sellingstatus}`);
+     return this.http.get<NFT[]>(`${this.baseUrlGetOnSaleNFT}/${sellingstatus}`);
     }
   
 

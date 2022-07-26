@@ -15,6 +15,8 @@ import { UserWallet } from 'src/app/models/userwallet';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 
 @Component({
   selector: 'app-mint2',
@@ -30,6 +32,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   controlGroup: FormGroup;
   issuer:Issuer=new Issuer('');
   solMinter:any
+  List:any;
   addSubscription: Subscription;
   isLoadingPresent: boolean;
   loading:any;
@@ -40,8 +43,18 @@ export class Mint2Component implements OnInit { //declaring models and variables
   txn:TXN=new TXN('','','','','','')
   svgUpdate:UpdateSVG =new UpdateSVG ('','')
   svg:SVG=new SVG('','','NA')
+  Decryption: any;
+  dec: string;
+  imageSrc: any;
 
-  constructor(private route:ActivatedRoute, private service:MintService ,private trustService:TrustlinesService,private pmint:PolygonMintService,private emint:EthereumMintService,private apiService:ApiServicesService) { }
+  constructor(private route:ActivatedRoute,
+     private service:MintService ,
+     private trustService:TrustlinesService,
+     private pmint:PolygonMintService,
+     private emint:EthereumMintService,
+     private apiService:ApiServicesService,
+     private _sanitizer:DomSanitizer,
+     private nft:NftServicesService,) { }
   
  sendToMint3():void{//getting form data to mint and post
 
@@ -319,6 +332,16 @@ updateStellarTXN():void{
    this.route.queryParams.subscribe((params)=>{
     this.data=JSON.parse(params['data']);
     console.log("DATA recived: ",this.data)
+    this.List=this.data
+    this.nft.getSVGByHash(this.data.NftContentURL).subscribe((res:any)=>{
+      this.Decryption = res.Response.Base64ImageSVG
+    this.dec = btoa(this.Decryption);
+   var str2 = this.dec.toString(); 
+   var str1 = new String( "data:image/svg+xml;base64,"); 
+   var src = str1.concat(str2.toString());
+   this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+   
+    })
    })
    
     this.controlGroup = new FormGroup({//validation

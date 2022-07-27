@@ -104,15 +104,15 @@ export class BuyViewComponent implements OnInit {
     private buyNftService: BuyNftServiceService,
     private ata: Trac2buyerService,
     private _sanitizer: DomSanitizer,
-    private emarket: EthereumMarketServiceService,
-    private pmarket: PolygonMarketServiceService,
-    private apiService: ApiServicesService,
-    private transfer: TransferNftService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
-  buyNFT(): void {
-    this.updateBackend();
+    private emarket:EthereumMarketServiceService,
+    private pmarket:PolygonMarketServiceService,
+    private apiService:ApiServicesService,
+    private transfer:TransferNftService,
+    private route:ActivatedRoute,
+    private router: Router,
+    ) { }  
+  buyNFT():void{
+   this.updateBackend();
   }
 
   async updateBackend(): Promise<void> {
@@ -292,23 +292,25 @@ export class BuyViewComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
       console.log('data passed :', this.data);
-
-      this.nftbe.Blockchain = 'stellar';
-      this.nftbe.NFTIdentifier = this.data;
-      this.nftbe.SellingStatus = 'ON SALE';
-      if (
-        this.nftbe.NFTIdentifier != null &&
-        this.nftbe.SellingStatus == 'ON SALE' &&
-        this.nftbe.Blockchain == 'stellar'
-      ) {
-        this.service
-          .getNFTDetails(
-            this.nftbe.NFTIdentifier,
-            this.nftbe.SellingStatus,
-            this.nftbe.Blockchain
-          )
-          .subscribe((data: any) => {
-            this.NFTList = data.Response[0];
+    this.nftbe.Blockchain="ethereum";
+    this.nftbe.NFTIdentifier=this.data;
+   this.nftbe.SellingStatus="ON SALE";
+    if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="ethereum") {
+      this.service.getNFTDetails(this.nftbe.NFTIdentifier,this.nftbe.SellingStatus,this.nftbe.Blockchain).subscribe((data:any)=>{
+        this.NFTList=data.Response[0];
+        
+        if(this.NFTList==null){
+          this.ngOnInit()
+        }
+        this.svg.Hash=this.NFTList.imagebase64
+        this.service.getSVGByHash(this.svg.Hash).subscribe((res:any)=>{
+          this.Decryption = res.Response.Base64ImageSVG
+         this.dec = btoa(this.Decryption);
+        var str2 = this.dec.toString(); 
+        var str1 = new String( "data:image/svg+xml;base64,"); 
+        var src = str1.concat(str2.toString());
+        this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        })
 
             if (this.NFTList == null) {
               this.ngOnInit();

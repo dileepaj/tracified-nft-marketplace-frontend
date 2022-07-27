@@ -4,7 +4,7 @@
   <div class="seperator"></div>
   <div class="step-content">
     <div class="nft-card">
-      <img class="nft-image" src="https://via.placeholder.com/150" />
+      <img class="nft-image" [src]="imageSrc" *ngIf="imageSrc" />
       <div
         style="
           width: 100%;
@@ -13,7 +13,7 @@
           justify-content: flex-start;
         "
       >
-        <p class="nft-card-text nft-card-title">NFT Name</p>
+        <p class="nft-card-text nft-card-title">{{List.NFTName}}</p>
       </div>
       <div
         style="
@@ -25,8 +25,7 @@
         "
       >
         <p class="nft-card-text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi mollis
-          ultrices diam nec pretium. Nullam aliquam tempor erat eu efficitur.
+         {{List.Description}}
         </p>
       </div>
     </div>

@@ -154,9 +154,13 @@
             style="display: flex; flex-direction: column; row-gap: 20px"
           >
             <label class="label-title">Type Your Review</label>
-            <div class="txtarea-input-group">
-              <textarea formControlName="description"></textarea>
-            </div>
+            <mat-form-field
+              class="example-full-width"
+              appearance="outline"
+              fxFlex="100%"
+            >
+              <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
           </div>
           <div>
             <button

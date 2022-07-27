@@ -72,6 +72,7 @@ import { BrowseMarketplaceComponent } from './admin/browse-marketplace/browse-ma
 import { EndorsementsComponent } from './admin/endorsements/endorsements.component';
 import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-newsletter.component';
 import { EditProfileComponent } from './admin/edit-profile/edit-profile.component';
+import { OverviewComponent } from './admin/overview/overview.component';
 
 const appRoutes: Routes = [
   {
@@ -144,6 +145,10 @@ const appRoutes: Routes = [
         component: EditProfileComponent,
       },
       {
+        path: 'overview',
+        component: OverviewComponent,
+      },
+      {
         path: '',
         redirectTo: 'browse-marketplace',
         pathMatch: 'full',
@@ -207,6 +212,7 @@ const appRoutes: Routes = [
     NewsletterComponent,
     AddNewsletterComponent,
     EditProfileComponent,
+    OverviewComponent,
   ],
   imports: [
     BrowserModule,

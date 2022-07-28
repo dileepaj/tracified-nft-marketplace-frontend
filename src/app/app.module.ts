@@ -71,8 +71,8 @@ import { MatListModule } from '@angular/material/list';
 import { BrowseMarketplaceComponent } from './admin/browse-marketplace/browse-marketplace.component';
 import { EndorsementsComponent } from './admin/endorsements/endorsements.component';
 import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-newsletter.component';
-import { EditProfileComponent } from './admin/edit-profile/edit-profile.component';
-import { OverviewComponent } from './admin/overview/overview.component';
+import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
+import { OverviewComponent } from './user/overview/overview.component';
 
 const appRoutes: Routes = [
   {
@@ -125,11 +125,30 @@ const appRoutes: Routes = [
     component: SignUpComponent,
   },
   {
+    path: 'user-dashboard',
+    component: ViewDashboardComponent,
+    children: [
+      {
+        path: 'edit-profile',
+        component: EditProfileComponent,
+      },
+      {
+        path: 'overview',
+        component: OverviewComponent,
+      },
+      {
+        path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full',
+      },
+    ],
+  },
+  {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
     children: [
       {
-        path: 'browse-marketplace',
+        path: 'overview',
         component: BrowseMarketplaceComponent,
       },
       {
@@ -141,16 +160,8 @@ const appRoutes: Routes = [
         component: AddNewsletterComponent,
       },
       {
-        path: 'edit-profile',
-        component: EditProfileComponent,
-      },
-      {
-        path: 'overview',
-        component: OverviewComponent,
-      },
-      {
         path: '',
-        redirectTo: 'browse-marketplace',
+        redirectTo: 'overview',
         pathMatch: 'full',
       },
     ],

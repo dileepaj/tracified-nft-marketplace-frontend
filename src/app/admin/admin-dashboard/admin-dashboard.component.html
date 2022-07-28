@@ -18,6 +18,13 @@
         <mat-nav-list id="navlist">
           <mat-list-item
             class="nav-list-item"
+            [routerLink]="'overview'"
+            [routerLinkActive]="'active-item'"
+          >
+            <label>Overview</label>
+          </mat-list-item>
+          <mat-list-item
+            class="nav-list-item"
             [routerLink]="'browse-marketplace'"
             [routerLinkActive]="'active-item'"
           >
@@ -36,6 +43,13 @@
             [routerLinkActive]="'active-item'"
           >
             <label>News Letter</label>
+          </mat-list-item>
+          <mat-list-item
+            class="nav-list-item"
+            [routerLink]="'edit-profile'"
+            [routerLinkActive]="'active-item'"
+          >
+            <label>Edit Profile</label>
           </mat-list-item>
         </mat-nav-list>
         <button

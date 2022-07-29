@@ -1,4 +1,14 @@
 <div class="overview-main-div">
+  <div>
+    <img
+      style="vertical-align: middle; margin-right: 10px; transform: scale(1.1)"
+      [src]="'../../../assets/images/' + selectedBlockchain + '.png'"
+    />
+    {{
+      selectedBlockchain[0].toUpperCase() +
+        selectedBlockchain.substring(1, selectedBlockchain.length)
+    }}
+  </div>
   <div
     class="overview-picks-header"
     fxLayout="row wrap"

@@ -72,4 +72,10 @@ export class HeaderComponent implements OnInit {
       queryParams: { blockchain: blockchain, filter: 'all' },
     });
   }
+
+  public goToOverview(blockchain: string) {
+    this.router.navigate(['/user-dashboard/overview'], {
+      queryParams: { blockchain: blockchain },
+    });
+  }
 }

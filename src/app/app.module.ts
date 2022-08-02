@@ -1,3 +1,4 @@
+import { AuthGuard } from './guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -146,16 +147,20 @@ const appRoutes: Routes = [
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
+    canActivate:[AuthGuard],
     children: [
       {
+        canActivate:[AuthGuard],
         path: 'overview',
         component: BrowseMarketplaceComponent,
       },
       {
+        canActivate:[AuthGuard],
         path: 'endorsements',
         component: EndorsementsComponent,
       },
       {
+        canActivate:[AuthGuard],
         path: 'add-news-letter',
         component: AddNewsletterComponent,
       },
@@ -264,6 +269,7 @@ const appRoutes: Routes = [
         fullLibraryLoader: () => import('highlight.js'),
       },
     },
+    AuthGuard,
   ],
   bootstrap: [AppComponent],
 })

@@ -24,7 +24,15 @@ export const ENV: any = {
   NETWORK_TYPE: 'live'
 };
  
-
+export const adminENV={
+  production: false,
+  name: 'qa',
+  backendUrl: 'https://qa.api.tracified.com',
+  adminUrl: 'https://qa.admin.api.tracified.com',
+  composerBackend: 'https://qa.api.nft.tracified.com',
+  gateway: 'https://qa.gateway.tracified.com',
+  domain: 'localhost',
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

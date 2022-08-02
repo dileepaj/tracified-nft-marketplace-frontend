@@ -20,6 +20,15 @@
 //   //   BLOCKCHAIN_NETWORK: 'https://horizon-testnet.stellar.org',
 // // NETWORK_TYPE: 'live'
 //   };
+export const adminENV={
+  production: false,
+  name: 'qa',
+  backendUrl: 'https://qa.api.tracified.com',
+  adminUrl: 'https://qa.admin.api.tracified.com',
+  composerBackend: 'https://qa.api.nft.tracified.com',
+  gateway: 'https://qa.gateway.tracified.com',
+  domain: 'localhost',
+}
    
   
   

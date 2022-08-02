@@ -19,4 +19,8 @@ export class AdminDashboardComponent implements OnInit {
   public currentRoute(): string {
     return this.router.url;
   }
+  public logout(){
+    this.router.navigate(['/login'])
+  }
 }
+ 

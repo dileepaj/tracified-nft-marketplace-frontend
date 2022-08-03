@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import { Favourites, WatchList } from 'src/app/models/marketPlaceModel';
 import { Endorse, UpdateEndorse, UpdateStatus } from 'src/app/models/endorse';
 import { Partners, UpdatePartners } from 'src/app/models/admin';
+import { Reviews } from 'src/app/models/nft';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class ApiServicesService {
   baseUrlEndorse:string='http://localhost:6081/api/endorser/save';
   baseUrlEndorsement='http://localhost:6081/api/endorsement';
   baseUrlUpdateEndorse='http://localhost:6081/api/endorsementstatus';
-  baseUrlPartner='http://localhost:6081/partner/'
+  baseUrlPartner='http://localhost:6081/partner/';
+  baseUrlSaveReview='http://localhost:6081/review/';
 
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
@@ -82,6 +84,7 @@ export class ApiServicesService {
   }
 
   endorse(st: Endorse): Observable<Endorse> {//request to add collection into the nft backend DB
+    console.log("inside the service: ",st)
     return this.http.post<Endorse>(this.baseUrlEndorse, st, {headers: this.headers});
   }
 
@@ -122,6 +125,14 @@ export class ApiServicesService {
   
     getWatchlistByBlockchainAndNFTIdentifier(blockchain:string,nftidentifier:string):Observable<NFT[]>{
       return this.http.get<NFT[]>(`${this.baseUrlGetWatchlist}/${blockchain}/${nftidentifier}`);
+    }
+
+    addReviews(st: Reviews): Observable<Reviews> {
+      return this.http.post<Reviews>(this.baseUrlSaveReview, st, {headers: this.headers});
+    }
+
+    getAllReviewsByNFTId(id:string):Observable<Reviews[]> {
+      return this.http.get<Reviews[]>(`${this.baseUrlSaveReview}/${id}`);
     }
 }
 

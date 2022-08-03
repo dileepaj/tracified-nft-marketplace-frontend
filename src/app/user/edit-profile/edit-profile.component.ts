@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { UpdateEndorse } from 'src/app/models/endorse';
+import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -8,78 +10,60 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class EditProfileComponent implements OnInit {
   @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
-  showPassword: boolean = false;
-  showConfPassword: boolean = false;
+  endorse:UpdateEndorse= new UpdateEndorse('','','','')
   file: File;
   base64: string = '';
   img: any = '';
-  profile: any = {
-    name: '',
-    image: '',
-  };
-  email: any = {
-    newEmail: '',
-    confirmEmail: '',
-  };
-  password: any = {
-    newPassword: '',
-    confirmPassword: '',
-  };
   controlGroupProfile: FormGroup;
   controlGroupEmail: FormGroup;
   controlGroupPassword: FormGroup;
-  constructor() {}
+  data: any;
+  image: string;
+  EndorseList:any;
+  constructor(private router: Router,private route:ActivatedRoute,private service:ApiServicesService) {}
 
   ngOnInit(): void {
+    console.log("------------------------------edit----------------------")
+    this.route.queryParams.subscribe((params)=>{
+      this.data=JSON.parse(params['data']);
+      console.log("DATA recived: ",this.data)
+      this.service.getEndorsement(this.data).subscribe((res:any)=>{
+        console.log("data is ",res)
+        this.EndorseList=res
+      })
+    })
+
+
+
     this.controlGroupProfile = new FormGroup({
-      name: new FormControl(this.profile.name, Validators.required),
-    });
-    this.controlGroupEmail = new FormGroup({
-      newEmail: new FormControl(this.email.newEmail, Validators.required),
-      confirmEmail: new FormControl(
-        this.email.confirmEmail,
-        Validators.required
-      ),
-    });
-    this.controlGroupPassword = new FormGroup({
-      newPassword: new FormControl(
-        this.password.newPassword,
-        Validators.required
-      ),
-      confirmPassword: new FormControl(
-        this.password.confirmPassword,
-        Validators.required
-      ),
+      name: new FormControl(this.endorse.Name, Validators.required),
+      contact: new FormControl(this.endorse.Contact, Validators.required),
+      mail: new FormControl(this.endorse.Email, Validators.required),
     });
   }
 
   public saveProfile() {
-    this.profile.name = this.controlGroupProfile.get('name')!.value;
-    this.profile.image = this.base64;
-    console.log(this.profile);
+    this.endorse.Name = this.controlGroupProfile.get('name')!.value;
+    this.endorse.Contact = this.controlGroupProfile.get('contact')!.value;
+    this.endorse.Email = this.controlGroupProfile.get('mail')!.value;
+    this.endorse.PublicKey=this.data
+   // this.profile.image = this.base64;
+    console.log(this.endorse);
+    this.service.updateEndorsement(this.endorse).subscribe(res=>{
+      console.log("Profile Updated ", res)
+    })
+
   }
 
-  public saveEmail() {
-    this.email.newEmail = this.controlGroupEmail.get('newEmail')!.value;
-    this.email.confirmEmail = this.controlGroupEmail.get('confirmEmail')!.value;
-    console.log(this.email);
-  }
+ 
 
-  public savePassword() {
-    this.password.newPassword =
-      this.controlGroupPassword.get('newPassword')!.value;
-    this.password.confirmPassword =
-      this.controlGroupPassword.get('confirmPassword')!.value;
-    console.log(this.password);
-  }
+  // public togglePwdVisibility() {
+  //   this.showPassword = !this.showPassword;
+  // }
 
-  public togglePwdVisibility() {
-    this.showPassword = !this.showPassword;
-  }
-
-  public toggleConfPwdVisibility() {
-    this.showConfPassword = !this.showConfPassword;
-  }
+  // public toggleConfPwdVisibility() {
+  //   this.showConfPassword = !this.showConfPassword;
+  // }
 
   public onChange(event: any) {
     this.file = event.target.files[0];
@@ -97,7 +81,7 @@ export class EditProfileComponent implements OnInit {
   //create base64 image
   private _handleReaderLoaded(readerEvt: any) {
     this.base64 = readerEvt.target.result;
-    this.profile.image = this.base64;
+    this.image = this.base64;
     this.updateHTML();
   }
 

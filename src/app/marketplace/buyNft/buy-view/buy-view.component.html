@@ -54,28 +54,28 @@
           <button
             class="viewnftnavbtn"
             mat-button
-            [routerLink]="'/create-account'"
+            (click)="goToReviews()"
           >
             Endorse
           </button>
           <button
             class="viewnftnavbtn"
             mat-button
-            [routerLink]="'/create-account'"
+            (click)="goToReviews()"
           >
             Activity
           </button>
           <button
             class="viewnftnavbtn"
             mat-button
-            [routerLink]="'/create-account'"
+            (click)="goToReviews()"
           >
             Reviews
           </button>
           <button
             class="viewnftnavbtn"
             mat-button
-            [routerLink]="'/create-account'"
+            (click)="goToReviews()"
           >
             User Story
           </button>
@@ -197,6 +197,15 @@
           Browse Transaction History
         </button>
         <br />
+        <div class="overview-nft-item" *ngFor="let item5 of List">
+          <table [border]="1">
+            <tr>
+              <td [width]="100">{{item5.NFTName}}</td>
+              <td [width]="100">{{item5.Status}}</td>
+              <td [width]="100"><a href="https://stellar.expert/explorer/testnet/tx/{{item5.NFTTxnHash}}">{{item5.NFTTxnHash}}</a></td>
+            </tr>
+          </table>
+          </div>
         <a href="#" class="link" style="color: white">View On Stellar.Expert</a>
       </div>
     </div>

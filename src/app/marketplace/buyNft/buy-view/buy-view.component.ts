@@ -11,7 +11,7 @@ import { Trac2buyerService } from 'src/app/services/blockchain-services/solana-s
 import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SVG, TXN } from 'src/app/models/minting';
+import { SVG, Track, TXN } from 'src/app/models/minting';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import {
   clusterApiUrl,
@@ -32,6 +32,7 @@ export class BuyViewComponent implements OnInit {
   loading: any;
   imageSrc: any;
   NFTList: any;
+  List:any[]=[];
   nft: NFTMarket = new NFTMarket(
     '',
     '',
@@ -288,16 +289,24 @@ export class BuyViewComponent implements OnInit {
     this.loading.dismiss();
   }
 
+  goToReviews(){
+    let data :any=this.NFTList;
+    this.router.navigate(['./userreview'],{
+    queryParams:{data:JSON.stringify(data)}
+    })
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
       console.log('data passed :', this.data);
-    this.nftbe.Blockchain="ethereum";
-    this.nftbe.NFTIdentifier=this.data;
+    this.nftbe.Blockchain=this.data[1];
+    this.nftbe.NFTIdentifier=this.data[0];
    this.nftbe.SellingStatus="ON SALE";
-    if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain=="ethereum") {
+    if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain==this.data[1]) {
       this.service.getNFTDetails(this.nftbe.NFTIdentifier,this.nftbe.SellingStatus,this.nftbe.Blockchain).subscribe((data:any)=>{
         this.NFTList=data.Response[0];
+        console.log("nft data: ",this.NFTList)
         
         if(this.NFTList==null){
           this.ngOnInit()
@@ -310,6 +319,16 @@ export class BuyViewComponent implements OnInit {
         var str1 = new String( "data:image/svg+xml;base64,"); 
         var src = str1.concat(str2.toString());
         this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        this.service.getTXNByBlockchainandIdentifier(this.NFTList.nftidentifier,this.NFTList.blockchain).subscribe((txn:any)=>{
+          console.log("TXNS :",txn)
+          for( let x=0; x<(txn.Response.length); x++){
+            let card:Track= new Track('','','');
+            card.NFTName=txn.Response[x].NFTName
+            card.Status=txn.Response[x].Status
+            card.NFTTxnHash=txn.Response[x].NFTTxnHash
+            this.List.push(card)
+          }
+        })
         })
 
             if (this.NFTList == null) {

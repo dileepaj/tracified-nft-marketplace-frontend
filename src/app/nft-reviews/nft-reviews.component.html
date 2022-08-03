@@ -57,19 +57,19 @@
         >
           <div fxFlex.lg="50%" fxLayout="row wrap" style="row-gap: 30px">
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
-              >Name</label
+              >NFT Name</label
             ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >#name</label
+              >{{data.nftname}}</label
             >
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
-              >Email</label
+              >Artist</label
             ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >#email</label
+              >{{data.artistname}}</label
             >
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >Public Key</label
             ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >#GGHJNDHBSDJBKJBKFBJBJKFBKJF</label
+              >{{data.currentownerpk}}</label
             >
           </div>
           <div
@@ -215,6 +215,17 @@
           </div>
         </form>
       </div>
+      <div  *ngFor="let item5 of List">
+        <table [border]="0">
+          <tr>
+            <td [width]="100">
+              Rater: <a href="https://stellar.expert/explorer/testnet/tx/{{item5.UserID}}">{{item5.UserID}}</a><br>
+              Rating: {{item5.Rating}}<br>
+            Description: {{item5.Description}}
+         </td>
+          </tr>
+        </table>
+        </div>
     </div>
   </div>
 </div>

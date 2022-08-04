@@ -121,3 +121,14 @@ export class ReviewsCard{
 		
     ){}
 	}
+
+	export class NFTStory{
+		constructor(
+			public	NFTIdentifier : string   ,       
+			public Blockchain   :string,  
+			public NFTStory   :string,  
+			
+		){}
+	
+		
+	}

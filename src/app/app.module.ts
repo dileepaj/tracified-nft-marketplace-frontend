@@ -173,6 +173,14 @@ const appRoutes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
+  {
+    path: 'activity',
+    component: ActivityComponent,
+  },
+  {
+    path: 'blogs',
+    component: BlogViewerComponent,
+  },
 ];
 @NgModule({
   declarations: [

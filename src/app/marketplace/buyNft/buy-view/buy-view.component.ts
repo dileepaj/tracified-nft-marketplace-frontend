@@ -296,6 +296,13 @@ export class BuyViewComponent implements OnInit {
     })
   }
 
+  goToActvity(){
+    let data :any=this.NFTList;
+    this.router.navigate(['./activity'],{
+    queryParams:{data:JSON.stringify(data)}
+    })
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);

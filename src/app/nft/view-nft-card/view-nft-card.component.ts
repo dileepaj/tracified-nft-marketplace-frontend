@@ -50,6 +50,14 @@ export class ViewNftCardComponent implements OnInit {
     private _sanitizer: DomSanitizer
   ) {}
 
+
+  createStory(){
+    let data:any[]=[this.NFTList.Identifier,this.NFTList.NftIssuingBlockchain]
+    this.router.navigate(['./createblog'], {
+      queryParams: { data: JSON.stringify(data) },
+    });
+  }
+
   sendToSellNFT(): void {
     let data: any = this.NFTList;
     this.router.navigate(['./sell'], {

@@ -37,12 +37,18 @@
       <mat-list id="inbox-list">
         <mat-list-item
           class="inbox-list-item"
-          [class.active-inbx-itm]="i === 0"
-          *ngFor="let item of activities; index as i"
+          *ngFor="let item of activites1; index as i"
           matRipple
+          (click)="clicked(item)"
         >
-          <div mat-line>{{ item.date }} - {{ item.name }}</div>
-          <div mat-line>PK - {{ item.pk }}</div>
+          <div mat-line>Name - {{ item.Name }}  </div>
+          <div mat-line>Email - {{ item.Email }}  </div>
+          <div mat-line>Contact - {{ item.Contact }}</div>
+          <div mat-line>PK - {{ item.PublicKey }}</div>
+          <div mat-line>Blockchain - {{ item.Blockchain }}</div>
+          <div mat-line>Description - {{ item.Description }}</div>
+          <div mat-line>Status - {{ item.Status }}</div>
+          <!-- <div mat-line><button class="btn-view" style="width:250px;">✅Accept</button><button class="btn-view"style="width:250px;">❌Decline</button></div> -->
         </mat-list-item>
       </mat-list>
     </div>

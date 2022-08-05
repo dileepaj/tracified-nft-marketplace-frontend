@@ -96,7 +96,9 @@ export class LoginComponent implements OnInit {
           let decoded:any = jwt_decode(data.Token,{header:false});
           let username = JSON.parse(sessionStorage.getItem('User') || '').UserName!;
           if (!!decoded.userID){
-            this.router.navigate(['/admin-dashboard'])
+            this.router.navigate(['/admin-dashboard'],{
+              queryParams:{data: JSON.stringify(username)}
+            })
           }
         },
         error: (err) => {

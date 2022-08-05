@@ -18,8 +18,8 @@ export class ApiServicesService {
   baseUrlGetFavs:string='http://localhost:6081/api/favourites';
   baseUrlGetWatchlist:string='http://localhost:6081/api/watchlists';
   baseUrlEndorse:string='http://localhost:6081/api/endorser/save';
-  baseUrlEndorsement='http://localhost:6081/api/endorsement';
-  baseUrlUpdateEndorse='http://localhost:6081/api/endorsementstatus';
+  baseUrlEndorsement='http://localhost:6081/api/endorsement/status';
+  baseUrlUpdateEndorse='http://localhost:6081/api/endorsement';
   baseUrlPartner='http://localhost:6081/partner/'
 
   readonly headers = new HttpHeaders()

@@ -15,11 +15,11 @@ export class AcceptEndorsementComponent implements OnInit {
   endorse:Endorse
   constructor(private service:ApiServicesService) { }
 
-  Update(){
-    this.update.PublicKey=this.endorse.PublicKey
-    this.update.Status="Confirmed"
-    this.service.updateEndorsementStatus(this.update).subscribe()
-  }
+  // Update(){
+  //   this.update.PublicKey=this.endorse.PublicKey
+  //   this.update.Status="Confirmed"
+  //   this.service.updateEndorsementStatus(this.update).subscribe()
+  // }
 
   ngOnInit(): void {
     this.endorse.Status='Pending'

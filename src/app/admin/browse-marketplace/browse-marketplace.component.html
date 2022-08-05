@@ -37,7 +37,7 @@
       <mat-list id="inbox-list">
         <mat-list-item
           class="inbox-list-item"
-          *ngFor="let item of activites1; index as i"
+          *ngFor="let item of pendingEndorsments; index as i"
           matRipple
           (click)="clicked(item)"
         >
@@ -48,7 +48,6 @@
           <div mat-line>Blockchain - {{ item.Blockchain }}</div>
           <div mat-line>Description - {{ item.Description }}</div>
           <div mat-line>Status - {{ item.Status }}</div>
-          <!-- <div mat-line><button class="btn-view" style="width:250px;">✅Accept</button><button class="btn-view"style="width:250px;">❌Decline</button></div> -->
         </mat-list-item>
       </mat-list>
     </div>

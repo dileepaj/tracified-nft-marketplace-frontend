@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BuyNFTGW, GetNFT, NFTMarket, SalesBE, SalesGW } from 'src/app/models/nft';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import { NFT, SVG } from 'src/app/models/minting';
+import { NFT, SVG, TXN } from 'src/app/models/minting';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,7 @@ export class NftServicesService {
   baseUrlGetMyNFTByStatus:string='http://localhost:6081/api/selling'
   baseUrlGetMyNFT:string='http://localhost:6081/api/userid'
   baseUrlfilter:string='http://localhost:6081/api/blockchain'
+  baseUrlTxn:string='http://localhost:6081/api/txn'
   reqOpts: any;
 
   constructor(private http: HttpClient) { }
@@ -104,5 +105,15 @@ getMyNFTStatus(sellingstatus,userId):Observable<NFT[]>{
  getMyNFT(userId):Observable<NFT[]>{
   //request to get collection name according to user public key
   return this.http.get<NFT[]>(`${this.baseUrlGetMyNFT}/${userId}`);
+ }
+
+ getNFTByBlockchainandUser(blockchain,userId):Observable<NFT[]>{
+  //request to get collection name according to user public key
+  return this.http.get<NFT[]>(`${this.baseUrlGetOnSaleNFT}/${userId}/${blockchain}`);
+ }
+
+ getTXNByBlockchainandIdentifier(blockchain,id):Observable<TXN[]>{
+  //request to get collection name according to user public key
+  return this.http.get<TXN[]>(`${this.baseUrlTxn}/${blockchain}/${id}`);
  }
 }

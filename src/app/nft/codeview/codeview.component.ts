@@ -33,6 +33,6 @@ file:any;
    //this.imageSrc=this.image.changingThisBreaksApplicationSecurity
 
     // this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.code);
-    console.log("------image----: ",this.imageSrc)
+    console.log("------image----: ",this.image)
   }
 }

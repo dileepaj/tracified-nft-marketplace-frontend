@@ -99,3 +99,36 @@ export class Sales{
 		
     ){}
 }
+
+export class Reviews{
+    constructor(
+		public	NFTIdentifier : string   ,       
+		public UserID   :string,  
+		public Status   :string,  
+		public Rating   :string,  
+		public Description   :string,   
+		
+    ){}
+
+	
+}
+
+export class ReviewsCard{
+    constructor(     
+		public UserID   :string,  
+		public Rating   :string,  
+		public Description   :string,   
+		
+    ){}
+	}
+
+	export class NFTStory{
+		constructor(
+			public	NFTIdentifier : string   ,       
+			public Blockchain   :string,  
+			public NFTStory   :string,  
+			
+		){}
+	
+		
+	}

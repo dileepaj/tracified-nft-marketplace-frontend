@@ -1,5 +1,6 @@
 <div class="overview-main-div">
   <div>
+   
     <img
       style="vertical-align: middle; margin-right: 10px; transform: scale(1.1)"
       [src]="'../../../assets/images/' + selectedBlockchain + '.png'"
@@ -8,6 +9,59 @@
       selectedBlockchain[0].toUpperCase() +
         selectedBlockchain.substring(1, selectedBlockchain.length)
     }}
+  </div>
+  <h5 (click)="goToEdit(User)">Hi there {{User}} </h5><br>
+  <div
+    class="overview-picks-header"
+    fxLayout="row wrap"
+    fxLayoutAlign="space-between center"
+  >
+    <div class="overview-picks-header-title" fxFlex.lt-sm="100%">
+      Your Hot Picks
+    </div>
+    <div class="overview-picks-header-actions">
+      <button class="overview-picks-header-btn">View All</button>
+      <button class="overview-picks-header-btn rounded">
+        <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
+      </button>
+      <button class="overview-picks-header-btn rounded">
+        <mat-icon
+          class="material-symbols-outlined"
+          style="transform: rotate(180deg)"
+        >
+          navigate_before
+        </mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="overview-nft-content">
+    <div class="overview-nft-item" *ngFor="let item1 of ListHotpicks">
+      <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
+      <img class="overview-nft-img" [src]="item1.ImageBase64" />
+      <div class="overview-nft-title">{{ item1.NFTName }}</div>
+      <div class="overview-nft-actions">
+        <img
+          class="overview-nft-action-btn"
+          src="../../../assets/images/purchase.png"
+          matTooltip="Buy NFT"
+        />
+        <img
+          class="overview-nft-action-btn"
+          src="../../../assets/images/view.png"
+          matTooltip="View NFT"
+        />
+        <img
+          class="overview-nft-action-btn"
+          src="../../../assets/images/wishlist.png"
+          matTooltip="Add to watchlist"
+        />
+        <img
+          class="overview-nft-action-btn"
+          src="../../../assets/images/favorite.png"
+          matTooltip="Add to favorites"
+        />
+      </div>
+    </div>
   </div>
   <div
     class="overview-picks-header"
@@ -33,10 +87,10 @@
     </div>
   </div>
   <div class="overview-nft-content">
-    <div class="overview-nft-item" *ngFor="let item of List">
+    <div class="overview-nft-item" *ngFor="let item2 of ListSales">
       <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
-      <img class="overview-nft-img" [src]="item.ImageBase64" />
-      <div class="overview-nft-title">{{ item.NFTName }}</div>
+      <img class="overview-nft-img" [src]="item2.ImageBase64" />
+      <div class="overview-nft-title">{{ item2.NFTName }}</div>
       <div class="overview-nft-actions">
         <img
           class="overview-nft-action-btn"
@@ -67,7 +121,7 @@
     fxLayoutAlign="space-between center"
   >
     <div class="overview-picks-header-title" fxFlex.lt-sm="100%">
-      Items You've Bought
+      Items You've Minted
     </div>
     <div class="overview-picks-header-actions">
       <button class="overview-picks-header-btn">View All</button>
@@ -85,10 +139,10 @@
     </div>
   </div>
   <div class="overview-nft-content">
-    <div class="overview-nft-item" *ngFor="let item of List">
+    <div class="overview-nft-item" *ngFor="let item3 of ListMinted">
       <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
-      <img class="overview-nft-img" [src]="item.ImageBase64" />
-      <div class="overview-nft-title">{{ item.NFTName }}</div>
+      <img class="overview-nft-img" [src]="item3.ImageBase64" />
+      <div class="overview-nft-title">{{ item3.NFTName }}</div>
       <div class="overview-nft-actions">
         <img
           class="overview-nft-action-btn"
@@ -119,7 +173,7 @@
     fxLayoutAlign="space-between center"
   >
     <div class="overview-picks-header-title" fxFlex.lt-sm="100%">
-      Items On Your Watchlist
+      Items Bought
     </div>
     <div class="overview-picks-header-actions">
       <button class="overview-picks-header-btn">View All</button>
@@ -137,10 +191,62 @@
     </div>
   </div>
   <div class="overview-nft-content">
-    <div class="overview-nft-item" *ngFor="let item of List">
+    <div class="overview-nft-item" *ngFor="let item4 of ListBought">
       <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
-      <img class="overview-nft-img" [src]="item.ImageBase64" />
-      <div class="overview-nft-title">{{ item.NFTName }}</div>
+      <img class="overview-nft-img" [src]="item4.ImageBase64" />
+      <div class="overview-nft-title">{{ item4.NFTName }}</div>
+      <div class="overview-nft-actions">
+        <img
+          class="overview-nft-action-btn"
+          src="../../../assets/images/purchase.png"
+          matTooltip="Buy NFT"
+        />
+        <img
+          class="overview-nft-action-btn"
+          src="../../../assets/images/view.png"
+          matTooltip="View NFT"
+        />
+        <img
+          class="overview-nft-action-btn"
+          src="../../../assets/images/wishlist.png"
+          matTooltip="Add to watchlist"
+        />
+        <img
+          class="overview-nft-action-btn"
+          src="../../../assets/images/favorite.png"
+          matTooltip="Add to favorites"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="overview-picks-header"
+    fxLayout="row wrap"
+    fxLayoutAlign="space-between center"
+  >
+    <div class="overview-picks-header-title" fxFlex.lt-sm="100%">
+      Your Favourites
+    </div>
+    <div class="overview-picks-header-actions">
+      <button class="overview-picks-header-btn">View All</button>
+      <button class="overview-picks-header-btn rounded">
+        <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
+      </button>
+      <button class="overview-picks-header-btn rounded">
+        <mat-icon
+          class="material-symbols-outlined"
+          style="transform: rotate(180deg)"
+        >
+          navigate_before
+        </mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="overview-nft-content">
+    <div class="overview-nft-item" *ngFor="let item5 of ListTrends">
+      <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
+      <img class="overview-nft-img" [src]="item5.ImageBase64" />
+      <div class="overview-nft-title">{{ item5.NFTName }}</div>
       <div class="overview-nft-actions">
         <img
           class="overview-nft-action-btn"

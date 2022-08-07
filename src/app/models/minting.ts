@@ -160,3 +160,11 @@ export class TXN{
         
     ){}
 }
+
+export class Track{
+    constructor(
+        public Status:string,
+        public NFTName:string,
+        public NFTTxnHash:string
+    ){}
+}

@@ -110,7 +110,7 @@ export class ExploreComponent implements OnInit {
   }
 
   routeToBuy(id:string){
-    let data :any=id;
+    let data :any[]=[id,this.selectedBlockchain];
     this.router.navigate(['./buyNft'],{
     queryParams:{data:JSON.stringify(data)}
     })

@@ -99,7 +99,7 @@ export class ApiServicesService {
     }
 
   getEndorsementByStatus(status:string): Observable<Endorse[]> {
-      //request to get collection name according to user public key
+      //request to get collection name according to endorsment status
       return this.http.get<Endorse[]>(`${this.baseUrlEndorsement}/${status}`);
     }
 

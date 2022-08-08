@@ -7,6 +7,9 @@ import { ExecFileSyncOptionsWithStringEncoding } from 'child_process';
 import { Subscription } from 'rxjs';
 import { UpdateStatus } from 'src/app/models/endorse';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 
 @Component({
   selector: 'app-endorsements',
@@ -21,8 +24,12 @@ export class EndorsementsComponent implements OnInit {
   review : string
   data: any;
   public PKval : any
-  constructor(private route: ActivatedRoute,private service:ApiServicesService,private router:Router) {
-    }
+  constructor(private route: ActivatedRoute,
+    private service:ApiServicesService,
+    private router:Router,
+    private dialogService : DialogService,
+    private snackbar : SnackbarServiceService
+    ) {}
 
   //Fuction will retreive data from the .html file and initiate the service call to save a user reivew
   save(): void {
@@ -37,8 +44,6 @@ export class EndorsementsComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
-      console.log('data recvide :', this.data);
-      console.log("pk : "+this.data.PublicKey)
       this.PKval =this.data.PublicKey
     })
     /**
@@ -51,32 +56,68 @@ export class EndorsementsComponent implements OnInit {
     });
   }
 
+  //Triggered when user clicks on accpet endorstment button. "status" in DB is updated as accpeted along with the review and rating
   public acceptEndorsment(){
+    console.log("clicekd on acceot endorsment button")
     this.rating=this.formValue('rating')
     this.description=this.formValue('description')
-    console.log("review and rating: ",this.review,this.rating)
-    var updateEndorstment =new UpdateStatus("Accepted",this.data.PublicKey,this.description,this.rating);
-    console.log("dat a sent: ",updateEndorstment)
-    this.service.updateEndorsementStatus(updateEndorstment).subscribe((result:any)=>{
-      console.log("accepted result:",result)
-      if(result!=""){
-        this.router.navigate(['/admin-dashboard'])
-      }
-    })
+    console.log("desc:",this.description)
+    if (this.rating!=null && this.description!=null){
+      var updateEndorstment =new UpdateStatus("Accepted",this.data.PublicKey,this.description,this.rating);
+      //opens to a confirmation dialog to get users approval before sending the update
+      this.dialogService.confirmDialog({
+        title:'Endorsment Acceptance Confirmation',
+        message:'Are you sure you want to accept this endorment',
+        confirmText:'Accept this Endorsment',
+        cancelText:'No'
+      }).subscribe(result=>{
+        if (result){
+          this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateResult:any)=>{
+            //if the updation is scuccesfull the user will get routed back to the admin dashboard
+            if(updateResult!="" || updateResult != null){
+              this.router.navigate(['/admin-dashboard'])
+            }else{
+              this.snackbar.openSnackBar("falied to Accept endorsment please try again")
+            }
+             
+         })
+        }
+      })
+    }else{
+      this.snackbar.openSnackBar("Review and Rating cannot be empty please add data!")
+    }
+    
   }
 
+  //Triggered when user clicks on decline endorstment button. "status" in the DB is updated as declined along with the review and rating
   public declineEndorsment(){
     this.rating=this.formValue('rating')
     this.description=this.formValue('description')
-    console.log("review and rating: ",this.review,this.rating)
-    var updateEndorstment = new UpdateStatus("Declined",this.data.PublicKey,this.description,this.rating)
-    console.log("dat a sent: ",updateEndorstment)
-    this.service.updateEndorsementStatus(updateEndorstment).subscribe((result:any)=>{
-      if(result!=""){
-        this.router.navigate(['/admin-dashboard'])
-      }
-      
-    })
+    if (this.rating!=null && this.description!=null){
+      var updateEndorstment = new UpdateStatus("Declined",this.data.PublicKey,this.description,this.rating)
+      //opens to a confirmation dialog to get users approval before sending the update
+      this.dialogService.confirmDialog({
+        title:"Endorsment decline confirmation",
+        message:"Are you sure you want to decline this Endorsment",
+        cancelText:"No",
+        confirmText:"Decline Endorsment"
+      }).subscribe(result=>{
+        if(result){
+          this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateEndorstment:any)=>{
+            //if the updation is scuccesfull the user will get routed back to the admin dashboard
+            if(updateEndorstment){
+              this.router.navigate(['/admin-dashboard'])
+            }
+            
+          })
+        }
+        
+      })
+    }else{
+      this.snackbar.openSnackBar("Review and Rating cannot be empty please add data!")
+    }
+    
+    
   }
   private formValue(controlName: string): any {
     return this.controlGroup.get(controlName)!.value;

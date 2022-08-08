@@ -33,6 +33,7 @@ export class BrowseMarketplaceComponent implements OnInit {
 
   ngOnInit(): void {
     let status="Pending"
+    //function will return all the endorsments in bending status 
     this.service.getEndorsementByStatus(status).subscribe((data:any)=>{
         this.pendingEndorsments=data.Response;
     });

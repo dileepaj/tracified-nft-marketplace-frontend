@@ -4,7 +4,7 @@ import { NFTMarket } from 'src/app/models/nft';
 import { Router } from '@angular/router';
 import CryptoJS from 'crypto-js';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SVG } from 'src/app/models/minting';
+import { SVG, Track } from 'src/app/models/minting';
 @Component({
   selector: 'app-view-nft-card',
   templateUrl: './view-nft-card.component.html',
@@ -13,6 +13,7 @@ import { SVG } from 'src/app/models/minting';
 export class ViewNftCardComponent implements OnInit {
   Decryption: any;
   NFTList: any;
+  List:any[]=[];
   svg: SVG = new SVG('', '', 'NA');
   nft: NFTMarket = new NFTMarket(
     '',
@@ -49,6 +50,14 @@ export class ViewNftCardComponent implements OnInit {
     private _sanitizer: DomSanitizer
   ) {}
 
+
+  createStory(){
+    let data:any[]=[this.NFTList.Identifier,this.NFTList.NftIssuingBlockchain]
+    this.router.navigate(['./createblog'], {
+      queryParams: { data: JSON.stringify(data) },
+    });
+  }
+
   sendToSellNFT(): void {
     let data: any = this.NFTList;
     this.router.navigate(['./sell'], {
@@ -58,11 +67,12 @@ export class ViewNftCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.nft.InitialDistributorPK =
-      'GBKP3NHUQJ5KYROFOAAEUXH32RENJVIRWEGVCPUMHMSBG3P3HGYXJDUA';
+      'GA3QM5L7PVQ2FCO6YHFSWTRHQKI6MZ7CAZ5LJ6UZIJ3TH5TGP5NU5TAR';
     if (this.nft.InitialDistributorPK != null) {
       this.service
         .getLastNFTDetails(this.nft.InitialDistributorPK)
         .subscribe((data: any) => {
+          console.log("data: ",data)
           this.NFTList = data;
           if (this.NFTList == null) {
             console.log('retrying...');
@@ -80,6 +90,16 @@ export class ViewNftCardComponent implements OnInit {
             var str1 = new String('data:image/svg+xml;base64,');
             var src = str1.concat(str2.toString());
             this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            this.service.getTXNByBlockchainandIdentifier(this.NFTList.Identifier,this.NFTList.NftIssuingBlockchain).subscribe((txn:any)=>{
+              console.log("TXNS :",txn)
+              for( let x=0; x<(txn.Response.length); x++){
+                let card:Track= new Track('','','');
+                card.NFTName=txn.Response[x].NFTName
+                card.Status=txn.Response[x].Status
+                card.NFTTxnHash=txn.Response[x].NFTTxnHash
+                this.List.push(card)
+              }
+            })
           });
 
           if (this.NFTList.NftIssuingBlockchain == 'stellar') {

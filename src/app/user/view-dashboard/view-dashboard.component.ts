@@ -17,6 +17,7 @@ export class ViewDashboardComponent implements OnInit {
   myfavourites: any;
   collectionList: any;
   opened: boolean = true;
+  data: any;
   constructor(
     private api: ApiServicesService,
     private nft: NftServicesService,
@@ -25,42 +26,60 @@ export class ViewDashboardComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  getMyWatchList(userId) {
-    this.api.getWatchListByUserId(userId).subscribe((mylist) => {
-      this.mywatchlist = mylist;
-    });
-  }
+  // getMyWatchList(userId) {
+  //   this.api.getWatchListByUserId(userId).subscribe((mylist) => {
+  //     this.mywatchlist = mylist;
+  //   });
+  // }
 
-  getMyFavourites(userId) {
-    this.api.getFavouritesByUserId(userId).subscribe((myfavs) => {
-      this.myfavourites = myfavs;
-    });
-  }
+  // getMyFavourites(userId) {
+  //   this.api.getFavouritesByUserId(userId).subscribe((myfavs) => {
+  //     this.myfavourites = myfavs;
+  //   });
+  // }
 
-  getMyNFTStatus(userId, status) {
-    if (status == 'Minted') {
-      this.nft.getMyNFTStatus(status, userId).subscribe((mynft) => {
-        this.nfts = mynft;
+  // getMyNFTStatus(userId, status) {
+  //   if (status == 'Minted') {
+  //     this.nft.getMyNFTStatus(status, userId).subscribe((mynft) => {
+  //       this.nfts = mynft;
+  //     });
+  //   }
+  //   if (status == 'ON SALE') {
+  //     this.nft.getMyNFTStatus(status, userId).subscribe((mynft) => {
+  //       this.nfts = mynft;
+  //     });
+  //   }
+  // }
+
+  // getMyCollections(userId) {
+  //   this.collection.getCollectionName(userId).subscribe((collection) => {
+  //     this.collectionList = collection;
+  //   });
+  // }
+
+ 
+
+  goToOverview(){
+    // this.router.navigate(['./user-dashboard/overview'],{
+    //   queryParams:{data:JSON.stringify(this.data)}
+    //   });
+
+      this.router.navigate(['./user-dashboard/overview'], {
+        queryParams: { blockchain: this.data },
       });
-    }
-    if (status == 'ON SALE') {
-      this.nft.getMyNFTStatus(status, userId).subscribe((mynft) => {
-        this.nfts = mynft;
-      });
-    }
-  }
-
-  getMyCollections(userId) {
-    this.collection.getCollectionName(userId).subscribe((collection) => {
-      this.collectionList = collection;
-    });
+      
   }
 
   ngOnInit(): void {
-    this.nft.getMyNFT(this.userId).subscribe((data) => {
-      console.log('My NFTs ', data);
-      this.nfts = data;
-    });
+    console.log("------------------------------dashboard----------------------")
+    // this.route.queryParams.subscribe((params)=>{
+    //   this.data=JSON.parse(params['blockchain']);
+    //   console.log("DATA recived: ",this.data)})
+
+    // this.nft.getMyNFT(this.userId).subscribe((data) => {
+    //   console.log('My NFTs ', data);
+    //   this.nfts = data;
+    // });
   }
 
   public toggleSidenav() {

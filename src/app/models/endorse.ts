@@ -18,8 +18,6 @@ export class Endorse {
       public PublicKey:string,
       public Email:string,
       public Contact:string,
-      public Description:string,
-      public Blockchain:string,
     ) {}
   }
 

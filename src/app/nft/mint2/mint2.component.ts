@@ -4,7 +4,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from 'rxjs';
 import { NFT, Ownership, tags,Issuer,Minter,StellarTXN,Contracts,TXN, UpdateSVG, SVG} from 'src/app/models/minting';
 import { MintService } from 'src/app/services/blockchain-services/mint.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TrustlinesService } from 'src/app/services/blockchain-services/stellar-services/trustlines.service';
 import { Properties } from '../../shared/properties';
 import { PolygonMintService } from 'src/app/services/contract-services/polygon-mint.service';
@@ -54,7 +54,8 @@ export class Mint2Component implements OnInit { //declaring models and variables
      private emint:EthereumMintService,
      private apiService:ApiServicesService,
      private _sanitizer:DomSanitizer,
-     private nft:NftServicesService,) { }
+     private nft:NftServicesService,
+     private router: Router,) { }
   
  sendToMint3():void{//getting form data to mint and post
 
@@ -117,23 +118,36 @@ this.apiService.addTXN(this.txn).subscribe();
   this.mint.Description=this.data.Description;
   this.svgUpdate.Id=this.data.svg.Id;
   console.log("svg ID recived: ",this.svgUpdate.Id)
+
   if(this.mint.Blockchain =="stellar"){//minting if blockchain == stellar
-    this.service.createIssuer().subscribe(async (data:any)=>{
-      this.mint.NFTIssuerPK=data.NFTIssuerPK;
-      this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
-      this.svg = this.data.svg;
-      this.svg.blockchain="stellar"
-      this.apiService.addSVG(this.svg).subscribe()
-      if (this.mint.NFTIssuerPK !=null){
-         this.sendToMint3()
+    // this.service.createIssuer().subscribe(async (data:any)=>{
+    //   this.mint.NFTIssuerPK=data.NFTIssuerPK;
+    //   this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
+    //   this.svg = this.data.svg;
+    //   this.svg.blockchain="stellar"
+    //   this.apiService.addSVG(this.svg).subscribe()
+    //   if (this.mint.NFTIssuerPK !=null){
+    //      this.sendToMint3()
          let freighter = new UserWallet();
          freighter = new FreighterComponent(freighter);
          await freighter.initWallelt();
          let userPK =await freighter.getWalletaddress();
-         this.mintNFT(userPK)
-         this.saveTXNs()
-     }
-    })
+         this.apiService.getEndorsement(userPK).subscribe((res:any)=>{
+          console.log("result is :", res)
+          if(res.status==""){
+            console.log("--------------------------")
+            alert("You are not endorsed. Get endorsed now")
+            this.router.navigate(['./signUp'],{
+              queryParams:{data:JSON.stringify(this.mint.Blockchain)}
+              });
+          }else{
+            this.mintNFT(userPK)
+            this.saveTXNs()
+          }
+         })
+        
+    // }
+   // })
   }
 
   if(this.mint.Blockchain =="solana"){//minting if blockchain == solana

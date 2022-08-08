@@ -73,6 +73,7 @@ import { EndorsementsComponent } from './admin/endorsements/endorsements.compone
 import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-newsletter.component';
 import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 import { OverviewComponent } from './user/overview/overview.component';
+import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 
 const appRoutes: Routes = [
   {
@@ -235,6 +236,7 @@ const appRoutes: Routes = [
     AddNewsletterComponent,
     EditProfileComponent,
     OverviewComponent,
+    ConfirmComponent,
   ],
   imports: [
     BrowserModule,

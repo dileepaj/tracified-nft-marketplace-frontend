@@ -1,3 +1,5 @@
+import { Float } from "@solana/buffer-layout";
+
 export class Endorse {
     constructor(
       public Name: string,
@@ -21,8 +23,9 @@ export class Endorse {
 
   export class UpdateStatus {
     constructor(
-      public Status:string,
-      public PublicKey:string,
-     
+      public status:string,
+      public publickey:string,
+      public Review:string,
+      public Rating:string
     ) {}
   }

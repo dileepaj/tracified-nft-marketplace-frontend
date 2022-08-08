@@ -19,9 +19,9 @@ export class ApiServicesService {
   baseUrlGetFavs:string='http://localhost:6081/api/favourites';
   baseUrlGetWatchlist:string='http://localhost:6081/api/watchlists';
   baseUrlEndorse:string='http://localhost:6081/api/endorser/save';
-  baseUrlEndorsement='http://localhost:6081/api/endorsement';
-  baseUrlUpdateEndorse='http://localhost:6081/api/endorsementstatus';
-  baseUrlPartner='http://localhost:6081/partner/';
+  baseUrlEndorsement='http://localhost:6081/api/endorsement/status';
+  baseUrlUpdateEndorse='http://localhost:6081/api/endorsement';
+  baseUrlPartner='http://localhost:6081/partner/'
   baseUrlSaveReview='http://localhost:6081/review/';
   baseUrlSaveStory='http://localhost:6081/story/';
 
@@ -103,7 +103,7 @@ export class ApiServicesService {
     }
 
   getEndorsementByStatus(status:string): Observable<Endorse[]> {
-      //request to get collection name according to user public key
+      //request to get collection name according to endorsment status
       return this.http.get<Endorse[]>(`${this.baseUrlEndorsement}/${status}`);
     }
 

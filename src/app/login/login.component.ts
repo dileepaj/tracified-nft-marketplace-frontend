@@ -32,9 +32,9 @@ export class LoginComponent implements OnInit {
   private password: string = '';
   constructor(
     private router:Router,
-    private _adminAuthService : AdminAuthService, //* Impl done  : ✅
-    private jwt:JwtServiceService,//* Impl done  : ✅
-    private snackBar : PopupMessageService,//* Impl done  : ✅
+    private _adminAuthService : AdminAuthService, 
+    private jwt:JwtServiceService,
+    private snackBar : PopupMessageService,
     private mediaObserver: MediaObserver,
     private _location: Location,
     //private store: Store<AppState>,
@@ -71,7 +71,6 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmit(){
-    console.log("Starting logging process")
     this.loading=true;
     const user:AdminUserLogin = new AdminUserLogin()
     if(this.loginForm.status=="VALID"){
@@ -96,17 +95,17 @@ export class LoginComponent implements OnInit {
           let decoded:any = jwt_decode(data.Token,{header:false});
           let username = JSON.parse(sessionStorage.getItem('User') || '').UserName!;
           if (!!decoded.userID){
-            this.router.navigate(['/admin-dashboard'])
+            this.router.navigate(['/admin-dashboard'],{
+              queryParams:{data: JSON.stringify(username)}
+            })
           }
         },
         error: (err) => {
-          console.log("incorrect username or passwrod : ",err)
           this.loading = false;
           this.snackBar.openSnackBar('Valid username and password required');
         },
       });
     }else{
-      console.log("validation failed")
       this.loading = false;
       this.snackBar.openSnackBar('Valid username and password required');
     }

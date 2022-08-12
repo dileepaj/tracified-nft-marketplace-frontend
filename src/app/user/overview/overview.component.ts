@@ -107,12 +107,12 @@ export class OverviewComponent implements OnInit {
               this.FilterByONSALE(this.Sale)
             }
              
-            if(this.nfts.Response[x].sellingstatus=="NOT FOR SALE"){
+            if(this.nfts.Response[x].sellingstatus=="NOTFORSALE"){
               this.Bought.push(this.nfts.Response[x])
               this.FilterByBoughtNFT(this.Bought)
             }
 
-            if(this.nfts.Response[x].sellingstatus=="minted"){
+            if(this.nfts.Response[x].sellingstatus=="Minted"){
               this.Minted.push(this.nfts.Response[x])
               this.FilterByMinted(this.Minted)
             }
@@ -236,4 +236,20 @@ export class OverviewComponent implements OnInit {
       })
     }
   }
+
+  putToSaleafterMint(hash:string,id:string){
+    console.log("image 64 hash : ",hash)
+    let data : any[] = ["Minted",hash,id,this.selectedBlockchain]
+    this.router.navigate(['./shownft'],{
+      queryParams:{data:JSON.stringify(data)}
+    });
+  }
+
+  putToSaleafterBought(hash:string,id:string){
+    let data : any[] = ["NOTFORSALE",hash,id,this.selectedBlockchain]
+    this.router.navigate(['./shownft'],{
+      queryParams:{data:JSON.stringify(data)}
+    });
+  }
+
 }

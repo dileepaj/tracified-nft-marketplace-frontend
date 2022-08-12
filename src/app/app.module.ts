@@ -74,7 +74,8 @@ import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-
 import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 import { OverviewComponent } from './user/overview/overview.component';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
-
+import { ShowNFTComponent } from './show-nft/show-nft.component';
+import { PutOnResaleComponent } from './put-on-resale/put-on-resale.component';
 const appRoutes: Routes = [
   {
     path: 'home',
@@ -187,6 +188,14 @@ const appRoutes: Routes = [
     path: 'blogs',
     component: BlogViewerComponent,
   },
+  {
+    path: 'shownft',
+    component: ShowNFTComponent,
+  },
+  {
+    path:"nftresale",
+    component:PutOnResaleComponent,
+  }
 ];
 @NgModule({
   declarations: [
@@ -237,6 +246,8 @@ const appRoutes: Routes = [
     EditProfileComponent,
     OverviewComponent,
     ConfirmComponent,
+    ShowNFTComponent,
+    PutOnResaleComponent,
   ],
   imports: [
     BrowserModule,

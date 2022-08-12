@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
-import { NFTMarket } from 'src/app/models/nft';
-import { ActivatedRoute, Router } from '@angular/router';
-import CryptoJS from 'crypto-js';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SVG, Track } from 'src/app/models/minting';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SVG, Track } from '../models/minting';
+import { NFTMarket } from '../models/nft';
+import { NftServicesService } from '../services/api-services/nft-services/nft-services.service';
+
 @Component({
-  selector: 'app-view-nft-card',
-  templateUrl: './view-nft-card.component.html',
-  styleUrls: ['./view-nft-card.component.css'],
+  selector: 'app-show-nft',
+  templateUrl: './show-nft.component.html',
+  styleUrls: ['./show-nft.component.css']
 })
-export class ViewNftCardComponent implements OnInit {
+export class ShowNFTComponent implements OnInit {
   Decryption: any;
   NFTList: any;
   List:any[]=[];
@@ -52,49 +52,35 @@ export class ViewNftCardComponent implements OnInit {
     private route:ActivatedRoute
   ) {}
 
-
-  createStory(){
-    let data:any[]=[this.NFTList.Identifier,this.NFTList.NftIssuingBlockchain]
-    this.router.navigate(['./createblog'], {
-      queryParams: { data: JSON.stringify(data) },
-    });
-  }
-
-  sendToSellNFT(): void {
-    let data: any = this.NFTList;
-    this.router.navigate(['./sell'], {
-      queryParams: { data: JSON.stringify(data) },
-    });
-  }
-
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
       this.data=JSON.parse(params['data']);
       console.log("DATA recived: ",this.data)})
-    this.nft.InitialDistributorPK =this.data;
-    if (this.nft.InitialDistributorPK != null) {
+
+    if (this.data != null) {
       this.service
-        .getLastNFTDetails(this.nft.InitialDistributorPK)
+      // 2:nft identifer , 3:blockchain, 0:selling status , 1:svg
+        .getNFTDetails(this.data[2],this.data[0],this.data[3])
         .subscribe((data: any) => {
           console.log("data: ",data)
-          this.NFTList = data;
+          this.NFTList = data.Response[0];
           if (this.NFTList == null) {
             console.log('retrying...');
             this.ngOnInit();
           }
-          this.svg.Hash = this.NFTList.ImageBase64;
-          console.log('svg : ', this.svg.Hash);
-          this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
-            console.log('service res:', res);
-            this.Decryption = res.Response.Base64ImageSVG;
-            console.log('decrypted sg:', this.Decryption);
-            this.dec = btoa(this.Decryption);
-            console.log('dec : ', this.dec);
-            var str2 = this.dec.toString();
-            var str1 = new String('data:image/svg+xml;base64,');
-            var src = str1.concat(str2.toString());
-            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-            this.service.getTXNByBlockchainandIdentifier(this.NFTList.Identifier,this.NFTList.NftIssuingBlockchain).subscribe((txn:any)=>{
+            this.service.getSVGByHash(this.NFTList.imagebase64).subscribe((res: any) => {
+              console.log('service res:', res);
+              this.Decryption = res.Response.Base64ImageSVG;
+              console.log('decrypted sg:', this.Decryption);
+              this.dec = btoa(this.Decryption);
+              console.log('dec : ', this.dec);
+              var str2 = this.dec.toString();
+              var str1 = new String('data:image/svg+xml;base64,');
+              var src = str1.concat(str2.toString());
+              this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            });
+            console.log("image src : ",this.imageSrc)
+            this.service.getTXNByBlockchainandIdentifier(this.NFTList.nftidentifier,this.NFTList.blockchain).subscribe((txn:any)=>{
               console.log("TXNS :",txn)
               for( let x=0; x<(txn.Response.length); x++){
                 let card:Track= new Track('','','');
@@ -104,8 +90,8 @@ export class ViewNftCardComponent implements OnInit {
                 this.List.push(card)
               }
             })
-          });
-
+          
+            //put correct bc name var
           if (this.NFTList.NftIssuingBlockchain == 'stellar') {
             this.NFTList.NFTIssuerPK = this.NFTList.NFTIssuerPK;
           }
@@ -122,6 +108,20 @@ export class ViewNftCardComponent implements OnInit {
     } else {
       console.log('User PK not connected or not endorsed');
     }
+  }
+
+  createStory(){
+    let data:any[]=[this.NFTList.Identifier,this.NFTList.NftIssuingBlockchain]
+    this.router.navigate(['./createblog'], {
+      queryParams: { data: JSON.stringify(data) },
+    });
+  }
+
+  sendToSellNFT(): void {
+    let data: any = this.NFTList;
+    this.router.navigate(['./nftresale'], {
+      queryParams: { data: JSON.stringify(data) },
+    });
   }
 
   public goToExplore() {

@@ -91,7 +91,7 @@ export class ApiServicesService {
 
   getEndorsement(userId:string): Observable<Endorse[]> {
     //request to get collection name according to user public key
-    return this.http.get<Endorse[]>(`${this.baseUrlEndorsement}/${userId}`);
+    return this.http.get<Endorse[]>(`${this.baseUrlUpdateEndorse}/${userId}`);
   }
 
   updateEndorsement(st:UpdateEndorse):Observable<UpdateEndorse>{

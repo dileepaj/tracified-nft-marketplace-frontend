@@ -46,6 +46,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   Decryption: any;
   dec: string;
   imageSrc: any;
+  userPK: string;
 
   constructor(private route:ActivatedRoute,
      private service:MintService ,
@@ -65,7 +66,6 @@ export class Mint2Component implements OnInit { //declaring models and variables
   this.mint.Tags=this.formValue('Tags');
   this.mint.ArtistName=this.formValue('ArtistName');
   this.mint.ArtistProfileLink=this.formValue('ArtistProfileLink');
-  this.mint.CreatorUserId="A101";
   this.mint.CurrentOwnerPK=this.mint.CreatorUserId;
   this.mint.SellingStatus="Minted";
   this.mint.SellingType="NFT";
@@ -104,7 +104,7 @@ this.txn.ImageURL=this.mint.Imagebase64;
 this.txn.NFTIdentifier=this.mint.NFTIdentifier;
 this.txn.NFTName=this.mint.NFTName;
 this.txn.NFTTxnHash=this.mint.NFTTxnHash;
-this.txn.Status=this.mint.Status;
+this.txn.Status="Minted";
 
 this.apiService.addTXN(this.txn).subscribe();
 }
@@ -120,19 +120,21 @@ this.apiService.addTXN(this.txn).subscribe();
   console.log("svg ID recived: ",this.svgUpdate.Id)
 
   if(this.mint.Blockchain =="stellar"){//minting if blockchain == stellar
-    // this.service.createIssuer().subscribe(async (data:any)=>{
-    //   this.mint.NFTIssuerPK=data.NFTIssuerPK;
-    //   this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
-    //   this.svg = this.data.svg;
-    //   this.svg.blockchain="stellar"
-    //   this.apiService.addSVG(this.svg).subscribe()
-    //   if (this.mint.NFTIssuerPK !=null){
-    //      this.sendToMint3()
+    this.service.createIssuer().subscribe(async (data:any)=>{
+      this.mint.NFTIssuerPK=data.NFTIssuerPK;
+      this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
+      console.log("stellar NFT issuer : ",this.mint.NFTIssuerPK)
+      this.svg = this.data.svg;
+      this.svg.blockchain="stellar"
+      this.apiService.addSVG(this.svg).subscribe()
+      if (this.mint.NFTIssuerPK !=null){
+         
          let freighter = new UserWallet();
          freighter = new FreighterComponent(freighter);
          await freighter.initWallelt();
-         let userPK =await freighter.getWalletaddress();
-         this.apiService.getEndorsement(userPK).subscribe((res:any)=>{
+         this.userPK =await freighter.getWalletaddress();
+         this.mint.CreatorUserId=this.userPK;
+         this.apiService.getEndorsement(this.userPK).subscribe((res:any)=>{
           console.log("result is :", res)
           if(res.status==""){
             console.log("--------------------------")
@@ -141,13 +143,15 @@ this.apiService.addTXN(this.txn).subscribe();
               queryParams:{data:JSON.stringify(this.mint.Blockchain)}
               });
           }else{
-            this.mintNFT(userPK)
-            this.saveTXNs()
+            this.sendToMint3()
+            this.mintNFT(this.userPK)
+            
+            
           }
          })
         
-    // }
-   // })
+    }
+   })
   }
 
   if(this.mint.Blockchain =="solana"){//minting if blockchain == solana
@@ -156,14 +160,27 @@ this.apiService.addTXN(this.txn).subscribe();
     await phantomWallet.initWallelt()
     this.mint.NFTIssuerPK=phantomWallet.getWalletaddress();
     this.mint.NFTIdentifier=this.mint.NFTIssuerPK;
+    this.mint.CreatorUserId=this.mint.NFTIssuerPK;
     this.svg = this.data.svg;
     this.svg.blockchain="solana"
     this.apiService.addSVG(this.svg).subscribe()
     //this.apiService.updateSVGBlockchain(this.svgUpdate)
-    this.sendToMint3()
-    this.mintNftSolana(this.mint.NFTIssuerPK)
-    this.saveTXNs()
+    this.apiService.getEndorsement(this.mint.NFTIssuerPK).subscribe((res:any)=>{
+      console.log("result is :", res)
+      if(res.status==""){
+        console.log("--------------------------")
+        alert("You are not endorsed. Get endorsed now")
+        this.router.navigate(['./signUp'],{
+          queryParams:{data:JSON.stringify(this.mint.Blockchain)}
+          });
+      }else{
+        this.sendToMint3()
+        this.mintNftSolana(this.mint.NFTIssuerPK)
+       
+      }
+    });
  }
+
 
   if(this.mint.Blockchain =="ethereum"){//minting if blockchain == ethereum
     console.log("This is for ethereum")
@@ -174,18 +191,32 @@ this.apiService.addTXN(this.txn).subscribe();
     this.mint.DistributorPK=metamask.getWalletaddress();
     this.mint.MintedContract=environment.contractAddressNFTEthereum;
     this.mint.MarketContract=environment.contractAddressMKEthereum;
+    this.mint.CreatorUserId=this.mint.DistributorPK;
     this.svg = this.data.svg;
     this.svg.blockchain="ethereum"
     this.apiService.addSVG(this.svg).subscribe()
-    this.emint.mintInEthereum(this.mint.NFTIssuerPK,this.mint.NFTName,this.mint.Description,this.mint.NftContentURL,this.mint.Imagebase64,)
-    .then(res => {
-      this.mint.NFTTxnHash = res.transactionHash;
-      this.tokenId=parseInt(res.logs[0].topics[3]);
-      this.mint.NFTIdentifier=this.tokenId.toString() 
-      this.sendToMint3();
-      this.saveContractInGateway();
-      this.saveTXNs()
-    })
+    this.apiService.getEndorsement(this.mint.DistributorPK).subscribe((res:any)=>{
+      console.log("result is :", res)
+      if(res.status==""){
+        console.log("--------------------------")
+        alert("You are not endorsed. Get endorsed now")
+        this.router.navigate(['./signUp'],{
+          queryParams:{data:JSON.stringify(this.mint.Blockchain)}
+          });
+      }else{
+        this.emint.mintInEthereum(this.mint.NFTIssuerPK,this.mint.NFTName,this.mint.Description,this.mint.NftContentURL,this.mint.Imagebase64,)
+        .then(res => {
+          this.mint.NFTTxnHash = res.transactionHash;
+          this.tokenId=parseInt(res.logs[0].topics[3]);
+          this.mint.NFTIdentifier=this.tokenId.toString() 
+          this.sendToMint3();
+          this.saveContractInGateway();
+          this.saveTXNs()
+          
+        })
+      }
+    });
+    
   }
 
   if(this.mint.Blockchain =="polygon"){//minting if blockchain == polygon
@@ -197,21 +228,34 @@ this.apiService.addTXN(this.txn).subscribe();
    this.mint.DistributorPK=metamask.getWalletaddress();
    this.mint.MintedContract=environment.contractAddressNFTPolygon;
    this.mint.MarketContract=environment.contractAddressMKPolygon;
+   this.mint.CreatorUserId=this.mint.DistributorPK;
+   console.log("mint polygon contreact: ",this.mint.MintedContract)
+   console.log("market polygon contreact: ",this.mint.MarketContract)
    this.svg = this.data.svg;
    this.svg.blockchain="polygon"
    this.apiService.addSVG(this.svg).subscribe()
-   this.pmint.mintInPolygon(this.mint.NFTIssuerPK,this.mint.Imagebase64)
-   .then(res => {
-    this.mint.NFTTxnHash = res.transactionHash;
-    this.tokenId=parseInt(res.logs[0].topics[3]);
-    this.mint.NFTIdentifier=this.tokenId.toString()
-    //this.apiService.updateSVGBlockchain(this.svgUpdate)
-   this.sendToMint3();
-   this.saveContractInGateway();
-   this.saveTXNs()
-  })
-
-   
+   this.apiService.getEndorsement(this.mint.DistributorPK).subscribe((res:any)=>{
+    console.log("result is :", res)
+    if(res.status==""){
+      console.log("--------------------------")
+      alert("You are not endorsed. Get endorsed now")
+      this.router.navigate(['./signUp'],{
+        queryParams:{data:JSON.stringify(this.mint.Blockchain)}
+        });
+    }else{
+      this.pmint.mintInPolygon(this.mint.NFTIssuerPK,this.mint.Imagebase64)
+      .then(res => {
+       this.mint.NFTTxnHash = res.transactionHash;
+       this.tokenId=parseInt(res.logs[0].topics[3]);
+       this.mint.NFTIdentifier=this.tokenId.toString()
+       //this.apiService.updateSVGBlockchain(this.svgUpdate)
+      this.sendToMint3();
+      this.saveContractInGateway();
+      this.saveTXNs()
+      
+     })
+    }
+  });  
   }
   
  }
@@ -233,13 +277,22 @@ saveContractInGateway(){
   this.contract.OwnerPK=this.mint.CreatorUserId;
   this.contract.Tags=this.mint.Tags;
   this.contract.Identifier=this.mint.NFTIdentifier
-  this.service.addNFTGW(this.contract).subscribe();
+  this.service.addNFTGW(this.contract).subscribe(res=>{
+    this.router.navigate(['./getNft'],{
+      queryParams:{data:JSON.stringify( this.mint.MarketContract)}
+      });
+  });
 
 }
 
 updateMinter():void{
   if (this.minter.NFTIssuerPK!=null){
-    this.service.updateNFTSolana(this.minter).subscribe();
+    this.service.updateNFTSolana(this.minter).subscribe(res=>{
+      this.saveTXNs()
+      this.router.navigate(['./getNft'],{
+        queryParams:{data:JSON.stringify(this.mint.NFTIssuerPK)}
+        });
+    });
   }else{
   this.Minter()
  }
@@ -247,7 +300,12 @@ updateMinter():void{
 
 updateStellarTXN():void{
   if (this.stxn.NFTTxnHash!=null){
-    this.service.updateTXNStellar(this.stxn).subscribe();
+    this.service.updateTXNStellar(this.stxn).subscribe(res=>{
+      this.saveTXNs()
+      this.router.navigate(['./getNft'],{
+        queryParams:{data:JSON.stringify(this.userPK)}
+      });
+    });
   }else{
   this.TXNStellar()
  }
@@ -316,7 +374,7 @@ updateStellarTXN():void{
               if (this.isLoadingPresent) {
                 this.dissmissLoading();
               }
-              this.mint.NFTName="";
+              //this.mint.NFTName="";
              
             }).catch(error => {
               if (this.isLoadingPresent) {
@@ -346,16 +404,17 @@ updateStellarTXN():void{
    this.route.queryParams.subscribe((params)=>{
     this.data=JSON.parse(params['data']);
     console.log("DATA recived: ",this.data)
+    console.log("svg hash: ",this.data.svg.Base64ImageSVG)
     this.List=this.data
-    this.nft.getSVGByHash(this.data.NftContentURL).subscribe((res:any)=>{
-      this.Decryption = res.Response.Base64ImageSVG
+    //this.nft.getSVGByHash(this.data.NftContentURL).subscribe((res:any)=>{
+      this.Decryption = this.data.svg.Base64ImageSVG
     this.dec = btoa(this.Decryption);
    var str2 = this.dec.toString(); 
    var str1 = new String( "data:image/svg+xml;base64,"); 
    var src = str1.concat(str2.toString());
    this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
    
-    })
+  //  })
    })
    
     this.controlGroup = new FormGroup({//validation

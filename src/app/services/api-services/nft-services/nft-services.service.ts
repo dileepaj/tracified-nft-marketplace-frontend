@@ -112,8 +112,8 @@ getMyNFTStatus(sellingstatus,userId):Observable<NFT[]>{
   return this.http.get<NFT[]>(`${this.baseUrlGetOnSaleNFT}/${userId}/${blockchain}`);
  }
 
- getTXNByBlockchainandIdentifier(blockchain,id):Observable<TXN[]>{
+ getTXNByBlockchainandIdentifier(id,blockchain):Observable<TXN[]>{
   //request to get collection name according to user public key
-  return this.http.get<TXN[]>(`${this.baseUrlTxn}/${blockchain}/${id}`);
+  return this.http.get<TXN[]>(`${this.baseUrlTxn}/${id}/${blockchain}`);
  }
 }

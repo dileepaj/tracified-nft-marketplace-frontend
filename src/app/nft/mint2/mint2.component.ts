@@ -47,6 +47,7 @@ export class Mint2Component implements OnInit { //declaring models and variables
   dec: string;
   imageSrc: any;
   userPK: string;
+  distributor: any;
 
   constructor(private route:ActivatedRoute,
      private service:MintService ,
@@ -174,6 +175,7 @@ this.apiService.addTXN(this.txn).subscribe();
           queryParams:{data:JSON.stringify(this.mint.Blockchain)}
           });
       }else{
+        console.log("------------solananananananana--------------")
         this.sendToMint3()
         this.mintNftSolana(this.mint.NFTIssuerPK)
        
@@ -290,7 +292,7 @@ updateMinter():void{
     this.service.updateNFTSolana(this.minter).subscribe(res=>{
       this.saveTXNs()
       this.router.navigate(['./getNft'],{
-        queryParams:{data:JSON.stringify(this.mint.NFTIssuerPK)}
+        queryParams:{data:JSON.stringify(this.distributor)}
         });
     });
   }else{
@@ -326,6 +328,7 @@ updateStellarTXN():void{
       this.minter.NFTIssuerPK=this.mint.NFTIssuerPK;
       this.minter.NFTTxnHash=this.mint.NFTTxnHash
       this.minter.NFTIdentifier=data.NFTIdentifier;
+      this.distributor=data.CreatorUserID
       this.updateMinter()
     })
   }
@@ -433,6 +436,7 @@ updateStellarTXN():void{
   }
 
   mintNftSolana(ownerPK : string){
+    console.log("before minting and sending gatway", ownerPK)
     return new Promise((resolve, reject) => {
       this.service.minNFTSolana( 
         ownerPK,//distributer Public key
@@ -451,7 +455,6 @@ updateStellarTXN():void{
           if (this.isLoadingPresent) {
             this.dissmissLoading();
           } 
-          this.mint.NFTName="";
           console.log("Starting this.minter()")
           this.Minter()
         }).catch(error => {

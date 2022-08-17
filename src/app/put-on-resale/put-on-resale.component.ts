@@ -187,6 +187,7 @@ export class PutOnResaleComponent implements OnInit {
               );
 
               alert('successfully sold!');
+              this.saleBE.NFTIdentifier = this.data.nftidentifier;
               this.selltxn = signature;
               this.addDBBackend();
               this.addDBGateway();

@@ -52,6 +52,11 @@ export class ShowNFTComponent implements OnInit {
     private route:ActivatedRoute
   ) {}
 
+
+  showInProfile(){
+    
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
       this.data=JSON.parse(params['data']);

@@ -69,6 +69,7 @@ export class MintService {
 
   
   updateNFTSolana(st: Minter): Observable<Minter> {
+    console.log("data to be updated ",st)
     const updateMinterResult: Observable<Minter>= this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
     console.log("updateMinter Result: ",updateMinterResult)
     return updateMinterResult

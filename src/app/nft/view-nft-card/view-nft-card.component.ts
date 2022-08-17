@@ -67,6 +67,10 @@ export class ViewNftCardComponent implements OnInit {
     });
   }
 
+  showInProfile(){
+    
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
       this.data=JSON.parse(params['data']);
@@ -106,18 +110,18 @@ export class ViewNftCardComponent implements OnInit {
             })
           });
 
-          if (this.NFTList.NftIssuingBlockchain == 'stellar') {
-            this.NFTList.NFTIssuerPK = this.NFTList.NFTIssuerPK;
-          }
-          if (this.NFTList.Blockchain == 'solana') {
-            this.NFTList.NFTIssuerPK = this.NFTList.MinterPK;
-          }
-          if (this.NFTList.Blockchain == 'polygon') {
-            this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-          }
-          if (this.NFTList.Blockchain == 'ethereum') {
-            this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-          }
+          // if (this.NFTList.NftIssuingBlockchain == 'stellar') {
+          //   this.NFTList.NFTIssuerPK = this.NFTList.NFTIssuerPK;
+          // }
+          // if (this.NFTList.Blockchain == 'solana') {
+          //   this.NFTList.NFTIssuerPK = this.NFTList.;
+          // }
+          // if (this.NFTList.Blockchain == 'polygon') {
+          //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
+          // }
+          // if (this.NFTList.Blockchain == 'ethereum') {
+          //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
+          // }
         });
     } else {
       console.log('User PK not connected or not endorsed');

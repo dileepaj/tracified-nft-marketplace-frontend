@@ -43,6 +43,7 @@ export class ApiServicesService {
   }
 
   addTXN(st: TXN): Observable<TXN> {//request to add collection into the nft backend DB
+    console.log("txns: ",st)
     return this.http.post<TXN>(this.baseUrlSaveTxn, st, {headers: this.headers});
   }
 

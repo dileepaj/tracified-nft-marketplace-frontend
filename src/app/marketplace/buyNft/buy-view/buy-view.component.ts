@@ -267,35 +267,19 @@ export class BuyViewComponent implements OnInit {
         this.NFTList.nftname,
         this.NFTList.nftissuerpk,
         this.userPK,
-        this.NFTList.currentprice
+        this.NFTList.currentprice,
+        this.NFTList.distributorpk
       )
       .then((transactionResult: any) => {
         if (transactionResult.successful) {
-          this.buyNftService
-            .buyNft(
-              //step 2. - mint
-              // transactionResult.successful,
-              this.NFTList.nftname,
-              this.NFTList.nftissuerpk,
-              this.NFTList.distributorpk,
-              this.userPK,
-              this.NFTList.currentprice
-            )
-            .then((nft: any) => {
               if (this.isLoadingPresent) {
                 this.dissmissLoading();
               }
-              this.buytxn = nft.hash;
+              this.buytxn = transactionResult.hash;
               this.saveTXNs();
               this.saleBE.CurrentOwnerPK =this.userPK;
               console.log("user pk for stellar: ",this.userPK)
               this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-            })
-            .catch((error) => {
-              if (this.isLoadingPresent) {
-                this.dissmissLoading();
-              }
-            });
         } else {
           if (this.isLoadingPresent) {
             this.dissmissLoading();

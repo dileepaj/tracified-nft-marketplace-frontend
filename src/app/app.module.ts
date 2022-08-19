@@ -74,6 +74,7 @@ import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-
 import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 import { OverviewComponent } from './user/overview/overview.component';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
+import { DocumentationComponent } from './marketplace/documentation/documentation.component';
 
 const appRoutes: Routes = [
   {
@@ -147,20 +148,20 @@ const appRoutes: Routes = [
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
-    canActivate:[AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
-        canActivate:[AuthGuard],
+        canActivate: [AuthGuard],
         path: 'overview',
         component: BrowseMarketplaceComponent,
       },
       {
-        canActivate:[AuthGuard],
+        canActivate: [AuthGuard],
         path: 'endorsements',
         component: EndorsementsComponent,
       },
       {
-        canActivate:[AuthGuard],
+        canActivate: [AuthGuard],
         path: 'add-news-letter',
         component: AddNewsletterComponent,
       },
@@ -186,6 +187,10 @@ const appRoutes: Routes = [
   {
     path: 'blogs',
     component: BlogViewerComponent,
+  },
+  {
+    path: 'docs',
+    component: DocumentationComponent,
   },
 ];
 @NgModule({
@@ -237,6 +242,7 @@ const appRoutes: Routes = [
     EditProfileComponent,
     OverviewComponent,
     ConfirmComponent,
+    DocumentationComponent,
   ],
   imports: [
     BrowserModule,

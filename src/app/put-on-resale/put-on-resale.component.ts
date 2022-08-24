@@ -1,27 +1,27 @@
-import { FreighterComponent } from './../../wallet/freighter/freighter.component';
-import { UserWallet } from 'src/app/models/userwallet';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NFTMarket, SalesBE, SalesGW, Sales } from 'src/app/models/nft';
-import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
-import { SellOfferServiceService } from 'src/app/services/blockchain-services/stellar-services/sell-offer-service.service';
-import { Seller2tracService } from 'src/app/services/blockchain-services/solana-services/seller2trac.service';
-import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
-import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
-import { SVG, TXN } from 'src/app/models/minting';
-import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
-import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
-import { clusterApiUrl, Connection, Keypair } from '@solana/web3.js';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { clusterApiUrl, Connection } from '@solana/web3.js';
+import { environment } from 'src/environments/environment';
+import { SVG, TXN } from '../models/minting';
+import { NFTMarket, Sales, SalesBE, SalesGW } from '../models/nft';
+import { UserWallet } from '../models/userwallet';
+import { ApiServicesService } from '../services/api-services/api-services.service';
+import { NftServicesService } from '../services/api-services/nft-services/nft-services.service';
+import { Seller2tracService } from '../services/blockchain-services/solana-services/seller2trac.service';
+import { SellOfferServiceService } from '../services/blockchain-services/stellar-services/sell-offer-service.service';
+import { EthereumMarketServiceService } from '../services/contract-services/marketplace-services/ethereum-market-service.service';
+import { PolygonMarketServiceService } from '../services/contract-services/marketplace-services/polygon-market-service.service';
+import { FreighterComponent } from '../wallet/freighter/freighter.component';
+import { PhantomComponent } from '../wallet/phantom/phantom.component';
 
 @Component({
-  selector: 'app-sell-nft',
-  templateUrl: './sell-nft.component.html',
-  styleUrls: ['./sell-nft.component.css'],
+  selector: 'app-put-on-resale',
+  templateUrl: './put-on-resale.component.html',
+  styleUrls: ['./put-on-resale.component.css']
 })
-export class SellNftComponent implements OnInit {
+export class PutOnResaleComponent implements OnInit {
   controlGroupSell: FormGroup;
   nft: NFTMarket = new NFTMarket(
     '',
@@ -80,7 +80,7 @@ export class SellNftComponent implements OnInit {
     private apiService: ApiServicesService,
     private _sanitizer: DomSanitizer,
     private router: Router
-  ) {}
+  ) { }
 
   calculatePrice(): void {
     this.royalty = parseInt(this.formValue('Royalty'));
@@ -90,12 +90,12 @@ export class SellNftComponent implements OnInit {
   }
 
   saveTXNs(): void {
-    this.txn.Blockchain = this.data.NftIssuingBlockchain;
-    this.txn.ImageURL = this.data.ImageBase64;
-    this.txn.NFTIdentifier = this.data.Identifier;
-    this.txn.NFTName = this.data.NftContentName;
+    this.txn.Blockchain = this.data.blockchain;
+    this.txn.ImageURL = this.data.imagebase64;
+    this.txn.NFTIdentifier = this.data.nftidentifier;
+    this.txn.NFTName = this.data.nftname;
     this.txn.NFTTxnHash = this.selltxn;
-    this.txn.Status ='ON SALE';
+    this.txn.Status = "ON SALE";
 
     this.apiService.addTXN(this.txn).subscribe();
   }
@@ -104,15 +104,15 @@ export class SellNftComponent implements OnInit {
     this.saleBE.SellingStatus = 'ON SALE';
     this.saleBE.CurrentPrice = this.sellingPrice.toString();
     this.saleBE.Timestamp = '2022-4-20:17:28';
-    this.saleBE.CurrentOwnerPK = this.data.OriginPK;
+    this.saleBE.CurrentOwnerPK = this.data.currentownerpk;
     this.service.updateNFTStatusBackend(this.saleBE).subscribe();
   }
 
   addDBGateway(): void {
     this.saleGW.Status = 'ON SALE';
     this.saleGW.Price = this.sellingPrice.toString();
-    this.saleGW.NFTTXNhash = this.data.NFTTXNhash;
-    this.saleGW.Amount = this.data.Copies;
+    this.saleGW.NFTTXNhash = this.data.nfttxnhash;
+    this.saleGW.Amount = "1";
     this.service
       .updateNFTStatusGateway(
         this.saleGW.Price,
@@ -124,7 +124,7 @@ export class SellNftComponent implements OnInit {
   }
 
   async Sell(): Promise<void> {
-    if (this.data.NftIssuingBlockchain == 'stellar') {
+    if (this.data.blockchain == 'stellar') {
       let freighterWallet = new UserWallet();
       freighterWallet = new FreighterComponent(freighterWallet);
       await freighterWallet.initWallelt();
@@ -132,14 +132,14 @@ export class SellNftComponent implements OnInit {
       console.log('user PK: ', signerpK);
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
-      this.saleBE.NFTIdentifier = this.data.Identifier;
+      this.saleBE.NFTIdentifier = this.data.nftidentifier;
       this.calculatePrice();
       this.addDBBackend();
       this.addDBGateway();
       this.stellarService
         .sellNft(
-          this.data.NftContentName,
-          this.data.InitialIssuerPK,
+          this.data.nftname,
+          this.data.nftissuerpk,
           signerpK,
           '1',
           this.sellingPrice
@@ -149,19 +149,19 @@ export class SellNftComponent implements OnInit {
           this.saveTXNs();
         });
     }
-    if (this.data.NftIssuingBlockchain == 'solana') {
+    if (this.data.blockchain == 'solana') {
       console.log('Solana going on sale');
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.SellingType = 'NFT';
       this.calculatePrice();
 
-      if (this.data.InitialDistributorPK == this.data.OriginPK) {
-        this.selltxn = this.data.NFTTxnHash;
-        this.saleBE.NFTIdentifier = this.data.Identifier;
+      if (this.data.currentownerpk == this.data.creatoruserid) {
+        this.selltxn = this.data.nfttxnhash;
+        this.saleBE.NFTIdentifier = this.data.nftidentifier;
         this.addDBBackend();
         this.addDBGateway();
       } else {
-        console.log('mint ', this.data.InitialIssuerPK);
+        console.log('mint ', this.data.nftissuerpk);
         const connection = new Connection(
           clusterApiUrl('testnet'),
           'confirmed'
@@ -173,7 +173,7 @@ export class SellNftComponent implements OnInit {
           .createATA(
             phantomWallet.getWalletaddress(),
             environment.fromWalletSecret,
-            this.data.InitialIssuerPK
+            this.data.nftissuerpk
           )
           .then(async (result) => {
             try {
@@ -187,6 +187,7 @@ export class SellNftComponent implements OnInit {
               );
 
               alert('successfully sold!');
+              this.saleBE.NFTIdentifier = this.data.nftidentifier;
               this.selltxn = signature;
               this.addDBBackend();
               this.addDBGateway();
@@ -197,10 +198,10 @@ export class SellNftComponent implements OnInit {
           });
       }
     }
-    if (this.data.NftIssuingBlockchain == 'polygon') {
+    if (this.data.blockchain == 'polygon') {
       this.saleBE.MarketContract = environment.contractAddressMKPolygon;
-      this.saleBE.NFTIdentifier = this.data.Identifier;
-      this.tokenid = parseInt(this.data.Identifier);
+      this.saleBE.NFTIdentifier = this.data.nftidentifier;
+      this.tokenid = parseInt(this.data.nftidentifier);
       this.calculatePrice();
 
       this.pmarket
@@ -219,10 +220,10 @@ export class SellNftComponent implements OnInit {
         });
       //this.addDBBackend()
     }
-    if (this.data.NftIssuingBlockchain == 'ethereum') {
+    if (this.data.blockchain == 'ethereum') {
       this.saleBE.MarketContract = environment.contractAddressMKEthereum;
-      this.saleBE.NFTIdentifier = this.data.Identifier;
-      this.tokenid = parseInt(this.data.Identifier);
+      this.saleBE.NFTIdentifier = this.data.nftidentifier;
+      this.tokenid = parseInt(this.data.nftidentifier);
       this.calculatePrice();
 
       this.emarket
@@ -243,9 +244,9 @@ export class SellNftComponent implements OnInit {
   }
 
   showInProfile(){
-    let data: any = this.data.NftIssuingBlockchain;
+    let data: any = this.data.blockchain;
     this.router.navigate(['/user-dashboard'], {
-      queryParams: { blockchain: this.data.NftIssuingBlockchain },
+      queryParams: { blockchain: this.data.blockchain },
     });
   }
 
@@ -253,8 +254,8 @@ export class SellNftComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
       console.log('data passed :', this.data);
-      this.svg.Hash = this.data.ImageBase64;
-      console.log('HASH', this.svg.Hash);
+      this.svg.Hash = this.data.imagebase64;
+      console.log('HASH', this.data.Hash);
     });
     this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
       console.log('service res:', res);
@@ -284,4 +285,5 @@ export class SellNftComponent implements OnInit {
       queryParams: { blockchain: 'ethereum', filter: 'uptodate' },
     });
   }
+
 }

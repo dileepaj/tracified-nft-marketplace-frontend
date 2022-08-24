@@ -4,7 +4,7 @@ import { CollectionService } from 'src/app/services/api-services/collection.serv
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from 'rxjs';
 import { Mint2,Image,SVG } from 'src/app/models/minting';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import CryptoJS from 'crypto-js';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
@@ -41,7 +41,8 @@ export class MintComponent implements OnInit {
     private _sanitizer: DomSanitizer,
     private apiService: ApiServicesService,
     private snackBar: SnackbarServiceService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private route:ActivatedRoute
   ) {}
 
   sendToMint2(): void {
@@ -109,8 +110,11 @@ export class MintComponent implements OnInit {
     };
   }
   ngOnInit(): void {
-    //getting collection data according to user PK
-    this.collection.userId="A101";
+    this.route.queryParams.subscribe((params)=>{
+      this.collection.userId=JSON.parse(params['data']);
+      console.log("DATA recived: ",this.collection.userId)
+  })
+   //getting collection data according to user PK
     if (this.collection.userId!=null) {
       this.service.getCollectionName(this.collection.userId).subscribe((data:any)=>{
           this.CollectionList=data;

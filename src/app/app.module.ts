@@ -74,6 +74,7 @@ import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-
 import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 import { OverviewComponent } from './user/overview/overview.component';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
+import { FaqComponent } from './marketplace/faq/faq.component';
 
 const appRoutes: Routes = [
   {
@@ -126,6 +127,10 @@ const appRoutes: Routes = [
     component: SignUpComponent,
   },
   {
+    path: 'faq',
+    component: FaqComponent,
+  },
+  {
     path: 'user-dashboard',
     component: ViewDashboardComponent,
     children: [
@@ -147,20 +152,20 @@ const appRoutes: Routes = [
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
-    canActivate:[AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
-        canActivate:[AuthGuard],
+        canActivate: [AuthGuard],
         path: 'overview',
         component: BrowseMarketplaceComponent,
       },
       {
-        canActivate:[AuthGuard],
+        canActivate: [AuthGuard],
         path: 'endorsements',
         component: EndorsementsComponent,
       },
       {
-        canActivate:[AuthGuard],
+        canActivate: [AuthGuard],
         path: 'add-news-letter',
         component: AddNewsletterComponent,
       },
@@ -237,6 +242,7 @@ const appRoutes: Routes = [
     EditProfileComponent,
     OverviewComponent,
     ConfirmComponent,
+    FaqComponent,
   ],
   imports: [
     BrowserModule,

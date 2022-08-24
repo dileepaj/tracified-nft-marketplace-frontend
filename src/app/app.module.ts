@@ -206,10 +206,11 @@ const appRoutes: Routes = [
   {
     path:"verify",
     component:VerifyComponent,
-  }
+  },
+  {
     path: 'docs',
     component: DocumentationComponent,
-  },
+  }
 ];
 @NgModule({
   declarations: [

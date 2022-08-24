@@ -242,6 +242,13 @@ export class SellNftComponent implements OnInit {
     }
   }
 
+  showInProfile(){
+    let data: any = this.data.NftIssuingBlockchain;
+    this.router.navigate(['/user-dashboard'], {
+      queryParams: { blockchain: this.data.NftIssuingBlockchain },
+    });
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);

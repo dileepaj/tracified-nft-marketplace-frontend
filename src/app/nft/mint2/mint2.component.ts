@@ -137,7 +137,7 @@ this.apiService.addTXN(this.txn).subscribe();
          this.mint.CreatorUserId=this.userPK;
          this.apiService.getEndorsement(this.userPK).subscribe((res:any)=>{
           console.log("result is :", res)
-          if(res.status==""){
+          if(res.Status==null || res.Status==""){
             console.log("--------------------------")
             alert("You are not endorsed. Get endorsed now")
             this.router.navigate(['./signUp'],{

@@ -300,11 +300,25 @@ export class BuyViewComponent implements OnInit {
     })
   }
 
+  goToStory(){
+    let data :any=this.NFTList;
+    this.router.navigate(['./blogs'],{
+    queryParams:{data:JSON.stringify(data)}
+    })
+  }
+
   goToActvity(){
     let data :any=this.NFTList;
     this.router.navigate(['./activity'],{
     queryParams:{data:JSON.stringify(data)}
     })
+  }
+
+  showInProfile(){
+    let data: any = this.nftbe.Blockchain;
+    this.router.navigate(['/user-dashboard'], {
+      queryParams: { blockchain: this.nftbe.Blockchain },
+    });
   }
 
   ngOnInit(): void {

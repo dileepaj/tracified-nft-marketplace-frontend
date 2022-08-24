@@ -11,16 +11,16 @@ export class NftServicesService {
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
   baseUrlGetLastNFT: string = 'http://localhost:9080/lastnft';
-  baseUrlGetNFT:string='http://localhost:6081/api/buying'
-  baseUrlUpdateStatusBE:string='http://localhost:6081/api/nft/sale';
+  baseUrlGetNFT:string='http://localhost:6081/buying'
+  baseUrlUpdateStatusBE:string='http://localhost:6081/nft/sale';
   baseUrlUpdateStatusGW:string='http://localhost:9080';
-  baseUrlSVG:string='http://localhost:6081/api/svg';
-  baseUrlGetAllNFT:string='http://localhost:6081/api/marketplace';
-  baseUrlGetOnSaleNFT:string='http://localhost:6081/api/nft';
-  baseUrlGetMyNFTByStatus:string='http://localhost:6081/api/selling'
-  baseUrlGetMyNFT:string='http://localhost:6081/api/userid'
-  baseUrlfilter:string='http://localhost:6081/api/blockchain'
-  baseUrlTxn:string='http://localhost:6081/api/txn'
+  baseUrlSVG:string='http://localhost:6081/svg';
+  baseUrlGetAllNFT:string='http://localhost:6081/marketplace';
+  baseUrlGetOnSaleNFT:string='http://localhost:6081/nft';
+  baseUrlGetMyNFTByStatus:string='http://localhost:6081/selling'
+  baseUrlGetMyNFT:string='http://localhost:6081/userid'
+  baseUrlfilter:string='http://localhost:6081/blockchain'
+  baseUrlTxn:string='http://localhost:6081/txn'
   reqOpts: any;
 
   constructor(private http: HttpClient) { }
@@ -75,13 +75,13 @@ export class NftServicesService {
   updateNFTStatusGateway(price:string,status:string,amount:string,nfttxnhash:string): Observable<any> {
    
     return this.http.put<any>(this.baseUrlUpdateStatusGW
-      + `/nft/updateStellarMarketplaceSell?Price=${price}&Status=${status}&Amount=${amount}&NFTTxnHash=${nfttxnhash}`,
+      + `/nft/updatesell?Price=${price}&Status=${status}&Amount=${amount}&NFTTxnHash=${nfttxnhash}`,
       {headers: this.headers});
   }
 
   updateNFTBuyStatusGateway(sellingStatus:string,currentPK:string,previousPK:string,nfthash:string): Observable<BuyNFTGW> {
     return this.http.put<any>(this.baseUrlUpdateStatusGW
-      + `/nft/updateStellarMarketplaceBuy?sellingStatus=${sellingStatus}&currentPK=${currentPK}&previousPK=${previousPK}&nfthash=${nfthash}`,
+      + `/nft/updatebuy?sellingStatus=${sellingStatus}&currentPK=${currentPK}&previousPK=${previousPK}&nfthash=${nfthash}`,
       {headers: this.headers});
   }
 

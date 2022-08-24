@@ -8,6 +8,7 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { Location } from '@angular/common';
+import { Route, Router } from '@angular/router';
 
 export interface Blockchain {
   value: string;
@@ -26,48 +27,27 @@ export class CreateCollectionComponent implements OnInit {
   collection: Collection = new Collection('', '', '', ''); //declaring the model
   signerPK: string = '';
 
-  constructor(public service: CollectionService, private _location: Location) {}
+  constructor(public service: CollectionService, private _location: Location, private router:Router) {}
 
   async save(): Promise<void> {
     //getting form data and sending it to the collection service to post
     //getting form data and equalling it to to model variables
     this.collection.collectionName = this.formValue('collectionName');
     this.collection.organizationName = this.formValue('organizationName');
-    this.collection.blockchain = this.formValue('blockchain');
-    if (this.collection.blockchain == 'stellar') {
-      let freighterWallet = new UserWallet();
-      freighterWallet = new FreighterComponent(freighterWallet);
-      await freighterWallet.initWallelt();
-      this.signerPK = await freighterWallet.getWalletaddress();
-      this.collection.userId = this.signerPK;
-    }
-
-    if (this.collection.blockchain == 'solana') {
-      let phantomWallet = new UserWallet();
-      phantomWallet = new PhantomComponent(phantomWallet);
-      await phantomWallet.initWallelt();
-      this.signerPK = await phantomWallet.getWalletaddress();
-      this.collection.userId = this.signerPK;
-    }
-
-    if (
-      this.collection.blockchain == 'ethereum' ||
-      this.collection.blockchain == 'polygon'
-    ) {
-      let metamaskwallet = new UserWallet();
-      metamaskwallet = new MetamaskComponent(metamaskwallet);
-      await metamaskwallet.initWallelt();
-      this.signerPK = await metamaskwallet.getWalletaddress();
-      this.collection.userId = this.signerPK;
-    }
-
-    if (this.collection.userId != null) {
+    this.collection.blockchain = "any";
+    this.collection.userId=this.formValue('userId');
+   
       //sending data to the service
-      this.addSubscription = this.service.add(this.collection).subscribe();
-      this.selectVal = this.collection.collectionName;
-    } else {
-      console.log('User PK not connected or not endorsed');
-    }
+      this.addSubscription = this.service.add(this.collection).subscribe(res=>{
+        this.selectVal = this.collection.collectionName;
+       
+      });
+  }
+
+  done(){
+    this.router.navigate(['./verify'],{
+      queryParams:{data:JSON.stringify(this.collection.userId)}
+      });
   }
 
   ngOnInit(): void {
@@ -82,10 +62,7 @@ export class CreateCollectionComponent implements OnInit {
         this.collection.organizationName,
         Validators.required
       ),
-      blockchain: new FormControl(
-        this.collection.blockchain,
-        Validators.required
-      ),
+  
     });
     //calling the save function
     this.save();

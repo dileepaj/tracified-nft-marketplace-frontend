@@ -8,18 +8,18 @@ import { Issuer, Ownership ,NFT,tags, Minter,StellarTXN,Contracts} from 'src/app
   providedIn: 'root'
 })
 export class MintService {
-  baseUrlSave: string = 'http://localhost:6081/api/marketplace/save';
+  baseUrlSave: string = 'http://localhost:6081/marketplace/save';
   baseUrlSaveGW: string = 'http://localhost:9080/nft/mintcontract';
-  baseUrlOwner: string ='http://localhost:6081/api/marketplace/owner';
-  baseUrlTags:string='http://localhost:6081/api/tags/save';
-  baseUrlGet: string = 'http://localhost:6081/api/collection/save';
-  baseUrlGetIssuer = 'http://localhost:9080/nft/createNFTIssuerAccount';
+  baseUrlOwner: string ='http://localhost:6081/marketplace/owner';
+  baseUrlTags:string='http://localhost:6081/tags/save';
+  baseUrlGet: string = 'http://localhost:6081/collection/save';
+  baseUrlGetIssuer = 'http://localhost:9080/nft/issueaccount';
   baseUrlMintStellar='http://localhost:9080/nft/mintStellar';
   baseUrlMintSolana = 'http://localhost:9080/nft/mintSolana';
-  baseUrlMinter='http://localhost:9080/nft/mintSolana/getMinter';
-  baseUrlUpdate="http://localhost:6081/api/marketplace/nft";
-  baseUrlStellarUpdate="http://localhost:6081/api/marketplace/txn";
-  baseUrlGetStellarTXN='http://localhost:9080/nft/mintStellar/gettxn';
+  baseUrlMinter='http://localhost:9080/nft/minter';
+  baseUrlUpdate="http://localhost:6081/marketplace/nft";
+  baseUrlStellarUpdate="http://localhost:6081/marketplace/txn";
+  baseUrlGetStellarTXN='http://localhost:9080/nft/gettxn';
   mint:NFT
   tag:tags
   reqOpts: any;

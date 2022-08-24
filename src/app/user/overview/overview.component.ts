@@ -80,7 +80,7 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    console.log("-------------------overview")
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
 

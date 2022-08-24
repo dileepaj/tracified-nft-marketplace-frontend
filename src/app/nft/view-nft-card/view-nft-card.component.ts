@@ -68,7 +68,11 @@ export class ViewNftCardComponent implements OnInit {
   }
 
   showInProfile(){
-    
+    let data: any = this.NFTList.NftIssuingBlockchain;
+    console.log("bc ",this.NFTList.NftIssuingBlockchain)
+    this.router.navigate(['/user-dashboard'], {
+      queryParams: { blockchain: this.NFTList.NftIssuingBlockchain },
+    });
   }
 
   ngOnInit(): void {

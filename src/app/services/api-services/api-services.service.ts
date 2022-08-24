@@ -11,16 +11,16 @@ import { NFTStory, Reviews } from 'src/app/models/nft';
   providedIn: 'root'
 })
 export class ApiServicesService {
-  baseUrlSaveSvg: string = 'http://localhost:6081/api/svg/save';
-  baseUrlSaveTxn: string = 'http://localhost:6081/api/txn/save';
-  baseUrlUpdateSVGBC:string='http://localhost:6081/api/svg';
-  baseUrlSaveFavs:string='http://localhost:6081/api/favourites/save';
-  baseUrlSaveWatchlist:string='http://localhost:6081/api/watchlists/save';
-  baseUrlGetFavs:string='http://localhost:6081/api/favourites';
-  baseUrlGetWatchlist:string='http://localhost:6081/api/watchlists';
-  baseUrlEndorse:string='http://localhost:6081/api/endorser/save';
-  baseUrlEndorsement='http://localhost:6081/api/endorsement/status';
-  baseUrlUpdateEndorse='http://localhost:6081/api/endorsement';
+  baseUrlSaveSvg: string = 'http://localhost:6081/svg/save';
+  baseUrlSaveTxn: string = 'http://localhost:6081/txn/save';
+  baseUrlUpdateSVGBC:string='http://localhost:6081/svg';
+  baseUrlSaveFavs:string='http://localhost:6081/favourites/save';
+  baseUrlSaveWatchlist:string='http://localhost:6081/watchlists/save';
+  baseUrlGetFavs:string='http://localhost:6081/favourites';
+  baseUrlGetWatchlist:string='http://localhost:6081/watchlists';
+  baseUrlEndorse:string='http://localhost:6081/endorser/save';
+  baseUrlEndorsement='http://localhost:6081/endorsement/status';
+  baseUrlUpdateEndorse='http://localhost:6081/endorsement';
   baseUrlPartner='http://localhost:6081/partner/'
   baseUrlSaveReview='http://localhost:6081/review/';
   baseUrlSaveStory='http://localhost:6081/story/';
@@ -100,7 +100,7 @@ export class ApiServicesService {
   }
 
   updateEndorsementStatus(st:UpdateStatus):Observable<UpdateStatus>{
-    return this.http.put<UpdateStatus>(this.baseUrlUpdateEndorse, st, { headers: this.headers }); 
+    return this.http.put<UpdateStatus>(this.baseUrlEndorsement, st, { headers: this.headers }); 
     }
 
   getEndorsementByStatus(status:string): Observable<Endorse[]> {

@@ -243,6 +243,13 @@ export class PutOnResaleComponent implements OnInit {
     }
   }
 
+  showInProfile(){
+    let data: any = this.data.blockchain;
+    this.router.navigate(['/user-dashboard'], {
+      queryParams: { blockchain: this.data.blockchain },
+    });
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);

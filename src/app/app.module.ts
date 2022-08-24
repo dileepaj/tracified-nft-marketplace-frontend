@@ -76,6 +76,7 @@ import { OverviewComponent } from './user/overview/overview.component';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 import { ShowNFTComponent } from './show-nft/show-nft.component';
 import { PutOnResaleComponent } from './put-on-resale/put-on-resale.component';
+import { VerifyComponent } from './verify/verify.component';
 const appRoutes: Routes = [
   {
     path: 'home',
@@ -195,6 +196,10 @@ const appRoutes: Routes = [
   {
     path:"nftresale",
     component:PutOnResaleComponent,
+  }, 
+  {
+    path:"verify",
+    component:VerifyComponent,
   }
 ];
 @NgModule({
@@ -248,6 +253,7 @@ const appRoutes: Routes = [
     ConfirmComponent,
     ShowNFTComponent,
     PutOnResaleComponent,
+    VerifyComponent,
   ],
   imports: [
     BrowserModule,

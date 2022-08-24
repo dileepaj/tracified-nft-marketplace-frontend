@@ -54,8 +54,12 @@ export class ShowNFTComponent implements OnInit {
 
 
   showInProfile(){
-    
+    let data: any = this.NFTList.blockchain;
+    this.router.navigate(['/user-dashboard'], {
+      queryParams: { blockchain: this.NFTList.blockchain},
+    });
   }
+
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
@@ -116,7 +120,7 @@ export class ShowNFTComponent implements OnInit {
   }
 
   createStory(){
-    let data:any[]=[this.NFTList.Identifier,this.NFTList.NftIssuingBlockchain]
+    let data:any[]=[this.NFTList.nftidentifier,this.NFTList.blockchain]
     this.router.navigate(['./createblog'], {
       queryParams: { data: JSON.stringify(data) },
     });

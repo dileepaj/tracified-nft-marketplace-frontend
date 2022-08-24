@@ -1,0 +1,57 @@
+<div class="faq-parent">
+  <div class="faq-container">
+    <div class="nft-view-header" fxFlex="100%">
+      <div
+        style="
+          width: 80%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        "
+      >
+        <div class="breadcrumb-div">
+          <a [routerLink]="'/getNft'" class="breadcrumb-link">Resources</a>
+          <mat-icon
+            class="material-symbols-outlined"
+            style="vertical-align: middle"
+          >
+            navigate_next
+          </mat-icon>
+          <a style="color: #00c853">FAQ</a>
+        </div>
+      </div>
+    </div>
+    <div class="faq-content">
+      <div class="faq-content-header">Frequently Asked Questions</div>
+      <div class="separator"></div>
+      <div class="faq-content-body">
+        <mat-expansion-panel
+          class="panel"
+          #selectbc
+          hideToggle="true"
+          *ngFor="let data of [1, 2, 3, 4]"
+        >
+          <mat-expansion-panel-header class="panel-header">
+            <mat-panel-title> Lorem ipsum dolor sit amet? </mat-panel-title>
+            <mat-panel-description>
+              <mat-icon *ngIf="!selectbc.expanded">arrow_right</mat-icon>
+              <mat-icon *ngIf="selectbc.expanded">arrow_drop_down</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="answer" *ngFor="let item of [1, 2]; index as i">
+            <label class="answer-title">Answer &nbsp;{{ i + 1 }}</label>
+            <label
+              >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+              rhoncus.</label
+            >
+          </div>
+        </mat-expansion-panel>
+      </div>
+      <div class="faq-content-footer">
+        <label class="faq-footer-header">Can’t find your answer?</label>
+        <label>Contact us and we’ll get back to you as soon as we can.</label>
+        <button class="btn-contact">Contact Us</button>
+      </div>
+    </div>
+  </div>
+</div>

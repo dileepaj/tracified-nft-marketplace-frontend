@@ -77,6 +77,8 @@ import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 import { ShowNFTComponent } from './show-nft/show-nft.component';
 import { PutOnResaleComponent } from './put-on-resale/put-on-resale.component';
 import { VerifyComponent } from './verify/verify.component';
+import { DocumentationComponent } from './marketplace/documentation/documentation.component';
+import { FaqComponent } from './marketplace/faq/faq.component';
 const appRoutes: Routes = [
   {
     path: 'home',
@@ -128,6 +130,10 @@ const appRoutes: Routes = [
     component: SignUpComponent,
   },
   {
+    path: 'faq',
+    component: FaqComponent,
+  },
+  {
     path: 'user-dashboard',
     component: ViewDashboardComponent,
     children: [
@@ -149,20 +155,20 @@ const appRoutes: Routes = [
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
-    canActivate:[AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
-        canActivate:[AuthGuard],
+        canActivate: [AuthGuard],
         path: 'overview',
         component: BrowseMarketplaceComponent,
       },
       {
-        canActivate:[AuthGuard],
+        canActivate: [AuthGuard],
         path: 'endorsements',
         component: EndorsementsComponent,
       },
       {
-        canActivate:[AuthGuard],
+        canActivate: [AuthGuard],
         path: 'add-news-letter',
         component: AddNewsletterComponent,
       },
@@ -201,6 +207,9 @@ const appRoutes: Routes = [
     path:"verify",
     component:VerifyComponent,
   }
+    path: 'docs',
+    component: DocumentationComponent,
+  },
 ];
 @NgModule({
   declarations: [
@@ -254,6 +263,8 @@ const appRoutes: Routes = [
     ShowNFTComponent,
     PutOnResaleComponent,
     VerifyComponent,
+    DocumentationComponent,
+    FaqComponent,
   ],
   imports: [
     BrowserModule,

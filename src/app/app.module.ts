@@ -74,7 +74,10 @@ import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-
 import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 import { OverviewComponent } from './user/overview/overview.component';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
+
+import { DocumentationComponent } from './marketplace/documentation/documentation.component';
 import { FaqComponent } from './marketplace/faq/faq.component';
+
 
 const appRoutes: Routes = [
   {
@@ -192,6 +195,10 @@ const appRoutes: Routes = [
     path: 'blogs',
     component: BlogViewerComponent,
   },
+  {
+    path: 'docs',
+    component: DocumentationComponent,
+  },
 ];
 @NgModule({
   declarations: [
@@ -242,6 +249,7 @@ const appRoutes: Routes = [
     EditProfileComponent,
     OverviewComponent,
     ConfirmComponent,
+    DocumentationComponent,
     FaqComponent,
   ],
   imports: [

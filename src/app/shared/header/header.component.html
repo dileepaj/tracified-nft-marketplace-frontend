@@ -85,11 +85,19 @@
       <a
         class="navbar-text"
         mat-button
-        [routerLink]="'/contacts'"
-        [routerLinkActive]="['active-link']"
+        [matMenuTriggerFor]="remenu"
+        [class.active-link]="checkPath() === '/resources'"
       >
         Resources
       </a>
+      <mat-menu #remenu="matMenu" class="resource-menu">
+        <button mat-menu-item [routerLink]="'/docs'">
+          Documentation
+        </button>
+        <button mat-menu-item [routerLink]="'/faq'">
+         FAQ's
+        </button>
+      </mat-menu>
       <a
         class="navbar-text"
         mat-button

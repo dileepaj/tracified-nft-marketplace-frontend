@@ -29,20 +29,20 @@
           class="panel"
           #selectbc
           hideToggle="true"
-          *ngFor="let data of [1, 2, 3, 4]"
+          *ngFor="let data of List"
         >
           <mat-expansion-panel-header class="panel-header">
-            <mat-panel-title> Lorem ipsum dolor sit amet? </mat-panel-title>
+            <mat-panel-title> {{data.topic}} </mat-panel-title>
             <mat-panel-description>
               <mat-icon *ngIf="!selectbc.expanded">arrow_right</mat-icon>
               <mat-icon *ngIf="selectbc.expanded">arrow_drop_down</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <div class="answer" *ngFor="let item of [1, 2]; index as i">
-            <label class="answer-title">Answer &nbsp;{{ i + 1 }}</label>
+          
+          <div class="answer" >
+            <label class="answer-title">Answer</label>
             <label
-              >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-              rhoncus.</label
+              >{{data.desc}}</label
             >
           </div>
         </mat-expansion-panel>

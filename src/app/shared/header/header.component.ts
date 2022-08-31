@@ -73,6 +73,18 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  public goToResource(route:any){
+    if (route == "doc"){
+      this.router.navigate(['/docs'], {
+        queryParams: { data: 'Inside documentation' },
+      });
+    }else{
+      this.router.navigate(['/faq'], {
+        queryParams: { data:'Inside FAQs'},
+      });
+    }
+  }
+
   public goToOverview(blockchain: string) {
     this.router.navigate(['/user-dashboard'], {
       queryParams: { blockchain: blockchain },

@@ -1,3 +1,4 @@
+
 export class NFTMarket{
     constructor(
     public Identifier        :               string,
@@ -105,7 +106,7 @@ export class Reviews{
 		public	NFTIdentifier : string   ,       
 		public UserID   :string,  
 		public Status   :string,  
-		public Rating   :string,  
+		public Rating   :number,  
 		public Description   :string,   
 		
     ){}

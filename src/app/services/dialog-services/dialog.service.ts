@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
-import { ConfirmDialog } from 'src/app/models/confirmDialog';
+import { OkmessageComponent } from 'src/app/dialogs/okmessage/okmessage.component';
+import { ConfirmDialog, OkDialog } from 'src/app/models/confirmDialog';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +17,13 @@ export class DialogService {
       data,
       width:'500px',
       disableClose:true
+    }).afterClosed();
+  }
+  okDialog(data:OkDialog):Observable<boolean>{
+    return this.dialog.open(OkmessageComponent,{
+      data,
+      width:'500px',
+      disableClose:true,
     }).afterClosed();
   }
 }

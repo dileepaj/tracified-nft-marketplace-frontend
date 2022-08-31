@@ -17,6 +17,9 @@ import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
+import { LoaderService } from 'src/app/services/loader/loader.service';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 
 @Component({
   selector: 'app-mint2',
@@ -57,7 +60,11 @@ export class Mint2Component implements OnInit { //declaring models and variables
      private apiService:ApiServicesService,
      private _sanitizer:DomSanitizer,
      private nft:NftServicesService,
-     private router: Router,) { }
+     private router: Router,
+     private loaderService:LoaderService,
+     private dialogService : DialogService,
+     private snackbar : SnackbarServiceService
+     ) { }
   
  sendToMint3():void{//getting form data to mint and post
 
@@ -139,15 +146,23 @@ this.apiService.addTXN(this.txn).subscribe();
           console.log("result is :", res)
           if(res.Status==null || res.Status==""){
             console.log("--------------------------")
-            alert("You are not endorsed. Get endorsed now")
-            this.router.navigate(['./signUp'],{
-              queryParams:{data:JSON.stringify(this.mint.Blockchain)}
-              });
+            this.dialogService.confirmDialog({
+              title: "Public Key Endorsment",
+              message:"Your account is not endorsed. Would you like to get your account Endorsed now",
+              confirmText : "Yes",
+              cancelText:"No"
+            }).subscribe(res=>{
+              if(res){
+                //alert("You are not endorsed. Get endorsed now")
+                this.router.navigate(['./signUp'],{
+                  queryParams:{data:JSON.stringify(this.mint.Blockchain)}
+                  });
+              }
+            })
+            
           }else{
             this.sendToMint3()
-            this.mintNFT(this.userPK)
-            
-            
+            this.mintNFT(this.userPK)       
           }
          })
         
@@ -168,12 +183,20 @@ this.apiService.addTXN(this.txn).subscribe();
     //this.apiService.updateSVGBlockchain(this.svgUpdate)
     this.apiService.getEndorsement(this.mint.NFTIssuerPK).subscribe((res:any)=>{
       console.log("result is :", res)
-      if(res.status==""){
-        console.log("--------------------------")
-        alert("You are not endorsed. Get endorsed now")
-        this.router.navigate(['./signUp'],{
-          queryParams:{data:JSON.stringify(this.mint.Blockchain)}
-          });
+      if(res.Status==null || res.Status==""){
+        this.dialogService.confirmDialog({
+          title: "Public Key Endorsment",
+          message:"Your account is not endorsed. Would you like to get your account Endorsed now",
+          confirmText : "Yes",
+          cancelText:"No"
+        }).subscribe(res=>{
+          if(res){
+            //alert("You are not endorsed. Get endorsed now")
+            this.router.navigate(['./signUp'],{
+              queryParams:{data:JSON.stringify(this.mint.Blockchain)}
+              });
+          }
+        })
       }else{
         console.log("------------solananananananana--------------")
         this.sendToMint3()
@@ -185,6 +208,7 @@ this.apiService.addTXN(this.txn).subscribe();
 
 
   if(this.mint.Blockchain =="ethereum"){//minting if blockchain == ethereum
+    this.loaderService.isLoading.next(true)
     console.log("This is for ethereum")
     let metamask = new UserWallet();
     metamask = new MetamaskComponent(metamask)
@@ -199,22 +223,29 @@ this.apiService.addTXN(this.txn).subscribe();
     this.apiService.addSVG(this.svg).subscribe()
     this.apiService.getEndorsement(this.mint.DistributorPK).subscribe((res:any)=>{
       console.log("result is :", res)
-      if(res.status==""){
-        console.log("--------------------------")
-        alert("You are not endorsed. Get endorsed now")
-        this.router.navigate(['./signUp'],{
-          queryParams:{data:JSON.stringify(this.mint.Blockchain)}
-          });
+      if(res.Status==null || res.Status==""){
+        this.dialogService.confirmDialog({
+          title: "Public Key Endorsment",
+          message:"Your account is not endorsed. Would you like to get your account Endorsed now",
+          confirmText : "Yes",
+          cancelText:"No"
+        }).subscribe(res=>{
+          if(res){
+            //alert("You are not endorsed. Get endorsed now")
+            this.router.navigate(['./signUp'],{
+              queryParams:{data:JSON.stringify(this.mint.Blockchain)}
+              });
+          }
+        })
       }else{
         this.emint.mintInEthereum(this.mint.NFTIssuerPK,this.mint.NFTName,this.mint.Description,this.mint.NftContentURL,this.mint.Imagebase64,)
-        .then(res => {
+        .then(async res => {
           this.mint.NFTTxnHash = res.transactionHash;
           this.tokenId=parseInt(res.logs[0].topics[3]);
           this.mint.NFTIdentifier=this.tokenId.toString() 
           this.sendToMint3();
           this.saveContractInGateway();
           this.saveTXNs()
-          
         })
       }
     });
@@ -238,12 +269,20 @@ this.apiService.addTXN(this.txn).subscribe();
    this.apiService.addSVG(this.svg).subscribe()
    this.apiService.getEndorsement(this.mint.DistributorPK).subscribe((res:any)=>{
     console.log("result is :", res)
-    if(res.status==""){
-      console.log("--------------------------")
-      alert("You are not endorsed. Get endorsed now")
-      this.router.navigate(['./signUp'],{
-        queryParams:{data:JSON.stringify(this.mint.Blockchain)}
-        });
+    if(res.Status==null || res.Status==""){
+      this.dialogService.confirmDialog({
+        title: "Public Key Endorsment",
+        message:"Your account is not endorsed. Would you like to get your account Endorsed now",
+        confirmText : "Yes",
+        cancelText:"No"
+      }).subscribe(res=>{
+        if(res){
+          //alert("You are not endorsed. Get endorsed now")
+          this.router.navigate(['./signUp'],{
+            queryParams:{data:JSON.stringify(this.mint.Blockchain)}
+            });
+        }
+      })
     }else{
       this.pmint.mintInPolygon(this.mint.NFTIssuerPK,this.mint.Imagebase64)
       .then(res => {
@@ -254,7 +293,7 @@ this.apiService.addTXN(this.txn).subscribe();
       this.sendToMint3();
       this.saveContractInGateway();
       this.saveTXNs()
-      
+      this.loaderService.isLoading.next(false)
      })
     }
   });  
@@ -416,7 +455,6 @@ updateStellarTXN():void{
    var str1 = new String( "data:image/svg+xml;base64,"); 
    var src = str1.concat(str2.toString());
    this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-   
   //  })
    })
    

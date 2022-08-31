@@ -5,6 +5,8 @@ import { ExecFileSyncOptionsWithStringEncoding } from 'child_process';
 import { Subscription } from 'rxjs';
 import { Reviews, ReviewsCard } from '../models/nft';
 import { ApiServicesService } from '../services/api-services/api-services.service';
+import { DialogService } from '../services/dialog-services/dialog.service';
+import { SnackbarServiceService } from '../services/snackbar-service/snackbar-service.service';
 @Component({
   selector: 'app-nft-reviews',
   templateUrl: './nft-reviews.component.html',
@@ -14,28 +16,41 @@ export class NftReviewsComponent implements OnInit {
   controlGroup: FormGroup;
   addSubscription: Subscription;
   rating: number;
-  reviews:Reviews=new Reviews('','','','','')
+  reviews:Reviews=new Reviews('','','',0.0,'')
   description: ExecFileSyncOptionsWithStringEncoding;
   data: any;
   List:any[]=[];
   list: any;
-  constructor( private route:ActivatedRoute,private service:ApiServicesService) {}
+  constructor( 
+    private route:ActivatedRoute,
+    private service:ApiServicesService,
+    private dialogService:DialogService,
+    private snackbar:SnackbarServiceService) {}
 
   //Fuction will retreive data from the .html file and initiate the service call to save a user reivew
   save(): void {
-    alert(
-      `${this.formValue('rating')} stars, "${this.formValue('description')}"`
-    );
-
     this.reviews.Status="Pending"
     this.reviews.Description=this.controlGroup.get('description')!.value;
-    this.reviews.Rating=this.controlGroup.get('rating')!.value;
+    this.reviews.Rating=Number(this.controlGroup.get('rating')!.value);
     this.reviews.NFTIdentifier=this.data.nftidentifier;
     this.reviews.UserID=this.data.currentownerpk;
-    console.log("Ready to save review",this.reviews)
-    this.service.addReviews(this.reviews).subscribe(res=>{
-      console.log("Saved reviews", res)
+    this.dialogService.confirmDialog({
+      title:"User review confirmation",
+      message:"Are you sure you want to submit this review",
+      confirmText:"Yes",
+      cancelText:"No"
+    }).subscribe(result=>{
+      if(result){
+        this.service.addReviews(this.reviews).subscribe(res=>{
+          if(res!=null){
+            this.snackbar.openSnackBar("Your review has been Successfully submitted")
+          }else{
+            this.snackbar.openSnackBar("Failed to submit review please try again.")
+          }
+        })
+      }
     })
+    
 
   }
 

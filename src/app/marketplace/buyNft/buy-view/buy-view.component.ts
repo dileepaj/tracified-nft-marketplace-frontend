@@ -22,6 +22,8 @@ import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 
 @Component({
   selector: 'app-buy-view',
@@ -113,6 +115,8 @@ export class BuyViewComponent implements OnInit {
     private transfer:TransferNftService,
     private route:ActivatedRoute,
     private router: Router,
+    private dialogService : DialogService,
+    private snackbar : SnackbarServiceService
     ) { }  
   buyNFT():void{
    this.updateBackend();
@@ -177,7 +181,7 @@ export class BuyViewComponent implements OnInit {
               window as any
             ).solana.signAndSendTransaction(result);
             await connection.confirmTransaction(signature);
-            alert('Sucessfully Bought!!!');
+            this.snackbar.openSnackBar("NFT has successfully been bough")
           } catch (err) {
             alert(err);
           }
@@ -203,6 +207,7 @@ export class BuyViewComponent implements OnInit {
           this.saveTXNs();
           this.service.updateNFTStatusBackend(this.saleBE).subscribe();
           this.updateGateway();
+          this.snackbar.openSnackBar("NFT has successfully been bough")
         });
     }
     if (this.NFTList.blockchain == 'ethereum') {
@@ -227,6 +232,7 @@ export class BuyViewComponent implements OnInit {
           this.saveTXNs();
           this.service.updateNFTStatusBackend(this.saleBE).subscribe();
           this.updateGateway();
+          this.snackbar.openSnackBar("NFT has successfully been bough")
         });
     }
   }
@@ -280,6 +286,7 @@ export class BuyViewComponent implements OnInit {
               this.saleBE.CurrentOwnerPK =this.userPK;
               console.log("user pk for stellar: ",this.userPK)
               this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+              this.snackbar.openSnackBar("NFT has successfully been bough")
         } else {
           if (this.isLoadingPresent) {
             this.dissmissLoading();
@@ -384,7 +391,7 @@ export class BuyViewComponent implements OnInit {
             }
           });
       } else {
-        console.log('User PK not connected or not endorsed');
+        this.snackbar.openSnackBar('User PK not connected or not endorsed')
       }
     });
   }

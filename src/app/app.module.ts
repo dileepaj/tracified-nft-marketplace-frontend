@@ -41,7 +41,7 @@ import { Mint3Component } from './nft/mint3/mint3.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFileUploadModule } from 'angular-material-fileupload';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -79,6 +79,9 @@ import { PutOnResaleComponent } from './put-on-resale/put-on-resale.component';
 import { VerifyComponent } from './verify/verify.component';
 import { DocumentationComponent } from './marketplace/documentation/documentation.component';
 import { FaqComponent } from './marketplace/faq/faq.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { InterceptorService } from './services/loader/interceptor.service';
+import { OkmessageComponent } from './dialogs/okmessage/okmessage.component';
 const appRoutes: Routes = [
   {
     path: 'home',
@@ -266,6 +269,7 @@ const appRoutes: Routes = [
     VerifyComponent,
     DocumentationComponent,
     FaqComponent,
+    OkmessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -298,9 +302,12 @@ const appRoutes: Routes = [
     HighlightModule,
     MatRadioModule,
     MatListModule,
+    MatProgressBarModule
   ],
   providers: [
+    {provide:HTTP_INTERCEPTORS,useClass:InterceptorService,multi:true},
     {
+      
       provide: HIGHLIGHT_OPTIONS,
       useValue: {
         fullLibraryLoader: () => import('highlight.js'),

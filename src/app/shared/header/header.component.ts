@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { LoaderService } from 'src/app/services/loader/loader.service';
 import { WalletComponent } from 'src/app/wallet/wallet.component';
 
 @Component({
@@ -17,7 +18,7 @@ export class HeaderComponent implements OnInit {
   private rect: any;
   sideNavOpened: boolean = false;
 
-  constructor(private dialogref: MatDialog, private router: Router) {}
+  constructor(private dialogref: MatDialog, private router: Router,public loaderService:LoaderService) {}
 
   ngOnInit(): void {}
 

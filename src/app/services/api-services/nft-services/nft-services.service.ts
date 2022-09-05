@@ -109,6 +109,7 @@ getMyNFTStatus(sellingstatus,userId):Observable<NFT[]>{
 
  getNFTByBlockchainandUser(blockchain,userId):Observable<NFT[]>{
   //request to get collection name according to user public key
+  console.log("inside service ----------------------------------")
   return this.http.get<NFT[]>(`${this.baseUrlGetOnSaleNFT}/${userId}/${blockchain}`);
  }
 

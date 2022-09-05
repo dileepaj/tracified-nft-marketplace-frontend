@@ -49,6 +49,9 @@
           hidden
         />
       </div>
+      <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
+        <img src="../../../assets/icons/code-icon.png" style="flex-basis: 40%" />
+      </button>
       <label>or Create SVG with Tracified</label>
       <div
         class="composer"
@@ -61,7 +64,7 @@
       </div>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Name<span class="required">*</span></label>
+      <label class="normal-text">Name <span class="required">*</span><h6>Maximum characters 12</h6></label>
       <mat-form-field appearance="outline">
         <input
           type="text"
@@ -101,8 +104,9 @@
               controlGroup.controls["Collection"].value
             }}</label>
           </mat-select-trigger>
-          <mat-option value="Collection"
-            ><label class="collection-dropdown">Collection</label></mat-option
+          <mat-option *ngFor="let collection of CollectionList"
+          [value]="collection.CollectionName"
+            ><label class="collection-dropdown">{{ collection.CollectionName }}</label></mat-option
           >
         </mat-select>
       </mat-form-field>
@@ -262,7 +266,7 @@
         />
       </mat-form-field>
     </div>
-    <div class="mint-form-group" ngStyle.lt-md="width:100%">
+    <!-- <div class="mint-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text">Issuer:</label>
       <mat-form-field appearance="outline">
         <input
@@ -274,9 +278,9 @@
           placeholder="Enter issuer."
         />
       </mat-form-field>
-    </div>
+    </div> -->
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <button mat-flat-button class="btn-create" (click)="create()">
+      <button mat-flat-button class="btn-create" (click)="getIssuer()">
         Create
       </button>
     </div>

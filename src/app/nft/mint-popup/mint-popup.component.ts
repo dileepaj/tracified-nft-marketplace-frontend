@@ -17,6 +17,11 @@ export class MintPopupComponent implements OnInit {
 
   public close() {
     this.dialogRef.close();
+    // let data: any = this.data
+    // console.log("bc ",this.data)
+    // this.router.navigate(['/user-dashboard'], {
+    //   queryParams: { blockchain: this.data },
+    // });
   }
 
   public onClickYes() {

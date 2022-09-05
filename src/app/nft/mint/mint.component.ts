@@ -59,7 +59,7 @@ export class MintComponent implements OnInit {
     this.mint.Collection = this.formValue('Collection');
     this.mint.NFTName = this.formValue('NFTName');
     this.mint.Description = this.formValue('Description');
-    this.convert();
+   // this.convert();
     this.mint.svg = this.svg;
     console.log('svg data sent to mint 2 :', this.svg);
     //let data :any=this.mint;
@@ -68,77 +68,77 @@ export class MintComponent implements OnInit {
     });
   }
 
-  convert(): void {
-    this.svg.Base64ImageSVG = this.Encoded;
-    this.svg.Hash = this.hash;
-  }
+  // convert(): void {
+  //   this.svg.Base64ImageSVG = this.Encoded;
+  //   this.svg.Hash = this.hash;
+  // }
 
-  onFileChange(event: any) {
-    this.file = event.target.files[0];
-    this.uploadImage(event);
-  }
+  // onFileChange(event: any) {
+  //   this.file = event.target.files[0];
+  //   this.uploadImage(event);
+  // }
 
-  public uploadImage(event: Event) {
-    this.loading = !this.loading;
-    const reader = new FileReader();
-    reader.readAsDataURL(this.file);
-    reader.onload = this._handleReaderLoaded.bind(this);
-    this.loading = false; // Flag variable
-  }
+  // public uploadImage(event: Event) {
+  //   this.loading = !this.loading;
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(this.file);
+  //   reader.onload = this._handleReaderLoaded.bind(this);
+  //   this.loading = false; // Flag variable
+  // }
 
   //create base64 image
-  private _handleReaderLoaded(readerEvt: any) {
-    this.base64 = readerEvt.target.result;
+  // private _handleReaderLoaded(readerEvt: any) {
+  //   this.base64 = readerEvt.target.result;
 
-    const unwantedText = 'data:image/svg+xml;base64,';
-    this.base64 = this.base64.replace(unwantedText, '');
-    let encoded: string = atob(this.base64);
-    this.Encoded = encoded;
+  //   const unwantedText = 'data:image/svg+xml;base64,';
+  //   this.base64 = this.base64.replace(unwantedText, '');
+  //   let encoded: string = atob(this.base64);
+  //   this.Encoded = encoded;
 
-    this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
-    this.updateImage();
-    this.updateHTML();
-  }
+  //   this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
+  //   this.updateImage();
+  //   this.updateHTML();
+  // }
 
-  public updateHTML() {
-    const reader = new FileReader();
-    reader.readAsDataURL(this.file);
-    reader.onload = (_event) => {
-      this.imgSrc = reader.result;
-      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(
-        this.imgSrc
-      );
-    };
-  }
+  // public updateHTML() {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(this.file);
+  //   reader.onload = (_event) => {
+  //     this.imgSrc = reader.result;
+  //     this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(
+  //       this.imgSrc
+  //     );
+  //   };
+  // }
 
-  private updateImage() {
-    this.image = {
-      ...this.image,
-      Type: this.file.type,
-      Base64Image: this.base64,
-    };
-  }
+  // private updateImage() {
+  //   this.image = {
+  //     ...this.image,
+  //     Type: this.file.type,
+  //     Base64Image: this.base64,
+  //   };
+  // }
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.collection.userId = JSON.parse(params['data']);
       console.log('DATA recived: ', this.collection.userId);
     });
     //getting collection data according to user PK
-    if (this.collection.userId != null) {
-      this.service
-        .getCollectionName(this.collection.userId)
-        .subscribe((data: any) => {
-          this.CollectionList = data;
-        });
-    } else {
-      console.log('User PK not connected or not endorsed');
-    }
+    // if (this.collection.userId != null) {
+    //   this.service
+    //     .getCollectionName(this.collection.userId)
+    //     .subscribe((data: any) => {
+    //       this.CollectionList = data;
+    //     });
+    // } else {
+    //   console.log('User PK not connected or not endorsed');
+    // }
     //validation of form data
     this.controlGroupMint = new FormGroup({
-      Collection: new FormControl(this.mint.Collection, Validators.required),
-      NFTName: new FormControl(this.mint.NFTName, Validators.required),
-      Description: new FormControl(this.mint.Description, Validators.required),
-      file: new FormControl(this.mint.NftContentURL, [Validators.required]),
+      // Collection: new FormControl(this.mint.Collection, Validators.required),
+      // NFTName: new FormControl(this.mint.NFTName, Validators.required),
+      // Description: new FormControl(this.mint.Description, Validators.required),
+      // file: new FormControl(this.mint.NftContentURL, [Validators.required]),
       Email: new FormControl(this.email, Validators.required),
     });
   }
@@ -183,9 +183,23 @@ export class MintComponent implements OnInit {
 
   public selectWallet(wallet: string) {
     console.log(this.email, wallet);
-    this.proceed.emit({
-      email: this.email,
-      wallet,
-    });
+    // this.proceed.emit({
+    //   email: this.email,
+    //   wallet,
+    // });
+    const arr:any[]=[this.email,wallet]
+    console.log("array in mint1 is : ",arr)
+    this.router.navigate(['./mint2'],{
+      queryParams:{data:JSON.stringify(arr)}
+      });
   }
-}
+
+  }
+
+  // async save(): Promise<void> {
+  //   this.userId = this.formValue('userId');
+  //   this.router.navigate(['./mint'],{
+  //     queryParams:{data:JSON.stringify(this.userId)}
+  //     });
+  // }
+

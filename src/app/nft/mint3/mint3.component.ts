@@ -20,7 +20,6 @@ export class Mint3Component implements OnInit {
 
   showInProfile(){
     let data: any = this.data
-    console.log("bc ",this.data)
     this.router.navigate(['/user-dashboard'], {
       queryParams: { blockchain: this.data },
     });
@@ -29,6 +28,6 @@ export class Mint3Component implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
-      console.log('DATA recived: ', this.data);})
+  })
   }
 }

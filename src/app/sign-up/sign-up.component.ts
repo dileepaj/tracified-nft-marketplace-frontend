@@ -73,7 +73,6 @@ export class SignUpComponent implements OnInit {
 
     if (this.endorse.PublicKey != null) {
       //sending data to the service
-      console.log("Endorse model: ",this.endorse)
       this.dialogService.confirmDialog({
         title : 'Endorsment Confirmation',
         message : "Are you sure you want to Endorse your account",
@@ -102,7 +101,6 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
       this.data=JSON.parse(params['data']);
-      console.log("DATA recived: ",this.data)
 
     })
     //validating form data

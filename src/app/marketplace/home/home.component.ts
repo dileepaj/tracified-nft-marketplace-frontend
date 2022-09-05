@@ -114,7 +114,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.nft.getNFTOnSale("ON SALE").subscribe((result:any)=>{
-      console.log("result ",result)
       this.nfts=result;
       
       for( let x=0; x<(this.nfts.Response.length); x++){

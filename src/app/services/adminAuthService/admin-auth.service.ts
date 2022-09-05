@@ -38,7 +38,6 @@ export class AdminAuthService {
 
 
   public login(credentials: any): Observable<any> {
-    console.log("Credential: ",credentials)
     return this.apiService.post(this.admin + '/sign/login', {
       user: credentials,
     });

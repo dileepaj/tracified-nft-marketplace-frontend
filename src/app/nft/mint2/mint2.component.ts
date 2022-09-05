@@ -214,7 +214,6 @@ export class Mint2Component implements OnInit {
     this.tag.NFTName = this.mint.NFTName;
     this.tag.userId = this.mint.CreatorUserId;
     this.tag.tags = this.tags;
-    console.log("tags list: ",this.tag)
     this.addSubscription = this.service.addTags(this.tag).subscribe();
   }
 
@@ -231,26 +230,22 @@ export class Mint2Component implements OnInit {
 
   async getIssuer(): Promise<void> {
     //minting according to blockchain
-    console.log('data : ', this.data);
     this.mint.Blockchain = this.formValue('Blockchain');
     this.mint.NFTName = this.formValue('NFTName');;
     this.mint.NftContentURL = this.formValue('NftContentURL');
     this.mint.Imagebase64 = this.hash;
     this.mint.Description = this.formValue('Description');;
     this.svgUpdate.Id = this.hash;
-    console.log('svg ID recived: ', this.hash);
 
     if (this.mint.Blockchain == 'stellar') {
       //minting if blockchain == stellar
       this.service.createIssuer().subscribe(async (data: any) => {
         this.mint.NFTIssuerPK = data.NFTIssuerPK;
         this.mint.NFTIdentifier = this.mint.NFTIssuerPK;
-        console.log('stellar NFT issuer : ', this.mint.NFTIssuerPK);
         
         this.svg.blockchain = 'stellar';
         this.svg.Hash=this.hash
         this.svg.Base64ImageSVG=this.Encoded
-        console.log("svg data ",this.svg)
         this.apiService.addSVG(this.svg).subscribe();
 
         if (this.mint.NFTIssuerPK != null) {
@@ -261,9 +256,7 @@ export class Mint2Component implements OnInit {
           this.mint.CreatorUserId = this.userPK;
           this.pushTag()
           this.apiService.getEndorsement(this.userPK).subscribe((res: any) => {
-            console.log('result is :', res);
             if (res.Status == null || res.Status == '') {
-              console.log('--------------------------');
               this.dialogService
                 .confirmDialog({
                   title: 'Public Key Endorsment',
@@ -303,14 +296,11 @@ export class Mint2Component implements OnInit {
       this.svg.blockchain = 'solana';
       this.svg.Hash=this.hash
       this.svg.Base64ImageSVG=this.Encoded
-      console.log("svg data ",this.svg)
       this.apiService.addSVG(this.svg).subscribe();
-      //this.apiService.updateSVGBlockchain(this.svgUpdate)
 
       this.apiService
         .getEndorsement(this.mint.NFTIssuerPK)
         .subscribe((res: any) => {
-          console.log('result is :', res);
           if (res.Status == null || res.Status == '') {
             this.dialogService
               .confirmDialog({
@@ -329,7 +319,6 @@ export class Mint2Component implements OnInit {
                 }
               });
           } else {
-            console.log('------------solananananananana--------------');
             this.sendToMint3();
             this.mintNftSolana(this.mint.NFTIssuerPK);
           }
@@ -339,7 +328,6 @@ export class Mint2Component implements OnInit {
     if (this.mint.Blockchain == 'ethereum') {
       //minting if blockchain == ethereum
       this.loaderService.isLoading.next(true);
-      console.log('This is for ethereum');
       let metamask = new UserWallet();
       metamask = new MetamaskComponent(metamask);
       await metamask.initWallelt();
@@ -351,7 +339,6 @@ export class Mint2Component implements OnInit {
      
       this.svg.Hash=this.hash
       this.svg.Base64ImageSVG=this.Encoded
-      console.log("svg data ",this.svg)
       this.svg.blockchain = 'ethereum';
       this.apiService.addSVG(this.svg).subscribe();
 
@@ -359,7 +346,6 @@ export class Mint2Component implements OnInit {
       this.apiService
         .getEndorsement(this.mint.DistributorPK)
         .subscribe((res: any) => {
-          console.log('result is :', res);
           if (res.Status == null || res.Status == '') {
             this.dialogService
               .confirmDialog({
@@ -400,7 +386,6 @@ export class Mint2Component implements OnInit {
 
     if (this.mint.Blockchain == 'polygon') {
       //minting if blockchain == polygon
-      console.log('This is for polygon');
       let metamask = new UserWallet();
       metamask = new MetamaskComponent(metamask);
       await metamask.initWallelt();
@@ -409,19 +394,15 @@ export class Mint2Component implements OnInit {
       this.mint.MintedContract = environment.contractAddressNFTPolygon;
       this.mint.MarketContract = environment.contractAddressMKPolygon;
       this.mint.CreatorUserId = this.mint.DistributorPK;
-      console.log('mint polygon contreact: ', this.mint.MintedContract);
-      console.log('market polygon contreact: ', this.mint.MarketContract);
      
       this.svg.Hash=this.hash
       this.svg.Base64ImageSVG=this.Encoded
-      console.log("svg data ",this.svg)
       this.svg.blockchain = 'polygon';
       this.apiService.addSVG(this.svg).subscribe();
 
       this.apiService
         .getEndorsement(this.mint.DistributorPK)
         .subscribe((res: any) => {
-          console.log('result is :', res);
           if (res.Status == null || res.Status == '') {
             this.dialogService
               .confirmDialog({
@@ -515,9 +496,7 @@ export class Mint2Component implements OnInit {
       this.service
         .getMinter(this.minter.ImageBase64, this.minter.Blockchain)
         .subscribe((data: any) => {
-          console.log('Solana minter data retreived : ', data);
           if (data == null) {
-            console.log('NO DATA YET');
             this.Minter();
           }
           this.mint.NFTIssuerPK = data.NFTIssuerPK;
@@ -538,7 +517,6 @@ export class Mint2Component implements OnInit {
       this.service
         .getStellarTXN(this.stxn.ImageBase64, this.stxn.Blockchain)
         .subscribe((txn: any) => {
-          console.log('Stellar Txn mint response : ', txn);
           if (txn == null) {
             this.TXNStellar();
           }
@@ -614,14 +592,11 @@ export class Mint2Component implements OnInit {
     //retrieving data from mint component
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
-      console.log('DATA recived: ', this.data);
-      console.log('userid: ', this.data[0]);
        if (this.data[0] != null) {
       this.serviceCol
         .getCollectionName(this.data[0])
         .subscribe((data: any) => {
           this.CollectionList = data;
-          console.log('collections ',this.CollectionList);
         });
     } else {
       console.log('User PK not connected or not endorsed');
@@ -656,7 +631,6 @@ export class Mint2Component implements OnInit {
   }
 
   mintNftSolana(ownerPK: string) {
-    console.log('before minting and sending gatway', ownerPK);
     return new Promise((resolve, reject) => {
       this.service
         .minNFTSolana(
@@ -677,7 +651,6 @@ export class Mint2Component implements OnInit {
           if (this.isLoadingPresent) {
             this.dissmissLoading();
           }
-          console.log('Starting this.minter()');
           this.Minter();
         })
         .catch((error) => {
@@ -737,11 +710,6 @@ export class Mint2Component implements OnInit {
       Blockchain: this.controlGroup.get('Blockchain')?.value,
       Tags: this.tags,
     };
-    console.log(vals);
-    /*  this.proceed.emit({
-      image: this.imageSrc,
-      mint: this.mint,
-    }); */
   }
 
   public onChange(event: any) {
@@ -760,14 +728,12 @@ export class Mint2Component implements OnInit {
   //create base64 image
   private _handleReaderLoaded(readerEvt: any) {
     this.base64 = readerEvt.target.result;
-    console.log(this.base64);
     const unwantedText = 'data:image/svg+xml;base64,';
     this.base64 = this.base64.replace(unwantedText, '');
     let encoded: string = atob(this.base64);
     this.Encoded = encoded;
 
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
-    console.log("Hash is ",this.hash)
     this.updateHTML();
   }
 

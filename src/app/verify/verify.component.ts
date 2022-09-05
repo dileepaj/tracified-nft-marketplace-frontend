@@ -25,7 +25,6 @@ export class VerifyComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
       this.userId=JSON.parse(params['data']);
-      console.log("DATA recived: ",this.userId)
   })
 
     this.controlGroup = new FormGroup({

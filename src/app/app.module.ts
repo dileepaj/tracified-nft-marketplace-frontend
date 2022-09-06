@@ -82,6 +82,8 @@ import { FaqComponent } from './marketplace/faq/faq.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InterceptorService } from './services/loader/interceptor.service';
 import { OkmessageComponent } from './dialogs/okmessage/okmessage.component';
+import { ConfirmationPopupComponent } from './marketplace/buyNft/confirmation-popup/confirmation-popup.component';
+
 const appRoutes: Routes = [
   {
     path: 'home',
@@ -203,17 +205,17 @@ const appRoutes: Routes = [
     component: ShowNFTComponent,
   },
   {
-    path:"nftresale",
-    component:PutOnResaleComponent,
-  }, 
+    path: 'nftresale',
+    component: PutOnResaleComponent,
+  },
   {
-    path:"verify",
-    component:VerifyComponent,
+    path: 'verify',
+    component: VerifyComponent,
   },
   {
     path: 'docs',
     component: DocumentationComponent,
-  }
+  },
 ];
 @NgModule({
   declarations: [
@@ -270,6 +272,7 @@ const appRoutes: Routes = [
     DocumentationComponent,
     FaqComponent,
     OkmessageComponent,
+    ConfirmationPopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -302,12 +305,11 @@ const appRoutes: Routes = [
     HighlightModule,
     MatRadioModule,
     MatListModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   providers: [
-    {provide:HTTP_INTERCEPTORS,useClass:InterceptorService,multi:true},
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
     {
-      
       provide: HIGHLIGHT_OPTIONS,
       useValue: {
         fullLibraryLoader: () => import('highlight.js'),

@@ -1,4 +1,230 @@
-<div class="main-div" fxLayout="row wrap">
+<div class="main-div" fxLayout="row wrap" fxLayoutAlign="center">
+  <div class="nft-view-header" fxFlex="100%" fxLayout="row wrap">
+    <div
+      style="display: flex; flex-direction: row; justify-content: space-between"
+      fxLayout="row wrap"
+      fxFlex.gt-xl="50%"
+      fxFlex.xl="70%"
+      fxFlex.xs="90%"
+      fxFlex.sm="90%"
+      fxFlex.md="90%"
+      fxFlex.lg="90%"
+    >
+      <div class="breadcrumb-div">
+        <a (click)="goToExplore()" class="breadcrumb-link">Explore</a>
+        <mat-icon
+          class="material-symbols-outlined"
+          style="vertical-align: middle"
+        >
+          navigate_next
+        </mat-icon>
+
+        <a style="color: #00c853">TOMATOE - T0001</a>
+      </div>
+    </div>
+  </div>
+  <div
+    class="nft-div"
+    fxLayout="row wrap"
+    fxFlex.gt-xl="50%"
+    fxFlex.xl="70%"
+    fxFlex.xs="90%"
+    fxFlex.sm="90%"
+    fxFlex.md="90%"
+    fxFlex.lg="90%"
+  >
+    <div
+      class="nft-sum"
+      ngClass.lt-lg="nft-sum-mobile"
+      fxFlex.lg="35%"
+      fxFlex.gt-lg="35%"
+      fxFlex.lt-lg="100%"
+    >
+      <div
+        class="nft-img-div"
+        ngStyle.lt-lg="width : 400px; height: 400px"
+        ngStyle.lt-sm="width : 100%; "
+      >
+        <img src="../../../assets/images/Rectangle 2.png" class="nft-img" />
+      </div>
+      <p class="p-text sum-text" ngStyle.lt-lg="width : 100%">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+        scelerisque et dolor non pharetra. Donec imperdiet eget sapien ac
+        sagittis. Nulla varius neque sit amet orci mollis, eu tincidunt nisi
+        sodales. Fusce ultricies finibus mattis. In hac habitasse platea
+        dictumst. Nam ut placerat tortor. Duis rhoncus porttitor sem quis
+        eleifend. Quisque interdum quis sem id tristique. Maecenas luctus
+        gravida leo ut feugiat.
+      </p>
+    </div>
+    <div
+      class="nft-sell"
+      fxFlex.lg="61%"
+      fxFlex.gt-lg="61%"
+      fxFlex.lt-lg="100%"
+    >
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <img
+          src="../../../assets/images/blockchain-icons/ethereum.png"
+          class="blockchain-logo"
+        />
+        <div class="stats" [class.hidden]="selectedTab === 1">
+          <mat-icon class="material-symbols-outlined"> visibility </mat-icon>
+          <label style="margin-right: 30px">500 views</label>
+          <mat-icon class="material-symbols-outlined"> favorite </mat-icon>
+          <label>10 favorites</label>
+        </div>
+      </div>
+      <div
+        fxLayout="row wrap"
+        fxLayoutAlign="space-between "
+        class="nft-det-wrapper"
+      >
+        <div class="nft-det">
+          <label class="nft-name">TOMATOES - A0003</label>
+          <label class="nft-cat"><b>Category - </b>TOMATOES A1</label>
+        </div>
+        <button
+          mat-flat-button
+          class="btn-primary btn-sell"
+          (click)="sellNow()"
+          [class.hidden]="selectedTab === 1"
+        >
+          Sell Now
+        </button>
+      </div>
+      <mat-tab-group [selectedIndex]="selectedTab">
+        <mat-tab>
+          <div class="sell-cont">
+            <div class="owners">
+              <div class="prev-o">
+                <label class="owner-s">Previous Owner</label>
+                <label class="owner-l"
+                  >0xC9B6737b3Ca6e1FE88995f29e08B4BA267f77Bbc</label
+                >
+              </div>
+              <div class="curr-o">
+                <label class="owner-s">Current Owner</label>
+                <label class="owner-l"
+                  >0xC9B6737b3Ca6e1FE88995f29e08B4BA267f77Bbc</label
+                >
+              </div>
+            </div>
+
+            <div class="user-story">
+              <label class="heading-s">User Story</label>
+              <div class="desc">
+                <p class="p-text u-s-text">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Praesent scelerisque et dolor non pharetra. Donec imperdiet
+                  eget sapien ac sagittis. Nulla varius neque sit amet orci
+                  mollis, eu tincidunt nisi sodales. Fusce ultricies finibus
+                  mattis. In hac habitasse platea dictumst. Nam ut placerat
+                  tortor. Duis rhoncus porttitor sem quis eleifend. Quisque
+                  interdum quis sem id tristique. Maecenas luctus gravida leo ut
+                  feugiat.
+                </p>
+              </div>
+            </div>
+            <div class="txn-cont">
+              <label class="heading-s">Transaction History</label>
+              <div class="table-wrapper">
+                <table class="txn-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Status</th>
+                      <th>View On Stellar.Expert</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of [1, 2, 3, 4, 5]; index as i">
+                      <td width="50%">
+                        0xABCDEFGHIJKLMNOPQRSYUVWXYZ1234567890
+                      </td>
+                      <td width="25%">Completed</td>
+                      <td width="25%">
+                        <mat-icon class="material-symbols-outlined cursor-p">
+                          open_in_new
+                        </mat-icon>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <div style="margin-top: 27px; margin-bottom: 30px">
+            <button mat-icon-button (click)="prevTab()" class="btn-prev">
+              <mat-icon class="material-symbols-outlined">
+                keyboard_backspace
+              </mat-icon>
+            </button>
+          </div>
+          <div>
+            <form class="sell-form">
+              <label class="sell-label"
+                >Enter price and royalty information to proceed.</label
+              >
+              <div
+                class="sell-input-grp"
+                ngStyle.lt-sm="width : 100%"
+                ngStyle.sm="width : 50%"
+                ngStyle.md="width : 50%"
+                ngStyle.lg="width : 50%"
+                ngStyle.xl="width : 30%"
+                ngStyle.gt-xl="width : 20%"
+              >
+                <label>Price</label>
+                <mat-form-field appearance="outline">
+                  <input
+                    type="text"
+                    class="input"
+                    matInput
+                    name="price"
+                    formControlName="price"
+                  />
+                </mat-form-field>
+              </div>
+              <div
+                class="sell-input-grp"
+                ngStyle.lt-sm="width : 100%"
+                ngStyle.sm="width : 50%"
+                ngStyle.md="width : 50%"
+                ngStyle.lg="width : 50%"
+                ngStyle.xl="width : 30%"
+                ngStyle.gt-xl="width : 20%"
+              >
+                <label>Royalty</label>
+                <mat-form-field appearance="outline">
+                  <input
+                    type="text"
+                    class="input"
+                    matInput
+                    name="price"
+                    formControlName="price"
+                  />
+                </mat-form-field>
+              </div>
+              <button
+                mat-flat-button
+                class="btn-primary btn-sell"
+                (click)="sellNow()"
+              >
+                Sell Now
+              </button>
+            </form>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+<!--
+  <div class="main-div" fxLayout="row wrap">
   <div class="nft-view-header" fxFlex="100%">
     <div
       style="
@@ -119,3 +345,5 @@
     </div>
   </div>
 </div>
+
+-->

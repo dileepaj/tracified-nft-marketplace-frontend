@@ -1,0 +1,47 @@
+::ng-deep .mat-dialog-container {
+  border-radius: 16px !important;
+}
+
+.dialog-header {
+  position: relative;
+  text-align: center;
+}
+
+.dialog-header label {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  color: #2d2d2d;
+}
+
+.dialog-content {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 32px;
+  /* identical to box height, or 160% */
+
+  text-align: center;
+
+  color: #232323;
+  margin-bottom: 15px;
+}
+
+.dialog-actions {
+  column-gap: 20px;
+}
+
+.close-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: -10px -10px 0px 0px;
+}
+
+.close-div mat-icon {
+  cursor: pointer;
+  transform: scale(0.9);
+}

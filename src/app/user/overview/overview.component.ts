@@ -69,10 +69,6 @@ export class OverviewComponent implements OnInit {
     }
 
     goToEdit(user){
-      console.log("usre is ",user)
-      // this.router.navigate(['./user-dashboard/edit-profile'], {
-      //   queryParams: { user: user },
-      // });
 
       this.router.navigate(['./user-dashboard/edit-profile'],{
         queryParams:{data:JSON.stringify(user)}
@@ -80,7 +76,6 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("-------------------overview")
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
 
@@ -96,7 +91,6 @@ export class OverviewComponent implements OnInit {
       this.retrive(this.selectedBlockchain).then(res=>{ 
           this.nft.getNFTByBlockchainandUser(this.selectedBlockchain,this.User).subscribe(async (data) => {
         this.nfts = data;
-        console.log("bc specific nft: ",this.nfts)
         if(this.nft==null){
           this.ngOnInit()
         }else{
@@ -238,7 +232,6 @@ export class OverviewComponent implements OnInit {
   }
 
   putToSaleafterMint(hash:string,id:string){
-    console.log("image 64 hash : ",hash)
     let data : any[] = ["Minted",hash,id,this.selectedBlockchain]
     this.router.navigate(['./shownft'],{
       queryParams:{data:JSON.stringify(data)}

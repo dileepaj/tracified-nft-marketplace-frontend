@@ -32,29 +32,9 @@ export class NftServicesService {
 
   getSVGByHash(Hash:string): Observable<SVG[]> {
     //request to get collection name according to user public key
-    console.log("inside get svg service: ",Hash)
     return this.http.get<SVG[]>(`${this.baseUrlSVG}/${Hash}`);
   }
 
-  // getSVGByHash(Hash:string): Promise<any> {
-  //   return new Promise((resolve, reject) => {
-  //     this.reqOpts = {
-  //       observe: "response",
-  //       headers: new HttpHeaders({
-  //         Accept: "application/json",
-  //         "Content-Type": "Application/json",
-  //       }),
-  //     };
-  //     this.http.get(this.baseUrlSVG + "/"+Hash).subscribe(
-  //       (response) => {
-  //         resolve(response);
-  //       },
-  //       (error) => {
-  //         reject(error);
-  //       }
-  //     );
-  //   });
-  // }
 
   getNFTDetails(NFTIdentifier:string,SellingStatus:string,Blockchain:string): Observable<GetNFT[]> {
     //request to get collection name according to user public key
@@ -62,7 +42,6 @@ export class NftServicesService {
   }
 
   getNFTByBlockchain(Blockchain:string): Observable<GetNFT[]> {
-    console.log("service.................",Blockchain)
     //request to get collection name according to user public key
     return this.http.get<GetNFT[]>(`${this.baseUrlfilter}/${Blockchain}`);
   }
@@ -86,7 +65,6 @@ export class NftServicesService {
   }
 
   getNFT(): Observable<NFT[]> {
-    console.log("inside service")
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(`${this.baseUrlGetAllNFT}`);
   }

@@ -47,7 +47,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
   }
   public async createSaleOffer(blockchain:string,nftcontract: string,tokenId:number,price:number,listingPrice :string): Promise<any> {
     if(blockchain == 'ethereum'){
-      console.log("eth activated")
       const contract = await EthereumMarketServiceService.getContract(true)
       const transaction = await contract['sellNFT'](
         nftcontract,
@@ -61,10 +60,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       return tx
     }
     if(blockchain=='polygon'){
-      console.log("polygon activated")
-      console.log("poly nft contract :",nftcontract)
-      console.log("poly nft price :",price)
-      console.log("poly tokenID: ",tokenId)
       const contract = await PolygonMarketServiceService.getContract(true)
       const transaction = await contract['createMarketItem'](
         nftcontract,

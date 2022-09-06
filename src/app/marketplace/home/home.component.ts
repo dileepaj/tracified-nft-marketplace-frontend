@@ -10,6 +10,7 @@ import { UserWallet } from 'src/app/models/userwallet';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +30,8 @@ export class HomeComponent implements OnInit {
     private nft:NftServicesService,
     private _sanitizer:DomSanitizer,
     private router: Router,
-    private api: ApiServicesService,) {}
+    private api: ApiServicesService,
+    private snackbarService:SnackbarServiceService) {}
 
   openDialog() {
     this.dialogref.open(WalletComponent, {
@@ -84,7 +86,7 @@ export class HomeComponent implements OnInit {
     this.favouritesModel.NFTIdentifier = id;
     this.retrive(this.favouritesModel.Blockchain).then(res=>{
       this.api.addToFavourites(this.favouritesModel).subscribe(res=>{
-        alert("Added to Favourites!")
+        this.snackbarService.openSnackBar("Added to favourites")
         this.api.getFavouritesByBlockchainAndNFTIdentifier(this.favouritesModel.Blockchain,this.favouritesModel.NFTIdentifier).subscribe(res=>{
         });
       })
@@ -99,7 +101,7 @@ export class HomeComponent implements OnInit {
     this.watchlistModel.NFTIdentifier =id;
     this.retrive(this.watchlistModel.Blockchain).then(res=>{
       this.api.addToWatchList(this.watchlistModel).subscribe(res=>{
-        alert("Added to WatchList!")
+        this.snackbarService.openSnackBar("Added to watchlists")
         this.api.getWatchlistByBlockchainAndNFTIdentifier(this.watchlistModel.Blockchain,this.watchlistModel.NFTIdentifier).subscribe(res=>{
         });
       })
@@ -112,7 +114,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.nft.getNFTOnSale("ON SALE").subscribe((result:any)=>{
-      console.log("result ",result)
       this.nfts=result;
       
       for( let x=0; x<(this.nfts.Response.length); x++){

@@ -23,12 +23,9 @@ export class EditProfileComponent implements OnInit {
   constructor(private router: Router,private route:ActivatedRoute,private service:ApiServicesService) {}
 
   ngOnInit(): void {
-    console.log("------------------------------edit----------------------")
     this.route.queryParams.subscribe((params)=>{
       this.data=JSON.parse(params['data']);
-      console.log("DATA recived: ",this.data)
       this.service.getEndorsement(this.data).subscribe((res:any)=>{
-        console.log("data is ",res)
         this.EndorseList=res
       })
     })
@@ -48,22 +45,11 @@ export class EditProfileComponent implements OnInit {
     this.endorse.Email = this.controlGroupProfile.get('mail')!.value;
     this.endorse.PublicKey=this.data
    // this.profile.image = this.base64;
-    console.log(this.endorse);
     this.service.updateEndorsement(this.endorse).subscribe(res=>{
-      console.log("Profile Updated ", res)
     })
 
   }
 
- 
-
-  // public togglePwdVisibility() {
-  //   this.showPassword = !this.showPassword;
-  // }
-
-  // public toggleConfPwdVisibility() {
-  //   this.showConfPassword = !this.showConfPassword;
-  // }
 
   public onChange(event: any) {
     this.file = event.target.files[0];

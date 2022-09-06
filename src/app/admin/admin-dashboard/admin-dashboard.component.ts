@@ -15,7 +15,7 @@ export class AdminDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
-      console.log('data passed :', this.data);})
+     })
   }
 
   public toggleSidenav() {

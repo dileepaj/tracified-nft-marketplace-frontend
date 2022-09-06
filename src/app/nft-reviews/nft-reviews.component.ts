@@ -57,11 +57,9 @@ export class NftReviewsComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
-      console.log('data passed :', this.data);
     })
 
     this.service.getAllReviewsByNFTId(this.data.nftidentifier).subscribe((res:any)=>{
-      console.log("Reviews ",res)
       this.list=res
       for(let x=0; x< (this.list.length); x++){
         let card:ReviewsCard= new ReviewsCard('','','');
@@ -71,7 +69,6 @@ export class NftReviewsComponent implements OnInit {
         this.List.push(card)
         
       }
-      console.log("list: ",this.List)
     })
     /**
      * Adds the requeired validator for rating and validation. when the user tries to submit empty data Visual feedback

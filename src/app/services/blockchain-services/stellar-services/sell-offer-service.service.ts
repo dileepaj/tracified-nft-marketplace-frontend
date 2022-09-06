@@ -28,8 +28,6 @@ export class SellOfferServiceService {
     nftPrice: number
   ) {
     return new Promise((resolve, reject) => {
-      console.log("SellOfferServiceService function start")
-      console.log("param check:",asset_code,asset_issuer,signerPK,nftAmmount,nftPrice)
       //let sourceKeypair = Keypair.fromSecret(signerSK); //because the distributor has the authority to sell
       if (blockchainNetType === "live") {
         Networks.TESTNET
@@ -46,9 +44,7 @@ export class SellOfferServiceService {
         },
         networkPassphrase: Networks.TESTNET,
       };
-      console.log("before server")
       let server = new Server(blockchainNet);
-      console.log("during server")
       server
         .loadAccount(signerPK)
         .then(async (account) => {
@@ -65,7 +61,6 @@ export class SellOfferServiceService {
             )
             .setTimeout(60000)
             .build();
-          console.log("sign start")
           let walletf = new UserWallet();
           walletf = new FreighterComponent(walletf)
           this.userSignedTransaction = await walletf.signTransaction(transaction)
@@ -77,11 +72,9 @@ export class SellOfferServiceService {
           return server.submitTransaction(transactionToSubmit);
         })
         .then((transactionResult) => {
-          console.log("Resolving transactions")
           resolve(transactionResult);
         })
         .catch((err) => {
-          console.log("Couldn't put up for sale -->" + err);
           reject(err);
         });
     });

@@ -130,14 +130,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;
-      // let stellarWallet = new UserWallet();
-      // stellarWallet = new FreighterComponent(stellarWallet);
-      // // await stellarWallet.initWallelt();
-      // this.userPK =  stellarWallet.getWalletaddress()
       this.buyNFTOnStellar();
-      // this.saleBE.CurrentOwnerPK =this.userPK;
-      // console.log("user pk for stellar: ",this.userPK)
-      // this.service.updateNFTStatusBackend(this.saleBE).subscribe();
       
     }
     if (this.NFTList.blockchain == 'solana') {
@@ -160,7 +153,6 @@ export class BuyViewComponent implements OnInit {
           this.NFTList.nftidentifier
         )
         .then(async (res: any) => {
-          console.log('result is ', res);
           this.buytxn = res;
           this.saveTXNs();
           this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -217,9 +209,7 @@ export class BuyViewComponent implements OnInit {
       let walletMetamask = new UserWallet()
       walletMetamask = new MetamaskComponent(walletMetamask)
       await walletMetamask.initWallelt()
-      console.log("eth wallet address: ",this.userPK)
       this.userPK=await walletMetamask.getWalletaddress()
-      console.log("eth wallet address: ",this.userPK)
       this.saleBE.CurrentOwnerPK =this.userPK;
       this.emarket
         .BuyNFT(
@@ -284,7 +274,6 @@ export class BuyViewComponent implements OnInit {
               this.buytxn = transactionResult.hash;
               this.saveTXNs();
               this.saleBE.CurrentOwnerPK =this.userPK;
-              console.log("user pk for stellar: ",this.userPK)
               this.service.updateNFTStatusBackend(this.saleBE).subscribe();
               this.snackbar.openSnackBar("NFT has successfully been bough")
         } else {
@@ -331,14 +320,12 @@ export class BuyViewComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
-      console.log('data passed :', this.data);
     this.nftbe.Blockchain=this.data[1];
     this.nftbe.NFTIdentifier=this.data[0];
    this.nftbe.SellingStatus="ON SALE";
     if (this.nftbe.NFTIdentifier!=null && this.nftbe.SellingStatus=="ON SALE" && this.nftbe.Blockchain==this.data[1]) {
       this.service.getNFTDetails(this.nftbe.NFTIdentifier,this.nftbe.SellingStatus,this.nftbe.Blockchain).subscribe((data:any)=>{
         this.NFTList=data.Response[0];
-        console.log("nft data: ",this.NFTList)
         
         if(this.NFTList==null){
           this.ngOnInit()
@@ -352,7 +339,6 @@ export class BuyViewComponent implements OnInit {
         var src = str1.concat(str2.toString());
         this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         this.service.getTXNByBlockchainandIdentifier(this.NFTList.nftidentifier,this.NFTList.blockchain).subscribe((txn:any)=>{
-          console.log("TXNS :",txn)
           for( let x=0; x<(txn.Response.length); x++){
             let card:Track= new Track('','','');
             card.NFTName=txn.Response[x].NFTName

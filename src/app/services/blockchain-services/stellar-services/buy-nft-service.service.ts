@@ -27,7 +27,6 @@ export class BuyNftServiceService {
     nftPrice: string
   ) {
     return new Promise((resolve, reject) => {//buyers secret key
-      console.log("params in buy : ",asset_code,asset_issuer,userPK,previousOwnerNFTPK,nftPrice)
       if (blockchainNetType === "live") {
         Networks.TESTNET
       } else {
@@ -45,7 +44,6 @@ export class BuyNftServiceService {
         networkPassphrase: Networks.TESTNET,
       };
       let server = new Server(blockchainNet);
-      console.log("server starting")
       server
         .loadAccount(userPK)
         .then(async (account) => {
@@ -79,7 +77,6 @@ export class BuyNftServiceService {
             )
             .setTimeout(80000)
             .build();
-          console.log("sign start")
           let walletf = new UserWallet();
           walletf = new FreighterComponent(walletf);
           this.userSignedTransaction = await walletf.signTransaction(transaction)
@@ -90,7 +87,6 @@ export class BuyNftServiceService {
           return server.submitTransaction(transactionToSubmit);
         })
         .then((transactionResult) => {
-          console.log("Buying of NFT was successful");
           resolve(transactionResult);
         })
         .catch((err) => {

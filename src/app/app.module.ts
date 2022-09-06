@@ -82,6 +82,8 @@ import { FaqComponent } from './marketplace/faq/faq.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InterceptorService } from './services/loader/interceptor.service';
 import { OkmessageComponent } from './dialogs/okmessage/okmessage.component';
+import { MintNftComponent } from './nft/mint-nft/mint-nft.component';
+import { MatChipsModule } from '@angular/material/chips';
 const appRoutes: Routes = [
   {
     path: 'home',
@@ -89,7 +91,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'mint',
-    component: MintComponent,
+    component: MintNftComponent,
   },
   {
     path: 'mint2',
@@ -203,17 +205,17 @@ const appRoutes: Routes = [
     component: ShowNFTComponent,
   },
   {
-    path:"nftresale",
-    component:PutOnResaleComponent,
-  }, 
+    path: 'nftresale',
+    component: PutOnResaleComponent,
+  },
   {
-    path:"verify",
-    component:VerifyComponent,
+    path: 'verify',
+    component: VerifyComponent,
   },
   {
     path: 'docs',
     component: DocumentationComponent,
-  }
+  },
 ];
 @NgModule({
   declarations: [
@@ -270,6 +272,7 @@ const appRoutes: Routes = [
     DocumentationComponent,
     FaqComponent,
     OkmessageComponent,
+    MintNftComponent,
   ],
   imports: [
     BrowserModule,
@@ -302,12 +305,12 @@ const appRoutes: Routes = [
     HighlightModule,
     MatRadioModule,
     MatListModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatChipsModule,
   ],
   providers: [
-    {provide:HTTP_INTERCEPTORS,useClass:InterceptorService,multi:true},
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
     {
-      
       provide: HIGHLIGHT_OPTIONS,
       useValue: {
         fullLibraryLoader: () => import('highlight.js'),

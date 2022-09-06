@@ -98,11 +98,9 @@ export class TrustLineByBuyerServiceService {
           return server.submitTransaction(transactionToSubmit);
         })
         .then((transactionResult) => {
-          console.log("Buying of NFT was successful");
           resolve(transactionResult);
         })
         .catch((err) => {
-          console.log("Failed Trusts " + JSON.stringify(err));
           reject(err);
         });
     });

@@ -134,6 +134,7 @@ export class ApiServicesService {
     }
 
     getAllReviewsByNFTId(id:string):Observable<Reviews[]> {
+      console.log("inside service review")
       return this.http.get<Reviews[]>(`${this.baseUrlSaveReview}/${id}`);
     }
 

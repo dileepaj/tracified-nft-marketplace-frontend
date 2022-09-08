@@ -59,14 +59,14 @@
     >
       <div fxLayout="row wrap" fxLayoutAlign="space-between center">
         <img
-          src="../../../assets/images/blockchain-icons/ethereum.png"
+          src={{this.image}}
           class="blockchain-logo"
         />
         <div class="stats" [class.hidden]="selectedTab === 1">
           <mat-icon class="material-symbols-outlined"> visibility </mat-icon>
-          <label style="margin-right: 30px">500 views</label>
+          <label style="margin-right: 30px">{{this.watchlist}} views</label>
           <mat-icon class="material-symbols-outlined"> favorite </mat-icon>
-          <label>10 favorites</label>
+          <label>{{this.favorites}} favorites</label>
         </div>
       </div>
       <div
@@ -191,7 +191,7 @@
                 <div
                   class="review"
                   fxLayout="row wrap"
-                  *ngFor="let item of [1, 2]"
+                  *ngFor="let items of ReviewList"
                 >
                   <div
                     class="user-rating"
@@ -200,8 +200,8 @@
                     fxFlex.md="15%"
                     fxFlex.lt-md="100%"
                   >
-                    <label class="name">Joe Mama</label>
-                    <label class="date">08/08/20222</label>
+                    <label class="name">{{items.UserID}}</label>
+                    <label class="date">{{items.Time}}</label>
                     <div>
                       <div
                         style="
@@ -216,110 +216,13 @@
                             type="radio"
                             id="star5"
                             value="5"
+                            checked
                             [disabled]="true"
                           /><label
                             class="full"
                             for="star5"
                             title="Awesome - 5 stars"
-                          ></label>
-                          <input
-                            type="radio"
-                            id="star4half"
-                            value="4.5"
-                            [disabled]="true"
-                          /><label
-                            class="half"
-                            for="star4half"
-                            title="Very good - 4.5 stars"
-                          ></label>
-                          <input
-                            type="radio"
-                            id="star4"
-                            value="4"
-                            checked
-                            [disabled]="true"
-                          /><label
-                            class="full"
-                            for="star4"
-                            title="Pretty good - 4 stars"
-                          ></label>
-                          <input
-                            type="radio"
-                            id="star3half"
-                            value="3.5"
-                            checked
-                            [disabled]="true"
-                          /><label
-                            class="half"
-                            for="star3half"
-                            title="Satisfactory - 3.5 stars"
-                          ></label>
-                          <input
-                            type="radio"
-                            id="star3"
-                            value="3"
-                            checked
-                            [disabled]="true"
-                          /><label
-                            class="full"
-                            for="star3"
-                            title="Marginal - 3 stars"
-                          ></label>
-                          <input
-                            type="radio"
-                            id="star2half"
-                            value="2.5"
-                            checked
-                            [disabled]="true"
-                          /><label
-                            class="half"
-                            for="star2half"
-                            title="Marginaly bad - 2.5 stars"
-                          ></label>
-                          <input
-                            type="radio"
-                            id="star2"
-                            value="2"
-                            checked
-                            [disabled]="true"
-                          /><label
-                            class="full"
-                            for="star2"
-                            title=" bad - 2 stars"
-                          ></label>
-                          <input
-                            type="radio"
-                            id="star1half"
-                            value="1.5"
-                            checked
-                            [disabled]="true"
-                          /><label
-                            class="half"
-                            for="star1half"
-                            title="vary bad - 1.5 stars"
-                          ></label>
-                          <input
-                            type="radio"
-                            id="star1"
-                            value="1"
-                            checked
-                            [disabled]="true"
-                          /><label
-                            class="full"
-                            for="star1"
-                            title="very bad - 1 star"
-                          ></label>
-                          <input
-                            type="radio"
-                            id="starhalf"
-                            value="0.5"
-                            checked
-                            [disabled]="true"
-                          /><label
-                            class="half"
-                            for="starhalf"
-                            title="This should not exist - 0.5 stars"
-                          ></label>
+                          >{{items.Rating}}</label>
                         </fieldset>
                       </div>
                     </div>
@@ -332,12 +235,7 @@
                     fxFlex.lt-md="100%"
                   >
                     <p class="p-text">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Ut et enim sit amet nunc vehicula cursus id in odio. Nam
-                      at enim interdum, euismod velit a, mollis odio. Lorem
-                      ipsum dolor sit amet, consectetur adipiscing elit. Ut et
-                      enim sit amet nunc vehicula cursus id in odio. Nam at enim
-                      interdum, euismod velit a, mollis odio.
+                     {{items.Description}}
                     </p>
                   </div>
                 </div>
@@ -357,7 +255,7 @@
             </button>
           </div>
           <div>
-            <form class="sell-form">
+            <form class="sell-form"  [formGroup]="controlGroup" >
               <label class="review-label">Add Your Review</label>
               <div
                 style="
@@ -383,8 +281,8 @@
                       type="text"
                       class="input"
                       matInput
-                      name="name"
-                      formControlName="name"
+                      name="userid"
+                      formControlName="userid"
                     />
                   </mat-form-field>
                 </div>

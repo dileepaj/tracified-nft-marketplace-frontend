@@ -59,14 +59,14 @@
     >
       <div fxLayout="row wrap" fxLayoutAlign="space-between center">
         <img
-          src="../../../assets/images/blockchain-icons/ethereum.png"
+          src={{this.image}}
           class="blockchain-logo"
         />
         <div class="stats" [class.hidden]="selectedTab === 1">
           <mat-icon class="material-symbols-outlined"> visibility </mat-icon>
-          <label style="margin-right: 30px">500 views</label>
+          <label style="margin-right: 30px">{{this.watchlist}} views</label>
           <mat-icon class="material-symbols-outlined"> favorite </mat-icon>
-          <label>10 favorites</label>
+          <label>{{this.favorites}} favorites</label>
         </div>
       </div>
       <div

@@ -75,6 +75,9 @@ export class SellNftComponent implements OnInit {
   svg: SVG = new SVG('', '', 'NA');
   NFTList: any;
   prevOwner: string;
+  watchlist: any;
+  favorites: any;
+  image: any;
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -86,7 +89,8 @@ export class SellNftComponent implements OnInit {
     private _sanitizer: DomSanitizer,
     private router: Router,
     private dialogService: DialogService,
-    private snackbarService: SnackbarServiceService
+    private snackbarService: SnackbarServiceService,
+    private api: ApiServicesService,
   ) {}
 
   calculatePrice(): void {
@@ -335,6 +339,28 @@ export class SellNftComponent implements OnInit {
           else{
             this.prevOwner=this.NFTList.distributorpk
           }
+
+          this.api.getWatchlistByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
+            this.watchlist = res.Response.length
+          });
+  
+          this.api.getFavouritesByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
+           this.favorites =res.Response.length
+          });
+
+          if(this.NFTList.blockchain=="ethereum"){
+            this.image="../../../assets/images/blockchain-icons/ethereum.png"
+          }
+          if(this.NFTList.blockchain=="polygon"){
+            this.image="../../../assets/images/blockchain-icons/polygon.PNG"
+          }
+          if(this.NFTList.blockchain=="stellar"){
+            this.image="../../../assets/images/blockchain-icons/stellar.PNG"
+          }
+          if(this.NFTList.blockchain=="solana"){
+            this.image="../../../assets/images/blockchain-icons/solana.PNG"
+          }
+
             this.service.getSVGByHash(this.NFTList.imagebase64).subscribe((res: any) => {
               console.log('service res:', res);
               this.Decryption = res.Response.Base64ImageSVG;
@@ -370,20 +396,6 @@ export class SellNftComponent implements OnInit {
                 this.List.push(card)
               }
             })
-          
-            //put correct bc name var
-          // if (this.NFTList.blockchain == 'stellar') {
-          //   this.NFTList.nftissuerpk = this.NFTList.nftissuerpk;
-          // }
-          // if (this.NFTList.Blockchain == 'solana') {
-          //   this.NFTList.NFTIssuerPK = this.NFTList.MinterPK;
-          // }
-          // if (this.NFTList.Blockchain == 'polygon') {
-          //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-          // }
-          // if (this.NFTList.Blockchain == 'ethereum') {
-          //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-          // }
         });
     } else {
       console.log('User PK not connected or not endorsed');

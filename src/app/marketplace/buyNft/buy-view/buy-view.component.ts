@@ -3,7 +3,7 @@ import { FreighterComponent } from './../../../wallet/freighter/freighter.compon
 import { UserWallet } from 'src/app/models/userwallet';
 import { Component, OnInit } from '@angular/core';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
-import { NFTMarket, SalesBE, BuyNFTGW, GetNFT } from 'src/app/models/nft';
+import { NFTMarket, SalesBE, BuyNFTGW, GetNFT, ReviewsCard, Reviews } from 'src/app/models/nft';
 import { environment } from 'src/environments/environment';
 import { TrustLineByBuyerServiceService } from 'src/app/services/blockchain-services/stellar-services/trust-line-by-buyer-service.service';
 import { BuyNftServiceService } from 'src/app/services/blockchain-services/stellar-services/buy-nft-service.service';
@@ -26,6 +26,7 @@ import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-buy-view',
@@ -38,8 +39,12 @@ export class BuyViewComponent implements OnInit {
   isLoadingPresent: boolean;
   loading: any;
   imageSrc: any;
+  rating:any ='checked'
   NFTList: any;
   List: any[] = [];
+  ReviewList: any[] = [];
+  reviews:Reviews=new Reviews('','','',0.0,'')
+  controlGroup: FormGroup;
   nft: NFTMarket = new NFTMarket(
     '',
     '',
@@ -107,6 +112,10 @@ export class BuyViewComponent implements OnInit {
   transaction: Uint8Array;
   signer: Uint8Array;
   userPK: string;
+  watchlist: any;
+  favorites: any;
+  image: string;
+  list: any;
   constructor(
     private service: NftServicesService,
     private trust: TrustLineByBuyerServiceService,
@@ -357,6 +366,41 @@ export class BuyViewComponent implements OnInit {
             if (this.NFTList == null) {
               this.ngOnInit();
             }
+
+            this.apiService.getWatchlistByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
+              this.watchlist = res.Response.length
+              this.apiService.getAllReviewsByNFTId(this.NFTList.nftidentifier).subscribe((res:any)=>{
+                console.log("reviews ,",res)
+                this.list=res
+                for(let x=0; x < this.list.length; x++){
+                  let reviewcard:ReviewsCard= new ReviewsCard('','','','');
+                  reviewcard.UserID=this.list[x].userid
+                  reviewcard.Rating=this.list[x].rating
+                  reviewcard.Description=this.list[x].description
+                 reviewcard.Time=this.list[x].timestamp
+                  this.ReviewList.push(reviewcard)
+                  console.log("Review List: ",this.ReviewList)
+                }
+              })
+            });
+    
+            this.apiService.getFavouritesByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
+             this.favorites =res.Response.length
+            });
+  
+            if(this.NFTList.blockchain=="ethereum"){
+              this.image="../../../assets/images/blockchain-icons/ethereum.png"
+            }
+            if(this.NFTList.blockchain=="polygon"){
+              this.image="../../../assets/images/blockchain-icons/polygon.PNG"
+            }
+            if(this.NFTList.blockchain=="stellar"){
+              this.image="../../../assets/images/blockchain-icons/stellar.PNG"
+            }
+            if(this.NFTList.blockchain=="solana"){
+              this.image="../../../assets/images/blockchain-icons/solana.PNG"
+            }
+  
             this.svg.Hash = this.NFTList.imagebase64;
             this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
               this.Decryption = res.Response.Base64ImageSVG;
@@ -390,6 +434,7 @@ export class BuyViewComponent implements OnInit {
                       card.NFTTxnHash= "https://solscan.io/tx/"+ txn.Response[x].NFTTxnHash +"?cluster=testnet"
                     }
                     this.List.push(card);
+                    console.log("the txn list: ",this.List)
                   }
                 });
             });
@@ -408,18 +453,11 @@ export class BuyViewComponent implements OnInit {
                 this._sanitizer.bypassSecurityTrustResourceUrl(src);
             });
 
-            // if (this.NFTList.Blockchain == 'stellar') {
-            //   this.NFTList.NFTIssuerPK = this.NFTList.NFTIssuerPK;
-            // }
-            // if (this.NFTList.Blockchain == 'solana') {
-            //   this.NFTList.NFTIssuerPK = this.NFTList.MinterPK;
-            // }
-            // if (this.NFTList.Blockchain == 'polygon') {
-            //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-            // }
-            // if (this.NFTList.Blockchain == 'ethereum') {
-            //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-            // }
+            this.controlGroup = new FormGroup({
+              rating: new FormControl(this.reviews.Rating, Validators.required),
+              description: new FormControl(this.reviews.Description, Validators.required),
+              userid: new FormControl(this.reviews.UserID, Validators.required),
+            });
           });
       } else {
         this.snackbar.openSnackBar('User PK not connected or not endorsed');
@@ -445,10 +483,37 @@ export class BuyViewComponent implements OnInit {
   }
 
   public openConfirmation() {
-    this.dialog.open(ConfirmationPopupComponent, {
-      data: {
-        user: 'lol',
-      },
-    });
+    this.reviews.Status="Pending"
+    this.reviews.Description=this.controlGroup.get('description')!.value;
+    this.reviews.Rating=Number(this.controlGroup.get('rating')!.value);
+    this.reviews.NFTIdentifier=this.NFTList.nftidentifier;
+    this.reviews.UserID=this.controlGroup.get('userid')!.value;
+    this.dialogService.confirmDialog({
+      title:"User review confirmation",
+      message:"Are you sure you want to submit this review",
+      confirmText:"Yes",
+      cancelText:"No"
+    }).subscribe(result=>{
+      if(result){
+        this.apiService.addReviews(this.reviews).subscribe(res=>{
+          if(res!=null){
+            this.snackbar.openSnackBar("Your review has been Successfully submitted")
+          }else{
+            this.snackbar.openSnackBar("Failed to submit review please try again.")
+          }
+        })
+      }
+    })
+    
+
+    // this.dialog.open(ConfirmationPopupComponent, {
+    //   data: {
+    //     user:  this.reviews.UserID,
+    //   },
+    // });
+  }
+
+  private formValue(controlName: string): any {
+    return this.controlGroup.get(controlName)!.value;
   }
 }

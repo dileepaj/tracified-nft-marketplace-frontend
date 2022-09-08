@@ -17,6 +17,8 @@ import { clusterApiUrl, Connection, Keypair } from '@solana/web3.js';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { CodeviewComponent } from '../codeview/codeview.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-sell-nft',
@@ -91,6 +93,7 @@ export class SellNftComponent implements OnInit {
     private dialogService: DialogService,
     private snackbarService: SnackbarServiceService,
     private api: ApiServicesService,
+    public dialog: MatDialog
   ) {}
 
   calculatePrice(): void {
@@ -100,6 +103,14 @@ export class SellNftComponent implements OnInit {
     this.royaltyCharge = this.firstPrice * (this.royalty / 100);
     this.sellingPrice = this.firstPrice + this.royaltyCharge;
     console.log("Calculation done")
+  }
+
+  public openDialog() {
+    const dialogRef = this.dialog.open(CodeviewComponent,{
+      data:{
+        imgSrc:this.Decryption
+      },
+    });
   }
 
   saveTXNs(): void {

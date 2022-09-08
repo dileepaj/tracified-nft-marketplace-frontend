@@ -8,6 +8,13 @@
   color: white;
 }
 
+.code-behind-btn{
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  background-color: #FFFFFF;
+}
+
 .svgArea {
   /* Rectangle 481 */
   box-sizing: border-box;

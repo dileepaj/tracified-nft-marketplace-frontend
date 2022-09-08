@@ -27,6 +27,7 @@ import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackb
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CodeviewComponent } from 'src/app/nft/codeview/codeview.component';
 
 @Component({
   selector: 'app-buy-view',
@@ -338,6 +339,14 @@ export class BuyViewComponent implements OnInit {
     let data: any = this.nftbe.Blockchain;
     this.router.navigate(['/user-dashboard'], {
       queryParams: { blockchain: this.nftbe.Blockchain },
+    });
+  }
+
+  public openDialog() {
+    const dialogRef = this.dialog.open(CodeviewComponent,{
+      data:{
+        imgSrc:this.Decryption
+      },
     });
   }
 

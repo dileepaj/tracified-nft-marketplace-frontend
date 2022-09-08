@@ -7,6 +7,13 @@
   color: white;
 }
 
+.code-behind-btn{
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  background-color: #FFFFFF;
+}
+
 .example-full-width {
   height: 250%;
   width: 600px;

@@ -377,7 +377,18 @@ export class BuyViewComponent implements OnInit {
                     let card: Track = new Track('', '', '');
                     card.NFTName = txn.Response[x].NFTName;
                     card.Status = txn.Response[x].Status;
-                    card.NFTTxnHash = txn.Response[x].NFTTxnHash;
+                    if(txn.Response[x].Blockchain=="ethereum"){
+                      card.NFTTxnHash= "https://rinkeby.etherscan.io/tx/" + txn.Response[x].NFTTxnHash
+                    }
+                    if(txn.Response[x].Blockchain=="polygon"){
+                      card.NFTTxnHash= "https://mumbai.polygonscan.com/tx/"+ txn.Response[x].NFTTxnHash
+                    }
+                    if(txn.Response[x].Blockchain=="stellar"){
+                      card.NFTTxnHash= "https://stellar.expert/explorer/testnet/tx/"+ txn.Response[x].NFTTxnHash
+                    }
+                    if(txn.Response[x].Blockchain=="solana"){
+                      card.NFTTxnHash= "https://solscan.io/tx/"+ txn.Response[x].NFTTxnHash +"?cluster=testnet"
+                    }
                     this.List.push(card);
                   }
                 });
@@ -397,18 +408,18 @@ export class BuyViewComponent implements OnInit {
                 this._sanitizer.bypassSecurityTrustResourceUrl(src);
             });
 
-            if (this.NFTList.Blockchain == 'stellar') {
-              this.NFTList.NFTIssuerPK = this.NFTList.NFTIssuerPK;
-            }
-            if (this.NFTList.Blockchain == 'solana') {
-              this.NFTList.NFTIssuerPK = this.NFTList.MinterPK;
-            }
-            if (this.NFTList.Blockchain == 'polygon') {
-              this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-            }
-            if (this.NFTList.Blockchain == 'ethereum') {
-              this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-            }
+            // if (this.NFTList.Blockchain == 'stellar') {
+            //   this.NFTList.NFTIssuerPK = this.NFTList.NFTIssuerPK;
+            // }
+            // if (this.NFTList.Blockchain == 'solana') {
+            //   this.NFTList.NFTIssuerPK = this.NFTList.MinterPK;
+            // }
+            // if (this.NFTList.Blockchain == 'polygon') {
+            //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
+            // }
+            // if (this.NFTList.Blockchain == 'ethereum') {
+            //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
+            // }
           });
       } else {
         this.snackbar.openSnackBar('User PK not connected or not endorsed');

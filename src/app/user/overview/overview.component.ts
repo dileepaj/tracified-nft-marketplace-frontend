@@ -237,19 +237,27 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-  putToSaleafterMint(hash:string,id:string){
-    console.log("image 64 hash : ",hash)
-    let data : any[] = ["Minted",hash,id,this.selectedBlockchain]
-    this.router.navigate(['./shownft'],{
+  putToSaleafterMint(id:string){
+    console.log("image 64 hash : ",id)
+    let data : any[] = ["Minted",id,this.selectedBlockchain]
+    this.router.navigate(['./sell'],{
       queryParams:{data:JSON.stringify(data)}
     });
   }
 
-  putToSaleafterBought(hash:string,id:string){
-    let data : any[] = ["NOTFORSALE",hash,id,this.selectedBlockchain]
-    this.router.navigate(['./shownft'],{
+  putToSaleafterBought(id:string){
+    console.log("image 64 hash : ",id)
+    let data : any[] = ["NOTFORSALE",id,this.selectedBlockchain]
+    this.router.navigate(['./sell'],{
       queryParams:{data:JSON.stringify(data)}
     });
+  }
+
+  routeToBuy(id:string){
+    let data :any[]=[id,this.selectedBlockchain];
+    this.router.navigate(['./buyNft'],{
+    queryParams:{data:JSON.stringify(data)}
+    })
   }
 
 }

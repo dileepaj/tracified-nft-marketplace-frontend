@@ -19,7 +19,7 @@
           navigate_next
         </mat-icon>
 
-        <a style="color: #00c853">TOMATOE - T0001</a>
+        <a style="color: #00c853">{{this.NFTList.nftname}}</a>
       </div>
     </div>
   </div>
@@ -45,16 +45,10 @@
         ngStyle.lt-lg="width : 400px; height: 400px"
         ngStyle.lt-sm="width : 100%; "
       >
-        <img src="../../../assets/images/Rectangle 2.png" class="nft-img" />
+        <img [src]="imageSrc" *ngIf="imageSrc" class="nft-img" />
       </div>
       <p class="p-text sum-text" ngStyle.lt-lg="width : 100%">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
-        scelerisque et dolor non pharetra. Donec imperdiet eget sapien ac
-        sagittis. Nulla varius neque sit amet orci mollis, eu tincidunt nisi
-        sodales. Fusce ultricies finibus mattis. In hac habitasse platea
-        dictumst. Nam ut placerat tortor. Duis rhoncus porttitor sem quis
-        eleifend. Quisque interdum quis sem id tristique. Maecenas luctus
-        gravida leo ut feugiat.
+       {{this.NFTList.description}}
       </p>
     </div>
     <div
@@ -81,8 +75,8 @@
         class="nft-det-wrapper"
       >
         <div class="nft-det">
-          <label class="nft-name">TOMATOES - A0003</label>
-          <label class="nft-cat"><b>Category - </b>TOMATOES A1</label>
+          <label class="nft-name">{{this.NFTList.nftname}}</label>
+          <label class="nft-cat"><b>Category - </b>{{this.NFTList.categories}}</label>
         </div>
         <button
           mat-flat-button
@@ -100,13 +94,25 @@
               <div class="prev-o">
                 <label class="owner-s">Previous Owner</label>
                 <label class="owner-l"
-                  >0xC9B6737b3Ca6e1FE88995f29e08B4BA267f77Bbc</label
+                  >{{this.prevOwner}}</label
                 >
               </div>
               <div class="curr-o">
                 <label class="owner-s">Current Owner</label>
                 <label class="owner-l"
-                  >0xC9B6737b3Ca6e1FE88995f29e08B4BA267f77Bbc</label
+                  >{{this.NFTList.currentownerpk}}</label
+                >
+              </div>
+              <div class="curr-o">
+                <label class="owner-s">Issuer</label>
+                <label class="owner-l"
+                  >{{this.NFTList.nftissuerpk}}</label
+                >
+              </div>
+              <div class="curr-o">
+                <label class="owner-s">Artist Name</label>
+                <label class="owner-l"
+                  >{{this.NFTList.artistname}}</label
                 >
               </div>
             </div>
@@ -134,18 +140,18 @@
                     <tr>
                       <th>Name</th>
                       <th>Status</th>
-                      <th>View On Stellar.Expert</th>
+                      <th>View On Explorer</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let item of [1, 2, 3, 4, 5]; index as i">
+                    <tr *ngFor="let item of List">
                       <td width="50%">
-                        0xABCDEFGHIJKLMNOPQRSYUVWXYZ1234567890
+                        {{item.NFTName}}
                       </td>
-                      <td width="25%">Completed</td>
+                      <td width="25%">{{item.Status}}</td>
                       <td width="25%">
-                        <mat-icon class="material-symbols-outlined cursor-p">
-                          open_in_new
+                        <mat-icon class="material-symbols-outlined cursor-p" >
+                         <a href="{{item.NFTTxnHash}}" >open_in_new</a> 
                         </mat-icon>
                       </td>
                     </tr>
@@ -164,7 +170,7 @@
             </button>
           </div>
           <div>
-            <form class="sell-form">
+            <form class="sell-form" [formGroup]="controlGroupSell">
               <label class="sell-label"
                 >Enter price and royalty information to proceed.</label
               >
@@ -183,8 +189,8 @@
                     type="text"
                     class="input"
                     matInput
-                    name="price"
-                    formControlName="price"
+                    name="Price"
+                    formControlName="Price"
                   />
                 </mat-form-field>
               </div>
@@ -203,15 +209,15 @@
                     type="text"
                     class="input"
                     matInput
-                    name="price"
-                    formControlName="price"
+                    name="Royalty"
+                    formControlName="Royalty"
                   />
                 </mat-form-field>
               </div>
               <button
                 mat-flat-button
                 class="btn-primary btn-sell"
-                (click)="sellNow()"
+                (click)="Sell()"
               >
                 Sell Now
               </button>
@@ -223,7 +229,7 @@
   </div>
 </div>
 
-<!--
+<!-- 
   <div class="main-div" fxLayout="row wrap">
   <div class="nft-view-header" fxFlex="100%">
     <div
@@ -346,4 +352,4 @@
   </div>
 </div>
 
--->
+ -->

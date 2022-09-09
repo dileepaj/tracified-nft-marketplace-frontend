@@ -1,0 +1,78 @@
+.main-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+  padding-top: 40px;
+  margin-bottom: 60px;
+  color: white;
+}
+
+mat-stepper {
+  background-color: transparent !important;
+  width: 100%;
+}
+
+#stepper {
+  width: 100%;
+}
+
+.mat-step-header {
+}
+
+.mat-step-label {
+  width: 0px !important;
+  margin: -30px !important;
+}
+
+.mat-step-header .mat-step-icon {
+  background: transparent;
+  border: 3px solid #ffffff;
+  color: #fff;
+  transform: scale(1.5);
+}
+
+.mat-step-header .mat-step-icon-selected {
+  background: #0baa08;
+  border: 3px solid #ffffff;
+  transform: scale(1.5);
+}
+
+.mat-step-header .mat-step-icon-state-done {
+  color: #fff;
+  background: #0baa08;
+  border: 3px solid #ffffff;
+  transform: scale(1.5);
+}
+.mat-step-header .mat-step-icon-state-edit {
+  background: #0baa08;
+  border: 3px solid #ffffff;
+  transform: scale(1.5);
+}
+
+.mat-stepper-horizontal-line {
+  border-top: 3px solid #fff !important;
+  max-width: 100px !important;
+}
+
+.mat-horizontal-stepper-container {
+  justify-content: center;
+}
+
+.mat-horizontal-stepper-header-container {
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.mat-step-header {
+  pointer-events: none !important;
+}
+
+.back-icon {
+  transform: scale(1.6);
+  vertical-align: middle;
+  margin-right: 83%;
+  position: relative;
+  top: 25px;
+  cursor: pointer;
+}

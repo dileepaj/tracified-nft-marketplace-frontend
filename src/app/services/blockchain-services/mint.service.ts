@@ -8,18 +8,18 @@ import { Issuer, Ownership ,NFT,tags, Minter,StellarTXN,Contracts} from 'src/app
   providedIn: 'root'
 })
 export class MintService {
-  baseUrlSave: string = 'http://localhost:6081/api/marketplace/save';
+  baseUrlSave: string = 'http://localhost:6081/marketplace/save';
   baseUrlSaveGW: string = 'http://localhost:9080/nft/mintcontract';
-  baseUrlOwner: string ='http://localhost:6081/api/marketplace/owner';
-  baseUrlTags:string='http://localhost:6081/api/tags/save';
-  baseUrlGet: string = 'http://localhost:6081/api/collection/save';
-  baseUrlGetIssuer = 'http://localhost:9080/nft/createNFTIssuerAccount';
+  baseUrlOwner: string ='http://localhost:6081/marketplace/owner';
+  baseUrlTags:string='http://localhost:6081/tags/save';
+  baseUrlGet: string = 'http://localhost:6081/collection/save';
+  baseUrlGetIssuer = 'http://localhost:9080/nft/issueaccount';
   baseUrlMintStellar='http://localhost:9080/nft/mintStellar';
   baseUrlMintSolana = 'http://localhost:9080/nft/mintSolana';
-  baseUrlMinter='http://localhost:9080/nft/mintSolana/getMinter';
-  baseUrlUpdate="http://localhost:6081/api/marketplace/nft";
-  baseUrlStellarUpdate="http://localhost:6081/api/marketplace/txn";
-  baseUrlGetStellarTXN='http://localhost:9080/nft/mintStellar/gettxn';
+  baseUrlMinter='http://localhost:9080/nft/minter';
+  baseUrlUpdate="http://localhost:6081/marketplace/nft";
+  baseUrlStellarUpdate="http://localhost:6081/marketplace/txn";
+  baseUrlGetStellarTXN='http://localhost:9080/nft/gettxn';
   mint:NFT
   tag:tags
   reqOpts: any;
@@ -47,14 +47,11 @@ export class MintService {
 }
 
  getMinter(ImageBase64:string,blockChain:string): Observable<Minter[]> {
-    console.log("data to be sent:"+ImageBase64+" bc name: "+blockChain)
     const response:Observable<Minter[]>=this.http.get<Minter[]>(`${this.baseUrlMinter}/${ImageBase64}/${blockChain}`, {headers: this.headers});
-    console.log("Get minter response:",response)
     return response
   }
 
   getStellarTXN(ImageBase64:string,Blockchain:string): Observable<StellarTXN[]> {
-    console.log("data sent getstellar txn : ",ImageBase64,Blockchain)
     const stellarTxnResponse = this.http.get<StellarTXN[]>(`${this.baseUrlGetStellarTXN}/${ImageBase64}/${Blockchain}`, {headers: this.headers});
     return stellarTxnResponse
   }
@@ -70,14 +67,11 @@ export class MintService {
   
   updateNFTSolana(st: Minter): Observable<Minter> {
     const updateMinterResult: Observable<Minter>= this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
-    console.log("updateMinter Result: ",updateMinterResult)
     return updateMinterResult
   }
 
   updateTXNStellar(st: StellarTXN): Observable<StellarTXN> {
-    console.log("stellar update data sent : ",st)
     const stellarTxnUpdateResponse= this.http.put<StellarTXN>(this.baseUrlStellarUpdate, st, {headers: this.headers});
-    console.log("Stellar txn update response : ",stellarTxnUpdateResponse)
     return stellarTxnUpdateResponse
   }
 
@@ -124,7 +118,6 @@ export class MintService {
         TrustLineCreatedAt: created_at,
         
       };
-      console.log("Stellar Mint",NFTModel)
       this.http
         .post(this.baseUrlMintStellar, NFTModel, this.reqOpts)
         .subscribe(
@@ -176,16 +169,13 @@ export class MintService {
         ArtistLink:artistLink,
         
       };
-      console.log("solana mint data",NFTModel)
       this.http
         .post(this.baseUrlMintSolana, NFTModel, this.reqOpts)
         .subscribe(
           (response) => {
-            console.log("Soalana mint response: ",response)
             resolve(response);
           },
           (error) => {
-            console.log("solana mint err : ",error);
             reject(error);
           }
         );

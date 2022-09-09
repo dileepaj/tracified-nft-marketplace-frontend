@@ -8,7 +8,7 @@ export class NFT{
     public  Blockchain:string,
     public  Copies:string,
     public  Categories:string,
-    public Tags:string,
+    public Tags:string[],
     public Imagebase64:string,
     public ArtistName:string,
     public ArtistProfileLink:string,
@@ -23,7 +23,9 @@ export class NFT{
     public MintedContract:string,
     public TokenType:string,
     public Status:string,
-    public NFTTxnHash:string
+    public NFTTxnHash:string,
+    public Trending:boolean,
+    public HotPicks:boolean
    
     ){}
 }
@@ -44,7 +46,7 @@ export class tags{
     constructor(
         public userId:string,
         public  NFTName:string,
-        public tags:string,
+        public tags:string[],
     ){}
 }
 
@@ -113,7 +115,7 @@ export class Contracts{
        public  Description          : string,
        public  Collection           : string,
        public  NFTBlockChain        : string,
-       public  Tags                 : string,
+       public  Tags                 : string[],
        public  Categories           : string,
        public  Copies               : string,
        public  NFTLinks             : string,
@@ -156,5 +158,13 @@ export class TXN{
         public ImageURL:string,
         public NFTTxnHash:string
         
+    ){}
+}
+
+export class Track{
+    constructor(
+        public Status:string,
+        public NFTName:string,
+        public NFTTxnHash:string
     ){}
 }

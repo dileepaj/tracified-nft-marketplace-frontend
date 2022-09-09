@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Favourites, WatchList } from 'src/app/models/marketPlaceModel';
+import { Card, Favourites, WatchList } from 'src/app/models/marketPlaceModel';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { Location } from '@angular/common';
+import { SVG } from 'src/app/models/minting';
+import { DomSanitizer } from '@angular/platform-browser';
+import { UserWallet } from 'src/app/models/userwallet';
+import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
+import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
+import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 
 @Component({
   selector: 'app-explore',
@@ -16,10 +23,21 @@ export class ExploreComponent implements OnInit {
   uptodates: any;
   defaultResult: any;
   nfts: any;
+  Decryption: any;
+ 
+  dec: string;
+  svg:SVG=new SVG('','','NA')
+  
+  imageSrc:any;
   saleNft: any;
-  favouritesModel: Favourites = new Favourites('', '');
-  watchlistModel: WatchList = new WatchList('', '');
-  selectedFilter: string = 'uptodate';
+  List:any[]=[];
+  All:any[]=[];
+  Trend:any[]=[];
+  HotPick:any[]=[];
+  Sale:any[]=[];
+  favouritesModel: Favourites = new Favourites('', '','');
+  watchlistModel: WatchList = new WatchList('', '','');
+  selectedFilter: string = 'all';
   selectedBlockchain: string = '';
 
   constructor(
@@ -27,75 +45,184 @@ export class ExploreComponent implements OnInit {
     private nft: NftServicesService,
     private router: Router,
     private route: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    private _sanitizer: DomSanitizer ,
+    private snackbarService:SnackbarServiceService
   ) {}
 
-  retrieveNfts(blockchain: string) {
+ 
+
+  async retrive(blockchain: string) {
     if (blockchain == 'stellar') {
-      this.retrive(blockchain);
+      let freighterWallet = new UserWallet();
+      freighterWallet = new FreighterComponent(freighterWallet);
+      await freighterWallet.initWallelt();
+      this.favouritesModel.User= await freighterWallet.getWalletaddress();
+     
     }
+
     if (blockchain == 'solana') {
-      this.retrive(blockchain);
+      let phantomWallet = new UserWallet();
+      phantomWallet = new PhantomComponent(phantomWallet);
+      await phantomWallet.initWallelt();
+      this.favouritesModel.User = await phantomWallet.getWalletaddress();
+     
     }
-    if (blockchain == 'ethereum') {
-      this.retrive(blockchain);
+
+    if (
+      blockchain == 'ethereum' ||
+      blockchain == 'polygon'
+    ) {
+      let metamaskwallet = new UserWallet();
+      metamaskwallet = new MetamaskComponent(metamaskwallet);
+      await metamaskwallet.initWallelt();
+      this.favouritesModel.User = await metamaskwallet.getWalletaddress();
+     
     }
-    if (blockchain == 'polygon') {
-      this.retrive(blockchain);
-    }
+
   }
 
-  retrive(blockchain: string) {
-    this.nft.getNFTByBlockchain(blockchain).subscribe((data) => {
-      console.log('NFT for  retrieved', data);
-      this.nfts = data;
-    });
-    this.api.getFavouritesByBlockchain(blockchain).subscribe((datafav) => {
-      console.log('NFT-> favourites  retrieved', datafav);
-      this.favourites = datafav;
-    });
-    this.api.getWatchListByBlockchain(blockchain).subscribe((datawl) => {
-      console.log('NFT-> watchlist  retrieved', datawl);
-      this.watchlist = datawl;
-    });
-    this.nft.getNFTOnSale('ON SALE').subscribe((sales) => {
-      console.log('NFT on sale', sales);
-      this.saleNft = sales;
-    });
+  addToFavourites(id:string) {
+    this.favouritesModel.Blockchain = this.selectedBlockchain;
+    this.favouritesModel.NFTIdentifier = id;
+    this.retrive(this.favouritesModel.Blockchain).then(res=>{
+      this.api.addToFavourites(this.favouritesModel).subscribe(res=>{
+        this.snackbarService.openSnackBar("Added to favourites")
+        this.api.getFavouritesByBlockchainAndNFTIdentifier(this.favouritesModel.Blockchain,this.favouritesModel.NFTIdentifier).subscribe(res=>{
+        });
+      })
+     
+      
+    })
+   
   }
 
-  addToFavourites(blockchain: string, Identifier: string) {
-    this.favouritesModel.Blockchain = blockchain;
-    this.favouritesModel.NFTIdentifier = Identifier;
-    this.api.addToFavourites(this.favouritesModel).subscribe();
+  addToWatchList(id:string) {
+    this.watchlistModel.Blockchain = this.selectedBlockchain;
+    this.watchlistModel.NFTIdentifier =id;
+    this.retrive(this.watchlistModel.Blockchain).then(res=>{
+      this.api.addToWatchList(this.watchlistModel).subscribe(res=>{
+        this.snackbarService.openSnackBar("Added to watchlists")
+        this.api.getWatchlistByBlockchainAndNFTIdentifier(this.watchlistModel.Blockchain,this.watchlistModel.NFTIdentifier).subscribe(res=>{
+        });
+      })
+     
+    })
+   
   }
 
-  addToWatchList(blockchain: string, Identifier: string) {
-    this.watchlistModel.Blockchain = blockchain;
-    this.watchlistModel.NFTIdentifier = Identifier;
-    this.api.addToWatchList(this.watchlistModel).subscribe();
+  routeToBuy(id:string){
+    let data :any[]=[id,this.selectedBlockchain];
+    this.router.navigate(['./buyNft'],{
+    queryParams:{data:JSON.stringify(data)}
+    })
+  }
+
+  viewNFT(){
+
   }
 
   ngOnInit(): void {
-    this.nft.getNFT().subscribe((result) => {
-      console.log(result);
-      this.defaultResult = result;
-    });
 
+    
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain'];
-      this.selectedFilter = params['filter'];
+      this.List.splice(0);
+    
+      this.nft.getNFTByBlockchain(this.selectedBlockchain).subscribe(async (data) => {
+            this.nfts = data;
+            if(this.nft==null){
+              this.ngOnInit()
+            }else{
+                this.fillCard() 
+            }
+          });
     });
   }
 
+  public fillCard(){
+    for( let x=0; x<(this.nfts.Response.length); x++){
+ this.nft.getSVGByHash(this.nfts.Response[x].imagebase64).subscribe((res:any)=>{
+      this.Decryption = res.Response.Base64ImageSVG
+    this.dec = btoa(this.Decryption);
+   var str2 = this.dec.toString(); 
+   var str1 = new String( "data:image/svg+xml;base64,"); 
+   var src = str1.concat(str2.toString());
+   this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+   let card:Card= new Card('','','');
+   card.ImageBase64=this.imageSrc
+   card.NFTIdentifier=this.nfts.Response[x].nftidentifier
+   card.NFTName=this.nfts.Response[x].nftname
+     this.List.push(card)
+    })
+  
+  }
+  }
+
+
+
+
+  public filterAndShowCard(arr:any[]){
+   
+    for(let x=0; x<(arr.length);x++){
+      this.nft.getSVGByHash(arr[x].imagebase64).subscribe((res:any)=>{
+        this.Decryption = res.Response.Base64ImageSVG
+        this.dec = btoa(this.Decryption);
+      var str2 = this.dec.toString(); 
+      var str1 = new String( "data:image/svg+xml;base64,"); 
+      var src = str1.concat(str2.toString());
+      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+     let card:Card= new Card('','','');
+    card.ImageBase64=this.imageSrc
+    card.NFTIdentifier=arr[x].nftidentifier
+    card.NFTName=arr[x].nftname
+      this.List.push(card)
+      })
+    }
+  }
+
+  
+
   public setFilter(filter: string) {
+    this.List.splice(0);
     this.selectedFilter = filter;
-    this.router.navigate(['/explore'], {
-      queryParams: { blockchain: this.selectedBlockchain, filter: filter },
+    this.nft.getNFTByBlockchain(this.selectedBlockchain).subscribe(async (data) => {
+      this.nfts = data;
+     
+        if(this.selectedFilter=="trending"){
+          for( let a=0; a<(this.nfts.Response.length); a++){
+            if(this.nfts.Response[a].trending==true){
+              this.Trend.push(this.nfts.Response[a])
+              this.filterAndShowCard(this.Trend)
+            }
+          }
+            
+        }
+        if(this.selectedFilter=="hotpicks"){
+          for( let a=0; a<(this.nfts.Response.length); a++){
+            if(this.nfts.Response[a].hotpicks==true){
+              this.HotPick.push(this.nfts.Response[a])
+              this.filterAndShowCard(this.HotPick)
+            }
+          }
+
+        }
+        if(this.selectedFilter=="onsale"){
+          this.List.splice(0);
+          for( let a=0; a<(this.nfts.Response.length); a++){
+            if(this.nfts.Response[a].sellingstatus=='ON SALE'){//chnge to ON SALE
+              this.Sale.push(this.nfts.Response[a])
+              this.filterAndShowCard(this.Sale)
+            }
+          }
+
+        }   
     });
   }
 
   public back() {
     this._location.back();
   }
+
+  
 }

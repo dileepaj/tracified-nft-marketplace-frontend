@@ -1,0 +1,107 @@
+.ep-main-div {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  padding-left: 75px;
+  padding-right: 75px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  color: white;
+}
+
+/* default and hover color */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: transparent;
+  background-color: #2d2d2d;
+  border-radius: 16px;
+}
+
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: transparent;
+  background-color: #2d2d2d;
+  border-radius: 16px;
+}
+
+.ep-input-group {
+  display: flex;
+  flex-direction: column;
+  height: 42px;
+}
+
+.form-field-div {
+  column-gap: 50px;
+  row-gap: 30px;
+}
+
+.form-field-label {
+  width: 112px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+#ep-header-title {
+  color: white;
+  font-weight: 700;
+  font-size: 24px;
+
+  padding-bottom: 10px;
+  margin-bottom: 55px;
+}
+
+#ep-header-title label {
+  max-width: 128px;
+  border-bottom: 5px solid #00c820;
+}
+
+#img-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#img-upload-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 3px dashed #10ceac;
+  width: 122px;
+  height: 122px;
+  cursor: pointer;
+}
+
+#img-placeholder {
+  width: 82px;
+  height: 82px;
+}
+
+#img {
+  max-width: 82px;
+  max-height: 82px;
+}
+
+.btn-save {
+  background: #10ceac;
+  float: right;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 20px;
+}
+
+.separator {
+  max-height: 1px;
+  background-color: #6d6d6d;
+  border: 1px solid #6d6d6d;
+  margin: 50px 0px 50px 0px;
+}
+
+.example-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { NFTMarket } from 'src/app/models/nft';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import CryptoJS from 'crypto-js';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SVG } from 'src/app/models/minting';
+import { SVG, Track } from 'src/app/models/minting';
 @Component({
   selector: 'app-view-nft-card',
   templateUrl: './view-nft-card.component.html',
@@ -13,6 +13,7 @@ import { SVG } from 'src/app/models/minting';
 export class ViewNftCardComponent implements OnInit {
   Decryption: any;
   NFTList: any;
+  List:any[]=[];
   svg: SVG = new SVG('', '', 'NA');
   nft: NFTMarket = new NFTMarket(
     '',
@@ -43,11 +44,21 @@ export class ViewNftCardComponent implements OnInit {
   );
   imageSrc: any;
   dec: string;
+  data: any;
   constructor(
     private service: NftServicesService,
     private router: Router,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private route:ActivatedRoute
   ) {}
+
+
+  createStory(){
+    let data:any[]=[this.NFTList.Identifier,this.NFTList.NftIssuingBlockchain]
+    this.router.navigate(['./createblog'], {
+      queryParams: { data: JSON.stringify(data) },
+    });
+  }
 
   sendToSellNFT(): void {
     let data: any = this.NFTList;
@@ -56,13 +67,24 @@ export class ViewNftCardComponent implements OnInit {
     });
   }
 
+  showInProfile(){
+    let data: any = this.NFTList.NftIssuingBlockchain;
+    console.log("bc ",this.NFTList.NftIssuingBlockchain)
+    this.router.navigate(['/user-dashboard'], {
+      queryParams: { blockchain: this.NFTList.NftIssuingBlockchain },
+    });
+  }
+
   ngOnInit(): void {
-    this.nft.InitialDistributorPK =
-      'GBKP3NHUQJ5KYROFOAAEUXH32RENJVIRWEGVCPUMHMSBG3P3HGYXJDUA';
+    this.route.queryParams.subscribe((params)=>{
+      this.data=JSON.parse(params['data']);
+      console.log("DATA recived: ",this.data)})
+    this.nft.InitialDistributorPK =this.data;
     if (this.nft.InitialDistributorPK != null) {
       this.service
         .getLastNFTDetails(this.nft.InitialDistributorPK)
         .subscribe((data: any) => {
+          console.log("data: ",data)
           this.NFTList = data;
           if (this.NFTList == null) {
             console.log('retrying...');
@@ -80,20 +102,30 @@ export class ViewNftCardComponent implements OnInit {
             var str1 = new String('data:image/svg+xml;base64,');
             var src = str1.concat(str2.toString());
             this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            this.service.getTXNByBlockchainandIdentifier(this.NFTList.Identifier,this.NFTList.NftIssuingBlockchain).subscribe((txn:any)=>{
+              console.log("TXNS :",txn)
+              for( let x=0; x<(txn.Response.length); x++){
+                let card:Track= new Track('','','');
+                card.NFTName=txn.Response[x].NFTName
+                card.Status=txn.Response[x].Status
+                card.NFTTxnHash=txn.Response[x].NFTTxnHash
+                this.List.push(card)
+              }
+            })
           });
 
-          if (this.NFTList.NftIssuingBlockchain == 'stellar') {
-            this.NFTList.NFTIssuerPK = this.NFTList.NFTIssuerPK;
-          }
-          if (this.NFTList.Blockchain == 'solana') {
-            this.NFTList.NFTIssuerPK = this.NFTList.MinterPK;
-          }
-          if (this.NFTList.Blockchain == 'polygon') {
-            this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-          }
-          if (this.NFTList.Blockchain == 'ethereum') {
-            this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-          }
+          // if (this.NFTList.NftIssuingBlockchain == 'stellar') {
+          //   this.NFTList.NFTIssuerPK = this.NFTList.NFTIssuerPK;
+          // }
+          // if (this.NFTList.Blockchain == 'solana') {
+          //   this.NFTList.NFTIssuerPK = this.NFTList.;
+          // }
+          // if (this.NFTList.Blockchain == 'polygon') {
+          //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
+          // }
+          // if (this.NFTList.Blockchain == 'ethereum') {
+          //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
+          // }
         });
     } else {
       console.log('User PK not connected or not endorsed');

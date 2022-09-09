@@ -1,4 +1,5 @@
 <div class="home-parent">
+  
   <div class="home-container">
     <div class="home-header">
       <div>
@@ -20,7 +21,7 @@
           fxLayoutAlign="space-between center"
         >
           <div class="hot-picks-header-title" fxFlex.lt-sm="100%">
-            Hot Picks
+            Sneak Peak into our Sales!
           </div>
           <div class="hot-picks-header-actions">
             <button class="hot-picks-header-btn">View All</button>
@@ -42,13 +43,13 @@
         <div class="hot-picks-content" id="hot-picks-content">
           <div
             class="item"
-            *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+            *ngFor="let item of List"
           >
             <div class="item-actions">
               <div class="item-actions-image-parent">
                 <img
                   class="item-actions-image"
-                  src="https://via.placeholder.com/150"
+                  [src]="item.ImageBase64"
                 />
               </div>
               <div class="item-actions-icons">
@@ -56,26 +57,30 @@
                   matTooltip="Buy"
                   src="../../../assets/images/purchase.png"
                   class="item-icon"
+                  (click)="routeToBuy(item.NFTIdentifier)"
                 />
                 <img
                   matTooltip="View"
                   src="../../../assets/images/view.png"
                   class="item-icon"
+                  (click)="viewNFT()"
                 />
                 <img
                   matTooltip="Add to bookmarks"
                   src="../../../assets/images/wishlist.png"
                   class="item-icon"
+                  (click)="addToWatchList(item.NFTIdentifier,item.Blockchain)"
                 />
                 <img
                   matTooltip="Add to favorites"
                   src="../../../assets/images/favorite.png"
                   class="item-icon"
+                  (click)="addToFavourites(item.NFTIdentifier,item.Blockchain)"
                 />
               </div>
             </div>
             <div>
-              <label class="item-name">Sake - A003</label>
+              <label class="item-name">{{ item.NFTName }}</label>
             </div>
           </div>
         </div>

@@ -198,9 +198,9 @@
   transition: 0.15s ease;
 }
 
-.txtarea-input-group:focus-within {
+/* .txtarea-input-group:focus-within {
   background: white;
-}
+} */
 
 .txtarea-input-group textarea {
   padding: 10px;
@@ -213,9 +213,29 @@
   color: white;
 }
 
+/* default and hover color */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: transparent;
+  background-color: #2d2d2d;
+  border-radius: 16px;
+}
+
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: transparent;
+  background-color: #2d2d2d;
+  border-radius: 16px;
+}
+
 .txtarea-input-group textarea:focus {
   outline: none;
-  color: black;
+  /*color: black;*/
+}
+
+.example-full-width textarea {
+  height: 175px;
 }
 
 ::placeholder {

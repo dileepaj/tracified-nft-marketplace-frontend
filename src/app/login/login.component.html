@@ -6,7 +6,7 @@
   >
     arrow_back
   </mat-icon>
-  <form id="loginForm" [formGroup]="controlGroup">
+  <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <h1 style="font-weight: 400; font-size: 60px; margin-bottom: 20px">
       Admin Login
     </h1>
@@ -16,7 +16,7 @@
         <mat-icon matPrefix class="material-symbols-outlined">
           alternate_email
         </mat-icon>
-        <input type="email" matInput formControlName="email" />
+        <input type="email" matInput name="email" formControlName="username" />
       </mat-form-field>
     </div>
     <div class="login-input-group">
@@ -24,6 +24,7 @@
       <mat-form-field appearance="outline">
         <mat-icon matPrefix> lock </mat-icon>
         <input
+          name="password"
           [type]="showPassword ? 'text' : 'password'"
           matInput
           formControlName="password"
@@ -40,9 +41,12 @@
         </button>
       </mat-form-field>
     </div>
-    <button mat-flat-button class="btn-login">LOGIN</button>
+    <button mat-flat-button type="submit" class="btn-login" [disabled]="loading">
+      <span [class.spinner]="loading"> </span>
+      Log In
+    </button>
     <a
-      href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      href="https://qa.admin.tracified.com/signup"
       style="
         font-weight: 400;
         font-size: 20px;
@@ -56,7 +60,7 @@
     <label style="font-weight: 400; font-size: 20px"
       >Forgot your credentials?
       <a
-        href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        href="https://qa.admin.tracified.com/reset-password"
         style="color: rgba(0, 200, 83, 1)"
         >Get help</a
       ></label

@@ -9,30 +9,7 @@
   <div class="collection-content">
     <form class="example-form" [formGroup]="controlGroup">
       <div>
-        <mat-form-field class="dropdown block" appearance="fill">
-          <mat-label
-            style="
-              padding-left: 5px;
-              font-family: 'Inter';
-              font-style: normal;
-              font-weight: 400;
-              font-size: medium;
-              line-height: 27px;
-              color: #000000;
-            "
-          >
-            Choose the Blockchain for your account
-          </mat-label>
-          <mat-select formControlName="blockchain">
-            <mat-option value="metamask">Ethereum</mat-option>
-            <mat-option value="metamask">Polygon</mat-option>
-            <mat-option value="freighter">Stellar</mat-option>
-            <mat-option value="phantom">Solana</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div>
-        <label>Temporary PK</label><br />
+        <label>Enter your Email</label><br />
         <mat-form-field appearance="outline" class="example-full-width">
           <input matInput formControlName="userId" />
         </mat-form-field>
@@ -73,6 +50,9 @@
       >
       <button mat-flat-button class="btn-create-col" (click)="save()">
         Create Now
+      </button>
+      <button mat-flat-button class="btn-create-col" (click)="done()">
+        Done
       </button>
     </div>
   </div>

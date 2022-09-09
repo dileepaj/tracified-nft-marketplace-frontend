@@ -1,3 +1,4 @@
+import { AuthGuard } from './guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -20,7 +21,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { MintComponent } from './nft/mint/mint.component';
 import { SellNftComponent } from './nft/sell-nft/sell-nft.component';
-import { ResetProfileComponent } from './user/reset-profile/reset-profile.component';
 import { ViewDashboardComponent } from './user/view-dashboard/view-dashboard.component';
 import { BlogViewerComponent } from './blog/blog-viewer/blog-viewer.component';
 import { RichTextEditorComponent } from './blog/rich-text-editor/rich-text-editor.component';
@@ -41,7 +41,7 @@ import { Mint3Component } from './nft/mint3/mint3.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFileUploadModule } from 'angular-material-fileupload';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -71,7 +71,19 @@ import { MatListModule } from '@angular/material/list';
 import { BrowseMarketplaceComponent } from './admin/browse-marketplace/browse-marketplace.component';
 import { EndorsementsComponent } from './admin/endorsements/endorsements.component';
 import { AddNewsletterComponent } from './admin/newsletterOp/add-newsletter/add-newsletter.component';
-
+import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
+import { OverviewComponent } from './user/overview/overview.component';
+import { ConfirmComponent } from './dialogs/confirm/confirm.component';
+import { ShowNFTComponent } from './show-nft/show-nft.component';
+import { PutOnResaleComponent } from './put-on-resale/put-on-resale.component';
+import { VerifyComponent } from './verify/verify.component';
+import { DocumentationComponent } from './marketplace/documentation/documentation.component';
+import { FaqComponent } from './marketplace/faq/faq.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { InterceptorService } from './services/loader/interceptor.service';
+import { OkmessageComponent } from './dialogs/okmessage/okmessage.component';
+import { MintNftComponent } from './nft/mint-nft/mint-nft.component';
+import { MatChipsModule } from '@angular/material/chips';
 const appRoutes: Routes = [
   {
     path: 'home',
@@ -79,7 +91,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'mint',
-    component: MintComponent,
+    component: MintNftComponent,
   },
   {
     path: 'mint2',
@@ -123,24 +135,51 @@ const appRoutes: Routes = [
     component: SignUpComponent,
   },
   {
-    path: 'admin-dashboard',
-    component: AdminDashboardComponent,
+    path: 'faq',
+    component: FaqComponent,
+  },
+  {
+    path: 'user-dashboard',
+    component: ViewDashboardComponent,
     children: [
       {
-        path: 'browse-marketplace',
+        path: 'edit-profile',
+        component: EditProfileComponent,
+      },
+      {
+        path: 'overview',
+        component: OverviewComponent,
+      },
+      {
+        path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full',
+      },
+    ],
+  },
+  {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        canActivate: [AuthGuard],
+        path: 'overview',
         component: BrowseMarketplaceComponent,
       },
       {
+        canActivate: [AuthGuard],
         path: 'endorsements',
         component: EndorsementsComponent,
       },
       {
+        canActivate: [AuthGuard],
         path: 'add-news-letter',
         component: AddNewsletterComponent,
       },
       {
         path: '',
-        redirectTo: 'browse-marketplace',
+        redirectTo: 'overview',
         pathMatch: 'full',
       },
     ],
@@ -152,6 +191,30 @@ const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'activity',
+    component: ActivityComponent,
+  },
+  {
+    path: 'blogs',
+    component: BlogViewerComponent,
+  },
+  {
+    path: 'shownft',
+    component: ShowNFTComponent,
+  },
+  {
+    path: 'nftresale',
+    component: PutOnResaleComponent,
+  },
+  {
+    path: 'verify',
+    component: VerifyComponent,
+  },
+  {
+    path: 'docs',
+    component: DocumentationComponent,
   },
 ];
 @NgModule({
@@ -174,7 +237,6 @@ const appRoutes: Routes = [
     HomeComponent,
     ExploreComponent,
     LoginComponent,
-    ResetProfileComponent,
     ViewDashboardComponent,
     BlogViewerComponent,
     RichTextEditorComponent,
@@ -201,6 +263,16 @@ const appRoutes: Routes = [
     EndorsementsComponent,
     NewsletterComponent,
     AddNewsletterComponent,
+    EditProfileComponent,
+    OverviewComponent,
+    ConfirmComponent,
+    ShowNFTComponent,
+    PutOnResaleComponent,
+    VerifyComponent,
+    DocumentationComponent,
+    FaqComponent,
+    OkmessageComponent,
+    MintNftComponent,
   ],
   imports: [
     BrowserModule,
@@ -233,14 +305,18 @@ const appRoutes: Routes = [
     HighlightModule,
     MatRadioModule,
     MatListModule,
+    MatProgressBarModule,
+    MatChipsModule,
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: {
         fullLibraryLoader: () => import('highlight.js'),
       },
     },
+    AuthGuard,
   ],
   bootstrap: [AppComponent],
 })

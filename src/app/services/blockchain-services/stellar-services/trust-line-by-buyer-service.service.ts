@@ -20,7 +20,7 @@ export class TrustLineByBuyerServiceService {
   userSignedTransaction: any;
 
   constructor() { }
-  trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string) {
+  trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string) {
     let royalty=(parseFloat(nftPrice)*(0.02)).toFixed(6).toString();
 
 
@@ -31,6 +31,10 @@ export class TrustLineByBuyerServiceService {
       } else {
         Networks.PUBLIC
       }
+
+      var buyAsset = new Asset(asset_code, asset_issuer);
+      var sellingAsset = Asset.native();
+
       const senderPublickKey = userPK;
       var asset = new Asset(asset_code, asset_issuer); //for buyer --> gateway
       var claimer ='GDHV5JPMQXAFASJS6TNRCOTGH7VPYDKLLHQ4C3VYT6ELR56CFA4XOTSC'
@@ -55,6 +59,33 @@ export class TrustLineByBuyerServiceService {
                 source: senderPublickKey,
               })
             )
+            .addOperation(
+              Operation.manageBuyOffer({
+                selling: sellingAsset,
+                buying: buyAsset,
+                buyAmount: '1',
+                price: nftPrice,
+                offerId: "0",
+              })
+            )
+            .addOperation(
+              Operation.manageData({
+                name: "Origin Issuer",
+                value: asset_issuer,
+              })
+            )
+            .addOperation(
+              Operation.manageData({
+                name: "Current Owner",
+                value: userPK,
+              })
+            )
+            .addOperation(
+              Operation.manageData({
+                name: "Previous Owner",
+                value: previousOwnerNFTPK,
+              })
+            )
             .setTimeout(60000)
             .build();
             let walletf = new UserWallet();
@@ -70,7 +101,6 @@ export class TrustLineByBuyerServiceService {
           resolve(transactionResult);
         })
         .catch((err) => {
-          console.log("Failed Trusts " + JSON.stringify(err));
           reject(err);
         });
     });

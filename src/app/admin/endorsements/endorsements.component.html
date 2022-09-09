@@ -12,17 +12,17 @@
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >Name</label
             ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >#name</label
+              >{{this.data.Name}}</label
             >
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >Email</label
             ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >#email</label
+              >{{this.data.Email}}</label
             >
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >Public Key</label
-            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >#GGHJNDHBSDJBKJBKFBJBJKFBKJF</label
+            ><label name="PKval" ngDefaultControl  [(ngModel)]='PKval' [ngModelOptions]="{standalone: true}" fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
+              >{{this.data.PublicKey}}</label
             >
           </div>
           <div
@@ -154,18 +154,30 @@
             style="display: flex; flex-direction: column; row-gap: 20px"
           >
             <label class="label-title">Type Your Review</label>
-            <div class="txtarea-input-group">
-              <textarea formControlName="description"></textarea>
-            </div>
+            <mat-form-field
+              class="example-full-width"
+              appearance="outline"
+              fxFlex="100%"
+            >
+              <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
           </div>
           <div>
             <button
               mat-flat-button
               class="btn-submit"
-              (click)="save()"
+              (click)="acceptEndorsment()"
               id="submitbtn"
             >
-              Endorse Now
+              Accept
+            </button>
+            <button
+              mat-flat-button
+              class="btn-submit"
+              (click)="declineEndorsment()"
+              id="submitbtn"
+            >
+              Decline
             </button>
           </div>
         </form>

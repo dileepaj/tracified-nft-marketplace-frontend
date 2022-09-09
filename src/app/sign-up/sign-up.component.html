@@ -7,31 +7,7 @@
   </div>
   <div class="registration-content">
     <form class="example-form" [formGroup]="controlGroup">
-      <div>
-        <mat-form-field class="dropdown block" appearance="fill">
-          <mat-label
-            style="
-              padding-left: 5px;
-              font-family: 'Inter';
-              font-style: normal;
-              font-weight: 400;
-              font-size: medium;
-              line-height: 27px;
-
-              color: #000000;
-            "
-          >
-            Choose the Blockchain for your account
-          </mat-label>
-          <mat-select formControlName="Blockchain">
-            <mat-option value="metamask">Ethereum</mat-option>
-            <mat-option value="metamask">Polygon</mat-option>
-            <mat-option value="freighter">Stellar</mat-option>
-            <mat-option value="phantom">Solana</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div>
+      <!-- <div>
         <mat-form-field class="example-full-width" appearance="outline">
           <input
             matInput
@@ -39,7 +15,7 @@
             formControlName="userId"
           />
         </mat-form-field>
-      </div>
+      </div> -->
       <div>
         <mat-form-field class="example-full-width" appearance="outline">
           <input matInput placeholder="Enter the Name" formControlName="Name" />

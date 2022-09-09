@@ -13,22 +13,16 @@
             src="../../../assets/images/default_profile.png"
           />
           <h2 style="font-size: 20px; font-weight: 500">ADMIN</h2>
-          <label style="font-size: 25px; font-weight: 700">JOHN SMITH</label>
+          <label style="font-size: 25px; font-weight: 700" name="un">john</label>
         </div>
         <mat-nav-list id="navlist">
           <mat-list-item
             class="nav-list-item"
-            [routerLink]="'browse-marketplace'"
+            [routerLink]="'overview'"
             [routerLinkActive]="'active-item'"
           >
-            <label>Browse Marketplace</label>
-          </mat-list-item>
-          <mat-list-item
-            class="nav-list-item"
-            [routerLink]="'endorsements'"
-            [routerLinkActive]="'active-item'"
-          >
-            <label>Endorsement</label>
+            <label>Overview</label>
+          
           </mat-list-item>
           <mat-list-item
             class="nav-list-item"
@@ -43,7 +37,7 @@
           style="color: #f17272; margin-top: 20px"
           matTooltip="Logout"
         >
-          <mat-icon>logout</mat-icon>
+          <mat-icon (click)="logout()">logout</mat-icon>
         </button>
       </div>
     </mat-drawer>

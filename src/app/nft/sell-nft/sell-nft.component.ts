@@ -15,6 +15,8 @@ import { ApiServicesService } from 'src/app/services/api-services/api-services.s
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { clusterApiUrl, Connection, Keypair } from '@solana/web3.js';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 
 @Component({
   selector: 'app-sell-nft',
@@ -79,7 +81,9 @@ export class SellNftComponent implements OnInit {
     private pmarket: PolygonMarketServiceService,
     private apiService: ApiServicesService,
     private _sanitizer: DomSanitizer,
-    private router: Router
+    private router: Router,
+    private dialogService:DialogService,
+    private snackbarService:SnackbarServiceService
   ) {}
 
   calculatePrice(): void {
@@ -95,7 +99,7 @@ export class SellNftComponent implements OnInit {
     this.txn.NFTIdentifier = this.data.Identifier;
     this.txn.NFTName = this.data.NftContentName;
     this.txn.NFTTxnHash = this.selltxn;
-    this.txn.Status = this.data.SellingStatus;
+    this.txn.Status ='ON SALE';
 
     this.apiService.addTXN(this.txn).subscribe();
   }
@@ -129,25 +133,35 @@ export class SellNftComponent implements OnInit {
       freighterWallet = new FreighterComponent(freighterWallet);
       await freighterWallet.initWallelt();
       let signerpK = await freighterWallet.getWalletaddress();
-      console.log('user PK: ', signerpK);
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.data.Identifier;
-      this.calculatePrice();
-      this.addDBBackend();
-      this.addDBGateway();
-      this.stellarService
-        .sellNft(
-          this.data.NftContentName,
-          this.data.InitialIssuerPK,
-          signerpK,
-          '1',
-          this.sellingPrice
-        )
-        .then((res: any) => {
-          this.selltxn = res.hash;
-          this.saveTXNs();
-        });
+      this.dialogService.confirmDialog({
+        title:"NFT Sale confirmation.",
+        message:"Are you sure you want to put this NFT on sale.",
+        confirmText:"Yes",
+        cancelText:"No"
+      }).subscribe(res=>{
+        if(res){
+          this.calculatePrice();
+          this.addDBBackend();
+          this.addDBGateway();
+          this.stellarService
+            .sellNft(
+              this.data.NftContentName,
+              this.data.InitialIssuerPK,
+              signerpK,
+              '1',
+              this.sellingPrice
+            )
+            .then((res: any) => {
+              this.selltxn = res.hash;
+              this.saveTXNs();
+              this.snackbarService.openSnackBar("NFT has successfully been put on sale")
+            });
+        }
+      })
+      
     }
     if (this.data.NftIssuingBlockchain == 'solana') {
       console.log('Solana going on sale');
@@ -157,7 +171,7 @@ export class SellNftComponent implements OnInit {
 
       if (this.data.InitialDistributorPK == this.data.OriginPK) {
         this.selltxn = this.data.NFTTxnHash;
-        this.saleBE.NFTIdentifier = this.data.InitialDistributorPK;
+        this.saleBE.NFTIdentifier = this.data.Identifier;
         this.addDBBackend();
         this.addDBGateway();
       } else {
@@ -169,77 +183,116 @@ export class SellNftComponent implements OnInit {
         let phantomWallet = new UserWallet();
         phantomWallet = new PhantomComponent(phantomWallet);
         await phantomWallet.initWallelt();
-        this.middleman
-          .createATA(
-            phantomWallet.getWalletaddress(),
-            environment.fromWalletSecret,
-            this.data.InitialIssuerPK
-          )
-          .then(async (result) => {
-            try {
-              const signedTransaction = await (
-                window as any
-              ).solana.signTransaction(result);
-
-              this.transaction = signedTransaction.serialize();
-              const signature = await connection.sendRawTransaction(
-                this.transaction
-              );
-
-              alert('successfully sold!');
-              this.selltxn = signature;
-              this.addDBBackend();
-              this.addDBGateway();
-              this.saveTXNs();
-            } catch (err) {
-              alert(err);
-            }
-          });
+        this.dialogService.confirmDialog({
+          title:"NFT Sale confirmation.",
+          message:"Are you sure you want to put this NFT on sale.",
+          confirmText:"Yes",
+          cancelText:"No"
+        }).subscribe(res=>{
+          if(res){
+            this.middleman
+            .createATA(
+              phantomWallet.getWalletaddress(),
+              environment.fromWalletSecret,
+              this.data.InitialIssuerPK
+            )
+            .then(async (result) => {
+              try {
+                const signedTransaction = await (
+                  window as any
+                ).solana.signTransaction(result);
+  
+                this.transaction = signedTransaction.serialize();
+                const signature = await connection.sendRawTransaction(
+                  this.transaction
+                );
+  
+                alert('successfully sold!');
+                this.selltxn = signature;
+                this.addDBBackend();
+                this.addDBGateway();
+                this.saveTXNs();
+                this.snackbarService.openSnackBar("NFT has successfully been put on sale")
+              } catch (err) {
+                alert(err);
+              }
+            });
+          }
+        })
+        
       }
     }
     if (this.data.NftIssuingBlockchain == 'polygon') {
       this.saleBE.MarketContract = environment.contractAddressMKPolygon;
       this.saleBE.NFTIdentifier = this.data.Identifier;
       this.tokenid = parseInt(this.data.Identifier);
-      this.calculatePrice();
-
-      this.pmarket
-        .createSaleOffer(
-          environment.contractAddressNFTPolygon,
-          this.tokenid,
-          this.sellingPrice
-        )
-        .then((res) => {
-          this.selltxn = res.transactionHash;
-          this.itemId = parseInt(res.logs[3].topics[1]);
-          this.saleBE.SellingType = this.itemId.toString();
-          this.saveTXNs();
-          this.addDBBackend();
-          this.addDBGateway();
-        });
-      //this.addDBBackend()
+      this.dialogService.confirmDialog({
+        title:"NFT Sale confirmation.",
+        message:"Are you sure you want to put this NFT on sale.",
+        confirmText:"Yes",
+        cancelText:"No"
+      }).subscribe(res=>{
+        if(res){
+          this.calculatePrice();
+          this.pmarket
+            .createSaleOffer(
+              environment.contractAddressNFTPolygon,
+              this.tokenid,
+              this.sellingPrice
+            )
+            .then((res) => {
+              this.selltxn = res.transactionHash;
+              this.itemId = parseInt(res.logs[3].topics[1]);
+              this.saleBE.SellingType = this.itemId.toString();
+              this.saveTXNs();
+              this.addDBBackend();
+              this.addDBGateway();
+              this.snackbarService.openSnackBar("NFT has successfully been put on sale")
+            });
+          //this.addDBBackend()
+        }
+      })
+      
     }
     if (this.data.NftIssuingBlockchain == 'ethereum') {
       this.saleBE.MarketContract = environment.contractAddressMKEthereum;
       this.saleBE.NFTIdentifier = this.data.Identifier;
       this.tokenid = parseInt(this.data.Identifier);
-      this.calculatePrice();
-
-      this.emarket
-        .createSaleOffer(
-          environment.contractAddressNFTEthereum,
-          this.tokenid,
-          this.sellingPrice
-        )
-        .then((res) => {
-          this.selltxn = res.transactionHash;
-          this.itemId = parseInt(res.logs[2].topics[1]);
-          this.saleBE.SellingType = this.itemId.toString();
-          this.saveTXNs();
-          this.addDBBackend();
-          this.addDBGateway();
-        });
+      console.log("STARTING ETH SELL")
+      this.dialogService.confirmDialog({
+        title:"NFT Sale confirmation.",
+        message:"Are you sure you want to put this NFT on sale.",
+        confirmText:"Yes",
+        cancelText:"No"
+      }).subscribe(res=>{
+        if(res){
+          this.calculatePrice();
+          this.emarket
+            .createSaleOffer(
+              environment.contractAddressNFTEthereum,
+              this.tokenid,
+              this.sellingPrice
+            )
+            .then((res) => {
+              this.selltxn = res.transactionHash;
+              this.itemId = parseInt(res.logs[2].topics[1]);
+              this.saleBE.SellingType = this.itemId.toString();
+              this.saveTXNs();
+              this.addDBBackend();
+              this.addDBGateway();
+              this.snackbarService.openSnackBar("NFT has successfully been put on sale")
+            });
+        }
+      })
+      
     }
+  }
+
+  showInProfile(){
+    let data: any = this.data.NftIssuingBlockchain;
+    this.router.navigate(['/user-dashboard'], {
+      queryParams: { blockchain: this.data.NftIssuingBlockchain },
+    });
   }
 
   ngOnInit(): void {

@@ -7,8 +7,8 @@ import { Collection } from 'src/app/models/collection';
   providedIn: 'root'
 })
 export class CollectionService {
-  baseUrlSave: string = 'http://localhost:6081/api/collection/save';
-  baseUrlGet: string = 'http://localhost:6081/api/collection/userpk';
+  baseUrlSave: string = 'http://localhost:6081/collection/save';
+  baseUrlGet: string = 'http://localhost:6081/collection/userpk';
 
 
   readonly headers = new HttpHeaders()

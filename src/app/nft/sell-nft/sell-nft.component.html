@@ -40,7 +40,7 @@
       fxFlex.xs="80%"
     >
       <img [src]="imageSrc" *ngIf="imageSrc" class="b-nft-img" />
-      <div class="nft-name"><label>TOMATOE - T0001</label></div>
+      <div class="nft-name"><label>{{data.NftContentName}}</label></div>
     </div>
     <div
       fxFlex.lg="55%"
@@ -110,16 +110,8 @@
         </div>
       </div>
       <div style="margin-top: 20px">
-        <button
-          mat-flat-button
-          style="
-            background: #625353;
-            border-radius: 10px;
-            color: white;
-            margin-bottom: 10px;
-          "
-        >
-          Browse Transaction History
+        <button mat-flat-button class="btn-create-col" (click)="showInProfile()">
+          Done
         </button>
         <br />
         <a href="#" class="link" style="color: white">View On Stellar.Expert</a>

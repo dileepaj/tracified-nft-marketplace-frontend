@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { Route } from '@angular/router';
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
@@ -8,9 +8,15 @@ import { Router } from '@angular/router';
 })
 export class AdminDashboardComponent implements OnInit {
   opened: boolean = true;
-  constructor(private router: Router) {}
+  //route : ActivatedRoute
+  data : any
+  constructor(private router: Router,private route : ActivatedRoute) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.data = JSON.parse(params['data']);
+     })
+  }
 
   public toggleSidenav() {
     this.opened = !this.opened;
@@ -19,4 +25,8 @@ export class AdminDashboardComponent implements OnInit {
   public currentRoute(): string {
     return this.router.url;
   }
+  public logout(){
+    this.router.navigate(['/login'])
+  }
 }
+ 

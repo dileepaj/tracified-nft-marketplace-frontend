@@ -60,3 +60,24 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #888;
 }
+
+.normal-text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  /* identical to box height */
+
+  color: #ffffff;
+}
+
+p.normal-text {
+  line-height: 33px;
+  text-align: center;
+}
+
+.input {
+  caret-color: #fff;
+  font-size: 18px;
+  margin-top: -4px;
+}

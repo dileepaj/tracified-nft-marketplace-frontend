@@ -20,6 +20,19 @@
     <div class="filters">
       <div
         class="filter"
+        [class.active-filter]="selectedFilter === 'all'"
+        (click)="setFilter('all')"
+        matRipple
+      >
+        <img
+          class="filter-icon"
+          [class.filter-icon-active]="selectedFilter === 'all'"
+          src="../../../assets/images/up_to_date.png"
+        />
+        All
+      </div>
+      <div
+        class="filter"
         [class.active-filter]="selectedFilter === 'uptodate'"
         (click)="setFilter('uptodate')"
         matRipple
@@ -87,30 +100,35 @@
     <div class="explore-content" fxLayout="row wrap">
       <div
         class="nft-item"
-        *ngFor="let item of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]"
+        *ngFor="let item of List"
       >
-        <img class="nft-img" src="https://via.placeholder.com/295x160" />
-        <div class="nft-title">HAZELNUT - A000{{ item + 1 }}</div>
+       <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
+        <img class="nft-img" [src]="item.ImageBase64" />
+        <div class="nft-title" >{{ item.NFTName }}</div>
         <div class="nft-actions">
           <img
             class="nft-action-btn"
             src="../../../assets/images/purchase.png"
             matTooltip="Buy NFT"
+            (click)="routeToBuy(item.NFTIdentifier)"
           />
           <img
             class="nft-action-btn"
             src="../../../assets/images/view.png"
             matTooltip="View NFT"
+            (click)="viewNFT()"
           />
           <img
             class="nft-action-btn"
             src="../../../assets/images/wishlist.png"
-            matTooltip="Add to bookmarks"
+            matTooltip="Add to watchlist"
+            (click)="addToWatchList(item.NFTIdentifier)"
           />
           <img
             class="nft-action-btn"
             src="../../../assets/images/favorite.png"
             matTooltip="Add to favorites"
+            (click)="addToFavourites(item.NFTIdentifier)"
           />
         </div>
       </div>

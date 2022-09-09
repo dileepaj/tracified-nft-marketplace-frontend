@@ -40,9 +40,7 @@ export class PhantomComponent extends walletOptions implements OnInit {
     try {
         const resp = await (window as any).solana.connect();
         this.walletAddress= resp.publicKey.toString()
-        console.log("pk:",this.walletAddress)
     } catch (err) {
-        console.log("cant get address :",err)
     }
   }
   override getWalletaddress(): string {
@@ -54,26 +52,7 @@ export class PhantomComponent extends walletOptions implements OnInit {
   }
 
   public override async signTransactionPhantom(userPK:string,tracifiedAta:string) :Promise<void> {
-  //   const { connection } = useConnection();
-  //   const { publicKey, sendTransaction } = useWallet();
-  //   const transaction = new Transaction()
-  //   .add(
-  //     TokenProgram.getOrCreateAssociatedTokenAccount({
-  //         fromPubkey: new PublicKey(userPK),
-  //         toPubkey: new PublicKey(tracifiedAta),
-  //         lamports: 1,
-  //     })
-  // )
-  //   .add(
-  //     SystemProgram.transfer({
-  //         fromPubkey: new PublicKey(userPK),
-  //         toPubkey: new PublicKey(tracifiedAta),
-  //         lamports: 1,
-  //     })
-  // );
-
-  //   const signature = await sendTransaction(transaction, connection);
-
+  
   }
   
 

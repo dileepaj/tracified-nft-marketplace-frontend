@@ -1,269 +1,343 @@
-.main-div {
-  height: 100vh;
+.step-main-div {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  margin-top: 60px;
 }
 
-.card2 {
-  width: 700px;
-  height: 300px;
-  margin-top: 10%;
-  margin-left: 23%;
-}
-
-.mint2Button {
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  float: right;
-  margin: 0px 40px 0px 40px;
-  margin-top: 1%;
-  background-color: #10ceac;
-  border: 1px solid #10ceac;
-  color: black;
-  font-style: normal;
-  font-weight: 500;
-  font-size: medium;
-  border-radius: 20px;
-  padding: 10px 40px 10px 40px;
-  cursor: pointer;
-}
-
-.mint2 {
-  display: grid;
-  margin: auto;
-  width: 90%;
-  margin-top: 5%;
-}
-
-.info {
-  width: 600px;
-}
-
-.traits {
-  margin: 0 20px 0;
-}
-
-.blockchain {
-  margin: 0 20px 0;
-}
-
-.mint2w {
-  margin-left: 25%;
-}
-
-.issue {
-  background-color: green;
-  color: white;
-  height: 40px;
-  width: 20px;
+.mat-input-element::placeholder {
+  user-select: none;
+  transition: color 400ms 133.3333333333ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .heading {
-  margin-top: 4%;
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 60px;
-  line-height: 73px;
-  /* identical to box height */
-  text-align: center;
-  color: #ffffff;
-}
-
-.subheading {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 27px;
-  /* identical to box height */
+  font-size: 40px;
+  line-height: 48px;
   text-align: center;
   color: #ffffff;
 }
 
 .seperator {
-  margin-top: 4%;
-  width: 1450px;
-  height: 0px;
-  left: 80px;
-  top: 421px;
-  border: 1px solid #ffffff;
-  align-items: center;
-  margin-bottom: 4%;
-}
-
-.step-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0px 20px 0px;
-}
-
-.step-content {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  column-gap: 50px;
-}
-
-.nft-card {
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-  padding: 20px;
-  align-items: center;
-  height: 370px;
-  width: 300px;
-  border: 3px solid #10ceac;
-  border-radius: 20px;
-  overflow: auto;
-}
-
-.nft-card-text {
-  font-style: normal;
-  font-weight: 400;
-  font-size: medium;
-  line-height: medium;
-  color: #ffffff;
-}
-
-.nft-card-title {
-  text-align: left;
-  color: #10ceac;
-}
-
-.nft-image {
-  width: 100%;
-  height: 200px;
-  border-radius: 20px;
-}
-
-.blockchain-logo {
-  background: white;
-  border-radius: 5px;
-  padding: 5px;
-  margin-right: 10px;
-  width: 15px;
-  height: 15px;
-  vertical-align: middle;
-}
-
-.mat-expansion-panel-header-title {
-  color: white;
-  font-weight: 400;
-  font-size: medium;
-}
-
-.mat-expansion-panel-header-title,
-.mat-expansion-panel-header-description {
-  flex-basis: 1 1;
-}
-
-.mat-expansion-panel-header-description {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  color: #ffffff;
-}
-
-.mat-expansion-panel-header.mat-expanded,
-.mat-expansion-panel-header.mat-expanded:hover {
-  background: #2d2d2d !important;
-  height: 50px !important;
-}
-
-.panel {
-  color: #ffffff;
-  margin-bottom: 35px;
-  background: transparent;
-  box-shadow: none;
-}
-.panel-header {
-  background: #2d2d2d;
-  border-radius: 20px;
-  height: 50px !important;
-}
-
-.panel-header:hover {
-  background: #2d2d2d !important;
-}
-
-.blockchain-list {
-  margin: 10px 0px 10px 0px;
-  display: flex;
-  flex-direction: column;
-  row-gap: 15px;
-}
-
-.lable-text {
-  float: inline-end;
-  font-weight: 400;
-  font-size: medium;
-  color: #ffffff;
+  width: 90%;
+  background-color: #595959;
+  border: 1px solid #595959;
+  margin-top: 50px;
+  margin-bottom: 60px;
 }
 
 /* default and hover color */
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: #10ceac;
-  border-radius: 30px 30px 30px 30px !important;
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  height: 58px;
 }
 
 /* focused color */
 ::ng-deep
   .mat-form-field-appearance-outline.mat-focused
   .mat-form-field-outline-thick {
-  color: #10ceac;
-  border-radius: 30px 30px 30px 30px !important;
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  height: 58px;
 }
 
-/* floating label color */
-::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
-  color: #10ceac;
-  border-radius: 30px 30px 30px 30px !important;
+.input {
+  caret-color: #fff;
+  font-size: 18px;
+  margin-top: -4px;
 }
 
-::ng-deep .mat-radio-button.mat-accent {
-  font-size: medium;
+.textarea {
+  caret-color: #fff;
+  font-size: 18px;
+  margin-top: -4px;
 }
 
-::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
-  background-color: #10ceac;
-}
-
-::ng-deep .mat-radio-button.mat-accent .mat-radio-outer-circle {
-  border-color: #10ceac;
-}
-
+/* default and hover color */
 ::ng-deep
-  .mat-radio-button.mat-accent.mat-radio-checked
-  .mat-radio-outer-circle {
-  border-color: #10ceac;
+  .mat-form-field-appearance-outline.example-chip-list
+  .mat-form-field-outline {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  min-height: 100px;
 }
 
-::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
-  background-color: #10ceac;
-}
-
-::ng-deep .mat-checkbox.mat-accent {
-  color: white !important;
-  font-size: medium;
-}
-
-::ng-deep .mat-checkbox-frame {
-  border-color: #10ceac;
-}
-
+/* focused color */
 ::ng-deep
-  .mat-checkbox-checked.mat-accent
-  .mat-checkbox-ripple
-  .mat-ripple-element {
-  background-color: #10ceac !important;
+  .mat-form-field-appearance-outline.example-chip-list.mat-focused
+  .mat-form-field-outline-thick {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  min-height: 100px;
 }
 
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
-.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
-  background-color: #10ceac;
+.hint {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: rgba(132, 132, 132, 1);
+}
+
+#mintingForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  row-gap: 48px;
+  /* background-color: #8484846b; */
+}
+
+.mint-form-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  row-gap: 7px;
+  width: 620px;
+}
+
+::placeholder {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+
+  color: #848484;
+}
+
+.required {
+  color: rgba(215, 85, 85, 1);
+}
+
+.dnd-outer-div {
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+
+  color: #10ceac;
+  row-gap: 14px;
+}
+
+.dnd-area {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 614px;
+  height: 306px;
+  border: 3px dashed #10ceac;
+}
+
+.composer {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 8px;
+  width: 271px;
+  height: 40px;
+
+  background: #ffffff;
+  border-radius: 10px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+
+  color: #000000;
+}
+
+.composer mat-icon {
+  transform: scale(0.6);
+}
+
+.mint-form-group textarea {
+  height: 120px;
+  resize: none;
+}
+
+/* default and hover color */
+::ng-deep
+  .mat-form-field-appearance-outline.description
+  .mat-form-field-outline {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  height: 160px;
+}
+
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.description.mat-focused
+  .mat-form-field-outline-thick {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  height: 160px;
+}
+
+::ng-deep mat-form-field span.mat-form-field-label-wrapper label {
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 16px;
+  margin-top: -7px !important;
+  color: #848484 !important;
+  transition: none !important;
+}
+/* ::ng-deep mat-form-field.mat-focused span.mat-form-field-label-wrapper label {
+  color: transparent !important;
+} */
+
+::ng-deep .mat-select-panel {
+  background-color: #2d2d2d !important;
+  color: tra !important;
+  font-size: 16px !important;
+  height: fit-content !important;
+}
+
+::ng-deep .mat-option {
+  color: red;
+}
+
+.add-btn {
+  position: absolute;
+  top: 40px;
+  left: 635px;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.myPanelClass {
+  margin-top: 30px !important;
+}
+
+.bc-dropdown {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #fff;
+  font-size: 18px;
+  column-gap: 10px;
+}
+
+.bc-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #fff;
+  font-size: 18px;
+  column-gap: 10px;
+}
+
+.bc-dropdown-selected {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #fff;
+  font-size: 18px;
+  column-gap: 10px;
+}
+
+.collection-dropdown {
+  color: #fff;
+  font-size: 18px;
+}
+
+.collection-dropdown-selected {
+  color: #fff;
+  font-size: 18px;
+}
+
+.bc-dropdown img {
+  width: 30px;
+  height: 30px;
+}
+
+.bc-dropdown-selected img {
+  width: 30px;
+  height: 30px;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+}
+
+.margin {
+  margin-top: 55px;
+}
+
+.btn-create {
+  width: 146px;
+  height: 35px;
+  background: #10ceac;
+  border-radius: 20px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  border: none;
+
+  color: #000000;
+}
+
+.select-bc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 40px;
+  position: absolute;
+  top: 0;
+}
+
+::ng-deep .mat-select-arrow {
+  margin-top: 10px !important;
+  vertical-align: middle !important;
+  color: #fff !important;
+}
+
+#img {
+  width: 608px;
+  height: 300px;
+  z-index: 1000;
+}
+
+.img-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 608px;
+  height: 300px;
+}
+
+.code-behind-btn{
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  background-color: #FFFFFF;
 }

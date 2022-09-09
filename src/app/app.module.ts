@@ -84,6 +84,7 @@ import { InterceptorService } from './services/loader/interceptor.service';
 import { OkmessageComponent } from './dialogs/okmessage/okmessage.component';
 import { MintNftComponent } from './nft/mint-nft/mint-nft.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { FooterComponent } from './shared/footer/footer.component';
 const appRoutes: Routes = [
   {
     path: 'home',
@@ -273,6 +274,7 @@ const appRoutes: Routes = [
     FaqComponent,
     OkmessageComponent,
     MintNftComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

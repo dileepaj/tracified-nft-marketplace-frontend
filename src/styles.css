@@ -81,3 +81,15 @@ p.normal-text {
   font-size: 18px;
   margin-top: -4px;
 }
+
+.footer-normal-text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+
+  color: #ffffff;
+}

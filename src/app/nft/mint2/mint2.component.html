@@ -1,87 +1,288 @@
-<mat-card class="card2">
-<mat-accordion class="mint2">
-  <form [formGroup]="controlGroup">
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-       Select your Blockchain
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    
-<table >
-  <tr>
-   
-        <span formControlName="Blockchain" ngDefaultControl>
-      <td>  <mat-checkbox class="blockchain" value="ethereum">Ethereum</mat-checkbox></td>
-      <td>  <mat-checkbox class="blockchain" value="polygon" >Polygon</mat-checkbox></td>
-       <td> <mat-checkbox class="blockchain" value="stellar">Stellar</mat-checkbox></td>
-       <td> <mat-checkbox class="blockchain" value="solana">Solana</mat-checkbox></td>
-      </span>
-   
-  </tr>
-    </table>
- 
-  </mat-expansion-panel>
-  <mat-expansion-panel >
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        NFT Features
-      </mat-panel-title>
-      
-    </mat-expansion-panel-header>
-    
-    <table>
-      <tr>
-        <mat-form-field>
-        <input matInput type="text" formControlName="Copies" placeholder="Amount">
-        </mat-form-field>
-      </tr>
-      <tr>
-        <span formControlName="Categories" ngDefaultControl>
-        <td>  <mat-checkbox class="traits" value="LE">Limited Edition</mat-checkbox></td>
-        <td>  <mat-checkbox class="traits"value="U" >Unique</mat-checkbox></td>
-         <td> <mat-checkbox class="traits" value="NA" >N/A</mat-checkbox></td>
-        </span>
-      </tr>
-        </table>
+<div class="step-main-div">
+  <p class="heading">Create a new NFT</p>
+  <div class="seperator"></div>
+  <form id="mintingForm" [formGroup]="controlGroup">
+    <div class="dnd-outer-div" ngStyle.lt-md="width:100%">
+      <label
+        class="hint"
+        style="margin-bottom: 10px"
+        fxHide.lt-sm="false"
+        fxHide.sm="true"
+        fxHide.gt-sm="true"
+        ><span class="required">*</span>Required fields</label
+      >
+      <div fxLayoutAlign="space-between center">
+        <label class="normal-text" style="margin-bottom: 10px"
+          >Upload SVG<span class="required">*</span></label
+        >
+        <label
+          class="hint"
+          style="margin-bottom: 10px"
+          fxHide.lt-sm="true"
+          fxHide.sm="false"
+          fxHide.gt-sm="false"
+          ><span class="required">*</span>Required fields</label
+        >
+      </div>
+      <label>Drag and Drop or Browse</label>
+      <div
+        class="dnd-area"
+        ngStyle.lt-md="width: calc(100% - 6px)"
+        matTooltip="Upload Image"
+        (click)="triggerClick()"
+      >
+        <div class="img-div" *ngIf="!imageSrc">
+          <img
+            src="../../../assets/images/img-upload.png"
+            style="width: 133px; height: 138px"
+            *ngIf="!imageSrc"
+          />
+        </div>
 
-  </mat-expansion-panel>
-  <mat-expansion-panel >
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        NFT Details
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-     
-    <table>
-      <tr>
-        <mat-form-field class="info">
-          <input matInput type="text"   formControlName="Tags" placeholder="Tags">
-        </mat-form-field>
-      </tr>
-      <tr>
-        <mat-form-field class="info">
-          <input matInput type="text"   formControlName="NftContentURL" placeholder="NFT Profile Link">
-        </mat-form-field>
-      </tr>
-      <tr>
-        <mat-form-field class="info">
-          <input matInput type="text"   formControlName="ArtistName" placeholder="Artist Name">
-        </mat-form-field>
-      </tr>
-      <tr>
-        <mat-form-field class="info">
-          <input matInput type="text"   formControlName="ArtistProfileLink" placeholder="Artist Profile Link">
-        </mat-form-field>
-      </tr>
-    
-        </table>
-  
-  </mat-expansion-panel>
-</form>
-</mat-accordion>
-<mat-card-actions>
-  <button mat-button  class="mint2Button" color="primary" (click)="getIssuer()">Proceed</button>
-</mat-card-actions><br>
-<h3 class="mint2w">You are almost done! Proceed to mint your token</h3>
-</mat-card>
+        <img [src]="imageSrc" *ngIf="imageSrc" id="img" />
+
+        <input
+          type="file"
+          accept="image/*"
+          #fileUpload
+          (change)="onChange($event)"
+          hidden
+        />
+      </div>
+      <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
+        <img src="../../../assets/icons/code-icon.png" style="flex-basis: 40%" />
+      </button>
+      <label>or Create SVG with Tracified</label>
+      <div
+        class="composer"
+        matRipple
+        ngStyle.lt-sm="width:100%"
+        href="https://qa.nftcomposer.tracified.com/"
+      >
+        Tracified Composer
+        <mat-icon class="material-symbols-outlined"> open_in_new </mat-icon>
+      </div>
+    </div>
+    <div class="mint-form-group" ngStyle.lt-md="width:100%">
+      <label class="normal-text">Name <span class="required">*</span><h6>Maximum characters 12</h6></label>
+      <mat-form-field appearance="outline">
+        <input
+          type="text"
+          class="input"
+          matInput
+          name="name"
+          formControlName="NFTName"
+          placeholder="Enter a name for your NFT."
+        />
+      </mat-form-field>
+    </div>
+    <div class="mint-form-group" ngStyle.lt-md="width:100%">
+      <label class="normal-text"
+        >Description<span class="required">*</span></label
+      >
+      <mat-form-field appearance="outline" class="description">
+        <textarea
+          class="textarea"
+          matInput
+          formControlName="Description"
+          maxlength="80"
+          placeholder="Provide a detailed description of your NFT."
+        ></textarea>
+      </mat-form-field>
+    </div>
+    <div
+      class="mint-form-group"
+      ngStyle.lt-md="width:100%; margin-bottom: 35px"
+    >
+      <label class="normal-text"
+        >Collection<span class="required">*</span></label
+      >
+      <mat-form-field appearance="outline">
+        <mat-select formControlName="Collection" class="select-bc">
+          <mat-select-trigger>
+            <label class="collection-dropdown-selected">{{
+              controlGroup.controls["Collection"].value
+            }}</label>
+          </mat-select-trigger>
+          <mat-option *ngFor="let collection of CollectionList"
+          [value]="collection.CollectionName"
+            ><label class="collection-dropdown">{{ collection.CollectionName }}</label></mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <img
+        ngStyle.lt-md="position: absolute;
+        top: 100px;
+        left: 0px;
+        width: 35px;
+        height: 35px;"
+        src="../../../assets/images/add.png"
+        class="add-btn"
+        matRipple
+        matTooltip="Create collection"
+      />
+    </div>
+    <div
+      class="mint-form-group"
+      style="margin-top: 15px"
+      ngStyle.lt-md="width:100%"
+    >
+      <label class="normal-text"
+        >Choose your Blockchain<span class="required">*</span></label
+      >
+      <mat-form-field appearance="outline">
+        <mat-select
+          formControlName="Blockchain"
+          disableOptionCentering
+          class="select-bc"
+        >
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Blockchain'].value === 'ethereum'"
+          >
+            <div class="bc-dropdown-selected">
+              <img src="../../../assets/images/ethereum-dd.png" />
+              <label>Ethereum</label>
+            </div>
+          </mat-select-trigger>
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Blockchain'].value === 'polygon'"
+          >
+            <div class="bc-dropdown-selected">
+              <img src="../../../assets/images/polygon-dd.png" />
+              <label>Polygon</label>
+            </div>
+          </mat-select-trigger>
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Blockchain'].value === 'stellar'"
+          >
+            <div class="bc-dropdown-selected">
+              <img src="../../../assets/images/stellar-dd.png" />
+              <label>Stellar</label>
+            </div>
+          </mat-select-trigger>
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Blockchain'].value === 'solana'"
+          >
+            <div class="bc-dropdown-selected">
+              <img src="../../../assets/images/solana-dd.png" />
+              <label>Solana</label>
+            </div>
+          </mat-select-trigger>
+
+          <!--options-->
+          <mat-option class="option" value="ethereum">
+            <div class="bc-dropdown">
+              <img src="../../../assets/images/ethereum-dd.png" />
+              <label>Ethereum</label>
+            </div>
+          </mat-option>
+          <mat-option class="option" value="polygon">
+            <div class="bc-dropdown">
+              <img src="../../../assets/images/polygon-dd.png" />
+              <label>Polygon</label>
+            </div>
+          </mat-option>
+          <mat-option class="option" value="stellar">
+            <div class="bc-dropdown">
+              <img src="../../../assets/images/stellar-dd.png" />
+              <label>Stellar</label>
+            </div>
+          </mat-option>
+          <mat-option class="option" value="solana">
+            <div class="bc-dropdown">
+              <img src="../../../assets/images/solana-dd.png" />
+              <label>Solana</label>
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div
+      class="mint-form-group"
+      style="margin-top: 15px"
+      ngStyle.lt-md="width:100%"
+    >
+      <label class="normal-text">Tags: </label><h6>Maximum tags allowed is 4</h6>
+      <mat-form-field class="example-chip-list" appearance="outline">
+        <mat-chip-list
+          #chipList
+          style="position: absolute; top: 15px; left: 10px; right: 10px"
+        >
+          <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">
+            {{ tag }}
+            <button matChipRemove>
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            placeholder="Type here..."
+            #tagsInput
+            class="input"
+            maxlength="10"
+            [formControl]="tagCtrl"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </div>
+    <div class="mint-form-group margin" ngStyle.lt-md="width:100%">
+      <label class="normal-text">Code Profile Link: </label>
+      <mat-form-field appearance="outline">
+        <input
+          type="text"
+          class="input"
+          matInput
+          name="codeforprofile"
+          formControlName="NftContentURL"
+          placeholder="https://"
+        />
+      </mat-form-field>
+    </div>
+    <div class="mint-form-group" ngStyle.lt-md="width:100%">
+      <label class="normal-text">Creator Name:</label>
+      <mat-form-field appearance="outline">
+        <input
+          type="text"
+          class="input"
+          matInput
+          name="creatorname"
+          formControlName="ArtistName"
+          placeholder="Enter name of the creator."
+        />
+      </mat-form-field>
+    </div>
+    <div class="mint-form-group" ngStyle.lt-md="width:100%">
+      <label class="normal-text">Creator Profile Link:</label>
+      <mat-form-field appearance="outline">
+        <input
+          type="text"
+          class="input"
+          matInput
+          name="profilelink"
+          formControlName="ArtistProfileLink"
+          placeholder="Enter profile URL of the creator."
+        />
+      </mat-form-field>
+    </div>
+    <!-- <div class="mint-form-group" ngStyle.lt-md="width:100%">
+      <label class="normal-text">Issuer:</label>
+      <mat-form-field appearance="outline">
+        <input
+          type="text"
+          class="input"
+          matInput
+          name="issuer"
+          formControlName="Issuer"
+          placeholder="Enter issuer."
+        />
+      </mat-form-field>
+    </div> -->
+    <div class="mint-form-group" ngStyle.lt-md="width:100%">
+      <button mat-flat-button class="btn-create" (click)="getIssuer()">
+        Create
+      </button>
+    </div>
+  </form>
+</div>

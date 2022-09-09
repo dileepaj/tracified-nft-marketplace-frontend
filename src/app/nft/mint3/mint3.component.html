@@ -1,18 +1,19 @@
-<p>mint3 works!</p>
-<div class="main-div">
+<head>
+  <meta http-equiv="refresh" content="15;url=http://localhost:4200/user-dashboard/overview?blockchain={{this.data}}" />
+</head>
+<div class="mint3-container">
+  <img src="../../../assets/images/confirm.png" /><br />
+  <p class="heading">Your NFT has been created.</p>
 
-    <mat-card class="example-card">
-      <mat-card-header>
-        <div class="box-header">
-        </div>
-      </mat-card-header>
-      <mat-card-content class="mint">
-        <table>
-          <tr>
-           
-          </tr>
-        </table>      
-      </mat-card-content>
-     
-    </mat-card>
-  
+  <div class="seperator"></div>
+  <div class="mint3-content">
+    <p class="normal-text">
+      You will be redirected to your profile in
+      <span style="color: rgba(11, 170, 8, 1)">15 seconds.</span>
+    </p>
+    <br />
+    <button mat-flat-button class="btn-mint" (click)="openDialog()">
+      Mint again
+    </button>
+  </div>
+</div>

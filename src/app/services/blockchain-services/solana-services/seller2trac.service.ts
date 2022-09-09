@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
-import { clusterApiUrl, Connection, Keypair, LAMPORTS_PER_SOL ,PublicKey} from  "@solana/web3.js";
-import { createMint, getOrCreateAssociatedTokenAccount, mintTo, setAuthority, transfer } from  "@solana/spl-token";
-import { environment } from 'src/environments/environment';
 
+
+
+import { Injectable } from '@angular/core';
+import { clusterApiUrl, Connection, Keypair ,PublicKey, Transaction} from  "@solana/web3.js";
+import { createTransferCheckedInstruction, getAssociatedTokenAddress } from  "@solana/spl-token";
 
 @Injectable({
   providedIn: 'root'
@@ -10,48 +11,47 @@ import { environment } from 'src/environments/environment';
 export class Seller2tracService {
   
   constructor() { }
-
+  toTokenAccount;
+  signers
   async createATA(
-    from:Uint8Array,
+    from:string, //* User PK
     to:Uint8Array,
     mintPubkey: PublicKey,
-    ata:PublicKey): Promise<any>{
-  
-    (async () => {
+    ): Promise<Transaction>{
+    return (async () => {
       // Connect to cluster
       const connection = new Connection(clusterApiUrl("testnet"), "confirmed");
+     
+      let toKeypair = Keypair.fromSecretKey(to);
     
-      // Generate a new wallet keypair and airdrop SOL
-      let toKeypair  = Keypair.fromSecretKey(to);
-    
-      
-      // Get the token account of the fromWallet Solana address. If it does not exist, create it.
-      const toTokenAccount = await getOrCreateAssociatedTokenAccount(
-        connection,
-        toKeypair,
+      const atafrom = await getAssociatedTokenAddress(
+        new PublicKey(mintPubkey),
+        new PublicKey(from)
+      )
+
+      const atato = await getAssociatedTokenAddress(
         new PublicKey(mintPubkey),
         toKeypair.publicKey
-      );
-     
-       let fromKeypair  = Keypair.fromSecretKey(from);
-   
-     let signature = await transfer(
-        connection,
-        fromKeypair,               // Payer of the transaction fees 
-        new PublicKey(ata), // Source account 
-        toTokenAccount.address,   // Destination account 
-        fromKeypair,     // Owner of the source account 
-        1                         // Number of tokens to transfer 
-      );
+      )
+
+      const tx = new Transaction()
+            tx.add(
+              createTransferCheckedInstruction(
+                new PublicKey(atafrom),
+                new PublicKey(mintPubkey),
+                new PublicKey(atato),
+                new PublicKey(from),
+                1,
+                0, // decimals
+                []
+              ),
+            )
+      
+       tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
     
-      console.log("SIGNATURE", signature);
-      let array=[toTokenAccount.address.toString(),signature]
-      return array
+       tx.feePayer = new PublicKey(from);
+  
+      return tx;
     })();
   }
 }
-
-
-
-
-

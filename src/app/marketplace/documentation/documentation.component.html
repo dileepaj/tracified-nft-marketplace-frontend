@@ -1,0 +1,103 @@
+<div class="doc-parent">
+  <div class="doc-container">
+    <div class="nft-view-header" fxFlex="100%">
+      <div
+        style="
+          width: 80%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        "
+      >
+        <div class="breadcrumb-div">
+          <a [routerLink]="'/getNft'" class="breadcrumb-link">Resources</a>
+          <mat-icon
+            class="material-symbols-outlined"
+            style="vertical-align: middle"
+          >
+            navigate_next
+          </mat-icon>
+          <a style="color: #00c853">Documentation</a>
+        </div>
+      </div>
+    </div>
+    <div class="doc-content">
+      <div class="doc-content-header">Documentation</div>
+      <div class="separator"></div>
+      <div class="doc-content-body" fxLayout="row wrap">
+        <div
+          class="doc-sidebar-cont"
+          fxFlex.xl="30%"
+          fxFlex.lg="30%"
+          fxFlex.md="40%"
+          fxFlex.sm="100%"
+          fxFlex.xs="100%"
+          fxLayout="row"
+        >
+          <div class="doc-sidebar">
+            <h2>Topics</h2>
+            <div>
+              <mat-expansion-panel
+                class="doc-panel"
+                #selectbc
+                hideToggle="true"
+                *ngFor="let data of [1, 2, 3, 4]"
+              >
+                <mat-expansion-panel-header class="doc-panel-header">
+                  <mat-panel-title>
+                    Lorem ipsum dolor sit amet
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <mat-icon
+                      class="cursor"
+                      *ngIf="!selectbc.expanded"
+                      matRipple
+                      >arrow_right</mat-icon
+                    >
+                    <mat-icon class="cursor" *ngIf="selectbc.expanded" matRipple
+                      >arrow_drop_down</mat-icon
+                    >
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+              </mat-expansion-panel>
+            </div>
+          </div>
+        </div>
+        <div
+          class="doc-cont"
+          fxFlex.xl="60%"
+          fxFlex.lg="60%"
+          fxFlex.md="50%"
+          fxFlex.sm="100%"
+          fxFlex.xs="100%"
+        >
+          <h1 class="doc-topic">Lorem ipsum dolor sit amet</h1>
+
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed
+            tortor at massa hendrerit suscipit. Phasellus justo justo, ultrices
+            a vehicula vel, pellentesque nec odio. Orci varius natoque penatibus
+            et magnis dis parturient montes, nascetur ridiculus mus. Etiam eget
+            justo at enim egestas consequat. In mattis suscipit dui vitae
+            dignissim. Morbi tempus ante aliquet mauris volutpat, at lacinia sem
+            efficitur. Pellentesque tristique id metus non tristique. Donec
+            viverra purus quis porttitor venenatis.
+          </p>
+          <p>
+            Integer posuere quam sed erat convallis volutpat. Integer dapibus
+            urna est, id dapibus orci congue id. Quisque pretium enim ipsum, non
+            lobortis tellus ultrices sit amet. Fusce et nisi et lectus finibus
+            pharetra. Suspendisse faucibus metus vitae tempus tincidunt. Aliquam
+            erat volutpat. Donec in est non tellus rhoncus pretium. Integer
+            pharetra enim vitae tortor molestie pharetra. Donec euismod turpis
+            sed sapien luctus, quis malesuada elit rutrum. Donec nec dignissim
+            lectus. Nulla nec ligula nulla. Vivamus tristique aliquam cursus.
+            Duis justo neque, cursus ut lacus sit amet, dapibus pretium dui.
+            Nullam quis consequat elit, quis semper tortor. Nunc pellentesque
+            lacus sed mi semper, eget scelerisque nibh consequat.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

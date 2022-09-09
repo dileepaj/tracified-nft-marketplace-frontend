@@ -1,3 +1,5 @@
+import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
+import { UserWallet } from './../../../models/userwallet';
 import { Injectable } from '@angular/core';
 import { ethers } from "ethers";
 import { environment } from 'src/environments/environment';
@@ -22,7 +24,7 @@ export class EthereumMarketServiceService {
   }
 
 
-  private static async getContract(bySigner=false) {
+  public static async getContract(bySigner=false) {
    
     const provider = await EthereumMarketServiceService.getWebProvider()
     const signer = provider.getSigner()
@@ -36,28 +38,19 @@ export class EthereumMarketServiceService {
 
   
   public async createSaleOffer(nftcontract: string,tokenId:number,price:number): Promise<any> {
-    const contract = await EthereumMarketServiceService.getContract(true)
-    const transaction = await contract['sellNFT'](
-      nftcontract,
-      tokenId,
-      price,
-      {value: ethers.utils.parseEther('1')
-      }
-    )
-    const tx = await transaction.wait()
+  
+    let metmaskWallet = new UserWallet();
+    metmaskWallet = new MetamaskComponent(metmaskWallet);
+    const tx = metmaskWallet.createSaleOffer('ethereum',nftcontract, tokenId, price,'1')
     return tx
+
   }
 
   public async BuyNFT(nftcontract: string,itemId:number,price:number): Promise<any> {
-    const contract = await EthereumMarketServiceService.getContract(true)
-    const val =price.toString()
-    const transaction = await contract['createMarketSale'](
-      nftcontract,
-      itemId,
-      {value: ethers.utils.parseEther('1'),
-     }
-    )
-    const tx = await transaction.wait()
+    
+    let metmaskWallet = new UserWallet();
+    metmaskWallet = new MetamaskComponent(metmaskWallet);
+    const tx = metmaskWallet.buynft('ethereum',nftcontract, itemId, price,'1')
     return tx
   }
 

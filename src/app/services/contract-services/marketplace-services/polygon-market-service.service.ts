@@ -1,3 +1,5 @@
+import { MetamaskComponent } from './../../../wallet/metamask/metamask.component';
+import { UserWallet } from 'src/app/models/userwallet';
 import { Injectable } from '@angular/core';
 import { ethers } from "ethers";
 import { environment } from 'src/environments/environment';
@@ -22,7 +24,7 @@ export class PolygonMarketServiceService {
   }
 
 
-  private static async getContract(bySigner=false) {
+  public static async getContract(bySigner=false) {
    
     const provider = await PolygonMarketServiceService.getWebProvider()
     const signer = provider.getSigner()
@@ -37,28 +39,17 @@ export class PolygonMarketServiceService {
 
   
   public async createSaleOffer(nftcontract: string,tokenId:number,price:number): Promise<any> {
-    const contract = await PolygonMarketServiceService.getContract(true)
-    
-    const transaction = await contract['createMarketItem'](
-      nftcontract,
-      tokenId,
-      price,
-      {value: ethers.utils.parseEther('0.25')}
-    )
-    const tx = await transaction.wait()
-    return tx
+    let metamaskWallet = new UserWallet();
+    metamaskWallet = new MetamaskComponent(metamaskWallet);
+    const tx=metamaskWallet.createSaleOffer('polygon', nftcontract, tokenId, price, '0.25');
+    return tx;
   }
 
   public async BuyNFT(nftContract: string,itemId:number,price:number): Promise<any> {
-    const contract = await PolygonMarketServiceService.getContract(true)
-    const transaction = await contract['createMarketSale'](
-      nftContract,
-      itemId,
-     {value: ethers.utils.parseEther(price.toString())
-     }
-    )
-    const tx = await transaction.wait()
-    return tx
+    let metamaskWallet = new UserWallet();
+    metamaskWallet = new MetamaskComponent(metamaskWallet);
+    const tx=metamaskWallet.buynft('polygon', nftContract, itemId, price, '0.25');
+    return tx;
   }
 
 

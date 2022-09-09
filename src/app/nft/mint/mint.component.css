@@ -1,61 +1,131 @@
-.main-div{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
+.step-main-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+}
 
-  }
+.mat-input-element::placeholder {
+  user-select: none;
+  transition: color 400ms 133.3333333333ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
 
-  .example-full-width {
-    height: 250%;
-    width: 400px;
-    margin-top: 3%;
-    margin-left: 25%;
-  }
+.heading {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 48px;
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 60px;
+}
 
-  
+.seperator {
+  width: 90%;
+  background-color: #595959;
+  border: 1px solid #595959;
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
 
-  .mint1Button{
-      height:40px;
-      width: 15%;
-      align-items: center;
-      justify-content: center;
-      display: flex;
-      margin-left: 700px;
-      margin-top: 10px;
-      background-color: green;
-      color: white;
-      border-radius: 5%;
-      position: relative;
-      
-  }
+/* default and hover color */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  height: 58px;
+}
 
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  height: 58px;
+}
 
-  .example-card{
-    width: 700px;
-    height: 300px;
-  }
+#mintEmail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  row-gap: 22px;
+}
 
- .composer{
-     width:200px;
-     height:250px;
-     margin-left: 1px;
-     align-items: center;
-    justify-content: center;
-      display: flex;
-      margin-top: -50%;
-      background-color:gray;
-      align-content: center;
-   
- }
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  row-gap: 15px;
+  width: 600px;
+}
 
- .upload-drop-zone{
-   margin-left: 150px;
- }
+.wallets {
+  display: flex;
+  flex-direction: column;
+  row-gap: 3px;
+  margin-top: 60px;
+}
 
- .link{
-   font-size:xx-small;
- }
+.wallet-first-item {
+  border-radius: 10px 10px 0px 0px;
+}
 
- 
+.wallet-last-item {
+  border-radius: 0px 0px 10px 10px;
+}
+
+.wallet {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 15px;
+  width: 522px;
+  height: 53px;
+  background: #2d2d2d;
+}
+
+.wallet-inner-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 15px;
+  width: 148px;
+}
+
+.wallet label {
+  cursor: pointer;
+}
+
+.wallet-logo {
+  vertical-align: middle;
+  height: 25px;
+  width: 25px;
+}
+
+::placeholder {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+
+  color: #848484;
+}
+
+.center {
+  text-align: center;
+}
+
+.input {
+  caret-color: #fff;
+  font-size: 18px;
+  margin-top: -4px;
+}

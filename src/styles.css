@@ -1,15 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~highlight.js/styles/github.css";
 body {
   background: radial-gradient(
-      107.46% 107.46% at 92.81% 151.49%,
-      #138b45 19.79%,
-      rgba(0, 0, 0, 0) 100%
-    ),
+        107.46% 107.46% at 92.81% 151.49%,
+        #44795a 19.79%,
+        rgba(0, 0, 0, 0) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
     radial-gradient(
-      74.55% 188.74% at -19.17% 100%,
-      #138b45 19.79%,
-      rgba(0, 0, 0, 0) 100%
-    ),
+        74.55% 188.74% at -19.17% 100%,
+        #44795a 19.79%,
+        rgba(0, 0, 0, 0) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
     #000000;
   background-attachment: fixed;
 }
@@ -56,4 +59,37 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #888;
+}
+
+.normal-text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  /* identical to box height */
+
+  color: #ffffff;
+}
+
+p.normal-text {
+  line-height: 33px;
+  text-align: center;
+}
+
+.input {
+  caret-color: #fff;
+  font-size: 18px;
+  margin-top: -4px;
+}
+
+.footer-normal-text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+
+  color: #ffffff;
 }

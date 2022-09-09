@@ -1,0 +1,91 @@
+#news-main-div {
+  padding: 40px;
+}
+
+#img-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#details-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#img-upload-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 3px dashed #10ceac;
+  width: 250px;
+  height: 250px;
+  cursor: pointer;
+}
+
+.example-form {
+  row-gap: 40px;
+}
+
+.example-full-width textarea {
+  height: 175px;
+}
+
+/* default and hover color */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: transparent;
+  background-color: #2d2d2d;
+  border-radius: 16px;
+}
+
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: transparent;
+  background-color: #2d2d2d;
+  border-radius: 16px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  column-gap: 20px;
+}
+
+.form-label {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+#hl {
+  border-bottom: 1px solid #6d6d6d;
+}
+
+.btn-post {
+  background: #10ceac;
+  color: black;
+  font-size: medium;
+  border-radius: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 153.52%;
+}
+
+#img {
+  max-width: 250px;
+  max-height: 250px;
+}

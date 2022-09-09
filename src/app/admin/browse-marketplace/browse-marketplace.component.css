@@ -1,0 +1,161 @@
+#inbox-outer-div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#inbox-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 165px;
+  width: 100%;
+  background-color: transparent;
+}
+
+#inbox-content {
+  background-color: #232323;
+  height: calc(100vh - 226px);
+  overflow-y: auto;
+}
+
+#inbox-cont-1 {
+  padding-top: 40px;
+  border-right: 1px solid #6d6d6d;
+  overflow-y: auto;
+}
+
+#inbox-cont-2 {
+  padding-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+#inbox-list {
+}
+
+.header-cont {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-cont label {
+  margin-left: 20px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.inbox-list-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.inbox-list-item:hover {
+  background-color: #6d6d6d;
+}
+
+.active-inbx-itm {
+  background-color: #6d6d6d;
+}
+
+.notification-card {
+  width: 288px;
+  padding-bottom: 40px;
+  margin-bottom: 40px;
+}
+
+.endorsements {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 40px;
+}
+
+.chats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 40px;
+}
+
+.noti-title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+
+  color: #ffffff;
+}
+
+.chat-topic {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+
+  color: #ffffff;
+}
+
+.btn-view {
+  background: #10ceac;
+  color: black;
+  font-size: medium;
+  border-radius: 20px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 153.52%;
+  width: 100px;
+}
+
+.separator {
+  border-bottom: 1px solid #6d6d6d;
+}
+
+.reply-input-group {
+  width: 100%;
+  background: rgba(98, 83, 83, 0.5);
+
+  border-radius: 20px;
+  margin: 0px 38px 0px 38px;
+  transition: 0.15s ease;
+}
+
+.reply-input-group:focus-within {
+  background: white;
+}
+
+.reply-input-group input[type="text"] {
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 14px;
+  float: right;
+  width: 95%;
+  height: 36px;
+  background: transparent;
+  border: none;
+  color: #fff;
+}
+
+.reply-input-group input[type="text"]:focus {
+  outline: none;
+  color: black;
+}
+
+::placeholder {
+  color: #fff;
+  opacity: 1;
+}

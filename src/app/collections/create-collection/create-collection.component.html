@@ -1,43 +1,59 @@
-<p>create-collection works!</p>
 <div class="main-div">
-
-    <mat-card class="example-card">
-      <mat-card-header>
-       Create a Collection Now!
-      </mat-card-header>
-      <mat-card-content>
-          
-        <form class="example-form" [formGroup]="controlGroup">
-           
-          <table class="example-full-width" cellspacing="0">
-            <tr>
-              <td>
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Temporary PK" formControlName="userId" >
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Name of Collection" formControlName="collectionName" >
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <mat-form-field class="example-full-width">
-                <input matInput placeholder="Name of Organization" formControlName="organizationName" >
-                </mat-form-field>
-              </td>
-            </tr>
-        </table>
-        </form>
-       
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button (click)="save()">Create Now!</button>
-      </mat-card-actions>
-<p>Your collection for {{selectVal}} has been created!</p>
-    </mat-card>
+  <div class="collection-header">
+    <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
+      >arrow_back</mat-icon
+    >
+    <h1 style="font-size: 40px">Create Collection</h1>
+    <h3 style="font-size: 22px">Create a collection for your NFTs.</h3>
   </div>
+  <div class="collection-content">
+    <form class="example-form" [formGroup]="controlGroup">
+      <div>
+        <label>Enter your Email</label><br />
+        <mat-form-field appearance="outline" class="example-full-width">
+          <input matInput formControlName="userId" />
+        </mat-form-field>
+      </div>
+      <div>
+        <label>Name of Collection</label><br />
+        <mat-form-field appearance="outline" class="example-full-width">
+          <input matInput formControlName="collectionName" />
+        </mat-form-field>
+      </div>
+      <div>
+        <label>Name of Organization</label><br />
+        <mat-form-field appearance="outline" class="example-full-width">
+          <input matInput formControlName="organizationName" />
+        </mat-form-field>
+      </div>
+    </form>
+    <div
+      style="
+        width: 600px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+      "
+    >
+      <mat-icon
+        style="
+          float: right;
+          margin-right: 10px;
+          color: #d94d4d;
+          cursor: pointer;
+          transform: scaleX(-1);
+        "
+        matTooltip="Reset"
+        (click)="resetValues()"
+        >refresh</mat-icon
+      >
+      <button mat-flat-button class="btn-create-col" (click)="save()">
+        Create Now
+      </button>
+      <button mat-flat-button class="btn-create-col" (click)="done()">
+        Done
+      </button>
+    </div>
+  </div>
+</div>

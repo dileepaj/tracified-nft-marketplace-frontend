@@ -1,1 +1,69 @@
-<p>login works!</p>
+<div class="main-div">
+  <mat-icon
+    class="material-symbols-outlined back-icon"
+    (click)="back()"
+    matRipple
+  >
+    arrow_back
+  </mat-icon>
+  <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h1 style="font-weight: 400; font-size: 60px; margin-bottom: 20px">
+      Admin Login
+    </h1>
+    <div class="login-input-group">
+      <label>Email Address</label>
+      <mat-form-field appearance="outline">
+        <mat-icon matPrefix class="material-symbols-outlined">
+          alternate_email
+        </mat-icon>
+        <input type="email" matInput name="email" formControlName="username" />
+      </mat-form-field>
+    </div>
+    <div class="login-input-group">
+      <label>Password</label>
+      <mat-form-field appearance="outline">
+        <mat-icon matPrefix> lock </mat-icon>
+        <input
+          name="password"
+          [type]="showPassword ? 'text' : 'password'"
+          matInput
+          formControlName="password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="togglePwdVisibility()"
+          [matTooltip]="showPassword ? 'Hide Password' : 'Show Password'"
+        >
+          <mat-icon class="material-symbols-outlined" style="color: whitesmoke">
+            {{ !showPassword ? "visibility_off" : "visibility" }}
+          </mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <button mat-flat-button type="submit" class="btn-login" [disabled]="loading">
+      <span [class.spinner]="loading"> </span>
+      Log In
+    </button>
+    <a
+      href="https://qa.admin.tracified.com/signup"
+      style="
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 29px;
+        color: #fff;
+        text-align: center;
+        text-decoration-line: underline;
+      "
+      >Don't have an account?</a
+    >
+    <label style="font-weight: 400; font-size: 20px"
+      >Forgot your credentials?
+      <a
+        href="https://qa.admin.tracified.com/reset-password"
+        style="color: rgba(0, 200, 83, 1)"
+        >Get help</a
+      ></label
+    >
+  </form>
+</div>

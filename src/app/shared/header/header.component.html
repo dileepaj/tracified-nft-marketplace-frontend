@@ -54,11 +54,34 @@
       <a
         class="navbar-text"
         mat-button
-        [routerLink]="'/create-account'"
-        [routerLinkActive]="['active-link']"
+        [matMenuTriggerFor]="menu"
+        [class.active-link]="checkPath() === '/explore'"
       >
         Explore
       </a>
+      <mat-menu #menu="matMenu" class="explore-menu">
+        <button mat-menu-item (click)="goToExplore('ethereum')">
+          <img
+            class="bc-icon"
+            src="../../../assets/images/ethereum.png"
+          />Ethereum
+        </button>
+        <button mat-menu-item (click)="goToExplore('polygon')">
+          <img
+            class="bc-icon"
+            src="../../../assets/images/polygon.png"
+          />Polygon
+        </button>
+        <button mat-menu-item (click)="goToExplore('stellar')">
+          <img
+            class="bc-icon"
+            src="../../../assets/images/stellar_black.png"
+          />Stellar
+        </button>
+        <button mat-menu-item (click)="goToExplore('solana')">
+          <img class="bc-icon" src="../../../assets/images/solana.png" />Solana
+        </button>
+      </mat-menu>
       <a
         class="navbar-text"
         mat-button
@@ -109,20 +132,42 @@
         aria-label="User"
         disableRipple
       >
-        <mat-icon class="material-symbols-outlined"> account_circle </mat-icon>
         <mat-icon
           class="material-symbols-outlined"
-          [matMenuTriggerFor]="menu"
+          (click)="goToOverview('ethereum')"
+        >
+          account_circle
+        </mat-icon>
+        <mat-icon
+          class="material-symbols-outlined"
+          [matMenuTriggerFor]="accmenu"
           matRipple
         >
           arrow_drop_down
         </mat-icon>
       </button>
 
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-          <mat-icon>dialpad</mat-icon>
-          <span>Sample text</span>
+      <mat-menu #accmenu="matMenu" class="explore-menu">
+        <button mat-menu-item (click)="goToOverview('ethereum')">
+          <img
+            class="bc-icon"
+            src="../../../assets/images/ethereum.png"
+          />Ethereum
+        </button>
+        <button mat-menu-item (click)="goToOverview('polygon')">
+          <img
+            class="bc-icon"
+            src="../../../assets/images/polygon.png"
+          />Polygon
+        </button>
+        <button mat-menu-item (click)="goToOverview('stellar')">
+          <img
+            class="bc-icon"
+            src="../../../assets/images/stellar_black.png"
+          />Stellar
+        </button>
+        <button mat-menu-item (click)="goToOverview('solana')">
+          <img class="bc-icon" src="../../../assets/images/solana.png" />Solana
         </button>
       </mat-menu>
     </div>
@@ -166,7 +211,7 @@
       <a
         class="navbar-text"
         mat-button
-        [routerLink]="'/create-account'"
+        [routerLink]="'/explore'"
         [routerLinkActive]="['active-link']"
       >
         Explore
@@ -186,7 +231,7 @@
       <a
         class="navbar-text"
         mat-button
-        [routerLink]="'/mint'"
+        [routerLink]="'/verify'"
         [routerLinkActive]="['active-link']"
       >
         Create
@@ -215,3 +260,6 @@
     </div>
   </mat-drawer-content>
 </mat-drawer-container>
+<!-- <div *ngIf="loaderService.isLoading | async" class="load-container">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div> -->

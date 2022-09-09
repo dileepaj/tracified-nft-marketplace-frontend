@@ -1,0 +1,23 @@
+<div class="main-div">
+    <div class="collection-header">
+      <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
+        >arrow_back</mat-icon
+      >
+      <h1 style="font-size: 40px">Start Minting</h1>
+    </div>
+    <div class="collection-content">
+      <form class="example-form" [formGroup]="controlGroup">
+        <div>
+          <label>Enter your Email</label><br />
+          <mat-form-field appearance="outline" class="example-full-width">
+            <input matInput formControlName="userId" placeholder="{{user}}"/>
+          </mat-form-field>
+        </div>
+        <button mat-flat-button class="btn-create-col" (click)="save()">
+          Start Minting Now
+        </button>
+    </form>
+    </div>
+    </div>
+
+  

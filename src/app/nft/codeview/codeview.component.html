@@ -1,0 +1,24 @@
+<h2>SVG Code
+    <button style="float: inline-end;" mat-icon-button mat-dialog-close>
+        <mat-icon style="color: red;">close</mat-icon>
+    </button>
+</h2>
+<mat-dialog-content >
+    <div class="modal-content">
+        <mat-tab-group>
+            <mat-tab label="Code">
+                <div class="content-div">
+                    <pre><code data-ln-start-from="1" [highlight]="code"></code></pre>
+                </div>
+            </mat-tab>
+            <mat-tab label="SVG">
+                <div class="content-div">
+                    <img [src]="image" *ngIf="image"  style="height:10000px; width: 5000px;padding:3px"/>
+                </div>
+              
+               
+            </mat-tab>
+        
+    </mat-tab-group>
+    </div>
+</mat-dialog-content>

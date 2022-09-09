@@ -6,9 +6,9 @@ export class NFT{
     public NFTName:string,
     public Description:string,
     public  Blockchain:string,
-    public  Copies:number,
+    public  Copies:string,
     public  Categories:string,
-    public Tags:string,
+    public Tags:string[],
     public Imagebase64:string,
     public ArtistName:string,
     public ArtistProfileLink:string,
@@ -23,7 +23,9 @@ export class NFT{
     public MintedContract:string,
     public TokenType:string,
     public Status:string,
-    public NFTTxnHash:string
+    public NFTTxnHash:string,
+    public Trending:boolean,
+    public HotPicks:boolean
    
     ){}
 }
@@ -35,6 +37,8 @@ export class Mint2{
     public Collection:string,
     public NFTName:string,
     public Description:string,
+    public imgObjectID:string,
+    public svg:SVG,
    ){}
  }
 
@@ -42,7 +46,7 @@ export class tags{
     constructor(
         public userId:string,
         public  NFTName:string,
-        public tags:string,
+        public tags:string[],
     ){}
 }
 
@@ -58,7 +62,8 @@ export class Minter{
         public NFTIssuerPK:string,
         public ImageBase64:string,
         public NFTIdentifier: string,
-        public NFTTxnHash:string
+        public NFTTxnHash:string,
+        public Blockchain:string,
     ){}
 }
 
@@ -94,7 +99,8 @@ export class StellarTXN{
     constructor(
        
         public ImageBase64:string,
-        public NFTTxnHash:string
+        public NFTTxnHash:string,
+        public Blockchain:string
     ){}
 }
 
@@ -109,9 +115,9 @@ export class Contracts{
        public  Description          : string,
        public  Collection           : string,
        public  NFTBlockChain        : string,
-       public  Tags                 : string,
+       public  Tags                 : string[],
        public  Categories           : string,
-       public  Copies               : number,
+       public  Copies               : string,
        public  NFTLinks             : string,
        public  ArtistName           : string,
        public  ArtistLink           : string,
@@ -129,9 +135,16 @@ export interface Image {
 
   export class SVG{
     constructor(
-       
         public Hash:string,
-        public Base64ImageSVG:string
+        public Base64ImageSVG:string,
+        public blockchain:string="NA",
+    ){}
+}
+
+export class UpdateSVG{
+    constructor(
+        public blockchain:string="NA",
+        public Id:string
     ){}
 }
 
@@ -145,5 +158,13 @@ export class TXN{
         public ImageURL:string,
         public NFTTxnHash:string
         
+    ){}
+}
+
+export class Track{
+    constructor(
+        public Status:string,
+        public NFTName:string,
+        public NFTTxnHash:string
     ){}
 }

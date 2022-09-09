@@ -1,84 +1,64 @@
-<head> 
-  <script src="jquery.js"></script> 
-  <script> 
-  $(function(){
-    $("#Content").load("nft-card.component.html"); 
-  });
-</script> 
-</head> 
-<div class="main-div">
-
-    <mat-card class="example-card">
-      <mat-card-header>
-        <div id="Content"></div>
-      </mat-card-header>
-      <mat-card-content>
-          
-        <form class="example-form" [formGroup]="controlGroupMint">
-           
-          <table class="example-full-width" cellspacing="0">
-            <tr>
-              <td>
-                <mat-form-field class="example-full-width">
-                  <mat-label>Choose Collection</mat-label>
-                  <mat-select formControlName="Collection" >
-                    <mat-option *ngFor="let collection of CollectionList" [value]="collection.CollectionName" >
-                      {{ collection.CollectionName }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <mat-form-field class="example-full-width">
-                <input matInput placeholder="NFT Name"   formControlName="NFTName">
-                </mat-form-field>
-              </td>
-            </tr>
-            <tr>
-            <td><mat-form-field class="example-full-width">
-              <textarea matInput placeholder="Description" type="desc" formControlName="Description" ></textarea>
-            </mat-form-field></td>
-          </tr>
-          <tr>
-            <div class="form-group">
-              <label for="file">File</label>
-              <input formControlName="file" id="file" type="file" accept="image/*,video/*,audio/*,.glb,.gltf,.svg" class="form-control"
-              (change)="onFileChange($event)">
-            </div>
-            <img [src]="imageSrc" *ngIf="imageSrc" style="height: 310px; width: 250px; margin-bottom: -50px; margin-left: 50px;">
-          </tr>
-         
-        </table>
-        
-        </form>
-       
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button  class="mint1Button" color="primary" (click)="sendToMint2()">Proceed</button>
-      </mat-card-actions>
-      <mat-accordion class="mint2">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-             See NFT Image Content
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          
-      <table >
-        <tr>
-         
-              <span  ngDefaultControl>
-                <td><mat-label >
-                  {{Encoded}} 
-                 </mat-label></td>
-            </span>
-         
-        </tr>
-          </table>
-       
-        </mat-expansion-panel>
-      </mat-accordion>
-    </mat-card>
+<div class="step-main-div">
+  <p class="heading">Get Started!</p>
+  <form id="mintEmail" [formGroup]="controlGroupMint">
+    <label class="normal-text center"
+      >Enter your email adddress to get started</label
+    >
+    <div class="input-group" ngStyle.lt-md="width:100%">
+      <mat-form-field appearance="outline">
+        <input
+          type="email"
+          class="input"
+          matInput
+          name="Email"
+          [(ngModel)]="email"
+          formControlName="Email"
+          placeholder="jane@example.com"
+        />
+      </mat-form-field>
+    </div>
+  </form>
+  <div class="seperator"></div>
+  <p class="normal-text">
+    Choose your preferred wallet. <br />If you don't have a wallet yet, you can
+    select a provider and create one now.
+  </p>
+  <div class="wallets" ngStyle.lt-md="width:80%">
+    <div
+      class="wallet wallet-first-item"
+      (click)="selectWallet('metamask')"
+      ngStyle.lt-md="width:100%"
+    >
+      <div class="wallet-inner-div">
+        <img
+          src="../../../assets/images/metamask.png"
+          class="wallet-logo"
+        /><label class="normal-text">Metamask</label>
+      </div>
+    </div>
+    <div
+      class="wallet"
+      (click)="selectWallet('freighter')"
+      ngStyle.lt-md="width:100%"
+    >
+      <div class="wallet-inner-div">
+        <img
+          src="../../../assets/images/freighter.png"
+          class="wallet-logo"
+        /><label class="normal-text">Freighter</label>
+      </div>
+    </div>
+    <div
+      class="wallet wallet-last-item"
+      (click)="selectWallet('phantom')"
+      ngStyle.lt-md="width:100%"
+    >
+      <div class="wallet-inner-div">
+        <img
+          src="../../../assets/images/phantom.png"
+          class="wallet-logo"
+        /><label class="normal-text">Phantom</label>
+      </div>
+    </div>
   </div>
+</div>

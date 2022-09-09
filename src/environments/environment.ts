@@ -8,19 +8,9 @@ export const environment = {
   contractAddressMKPolygon:"0xE5e991238830f884A9487e558AcB4B3a15B0067E",
   contractAddressNFTEthereum:"0xD1eCC3A4861021B8515A962F22aCa55067CB37C2",
   contractAddressMKEthereum:"0xdEcf2B82E134Da9615bD47D51204D80204690DD1",
-  TRACIFIED_MIDDLE_MAN : new Uint8Array([
-    223, 119, 171,   5, 237, 138,  42, 140, 176, 163,  74,
-    107,  25, 143,  90,  97, 250, 158, 203, 102, 238,  19,
-    77, 228, 211, 238, 147, 149,  40,  50, 211, 155,  51,
-    207,  14,  53,  86, 230, 164,  27,  14, 202,  78, 181,
-    185, 250,  16,  52, 134, 242,  96,  16,  12,  67,   2,
-    178, 106, 241, 156, 212,  11, 150, 114,  72]),
 
     fromWalletSecret : new Uint8Array([
-      10, 75, 10, 90, 145, 78, 142, 248, 104, 3, 36, 7, 69, 207, 109, 98, 82, 58, 146, 202, 44, 188, 70, 70, 64, 173, 35, 130, 18, 133, 107, 236, 231, 43, 70, 165, 182, 191, 162, 242, 126, 119, 49, 3, 231, 43, 249, 47, 228, 225, 70, 91, 254, 22, 160, 42, 20, 186, 184, 196, 240, 151, 157, 207]),
-
-      seller : new Uint8Array([
-        10, 75, 10, 90, 145, 78, 142, 248, 104, 3, 36, 7, 69, 207, 109, 98, 82, 58, 146, 202, 44, 188, 70, 70, 64, 173, 35, 130, 18, 133, 107, 236, 231, 43, 70, 165, 182, 191, 162, 242, 126, 119, 49, 3, 231, 43, 249, 47, 228, 225, 70, 91, 254, 22, 160, 42, 20, 186, 184, 196, 240, 151, 157, 207])
+      196, 114, 86, 165, 59, 177, 63, 87, 43, 10, 176, 101, 225, 42, 129, 158, 167, 43, 81, 214, 254, 28, 196, 158, 159, 64, 55, 123, 48, 211, 78, 166, 127, 96, 107, 250, 152, 133, 208, 224, 73, 251, 113, 151, 128, 139, 86, 80, 101, 70, 138, 50, 141, 153, 218, 110, 56, 39, 122, 181, 120, 55, 86, 185]),
 
 };
 export const ENV: any = {
@@ -34,7 +24,15 @@ export const ENV: any = {
   NETWORK_TYPE: 'live'
 };
  
-
+export const adminENV={
+  production: false,
+  name: 'qa',
+  backendUrl: 'https://qa.api.tracified.com',
+  adminUrl: 'https://qa.admin.api.tracified.com',
+  composerBackend: 'https://qa.api.nft.tracified.com',
+  gateway: 'https://qa.gateway.tracified.com',
+  domain: 'localhost',
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

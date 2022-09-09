@@ -1,0 +1,92 @@
+<div class="ep-main-div" fxLayout="row wrap">
+  <div id="ep-header-title" fxFlex="100%"><label>Edit Profile of {{EndorseList.Name}}</label></div>
+  <form
+    [formGroup]="controlGroupProfile"
+    class="example-form"
+    fxFlex.lg="50%"
+    fxFlex.lt-lg="100%"
+    fxLayout="row wrap"
+  >
+    <div class="form-field-div" fxLayout="row wrap" fxFlex="100%">
+      <label class="form-field-label" fxFlex.lg="30%" fxFlex.lt-lg="98%"
+        >Change Profile Picture</label
+      >
+      <div
+        id="img-section"
+        (click)="triggerClick()"
+        fxFlex.lg="50%"
+        fxFlex.lt-lg="98%"
+      >
+        <div id="img-upload-area" matTooltip="Upload Image" matRipple>
+          <img
+            src="../../../../assets/images/img-upload.png"
+            id="img-placeholder"
+            *ngIf="base64 === ''"
+          />
+          <img [src]="base64" *ngIf="base64 !== ''" id="img" />
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onChange($event)"
+            #fileUpload
+            hidden
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="form-field-div"
+      style="align-items: center"
+      fxLayout="row wrap"
+      fxFlex="100%"
+    >
+      <label class="form-field-label" fxFlex.lg="30%" fxFlex.lt-lg="98%"
+        >Edit Name</label
+      >
+      <div class="ep-input-group" fxFlex.lg="58%" fxFlex.lt-lg="98%">
+        <mat-form-field appearance="outline">
+          <input type="text" matInput formControlName="name" placeholder="{{EndorseList.Name}}" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div
+    class="form-field-div"
+    style="align-items: center"
+    fxLayout="row wrap"
+    fxFlex="100%"
+  >
+    <label class="form-field-label" fxFlex.lg="30%" fxFlex.lt-lg="98%"
+      >Edit Contact</label
+    >
+    <div class="ep-input-group" fxFlex.lg="58%" fxFlex.lt-lg="98%">
+      <mat-form-field appearance="outline">
+        <input type="text" matInput formControlName="contact" placeholder="{{EndorseList.Contact}}"/>
+      </mat-form-field>
+    </div>
+  </div>
+  <div
+  class="form-field-div"
+  style="align-items: center"
+  fxLayout="row wrap"
+  fxFlex="100%"
+>
+  <label class="form-field-label" fxFlex.lg="30%" fxFlex.lt-lg="98%"
+    >Edit Email</label
+  >
+  <div class="ep-input-group" fxFlex.lg="58%" fxFlex.lt-lg="98%">
+    <mat-form-field appearance="outline">
+      <input type="text" matInput formControlName="mail" placeholder="{{EndorseList.Email}}"/>
+    </mat-form-field>
+  </div>
+</div>
+    <div
+      class="form-field-div"
+      style="align-items: center; justify-content: flex-end"
+      fxFlex="98%"
+    >
+      <button mat-flat-button class="btn-save" (click)="saveProfile()">
+        Save Changes
+      </button>
+    </div>
+  </form>
+</div>

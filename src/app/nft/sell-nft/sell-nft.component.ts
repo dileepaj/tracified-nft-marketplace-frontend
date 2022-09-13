@@ -1,6 +1,6 @@
 import { FreighterComponent } from './../../wallet/freighter/freighter.component';
 import { UserWallet } from 'src/app/models/userwallet';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NFTMarket, SalesBE, SalesGW, Sales } from 'src/app/models/nft';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -80,6 +80,9 @@ export class SellNftComponent implements OnInit {
   watchlist: any;
   favorites: any;
   image: any;
+  public loaded=false
+  private htmStr : string
+  @ViewChild("iframe", { static: false }) iframe: ElementRef;
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -94,7 +97,9 @@ export class SellNftComponent implements OnInit {
     private snackbarService: SnackbarServiceService,
     private api: ApiServicesService,
     public dialog: MatDialog
-  ) {}
+  ) {
+    
+  }
 
   calculatePrice(): void {
     this.royalty = parseInt(this.formValue('Royalty'));
@@ -332,7 +337,6 @@ export class SellNftComponent implements OnInit {
     this.route.queryParams.subscribe((params)=>{
       this.data=JSON.parse(params['data']);
       console.log("DATA recived: ",this.data)})
-
     if (this.data != null) {
       this.service
       // 1:nft identifer , 2:blockchain, 0:selling status 
@@ -358,6 +362,19 @@ export class SellNftComponent implements OnInit {
           this.api.getFavouritesByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
            this.favorites =res.Response.length
           });
+          console.log("MAIN DATA :",this.NFTList.nftidentifier,this.NFTList.blockchain)
+          this.apiService.getAllStoryByNFTIdAndBlockchain(this.NFTList.nftidentifier,this.NFTList.blockchain).subscribe(data=>{       
+              if (!!data){
+                  this.htmStr = atob(data.Response[0].NFTStory);
+                  const content = this.htmStr
+                  console.log("HTML STRING: ",this.htmStr)
+                  let htmlopen:string='<body style="color:white;">'
+                  let htmlclose:string='</body>'
+                  let html :string= htmlopen+content+htmlclose
+                  console.log("HTML OUT PUT :",html)
+                  this.populateIframe(this.iframe.nativeElement,html)
+              }
+          })
 
           if(this.NFTList.blockchain=="ethereum"){
             this.image="../../../assets/images/blockchain-icons/ethereum.png"
@@ -407,6 +424,8 @@ export class SellNftComponent implements OnInit {
                 this.List.push(card)
               }
             })
+            
+            
         });
     } else {
       console.log('User PK not connected or not endorsed');
@@ -416,6 +435,8 @@ export class SellNftComponent implements OnInit {
       Price: new FormControl(this.sale.Price, Validators.required),
       Royalty: new FormControl(this.sale.Royalty, Validators.required),
     });
+    
+            
   }
 
   private formValue(controlName: string): any {
@@ -434,5 +455,21 @@ export class SellNftComponent implements OnInit {
   }
   public prevTab() {
     this.selectedTab = 0;
+  }
+  createStory(){
+    console.log("Data list:",this.NFTList)
+    console.log("Data passed to create story:",this.NFTList.nftidentifier,this.NFTList.blockchain)
+    let data:any[]=[this.NFTList.nftidentifier,this.NFTList.blockchain]
+    this.router.navigate(['./createblog'], {
+      queryParams: { data: JSON.stringify(data) },
+    });
+   }
+  public populateIframe(iframe: any,data:string) {
+    console.log("CALL STARTED")
+    
+    iframe.contentWindow.document.open();
+    iframe.contentWindow.document.write(data);
+    iframe.contentWindow.document.close();
+    this.loaded = false;  
   }
 }

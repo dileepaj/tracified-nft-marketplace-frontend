@@ -1,7 +1,7 @@
 import { Keypair, sendAndConfirmTransaction } from '@solana/web3.js';
 import { FreighterComponent } from './../../../wallet/freighter/freighter.component';
 import { UserWallet } from 'src/app/models/userwallet';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { NFTMarket, SalesBE, BuyNFTGW, GetNFT, ReviewsCard, Reviews } from 'src/app/models/nft';
 import { environment } from 'src/environments/environment';
@@ -117,6 +117,9 @@ export class BuyViewComponent implements OnInit {
   favorites: any;
   image: string;
   list: any;
+  public loaded=false
+  private htmStr : string
+  @ViewChild("iframe", { static: false }) iframe: ElementRef;
   constructor(
     private service: NftServicesService,
     private trust: TrustLineByBuyerServiceService,
@@ -396,7 +399,18 @@ export class BuyViewComponent implements OnInit {
             this.apiService.getFavouritesByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
              this.favorites =res.Response.length
             });
-  
+            this.apiService.getAllStoryByNFTIdAndBlockchain(this.NFTList.nftidentifier,this.NFTList.blockchain).subscribe(data=>{
+                if (!!data){
+                  this.htmStr = atob(data.Response[0].NFTStory);
+                  const content = this.htmStr
+                  console.log("HTML STRING: ",this.htmStr)
+                  let htmlopen:string='<body style="color:white;">'
+                  let htmlclose:string='</body>'
+                  let html :string= htmlopen+content+htmlclose
+                  console.log("HTML OUT PUT :",html)
+                  this.populateIframe(this.iframe.nativeElement,html)
+                }
+            })
             if(this.NFTList.blockchain=="ethereum"){
               this.image="../../../assets/images/blockchain-icons/ethereum.png"
             }
@@ -524,5 +538,13 @@ export class BuyViewComponent implements OnInit {
 
   private formValue(controlName: string): any {
     return this.controlGroup.get(controlName)!.value;
+  }
+  public populateIframe(iframe: any,data:string) {
+    console.log("CALL STARTED")
+    
+    iframe.contentWindow.document.open();
+    iframe.contentWindow.document.write(data);
+    iframe.contentWindow.document.close();
+    this.loaded = false;  
   }
 }

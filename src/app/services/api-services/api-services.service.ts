@@ -142,8 +142,8 @@ export class ApiServicesService {
       return this.http.post<NFTStory>(this.baseUrlSaveStory, st, {headers: this.headers});
     }
 
-    getAllStoryByNFTIdAndBlockchain(id:string, blockchain:string):Observable<NFTStory[]> {
-      return this.http.get<NFTStory[]>(`${this.baseUrlSaveStory}/${id}/${blockchain}`);
+    getAllStoryByNFTIdAndBlockchain(id:string, blockchain:string):Observable<any> {
+      return this.http.get<any>(`${this.baseUrlSaveStory}/${id}/${blockchain}`);
     }
 }
 

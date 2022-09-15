@@ -29,9 +29,12 @@
   top: 0;
   left: 0;
   right: 0;
-  padding: 0px 80px 0px 80px;
   background: transparent;
   transition: 0.25s ease-in-out;
+}
+
+.nav-content-wrapper {
+  width: 90%;
 }
 
 .search-input-group {

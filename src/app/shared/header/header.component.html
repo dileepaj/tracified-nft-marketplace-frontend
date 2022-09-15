@@ -1,175 +1,187 @@
 <mat-toolbar
   id="navbar"
   class="nav-bar"
-  fxfLex="row wrap"
-  fxLayoutAlign="space-between center"
+  fxLayout="row"
+  fxLayoutAlign="center center"
 >
   <div
-    fxFlex.xs="50%"
-    fxFlex.sm="50%"
-    fxFlex.md="20%"
-    fxFlex.lg="10%"
-    fxFlex.xl="10%"
+    class="nav-content-wrapper"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
   >
-    <img
-      src="../../../../assets/images/tracified-header.png"
-      fxFlex.xl="100%"
-      fxFlex.lg="100%"
-      fxFlex.gt-md="80%"
-      fxFlex.md="70%"
-      fxFlex.gt-sm="60%"
-      fxFlex.sm="60%"
-      fxFlex.xs="60%"
-      [routerLink]="'/home'"
-      style="cursor: pointer"
-    />
-  </div>
+    <div
+      fxFlex.xs="50%"
+      fxFlex.sm="50%"
+      fxFlex.md="20%"
+      fxFlex.lg="10%"
+      fxFlex.xl="10%"
+    >
+      <img
+        src="../../../../assets/images/Tracified-NFT-Marketplace.png"
+        [routerLink]="'/home'"
+        fxFlex.xl="100%"
+        fxFlex.lg="100%"
+        fxFlex.gt-md="80%"
+        fxFlex.md="70%"
+        fxFlex.gt-sm="60%"
+        fxFlex.sm="60%"
+        fxFlex.xs="60%"
+        style="cursor: pointer"
+      />
+    </div>
 
-  <div
-    class="search-input-group"
-    fxFlex.lg="50%"
-    fxFlex.xl="50%"
-    fxHide.md
-    fxHide.sm
-    fxHide.xs
-  >
-    <input type="text" placeholder="Search here" />
-    <mat-icon class="material-symbols-outlined">search</mat-icon>
-  </div>
-  <button
-    mat-icon-button
-    class="example-icon"
-    fxHide.xl
-    fxHide.lg
-    fxShow.md
-    fxShow.sm
-    fxShow.xs
-  >
-    <mat-icon class="material-symbols-outlined" (click)="openSideNav()">
-      menu
-    </mat-icon>
-  </button>
-  <div fxFlex.lg="40%" fxFlex.xl="40%" fxHide.md fxHide.sm fxHide.xs>
-    <div fxFlex="row wrap" fxLayoutAlign="space-between center">
-      <a
-        class="navbar-text"
-        mat-button
-        [matMenuTriggerFor]="menu"
-        [class.active-link]="checkPath() === '/explore'"
-      >
-        Explore
-      </a>
-      <mat-menu #menu="matMenu" class="explore-menu">
-        <button mat-menu-item (click)="goToExplore('ethereum')">
-          <img
-            class="bc-icon"
-            src="../../../assets/images/ethereum.png"
-          />Ethereum
-        </button>
-        <button mat-menu-item (click)="goToExplore('polygon')">
-          <img
-            class="bc-icon"
-            src="../../../assets/images/polygon.png"
-          />Polygon
-        </button>
-        <button mat-menu-item (click)="goToExplore('stellar')">
-          <img
-            class="bc-icon"
-            src="../../../assets/images/stellar_black.png"
-          />Stellar
-        </button>
-        <button mat-menu-item (click)="goToExplore('solana')">
-          <img class="bc-icon" src="../../../assets/images/solana.png" />Solana
-        </button>
-      </mat-menu>
-      <a
-        class="navbar-text"
-        mat-button
-        [routerLink]="'/contacts'"
-        [routerLinkActive]="['active-link']"
-      >
-        Resources
-      </a>
-      <a
-        class="navbar-text"
-        mat-button
-        [routerLink]="'/mint'"
-        [routerLinkActive]="['active-link']"
-      >
-        Create
-      </a>
-      <a
-        class="navbar-text"
-        mat-button
-        [routerLink]="'/collections'"
-        [routerLinkActive]="['active-link']"
-      >
-        Collections
-      </a>
-      <button
-        mat-icon-button
-        class="example-icon"
-        aria-label="Notifications"
-        style="color: #00c853"
-      >
-        <mat-icon>notifications</mat-icon>
-      </button>
-      <button
-        id="btnWallet"
-        mat-icon-button
-        class="example-icon"
-        aria-label="Wallet"
-        style="margin-left: -8px"
-        (click)="openDialog(false)"
-      >
-        <mat-icon class="material-symbols-outlined">
-          account_balance_wallet
-        </mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        class="example-icon"
-        aria-label="User"
-        disableRipple
-      >
-        <mat-icon
-          class="material-symbols-outlined"
-          (click)="goToOverview('ethereum')"
+    <div
+      class="search-input-group"
+      fxFlex.lg="50%"
+      fxFlex.xl="50%"
+      fxHide.md
+      fxHide.sm
+      fxHide.xs
+    >
+      <input type="text" placeholder="Search here" />
+      <mat-icon class="material-symbols-outlined">search</mat-icon>
+    </div>
+    <button
+      mat-icon-button
+      class="example-icon"
+      fxHide.xl
+      fxHide.lg
+      fxShow.md
+      fxShow.sm
+      fxShow.xs
+    >
+      <mat-icon class="material-symbols-outlined" (click)="openSideNav()">
+        menu
+      </mat-icon>
+    </button>
+    <div fxFlex.lg="40%" fxFlex.xl="40%" fxHide.md fxHide.sm fxHide.xs>
+      <div fxFlex="row wrap" fxLayoutAlign="space-between center">
+        <a
+          class="navbar-text"
+          mat-button
+          [matMenuTriggerFor]="menu"
+          [class.active-link]="checkPath() === '/explore'"
         >
-          account_circle
-        </mat-icon>
-        <mat-icon
-          class="material-symbols-outlined"
-          [matMenuTriggerFor]="accmenu"
-          matRipple
+          Explore
+        </a>
+        <mat-menu #menu="matMenu" class="explore-menu">
+          <button mat-menu-item (click)="goToExplore('ethereum')">
+            <img
+              class="bc-icon"
+              src="../../../assets/images/ethereum.png"
+            />Ethereum
+          </button>
+          <button mat-menu-item (click)="goToExplore('polygon')">
+            <img
+              class="bc-icon"
+              src="../../../assets/images/polygon.png"
+            />Polygon
+          </button>
+          <button mat-menu-item (click)="goToExplore('stellar')">
+            <img
+              class="bc-icon"
+              src="../../../assets/images/stellar_black.png"
+            />Stellar
+          </button>
+          <button mat-menu-item (click)="goToExplore('solana')">
+            <img
+              class="bc-icon"
+              src="../../../assets/images/solana.png"
+            />Solana
+          </button>
+        </mat-menu>
+        <a
+          class="navbar-text"
+          mat-button
+          [routerLink]="'/contacts'"
+          [routerLinkActive]="['active-link']"
         >
-          arrow_drop_down
-        </mat-icon>
-      </button>
+          Resources
+        </a>
+        <a
+          class="navbar-text"
+          mat-button
+          [routerLink]="'/mint'"
+          [routerLinkActive]="['active-link']"
+        >
+          Create
+        </a>
+        <a
+          class="navbar-text"
+          mat-button
+          [routerLink]="'/collections'"
+          [routerLinkActive]="['active-link']"
+        >
+          Collections
+        </a>
+        <button
+          mat-icon-button
+          class="example-icon"
+          aria-label="Notifications"
+          style="color: #00c853"
+        >
+          <mat-icon>notifications</mat-icon>
+        </button>
+        <button
+          id="btnWallet"
+          mat-icon-button
+          class="example-icon"
+          aria-label="Wallet"
+          style="margin-left: -8px"
+          (click)="openDialog(false)"
+        >
+          <mat-icon class="material-symbols-outlined">
+            account_balance_wallet
+          </mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="example-icon"
+          aria-label="User"
+          disableRipple
+        >
+          <mat-icon
+            class="material-symbols-outlined"
+            (click)="goToOverview('ethereum')"
+          >
+            account_circle
+          </mat-icon>
+          <mat-icon
+            class="material-symbols-outlined"
+            [matMenuTriggerFor]="accmenu"
+            matRipple
+          >
+            arrow_drop_down
+          </mat-icon>
+        </button>
 
-      <mat-menu #accmenu="matMenu" class="explore-menu">
-        <button mat-menu-item (click)="goToOverview('ethereum')">
-          <img
-            class="bc-icon"
-            src="../../../assets/images/ethereum.png"
-          />Ethereum
-        </button>
-        <button mat-menu-item (click)="goToOverview('polygon')">
-          <img
-            class="bc-icon"
-            src="../../../assets/images/polygon.png"
-          />Polygon
-        </button>
-        <button mat-menu-item (click)="goToOverview('stellar')">
-          <img
-            class="bc-icon"
-            src="../../../assets/images/stellar_black.png"
-          />Stellar
-        </button>
-        <button mat-menu-item (click)="goToOverview('solana')">
-          <img class="bc-icon" src="../../../assets/images/solana.png" />Solana
-        </button>
-      </mat-menu>
+        <mat-menu #accmenu="matMenu" class="explore-menu">
+          <button mat-menu-item (click)="goToOverview('ethereum')">
+            <img
+              class="bc-icon"
+              src="../../../assets/images/ethereum.png"
+            />Ethereum
+          </button>
+          <button mat-menu-item (click)="goToOverview('polygon')">
+            <img
+              class="bc-icon"
+              src="../../../assets/images/polygon.png"
+            />Polygon
+          </button>
+          <button mat-menu-item (click)="goToOverview('stellar')">
+            <img
+              class="bc-icon"
+              src="../../../assets/images/stellar_black.png"
+            />Stellar
+          </button>
+          <button mat-menu-item (click)="goToOverview('solana')">
+            <img
+              class="bc-icon"
+              src="../../../assets/images/solana.png"
+            />Solana
+          </button>
+        </mat-menu>
+      </div>
     </div>
   </div>
 </mat-toolbar>

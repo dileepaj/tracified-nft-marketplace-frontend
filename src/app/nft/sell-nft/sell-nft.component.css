@@ -7,11 +7,16 @@
   color: white;
 }
 
-.code-behind-btn{
+.code-behind-btn {
+  position: absolute;
+  right: 65px;
+  bottom: 65px;
   align-items: center;
   justify-content: center;
   border-radius: 40px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
+  z-index: 2;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .example-full-width {
@@ -328,9 +333,12 @@
 }
 
 .desc {
+  display: flex;
+  flex-direction: row;
   background: #2d2d2d;
   border-radius: 10px;
   overflow-y: auto;
+  height: fit-content;
 }
 
 .u-s-text {
@@ -529,4 +537,24 @@ td {
 
 .sum-text {
   word-wrap: break-word;
+}
+
+.txn-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-story {
+  width: fit-content;
+  padding: 5px 20px 5px 20px;
+}
+
+.user-story-iframe {
+  border: none;
+  width: 100%;
+  margin: 20px;
+  height: fit-content;
+  min-height: 150px;
+  max-height: 300px;
+  overflow: auto;
 }

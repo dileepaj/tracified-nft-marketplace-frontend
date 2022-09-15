@@ -19,7 +19,7 @@
           navigate_next
         </mat-icon>
 
-        <a style="color: #00c853">{{this.NFTList.nftname}}</a>
+        <a style="color: #00c853">{{ this.NFTList.nftname }}</a>
       </div>
     </div>
   </div>
@@ -46,9 +46,15 @@
         ngStyle.lt-sm="width : 100%; "
       >
         <img [src]="imageSrc" *ngIf="imageSrc" class="nft-img" />
+        <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
+          <img
+            src="../../../assets/icons/code-icon.png"
+            style="flex-basis: 40%"
+          />
+        </button>
       </div>
       <p class="p-text sum-text" ngStyle.lt-lg="width : 100%">
-       {{this.NFTList.description}}
+        {{ this.NFTList.description }}
       </p>
     </div>
     <div
@@ -58,18 +64,12 @@
       fxFlex.lt-lg="100%"
     >
       <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-        <img
-          src={{this.image}}
-          class="blockchain-logo"
-        />
+        <img src="{{ this.image }}" class="blockchain-logo" />
         <div class="stats" [class.hidden]="selectedTab === 1">
           <mat-icon class="material-symbols-outlined"> visibility </mat-icon>
-          <label style="margin-right: 30px">{{this.watchlist}} views</label>
+          <label style="margin-right: 30px">{{ this.watchlist }} views</label>
           <mat-icon class="material-symbols-outlined"> favorite </mat-icon>
-          <label>{{this.favorites}} favorites</label>
-          <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
-            <img src="../../../assets/icons/code-icon.png" style="flex-basis: 40%" />
-          </button>
+          <label>{{ this.favorites }} favorites</label>
         </div>
       </div>
       <div
@@ -78,8 +78,10 @@
         class="nft-det-wrapper"
       >
         <div class="nft-det">
-          <label class="nft-name">{{this.NFTList.nftname}}</label>
-          <label class="nft-cat"><b>Category - </b>{{this.NFTList.categories}}</label>
+          <label class="nft-name">{{ this.NFTList.nftname }}</label>
+          <label class="nft-cat"
+            ><b>Category - </b>{{ this.NFTList.categories }}</label
+          >
         </div>
         <button
           mat-flat-button
@@ -96,41 +98,36 @@
             <div class="owners">
               <div class="prev-o">
                 <label class="owner-s">Previous Owner</label>
-                <label class="owner-l"
-                  >{{this.prevOwner}}</label
-                >
+                <label class="owner-l">{{ this.prevOwner }}</label>
               </div>
               <div class="curr-o">
                 <label class="owner-s">Current Owner</label>
-                <label class="owner-l"
-                  >{{this.NFTList.currentownerpk}}</label
-                >
+                <label class="owner-l">{{ this.NFTList.currentownerpk }}</label>
               </div>
               <div class="curr-o">
                 <label class="owner-s">Issuer</label>
-                <label class="owner-l"
-                  >{{this.NFTList.nftissuerpk}}</label
-                >
+                <label class="owner-l">{{ this.NFTList.nftissuerpk }}</label>
               </div>
               <div class="curr-o">
                 <label class="owner-s">Artist Name</label>
-                <label class="owner-l"
-                  >{{this.NFTList.artistname}}</label
-                >
+                <label class="owner-l">{{ this.NFTList.artistname }}</label>
               </div>
             </div>
-
-            <div class="user-story">
-              <button class="viewnftnavbtn" mat-button (click)="createStory()">
-                NFT Story
-              </button>
+            <button
+              class="btn-primary btn-story"
+              mat-button
+              *ngIf="loaded"
+              (click)="createStory()"
+            >
+              Create NFT Story
+            </button>
+            <div class="user-story" *ngIf="!loaded">
               <label class="heading-s">User Story</label>
               <div class="desc">
-                <iframe 
+                <iframe
                   id="iframe"
+                  class="user-story-iframe"
                   #iframe
-                  width="100%"
-                  height="100%"
                   [hidden]="loaded"
                 ></iframe>
               </div>
@@ -149,12 +146,17 @@
                   <tbody>
                     <tr *ngFor="let item of List">
                       <td width="50%">
-                        {{item.NFTName}}
+                        {{ item.NFTName }}
                       </td>
-                      <td width="25%">{{item.Status}}</td>
+                      <td width="25%">{{ item.Status }}</td>
                       <td width="25%">
-                        <mat-icon class="material-symbols-outlined cursor-p" >
-                         <a href="{{item.NFTTxnHash}}" >open_in_new</a> 
+                        <mat-icon class="material-symbols-outlined cursor-p">
+                          <a
+                            href="{{ item.NFTTxnHash }}"
+                            target="_blank"
+                            class="txn-link"
+                            >open_in_new</a
+                          >
                         </mat-icon>
                       </td>
                     </tr>
@@ -232,7 +234,7 @@
   </div>
 </div>
 
-<!-- 
+<!--
   <div class="main-div" fxLayout="row wrap">
   <div class="nft-view-header" fxFlex="100%">
     <div

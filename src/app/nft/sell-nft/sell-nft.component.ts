@@ -73,16 +73,17 @@ export class SellNftComponent implements OnInit {
   imageSrc: any;
   Decryption: any;
   dec: string;
-  List:any[]=[];
+  List: any[] = [];
   svg: SVG = new SVG('', '', 'NA');
   NFTList: any;
   prevOwner: string;
   watchlist: any;
   favorites: any;
   image: any;
-  public loaded=false
-  private htmStr : string
-  @ViewChild("iframe", { static: false }) iframe: ElementRef;
+  html: any;
+  public loaded = false;
+  private htmStr: string;
+  @ViewChild('iframe', { static: false }) iframe: ElementRef;
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -97,23 +98,21 @@ export class SellNftComponent implements OnInit {
     private snackbarService: SnackbarServiceService,
     private api: ApiServicesService,
     public dialog: MatDialog
-  ) {
-    
-  }
+  ) {}
 
   calculatePrice(): void {
     this.royalty = parseInt(this.formValue('Royalty'));
     this.firstPrice = parseInt(this.formValue('Price'));
-    console.log("Price and Royalty is : ",this.royalty,this.firstPrice)
+    console.log('Price and Royalty is : ', this.royalty, this.firstPrice);
     this.royaltyCharge = this.firstPrice * (this.royalty / 100);
     this.sellingPrice = this.firstPrice + this.royaltyCharge;
-    console.log("Calculation done")
+    console.log('Calculation done');
   }
 
   public openDialog() {
-    const dialogRef = this.dialog.open(CodeviewComponent,{
-      data:{
-        imgSrc:this.Decryption
+    const dialogRef = this.dialog.open(CodeviewComponent, {
+      data: {
+        imgSrc: this.Decryption,
       },
     });
   }
@@ -334,62 +333,104 @@ export class SellNftComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params)=>{
-      this.data=JSON.parse(params['data']);
-      console.log("DATA recived: ",this.data)})
+    this.route.queryParams.subscribe((params) => {
+      this.data = JSON.parse(params['data']);
+      console.log('DATA recived: ', this.data);
+    });
     if (this.data != null) {
       this.service
-      // 1:nft identifer , 2:blockchain, 0:selling status 
-        .getNFTDetails(this.data[1],this.data[0],this.data[2])
+        // 1:nft identifer , 2:blockchain, 0:selling status
+        .getNFTDetails(this.data[1], this.data[0], this.data[2])
         .subscribe((data: any) => {
-          console.log("data: ",data)
+          console.log('data: ', data);
           this.NFTList = data.Response[0];
           if (this.NFTList == null) {
             console.log('retrying...');
             this.ngOnInit();
           }
-          if(this.data[0]=="Minted"){
-            this.prevOwner="None - Genesis"
-          }
-          else{
-            this.prevOwner=this.NFTList.distributorpk
+          if (this.data[0] == 'Minted') {
+            this.prevOwner = 'None - Genesis';
+          } else {
+            this.prevOwner = this.NFTList.distributorpk;
           }
 
-          this.api.getWatchlistByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
-            this.watchlist = res.Response.length
-          });
-  
-          this.api.getFavouritesByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
-           this.favorites =res.Response.length
-          });
-          console.log("MAIN DATA :",this.NFTList.nftidentifier,this.NFTList.blockchain)
-          this.apiService.getAllStoryByNFTIdAndBlockchain(this.NFTList.nftidentifier,this.NFTList.blockchain).subscribe(data=>{       
-              if (!!data){
-                  this.htmStr = atob(data.Response[0].NFTStory);
-                  const content = this.htmStr
-                  console.log("HTML STRING: ",this.htmStr)
-                  let htmlopen:string='<body style="color:white;">'
-                  let htmlclose:string='</body>'
-                  let html :string= htmlopen+content+htmlclose
-                  console.log("HTML OUT PUT :",html)
-                  this.populateIframe(this.iframe.nativeElement,html)
+          this.api
+            .getWatchlistByBlockchainAndNFTIdentifier(
+              this.NFTList.blockchain,
+              this.NFTList.nftidentifier
+            )
+            .subscribe((res: any) => {
+              this.watchlist = res.Response.length;
+            });
+
+          this.api
+            .getFavouritesByBlockchainAndNFTIdentifier(
+              this.NFTList.blockchain,
+              this.NFTList.nftidentifier
+            )
+            .subscribe((res: any) => {
+              this.favorites = res.Response.length;
+            });
+          console.log(
+            'MAIN DATA :',
+            this.NFTList.nftidentifier,
+            this.NFTList.blockchain
+          );
+          this.apiService
+            .getAllStoryByNFTIdAndBlockchain(
+              this.NFTList.nftidentifier,
+              this.NFTList.blockchain
+            )
+            .subscribe((data) => {
+              if (!!data) {
+                this.htmStr = atob(data.Response[0].NFTStory);
+                const content = this.htmStr;
+                console.log('HTML STRING: ', this.htmStr);
+                let style = `<style>table, td, th {border: 1px solid white;}table {border-collapse: collapse;}
+                ::-webkit-scrollbar {
+                  width: 5px;
+                  height: 5px;
+                }
+                ::-webkit-scrollbar-track {
+                  background: transparent;
+                }
+                ::-webkit-scrollbar-thumb {
+                  background: rgba(136, 136, 136, 0.549);
+                  border-radius: 50px;
+                }
+                ::-webkit-scrollbar-thumb:hover {
+                  background: #888;
+                }</style>`;
+                let link =
+                  '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" >';
+                let htmlHead = '<html><head>';
+                let htmlopen: string =
+                  '</head><body style="color:white;font-family:Inter;">';
+                let htmlclose: string = '</body></html>';
+                let html: string =
+                  htmlHead + link + style + htmlopen + content + htmlclose;
+                console.log('HTML OUT PUT :', html);
+                this.html = html;
+                this.populateIframe(this.iframe.nativeElement, html);
               }
-          })
+            });
 
-          if(this.NFTList.blockchain=="ethereum"){
-            this.image="../../../assets/images/blockchain-icons/ethereum.png"
+          if (this.NFTList.blockchain == 'ethereum') {
+            this.image = '../../../assets/images/blockchain-icons/ethereum.png';
           }
-          if(this.NFTList.blockchain=="polygon"){
-            this.image="../../../assets/images/blockchain-icons/polygon.PNG"
+          if (this.NFTList.blockchain == 'polygon') {
+            this.image = '../../../assets/images/blockchain-icons/polygon.PNG';
           }
-          if(this.NFTList.blockchain=="stellar"){
-            this.image="../../../assets/images/blockchain-icons/stellar.PNG"
+          if (this.NFTList.blockchain == 'stellar') {
+            this.image = '../../../assets/images/blockchain-icons/stellar.PNG';
           }
-          if(this.NFTList.blockchain=="solana"){
-            this.image="../../../assets/images/blockchain-icons/solana.PNG"
+          if (this.NFTList.blockchain == 'solana') {
+            this.image = '../../../assets/images/blockchain-icons/solana.PNG';
           }
 
-            this.service.getSVGByHash(this.NFTList.imagebase64).subscribe((res: any) => {
+          this.service
+            .getSVGByHash(this.NFTList.imagebase64)
+            .subscribe((res: any) => {
               console.log('service res:', res);
               this.Decryption = res.Response.Base64ImageSVG;
               console.log('decrypted sg:', this.Decryption);
@@ -398,34 +439,47 @@ export class SellNftComponent implements OnInit {
               var str2 = this.dec.toString();
               var str1 = new String('data:image/svg+xml;base64,');
               var src = str1.concat(str2.toString());
-              this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-              console.log("image src : ",this.imageSrc)
+              this.imageSrc =
+                this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              console.log('image src : ', this.imageSrc);
             });
-           
-            this.service.getTXNByBlockchainandIdentifier(this.NFTList.nftidentifier,this.NFTList.blockchain).subscribe((txn:any)=>{
-              console.log("TXNS :",txn)
-              for( let x=0; x<(txn.Response.length); x++){
-                let card:Track= new Track('','','');
-                card.NFTName=txn.Response[x].NFTName
-                card.Status=txn.Response[x].Status
-                if(txn.Response[x].Blockchain=="ethereum"){
-                  card.NFTTxnHash= "https://rinkeby.etherscan.io/tx/" + txn.Response[x].NFTTxnHash
+
+          this.service
+            .getTXNByBlockchainandIdentifier(
+              this.NFTList.nftidentifier,
+              this.NFTList.blockchain
+            )
+            .subscribe((txn: any) => {
+              console.log('TXNS :', txn);
+              for (let x = 0; x < txn.Response.length; x++) {
+                let card: Track = new Track('', '', '');
+                card.NFTName = txn.Response[x].NFTName;
+                card.Status = txn.Response[x].Status;
+                if (txn.Response[x].Blockchain == 'ethereum') {
+                  card.NFTTxnHash =
+                    'https://rinkeby.etherscan.io/tx/' +
+                    txn.Response[x].NFTTxnHash;
                 }
-                if(txn.Response[x].Blockchain=="polygon"){
-                  card.NFTTxnHash= "https://mumbai.polygonscan.com/tx/"+ txn.Response[x].NFTTxnHash
+                if (txn.Response[x].Blockchain == 'polygon') {
+                  card.NFTTxnHash =
+                    'https://mumbai.polygonscan.com/tx/' +
+                    txn.Response[x].NFTTxnHash;
                 }
-                if(txn.Response[x].Blockchain=="stellar"){
-                  card.NFTTxnHash= "https://stellar.expert/explorer/testnet/tx/"+ txn.Response[x].NFTTxnHash
+                if (txn.Response[x].Blockchain == 'stellar') {
+                  card.NFTTxnHash =
+                    'https://stellar.expert/explorer/testnet/tx/' +
+                    txn.Response[x].NFTTxnHash;
                 }
-                if(txn.Response[x].Blockchain=="solana"){
-                  card.NFTTxnHash= "https://solscan.io/tx/"+ txn.Response[x].NFTTxnHash +"?cluster=testnet"
+                if (txn.Response[x].Blockchain == 'solana') {
+                  card.NFTTxnHash =
+                    'https://solscan.io/tx/' +
+                    txn.Response[x].NFTTxnHash +
+                    '?cluster=testnet';
                 }
-              
-                this.List.push(card)
+
+                this.List.push(card);
               }
-            })
-            
-            
+            });
         });
     } else {
       console.log('User PK not connected or not endorsed');
@@ -435,8 +489,6 @@ export class SellNftComponent implements OnInit {
       Price: new FormControl(this.sale.Price, Validators.required),
       Royalty: new FormControl(this.sale.Royalty, Validators.required),
     });
-    
-            
   }
 
   private formValue(controlName: string): any {
@@ -451,25 +503,31 @@ export class SellNftComponent implements OnInit {
 
   public sellNow() {
     this.selectedTab = 1;
-    
   }
   public prevTab() {
     this.selectedTab = 0;
+    setTimeout(() => {
+      this.populateIframe(this.iframe.nativeElement, this.html);
+    }, 100);
   }
-  createStory(){
-    console.log("Data list:",this.NFTList)
-    console.log("Data passed to create story:",this.NFTList.nftidentifier,this.NFTList.blockchain)
-    let data:any[]=[this.NFTList.nftidentifier,this.NFTList.blockchain]
+  createStory() {
+    console.log('Data list:', this.NFTList);
+    console.log(
+      'Data passed to create story:',
+      this.NFTList.nftidentifier,
+      this.NFTList.blockchain
+    );
+    let data: any[] = [this.NFTList.nftidentifier, this.NFTList.blockchain];
     this.router.navigate(['./createblog'], {
       queryParams: { data: JSON.stringify(data) },
     });
-   }
-  public populateIframe(iframe: any,data:string) {
-    console.log("CALL STARTED")
-    
+  }
+  public populateIframe(iframe: any, data: string) {
+    console.log('CALL STARTED');
+
     iframe.contentWindow.document.open();
     iframe.contentWindow.document.write(data);
     iframe.contentWindow.document.close();
-    this.loaded = false;  
+    this.loaded = false;
   }
 }

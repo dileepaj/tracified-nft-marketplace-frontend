@@ -61,35 +61,60 @@ body {
   background: #888;
 }
 
-.normal-text {
+
+.p-text {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 22px;
-  /* identical to box height */
-
+  font-size: 16px;
+  line-height: 28px;
   color: #ffffff;
 }
 
-p.normal-text {
-  line-height: 33px;
+.btn-primary {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 153.52%;
+  /* identical to box height, or 37px */
+
+  color: #000000;
+
+  background: #10ceac;
+  border-radius: 10px !important;
+}
+
+.cursor-p {
+  cursor: pointer;
+}
+
+.dialog-btn-secondary {
+  cursor: pointer;
+  border: 1px solid #232323;
+  border-radius: 20px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
   text-align: center;
+  padding: 6px 30px 6px 30px;
+  color: #232323;
+  background-color: #ffffff;
 }
 
-.input {
-  caret-color: #fff;
-  font-size: 18px;
-  margin-top: -4px;
-}
-
-.footer-normal-text {
+.dialog-btn-primary {
+  cursor: pointer;
   font-family: "Inter";
   font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-  display: flex;
-  align-items: center;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
 
   color: #ffffff;
+  padding: 6px 30px 6px 30px;
+  background: #232323;
+  border-radius: 20px;
 }

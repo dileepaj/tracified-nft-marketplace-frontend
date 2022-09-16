@@ -1,27 +1,27 @@
 <div class="home-parent">
-  
   <div class="home-container">
     <div class="home-header">
       <div>
-        <label class="home-title">TRACE YOUR NFTS FOR <br />BETTER VALUE</label>
+        <label class="home-title">Buy, sell, showcase NFTs</label>
       </div>
-
-      <button class="btn-create" [routerLink]="'/verify'">
+      <div class="sub-title-wrapper">
+        <label class="home-subtitle"
+          >Trace your NFTs for better value. Create yours now!</label
+        >
+      </div>
+      <button class="btn-create" [routerLink]="'/mint'">
         <label>CREATE >></label>
       </button>
-      <div>
-        <label class="home-subtitle">Start with a new NFT collection?</label>
-      </div>
     </div>
     <div class="home-content">
-      <div class="hot-picks">
+      <div class="hot-picks" id="sales">
         <div
           class="hot-picks-header"
           fxLayout="row wrap"
           fxLayoutAlign="space-between center"
         >
           <div class="hot-picks-header-title" fxFlex.lt-sm="100%">
-            Sneak Peak
+            Sneak Peak into our Sales!
           </div>
           <div class="hot-picks-header-actions">
             <button class="hot-picks-header-btn">View All</button>
@@ -41,16 +41,10 @@
           </div>
         </div>
         <div class="hot-picks-content" id="hot-picks-content">
-          <div
-            class="item"
-            *ngFor="let item of List"
-          >
+          <div class="item" *ngFor="let item of List">
             <div class="item-actions">
               <div class="item-actions-image-parent">
-                <img
-                  class="item-actions-image"
-                  [src]="item.ImageBase64"
-                />
+                <img class="item-actions-image" [src]="item.ImageBase64" />
               </div>
               <div class="item-actions-icons">
                 <img
@@ -69,13 +63,78 @@
                   matTooltip="Add to bookmarks"
                   src="../../../assets/images/wishlist.png"
                   class="item-icon"
-                  (click)="addToWatchList(item.NFTIdentifier,item.Blockchain)"
+                  (click)="addToWatchList(item.NFTIdentifier, item.Blockchain)"
                 />
                 <img
                   matTooltip="Add to favorites"
                   src="../../../assets/images/favorite.png"
                   class="item-icon"
-                  (click)="addToFavourites(item.NFTIdentifier,item.Blockchain)"
+                  (click)="addToFavourites(item.NFTIdentifier, item.Blockchain)"
+                />
+              </div>
+            </div>
+            <div>
+              <label class="item-name">{{ item.NFTName }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hot-picks" id="categories">
+        <div
+          class="hot-picks-header"
+          fxLayout="row wrap"
+          fxLayoutAlign="space-between center"
+        >
+          <div class="hot-picks-header-title" fxFlex.lt-sm="100%">
+            Categories
+          </div>
+          <div class="hot-picks-header-actions">
+            <button class="hot-picks-header-btn">View All</button>
+            <button class="hot-picks-header-btn rounded">
+              <mat-icon class="material-symbols-outlined">
+                navigate_before
+              </mat-icon>
+            </button>
+            <button class="hot-picks-header-btn rounded">
+              <mat-icon
+                class="material-symbols-outlined"
+                style="transform: rotate(180deg)"
+              >
+                navigate_before
+              </mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="hot-picks-content" id="hot-picks-content">
+          <div class="item" *ngFor="let item of List">
+            <div class="item-actions">
+              <div class="item-actions-image-parent">
+                <img class="item-actions-image" [src]="item.ImageBase64" />
+              </div>
+              <div class="item-actions-icons">
+                <img
+                  matTooltip="Buy"
+                  src="../../../assets/images/purchase.png"
+                  class="item-icon"
+                  (click)="routeToBuy(item.NFTIdentifier)"
+                />
+                <img
+                  matTooltip="View"
+                  src="../../../assets/images/view.png"
+                  class="item-icon"
+                  (click)="viewNFT()"
+                />
+                <img
+                  matTooltip="Add to bookmarks"
+                  src="../../../assets/images/wishlist.png"
+                  class="item-icon"
+                  (click)="addToWatchList(item.NFTIdentifier, item.Blockchain)"
+                />
+                <img
+                  matTooltip="Add to favorites"
+                  src="../../../assets/images/favorite.png"
+                  class="item-icon"
+                  (click)="addToFavourites(item.NFTIdentifier, item.Blockchain)"
                 />
               </div>
             </div>

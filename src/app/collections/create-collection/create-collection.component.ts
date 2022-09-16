@@ -64,7 +64,7 @@ export class CreateCollectionComponent implements OnInit {
   }
 
   done(){
-    this.router.navigate(['./verify'],{
+    this.router.navigate(['./mint'],{
       queryParams:{data:JSON.stringify(this.collection.userId)}
       });
   }

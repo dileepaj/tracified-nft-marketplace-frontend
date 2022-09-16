@@ -58,10 +58,8 @@ export class EndorsementsComponent implements OnInit {
 
   //Triggered when user clicks on accpet endorstment button. "status" in DB is updated as accpeted along with the review and rating
   public acceptEndorsment(){
-    console.log("clicekd on acceot endorsment button")
     this.rating=this.formValue('rating')
     this.description=this.formValue('description')
-    console.log("desc:",this.description)
     if (this.rating!=null && this.description!=null){
       var updateEndorstment =new UpdateStatus("Accepted",this.data.PublicKey,this.description,this.rating);
       //opens to a confirmation dialog to get users approval before sending the update

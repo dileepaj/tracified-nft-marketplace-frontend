@@ -1,0 +1,194 @@
+.footer-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #2d2d2d;
+}
+
+.footer-top {
+  width: 100%;
+  padding: 30px 0px 30px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, #025400 0%, #178e48 100%);
+}
+
+.footer-top-inner {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  column-gap: 20px;
+}
+
+.footer-top .title {
+  width: 400px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+  color: #ffffff;
+}
+
+.footer-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background: #2d2d2d;
+  width: 100%;
+  color: #fff;
+  padding: 30px 0px 30px 0px;
+}
+
+.footer-bottom-inner {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  column-gap: 50px;
+}
+
+.marketplace-logo {
+  width: 190px;
+  height: 64px;
+}
+
+.footer-section-1 {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+}
+
+.footer-section-2 {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  row-gap: 40px;
+  flex-wrap: wrap;
+}
+
+.links-section {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  width: 150px;
+}
+
+.title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.links-section a {
+  text-decoration: none;
+}
+
+.contact {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}
+
+.footer-section-1 p {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  margin-top: 8px;
+  word-break: break-all;
+}
+
+.footer-section-1 label {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  margin-top: 23px;
+}
+
+.subscribe-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 10px;
+  row-gap: 20px;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+.subscribe-wrapper label {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
+}
+
+.subscribe-input-group {
+  width: 400px;
+  background: #fff;
+  border-radius: 16px;
+}
+
+.subscribe-input-group input[type="text"] {
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+  float: right;
+  width: 95%;
+  height: 58px;
+  background: transparent;
+  border: none;
+  color: black;
+}
+
+.subscribe-input-group input[type="text"]:focus {
+  outline: none;
+}
+
+.btn-subscribe {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+
+  color: #ffffff;
+
+  background: #2d2d2d;
+  border-radius: 16px;
+  padding: 19px 40px 19px 40px;
+}
+
+.social {
+  margin-top: 20px;
+}
+
+.social-icon {
+  margin-left: 30px;
+}

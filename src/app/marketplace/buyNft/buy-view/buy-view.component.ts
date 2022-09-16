@@ -148,14 +148,11 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;
-      // let stellarWallet = new UserWallet();
-      // stellarWallet = new FreighterComponent(stellarWallet);
-      // // await stellarWallet.initWallelt();
-      // this.userPK =  stellarWallet.getWalletaddress()
       this.buyNFTOnStellar();
       // this.saleBE.CurrentOwnerPK =this.userPK;
       // console.log("user pk for stellar: ",this.userPK)
       // this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+
     }
     if (this.NFTList.blockchain == 'solana') {
       const connection = new Connection(clusterApiUrl('testnet'), 'confirmed');
@@ -177,7 +174,6 @@ export class BuyViewComponent implements OnInit {
           this.NFTList.nftidentifier
         )
         .then(async (res: any) => {
-          console.log('result is ', res);
           this.buytxn = res;
           this.saveTXNs();
           this.service.updateNFTStatusBackend(this.saleBE).subscribe();

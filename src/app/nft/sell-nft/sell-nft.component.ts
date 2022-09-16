@@ -157,7 +157,6 @@ export class SellNftComponent implements OnInit {
       freighterWallet = new FreighterComponent(freighterWallet);
       await freighterWallet.initWallelt();
       let signerpK = await freighterWallet.getWalletaddress();
-      console.log('user PK: ', signerpK);
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;

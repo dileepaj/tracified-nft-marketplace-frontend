@@ -29,6 +29,7 @@ story:NFTStory=new NFTStory('','','')
     this.route.queryParams.subscribe((params) => {
       this.result = JSON.parse(params['data']);
       console.log('data recived 1212:', this.result);})
+
   }
 
 }

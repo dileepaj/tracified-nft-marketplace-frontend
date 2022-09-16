@@ -1,0 +1,24 @@
+<div class="main-div">
+  <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
+    >arrow_back</mat-icon
+  >
+  <mat-stepper
+    #stepper
+    linear
+    [selectedIndex]="selectedIndex"
+    [@.disabled]="true"
+  >
+    <ng-template matStepperIcon="edit" let-index="index"
+      >{{ index + 1 }}
+    </ng-template>
+    <mat-step> <app-mint (proceed)="changeTab($event, 1)"></app-mint></mat-step>
+    <mat-step
+      ><app-mint2
+        (proceed)="changeTab($event, 2)"
+        [wallet]="wallet"
+        [email]="email"
+      ></app-mint2>
+    </mat-step>
+    <mat-step><app-mint3></app-mint3></mat-step>
+  </mat-stepper>
+</div>

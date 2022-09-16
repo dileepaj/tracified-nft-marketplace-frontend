@@ -69,10 +69,6 @@ export class OverviewComponent implements OnInit {
     }
 
     goToEdit(user){
-      console.log("usre is ",user)
-      // this.router.navigate(['./user-dashboard/edit-profile'], {
-      //   queryParams: { user: user },
-      // });
 
       this.router.navigate(['./user-dashboard/edit-profile'],{
         queryParams:{data:JSON.stringify(user)}
@@ -80,7 +76,6 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("-------------------overview")
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
 
@@ -96,7 +91,6 @@ export class OverviewComponent implements OnInit {
       this.retrive(this.selectedBlockchain).then(res=>{ 
           this.nft.getNFTByBlockchainandUser(this.selectedBlockchain,this.User).subscribe(async (data) => {
         this.nfts = data;
-        console.log("bc specific nft: ",this.nfts)
         if(this.nft==null){
           this.ngOnInit()
         }else{
@@ -237,19 +231,27 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-  putToSaleafterMint(hash:string,id:string){
-    console.log("image 64 hash : ",hash)
-    let data : any[] = ["Minted",hash,id,this.selectedBlockchain]
-    this.router.navigate(['./shownft'],{
+  putToSaleafterMint(id:string){
+    console.log("image 64 hash : ",id)
+    let data : any[] = ["Minted",id,this.selectedBlockchain]
+    this.router.navigate(['./sell'],{
       queryParams:{data:JSON.stringify(data)}
     });
   }
 
-  putToSaleafterBought(hash:string,id:string){
-    let data : any[] = ["NOTFORSALE",hash,id,this.selectedBlockchain]
-    this.router.navigate(['./shownft'],{
+  putToSaleafterBought(id:string){
+    console.log("image 64 hash : ",id)
+    let data : any[] = ["NOTFORSALE",id,this.selectedBlockchain]
+    this.router.navigate(['./sell'],{
       queryParams:{data:JSON.stringify(data)}
     });
+  }
+
+  routeToBuy(id:string){
+    let data :any[]=[id,this.selectedBlockchain];
+    this.router.navigate(['./buyNft'],{
+    queryParams:{data:JSON.stringify(data)}
+    })
   }
 
 }

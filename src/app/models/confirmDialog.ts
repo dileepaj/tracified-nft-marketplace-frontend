@@ -4,3 +4,8 @@ export interface ConfirmDialog{
     confirmText:string;
     cancelText:string;
 }
+export interface OkDialog{
+    title:string;
+    message:string;
+    confirmText:string;
+}

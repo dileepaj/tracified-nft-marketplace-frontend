@@ -53,7 +53,6 @@ export class AddNewsletterComponent implements OnInit {
     this.newsLetter.webLink = this.formValue('webLink');
     this.newsLetter.description = this.formValue('description');
     this.newsLetter.image = this.base64;
-    console.log(this.newsLetter);
   }
 
   public onChange(event: any) {

@@ -9,6 +9,8 @@ import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { Location } from '@angular/common';
 import { Route, Router } from '@angular/router';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 
 export interface Blockchain {
   value: string;
@@ -27,7 +29,11 @@ export class CreateCollectionComponent implements OnInit {
   collection: Collection = new Collection('', '', '', ''); //declaring the model
   signerPK: string = '';
 
-  constructor(public service: CollectionService, private _location: Location, private router:Router) {}
+  constructor(public service: CollectionService,
+     private _location: Location,
+     private router:Router,
+     private dialogService:DialogService,
+     private snackbarService:SnackbarServiceService ) {}
 
   async save(): Promise<void> {
     //getting form data and sending it to the collection service to post
@@ -36,16 +42,29 @@ export class CreateCollectionComponent implements OnInit {
     this.collection.organizationName = this.formValue('organizationName');
     this.collection.blockchain = "any";
     this.collection.userId=this.formValue('userId');
-   
-      //sending data to the service
-      this.addSubscription = this.service.add(this.collection).subscribe(res=>{
-        this.selectVal = this.collection.collectionName;
-       
-      });
+    this.dialogService.confirmDialog({
+      title:'Collection Creation Confirmation',
+      message:"Are you sure you want to create the "+this.collection.collectionName+" collection",
+      confirmText:"Yes",
+      cancelText:"No"
+    }).subscribe(result=>{
+      if(result){
+              //sending data to the service
+        this.addSubscription = this.service.add(this.collection).subscribe(res=>{
+          if(res != null || res!=""){
+            this.snackbarService.openSnackBar(""+this.collection.collectionName+" collection has successfully been added.")
+            this.selectVal = this.collection.collectionName;
+          }else{
+            this.snackbarService.openSnackBar("Error occured failed to create collection.")
+          }
+        });
+      }
+    })
+      
   }
 
   done(){
-    this.router.navigate(['./verify'],{
+    this.router.navigate(['./mint'],{
       queryParams:{data:JSON.stringify(this.collection.userId)}
       });
   }
@@ -64,8 +83,6 @@ export class CreateCollectionComponent implements OnInit {
       ),
   
     });
-    //calling the save function
-    this.save();
   }
 
   //initializing input in html to formValue function

@@ -43,7 +43,6 @@ export class ApiServicesService {
   }
 
   addTXN(st: TXN): Observable<TXN> {//request to add collection into the nft backend DB
-    console.log("txns: ",st)
     return this.http.post<TXN>(this.baseUrlSaveTxn, st, {headers: this.headers});
   }
 
@@ -86,7 +85,6 @@ export class ApiServicesService {
   }
 
   endorse(st: Endorse): Observable<Endorse> {//request to add collection into the nft backend DB
-    console.log("inside the service: ",st)
     return this.http.post<Endorse>(this.baseUrlEndorse, st, {headers: this.headers});
   }
 
@@ -134,6 +132,7 @@ export class ApiServicesService {
     }
 
     getAllReviewsByNFTId(id:string):Observable<Reviews[]> {
+      console.log("inside service review")
       return this.http.get<Reviews[]>(`${this.baseUrlSaveReview}/${id}`);
     }
 
@@ -141,8 +140,8 @@ export class ApiServicesService {
       return this.http.post<NFTStory>(this.baseUrlSaveStory, st, {headers: this.headers});
     }
 
-    getAllStoryByNFTIdAndBlockchain(id:string, blockchain:string):Observable<NFTStory[]> {
-      return this.http.get<NFTStory[]>(`${this.baseUrlSaveStory}/${id}/${blockchain}`);
+    getAllStoryByNFTIdAndBlockchain(id:string, blockchain:string):Observable<any> {
+      return this.http.get<any>(`${this.baseUrlSaveStory}/${id}/${blockchain}`);
     }
 }
 

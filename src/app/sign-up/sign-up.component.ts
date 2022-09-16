@@ -9,6 +9,8 @@ import { PhantomComponent } from '../wallet/phantom/phantom.component';
 import { MetamaskComponent } from '../wallet/metamask/metamask.component';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { DialogService } from '../services/dialog-services/dialog.service';
+import { SnackbarServiceService } from '../services/snackbar-service/snackbar-service.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -25,6 +27,8 @@ export class SignUpComponent implements OnInit {
     private service: ApiServicesService,
     private _location: Location,
     private route:ActivatedRoute,
+    private dialogService:DialogService,
+    private snackbarSrevice:SnackbarServiceService
   ) {}
 
   
@@ -69,17 +73,34 @@ export class SignUpComponent implements OnInit {
 
     if (this.endorse.PublicKey != null) {
       //sending data to the service
-      console.log("Endorse model: ",this.endorse)
-      this.service.endorse(this.endorse).subscribe();
+      this.dialogService.confirmDialog({
+        title : 'Endorsment Confirmation',
+        message : "Are you sure you want to Endorse your account",
+        confirmText : "Yes",
+        cancelText : "No"
+      }).subscribe(result=>{
+        if(result){
+          this.service.endorse(this.endorse).subscribe(res=>{
+            if(res!=null || res!=""){
+              this.dialogService.okDialog({
+                title : 'Endorsment Subbmited',
+                message : "Your Request to be be endorsed has been sent. You will recivea email within the next 48 hours.",
+                confirmText : "Okay"
+              })
+            }
+          });
+
+        }
+      })
+      
     } else {
-      console.log('User PK not connected or not endorsed');
+      this.snackbarSrevice.openSnackBar("Error occured")
     }
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
       this.data=JSON.parse(params['data']);
-      console.log("DATA recived: ",this.data)
 
     })
     //validating form data

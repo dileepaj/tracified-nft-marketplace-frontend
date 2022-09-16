@@ -47,14 +47,11 @@ export class MintService {
 }
 
  getMinter(ImageBase64:string,blockChain:string): Observable<Minter[]> {
-    console.log("data to be sent:"+ImageBase64+" bc name: "+blockChain)
     const response:Observable<Minter[]>=this.http.get<Minter[]>(`${this.baseUrlMinter}/${ImageBase64}/${blockChain}`, {headers: this.headers});
-    console.log("Get minter response:",response)
     return response
   }
 
   getStellarTXN(ImageBase64:string,Blockchain:string): Observable<StellarTXN[]> {
-    console.log("data sent getstellar txn : ",ImageBase64,Blockchain)
     const stellarTxnResponse = this.http.get<StellarTXN[]>(`${this.baseUrlGetStellarTXN}/${ImageBase64}/${Blockchain}`, {headers: this.headers});
     return stellarTxnResponse
   }
@@ -69,16 +66,12 @@ export class MintService {
 
   
   updateNFTSolana(st: Minter): Observable<Minter> {
-    console.log("data to be updated ",st)
     const updateMinterResult: Observable<Minter>= this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
-    console.log("updateMinter Result: ",updateMinterResult)
     return updateMinterResult
   }
 
   updateTXNStellar(st: StellarTXN): Observable<StellarTXN> {
-    console.log("stellar update data sent : ",st)
     const stellarTxnUpdateResponse= this.http.put<StellarTXN>(this.baseUrlStellarUpdate, st, {headers: this.headers});
-    console.log("Stellar txn update response : ",stellarTxnUpdateResponse)
     return stellarTxnUpdateResponse
   }
 
@@ -125,7 +118,6 @@ export class MintService {
         TrustLineCreatedAt: created_at,
         
       };
-      console.log("Stellar Mint",NFTModel)
       this.http
         .post(this.baseUrlMintStellar, NFTModel, this.reqOpts)
         .subscribe(
@@ -177,16 +169,13 @@ export class MintService {
         ArtistLink:artistLink,
         
       };
-      console.log("solana mint data",NFTModel)
       this.http
         .post(this.baseUrlMintSolana, NFTModel, this.reqOpts)
         .subscribe(
           (response) => {
-            console.log("Soalana mint response: ",response)
             resolve(response);
           },
           (error) => {
-            console.log("solana mint err : ",error);
             reject(error);
           }
         );

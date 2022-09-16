@@ -10,6 +10,7 @@ import { UserWallet } from 'src/app/models/userwallet';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 
 @Component({
   selector: 'app-explore',
@@ -45,7 +46,8 @@ export class ExploreComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private _location: Location,
-    private _sanitizer: DomSanitizer 
+    private _sanitizer: DomSanitizer ,
+    private snackbarService:SnackbarServiceService
   ) {}
 
  
@@ -85,7 +87,7 @@ export class ExploreComponent implements OnInit {
     this.favouritesModel.NFTIdentifier = id;
     this.retrive(this.favouritesModel.Blockchain).then(res=>{
       this.api.addToFavourites(this.favouritesModel).subscribe(res=>{
-        alert("Added to Favourites!")
+        this.snackbarService.openSnackBar("Added to favourites")
         this.api.getFavouritesByBlockchainAndNFTIdentifier(this.favouritesModel.Blockchain,this.favouritesModel.NFTIdentifier).subscribe(res=>{
         });
       })
@@ -100,7 +102,7 @@ export class ExploreComponent implements OnInit {
     this.watchlistModel.NFTIdentifier =id;
     this.retrive(this.watchlistModel.Blockchain).then(res=>{
       this.api.addToWatchList(this.watchlistModel).subscribe(res=>{
-        alert("Added to WatchList!")
+        this.snackbarService.openSnackBar("Added to watchlists")
         this.api.getWatchlistByBlockchainAndNFTIdentifier(this.watchlistModel.Blockchain,this.watchlistModel.NFTIdentifier).subscribe(res=>{
         });
       })

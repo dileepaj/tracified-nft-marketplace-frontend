@@ -20,11 +20,7 @@ export class BlogViewerComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
-      console.log('data passed :', this.data);
-      this.service.getAllStoryByNFTIdAndBlockchain('7kKKNXTut4jtZBDZNMSMAfY42r2CJum5RBXpwAvpYAD3','solana').subscribe((res1:any)=>{//this.data.nftidentifier,this.data.blockchain
-        console.log("story retrieved ",res1)
-        console.log("story retrieved ",res1.Response[0].NFTStory)
-        
+      this.service.getAllStoryByNFTIdAndBlockchain(this.data.nftidentifier,this.data.blockchain).subscribe((res1:any)=>{
         this.story=res1.Response[0].NFTStory
         this.nftstory=this.domSanitizer.bypassSecurityTrustHtml(this.story)
       })

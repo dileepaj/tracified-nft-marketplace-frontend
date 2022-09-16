@@ -1,11 +1,10 @@
-<ckeditor class="txteditor" [(ngModel)]="data"
-[readonly]="false"
->
-  <ckbutton [name]="'tracified'"
-  [command]="'saveCmd'"
-  (click)="save()"
-  [label]="'Save Document'"
-  [toolbar]="'clipboard,2'">
-  >test</ckbutton>
-  
-</ckeditor>
+<div style="width: 80%;height: 100%;margin-top: 10%;margin-left: auto;margin-right: auto;">
+  <ckeditor class="txteditor" [(ngModel)]="data" name="editor1" height="85%" [readonly]="false"
+    style="margin-top: 60px;">
+    <ckbutton [name]="'tracified'" [command]="'saveCmd'" (click)="save()"
+      [icon]="'https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/Tracified-NFT-Marketplace-D.png'"
+      [label]="'Save Document'" [toolbar]="'clipboard,2'">
+      >test</ckbutton>
+
+  </ckeditor>
+<div>

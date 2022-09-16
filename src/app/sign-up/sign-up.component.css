@@ -137,3 +137,7 @@
   top: 25px;
   cursor: pointer;
 }
+::placeholder {
+  color: #686868;
+  opacity: 1;
+}

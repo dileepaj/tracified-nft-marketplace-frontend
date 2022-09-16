@@ -25,7 +25,7 @@
     />
   </div>
 
-  <div
+  <div 
     class="search-input-group"
     fxFlex.lg="50%"
     fxFlex.xl="50%"
@@ -33,9 +33,12 @@
     fxHide.sm
     fxHide.xs
   >
-    <input type="text" placeholder="Search here" />
-    <mat-icon class="material-symbols-outlined">search</mat-icon>
+  <form [formGroup]="controlGroup">
+    <input type="text" placeholder="Search for NFTS on sale by Tags" formControlName="Tag" />
+    <mat-icon class="material-symbols-outlined" (click)="search()">search</mat-icon>
+  </form>
   </div>
+
   <button
     mat-icon-button
     class="example-icon"

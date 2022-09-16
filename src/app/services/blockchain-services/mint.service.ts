@@ -12,6 +12,7 @@ export class MintService {
   baseUrlSaveGW: string = 'http://localhost:9080/nft/mintcontract';
   baseUrlOwner: string ='http://localhost:6081/marketplace/owner';
   baseUrlTags:string='http://localhost:6081/tags/save';
+  baseUrlNftByTags:string='http://localhost:6081/tags/'
   baseUrlGet: string = 'http://localhost:6081/collection/save';
   baseUrlGetIssuer = 'http://localhost:9080/nft/issueaccount';
   baseUrlMintStellar='http://localhost:9080/nft/mintStellar';
@@ -64,6 +65,9 @@ export class MintService {
     return this.http.post<tags>(this.baseUrlTags, st, {headers: this.headers});
   }
 
+  getNFTByTag(tag:string){
+    return this.http.get<NFT[]>(`${this.baseUrlNftByTags}/${tag}`);
+  }
   
   updateNFTSolana(st: Minter): Observable<Minter> {
     const updateMinterResult: Observable<Minter>= this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});

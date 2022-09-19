@@ -61,7 +61,6 @@ body {
   background: #888;
 }
 
-
 .p-text {
   font-family: "Inter";
   font-style: normal;
@@ -121,6 +120,21 @@ body {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.normal-text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  /* identical to box height */
+
+  color: #ffffff;
+}
+
+p.normal-text {
+  line-height: 33px;
+  text-align: center;
 }
 
 .lds-ellipsis {

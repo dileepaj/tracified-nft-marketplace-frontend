@@ -76,3 +76,14 @@ mat-stepper {
   top: 25px;
   cursor: pointer;
 }
+
+@media only screen and (max-width: 600px) {
+  .back-icon {
+    transform: scale(1.6);
+    vertical-align: middle;
+    margin-right: 78%;
+    position: relative;
+    top: 0px;
+    cursor: pointer;
+  }
+}

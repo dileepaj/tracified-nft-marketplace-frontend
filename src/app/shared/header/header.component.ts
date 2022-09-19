@@ -18,6 +18,8 @@ import { WalletComponent } from 'src/app/wallet/wallet.component';
 export class HeaderComponent implements OnInit {
   private rect: any;
   sideNavOpened: boolean = false;
+  bcListExpanded: boolean = false;
+  accListExpanded: boolean = false;
 
   constructor(
     private dialogref: MatDialog,
@@ -81,23 +83,40 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/explore'], {
       queryParams: { blockchain: blockchain, filter: 'all' },
     });
+    this.sideNavOpened = false;
+    this.bcListExpanded = false;
   }
 
-  public goToResource(route:any){
-    if (route == "doc"){
+  public goToResource(route: any) {
+    if (route == 'doc') {
       this.router.navigate(['/docs'], {
         queryParams: { data: 'Inside documentation' },
       });
-    }else{
+    } else {
       this.router.navigate(['/faq'], {
-        queryParams: { data:'Inside FAQs'},
+        queryParams: { data: 'Inside FAQs' },
       });
     }
+    this.sideNavOpened = false;
   }
 
   public goToOverview(blockchain: string) {
     this.router.navigate(['/user-dashboard'], {
       queryParams: { blockchain: blockchain },
     });
+    this.sideNavOpened = false;
+    this.accListExpanded = false;
+  }
+
+  public goToHome() {
+    this.router.navigate(['/home']);
+  }
+
+  public toggleBcList() {
+    this.bcListExpanded = !this.bcListExpanded;
+  }
+
+  public toggleAccList() {
+    this.accListExpanded = !this.accListExpanded;
   }
 }

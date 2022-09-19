@@ -1,0 +1,12 @@
+.cardblog{
+    position: relative;
+    width: 150vh;
+    height: 60vh;
+    align-items: center;
+    margin-left: 30vh;
+    margin-top: 20vh;
+}
+
+.code{
+    align-items: center;
+}

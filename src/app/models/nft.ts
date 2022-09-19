@@ -119,7 +119,7 @@ export class ReviewsCard{
 		public UserID   :string,  
 		public Rating   :string,  
 		public Description   :string,   
-		
+		public Time  : string
     ){}
 	}
 

@@ -62,7 +62,7 @@ export class NftReviewsComponent implements OnInit {
     this.service.getAllReviewsByNFTId(this.data.nftidentifier).subscribe((res:any)=>{
       this.list=res
       for(let x=0; x< (this.list.length); x++){
-        let card:ReviewsCard= new ReviewsCard('','','');
+        let card:ReviewsCard= new ReviewsCard('','','','');
         card.UserID=this.list[x].userid
         card.Rating=this.list[x].rating
         card.Description=this.list[x].description

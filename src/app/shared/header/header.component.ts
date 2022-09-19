@@ -7,6 +7,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/services/loader/loader.service';
+import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
 import { WalletComponent } from 'src/app/wallet/wallet.component';
 
 @Component({
@@ -18,7 +19,12 @@ export class HeaderComponent implements OnInit {
   private rect: any;
   sideNavOpened: boolean = false;
 
-  constructor(private dialogref: MatDialog, private router: Router,public loaderService:LoaderService) {}
+  constructor(
+    private dialogref: MatDialog,
+    private router: Router,
+    public loaderService: LoaderService,
+    private walletService: WalletSidenavService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -28,7 +34,8 @@ export class HeaderComponent implements OnInit {
 
   openDialog(sidenav: boolean) {
     if (!sidenav) {
-      this.dialogref.open(WalletComponent, {
+      this.walletService.open();
+      /*  this.dialogref.open(WalletComponent, {
         hasBackdrop: true,
         autoFocus: true,
         panelClass: 'popUpDialog',
@@ -36,13 +43,15 @@ export class HeaderComponent implements OnInit {
           right: `${this.rect.right - this.rect.left + this.rect.width * 2}px`,
           top: `${this.rect.bottom + 10}px`,
         },
-      });
+      }); */
     } else {
-      this.dialogref.open(WalletComponent, {
+      this.sideNavOpened = false;
+      this.walletService.open();
+      /* this.dialogref.open(WalletComponent, {
         hasBackdrop: true,
         autoFocus: true,
         panelClass: 'popUpDialog',
-      });
+      }); */
     }
   }
 

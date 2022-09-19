@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { getPublicKey} from '@stellar/freighter-api';
 import { Wallet } from 'src/app/models/wallet';
 import { walletOptions } from 'src/app/models/walletoptions';
-import { Memo, MemoType, Operation, Transaction } from 'stellar-sdk';
+import { Memo, MemoType, Operation, Transaction, Server } from 'stellar-sdk';
 import {signTransaction} from '@stellar/freighter-api';
 import { base64 } from 'ethers/lib/utils';
 @Component({
@@ -11,7 +11,7 @@ import { base64 } from 'ethers/lib/utils';
   styleUrls: ['./freighter.component.css']
 })
 export class FreighterComponent implements Wallet, OnInit {
-  
+
   private address: any;
     walletAddress: string;
   decoratorWallet: Wallet;
@@ -40,13 +40,13 @@ export class FreighterComponent implements Wallet, OnInit {
       alert("Please Install Freighter")
       window.location.href ="https://chrome.google.com/webstore/detail/freighter/bcacfldlkkdogcmkkibnjlakofdplcbk?hl=en"
     }
-      
+
   }
    getWalletaddress(): string {
     if ((window as any).freighterApi.isConnected()) {
-      
+
     }
-    this.address = this.retrievePublicKey();  
+    this.address = this.retrievePublicKey();
     return this.address
   }
 
@@ -57,17 +57,17 @@ export class FreighterComponent implements Wallet, OnInit {
 
   retrievePublicKey = async () => {
     let error = "";
-  
+
     try {
       this.walletAddress = await getPublicKey();
     } catch (e) {
       console.log(e);
     }
-  
+
     if (error) {
       return error;
     }
-  
+
     return this.walletAddress;
   }
 
@@ -80,6 +80,18 @@ export class FreighterComponent implements Wallet, OnInit {
   }
   getaddress(){
     return this.address
+  }
+
+  getBalance(publicKey:string, _callback : any) {
+    const server = new Server('https://horizon.stellar.org');
+    server.loadAccount(publicKey)
+    .then((account) => {
+      const balance = Number.parseFloat(account.balances.find(b => b.asset_type === 'native')!.balance);
+      _callback(balance);
+    })
+    .catch(() => {
+      _callback(0);
+    })
   }
 
 }

@@ -39,7 +39,7 @@
 
 .search-input-group {
   width: 100%;
-  background: #2d2d2d;
+  background: #212121;
   border-radius: 20px;
   margin: 0px 38px 0px 38px;
   transition: 0.15s ease;
@@ -87,7 +87,7 @@
 }
 
 .header-colored {
-  background: #212121;
+  background: #2d2d2d;
 }
 
 .side-nav-container {
@@ -98,7 +98,7 @@
   right: 0;
   z-index: 1000;
   color: white;
-  background-color: #212121;
+  background-color: #2d2d2d;
 }
 
 .side-nav-content {

@@ -276,8 +276,20 @@ export class Mint2Component implements OnInit {
                   }
                 });
             } else {
-              this.sendToMint3();
-              this.mintNFT(this.userPK);
+              this.dialogService.confirmDialog({
+                title: 'NFT Minting Confirmation',
+                message:
+                  'Are you sure you want to Mint this NFT?',
+                confirmText: 'Yes',
+                cancelText: 'No',
+              })
+              .subscribe((res) => {
+                if(res){
+                  this.sendToMint3();
+                  this.mintNFT(this.userPK);
+                  this.snackbar.openSnackBar("NFT has successfully being minted")
+                }
+              })
             }
           });
         }
@@ -319,8 +331,21 @@ export class Mint2Component implements OnInit {
                 }
               });
           } else {
-            this.sendToMint3();
-            this.mintNftSolana(this.mint.NFTIssuerPK);
+            this.dialogService
+            .confirmDialog({
+              title: 'NFT Minting Confirmation',
+              message:
+                'Are you sure you want to Mint this NFT?',
+              confirmText: 'Yes',
+              cancelText: 'No',
+            })
+            .subscribe((res) => {
+              if(res){
+                this.sendToMint3();
+                this.mintNftSolana(this.mint.NFTIssuerPK);
+                this.snackbar.openSnackBar("NFT has successfully being minted")
+              }
+            })
           }
         });
     }
@@ -335,14 +360,11 @@ export class Mint2Component implements OnInit {
       this.mint.DistributorPK = metamask.getWalletaddress();
       this.mint.MintedContract = environment.contractAddressNFTEthereum;
       this.mint.MarketContract = environment.contractAddressMKEthereum;
-      this.mint.CreatorUserId = this.mint.DistributorPK;
-     
+      this.mint.CreatorUserId = this.mint.DistributorPK;   
       this.svg.Hash=this.hash
       this.svg.Base64ImageSVG=this.Encoded
       this.svg.blockchain = 'ethereum';
       this.apiService.addSVG(this.svg).subscribe();
-
-
       this.apiService
         .getEndorsement(this.mint.DistributorPK)
         .subscribe((res: any) => {
@@ -364,22 +386,35 @@ export class Mint2Component implements OnInit {
                 }
               });
           } else {
-            this.emint
-              .mintInEthereum(
-                this.mint.NFTIssuerPK,
-                this.mint.NFTName,
-                this.mint.Description,
-                this.mint.NftContentURL,
-                this.mint.Imagebase64
-              )
-              .then(async (res) => {
-                this.mint.NFTTxnHash = res.transactionHash;
-                this.tokenId = parseInt(res.logs[0].topics[3]);
-                this.mint.NFTIdentifier = this.tokenId.toString();
-                this.sendToMint3();
-                this.saveContractInGateway();
-                this.saveTXNs();
-              });
+            this.dialogService
+                .confirmDialog({
+                  title: 'NFT Minting Confirmation',
+                  message:
+                    'Are you sure you want to Mint this NFT?',
+                  confirmText: 'Yes',
+                  cancelText: 'No',
+                })
+                .subscribe((res) => {
+                  if(res){
+                    this.emint
+                    .mintInEthereum(
+                      this.mint.NFTIssuerPK,
+                      this.mint.NFTName,
+                      this.mint.Description,
+                      this.mint.NftContentURL,
+                      this.mint.Imagebase64
+                    )
+                    .then(async (res) => {
+                      this.mint.NFTTxnHash = res.transactionHash;
+                      this.tokenId = parseInt(res.logs[0].topics[3]);
+                      this.mint.NFTIdentifier = this.tokenId.toString();
+                      this.sendToMint3();
+                      this.saveContractInGateway();
+                      this.saveTXNs();
+                      this.snackbar.openSnackBar("NFT has successfully being minted")
+                    });
+                  }
+                })
           }
         });
     }
@@ -421,18 +456,32 @@ export class Mint2Component implements OnInit {
                 }
               });
           } else {
-            this.pmint
-              .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
-              .then((res) => {
-                this.mint.NFTTxnHash = res.transactionHash;
-                this.tokenId = parseInt(res.logs[0].topics[3]);
-                this.mint.NFTIdentifier = this.tokenId.toString();
-                //this.apiService.updateSVGBlockchain(this.svgUpdate)
-                this.sendToMint3();
-                this.saveContractInGateway();
-                this.saveTXNs();
-                this.loaderService.isLoading.next(false);
-              });
+            this.dialogService
+                .confirmDialog({
+                  title: 'NFT Minting Confirmation',
+                  message:
+                    'Are you sure you want to Mint this NFT?',
+                  confirmText: 'Yes',
+                  cancelText: 'No',
+                })
+                .subscribe((res) => {
+                  if(res){
+                    this.pmint
+                    .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
+                    .then((res) => {
+                      this.mint.NFTTxnHash = res.transactionHash;
+                      this.tokenId = parseInt(res.logs[0].topics[3]);
+                      this.mint.NFTIdentifier = this.tokenId.toString();
+                      //this.apiService.updateSVGBlockchain(this.svgUpdate)
+                      this.sendToMint3();
+                      this.saveContractInGateway();
+                      this.saveTXNs();
+                      this.snackbar.openSnackBar("NFT has successfully being minted")
+                      this.loaderService.isLoading.next(false);
+                    });
+                  }
+                })
+           
           }
         });
     }

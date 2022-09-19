@@ -45,7 +45,7 @@
         ngStyle.lt-lg="width : 400px; height: 400px"
         ngStyle.lt-sm="width : 100%; "
       >
-        <img [src]="imageSrc" *ngIf="imageSrc" class="nft-img" />
+        <img [src]="imageSrc" *ngIf="imageSrc" class="nft-img" /> 
         <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
           <img
             src="../../../assets/icons/code-icon.png"
@@ -116,7 +116,7 @@
             <button
               class="btn-primary btn-story"
               mat-button
-              *ngIf="loaded"
+              *ngIf="html == null"
               (click)="createStory()"
             >
               Create NFT Story

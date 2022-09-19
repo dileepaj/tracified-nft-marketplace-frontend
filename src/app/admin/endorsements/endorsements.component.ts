@@ -73,6 +73,7 @@ export class EndorsementsComponent implements OnInit {
           this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateResult:any)=>{
             //if the updation is scuccesfull the user will get routed back to the admin dashboard
             if(updateResult!="" || updateResult != null){
+              this.snackbar.openSnackBar("Endorsment Acceptance Complete email sent to customer")
               this.router.navigate(['/admin-dashboard'])
             }else{
               this.snackbar.openSnackBar("falied to Accept endorsment please try again")
@@ -104,6 +105,7 @@ export class EndorsementsComponent implements OnInit {
           this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateEndorstment:any)=>{
             //if the updation is scuccesfull the user will get routed back to the admin dashboard
             if(updateEndorstment){
+              this.snackbar.openSnackBar("Endorsment decline Complete email sent to customer")
               this.router.navigate(['/admin-dashboard'])
             }
             

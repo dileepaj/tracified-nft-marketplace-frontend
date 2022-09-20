@@ -50,8 +50,8 @@
   width: 90%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  column-gap: 50px;
+  justify-content: flex-start;
+  column-gap: 100px;
 }
 
 .marketplace-logo {
@@ -68,8 +68,10 @@
 .footer-section-2 {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   column-gap: 20px;
   row-gap: 40px;
+  flex-grow: 1;
   flex-wrap: wrap;
 }
 
@@ -88,10 +90,6 @@
   line-height: 22px;
   color: #ffffff;
   margin-bottom: 15px;
-}
-
-.links-section a {
-  text-decoration: none;
 }
 
 .contact {
@@ -191,4 +189,13 @@
 
 .social-icon {
   margin-left: 30px;
+}
+
+.footer-normal-text {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-normal-text:hover {
+  text-decoration: underline;
 }

@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/services/loader/loader.service';
@@ -18,8 +19,8 @@ import { WalletComponent } from 'src/app/wallet/wallet.component';
 export class HeaderComponent implements OnInit {
   private rect: any;
   sideNavOpened: boolean = false;
-  bcListExpanded: boolean = false;
-  accListExpanded: boolean = false;
+  tag: any;
+  controlGroup: FormGroup;
 
   constructor(
     private dialogref: MatDialog,
@@ -28,7 +29,15 @@ export class HeaderComponent implements OnInit {
     private walletService: WalletSidenavService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.controlGroup = new FormGroup({
+      //validation
+      Tag: new FormControl(this.tag, Validators.required)})
+  }
+
+  private formValue(controlName: string): any {
+    return this.controlGroup.get(controlName)!.value;
+  }
 
   ngAfterViewChecked() {
     this.rect = document.getElementById('btnWallet')?.getBoundingClientRect();
@@ -87,8 +96,16 @@ export class HeaderComponent implements OnInit {
     this.bcListExpanded = false;
   }
 
-  public goToResource(route: any) {
-    if (route == 'doc') {
+  public search(){
+    const tag = this.formValue('Tag');
+    console.log("tags :",tag)
+    this.router.navigate(['/shownft'], {
+      queryParams: { data: tag },
+    });
+  }
+
+  public goToResource(route:any){
+    if (route == "doc"){
       this.router.navigate(['/docs'], {
         queryParams: { data: 'Inside documentation' },
       });

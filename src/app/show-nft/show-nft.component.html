@@ -1,199 +1,44 @@
-<div class="main-div" fxLayout="row wrap">
-    <div class="nft-view-header" fxFlex="100%">
+<div class="explore-parent">
+  <div class="explore-container">
+    <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
+      >arrow_back</mat-icon
+    >
+    <h1 style="font-size: 40px">Explore On Sale Collections</h1>
+    <div class="explore-content" fxLayout="row wrap">
       <div
-        style="
-          width: 80%;
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-        "
+        class="nft-item"
+        *ngFor="let item of List"
       >
-        <div class="breadcrumb-div">
-          <a (click)="goToExplore()" class="breadcrumb-link">Explore</a>
-          <mat-icon
-            class="material-symbols-outlined"
-            style="vertical-align: middle"
-          >
-            navigate_next
-          </mat-icon>
-          <a [routerLink]="'/getNft'" class="breadcrumb-link">View NFT</a>
-          <mat-icon
-            class="material-symbols-outlined"
-            style="vertical-align: middle"
-          >
-            navigate_next
-          </mat-icon>
-          <a style="color: #00c853"> {{ NFTList.nftname }}</a>
-        </div>
-        <div>
-          <h1 style="font-size: 40px" fxHide.lt-md="true">NFT Overview</h1>
+       <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
+        <img class="nft-img" [src]="item.ImageBase64" />
+        <div class="nft-title" >{{ item.NFTName }}</div>
+        <div class="nft-actions">
+          <img
+            class="nft-action-btn"
+            src="../../../assets/images/purchase.png"
+            matTooltip="Buy NFT"
+            (click)="routeToBuy(item.NFTIdentifier,item.Blockchain)"
+          />
+          <img
+            class="nft-action-btn"
+            src="../../../assets/images/view.png"
+            matTooltip="View NFT"
+            (click)="viewNFT()"
+          />
+          <img
+            class="nft-action-btn"
+            src="../../../assets/images/wishlist.png"
+            matTooltip="Add to watchlist"
+            (click)="addToWatchList(item.NFTIdentifier,item.Blockchain)"
+          />
+          <img
+            class="nft-action-btn"
+            src="../../../assets/images/favorite.png"
+            matTooltip="Add to favorites"
+            (click)="addToFavourites(item.NFTIdentifier,item.Blockchain)"
+          />
         </div>
       </div>
     </div>
-    <div class="nft-div" fxFlex="100%" fxLayout="row wrap">
-      <div
-        class="nft-img-div"
-        fxFlex.lg="25%"
-        fxFlex.xl="20%"
-        fxFlex.md="30%"
-        fxFlex.sm="80%"
-        fxFlex.xs="80%"
-      >
-        <img [src]="imageSrc" *ngIf="imageSrc" class="b-nft-img" />
-        <div class="nft-name"><label> {{ NFTList.nftname }}</label></div>
-      </div>
-      <div
-        fxFlex.lg="55%"
-        fxFlex.xl="60%"
-        fxFlex.md="50%"
-        fxFlex.sm="80%"
-        fxFlex.xs="80%"
-      >
-        <div class="nft-details">
-          <div class="navbar" fxLayout="row wrap">
-            <button
-              class="viewnftnavbtn viewnftnavbtn-active"
-              mat-button
-              [routerLink]="'/getNft'"
-            >
-              Overview
-            </button>
-            <button
-              class="viewnftnavbtn"
-              mat-button
-              (click)="createStory()"
-            >
-              NFT Story
-            </button>
-            <button
-              class="viewnftnavbtn"
-              mat-button
-              [routerLink]="'/create-account'"
-            >
-              Endorsement
-            </button>
-            <button class="viewnftnavbtn" mat-button (click)="sendToSellNFT()">
-              Sell
-            </button>
-          </div>
-          <div class="nft-details-cont">
-            <div
-              style="
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                column-gap: 15%;
-  
-                overflow: hidden;
-                padding-top: 20px;
-                padding-bottom: 20px;
-                padding-left: 30px;
-                padding-right: 30px;
-                width: 90%;
-                row-gap: 15px;
-  
-                background: #2d2d2d;
-                border-radius: 20px;
-              "
-              fxLayout="row wrap"
-            >
-              <div
-                class="info"
-                fxFlex.xs="90%"
-                fxFlex.sm="30%"
-                fxFlex.md="30%"
-                fxFlex.lg="30%"
-                fxFlex.xl="30%"
-              >
-                <label class="info-title"
-                  ><strong>CREATOR - </strong> {{ NFTList.currentownerpk }}</label
-                >
-                <label class="info-title"
-                  ><strong>ISSUER - </strong> {{ NFTList.nftissuerpk }}
-                </label>
-                <label class="info-title"
-                  ><strong>NFT TXN HASH - </strong> {{ NFTList.nfttxnhash }}
-                </label>
-                <label class="info-title"
-                  ><strong>BLOCKCHAIN - </strong> {{ NFTList.blockchain }}
-                </label>
-                <label class="info-title"
-                  ><strong>NFT NAME - </strong> {{ NFTList.nftname }}
-                </label>
-              </div>
-              <div class="vl" fxHide.xs="true" fxFlex.sm="0.25%"></div>
-              <div
-                class="info"
-                fxFlex.xs="90%"
-                fxFlex.sm="30%"
-                fxFlex.md="30%"
-                fxFlex.lg="30%"
-                fxFlex.xl="30%"
-              >
-                <label class="info-title"
-                  ><strong>COLLECTION - </strong> {{ NFTList.collection }}
-                </label>
-                <label class="info-title"
-                  ><strong>CATEGORY - </strong> {{ NFTList.categories }}
-                </label>
-                <label class="info-title"
-                  ><strong>AMOUNT - </strong> {{ NFTList.currentprice }}
-                </label>
-                <label class="info-title"
-                  ><strong>ARTIST NAME - </strong> {{ NFTList.artistname }}
-                </label>
-              </div>
-            </div>
-            <div style="width: 90%; margin-top: 20px; margin-bottom: 20px">
-              <p
-                style="
-                  font-style: normal;
-                  font-weight: 400;
-                  font-size: 16px;
-                  line-height: 28px;
-                  max-height: 500px;
-                  overflow-y: auto;
-                "
-              >
-                {{ NFTList.description }}
-              </p>
-              <a [href]="NFTList.nftcontenturl" class="link">More on the NFT</a
-              ><br />
-              <a [href]="NFTList.artistprofilelink" class="link"
-                >More on the Artist</a
-              >
-            </div>
-          </div>
-        </div>
-        <div style="margin-top: 20px">
-          <button
-            mat-flat-button
-            style="
-              background: #625353;
-              border-radius: 10px;
-              color: white;
-              margin-bottom: 10px;
-            "
-          >
-            Browse Transaction History
-          </button>
-          <br />
-          <div class="overview-nft-item" *ngFor="let item5 of List">
-          <table [border]="1">
-            <tr>
-              <td [width]="100">{{item5.NFTName}}</td>
-              <td [width]="100">{{item5.Status}}</td>
-              <td [width]="200"><a href="https://stellar.expert/explorer/testnet/tx/{{item5.NFTTxnHash}}">{{item5.NFTTxnHash}}</a></td>
-            </tr>
-          </table>
-          </div>
-          <a href="#" class="link" style="color: white">View On Stellar.Expert</a>
-        </div>
-      </div>
-    </div>
-    <button mat-flat-button class="btn-create-col" (click)="showInProfile()">
-      Done
-    </button>
   </div>
-  
+</div>

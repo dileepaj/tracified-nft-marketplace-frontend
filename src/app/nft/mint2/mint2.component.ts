@@ -141,6 +141,10 @@ export class Mint2Component implements OnInit {
   hash: any;
   onHover: boolean = false;
   CollectionList: any;
+  ethereum: boolean;
+  stellar: boolean;
+  polygon: boolean;
+  solana: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -592,6 +596,30 @@ export class Mint2Component implements OnInit {
     //retrieving data from mint component
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
+      console.log("data ",this.data[1])
+      this.wallet=this.data[1]
+      if(this.wallet=="metamask"){
+        console.log("---------metamaask------")
+      this.polygon=false
+      this.stellar=true
+      this.ethereum=false
+      this.solana=true
+       
+      }
+      if(this.wallet=="phantom"){
+        console.log("---------phantom------")
+        this.polygon=true
+      this.stellar=true
+      this.ethereum=true
+      this.solana=false
+      }
+      if(this.wallet=="freighter"){
+        console.log("---------frighter------")
+        this.polygon=true
+      this.stellar=false
+      this.ethereum=true
+      this.solana=true
+      }
        if (this.data[0] != null) {
       this.serviceCol
         .getCollectionName(this.data[0])

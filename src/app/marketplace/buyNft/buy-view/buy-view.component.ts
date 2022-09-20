@@ -377,20 +377,21 @@ export class BuyViewComponent implements OnInit {
 
             this.apiService.getWatchlistByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
               this.watchlist = res.Response.length
-              this.apiService.getAllReviewsByNFTId(this.NFTList.nftidentifier).subscribe((res:any)=>{
-                console.log("reviews ,",res)
-                this.list=res
-                for(let x=0; x < this.list.length; x++){
-                  let reviewcard:ReviewsCard= new ReviewsCard('','','','');
-                  reviewcard.UserID=this.list[x].userid
-                  reviewcard.Rating=this.list[x].rating
-                  reviewcard.Description=this.list[x].description
-                 reviewcard.Time=this.list[x].timestamp
-                  this.ReviewList.push(reviewcard)
-                  console.log("Review List: ",this.ReviewList)
-                }
-              })
             });
+
+            this.apiService.getAllReviewsByNFTId(this.NFTList.nftidentifier).subscribe((res:any)=>{
+              console.log("reviews ,",res)
+              this.list=res
+              for(let x=0; x < this.list.length; x++){
+                let reviewcard:ReviewsCard= new ReviewsCard('','','','');
+                reviewcard.UserID=this.list[x].userid
+                reviewcard.Rating=this.list[x].rating
+                reviewcard.Description=this.list[x].description
+               reviewcard.Time=this.list[x].timestamp
+                this.ReviewList.push(reviewcard)
+                console.log("Review List: ",this.ReviewList)
+              }
+            })
     
             this.apiService.getFavouritesByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
              this.favorites =res.Response.length

@@ -148,11 +148,19 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;
-      this.buyNFTOnStellar();
-      // this.saleBE.CurrentOwnerPK =this.userPK;
-      // console.log("user pk for stellar: ",this.userPK)
-      // this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-
+      this.dialogService.confirmDialog({
+        title:'NFT purchase confirmation',
+        message:"Are you sure you want to purchase this NFT?",
+        confirmText:"Yes",
+        cancelText:"No"
+      }).subscribe(res=>{
+        if(res){
+          this.buyNFTOnStellar();
+          // this.saleBE.CurrentOwnerPK =this.userPK;
+          // console.log("user pk for stellar: ",this.userPK)
+         // this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+        }
+      })
     }
     if (this.NFTList.blockchain == 'solana') {
       const connection = new Connection(clusterApiUrl('testnet'), 'confirmed');
@@ -164,41 +172,50 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
-
-      this.transfer
-        .createATA(
-          environment.fromWalletSecret,
-          parseInt(this.NFTList.currentprice),
-          phantomWallet.getWalletaddress(),
-          this.NFTList.nftissuerpk,
-          this.NFTList.nftidentifier
-        )
-        .then(async (res: any) => {
-          this.buytxn = res;
-          this.saveTXNs();
-          this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-          this.updateGateway();
-        });
-
-      this.ata
-        .createATA(
-          environment.fromWalletSecret,
-          parseInt(this.NFTList.currentprice),
-          phantomWallet.getWalletaddress(),
-          this.NFTList.nftissuerpk,
-          this.NFTList.nftidentifier
-        )
-        .then(async (result: solanaTransaction) => {
-          try {
-            const { signature } = await (
-              window as any
-            ).solana.signAndSendTransaction(result);
-            await connection.confirmTransaction(signature);
-            this.snackbar.openSnackBar('NFT has successfully been bough');
-          } catch (err) {
-            alert(err);
-          }
-        });
+      this.dialogService.confirmDialog({
+        title:'NFT purchase confirmation',
+        message:"Are you sure you want to purchase this NFT?",
+        confirmText:"Yes",
+        cancelText:"No"
+      }).subscribe(res=>{
+        if(res){
+          this.transfer
+          .createATA(
+            environment.fromWalletSecret,
+            parseInt(this.NFTList.currentprice),
+            phantomWallet.getWalletaddress(),
+            this.NFTList.nftissuerpk,
+            this.NFTList.nftidentifier
+          )
+          .then(async (res: any) => {
+            this.buytxn = res;
+            this.saveTXNs();
+            this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+            this.updateGateway();
+            this.snackbar.openSnackBar('NFT has successfully been bought');
+          });
+  
+        this.ata
+          .createATA(
+            environment.fromWalletSecret,
+            parseInt(this.NFTList.currentprice),
+            phantomWallet.getWalletaddress(),
+            this.NFTList.nftissuerpk,
+            this.NFTList.nftidentifier
+          )
+          .then(async (result: solanaTransaction) => {
+            try {
+              const { signature } = await (
+                window as any
+              ).solana.signAndSendTransaction(result);
+              await connection.confirmTransaction(signature);
+              this.snackbar.openSnackBar('NFT has successfully been bought');
+            } catch (err) {
+              alert(err);
+            }
+          });
+      }})
+      
     }
     if (this.NFTList.blockchain == 'polygon') {
       this.saleBE.MarketContract = environment.contractAddressMKPolygon;
@@ -209,19 +226,29 @@ export class BuyViewComponent implements OnInit {
       await walletMetamask.initWallelt();
       this.userPK = await walletMetamask.getWalletaddress();
       this.saleBE.CurrentOwnerPK = this.userPK;
-      this.pmarket
-        .BuyNFT(
-          environment.contractAddressNFTPolygon,
-          parseInt(this.NFTList.sellingtype),
-          parseInt(this.NFTList.currentprice)
-        )
-        .then((res) => {
-          this.buytxn = res.transactionHash;
-          this.saveTXNs();
-          this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-          this.updateGateway();
-          this.snackbar.openSnackBar('NFT has successfully been bough');
-        });
+      this.dialogService.confirmDialog({
+        title:'NFT purchase confirmation',
+        message:"Are you sure you want to purchase this NFT?",
+        confirmText:"Yes",
+        cancelText:"No"
+      }).subscribe(res=>{
+        if (res){
+          this.pmarket
+          .BuyNFT(
+            environment.contractAddressNFTPolygon,
+            parseInt(this.NFTList.sellingtype),
+            parseInt(this.NFTList.currentprice)
+          )
+          .then((res) => {
+            this.buytxn = res.transactionHash;
+            this.saveTXNs();
+            this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+            this.updateGateway();
+            this.snackbar.openSnackBar('NFT has successfully been bought');
+          });
+        }
+      })
+      
     }
     if (this.NFTList.blockchain == 'ethereum') {
       this.saleBE.MarketContract = environment.contractAddressMKEthereum;
@@ -234,19 +261,27 @@ export class BuyViewComponent implements OnInit {
       this.userPK = await walletMetamask.getWalletaddress();
       console.log('eth wallet address: ', this.userPK);
       this.saleBE.CurrentOwnerPK = this.userPK;
-      this.emarket
-        .BuyNFT(
-          environment.contractAddressNFTEthereum,
-          parseInt(this.NFTList.sellingtype),
-          parseInt(this.NFTList.currentprice)
-        )
-        .then((res) => {
-          this.buytxn = res.transactionHash;
-          this.saveTXNs();
-          this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-          this.updateGateway();
-          this.snackbar.openSnackBar('NFT has successfully been bough');
-        });
+      this.dialogService.confirmDialog({
+        title:'NFT purchase confirmation',
+        message:"Are you sure you want to purchase this NFT?",
+        confirmText:"Yes",
+        cancelText:"No"
+      }).subscribe(res=>{
+        if (res){
+          this.emarket
+          .BuyNFT(
+            environment.contractAddressNFTEthereum,
+            parseInt(this.NFTList.sellingtype),
+            parseInt(this.NFTList.currentprice)
+          )
+          .then((res) => {
+            this.buytxn = res.transactionHash;
+            this.saveTXNs();
+            this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+            this.updateGateway();
+            this.snackbar.openSnackBar('NFT has successfully been bough');
+          });
+        }})
     }
   }
 

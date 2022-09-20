@@ -1,15 +1,14 @@
-<div class="header">
-    <h2 mat-dialog-title>{{data?.title}}</h2>
-    <button mat-icon-button [mat-dialog-close]="false">
-        <mat-icon>close</mat-icon>
-    </button>
+
+<div align="center" class="header">
+    <h2  mat-dialog-title style="text-align: center;">{{data?.title}}</h2>
+    <div class="close-div"><mat-icon mat-dialog-close> close </mat-icon></div>
 </div>
 
-<div mat mat-dialog-content>
+<div align="left" mat mat-dialog-content>
     {{data?.message}}
 </div>
 
-<div matDialogActions>
-    <button mat-raised-button [mat-dialog-close]="false">{{data?.cancelText}}</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="true">{{data?.confirmText}}</button>
+<div align="left" matDialogActions>
+    <button mat-raised-button class="dialog-btn-secondary" [mat-dialog-close]="false">{{data?.cancelText}}</button>
+    <button mat-raised-button class="dialog-btn-primary" [mat-dialog-close]="true">{{data?.confirmText}}</button>
 </div>

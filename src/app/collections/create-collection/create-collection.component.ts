@@ -44,7 +44,7 @@ export class CreateCollectionComponent implements OnInit {
     this.collection.userId=this.formValue('userId');
     this.dialogService.confirmDialog({
       title:'Collection Creation Confirmation',
-      message:"Are you sure you want to create the "+this.collection.collectionName+" collection",
+      message:"Are you sure you want to create the "+this.collection.collectionName+" collection?",
       confirmText:"Yes",
       cancelText:"No"
     }).subscribe(result=>{

@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   @ViewChild('sales', { static: false }) sales: ElementRef;
   @ViewChild('categories', { static: false }) categories: ElementRef;
   List: any[] = [];
+  List2: any[] = [];
   Decryption: any;
   dec: string;
   nfts: any;

@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LoaderService } from 'src/app/services/loader/loader.service';
+import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
 import { WalletComponent } from 'src/app/wallet/wallet.component';
 
 @Component({
@@ -21,7 +22,12 @@ export class HeaderComponent implements OnInit {
   tag: any;
   controlGroup: FormGroup;
 
-  constructor(private dialogref: MatDialog, private router: Router,public loaderService:LoaderService) {}
+  constructor(
+    private dialogref: MatDialog,
+    private router: Router,
+    public loaderService: LoaderService,
+    private walletService: WalletSidenavService
+  ) {}
 
   ngOnInit(): void {
     this.controlGroup = new FormGroup({
@@ -39,7 +45,8 @@ export class HeaderComponent implements OnInit {
 
   openDialog(sidenav: boolean) {
     if (!sidenav) {
-      this.dialogref.open(WalletComponent, {
+      this.walletService.open();
+      /*  this.dialogref.open(WalletComponent, {
         hasBackdrop: true,
         autoFocus: true,
         panelClass: 'popUpDialog',
@@ -47,13 +54,15 @@ export class HeaderComponent implements OnInit {
           right: `${this.rect.right - this.rect.left + this.rect.width * 2}px`,
           top: `${this.rect.bottom + 10}px`,
         },
-      });
+      }); */
     } else {
-      this.dialogref.open(WalletComponent, {
+      this.sideNavOpened = false;
+      this.walletService.open();
+      /* this.dialogref.open(WalletComponent, {
         hasBackdrop: true,
         autoFocus: true,
         panelClass: 'popUpDialog',
-      });
+      }); */
     }
   }
 
@@ -83,6 +92,8 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/explore'], {
       queryParams: { blockchain: blockchain, filter: 'all' },
     });
+    this.sideNavOpened = false;
+    this.bcListExpanded = false;
   }
 
   public search(){
@@ -98,16 +109,31 @@ export class HeaderComponent implements OnInit {
       this.router.navigate(['/docs'], {
         queryParams: { data: 'Inside documentation' },
       });
-    }else{
+    } else {
       this.router.navigate(['/faq'], {
-        queryParams: { data:'Inside FAQs'},
+        queryParams: { data: 'Inside FAQs' },
       });
     }
+    this.sideNavOpened = false;
   }
 
   public goToOverview(blockchain: string) {
     this.router.navigate(['/user-dashboard'], {
       queryParams: { blockchain: blockchain },
     });
+    this.sideNavOpened = false;
+    this.accListExpanded = false;
+  }
+
+  public goToHome() {
+    this.router.navigate(['/home']);
+  }
+
+  public toggleBcList() {
+    this.bcListExpanded = !this.bcListExpanded;
+  }
+
+  public toggleAccList() {
+    this.accListExpanded = !this.accListExpanded;
   }
 }

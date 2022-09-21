@@ -87,6 +87,7 @@ import { MintNftComponent } from './nft/mint-nft/mint-nft.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ContactUsComponent } from './marketplace/contact-us/contact-us.component';
+import { HelpCenterComponent } from './marketplace/help-center/help-center.component';
 
 const appRoutes: Routes = [
   {
@@ -228,6 +229,10 @@ const appRoutes: Routes = [
     path: 'contact-us',
     component: ContactUsComponent,
   },
+  {
+    path: 'help-center',
+    component: HelpCenterComponent,
+  },
 ];
 @NgModule({
   declarations: [
@@ -288,6 +293,7 @@ const appRoutes: Routes = [
     MintNftComponent,
     FooterComponent,
     ContactUsComponent,
+    HelpCenterComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,243 @@
+.container {
+  width: 100%;
+  margin-top: 65px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 1px solid #fff;
+}
+
+.contact-heading {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 48px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.contact-form-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  row-gap: 7px;
+  width: 620px;
+}
+
+.required {
+  color: rgba(215, 85, 85, 1);
+}
+
+.input {
+  caret-color: #fff;
+  font-size: 18px;
+  margin-top: -4px;
+}
+
+/* default and hover color */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  height: 58px;
+}
+
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  height: 58px;
+}
+/* default and hover color */
+::ng-deep
+  .mat-form-field-appearance-outline.example-chip-list
+  .mat-form-field-outline {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  min-height: 100px;
+}
+
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.example-chip-list.mat-focused
+  .mat-form-field-outline-thick {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  min-height: 100px;
+}
+
+/* default and hover color */
+::ng-deep
+  .mat-form-field-appearance-outline.description
+  .mat-form-field-outline {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  height: 160px;
+}
+
+/* focused color */
+::ng-deep
+  .mat-form-field-appearance-outline.description.mat-focused
+  .mat-form-field-outline-thick {
+  color: transparent;
+  background: #2d2d2d;
+  border-radius: 16px;
+  width: 100%;
+  height: 160px;
+}
+
+.textarea {
+  caret-color: #fff;
+  font-size: 18px;
+  margin-top: -4px;
+}
+
+::placeholder {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+
+  color: #848484;
+}
+
+.select-bc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 40px;
+  position: absolute;
+  top: 0;
+}
+
+::ng-deep .mat-select-arrow {
+  margin-top: 10px !important;
+  vertical-align: middle !important;
+  color: #fff !important;
+}
+
+.collection-dropdown {
+  color: #fff;
+  font-size: 18px;
+}
+
+.collection-dropdown-selected {
+  color: #fff;
+  font-size: 18px;
+}
+
+.contact-form-group textarea {
+  height: 120px;
+  resize: none;
+}
+
+.contact-form {
+  margin-top: 65px;
+  margin-bottom: 65px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  row-gap: 40px;
+}
+
+::ng-deep mat-form-field span.mat-form-field-label-wrapper label {
+  font-family: "Inter";
+  font-weight: 400;
+  font-size: 16px;
+  margin-top: -7px !important;
+  color: #848484 !important;
+  transition: none !important;
+}
+/* ::ng-deep mat-form-field.mat-focused span.mat-form-field-label-wrapper label {
+  color: transparent !important;
+} */
+
+::ng-deep .mat-select-panel {
+  background-color: #2d2d2d !important;
+  color: tra !important;
+  font-size: 16px !important;
+  height: fit-content !important;
+}
+
+.file-dnd-area {
+  cursor: pointer;
+  width: 614px;
+  height: 60px;
+  border: 3px dashed #10ceac;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.file-dnd-area label {
+  cursor: pointer;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #10ceac;
+}
+
+.file-name {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #10ceac;
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+
+.btn-submit {
+  width: 146px;
+  height: 35px;
+  background: #10ceac;
+  border-radius: 20px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  border: none;
+
+  color: #000000;
+}
+
+.back {
+  transform: scale(1.6);
+  cursor: pointer;
+  vertical-align: middle;
+  position: absolute;
+  left: 0;
+}
+
+.contact-us-header {
+  position: relative;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}

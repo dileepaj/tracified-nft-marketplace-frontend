@@ -21,6 +21,8 @@ export class HeaderComponent implements OnInit {
   sideNavOpened: boolean = false;
   tag: any;
   controlGroup: FormGroup;
+  bcListExpanded: boolean = false;
+  accListExpanded: boolean = false;
 
   constructor(
     private dialogref: MatDialog,
@@ -32,7 +34,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.controlGroup = new FormGroup({
       //validation
-      Tag: new FormControl(this.tag, Validators.required)})
+      Tag: new FormControl(this.tag, Validators.required),
+    });
   }
 
   private formValue(controlName: string): any {
@@ -96,16 +99,16 @@ export class HeaderComponent implements OnInit {
     this.bcListExpanded = false;
   }
 
-  public search(){
+  public search() {
     const tag = this.formValue('Tag');
-    console.log("tags :",tag)
+    console.log('tags :', tag);
     this.router.navigate(['/shownft'], {
       queryParams: { data: tag },
     });
   }
 
-  public goToResource(route:any){
-    if (route == "doc"){
+  public goToResource(route: any) {
+    if (route == 'doc') {
       this.router.navigate(['/docs'], {
         queryParams: { data: 'Inside documentation' },
       });

@@ -130,6 +130,10 @@ const appRoutes: Routes = [
     component: RichTextEditorComponent,
   },
   {
+    path: 'nft-story',
+    component: BlogViewerComponent,
+  },
+  {
     path: 'explore',
     component: ExploreComponent,
   },

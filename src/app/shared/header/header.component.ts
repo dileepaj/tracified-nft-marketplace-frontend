@@ -106,10 +106,12 @@ export class HeaderComponent implements OnInit {
   }
 
   private openDialogTest() {
-    this.dialogService.okDialog({
+    /* this.dialogService.okDialog({
       title: 'User review confirmation',
       message: 'Are you sure you want to submit this review',
       confirmText: 'Yes',
-    });
+    }); */
+
+    this.dialogService.pendingDialog();
   }
 }

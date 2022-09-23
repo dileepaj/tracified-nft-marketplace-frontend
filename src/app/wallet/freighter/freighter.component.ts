@@ -1,62 +1,71 @@
 import { Component, OnInit } from '@angular/core';
-import { getPublicKey} from '@stellar/freighter-api';
+import { getPublicKey } from '@stellar/freighter-api';
 import { Wallet } from 'src/app/models/wallet';
 import { walletOptions } from 'src/app/models/walletoptions';
 import { Memo, MemoType, Operation, Transaction, Server } from 'stellar-sdk';
-import {signTransaction} from '@stellar/freighter-api';
+import { signTransaction } from '@stellar/freighter-api';
 import { base64 } from 'ethers/lib/utils';
 @Component({
   selector: 'app-freighter',
   templateUrl: './freighter.component.html',
-  styleUrls: ['./freighter.component.css']
+  styleUrls: ['./freighter.component.css'],
 })
 export class FreighterComponent implements Wallet, OnInit {
-
   private address: any;
-    walletAddress: string;
+  walletAddress: string;
   decoratorWallet: Wallet;
-  constructor(wallet:Wallet) {
+  constructor(wallet: Wallet) {
     this.decoratorWallet = wallet;
   }
   signTransactionPhantom(userPK: string, tracifiedAta: string): void {
     throw new Error('Method not implemented.');
   }
-  buynft(blockchain: string, nftcontract: string, tokenId: number, price: number, listingPrice: string): void {
+  buynft(
+    blockchain: string,
+    nftcontract: string,
+    tokenId: number,
+    price: number,
+    listingPrice: string
+  ): void {
     throw new Error('Method not implemented.');
   }
-  createSaleOffer(blockchain:string,nftcontract: string, tokenId: number, price: number): void {
+  createSaleOffer(
+    blockchain: string,
+    nftcontract: string,
+    tokenId: number,
+    price: number
+  ): void {
     throw new Error('Method not implemented.');
   }
   currentUserAddress: string;
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-   initWallelt(){
+  initWallelt() {
     if ((window as any).freighterApi.isConnected()) {
-      return ;
+      return;
+    } else {
+      alert('Please Install Freighter');
+      window.location.href =
+        'https://chrome.google.com/webstore/detail/freighter/bcacfldlkkdogcmkkibnjlakofdplcbk?hl=en';
     }
-    else {
-      alert("Please Install Freighter")
-      window.location.href ="https://chrome.google.com/webstore/detail/freighter/bcacfldlkkdogcmkkibnjlakofdplcbk?hl=en"
-    }
-
   }
-   getWalletaddress(): string {
+  getWalletaddress(): string {
     if ((window as any).freighterApi.isConnected()) {
-
     }
     this.address = this.retrievePublicKey();
-    return this.address
+    return this.address;
   }
 
-  public  signTransaction(transaction:Transaction<Memo<MemoType>,Operation[]>): Promise<any>{
-    let signedTransaction = signTransaction(transaction.toXDR(), "TESTNET");
-    return  signedTransaction;
+  public signTransaction(
+    transaction: Transaction<Memo<MemoType>, Operation[]>
+  ): Promise<any> {
+    let signedTransaction = signTransaction(transaction.toXDR(), 'TESTNET');
+    return signedTransaction;
   }
 
   retrievePublicKey = async () => {
-    let error = "";
+    let error = '';
 
     try {
       this.walletAddress = await getPublicKey();
@@ -69,29 +78,33 @@ export class FreighterComponent implements Wallet, OnInit {
     }
 
     return this.walletAddress;
-  }
+  };
 
   public disconenctWallet(): void {
     throw new Error('Method not implemented.');
   }
 
-  setaddress(address:string){
-    this.address = address
+  setaddress(address: string) {
+    this.address = address;
   }
-  getaddress(){
-    return this.address
+  getaddress() {
+    return this.address;
   }
 
-  getBalance(publicKey:string, _callback : any) {
+  getBalance(publicKey: string, _callback: any) {
     const server = new Server('https://horizon.stellar.org');
-    server.loadAccount(publicKey)
-    .then((account) => {
-      const balance = Number.parseFloat(account.balances.find(b => b.asset_type === 'native')!.balance);
-      _callback(balance);
-    })
-    .catch(() => {
-      _callback(0);
-    })
+    server
+      .loadAccount(publicKey)
+      .then((account) => {
+        const balance = Number.parseFloat(
+          account.balances.find((b) => b.asset_type === 'native')!.balance
+        );
+        if (_callback !== undefined) {
+          _callback(balance);
+        }
+      })
+      .catch(() => {
+        _callback(0);
+      });
   }
-
 }

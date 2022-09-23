@@ -6,10 +6,20 @@
   <div class="dialog-content">{{ data?.message }}</div>
 </mat-dialog-content>
 <mat-dialog-actions align="center" class="dialog-actions">
-  <button mat-dialog-close class="dialog-btn-secondary" matRipple>
+  <button
+    mat-dialog-close
+    class="dialog-btn-secondary"
+    (click)="cancel()"
+    matRipple
+  >
     {{ data?.cancelText }}
   </button>
-  <button cdkFocusInitial class="dialog-btn-primary" matRipple>
+  <button
+    cdkFocusInitial
+    class="dialog-btn-primary"
+    (click)="confirm()"
+    matRipple
+  >
     {{ data?.confirmText }}
   </button>
 </mat-dialog-actions>

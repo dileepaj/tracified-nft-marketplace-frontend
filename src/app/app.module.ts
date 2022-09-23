@@ -86,6 +86,8 @@ import { ConfirmationPopupComponent } from './marketplace/buyNft/confirmation-po
 import { MintNftComponent } from './nft/mint-nft/mint-nft.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { FooterComponent } from './shared/footer/footer.component';
+import { UserCollectionsComponent } from './user/user-collections/user-collections.component';
+import { UserCollectionNFTComponent } from './user/user-collection-nft/user-collection-nft.component';
 
 
 const appRoutes: Routes = [
@@ -224,6 +226,14 @@ const appRoutes: Routes = [
     path: 'docs',
     component: DocumentationComponent,
   },
+  {
+    path: 'mycollections',
+    component: UserCollectionsComponent,
+  },
+  {
+    path: 'mynfts',
+    component: UserCollectionNFTComponent,
+  },
 ];
 @NgModule({
   declarations: [
@@ -283,6 +293,8 @@ const appRoutes: Routes = [
     ConfirmationPopupComponent,
     MintNftComponent,
     FooterComponent,
+    UserCollectionsComponent,
+    UserCollectionNFTComponent,
   ],
   imports: [
     BrowserModule,

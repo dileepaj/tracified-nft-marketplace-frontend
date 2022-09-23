@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateEndorse } from 'src/app/models/endorse';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -20,13 +21,14 @@ export class EditProfileComponent implements OnInit {
   data: any;
   image: string;
   EndorseList:any;
-  constructor(private router: Router,private route:ActivatedRoute,private service:ApiServicesService) {}
+  constructor(private router: Router,private route:ActivatedRoute,private service:ApiServicesService,  private snackbarSrevice:SnackbarServiceService) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
       this.data=JSON.parse(params['data']);
       this.service.getEndorsement(this.data).subscribe((res:any)=>{
         this.EndorseList=res
+        console.log("endorsed previously: ",this.EndorseList)
       })
     })
 
@@ -45,7 +47,9 @@ export class EditProfileComponent implements OnInit {
     this.endorse.Email = this.controlGroupProfile.get('mail')!.value;
     this.endorse.PublicKey=this.data
    // this.profile.image = this.base64;
+console.log("Data enterred is: ",this.endorse)
     this.service.updateEndorsement(this.endorse).subscribe(res=>{
+      this.snackbarSrevice.openSnackBar("Profile has been updated successfully")
     })
 
   }

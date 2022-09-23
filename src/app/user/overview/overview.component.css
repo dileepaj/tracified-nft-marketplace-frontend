@@ -10,6 +10,21 @@
   margin-top: 50px;
 }
 
+.stats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 32px;
+  /* identical to box height, or 178% */
+
+  color: #777777;
+}
+
+
 .overview-picks-header-title {
   color: white;
   font-weight: 600;

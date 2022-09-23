@@ -254,4 +254,10 @@ export class OverviewComponent implements OnInit {
     })
   }
 
+  myCollections(id){
+    this.router.navigate(['./mycollections'],{
+      queryParams:{data:id}
+      })
+  }
+
 }

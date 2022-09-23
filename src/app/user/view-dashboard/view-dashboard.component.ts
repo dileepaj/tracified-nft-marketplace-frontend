@@ -18,6 +18,7 @@ export class ViewDashboardComponent implements OnInit {
   collectionList: any;
   opened: boolean = true;
   data: any;
+  EndorseList: any;
   constructor(
     private api: ApiServicesService,
     private nft: NftServicesService,
@@ -37,7 +38,15 @@ export class ViewDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
+    this.route.queryParams.subscribe((params)=>{
+      this.data=JSON.parse(params['data']);
+      console.log("data on the side: ",this.data)
+      this.api.getEndorsement(this.data).subscribe((res:any)=>{
+        this.EndorseList=res
+        console.log("endorsed previously: ",this.EndorseList)})
+    })
+    
+      
   }
 
   public toggleSidenav() {

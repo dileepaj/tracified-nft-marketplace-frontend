@@ -141,6 +141,10 @@ export class Mint2Component implements OnInit {
   hash: any;
   onHover: boolean = false;
   CollectionList: any;
+  ethereum: boolean;
+  stellar: boolean;
+  polygon: boolean;
+  solana: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -164,6 +168,8 @@ export class Mint2Component implements OnInit {
         tag ? this._filter(tag) : this.alltags.slice()
       )
     );
+
+    console.log("inside constructor; ",this.wallet,this.email)
   }
 
   sendToMint3(): void {
@@ -505,9 +511,10 @@ export class Mint2Component implements OnInit {
     this.contract.Tags = this.tags;
     this.contract.Identifier = this.mint.NFTIdentifier;
     this.service.addNFTGW(this.contract).subscribe((res) => {
-      this.router.navigate(['./mint3'], {
-        queryParams: { data: JSON.stringify(this.mint.Blockchain) },
-      });
+      // this.router.navigate(['./mint3'], {
+      //   queryParams: { data: JSON.stringify(this.mint.Blockchain) },
+      // });
+      this.proceed.emit({});
     });
   }
 
@@ -515,9 +522,7 @@ export class Mint2Component implements OnInit {
     if (this.minter.NFTIssuerPK != null) {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
         this.saveTXNs();
-        this.router.navigate(['./mint3'], {
-          queryParams: { data: JSON.stringify(this.mint.Blockchain) },
-        });
+        this.proceed.emit({});
       });
     } else {
       this.Minter();
@@ -528,9 +533,7 @@ export class Mint2Component implements OnInit {
     if (this.stxn.NFTTxnHash != null) {
       this.service.updateTXNStellar(this.stxn).subscribe((res) => {
         this.saveTXNs();
-        this.router.navigate(['./mint3'], {
-          queryParams: { data: JSON.stringify(this.mint.Blockchain) },
-        });
+       this.proceed.emit({});
 
       });
     } else {
@@ -599,7 +602,7 @@ export class Mint2Component implements OnInit {
                 this.mint.Description,
                 this.mint.Collection,
                 this.mint.Blockchain,
-                'NFT',
+                this.mint.Tags,
                 this.mint.Categories,
                 this.mint.Copies,
                 this.mint.NftContentURL,
@@ -636,14 +639,37 @@ export class Mint2Component implements OnInit {
     this.isLoadingPresent = false;
     this.loading.dismiss();
   }
-
   ngOnInit(): void {
-    //retrieving data from mint component
-    this.route.queryParams.subscribe((params) => {
-      this.data = JSON.parse(params['data']);
-       if (this.data[0] != null) {
+    
+  }
+  ngOnChanges(): void {
+      console.log("inside mint 2")
+      console.log("wallet and email is: ",this.wallet, this.email)
+      if(this.wallet=="metamask"){
+        console.log("---------metamaask------")
+      this.polygon=false
+      this.stellar=true
+      this.ethereum=false
+      this.solana=true
+       
+      }
+      if(this.wallet=="phantom"){
+        console.log("---------phantom------")
+        this.polygon=true
+      this.stellar=true
+      this.ethereum=true
+      this.solana=false
+      }
+      if(this.wallet=="freighter"){
+        console.log("---------frighter------")
+        this.polygon=true
+      this.stellar=false
+      this.ethereum=true
+      this.solana=true
+      }
+       if (this.email != null) {
       this.serviceCol
-        .getCollectionName(this.data[0])
+        .getCollectionName(this.email)
         .subscribe((data: any) => {
           this.CollectionList = data;
         });
@@ -652,7 +678,7 @@ export class Mint2Component implements OnInit {
     }
 
       //  })
-    });
+    // });
 
 
     this.controlGroup = new FormGroup({
@@ -689,7 +715,7 @@ export class Mint2Component implements OnInit {
           this.mint.Description,
           this.mint.Collection,
           this.mint.Blockchain,
-          'NFT',
+          this.mint.Tags,
           this.mint.Categories,
           this.mint.Copies,
           this.mint.NftContentURL,

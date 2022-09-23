@@ -19,7 +19,7 @@ export class UserCollectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
-      this.key="4wtzfvaCWvYxzmdh4ajQoj8ep5AuJtUeV8rW3D5biCT7"//(params['data']);
+      this.key=(params['data']);
       console.log("DATA recived: ",this.key)})
 
     if (this.key != null) {

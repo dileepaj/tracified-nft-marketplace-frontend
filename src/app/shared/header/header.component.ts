@@ -21,6 +21,9 @@ export class HeaderComponent implements OnInit {
   sideNavOpened: boolean = false;
   tag: any;
   controlGroup: FormGroup;
+  bcListExpanded: boolean = false;
+  accListExpanded: boolean = false;
+
 
   constructor(
     private dialogref: MatDialog,

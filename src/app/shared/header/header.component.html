@@ -18,7 +18,8 @@
         ngStyle.xs="width: 100px"
       />
     </button>
-  <div 
+
+    <div 
     class="search-input-group"
     fxFlex.lg="50%"
     fxFlex.xl="50%"
@@ -31,17 +32,15 @@
     <mat-icon class="material-symbols-outlined" (click)="search()">search</mat-icon>
   </form>
   </div>
-
-  <button
-    mat-icon-button
-    class="example-icon"
-    fxHide.xl
-    fxHide.lg
-    fxShow.md
-    fxShow.sm
-    fxShow.xs
-  >
-    <mat-icon class="material-symbols-outlined" (click)="openSideNav()">
+    <mat-icon
+      class="material-symbols-outlined example-icon"
+      fxHide.xl
+      fxHide.lg
+      fxShow.md
+      fxShow.sm
+      fxShow.xs
+      (click)="openSideNav()"
+    >
       menu
     </mat-icon>
     <a
@@ -81,11 +80,19 @@
       fxHide.xs
       class="navbar-text"
       mat-button
-      [routerLink]="'/contacts'"
-      [routerLinkActive]="['active-link']"
+      [matMenuTriggerFor]="remenu"
+      [class.active-link]="checkPath() === '/resources'"
     >
       Resources
     </a>
+    <mat-menu #remenu="matMenu" class="resource-menu">
+      <button mat-menu-item [routerLink]="'/docs'">
+        Documentation
+      </button>
+      <button mat-menu-item [routerLink]="'/faq'">
+       FAQ's
+      </button>
+    </mat-menu>
     <a
       fxHide.md
       fxHide.sm

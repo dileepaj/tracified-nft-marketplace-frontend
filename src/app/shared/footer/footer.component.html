@@ -6,12 +6,14 @@
       </label>
       <div class="subscribe-wrapper">
         <label>Let's do it! — </label>
-        <form [formGroup]="controlGroup">
+       
         <div class="subscribe-input-group">
+          <form [formGroup]="controlGroup">
           <input type="text" placeholder="joe@gmail.com" formControlName="Mail"/>
+        </form>
         </div>
         <button mat-flat-button class="btn-subscribe" (click)="subscribeNow()">Subscribe</button>
-      </form>
+     
       </div>
     </div>
   </div>

@@ -11,6 +11,10 @@ import { ApiServicesService } from 'src/app/services/api-services/api-services.s
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CodeviewComponent } from '../codeview/codeview.component';
+import { UserWallet } from 'src/app/models/userwallet';
+import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
+import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
+import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 
 @Component({
   selector: 'app-mint',
@@ -62,16 +66,17 @@ export class MintComponent implements OnInit {
     this.mint.svg = this.svg;
   
     //let data :any=this.mint;
-    this.router.navigate(['./mint2'], {
-      queryParams: { data: JSON.stringify(this.mint) },
-    });
+    // this.router.navigate(['./mint2'], {
+    //   queryParams: { data: JSON.stringify(this.mint) },
+    // });
   }
 
  
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.collection.userId = JSON.parse(params['data']);
-    });
+    console.log("which scrennnnnnn--------------------")
+    // this.route.queryParams.subscribe((params) => {
+    //   this.collection.userId = JSON.parse(params['data']);
+    // });
    
     //validation of form data
     this.controlGroupMint = new FormGroup({
@@ -117,11 +122,55 @@ export class MintComponent implements OnInit {
     });
   }
 
-  public selectWallet(wallet: string) {
-    const arr:any[]=[this.email,wallet]
-    this.router.navigate(['./mint2'],{
-      queryParams:{data:JSON.stringify(arr)}
-      });
+  public async selectWallet(wallet: string) {
+    console.log("wallet is",wallet)
+    if(wallet=="metamask"){
+      let metamaskwallet = new UserWallet();
+      metamaskwallet = new MetamaskComponent(metamaskwallet);
+      await metamaskwallet.initWallelt()
+      var res=  metamaskwallet.getWalletaddress()
+       if(res!=null){
+        console.log("data: ",this.email,wallet)
+        // const arr:any[]=[this.email,wallet]
+        // this.router.navigate(['./mint2'],{
+        //   queryParams:{data:JSON.stringify(arr)}
+        //   });
+        this.proceed.emit({
+          email:this.email,
+          wallet
+        });
+       }else{
+        window.location.href = 'https://metamask.io/';
+       }
+    }
+    if(wallet=="freighter"){
+      let freighter = new UserWallet();
+          freighter = new FreighterComponent(freighter);
+          await freighter.initWallelt();
+          var res =await freighter.getWalletaddress()
+       if(res!=null){
+        this.proceed.emit({
+          email:this.email,
+          wallet
+        });
+       }else{
+        window.location.href = 'https://www.freighter.app/';
+       }
+    }
+    if(wallet=="phantom"){
+      let phantomWallet = new UserWallet();
+      phantomWallet = new PhantomComponent(phantomWallet);
+     await phantomWallet.initWallelt()
+     var res=await phantomWallet.getWalletaddress()
+    if(res!=null){
+      this.proceed.emit({
+          email:this.email,
+          wallet
+        });
+    }else{
+      window.location.href = 'https://phantom.app/';
+    }
+    }
   }
 
   }

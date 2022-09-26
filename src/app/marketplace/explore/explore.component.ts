@@ -124,12 +124,13 @@ export class ExploreComponent implements OnInit {
 
   ngOnInit(): void {
 
-    
+    console.log("----------------1")
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain'];
       this.List.splice(0);
     
       this.nft.getNFTByBlockchain(this.selectedBlockchain).subscribe(async (data) => {
+        console.log("----------------2", data)
             this.nfts = data;
             if(this.nft==null){
               this.ngOnInit()

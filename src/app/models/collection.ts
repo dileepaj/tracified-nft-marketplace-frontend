@@ -6,3 +6,10 @@ export class Collection {
     public blockchain?: string
   ) {}
 }
+
+export class MyCollection {
+  constructor(
+    public collection: string
+  ) {}
+}
+

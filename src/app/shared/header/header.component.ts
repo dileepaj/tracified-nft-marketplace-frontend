@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
@@ -19,6 +20,11 @@ import { WalletComponent } from 'src/app/wallet/wallet.component';
 export class HeaderComponent implements OnInit {
   private rect: any;
   sideNavOpened: boolean = false;
+  tag: any;
+  controlGroup: FormGroup;
+  bcListExpanded: boolean = false;
+  accListExpanded: boolean = false;
+
 
   constructor(
     private dialogref: MatDialog,
@@ -30,6 +36,13 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     //this.openDialogTest();
+    this.controlGroup = new FormGroup({
+      //validation
+      Tag: new FormControl(this.tag, Validators.required)})
+  }
+
+  private formValue(controlName: string): any {
+    return this.controlGroup.get(controlName)!.value;
   }
 
   ngAfterViewChecked() {
@@ -85,6 +98,16 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/explore'], {
       queryParams: { blockchain: blockchain, filter: 'all' },
     });
+    this.sideNavOpened = false;
+    this.bcListExpanded = false;
+  }
+
+  public search(){
+    const tag = this.formValue('Tag');
+    console.log("tags :",tag)
+    this.router.navigate(['/shownft'], {
+      queryParams: { data: tag },
+    });
   }
 
   public goToResource(route: any) {
@@ -97,12 +120,27 @@ export class HeaderComponent implements OnInit {
         queryParams: { data: 'Inside FAQs' },
       });
     }
+    this.sideNavOpened = false;
   }
 
   public goToOverview(blockchain: string) {
     this.router.navigate(['/user-dashboard'], {
       queryParams: { blockchain: blockchain },
     });
+    this.sideNavOpened = false;
+    this.accListExpanded = false;
+  }
+
+  public goToHome() {
+    this.router.navigate(['/home']);
+  }
+
+  public toggleBcList() {
+    this.bcListExpanded = !this.bcListExpanded;
+  }
+
+  public toggleAccList() {
+    this.accListExpanded = !this.accListExpanded;
   }
 
   private openDialogTest() {

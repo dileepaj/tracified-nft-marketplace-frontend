@@ -194,13 +194,16 @@ export class SellNftComponent implements OnInit {
       console.log('Solana going on sale');
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.SellingType = 'NFT';
+      this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.calculatePrice();
 
       if (this.NFTList.sellingstatus == 'Minted') {
         this.selltxn = this.NFTList.nfttxnhash;
-        this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
         this.addDBBackend();
         this.addDBGateway();
+        this.snackbarService.openSnackBar(
+          'NFT has successfully been put on sale'
+        );
       } else {
         console.log('mint ', this.NFTList.nftissuerpk);
         const connection = new Connection(
@@ -238,7 +241,7 @@ export class SellNftComponent implements OnInit {
 
                     alert('successfully sold!');
                     this.selltxn = signature;
-                    this.addDBBackend();
+      this.addDBBackend();
                     this.addDBGateway();
                     this.saveTXNs();
                     this.snackbarService.openSnackBar(

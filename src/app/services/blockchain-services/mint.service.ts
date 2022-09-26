@@ -64,6 +64,7 @@ export class MintService {
   addTags(st: tags): Observable<tags> {
     return this.http.post<tags>(this.baseUrlTags, st, {headers: this.headers});
   }
+  
 
   getNFTByTag(tag:string){
     return this.http.get<NFT[]>(`${this.baseUrlNftByTags}/${tag}`);

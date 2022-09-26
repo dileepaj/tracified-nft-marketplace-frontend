@@ -19,17 +19,19 @@
       />
     </button>
 
-    <div
-      class="search-input-group"
-      fxFlex.lg="50%"
-      fxFlex.xl="50%"
-      fxHide.md
-      fxHide.sm
-      fxHide.xs
-    >
-      <input type="text" placeholder="Search here" />
-      <mat-icon class="material-symbols-outlined">search</mat-icon>
-    </div>
+    <div 
+    class="search-input-group"
+    fxFlex.lg="50%"
+    fxFlex.xl="50%"
+    fxHide.md
+    fxHide.sm
+    fxHide.xs
+  >
+  <form [formGroup]="controlGroup">
+    <input type="text" placeholder="Search for NFTS on sale by Tags" formControlName="Tag" />
+    <mat-icon class="material-symbols-outlined" (click)="search()">search</mat-icon>
+  </form>
+  </div>
     <mat-icon
       class="material-symbols-outlined example-icon"
       fxHide.xl
@@ -78,11 +80,19 @@
       fxHide.xs
       class="navbar-text"
       mat-button
-      [routerLink]="'/contacts'"
-      [routerLinkActive]="['active-link']"
+      [matMenuTriggerFor]="remenu"
+      [class.active-link]="checkPath() === '/resources'"
     >
       Resources
     </a>
+    <mat-menu #remenu="matMenu" class="resource-menu">
+      <button mat-menu-item [routerLink]="'/docs'">
+        Documentation
+      </button>
+      <button mat-menu-item [routerLink]="'/faq'">
+       FAQ's
+      </button>
+    </mat-menu>
     <a
       fxHide.md
       fxHide.sm

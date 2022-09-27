@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 import { Route, Router } from '@angular/router';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 export interface Blockchain {
   value: string;
@@ -33,7 +34,9 @@ export class CreateCollectionComponent implements OnInit {
      private _location: Location,
      private router:Router,
      private dialogService:DialogService,
-     private snackbarService:SnackbarServiceService ) {}
+     private snackbarService:SnackbarServiceService,
+     private dialogRef: MatDialogRef<CreateCollectionComponent>
+      ) {}
 
   async save(): Promise<void> {
     //getting form data and sending it to the collection service to post
@@ -54,13 +57,14 @@ export class CreateCollectionComponent implements OnInit {
           if(res != null || res!=""){
             this.snackbarService.openSnackBar(""+this.collection.collectionName+" collection has successfully been added.")
             this.selectVal = this.collection.collectionName;
+            this.dialogRef.close({collectionName : this.collection.collectionName});
           }else{
             this.snackbarService.openSnackBar("Error occured failed to create collection.")
           }
         });
       }
     })
-      
+
   }
 
   done(){
@@ -81,7 +85,7 @@ export class CreateCollectionComponent implements OnInit {
         this.collection.organizationName,
         Validators.required
       ),
-  
+
     });
   }
 

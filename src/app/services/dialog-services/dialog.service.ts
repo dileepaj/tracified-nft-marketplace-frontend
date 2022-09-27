@@ -2,6 +2,7 @@ import { style } from '@angular/animations';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { CreateCollectionComponent } from 'src/app/collections/create-collection/create-collection.component';
 import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
 import { OkmessageComponent } from 'src/app/dialogs/okmessage/okmessage.component';
 import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
@@ -33,6 +34,13 @@ export class DialogService {
 
   pendingDialog(): MatDialogRef<PendingComponent> {
     return this.dialog.open(PendingComponent, {
+      width: '500px',
+      disableClose: true,
+    });
+  }
+
+  createCollection(): MatDialogRef<CreateCollectionComponent> {
+    return this.dialog.open(CreateCollectionComponent, {
       width: '500px',
       disableClose: true,
     });

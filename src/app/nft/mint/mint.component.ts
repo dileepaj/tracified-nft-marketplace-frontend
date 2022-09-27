@@ -15,6 +15,7 @@ import { UserWallet } from 'src/app/models/userwallet';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 
 @Component({
   selector: 'app-mint',
@@ -46,6 +47,7 @@ export class MintComponent implements OnInit {
   mint: Mint2 = new Mint2('', '', '', '', '', this.svg); //declaring model to mint and post
   svgresult;
   email: string = '';
+  blockchain: any;
   constructor(
     private service: CollectionService,
     private router: Router,
@@ -53,7 +55,8 @@ export class MintComponent implements OnInit {
     private apiService: ApiServicesService,
     private snackBar: SnackbarServiceService,
     public dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialogService: DialogService,
   ) {}
 
   sendToMint2(): void {
@@ -129,16 +132,38 @@ export class MintComponent implements OnInit {
       metamaskwallet = new MetamaskComponent(metamaskwallet);
       await metamaskwallet.initWallelt()
       var res=  metamaskwallet.getWalletaddress()
+      this.blockchain="ethereum or polygon"
        if(res!=null){
-        console.log("data: ",this.email,wallet)
-        // const arr:any[]=[this.email,wallet]
-        // this.router.navigate(['./mint2'],{
-        //   queryParams:{data:JSON.stringify(arr)}
-        //   });
-        this.proceed.emit({
-          email:this.email,
-          wallet
-        });
+        console.log("data: ",this.email,wallet, res)
+        this.apiService
+        .getEndorsement(res)
+        .subscribe((result: any) => {
+          if (result.Status == null || result.Status == '') {
+            this.dialogService
+              .confirmDialog({
+                title: 'Public Key Endorsment',
+                message:
+                  'Your account is not endorsed. Would you like to get your account Endorsed now',
+                confirmText: 'Yes',
+                cancelText: 'No',
+              })
+              .subscribe((res) => {
+                if (res) {
+                  //alert("You are not endorsed. Get endorsed now")
+                  let arr:any=[this.blockchain,this.email]
+                  this.router.navigate(['./signUp'], {
+                    queryParams: { data: JSON.stringify(arr) },
+                  });
+                }
+              });
+            }else{
+              this.proceed.emit({
+                email:this.email,
+                wallet
+              });
+            }
+          });
+      
        }else{
         window.location.href = 'https://metamask.io/';
        }
@@ -149,12 +174,38 @@ export class MintComponent implements OnInit {
           await freighter.initWallelt();
           var res =await freighter.getWalletaddress()
        if(res!=null){
-        this.proceed.emit({
-          email:this.email,
-          wallet
-        });
+        console.log("data: ",this.email,wallet, res)
+        this.apiService
+        .getEndorsement(res)
+        .subscribe((result: any) => {
+          if (result.Status == null || result.Status == '') {
+            this.dialogService
+              .confirmDialog({
+                title: 'Public Key Endorsment',
+                message:
+                  'Your account is not endorsed. Would you like to get your account Endorsed now',
+                confirmText: 'Yes',
+                cancelText: 'No',
+              })
+              .subscribe((res) => {
+                if (res) {
+                  //alert("You are not endorsed. Get endorsed now") 
+                   let arr:any=[this.blockchain,this.email]
+                  this.router.navigate(['./signUp'], {
+                    queryParams: { data: JSON.stringify(arr) },
+                  });
+                }
+              });
+            }else{
+              this.proceed.emit({
+                email:this.email,
+                wallet
+              });
+            }
+          });
+      
        }else{
-        window.location.href = 'https://www.freighter.app/';
+        window.location.href = 'https://metamask.io/';
        }
     }
     if(wallet=="phantom"){
@@ -163,13 +214,39 @@ export class MintComponent implements OnInit {
      await phantomWallet.initWallelt()
      var res=await phantomWallet.getWalletaddress()
     if(res!=null){
-      this.proceed.emit({
-          email:this.email,
-          wallet
+      console.log("data: ",this.email,wallet, res)
+      this.apiService
+      .getEndorsement(res)
+      .subscribe((result: any) => {
+        if (result.Status == null || result.Status == '') {
+          this.dialogService
+            .confirmDialog({
+              title: 'Public Key Endorsment',
+              message:
+                'Your account is not endorsed. Would you like to get your account Endorsed now',
+              confirmText: 'Yes',
+              cancelText: 'No',
+            })
+            .subscribe((res) => {
+              if (res) {
+                //alert("You are not endorsed. Get endorsed now")
+                let arr:any=[this.blockchain,this.email]
+                this.router.navigate(['./signUp'], {
+                  queryParams: { data: JSON.stringify(arr) },
+                });
+              }
+            });
+          }else{
+            this.proceed.emit({
+              email:this.email,
+              wallet
+            });
+          }
         });
-    }else{
-      window.location.href = 'https://phantom.app/';
-    }
+    
+     }else{
+      window.location.href = 'https://metamask.io/';
+     }
     }
   }
 

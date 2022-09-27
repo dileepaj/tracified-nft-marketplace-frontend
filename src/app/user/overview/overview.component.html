@@ -10,17 +10,17 @@
         selectedBlockchain.substring(1, selectedBlockchain.length)
     }}
   </div>
-  <div class="stats">
+  <!-- <div class="stats">
     <label style="margin-right: 30px"  (click)="goToEdit(User)">EDIT USER</label>
     <label (click)="myCollections(User)">MY COLLECTIONS</label>
-  </div>
+  </div> -->
          
   <div
     class="overview-picks-header"
     fxLayout="row wrap"
     fxLayoutAlign="space-between center"
   >
-    <div class="overview-picks-header-title" fxFlex.lt-sm="100%">
+    <div class="overview-picks-header-title" fxFlex.lt-sm="100%"  id="hotpick">
       Your Hot Picks
     </div>
     <div class="overview-picks-header-actions">
@@ -67,66 +67,14 @@
       </div>
     </div>
   </div>
+
   <div
     class="overview-picks-header"
     fxLayout="row wrap"
     fxLayoutAlign="space-between center"
   >
-    <div class="overview-picks-header-title" fxFlex.lt-sm="100%">
-      Items On Sale
-    </div>
-    <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn">View All</button>
-      <button class="overview-picks-header-btn rounded">
-        <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
-      </button>
-      <button class="overview-picks-header-btn rounded">
-        <mat-icon
-          class="material-symbols-outlined"
-          style="transform: rotate(180deg)"
-        >
-          navigate_before
-        </mat-icon>
-      </button>
-    </div>
-  </div>
-  <div class="overview-nft-content">
-    <div class="overview-nft-item" *ngFor="let item2 of ListSales">
-      <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
-      <img class="overview-nft-img" [src]="item2.ImageBase64" />
-      <div class="overview-nft-title">{{ item2.NFTName }}</div>
-      <div class="overview-nft-actions">
-        <img
-          class="overview-nft-action-btn"
-          src="../../../assets/images/purchase.png"
-          matTooltip="Buy NFT"
-          (click)="routeToBuy(item2.NFTIdentifier)"
-        />
-        <img
-          class="overview-nft-action-btn"
-          src="../../../assets/images/view.png"
-          matTooltip="View NFT"
-        />
-        <img
-          class="overview-nft-action-btn"
-          src="../../../assets/images/wishlist.png"
-          matTooltip="Add to watchlist"
-        />
-        <img
-          class="overview-nft-action-btn"
-          src="../../../assets/images/favorite.png"
-          matTooltip="Add to favorites"
-        />
-      </div>
-    </div>
-  </div>
-  <div
-    class="overview-picks-header"
-    fxLayout="row wrap"
-    fxLayoutAlign="space-between center"
-  >
-    <div class="overview-picks-header-title" fxFlex.lt-sm="100%">
-      Items You've Minted
+    <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="mints">
+      Your Minted NFTs
     </div>
     <div class="overview-picks-header-actions">
       <button class="overview-picks-header-btn">View All</button>
@@ -178,8 +126,8 @@
     fxLayout="row wrap"
     fxLayoutAlign="space-between center"
   >
-    <div class="overview-picks-header-title" fxFlex.lt-sm="100%">
-      Items Bought
+    <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="bought">
+      Items you Bought
     </div>
     <div class="overview-picks-header-actions">
       <button class="overview-picks-header-btn">View All</button>
@@ -231,7 +179,7 @@
     fxLayout="row wrap"
     fxLayoutAlign="space-between center"
   >
-    <div class="overview-picks-header-title" fxFlex.lt-sm="100%">
+    <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="favourite">
       Your Favourites
     </div>
     <div class="overview-picks-header-actions">
@@ -278,4 +226,57 @@
       </div>
     </div>
   </div>
+  <div
+  class="overview-picks-header"
+  fxLayout="row wrap"
+  fxLayoutAlign="space-between center"
+>
+  <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="sales">
+    Your NFTS on Sale
+  </div>
+  <div class="overview-picks-header-actions">
+    <button class="overview-picks-header-btn">View All</button>
+    <button class="overview-picks-header-btn rounded">
+      <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
+    </button>
+    <button class="overview-picks-header-btn rounded">
+      <mat-icon
+        class="material-symbols-outlined"
+        style="transform: rotate(180deg)"
+      >
+        navigate_before
+      </mat-icon>
+    </button>
+  </div>
+</div>
+<div class="overview-nft-content">
+  <div class="overview-nft-item" *ngFor="let item2 of ListSales">
+    <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
+    <img class="overview-nft-img" [src]="item2.ImageBase64" />
+    <div class="overview-nft-title">{{ item2.NFTName }}</div>
+    <div class="overview-nft-actions">
+      <img
+        class="overview-nft-action-btn"
+        src="../../../assets/images/purchase.png"
+        matTooltip="Buy NFT"
+        (click)="routeToBuy(item2.NFTIdentifier)"
+      />
+      <img
+        class="overview-nft-action-btn"
+        src="../../../assets/images/view.png"
+        matTooltip="View NFT"
+      />
+      <img
+        class="overview-nft-action-btn"
+        src="../../../assets/images/wishlist.png"
+        matTooltip="Add to watchlist"
+      />
+      <img
+        class="overview-nft-action-btn"
+        src="../../../assets/images/favorite.png"
+        matTooltip="Add to favorites"
+      />
+    </div>
+  </div>
+</div>
 </div>

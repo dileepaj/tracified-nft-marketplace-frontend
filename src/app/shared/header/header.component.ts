@@ -19,10 +19,11 @@ import { WalletComponent } from 'src/app/wallet/wallet.component';
 export class HeaderComponent implements OnInit {
   private rect: any;
   sideNavOpened: boolean = false;
+  accListExpanded: boolean = false;
   tag: any;
   controlGroup: FormGroup;
   bcListExpanded: boolean = false;
-  accListExpanded: boolean = false;
+ 
 
 
   constructor(
@@ -121,7 +122,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public goToOverview(blockchain: string) {
-    this.router.navigate(['/user-dashboard'], {
+    this.router.navigate(['/user-dashboard/overview'], {
       queryParams: { blockchain: blockchain },
     });
     this.sideNavOpened = false;

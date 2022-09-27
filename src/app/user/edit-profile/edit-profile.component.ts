@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateEndorse } from 'src/app/models/endorse';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -21,7 +22,7 @@ export class EditProfileComponent implements OnInit {
   data: any;
   image: string;
   EndorseList:any;
-  constructor(private router: Router,private route:ActivatedRoute,private service:ApiServicesService,  private snackbarSrevice:SnackbarServiceService) {}
+  constructor(private router: Router,private _location: Location,private route:ActivatedRoute,private service:ApiServicesService,  private snackbarSrevice:SnackbarServiceService) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
@@ -39,6 +40,10 @@ export class EditProfileComponent implements OnInit {
       contact: new FormControl(this.endorse.Contact, Validators.required),
       mail: new FormControl(this.endorse.Email, Validators.required),
     });
+  }
+
+  public back() {
+    this._location.back();
   }
 
   public saveProfile() {

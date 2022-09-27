@@ -161,6 +161,14 @@ const appRoutes: Routes = [
         component: OverviewComponent,
       },
       {
+        path: 'mycollections',
+        component: UserCollectionsComponent,
+      },
+      {
+        path: 'mynfts',
+        component: UserCollectionNFTComponent,
+      },
+      {
         path: '',
         redirectTo: 'overview',
         pathMatch: 'full',
@@ -225,14 +233,6 @@ const appRoutes: Routes = [
   {
     path: 'docs',
     component: DocumentationComponent,
-  },
-  {
-    path: 'mycollections',
-    component: UserCollectionsComponent,
-  },
-  {
-    path: 'mynfts',
-    component: UserCollectionNFTComponent,
   },
 ];
 @NgModule({

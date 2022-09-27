@@ -1,4 +1,6 @@
 <div class="ep-main-div" fxLayout="row wrap">
+  <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
+  >arrow_back</mat-icon>
   <div id="ep-header-title" fxFlex="100%"><label>Edit Profile of {{EndorseList.Name}}</label></div>
   <form
     [formGroup]="controlGroupProfile"

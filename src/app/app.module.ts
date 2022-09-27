@@ -82,13 +82,12 @@ import { FaqComponent } from './marketplace/faq/faq.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InterceptorService } from './services/loader/interceptor.service';
 import { OkmessageComponent } from './dialogs/okmessage/okmessage.component';
-import { ConfirmationPopupComponent } from './marketplace/buyNft/confirmation-popup/confirmation-popup.component';
 import { MintNftComponent } from './nft/mint-nft/mint-nft.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { FooterComponent } from './shared/footer/footer.component';
+import { PendingComponent } from './dialogs/pending/pending.component';
 import { UserCollectionsComponent } from './user/user-collections/user-collections.component';
 import { UserCollectionNFTComponent } from './user/user-collection-nft/user-collection-nft.component';
-
 
 const appRoutes: Routes = [
   {
@@ -290,9 +289,9 @@ const appRoutes: Routes = [
     DocumentationComponent,
     FaqComponent,
     OkmessageComponent,
-    ConfirmationPopupComponent,
     MintNftComponent,
     FooterComponent,
+    PendingComponent,
     UserCollectionsComponent,
     UserCollectionNFTComponent,
   ],

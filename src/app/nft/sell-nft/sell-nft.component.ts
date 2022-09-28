@@ -357,21 +357,31 @@ export class SellNftComponent implements OnInit {
           }
 
           this.api
-            .getWatchlistByBlockchainAndNFTIdentifier(
+            .findWatchlistByBlockchainAndNFTIdentifier(
               this.NFTList.blockchain,
               this.NFTList.nftidentifier
             )
             .subscribe((res: any) => {
-              this.watchlist = res.Response.length;
+              if(res.Response!=null){
+                this.watchlist = res.Response.length
+               }else{
+                this.watchlist=0
+               }
+               
             });
 
           this.api
-            .getFavouritesByBlockchainAndNFTIdentifier(
+            .findFavouritesByBlockchainAndNFTIdentifier(
               this.NFTList.blockchain,
               this.NFTList.nftidentifier
             )
             .subscribe((res: any) => {
-              this.favorites = res.Response.length;
+              if(res.Response!=null){
+                this.favorites = res.Response.length
+               }else{
+                this.favorites=0
+               }
+               
             });
           console.log(
             'MAIN DATA :',

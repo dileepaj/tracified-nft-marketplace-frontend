@@ -28,6 +28,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationPopupComponent } from '../confirmation-popup/confirmation-popup.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CodeviewComponent } from 'src/app/nft/codeview/codeview.component';
+import { timeStamp } from 'console';
 
 @Component({
   selector: 'app-buy-view',
@@ -120,6 +121,10 @@ export class BuyViewComponent implements OnInit {
   public loaded=false
   private htmStr : string
   @ViewChild("iframe", { static: false }) iframe: ElementRef;
+  price: any;
+  conversion: any;
+  icon: string;
+  crypto: string;
   constructor(
     private service: NftServicesService,
     private trust: TrustLineByBuyerServiceService,
@@ -410,8 +415,13 @@ export class BuyViewComponent implements OnInit {
               this.ngOnInit();
             }
 
-            this.apiService.getWatchlistByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
+            this.apiService.findWatchlistByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
+             if(res.Response!=null){
               this.watchlist = res.Response.length
+             }else{
+              this.watchlist=0
+             }
+             
             });
 
             this.apiService.getAllReviewsByNFTId(this.NFTList.nftidentifier).subscribe((res:any)=>{
@@ -428,8 +438,15 @@ export class BuyViewComponent implements OnInit {
               }
             })
     
-            this.apiService.getFavouritesByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
-             this.favorites =res.Response.length
+            this.getUSDConversion()
+            this.apiService.findFavouritesByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
+             console.log("favs :",res)
+              if(res.Response!=null){
+                this.favorites =res.Response.length
+              }else{
+                this.favorites=0
+              }
+             
             });
             this.apiService.getAllStoryByNFTIdAndBlockchain(this.NFTList.nftidentifier,this.NFTList.blockchain).subscribe(data=>{
                 if (!!data){
@@ -445,15 +462,23 @@ export class BuyViewComponent implements OnInit {
             })
             if(this.NFTList.blockchain=="ethereum"){
               this.image="../../../assets/images/blockchain-icons/ethereum.png"
+              this.icon="../../../assets/images/blockchain-icons/ether.png"
+              this.crypto="ETH"
             }
             if(this.NFTList.blockchain=="polygon"){
               this.image="../../../assets/images/blockchain-icons/polygon.PNG"
+              this.icon="../../../assets/images/blockchain-icons/poly.png"
+              this.crypto="MATIC"
             }
             if(this.NFTList.blockchain=="stellar"){
               this.image="../../../assets/images/blockchain-icons/stellar.PNG"
+              this.icon="../../../assets/images/blockchain-icons/ethereum.png"
+              this.crypto="XLM"
             }
             if(this.NFTList.blockchain=="solana"){
               this.image="../../../assets/images/blockchain-icons/solana.PNG"
+              this.icon="../../../assets/images/blockchain-icons/sol.png"
+              this.crypto="SOL"
             }
   
             this.svg.Hash = this.NFTList.imagebase64;
@@ -465,6 +490,7 @@ export class BuyViewComponent implements OnInit {
               var src = str1.concat(str2.toString());
               this.imageSrc =
                 this._sanitizer.bypassSecurityTrustResourceUrl(src);
+                console.log("image in buy: ",this.imageSrc)
               this.service
                 .getTXNByBlockchainandIdentifier(
                   this.NFTList.nftidentifier,
@@ -490,6 +516,7 @@ export class BuyViewComponent implements OnInit {
                     }
                     this.List.push(card);
                     console.log("the txn list: ",this.List)
+                    //-----------------------------------
                   }
                 });
             });
@@ -571,6 +598,28 @@ export class BuyViewComponent implements OnInit {
   private formValue(controlName: string): any {
     return this.controlGroup.get(controlName)!.value;
   }
+
+ getUSDConversion(){
+  if( this.nftbe.Blockchain=="ethereum"){
+     this.apiService.getUSD("eth-usd").subscribe((res:any)=>{
+      console.log("Result is: ",res)
+      console.log("Result is: ",res.ticker.price)
+      this.conversion=res.ticker.price
+      this.price=this.NFTList.currentprice * this.conversion
+     })
+  }
+  if( this.nftbe.Blockchain=="polygon"){
+    
+  }
+  if( this.nftbe.Blockchain=="stellar"){
+    
+  }
+  if( this.nftbe.Blockchain=="solana"){
+    
+  }
+
+}
+
   public populateIframe(iframe: any,data:string) {
     console.log("CALL STARTED")
     

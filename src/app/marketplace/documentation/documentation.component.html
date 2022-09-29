@@ -1,15 +1,14 @@
-<div class="doc-parent">
-  <div class="doc-container">
-    <div class="nft-view-header" fxFlex="100%">
+<div class="doc-parent ">
+  <div class="doc-container cont-wrapper">
+    <div class="nft-view-header " fxFlex="100%">
       <div
         style="
-          width: 80%;
           display: flex;
           flex-direction: row;
           justify-content: space-between;
         "
       >
-        <div class="breadcrumb-div">
+        <div class="breadcrumb-div cont-wrapper">
           <a [routerLink]="'/getNft'" class="breadcrumb-link">Resources</a>
           <mat-icon
             class="material-symbols-outlined"
@@ -21,10 +20,10 @@
         </div>
       </div>
     </div>
-    <div class="doc-content">
+    <div class="doc-content ">
       <div class="doc-content-header">Documentation</div>
       <div class="separator"></div>
-      <div class="doc-content-body" fxLayout="row wrap">
+      <div class="doc-content-body" fxLayout="row wrap" >
         <div
           class="doc-sidebar-cont"
           fxFlex.xl="30%"
@@ -35,8 +34,11 @@
           fxLayout="row"
         >
           <div class="doc-sidebar">
-            <h2>Topics</h2>
-            <div>
+            <div fxLayout="row" fxLayoutAlign="space-between center" [ngStyle]="{'margin-bottom' : showTopics? '10px' : '0px'}">
+              <label style="font-size:26px">Topics</label>
+              <mat-icon class="cursor" [class.rotate-icon]="!showTopics" matRipple fxShow.lt-md="true" fxHide.gt-sm="true" (click)="toggleTopics()">arrow_drop_down</mat-icon>
+            </div>
+            <div *ngIf="showTopics">
               <mat-expansion-panel
                 class="doc-panel"
                 #selectbc
@@ -54,12 +56,11 @@
                       matRipple
                       >arrow_right</mat-icon
                     >
-                    <mat-icon class="cursor" *ngIf="selectbc.expanded" matRipple 
+                    <mat-icon class="cursor" *ngIf="selectbc.expanded" matRipple
                       >arrow_drop_down</mat-icon
                     >
                   </mat-panel-description>
                 </mat-expansion-panel-header>
-                
               </mat-expansion-panel>
             </div>
           </div>
@@ -76,12 +77,14 @@
           Tracified Marketplace Documentation provides all about its implementation, please click the panel on the left to read our stories.
          </p>
           <h1 class="doc-topic">{{this.topic}}</h1>
-          
+
           <p>
            {{this.desc}}
           </p>
         </div>
       </div>
+
+
     </div>
   </div>
 </div>

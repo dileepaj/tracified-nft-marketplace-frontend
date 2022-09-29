@@ -831,7 +831,7 @@ export class Mint2Component implements OnInit {
   }
 
   public openCreateCollection () {
-    this.dialogService.createCollection().afterClosed().subscribe((data : any) => {
+    this.dialogService.createCollection(this.email).afterClosed().subscribe((data : any) => {
       this.CollectionList.push({CollectionName : data.collectionName})
     });
   }

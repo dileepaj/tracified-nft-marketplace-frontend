@@ -39,10 +39,13 @@ export class DialogService {
     });
   }
 
-  createCollection(): MatDialogRef<CreateCollectionComponent> {
+  createCollection(email:string): MatDialogRef<CreateCollectionComponent> {
     return this.dialog.open(CreateCollectionComponent, {
       width: '500px',
       disableClose: true,
+      data: {
+        email:email,
+      },
     });
   }
 }

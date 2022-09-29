@@ -1,6 +1,6 @@
 <div class="explore-parent">
-  <div class="explore-container">
-    <div class="explore-header">
+  <div class="explore-container ">
+    <div class="explore-header cont-wrapper">
       <mat-icon class="back" matTooltip="Back">arrow_back</mat-icon>
       <label class="explore-heading">Explore Collections</label>
     </div>
@@ -21,7 +21,7 @@
         selectedBlockchain.charAt(0).toUpperCase() + selectedBlockchain.slice(1)
       }}</label>
     </div>
-    <div class="filters">
+    <div class="filters cont-wrapper">
       <div
         class="filter"
         [class.active-filter]="selectedFilter === 'all'"
@@ -101,7 +101,7 @@
         Best Creators
       </div>
     </div>
-    <div class="explore-content" fxLayout="row wrap">
+    <div class="explore-content cont-wrapper" fxLayout="row wrap">
       <div class="cont-inner">
         <div class="nft-item" *ngFor="let item of List">
           <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->

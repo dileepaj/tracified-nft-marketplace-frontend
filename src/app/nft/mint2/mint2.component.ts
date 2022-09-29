@@ -132,7 +132,7 @@ export class Mint2Component implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl: FormControl = new FormControl('');
   filteredtags: Observable<string[]>;
-  tags: string[] = ['carbon footprint','nfts', 'gems'];
+  tags: string[] = ['carbon footprint', 'nfts', 'gems'];
   alltags: string[] = [];
   file: File;
   base64: string = '';
@@ -141,6 +141,10 @@ export class Mint2Component implements OnInit {
   hash: any;
   onHover: boolean = false;
   CollectionList: any;
+  ethereum: boolean;
+  stellar: boolean;
+  polygon: boolean;
+  solana: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -156,7 +160,7 @@ export class Mint2Component implements OnInit {
     private dialogService: DialogService,
     private snackbar: SnackbarServiceService,
     private serviceCol: CollectionService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     this.filteredtags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -164,6 +168,8 @@ export class Mint2Component implements OnInit {
         tag ? this._filter(tag) : this.alltags.slice()
       )
     );
+
+    console.log("inside constructor; ",this.wallet,this.email)
   }
 
   sendToMint3(): void {
@@ -201,13 +207,12 @@ export class Mint2Component implements OnInit {
   }
 
   public openDialog() {
-    const dialogRef = this.dialog.open(CodeviewComponent,{
-      data:{
-        imgSrc:this.Encoded
+    const dialogRef = this.dialog.open(CodeviewComponent, {
+      data: {
+        imgSrc: this.Encoded,
       },
     });
   }
-
 
   pushTag(): void {
     //posting tag data via service to backend
@@ -231,10 +236,10 @@ export class Mint2Component implements OnInit {
   async getIssuer(): Promise<void> {
     //minting according to blockchain
     this.mint.Blockchain = this.formValue('Blockchain');
-    this.mint.NFTName = this.formValue('NFTName');;
+    this.mint.NFTName = this.formValue('NFTName');
     this.mint.NftContentURL = this.formValue('NftContentURL');
     this.mint.Imagebase64 = this.hash;
-    this.mint.Description = this.formValue('Description');;
+    this.mint.Description = this.formValue('Description');
     this.svgUpdate.Id = this.hash;
 
     if (this.mint.Blockchain == 'stellar') {
@@ -242,10 +247,10 @@ export class Mint2Component implements OnInit {
       this.service.createIssuer().subscribe(async (data: any) => {
         this.mint.NFTIssuerPK = data.NFTIssuerPK;
         this.mint.NFTIdentifier = this.mint.NFTIssuerPK;
-        
+
         this.svg.blockchain = 'stellar';
-        this.svg.Hash=this.hash
-        this.svg.Base64ImageSVG=this.Encoded
+        this.svg.Hash = this.hash;
+        this.svg.Base64ImageSVG = this.Encoded;
         this.apiService.addSVG(this.svg).subscribe();
 
         if (this.mint.NFTIssuerPK != null) {
@@ -254,7 +259,7 @@ export class Mint2Component implements OnInit {
           await freighter.initWallelt();
           this.userPK = await freighter.getWalletaddress();
           this.mint.CreatorUserId = this.userPK;
-          this.pushTag()
+          this.pushTag();
           this.apiService.getEndorsement(this.userPK).subscribe((res: any) => {
             if (res.Status == null || res.Status == '') {
               this.dialogService
@@ -276,8 +281,22 @@ export class Mint2Component implements OnInit {
                   }
                 });
             } else {
-              this.sendToMint3();
-              this.mintNFT(this.userPK);
+              this.dialogService
+                .confirmDialog({
+                  title: 'NFT Minting Confirmation',
+                  message: 'Are you sure you want to Mint this NFT?',
+                  confirmText: 'Yes',
+                  cancelText: 'No',
+                })
+                .subscribe((res) => {
+                  if (res) {
+                    this.sendToMint3();
+                    this.mintNFT(this.userPK);
+                    this.snackbar.openSnackBar(
+                      'NFT has successfully being minted'
+                    );
+                  }
+                });
             }
           });
         }
@@ -294,8 +313,8 @@ export class Mint2Component implements OnInit {
       this.mint.CreatorUserId = this.mint.NFTIssuerPK;
 
       this.svg.blockchain = 'solana';
-      this.svg.Hash=this.hash
-      this.svg.Base64ImageSVG=this.Encoded
+      this.svg.Hash = this.hash;
+      this.svg.Base64ImageSVG = this.Encoded;
       this.apiService.addSVG(this.svg).subscribe();
 
       this.apiService
@@ -319,8 +338,22 @@ export class Mint2Component implements OnInit {
                 }
               });
           } else {
-            this.sendToMint3();
-            this.mintNftSolana(this.mint.NFTIssuerPK);
+            this.dialogService
+              .confirmDialog({
+                title: 'NFT Minting Confirmation',
+                message: 'Are you sure you want to Mint this NFT?',
+                confirmText: 'Yes',
+                cancelText: 'No',
+              })
+              .subscribe((res) => {
+                if (res) {
+                  this.sendToMint3();
+                  this.mintNftSolana(this.mint.NFTIssuerPK);
+                  this.snackbar.openSnackBar(
+                    'NFT has successfully being minted'
+                  );
+                }
+              });
           }
         });
     }
@@ -336,13 +369,10 @@ export class Mint2Component implements OnInit {
       this.mint.MintedContract = environment.contractAddressNFTEthereum;
       this.mint.MarketContract = environment.contractAddressMKEthereum;
       this.mint.CreatorUserId = this.mint.DistributorPK;
-     
-      this.svg.Hash=this.hash
-      this.svg.Base64ImageSVG=this.Encoded
+      this.svg.Hash = this.hash;
+      this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'ethereum';
       this.apiService.addSVG(this.svg).subscribe();
-
-
       this.apiService
         .getEndorsement(this.mint.DistributorPK)
         .subscribe((res: any) => {
@@ -364,21 +394,37 @@ export class Mint2Component implements OnInit {
                 }
               });
           } else {
-            this.emint
-              .mintInEthereum(
-                this.mint.NFTIssuerPK,
-                this.mint.NFTName,
-                this.mint.Description,
-                this.mint.NftContentURL,
-                this.mint.Imagebase64
-              )
-              .then(async (res) => {
-                this.mint.NFTTxnHash = res.transactionHash;
-                this.tokenId = parseInt(res.logs[0].topics[3]);
-                this.mint.NFTIdentifier = this.tokenId.toString();
-                this.sendToMint3();
-                this.saveContractInGateway();
-                this.saveTXNs();
+            this.dialogService
+              .confirmDialog({
+                title: 'NFT Minting Confirmation',
+                message: 'Are you sure you want to Mint this NFT?',
+                confirmText: 'Yes',
+                cancelText: 'No',
+              })
+              .subscribe((res) => {
+                if (res) {
+                  const dialog = this.dialogService.pendingDialog();
+                  this.emint
+                    .mintInEthereum(
+                      this.mint.NFTIssuerPK,
+                      this.mint.NFTName,
+                      this.mint.Description,
+                      this.mint.NftContentURL,
+                      this.mint.Imagebase64
+                    )
+                    .then(async (res) => {
+                      this.mint.NFTTxnHash = res.transactionHash;
+                      this.tokenId = parseInt(res.logs[0].topics[3]);
+                      this.mint.NFTIdentifier = this.tokenId.toString();
+                      this.sendToMint3();
+                      this.saveContractInGateway();
+                      this.saveTXNs();
+                      dialog.close();
+                      this.snackbar.openSnackBar(
+                        'NFT has successfully being minted'
+                      );
+                    });
+                }
               });
           }
         });
@@ -394,9 +440,9 @@ export class Mint2Component implements OnInit {
       this.mint.MintedContract = environment.contractAddressNFTPolygon;
       this.mint.MarketContract = environment.contractAddressMKPolygon;
       this.mint.CreatorUserId = this.mint.DistributorPK;
-     
-      this.svg.Hash=this.hash
-      this.svg.Base64ImageSVG=this.Encoded
+
+      this.svg.Hash = this.hash;
+      this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'polygon';
       this.apiService.addSVG(this.svg).subscribe();
 
@@ -421,17 +467,31 @@ export class Mint2Component implements OnInit {
                 }
               });
           } else {
-            this.pmint
-              .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
-              .then((res) => {
-                this.mint.NFTTxnHash = res.transactionHash;
-                this.tokenId = parseInt(res.logs[0].topics[3]);
-                this.mint.NFTIdentifier = this.tokenId.toString();
-                //this.apiService.updateSVGBlockchain(this.svgUpdate)
-                this.sendToMint3();
-                this.saveContractInGateway();
-                this.saveTXNs();
-                this.loaderService.isLoading.next(false);
+            this.dialogService
+              .confirmDialog({
+                title: 'NFT Minting Confirmation',
+                message: 'Are you sure you want to Mint this NFT?',
+                confirmText: 'Yes',
+                cancelText: 'No',
+              })
+              .subscribe((res) => {
+                if (res) {
+                  this.pmint
+                    .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
+                    .then((res) => {
+                      this.mint.NFTTxnHash = res.transactionHash;
+                      this.tokenId = parseInt(res.logs[0].topics[3]);
+                      this.mint.NFTIdentifier = this.tokenId.toString();
+                      //this.apiService.updateSVGBlockchain(this.svgUpdate)
+                      this.sendToMint3();
+                      this.saveContractInGateway();
+                      this.saveTXNs();
+                      this.snackbar.openSnackBar(
+                        'NFT has successfully being minted'
+                      );
+                      this.loaderService.isLoading.next(false);
+                    });
+                }
               });
           }
         });
@@ -456,9 +516,10 @@ export class Mint2Component implements OnInit {
     this.contract.Tags = this.tags;
     this.contract.Identifier = this.mint.NFTIdentifier;
     this.service.addNFTGW(this.contract).subscribe((res) => {
-      this.router.navigate(['./mint3'], {
-        queryParams: { data: JSON.stringify(this.mint.Blockchain) },
-      });
+      // this.router.navigate(['./mint3'], {
+      //   queryParams: { data: JSON.stringify(this.mint.Blockchain) },
+      // });
+      this.proceed.emit({});
     });
   }
 
@@ -466,9 +527,7 @@ export class Mint2Component implements OnInit {
     if (this.minter.NFTIssuerPK != null) {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
         this.saveTXNs();
-        this.router.navigate(['./mint3'], {
-          queryParams: { data: JSON.stringify(this.mint.Blockchain) },
-        });
+        this.proceed.emit({});
       });
     } else {
       this.Minter();
@@ -479,10 +538,7 @@ export class Mint2Component implements OnInit {
     if (this.stxn.NFTTxnHash != null) {
       this.service.updateTXNStellar(this.stxn).subscribe((res) => {
         this.saveTXNs();
-        this.router.navigate(['./mint3'], {
-          queryParams: { data: JSON.stringify(this.mint.Blockchain) },
-        });
-
+       this.proceed.emit({});
       });
     } else {
       this.TXNStellar();
@@ -550,7 +606,7 @@ export class Mint2Component implements OnInit {
                 this.mint.Description,
                 this.mint.Collection,
                 this.mint.Blockchain,
-                'NFT',
+                this.mint.Tags,
                 this.mint.Categories,
                 this.mint.Copies,
                 this.mint.NftContentURL,
@@ -587,14 +643,37 @@ export class Mint2Component implements OnInit {
     this.isLoadingPresent = false;
     this.loading.dismiss();
   }
-
   ngOnInit(): void {
-    //retrieving data from mint component
-    this.route.queryParams.subscribe((params) => {
-      this.data = JSON.parse(params['data']);
-       if (this.data[0] != null) {
+    
+  }
+  ngOnChanges(): void {
+      console.log("inside mint 2")
+      console.log("wallet and email is: ",this.wallet, this.email)
+      if(this.wallet=="metamask"){
+        console.log("---------metamaask------")
+      this.polygon=false
+      this.stellar=true
+      this.ethereum=false
+      this.solana=true
+       
+      }
+      if(this.wallet=="phantom"){
+        console.log("---------phantom------")
+        this.polygon=true
+      this.stellar=true
+      this.ethereum=true
+      this.solana=false
+      }
+      if(this.wallet=="freighter"){
+        console.log("---------frighter------")
+        this.polygon=true
+      this.stellar=false
+      this.ethereum=true
+      this.solana=true
+      }
+       if (this.email != null) {
       this.serviceCol
-        .getCollectionName(this.data[0])
+        .getCollectionName(this.email)
         .subscribe((data: any) => {
           this.CollectionList = data;
         });
@@ -603,8 +682,7 @@ export class Mint2Component implements OnInit {
     }
 
       //  })
-    });
-
+    // });
 
     this.controlGroup = new FormGroup({
       //validation
@@ -640,7 +718,7 @@ export class Mint2Component implements OnInit {
           this.mint.Description,
           this.mint.Collection,
           this.mint.Blockchain,
-          'NFT',
+          this.mint.Tags,
           this.mint.Categories,
           this.mint.Copies,
           this.mint.NftContentURL,
@@ -670,7 +748,6 @@ export class Mint2Component implements OnInit {
     if (value) {
       if (this.tags.length < 4) {
         this.tags.push(value);
-
       }
     }
 

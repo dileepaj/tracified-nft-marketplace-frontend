@@ -134,10 +134,10 @@
         <mat-select
           formControlName="Blockchain"
           disableOptionCentering
-          class="select-bc"
+          class="select-bc"  d
         >
-          <mat-select-trigger
-            *ngIf="controlGroup.controls['Blockchain'].value === 'ethereum'"
+          <mat-select-trigger 
+            *ngIf="controlGroup.controls['Blockchain'].value === 'ethereum'" 
           >
             <div class="bc-dropdown-selected">
               <img src="../../../assets/images/ethereum-dd.png" />
@@ -170,25 +170,25 @@
           </mat-select-trigger>
 
           <!--options-->
-          <mat-option class="option" value="ethereum">
+          <mat-option class="option" value="ethereum" [disabled]="this.ethereum">
             <div class="bc-dropdown">
               <img src="../../../assets/images/ethereum-dd.png" />
               <label>Ethereum</label>
             </div>
           </mat-option>
-          <mat-option class="option" value="polygon">
+          <mat-option class="option" value="polygon" [disabled]="this.polygon">
             <div class="bc-dropdown">
               <img src="../../../assets/images/polygon-dd.png" />
               <label>Polygon</label>
             </div>
           </mat-option>
-          <mat-option class="option" value="stellar">
+          <mat-option class="option" value="stellar" [disabled]="this.stellar" >
             <div class="bc-dropdown">
               <img src="../../../assets/images/stellar-dd.png" />
               <label>Stellar</label>
             </div>
           </mat-option>
-          <mat-option class="option" value="solana">
+          <mat-option class="option" value="solana" [disabled]="this.solana">
             <div class="bc-dropdown">
               <img src="../../../assets/images/solana-dd.png" />
               <label>Solana</label>

@@ -26,7 +26,9 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         .request({ method: 'eth_requestAccounts' })
         .then((addresses: any) => {
           this.walletAddress = addresses[0];
-          _callback(addresses[0]);
+          if (_callback !== undefined) {
+            _callback(addresses[0]);
+          }
         })
         .catch((e: { message: any }) => {
           console.error(e.message);

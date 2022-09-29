@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-documentation',
@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DocumentationComponent implements OnInit {
   topic: any;
+  showTopics : boolean = true;
+  smallScreen : boolean = true;
   constructor() {}
   desc:any
   List:any[]=[{topic:"What is Ethereum",desc:"Blockchain underwent a revolution with the introduction of Bitcoin, but other latecomers, like Ethereum, have gained just as much support as Bitcoin, if not more. The Ethereum Blockchain is a decentralized, open-source platform that was first introduced in 2015. Since its debut, Ethereum has accomplished a number of significant milestones. The collaboration between Microsoft and ConsenSys is one of the platform's most notable recent accomplishments. Through the cooperation, developers and organizations using Microsoft Azure will have access to Ethereum Blockchain as a Service (EBaaS). The Ethereum network functions the same as every other Blockchain network. Different nodes known as miners evaluate each new transaction after it has been logged. To update the transaction in the decentralized ledger, these miners run the program code on their computer. For each piece of code they run or each transaction they add to the chain, miners are rewarded 3 ether. The output of each miner's code is added to the consensus, which is then inspected to verify the most recent transaction for efficient network-wide transactions."},
@@ -17,8 +19,15 @@ export class DocumentationComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("List :", this.List)
+    if (window.innerWidth < 960) {
+      this.showTopics = false;
+      this.smallScreen = true;
+    } else {
+      this.showTopics = true;
+      this.smallScreen = false;
+    }
   }
- 
+
   selectDoc(topic:string){
     console.log("----------------------")
     for(let x=0; x<this.List.length;x++){
@@ -26,10 +35,28 @@ export class DocumentationComponent implements OnInit {
         console.log("the Desc :", this.List[x].desc)
         this.desc=this.List[x].desc
         this.topic=this.List[x].topic
+        if(this.smallScreen) {
+          this.showTopics = false;
+        }
 
       }
     }
 
+  }
+
+  public toggleTopics () {
+    this.showTopics = !this.showTopics;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (event.target.innerWidth < 960) {
+      this.showTopics = false;
+      this.smallScreen = true;
+    } else {
+      this.showTopics = true;
+      this.smallScreen = false;
+    }
   }
 
 }

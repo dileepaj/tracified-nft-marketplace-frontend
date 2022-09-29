@@ -6,14 +6,16 @@
   right: 0; */
   margin-top: 60px;
   border-top: 1px solid white;
-  padding: 0px 80px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 0px 20px 0px;
 }
 
 .doc-container {
   display: flex;
   flex-direction: column;
   color: white;
-  width: 100%;
 }
 
 .doc-content {
@@ -40,6 +42,7 @@
 }
 
 .nft-view-header {
+  width: 100%;
   display: flex;
   flex-direction: row;
   margin-top: 50px;
@@ -211,4 +214,8 @@
   padding: 5px 20px 5px 20px;
 
   color: #000000;
+}
+
+.rotate-icon {
+  transform: rotate(270deg);
 }

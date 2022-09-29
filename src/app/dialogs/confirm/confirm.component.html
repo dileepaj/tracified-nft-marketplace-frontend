@@ -1,15 +1,25 @@
-<div class="header">
-    <h2 mat-dialog-title>{{data?.title}}</h2>
-    <button mat-icon-button [mat-dialog-close]="false">
-        <mat-icon>close</mat-icon>
-    </button>
+<div class="close-div"><mat-icon mat-dialog-close> close </mat-icon></div>
+<div class="dialog-header">
+  <label mat-dialog-title>{{ data?.title }}</label>
 </div>
-
-<div mat mat-dialog-content>
-    {{data?.message}}
-</div>
-
-<div matDialogActions>
-    <button mat-raised-button [mat-dialog-close]="false">{{data?.cancelText}}</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="true">{{data?.confirmText}}</button>
-</div>
+<mat-dialog-content>
+  <div class="dialog-content">{{ data?.message }}</div>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="dialog-actions">
+  <button
+    mat-dialog-close
+    class="dialog-btn-secondary"
+    (click)="cancel()"
+    matRipple
+  >
+    {{ data?.cancelText }}
+  </button>
+  <button
+    cdkFocusInitial
+    class="dialog-btn-primary"
+    (click)="confirm()"
+    matRipple
+  >
+    {{ data?.confirmText }}
+  </button>
+</mat-dialog-actions>

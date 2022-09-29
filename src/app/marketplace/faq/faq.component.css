@@ -6,14 +6,16 @@
   right: 0; */
   margin-top: 60px;
   border-top: 1px solid white;
-  padding: 0px 80px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 0px 20px 0px;
 }
 
 .faq-container {
   display: flex;
   flex-direction: column;
   color: white;
-  width: 100%;
 }
 
 .faq-content {

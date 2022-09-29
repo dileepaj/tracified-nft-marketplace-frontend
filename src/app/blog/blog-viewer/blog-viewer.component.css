@@ -1,12 +1,306 @@
-.cardblog{
-    position: relative;
-    width: 150vh;
-    height: 60vh;
-    align-items: center;
-    margin-left: 30vh;
-    margin-top: 20vh;
+.cardblog {
+  position: relative;
+  width: 150vh;
+  height: 60vh;
+  align-items: center;
+  margin-left: 30vh;
+  margin-top: 20vh;
 }
 
-.code{
-    align-items: center;
+.code {
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  margin-top: 65px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cont-wrapper {
+  width: 90%;
+  /* max-width: 1250px; */
+  display: flex;
+  flex-direction: row;
+}
+
+.nft-story-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 60px;
+  margin-bottom: 56px;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.breadcrumb-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  column-gap: 18px;
+  width: 100%;
+}
+
+.breadcrumb-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
+
+.nft-story-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: calc(100vh - 66px);
+  padding-right: 50px;
+  overflow: auto;
+  scrollbar-color: #10ceac #3c3c3c;
+}
+
+.nft-info {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 25px;
+  row-gap: 35px;
+  width: 100%;
+}
+
+.nft-info .name {
+  margin-top: 30px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 30px;
+  text-align: center;
+
+  color: #ffffff;
+}
+
+.nft-info .cat {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+
+  color: #ffffff;
+}
+
+.nft-info .cat-val {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+
+  color: rgba(0, 200, 83, 1);
+}
+
+.story-img {
+  width: 303px;
+  max-width: 100%;
+  height: 267px;
+  border-radius: 20px;
+}
+
+.blockchain-logo {
+  width: 30px;
+  height: 30px;
+}
+
+.normal-text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 28px;
+  text-align: start;
+  color: #ffffff;
+  width: 100%;
+}
+
+.story {
+  margin-top: 35px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.sidebar-wrapper {
+  background-color: aqua;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.nft-story-sidebar {
+  height: calc(100vh - 156px);
+  width: 400px;
+  background: #2d2d2d;
+  padding: 45px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 20px;
+  row-gap: 20px;
+  overflow-y: auto;
+  scrollbar-color: #10ceac #3c3c3c;
+}
+
+.nft-story-sidebar h3 {
+  width: 100%;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  /* identical to box height */
+
+  color: #ffffff;
+}
+
+.story-card {
+  width: calc(47%);
+  height: 260px;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+.story-card img {
+  height: 180px;
+}
+
+.story-card .actions {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 5px;
+  align-items: center;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 15px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #ffffff;
+}
+
+.story-card .actions button {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #000000;
+  padding: 8px 10px 8px 10px;
+  background: #10ceac;
+  border-radius: 20px;
+}
+
+.browse-wrapper {
+  width: 100%;
+  height: 350px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+  background-color: #2d2d2d;
+}
+
+.browse {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.browse .list {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.browse h3 {
+  width: 100%;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  /* identical to box height */
+
+  color: #ffffff;
+}
+
+.browse .story-card {
+  width: 180px;
+}
+
+/* width */
+.nft-story-sidebar::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+}
+
+/* Track */
+.nft-story-sidebar::-webkit-scrollbar-track {
+  background: #3c3c3c;
+}
+
+/* Handle */
+.nft-story-sidebar::-webkit-scrollbar-thumb {
+  background: #10ceac;
+  border-radius: 0px;
+}
+
+/* Handle on hover */
+.nft-story-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* width */
+.nft-story-content::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+}
+
+/* Track */
+.nft-story-content::-webkit-scrollbar-track {
+  background: #3c3c3c;
+}
+
+/* Handle */
+.nft-story-content::-webkit-scrollbar-thumb {
+  background: #10ceac;
+  border-radius: 0px;
+}
+
+/* Handle on hover */
+.nft-story-content::-webkit-scrollbar-thumb:hover {
+  background: #888;
 }

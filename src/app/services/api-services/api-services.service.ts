@@ -6,6 +6,7 @@ import { Favourites, WatchList } from 'src/app/models/marketPlaceModel';
 import { Endorse, UpdateEndorse, UpdateStatus } from 'src/app/models/endorse';
 import { Partners, UpdatePartners } from 'src/app/models/admin';
 import { NFTStory, Reviews } from 'src/app/models/nft';
+import { Subscription } from 'src/app/models/mail';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class ApiServicesService {
   baseUrlPartner='http://localhost:6081/partner/'
   baseUrlSaveReview='http://localhost:6081/review/';
   baseUrlSaveStory='http://localhost:6081/story/';
+  baseUrlSubscribe ='http://localhost:6081/subscribe/';
 
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
@@ -34,7 +36,10 @@ export class ApiServicesService {
     const svgToAdd = this.http.post<SVG>(this.baseUrlSaveSvg, st, {headers: this.headers});
     return svgToAdd
   }
-
+  addSubscription(st: Subscription): Observable<Subscription> {//request to add collection into the nft backend DB
+    const svgToAdd = this.http.post<Subscription>(this.baseUrlSubscribe, st, {headers: this.headers});
+    return svgToAdd
+  }
   updateSVGBlockchain(st:UpdateSVG):Observable<UpdateSVG>{
     this.UpdatesvgResponseObservable= this.http.put<UpdateSVG>(this.baseUrlUpdateSVGBC, st, {headers: this.headers})
     this.UpdatesvgResponseObservable.subscribe(res=>{
@@ -94,7 +99,7 @@ export class ApiServicesService {
   }
 
   updateEndorsement(st:UpdateEndorse):Observable<UpdateEndorse>{
-  return this.http.put<UpdateEndorse>(this.baseUrlEndorsement, st, { headers: this.headers }); 
+  return this.http.put<UpdateEndorse>(this.baseUrlUpdateEndorse, st, { headers: this.headers }); 
   }
 
   updateEndorsementStatus(st:UpdateStatus):Observable<UpdateStatus>{

@@ -10,6 +10,7 @@ import { MintPopupComponent } from '../mint-popup/mint-popup.component';
 export class Mint3Component implements OnInit {
   @Output() proceed: EventEmitter<any> = new EventEmitter();
   data: any;
+  event:any="refresh"
   constructor(public dialog: MatDialog,private route: ActivatedRoute,private router: Router,) {}
 
   openDialog() {

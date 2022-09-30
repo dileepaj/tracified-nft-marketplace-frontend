@@ -514,7 +514,9 @@ export class Mint2Component implements OnInit {
       // this.router.navigate(['./mint3'], {
       //   queryParams: { data: JSON.stringify(this.mint.Blockchain) },
       // });
-      this.proceed.emit({});
+      this.proceed.emit({
+        blockchain:this.mint.Blockchain
+      });
     });
   }
 
@@ -522,7 +524,9 @@ export class Mint2Component implements OnInit {
     if (this.minter.NFTIssuerPK != null) {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
         this.saveTXNs();
-        this.proceed.emit({});
+        this.proceed.emit({
+          blockchain:this.mint.Blockchain
+        });
       });
     } else {
       this.Minter();
@@ -533,7 +537,9 @@ export class Mint2Component implements OnInit {
     if (this.stxn.NFTTxnHash != null) {
       this.service.updateTXNStellar(this.stxn).subscribe((res) => {
         this.saveTXNs();
-       this.proceed.emit({});
+       this.proceed.emit({
+        blockchain:this.mint.Blockchain
+       });
 
       });
     } else {

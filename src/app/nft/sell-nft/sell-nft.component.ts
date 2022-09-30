@@ -186,6 +186,7 @@ export class SellNftComponent implements OnInit {
                 this.snackbarService.openSnackBar(
                   'NFT has successfully been put on sale'
                 );
+                this.showInProfile();
               });
           }
         });
@@ -204,6 +205,7 @@ export class SellNftComponent implements OnInit {
         this.snackbarService.openSnackBar(
           'NFT has successfully been put on sale'
         );
+        this.showInProfile()
       } else {
         console.log('mint ', this.NFTList.nftissuerpk);
         const connection = new Connection(
@@ -247,6 +249,7 @@ export class SellNftComponent implements OnInit {
                     this.snackbarService.openSnackBar(
                       'NFT has successfully been put on sale'
                     );
+                    this.showInProfile()
                   } catch (err) {
                     alert(err);
                   }
@@ -285,6 +288,7 @@ export class SellNftComponent implements OnInit {
                 this.snackbarService.openSnackBar(
                   'NFT has successfully been put on sale'
                 );
+                this.showInProfile()
               });
             //this.addDBBackend()
           }
@@ -321,6 +325,7 @@ export class SellNftComponent implements OnInit {
                 this.snackbarService.openSnackBar(
                   'NFT has successfully been put on sale'
                 );
+                this.showInProfile()
               });
           }
         });

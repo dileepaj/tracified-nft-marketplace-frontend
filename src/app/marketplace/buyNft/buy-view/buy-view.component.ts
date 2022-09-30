@@ -198,6 +198,7 @@ export class BuyViewComponent implements OnInit {
             this.service.updateNFTStatusBackend(this.saleBE).subscribe();
             this.updateGateway();
             this.snackbar.openSnackBar('NFT has successfully been bought');
+            this.showInProfile()
           });
   
         this.ata
@@ -215,6 +216,7 @@ export class BuyViewComponent implements OnInit {
               ).solana.signAndSendTransaction(result);
               await connection.confirmTransaction(signature);
               this.snackbar.openSnackBar('NFT has successfully been bought');
+              this.showInProfile()
             } catch (err) {
               alert(err);
             }
@@ -250,6 +252,7 @@ export class BuyViewComponent implements OnInit {
             this.service.updateNFTStatusBackend(this.saleBE).subscribe();
             this.updateGateway();
             this.snackbar.openSnackBar('NFT has successfully been bought');
+            this.showInProfile()
           });
         }
       })
@@ -285,6 +288,7 @@ export class BuyViewComponent implements OnInit {
             this.service.updateNFTStatusBackend(this.saleBE).subscribe();
             this.updateGateway();
             this.snackbar.openSnackBar('NFT has successfully been bough');
+            this.showInProfile()
           });
         }})
     }
@@ -340,6 +344,7 @@ export class BuyViewComponent implements OnInit {
           console.log('user pk for stellar: ', this.userPK);
           this.service.updateNFTStatusBackend(this.saleBE).subscribe();
           this.snackbar.openSnackBar('NFT has successfully been bough');
+          this.showInProfile()
         } else {
           if (this.isLoadingPresent) {
             this.dissmissLoading();
@@ -472,7 +477,7 @@ export class BuyViewComponent implements OnInit {
             }
             if(this.NFTList.blockchain=="stellar"){
               this.image="../../../assets/images/blockchain-icons/stellar.PNG"
-              this.icon="../../../assets/images/blockchain-icons/ethereum.png"
+              this.icon="../../../assets/images/blockchain-icons/xlm.png"
               this.crypto="XLM"
             }
             if(this.NFTList.blockchain=="solana"){

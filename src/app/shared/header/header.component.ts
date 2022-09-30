@@ -7,6 +7,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
 import { WalletComponent } from 'src/app/wallet/wallet.component';
@@ -30,10 +31,12 @@ export class HeaderComponent implements OnInit {
     private dialogref: MatDialog,
     private router: Router,
     public loaderService: LoaderService,
-    private walletService: WalletSidenavService
+    private walletService: WalletSidenavService,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
+    //this.openDialogTest();
     this.controlGroup = new FormGroup({
       //validation
       Tag: new FormControl(this.tag, Validators.required)})
@@ -108,8 +111,8 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  public goToResource(route:any){
-    if (route == "doc"){
+  public goToResource(route: any) {
+    if (route == 'doc') {
       this.router.navigate(['/docs'], {
         queryParams: { data: 'Inside documentation' },
       });
@@ -139,5 +142,15 @@ export class HeaderComponent implements OnInit {
 
   public toggleAccList() {
     this.accListExpanded = !this.accListExpanded;
+  }
+
+  private openDialogTest() {
+    /* this.dialogService.okDialog({
+      title: 'User review confirmation',
+      message: 'Are you sure you want to submit this review',
+      confirmText: 'Yes',
+    }); */
+
+    this.dialogService.pendingDialog();
   }
 }

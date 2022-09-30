@@ -261,27 +261,7 @@ export class Mint2Component implements OnInit {
           this.userPK = await freighter.getWalletaddress();
           this.mint.CreatorUserId = this.userPK;
           this.pushTag()
-          this.apiService.getEndorsement(this.userPK).subscribe((res: any) => {
-            if (res.Status == null || res.Status == '') {
-              this.dialogService
-                .confirmDialog({
-                  title: 'Public Key Endorsment',
-                  message:
-                    'Your account is not endorsed. Would you like to get your account Endorsed now',
-                  confirmText: 'Yes',
-                  cancelText: 'No',
-                })
-                .subscribe((res) => {
-                  if (res) {
-                    //alert("You are not endorsed. Get endorsed now")
-                    this.router.navigate(['./signUp'], {
-                      queryParams: {
-                        data: JSON.stringify(this.mint.Blockchain),
-                      },
-                    });
-                  }
-                });
-            } else {
+         
               this.dialogService.confirmDialog({
                 title: 'NFT Minting Confirmation',
                 message:
@@ -296,8 +276,6 @@ export class Mint2Component implements OnInit {
                   this.snackbar.openSnackBar("NFT has successfully being minted")
                 }
               })
-            }
-          });
         }
       });
     }
@@ -316,27 +294,6 @@ export class Mint2Component implements OnInit {
       this.svg.Base64ImageSVG=this.Encoded
       this.apiService.addSVG(this.svg).subscribe();
 
-      this.apiService
-        .getEndorsement(this.mint.NFTIssuerPK)
-        .subscribe((res: any) => {
-          if (res.Status == null || res.Status == '') {
-            this.dialogService
-              .confirmDialog({
-                title: 'Public Key Endorsment',
-                message:
-                  'Your account is not endorsed. Would you like to get your account Endorsed now',
-                confirmText: 'Yes',
-                cancelText: 'No',
-              })
-              .subscribe((res) => {
-                if (res) {
-                  //alert("You are not endorsed. Get endorsed now")
-                  this.router.navigate(['./signUp'], {
-                    queryParams: { data: JSON.stringify(this.mint.Blockchain) },
-                  });
-                }
-              });
-          } else {
             this.dialogService
             .confirmDialog({
               title: 'NFT Minting Confirmation',
@@ -351,9 +308,7 @@ export class Mint2Component implements OnInit {
                 this.mintNftSolana(this.mint.NFTIssuerPK);
                 this.snackbar.openSnackBar("NFT has successfully being minted")
               }
-            })
-          }
-        });
+            })  
     }
 
     if (this.mint.Blockchain == 'ethereum') {
@@ -371,27 +326,7 @@ export class Mint2Component implements OnInit {
       this.svg.Base64ImageSVG=this.Encoded
       this.svg.blockchain = 'ethereum';
       this.apiService.addSVG(this.svg).subscribe();
-      this.apiService
-        .getEndorsement(this.mint.DistributorPK)
-        .subscribe((res: any) => {
-          if (res.Status == null || res.Status == '') {
-            this.dialogService
-              .confirmDialog({
-                title: 'Public Key Endorsment',
-                message:
-                  'Your account is not endorsed. Would you like to get your account Endorsed now',
-                confirmText: 'Yes',
-                cancelText: 'No',
-              })
-              .subscribe((res) => {
-                if (res) {
-                  //alert("You are not endorsed. Get endorsed now")
-                  this.router.navigate(['./signUp'], {
-                    queryParams: { data: JSON.stringify(this.mint.Blockchain) },
-                  });
-                }
-              });
-          } else {
+         
             this.dialogService
                 .confirmDialog({
                   title: 'NFT Minting Confirmation',
@@ -421,8 +356,6 @@ export class Mint2Component implements OnInit {
                     });
                   }
                 })
-          }
-        });
     }
 
     if (this.mint.Blockchain == 'polygon') {
@@ -440,28 +373,7 @@ export class Mint2Component implements OnInit {
       this.svg.Base64ImageSVG=this.Encoded
       this.svg.blockchain = 'polygon';
       this.apiService.addSVG(this.svg).subscribe();
-
-      this.apiService
-        .getEndorsement(this.mint.DistributorPK)
-        .subscribe((res: any) => {
-          if (res.Status == null || res.Status == '') {
-            this.dialogService
-              .confirmDialog({
-                title: 'Public Key Endorsment',
-                message:
-                  'Your account is not endorsed. Would you like to get your account Endorsed now',
-                confirmText: 'Yes',
-                cancelText: 'No',
-              })
-              .subscribe((res) => {
-                if (res) {
-                  //alert("You are not endorsed. Get endorsed now")
-                  this.router.navigate(['./signUp'], {
-                    queryParams: { data: JSON.stringify(this.mint.Blockchain) },
-                  });
-                }
-              });
-          } else {
+         
             this.dialogService
                 .confirmDialog({
                   title: 'NFT Minting Confirmation',
@@ -487,9 +399,6 @@ export class Mint2Component implements OnInit {
                     });
                   }
                 })
-           
-          }
-        });
     }
   }
 

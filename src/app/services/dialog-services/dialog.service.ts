@@ -4,7 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
 import { OkmessageComponent } from 'src/app/dialogs/okmessage/okmessage.component';
-import { ConfirmDialog, OkDialog } from 'src/app/models/confirmDialog';
+import { PreviewImageComponent } from 'src/app/dialogs/previewImage/preview-image/preview-image.component';
+import { ConfirmDialog, OkDialog, PreviewImage } from 'src/app/models/confirmDialog';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +24,14 @@ export class DialogService {
     return this.dialog.open(OkmessageComponent,{
       data,
       width:'500px',
+      disableClose:true,
+    }).afterClosed();
+  }
+  previewImage(data:PreviewImage):Observable<boolean>{
+    console.log("image data:",data.image)
+    return this.dialog.open(PreviewImageComponent,{
+      data,
+      width:'100%',
       disableClose:true,
     }).afterClosed();
   }

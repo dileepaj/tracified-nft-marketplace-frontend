@@ -87,7 +87,8 @@ import { MintNftComponent } from './nft/mint-nft/mint-nft.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ContactUsComponent } from './marketplace/contact-us/contact-us.component';
-
+import { AddEditFaqsComponent } from './admin/add-edit-faqs/add-edit-faqs.component';
+import { PreviewImageComponent } from './dialogs/previewImage/preview-image/preview-image.component';
 const appRoutes: Routes = [
   {
     path: 'home',
@@ -186,6 +187,11 @@ const appRoutes: Routes = [
         component: AddNewsletterComponent,
       },
       {
+        canActivate:[AuthGuard],
+        path:'AnswerUserFAQ',
+        component:AddEditFaqsComponent,
+      },
+      {
         path: '',
         redirectTo: 'overview',
         pathMatch: 'full',
@@ -228,6 +234,10 @@ const appRoutes: Routes = [
     path: 'contact-us',
     component: ContactUsComponent,
   },
+  {
+    path:'AnswerUserFAQ',
+    component:AddEditFaqsComponent
+  }
 ];
 @NgModule({
   declarations: [
@@ -288,6 +298,8 @@ const appRoutes: Routes = [
     MintNftComponent,
     FooterComponent,
     ContactUsComponent,
+    AddEditFaqsComponent,
+    PreviewImageComponent,
   ],
   imports: [
     BrowserModule,

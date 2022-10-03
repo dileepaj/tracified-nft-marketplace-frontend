@@ -1,1 +1,38 @@
-<p>add-edit-faqs works!</p>
+<div class="endrs-main-div" fxLayout="row wrap">
+    <div class="nft-div" fxFlex="100%" fxLayout="row wrap">
+        <div>
+            <div>
+                <form class="userRating-form" [formGroup]="controlGroup" fxLayout="row wrap">
+                    <h1 fxFlex="100%" style="margin-top: 40px;"><strong>User Question</strong></h1>
+                    <div fxFlex.lg="50%" fxLayout="row wrap" style="row-gap: 30px">
+                        <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%">Email</label><label fxFlex="60%"
+                            fxFlex.lt-sm="80%" class="label-data">{{this.data.usermail}}</label>
+                        <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%">Category</label><label fxFlex="60%"
+                            fxFlex.lt-sm="80%" class="label-data">{{this.data.category}}</label>
+                        <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%">Subject</label><label fxFlex="60%"
+                            fxFlex.lt-sm="80%" class="label-data">{{this.data.subject}}</label>
+                        <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%">Description</label><label
+                            fxFlex="60%" fxFlex.lt-sm="80%" class="label-data">{{this.data.desc}}</label>
+                        <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%">Question ID</label>
+                        <label name="PKval" ngDefaultControl [(ngModel)]='questionID'
+                            [ngModelOptions]="{standalone: true}" fxFlex="60%" fxFlex.lt-sm="80%"
+                            class="label-data">{{this.data.userquestionID}}</label>
+                            <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%">Attachment</label>
+                            <img (click)="showimage()" class="attachment-img" [src]="imagePath">
+                    </div>
+                    <div fxFlex="95%" fxFlex.lt-sm="85%" style="display: flex; flex-direction: column; row-gap: 20px">
+                        <label class="label-title">Type Your answer.</label>
+                        <mat-form-field class="example-full-width" appearance="outline" fxFlex="100%">
+                            <textarea matInput formControlName="answer" name="answer"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <button mat-flat-button class="btn-submit" id="submitbtn" (click)="updateUserFAQ()">
+                            Send
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

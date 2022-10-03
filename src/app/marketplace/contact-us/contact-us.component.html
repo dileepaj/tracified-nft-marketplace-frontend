@@ -7,7 +7,7 @@
   <p class="normal-text" style="max-width: 90%">
     We are more than happy to be of assitance for any of your queries.
   </p>
-  <form class="contact-form" ngStyle.lt-md="width:90%">
+  <form class="contact-form" ngStyle.lt-md="width:90%" [formGroup]="controlGroup">
     <div class="contact-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text"
         >Email Address <span class="required">*</span>
@@ -17,7 +17,7 @@
           type="email"
           class="input"
           matInput
-          name="email"
+          name="Email"
           formControlName="Email"
           placeholder="Enter your email address here."
         />
@@ -39,7 +39,7 @@
           <mat-select-trigger>
             <label class="collection-dropdown-selected">Minting</label>
           </mat-select-trigger>
-          <mat-option value="minting"
+          <mat-option value="minting" name="type"
             ><label class="collection-dropdown">Minting</label></mat-option
           >
         </mat-select>
@@ -87,12 +87,12 @@
         (click)="triggerClick()"
       >
         <label id="cntct-dnd-label">Add file or drag files here</label>
-        <input type="file" #fileUpload (change)="onChange($event)" hidden />
+        <input type="file" accept=".png,.jpg" #fileUpload (change)="onChange($event)" hidden />
       </div>
       <label class="file-name">{{ name }}</label>
     </div>
     <div class="contact-form-group" ngStyle.lt-md="width:100%">
-      <button mat-flat-button class="btn-submit">Submit</button>
+      <button mat-flat-button class="btn-submit" (click)="saveUserFAQ()">Submit</button>
     </div>
   </form>
 </div>

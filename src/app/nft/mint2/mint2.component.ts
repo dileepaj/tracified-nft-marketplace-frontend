@@ -132,7 +132,7 @@ export class Mint2Component implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl: FormControl = new FormControl('');
   filteredtags: Observable<string[]>;
-  tags: string[] = ['carbon footprint', 'nfts', 'gems'];
+  tags: string[] = [];
   alltags: string[] = [];
   file: File;
   base64: string = '';

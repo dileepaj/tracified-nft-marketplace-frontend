@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
   tag: any;
   controlGroup: FormGroup;
   bcListExpanded: boolean = false;
-  accListExpanded: boolean = false;
+  //accListExpanded: boolean = false;
   timedOutCloser;
   
   constructor(

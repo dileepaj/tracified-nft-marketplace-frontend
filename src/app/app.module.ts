@@ -249,7 +249,8 @@ const appRoutes: Routes = [
   {
     path:'AnswerUserFAQ',
     component:AddEditFaqsComponent
-  }
+  },
+  {
     path: 'mycollections',
     component: UserCollectionsComponent,
   },

@@ -29,7 +29,7 @@ export class UserCollectionsComponent implements OnInit {
         let card:MyCollection= new MyCollection('');
             card.collection=this.data.Response[0].collection
              this.List.push(card)
-        for(let x=0;x<this.data.Response.length;x++){
+        for(let x=0;x<=this.data.Response.length;x++){
           console.log("element 1: ",this.data.Response[x].collection)
           console.log("element 2: ",this.data.Response[x+1].collection)
           if(this.data.Response[x].collection!=this.data.Response[x+1].collection){

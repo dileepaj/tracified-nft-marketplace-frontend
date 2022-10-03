@@ -1,4 +1,38 @@
-<div class="main-div">
+<div class="close-div"><mat-icon mat-dialog-close> close </mat-icon></div>
+<div class="dialog-header">
+  <label mat-dialog-title>Create Collection</label>
+</div>
+<mat-dialog-content>
+  <div class="dialog-content">
+    <form class="example-form" [formGroup]="controlGroup">
+      <div class="mint-form-group">
+        <label>Enter Your Email<span class="required">*</span></label>
+        <div class="input-field">
+         <mat-label>{{this.mail}}</mat-label>
+        </div>
+      </div>
+      <div class="mint-form-group">
+        <label>Name of Collection<span class="required">*</span></label>
+        <div class="input-field">
+          <input matInput type="text" formControlName="collectionName" />
+        </div>
+      </div>
+      <div class="mint-form-group">
+        <label>Name of Organization<span class="required">*</span></label>
+        <div class="input-field">
+          <input matInput type="text" formControlName="organizationName" />
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="dialog-actions">
+  <button cdkFocusInitial class="dialog-btn-primary" (click)="save()" matRipple>
+    Create
+  </button>
+</mat-dialog-actions>
+
+<!-- <div class="main-div">
   <div class="collection-header">
     <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
       >arrow_back</mat-icon
@@ -57,3 +91,4 @@
     </div>
   </div>
 </div>
+ -->

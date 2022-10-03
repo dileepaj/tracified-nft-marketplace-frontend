@@ -557,7 +557,7 @@ export class Mint2Component implements OnInit {
     this.loading.dismiss();
   }
   ngOnInit(): void {
-    
+
   }
   ngOnChanges(): void {
       console.log("inside mint 2")
@@ -568,7 +568,7 @@ export class Mint2Component implements OnInit {
       this.stellar=true
       this.ethereum=false
       this.solana=true
-       
+
       }
       if(this.wallet=="phantom"){
         console.log("---------phantom------")
@@ -743,6 +743,12 @@ export class Mint2Component implements OnInit {
     el.click();
   }
 
+  public openCreateCollection () {
+    this.dialogService.createCollection(this.email).afterClosed().subscribe((data : any) => {
+      this.CollectionList.push({CollectionName : data.collectionName})
+    });
+  }
+
   @HostListener('dragover', ['$event']) public onDragOver(evt) {
     evt.preventDefault();
     evt.stopPropagation();
@@ -759,9 +765,12 @@ export class Mint2Component implements OnInit {
     evt.preventDefault();
     evt.stopPropagation();
     this.onHover = false;
-    let files = evt.dataTransfer.files;
-    let valid_files: Array<File> = files;
-    this.file = valid_files[0];
-    this.uploadImage(evt);
+    if (evt.target.id === 'nft-dnd' || evt.target.id === 'nft-dnd-ph' || evt.target.id === 'nft-dnd-img'  || evt.target.id === 'nft-dnd-u-img') {
+      let files = evt.dataTransfer.files;
+      let valid_files: Array<File> = files;
+      this.file = valid_files[0];
+      this.uploadImage(evt);
+    }
+
   }
 }

@@ -24,7 +24,8 @@ export class HeaderComponent implements OnInit {
   tag: any;
   controlGroup: FormGroup;
   bcListExpanded: boolean = false;
- 
+  accListExpanded: boolean = false;
+  timedOutCloser;
 
 
   constructor(
@@ -152,5 +153,18 @@ export class HeaderComponent implements OnInit {
     }); */
 
     this.dialogService.pendingDialog();
+  }
+
+  mouseEnter(trigger) {
+    if (this.timedOutCloser) {
+      clearTimeout(this.timedOutCloser);
+    }
+    trigger.openMenu();
+  }
+
+  mouseLeave(trigger) {
+    this.timedOutCloser = setTimeout(() => {
+      trigger.closeMenu();
+    }, 50);
   }
 }

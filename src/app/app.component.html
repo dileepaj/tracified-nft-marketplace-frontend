@@ -17,6 +17,11 @@
   <mat-drawer-content>
     <app-header></app-header>
     <router-outlet> </router-outlet>
+    <button id="backToTop" matTooltip="Back to Top" [class.show-back-to-top]="backTopVisible" (click)="goToTop()" matRipple>
+      <mat-icon class="material-symbols-outlined">
+        expand_less
+      </mat-icon>
+    </button>
     <app-footer *ngIf="isHome()"></app-footer>
   </mat-drawer-content>
 </mat-drawer-container>

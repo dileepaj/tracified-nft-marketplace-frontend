@@ -131,12 +131,12 @@ export class MintComponent implements OnInit {
       let metamaskwallet = new UserWallet();
       metamaskwallet = new MetamaskComponent(metamaskwallet);
       await metamaskwallet.initWallelt()
-      var res=  metamaskwallet.getWalletaddress()
+      var key=  metamaskwallet.getWalletaddress()
       this.blockchain="ethereum or polygon"
-       if(res!=null){
-        console.log("data: ",this.email,wallet, res)
+       if(key!=null){
+        console.log("data: ",this.email,wallet, key)
         this.apiService
-        .getEndorsement(res)
+        .getEndorsement(key)
         .subscribe((result: any) => {
           if (result.Status == null || result.Status == '') {
             this.dialogService
@@ -159,7 +159,8 @@ export class MintComponent implements OnInit {
             }else{
               this.proceed.emit({
                 email:this.email,
-                wallet
+                wallet,
+                key:key
               });
             }
           });
@@ -172,11 +173,11 @@ export class MintComponent implements OnInit {
       let freighter = new UserWallet();
           freighter = new FreighterComponent(freighter);
           await freighter.initWallelt();
-          var res =await freighter.getWalletaddress()
-       if(res!=null){
-        console.log("data: ",this.email,wallet, res)
+          var key =await freighter.getWalletaddress()
+       if(key!=null){
+        console.log("data: ",this.email,wallet, key)
         this.apiService
-        .getEndorsement(res)
+        .getEndorsement(key)
         .subscribe((result: any) => {
           if (result.Status == null || result.Status == '') {
             this.dialogService
@@ -199,7 +200,8 @@ export class MintComponent implements OnInit {
             }else{
               this.proceed.emit({
                 email:this.email,
-                wallet
+                wallet,
+                key:key
               });
             }
           });
@@ -212,11 +214,11 @@ export class MintComponent implements OnInit {
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
      await phantomWallet.initWallelt()
-     var res=await phantomWallet.getWalletaddress()
-    if(res!=null){
-      console.log("data: ",this.email,wallet, res)
+     var key=await phantomWallet.getWalletaddress()
+    if(key!=null){
+      console.log("data: ",this.email,wallet, key)
       this.apiService
-      .getEndorsement(res)
+      .getEndorsement(key)
       .subscribe((result: any) => {
         if (result.Status == null || result.Status == '') {
           this.dialogService
@@ -239,7 +241,8 @@ export class MintComponent implements OnInit {
           }else{
             this.proceed.emit({
               email:this.email,
-              wallet
+              wallet,
+              key:key
             });
           }
         });

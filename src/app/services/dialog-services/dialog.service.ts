@@ -49,12 +49,13 @@ export class DialogService {
     }).afterClosed();
   }
   
-  createCollection(email:string): MatDialogRef<CreateCollectionComponent> {
+  createCollection(email:string,key:string): MatDialogRef<CreateCollectionComponent> {
     return this.dialog.open(CreateCollectionComponent, {
       width: '500px',
       disableClose: true,
       data: {
         email:email,
+        key:key
       },
     });
 

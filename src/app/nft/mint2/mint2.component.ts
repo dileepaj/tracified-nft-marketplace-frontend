@@ -62,6 +62,7 @@ export class Mint2Component implements OnInit {
   @Output() proceed: EventEmitter<any> = new EventEmitter();
   @Input() email: string;
   @Input() wallet: string;
+  @Input() key: string;
   stxn: StellarTXN = new StellarTXN('', '', '');
   contract: Contracts = new Contracts(
     '',
@@ -561,7 +562,7 @@ export class Mint2Component implements OnInit {
   }
   ngOnChanges(): void {
       console.log("inside mint 2")
-      console.log("wallet and email is: ",this.wallet, this.email)
+      console.log("wallet and email is: ",this.wallet, this.email,this.key)
       if(this.wallet=="metamask"){
         console.log("---------metamaask------")
       this.polygon=false
@@ -744,7 +745,7 @@ export class Mint2Component implements OnInit {
   }
 
   public openCreateCollection () {
-    this.dialogService.createCollection(this.email).afterClosed().subscribe((data : any) => {
+    this.dialogService.createCollection(this.email,this.key).afterClosed().subscribe((data : any) => {
       this.CollectionList.push({CollectionName : data.collectionName})
     });
   }

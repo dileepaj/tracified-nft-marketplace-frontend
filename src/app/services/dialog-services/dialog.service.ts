@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 import { CreateCollectionComponent } from 'src/app/collections/create-collection/create-collection.component';
 import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
 import { OkmessageComponent } from 'src/app/dialogs/okmessage/okmessage.component';
+import { PreviewImageComponent } from 'src/app/dialogs/previewImage/preview-image/preview-image.component';
+import { ConfirmDialog, OkDialog, PreviewImage } from 'src/app/models/confirmDialog';
 import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
-import { ConfirmDialog, OkDialog } from 'src/app/models/confirmDialog';
 @Injectable({
   providedIn: 'root',
 })
@@ -39,6 +40,15 @@ export class DialogService {
     });
   }
 
+  previewImage(data:PreviewImage):Observable<boolean>{
+    console.log("image data:",data.image)
+    return this.dialog.open(PreviewImageComponent,{
+      data,
+      width:'100%',
+      disableClose:true,
+    }).afterClosed();
+  }
+  
   createCollection(email:string): MatDialogRef<CreateCollectionComponent> {
     return this.dialog.open(CreateCollectionComponent, {
       width: '500px',
@@ -47,5 +57,6 @@ export class DialogService {
         email:email,
       },
     });
+
   }
 }

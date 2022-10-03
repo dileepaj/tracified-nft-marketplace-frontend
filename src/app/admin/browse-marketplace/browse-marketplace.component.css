@@ -24,6 +24,7 @@
   padding-top: 40px;
   border-right: 1px solid #6d6d6d;
   overflow-y: auto;
+  width:100%
 }
 
 #inbox-cont-2 {
@@ -54,11 +55,11 @@
 .inbox-list-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   justify-content: center;
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 16px;
   color: #fff;
   cursor: pointer;
 }
@@ -72,7 +73,7 @@
 }
 
 .notification-card {
-  width: 288px;
+  width:100%;
   padding-bottom: 40px;
   margin-bottom: 40px;
 }
@@ -87,7 +88,7 @@
 .chats {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   row-gap: 40px;
 }
 
@@ -119,6 +120,7 @@
   font-size: 20px;
   line-height: 153.52%;
   width: 100px;
+  cursor: pointer;
 }
 
 .separator {
@@ -158,4 +160,26 @@
 ::placeholder {
   color: #fff;
   opacity: 1;
+}
+.content-tbl{
+  width: 100%;
+  padding: 15px;
+  border-top: 3px solid #393939;
+}
+table td{
+  width: 50%;
+  padding-left: 35px;
+}
+.FAQ-list{
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  color: #fff;
+}
+#endorsment-status{
+  color: #10CEAC;
 }

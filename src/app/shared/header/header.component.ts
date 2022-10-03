@@ -26,8 +26,7 @@ export class HeaderComponent implements OnInit {
   bcListExpanded: boolean = false;
   accListExpanded: boolean = false;
   timedOutCloser;
-
-
+  
   constructor(
     private dialogref: MatDialog,
     private router: Router,
@@ -40,7 +39,8 @@ export class HeaderComponent implements OnInit {
     //this.openDialogTest();
     this.controlGroup = new FormGroup({
       //validation
-      Tag: new FormControl(this.tag, Validators.required)})
+      Tag: new FormControl(this.tag, Validators.required),
+    });
   }
 
   private formValue(controlName: string): any {
@@ -104,9 +104,9 @@ export class HeaderComponent implements OnInit {
     this.bcListExpanded = false;
   }
 
-  public search(){
+  public search() {
     const tag = this.formValue('Tag');
-    console.log("tags :",tag)
+    console.log('tags :', tag);
     this.router.navigate(['/shownft'], {
       queryParams: { data: tag },
     });

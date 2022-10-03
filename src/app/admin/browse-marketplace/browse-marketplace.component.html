@@ -1,5 +1,5 @@
 <div id="inbox-outer-div">
-  <div id="inbox-header" fxLayout="row wrap">
+  <div id="inbox-header" fxLayout="row wrap" style="background: #232323">
     <div
       fxFlex.xl="40%"
       fxFlex.lg="40%"
@@ -7,19 +7,10 @@
       fxFlex.lt-md="100%"
       class="header-cont"
     >
-      <img src="../../../assets/images/inbox.png" /><label>Inbox</label>
+      <img src="../../../assets/images/admin-endorsment.png" /><br><br>
+      <label>Pending Endorsments</label>
     </div>
-    <div
-      fxFlex.xl="20%"
-      fxFlex.lg="20%"
-      fxFlex.md="20%"
-      fxHide.lt-md="true"
-      style="
-        border-left: 1px solid white;
-        border-right: 1px solid white;
-        height: 72px;
-      "
-    ></div>
+  
     <div
       fxFlex.xl="40%"
       fxFlex.lg="40%"
@@ -27,10 +18,10 @@
       fxFlex.lt-md="100%"
       class="header-cont"
     >
-      <img src="../../../assets/images/create.png" /><label
-        >Create NFT or Collection</label
-      >
+    <img src="../../../assets/images/amdin-user-faq.png" /><label
+    >Pendeing User FAQ</label>
     </div>
+    
   </div>
   <div id="inbox-content" fxLayout="row wrap">
     <div id="inbox-cont-1" fxFlex.xl="50%" fxFlex.lg="50%" fxFlex.lt-lg="100%">
@@ -41,13 +32,72 @@
           matRipple
           (click)="clicked(item)"
         >
-          <div mat-line>Name - {{ item.Name }}  </div>
-          <div mat-line>Email - {{ item.Email }}  </div>
-          <div mat-line>Contact - {{ item.Contact }}</div>
-          <div mat-line>PK - {{ item.PublicKey }}</div>
-          <div mat-line>Blockchain - {{ item.Blockchain }}</div>
-          <div mat-line>Description - {{ item.Description }}</div>
-          <div mat-line>Status - {{ item.Status }}</div>
+          <table class="content-tbl">
+            <tr>
+              <td>
+                <div mat-line class="inbox-list-item">Name</div>
+              </td>
+              <td>
+                <strong>{{ item.Name }}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div mat-line class="inbox-list-item">Email</div>
+              </td>
+              <td>
+                <strong>{{ item.Email }}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div mat-line class="inbox-list-item">Contact</div>
+              </td>
+              <td>
+                <span class="tbl-bold"><strong>{{ item.Contact }}</strong></span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div mat-line class="inbox-list-item">
+                  PublicKey  
+                </div>
+              </td>
+              <td>
+                  <strong>
+                    {{
+                      item.PublicKey.substring(0, 6) +
+                        "..." +
+                        item.PublicKey.substring(item.PublicKey.length - 4, item.PublicKey.length)
+                    }}
+                  </strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div mat-line class="inbox-list-item">Blockchain</div>
+              </td>
+              <td>
+                <strong>{{ item.Blockchain }}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div mat-line class="inbox-list-item">Description</div>
+              </td>
+              <td>
+                <strong>{{ item.Description }}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div mat-line class="inbox-list-item">Status</div>
+              </td>
+              <td>
+                <p id="endorsment-status"><strong>{{ item.Status }}</strong></p>
+              </td>
+            </tr>
+          </table>
         </mat-list-item>
       </mat-list>
     </div>
@@ -62,22 +112,46 @@
         [class.separator]="i !== notifications.length - 1"
         *ngFor="let item of notifications; index as i"
       >
-        <div class="endorsements" *ngIf="item.type === 'endorsement'">
-          <label class="noti-title">
-            You have recieved a request to accept an endorsement. Would you like
-            to view and accept?
-          </label>
-          <button mat-flat-button class="btn-view">View</button>
-        </div>
-        <div class="chats" *ngIf="item.type === 'chat'">
-          <label class="noti-title">
-            You have recieved a chat from {{ item.from }}.
-          </label>
-          <label class="chat-topic"> Topic : {{ item.topic }}. </label>
-          <div class="reply-input-group">
-            <input type="text" placeholder="REPLY" />
-          </div>
-          <button mat-flat-button class="btn-view">View</button>
+        <div class="chats">
+          <table lass="content-tbl">
+            <tr>
+              <td>
+                <div mat-line class="FAQ-list">Question from</div>
+              </td>
+              <td>
+                <strong>{{ item.usermail }}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div mat-line class="FAQ-list">Category</div>
+              </td>
+              <td>
+                <strong>{{ item.category }}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div mat-line class="FAQ-list">Topic</div>
+              </td>
+              <td>
+                <strong>{{ item.subject }}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div mat-line class="FAQ-list">Description</div>
+              </td>
+              <td>
+                <strong>{{ item.desc }}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="padding-left: 35%;padding-top: 10px; ">
+                <button mat-flat-button class="btn-view" (click)="sendFAQData(item)">Reply</button>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>

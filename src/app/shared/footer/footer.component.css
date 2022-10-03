@@ -146,6 +146,7 @@
 
 .subscribe-input-group {
   width: 400px;
+  max-width: 80%;
   background: #fff;
   border-radius: 16px;
 }
@@ -199,4 +200,12 @@
 
 .footer-normal-text:hover {
   text-decoration: underline;
+}
+
+.email-form {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+  row-gap: 10px;
+  flex-wrap: wrap;
 }

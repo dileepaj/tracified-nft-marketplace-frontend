@@ -85,6 +85,9 @@ import { OkmessageComponent } from './dialogs/okmessage/okmessage.component';
 import { MintNftComponent } from './nft/mint-nft/mint-nft.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { FooterComponent } from './shared/footer/footer.component';
+import { ContactUsComponent } from './marketplace/contact-us/contact-us.component';
+import { AddEditFaqsComponent } from './admin/add-edit-faqs/add-edit-faqs.component';
+import { PreviewImageComponent } from './dialogs/previewImage/preview-image/preview-image.component';
 import { PendingComponent } from './dialogs/pending/pending.component';
 import { UserCollectionsComponent } from './user/user-collections/user-collections.component';
 import { UserCollectionNFTComponent } from './user/user-collection-nft/user-collection-nft.component';
@@ -196,6 +199,11 @@ const appRoutes: Routes = [
         component: AddNewsletterComponent,
       },
       {
+        canActivate:[AuthGuard],
+        path:'AnswerUserFAQ',
+        component:AddEditFaqsComponent,
+      },
+      {
         path: '',
         redirectTo: 'overview',
         pathMatch: 'full',
@@ -235,6 +243,13 @@ const appRoutes: Routes = [
     component: DocumentationComponent,
   },
   {
+    path: 'contact-us',
+    component: ContactUsComponent,
+  },
+  {
+    path:'AnswerUserFAQ',
+    component:AddEditFaqsComponent
+  }
     path: 'mycollections',
     component: UserCollectionsComponent,
   },
@@ -308,6 +323,9 @@ const appRoutes: Routes = [
     OkmessageComponent,
     MintNftComponent,
     FooterComponent,
+    ContactUsComponent,
+    AddEditFaqsComponent,
+    PreviewImageComponent,
     PendingComponent,
     UserCollectionsComponent,
     UserCollectionNFTComponent,

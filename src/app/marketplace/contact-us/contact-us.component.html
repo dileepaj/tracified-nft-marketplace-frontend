@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="contact-us-header">
+    <mat-icon class="back" matTooltip="Back">arrow_back</mat-icon>
+    <label class="contact-heading">Contact Us</label>
+  </div>
+
+  <p class="normal-text" style="max-width: 90%">
+    We are more than happy to be of assitance for any of your queries.
+  </p>
+  <form class="contact-form" ngStyle.lt-md="width:90%" [formGroup]="controlGroup">
+    <div class="contact-form-group" ngStyle.lt-md="width:100%">
+      <label class="normal-text"
+        >Email Address <span class="required">*</span>
+      </label>
+      <mat-form-field appearance="outline">
+        <input
+          type="email"
+          class="input"
+          matInput
+          name="Email"
+          formControlName="Email"
+          placeholder="Enter your email address here."
+        />
+      </mat-form-field>
+    </div>
+    <div
+      class="contact-form-group"
+      ngStyle.lt-md="width:100%; margin-bottom: 35px"
+    >
+      <label class="normal-text"
+        >Category <span class="required">*</span></label
+      >
+      <mat-form-field appearance="outline">
+        <mat-select
+          formControlName="Collection"
+          class="select-bc"
+          value="minting"
+        >
+          <mat-select-trigger>
+            <label class="collection-dropdown-selected">Minting</label>
+          </mat-select-trigger>
+          <mat-option value="minting" name="type"
+            ><label class="collection-dropdown">Minting</label></mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div
+      class="contact-form-group"
+      style="margin-top: 8px"
+      ngStyle.lt-md="width:100%; margin-top: -17px"
+    >
+      <label class="normal-text"
+        >Subject <span class="required">*</span>
+      </label>
+      <mat-form-field appearance="outline">
+        <input
+          type="text"
+          class="input"
+          matInput
+          name="subject"
+          formControlName="Subject"
+          placeholder="Enter subject here."
+        />
+      </mat-form-field>
+    </div>
+    <div class="contact-form-group" ngStyle.lt-md="width:100%">
+      <label class="normal-text"
+        >Description<span class="required">*</span></label
+      >
+      <mat-form-field appearance="outline" class="description">
+        <textarea
+          class="textarea"
+          matInput
+          formControlName="Description"
+          maxlength="80"
+          placeholder="Describe your issue by entering as many details as you can."
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="contact-form-group" ngStyle.lt-md="width:100%">
+      <div
+        id="cntct-dnd"
+        class="file-dnd-area"
+        ngStyle.lt-md="width:100%"
+        (click)="triggerClick()"
+      >
+        <label id="cntct-dnd-label">Add file or drag files here</label>
+        <input type="file" accept=".png,.jpg" #fileUpload (change)="onChange($event)" hidden />
+      </div>
+      <label class="file-name">{{ name }}</label>
+    </div>
+    <div class="contact-form-group" ngStyle.lt-md="width:100%">
+      <button mat-flat-button class="btn-submit" (click)="saveUserFAQ()">Submit</button>
+    </div>
+  </form>
+</div>

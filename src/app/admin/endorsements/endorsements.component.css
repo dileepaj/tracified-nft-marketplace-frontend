@@ -13,6 +13,7 @@
 
 .example-full-width {
   height: 100%;
+  width:600px;
 }
 
 .mat-card-content {
@@ -241,4 +242,19 @@
 ::placeholder {
   color: #686868;
   opacity: 1;
+}
+.decline-btn{
+  background: #232323;
+ border-radius: 20px;
+ color: #FFFFFF;
+ width: 117px;
+}
+.accept-btn{
+  background: #10CEAC;
+  border-radius: 20px;
+  margin-right: 10px;
+  width: 117px;
+}
+.endorsment-answer{
+  width: 600px;
 }

@@ -9,3 +9,6 @@ export interface OkDialog{
     message:string;
     confirmText:string;
 }
+export interface PreviewImage{
+    image:any
+}

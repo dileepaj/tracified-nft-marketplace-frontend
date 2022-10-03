@@ -1,31 +1,42 @@
 import { style } from '@angular/animations';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
 import { OkmessageComponent } from 'src/app/dialogs/okmessage/okmessage.component';
 import { PreviewImageComponent } from 'src/app/dialogs/previewImage/preview-image/preview-image.component';
 import { ConfirmDialog, OkDialog, PreviewImage } from 'src/app/models/confirmDialog';
+import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DialogService {
+  constructor(private dialog: MatDialog) {}
 
-  constructor(private dialog:MatDialog) { }
-
-  confirmDialog(data:ConfirmDialog):Observable<boolean>{
-   return this.dialog.open(ConfirmComponent,{
-      data,
-      width:'500px',
-      disableClose:true
-    }).afterClosed();
+  confirmDialog(data: ConfirmDialog): Observable<boolean> {
+    return this.dialog
+      .open(ConfirmComponent, {
+        data,
+        width: '500px',
+        disableClose: true,
+      })
+      .afterClosed();
   }
-  okDialog(data:OkDialog):Observable<boolean>{
-    return this.dialog.open(OkmessageComponent,{
-      data,
-      width:'500px',
-      disableClose:true,
-    }).afterClosed();
+  okDialog(data: OkDialog): Observable<boolean> {
+    return this.dialog
+      .open(OkmessageComponent, {
+        data,
+        width: '500px',
+        disableClose: true,
+      })
+      .afterClosed();
+  }
+
+  pendingDialog(): MatDialogRef<PendingComponent> {
+    return this.dialog.open(PendingComponent, {
+      width: '500px',
+      disableClose: true,
+    });
   }
   previewImage(data:PreviewImage):Observable<boolean>{
     console.log("image data:",data.image)

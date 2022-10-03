@@ -99,7 +99,7 @@ export class ApiServicesService {
   }
 
   updateEndorsement(st:UpdateEndorse):Observable<UpdateEndorse>{
-  return this.http.put<UpdateEndorse>(this.baseUrlEndorsement, st, { headers: this.headers }); 
+  return this.http.put<UpdateEndorse>(this.baseUrlUpdateEndorse, st, { headers: this.headers }); 
   }
 
   updateEndorsementStatus(st:UpdateStatus):Observable<UpdateStatus>{

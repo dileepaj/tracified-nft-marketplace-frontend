@@ -192,3 +192,8 @@ p.normal-text {
     transform: translate(24px, 0);
   }
 }
+
+.cont-wrapper {
+  width: 90%;
+  max-width: 1430px;
+}

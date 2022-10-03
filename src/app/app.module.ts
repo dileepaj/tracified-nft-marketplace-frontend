@@ -161,6 +161,14 @@ const appRoutes: Routes = [
         component: OverviewComponent,
       },
       {
+        path: 'mycollections',
+        component: UserCollectionsComponent,
+      },
+      {
+        path: 'mynfts',
+        component: UserCollectionNFTComponent,
+      },
+      {
         path: '',
         redirectTo: 'overview',
         pathMatch: 'full',

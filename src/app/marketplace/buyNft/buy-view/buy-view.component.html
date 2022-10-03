@@ -54,7 +54,7 @@
         />
         <div class="stats" [class.hidden]="selectedTab === 1">
           <mat-icon class="material-symbols-outlined"> visibility </mat-icon>
-          <label style="margin-right: 30px">{{this.watchlist}} views</label>
+          <label style="margin-right: 30px">{{this.watchlist}} watched</label>
           <mat-icon class="material-symbols-outlined"> favorite </mat-icon>
           <label>{{this.favorites}} favorites</label>
           <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
@@ -72,9 +72,9 @@
           <label class="nft-cat"><b>Category - </b>{{this.NFTList.categories}}</label>
           <div class="nft-price">
             <label class="nft-cat"><b>Price - </b></label>
-            <img src="../../../../assets/images/blockchain-icons/ether.png" />
-            <label class="label-hl">{{this.NFTList.currentprice}}</label>
-            <label class="label-sm">($1,604.78)</label>
+            <img src={{this.icon}} />
+            <label class="label-hl">{{this.NFTList.currentprice}} {{this.crypto}}</label>
+            <label class="label-sm">{{this.price}}</label>
           </div>
         </div>
         <button
@@ -90,6 +90,10 @@
         <mat-tab>
           <div class="sell-cont">
             <div class="owners">
+              <div class="prev-o">
+                <label class="owner-s">Creator Name</label>
+                <label class="owner-l">{{this.NFTList.artistname}}</label>
+              </div>
               <div class="prev-o">
                 <label class="owner-s">Creator</label>
                 <label class="owner-l"
@@ -108,13 +112,10 @@
                   >{{this.NFTList.distributorpk}}</label
                 >
               </div>
-              <div class="prev-o">
-                <label class="owner-s">Creator Name</label>
-                <label class="owner-l">{{this.NFTList.artistname}}</label>
-              </div>
+             
             </div>
             <div class="user-story">
-              <label class="heading-s">User Story</label>
+              <label class="heading-s">NFT Story</label>
               <div class="desc">
                 <iframe
                   id="iframe"

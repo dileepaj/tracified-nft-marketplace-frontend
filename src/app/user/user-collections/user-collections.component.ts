@@ -46,7 +46,7 @@ export class UserCollectionsComponent implements OnInit {
 
 showNFT(collection){
   console.log("key is: ",this.key)
-  this.router.navigate(['./mynfts'], {
+  this.router.navigate(['./user-dashboard/mynfts'], {
     queryParams: { collection: [collection,this.key] },//this.data
   });
 }

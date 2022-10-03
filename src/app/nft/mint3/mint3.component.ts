@@ -1,17 +1,21 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MintPopupComponent } from '../mint-popup/mint-popup.component';
+import {timer} from 'rxjs'
+import {takeWhile} from 'rxjs/operators'
 @Component({
   selector: 'app-mint3',
   templateUrl: './mint3.component.html',
   styleUrls: ['./mint3.component.css'],
 })
 export class Mint3Component implements OnInit {
+  @Input() blockchain: string;
   @Output() proceed: EventEmitter<any> = new EventEmitter();
   data: any;
   event:any="refresh"
-  constructor(public dialog: MatDialog,private route: ActivatedRoute,private router: Router,) {}
+  alive:boolean=true;
+  constructor(public dialog: MatDialog,private route: ActivatedRoute,private router: Router) {}
 
   openDialog() {
     const dialogRef = this.dialog.open(MintPopupComponent);
@@ -26,9 +30,38 @@ export class Mint3Component implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.data = JSON.parse(params['data']);
-  })
+  ngOnChanges(): void {
+  //   this.route.queryParams.subscribe((params) => {
+  //     this.data = JSON.parse(params['data']);
+  //     console.log("data passed in mint3:",this.data)
+  //     this.pageRedirect()
+  // })
+  console.log("---------------------------------")
+  this.data=this.blockchain
+  console.log("data passed in mint3:",this.data)
+  this.pageRedirect()
   }
+  
+
+  ngOnInit(): void {
+    
+  }
+
+   pageRedirect(){
+    var delay = 20000; // time in milliseconds
+    // setTimeout("http://localhost:4200/user-dashboard/overview?blockchain"+this.data,delay)
+    // Display message
+    // document.getElementById("message").innerHTML = "Please wait, you are redirecting to the new page.";
+    
+    timer(delay).pipe(takeWhile(()=>this.alive)).subscribe(_=>{
+      this.router.navigate(['/user-dashboard/overview'], {
+        queryParams: { blockchain: this.data },
+      });
+   })
+   }
+
+   ngOnDestroy()
+   {
+       this.alive=false;
+   }
 }

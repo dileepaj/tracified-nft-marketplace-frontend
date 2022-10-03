@@ -86,6 +86,10 @@
           <div class="sell-cont">
             <div class="owners">
               <div class="prev-o">
+                <label class="owner-s">Creator Name</label>
+                <label class="owner-l">{{ this.NFTList.artistname }}</label>
+              </div>
+              <div class="prev-o">
                 <label class="owner-s">Previous Owner</label>
                 <label class="owner-l">{{ this.prevOwner }}</label>
               </div>
@@ -93,14 +97,11 @@
                 <label class="owner-s">Current Owner</label>
                 <label class="owner-l">{{ this.NFTList.currentownerpk }}</label>
               </div>
-              <div class="curr-o">
+              <div class="prev-o">
                 <label class="owner-s">Issuer</label>
                 <label class="owner-l">{{ this.NFTList.nftissuerpk }}</label>
               </div>
-              <div class="curr-o">
-                <label class="owner-s">Artist Name</label>
-                <label class="owner-l">{{ this.NFTList.artistname }}</label>
-              </div>
+             
             </div>
             <button
               class="btn-primary btn-story"
@@ -111,7 +112,7 @@
               Create NFT Story
             </button>
             <div class="user-story" *ngIf="!loaded">
-              <label class="heading-s">User Story</label>
+              <label class="heading-s">NFT Story</label>
               <div class="desc">
                 <iframe
                   id="iframe"

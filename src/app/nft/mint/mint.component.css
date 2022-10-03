@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 60px;
+  margin-top: 30px;
 }
 
 .mat-input-element::placeholder {
@@ -18,15 +18,15 @@
   line-height: 48px;
   text-align: center;
   color: #ffffff;
-  margin-bottom: 60px;
+  margin-bottom: 50px;
 }
 
 .seperator {
-  width: 90%;
+  width: 92.5%;
   background-color: #595959;
   border: 1px solid #595959;
-  margin-top: 50px;
-  margin-bottom: 40px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 /* default and hover color */
@@ -69,7 +69,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 3px;
-  margin-top: 60px;
+  margin-top: 30px;
 }
 
 .wallet-first-item {
@@ -90,6 +90,11 @@
   width: 522px;
   height: 53px;
   background: #2d2d2d;
+  transition: box-shadow 0.1s ease-in;
+}
+
+.wallet:hover {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .wallet-inner-div {

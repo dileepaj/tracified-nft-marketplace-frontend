@@ -23,6 +23,8 @@ export class SignUpComponent implements OnInit {
   endorse: Endorse = new Endorse('', '', '', '', '', '', '');
   signerPK: string = '';
   data: any;
+  mail: any;
+  blockchain: any;
   constructor(
     private service: ApiServicesService,
     private _location: Location,
@@ -38,10 +40,10 @@ export class SignUpComponent implements OnInit {
     //getting form data and equalling it to to model variables
 
     this.endorse.Name = this.formValue('Name');
-    this.endorse.Email = this.formValue('Email');
+    this.endorse.Email = this.mail;
     this.endorse.Contact = this.formValue('Contact');
     this.endorse.Description = this.formValue('Description');
-    this.endorse.Blockchain = this.data;
+    this.endorse.Blockchain = this.blockchain;
     this.endorse.Status = 'Pending';
 
     if (this.endorse.Blockchain == 'stellar') {
@@ -101,7 +103,9 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
       this.data=JSON.parse(params['data']);
-
+console.log("data passed endorse: ",this.data)
+this.mail=this.data[1]
+this.blockchain=this.data[0]
     })
     //validating form data
     this.controlGroup = new FormGroup({

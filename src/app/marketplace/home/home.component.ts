@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit {
   imageSrc: any;
   favouritesModel: Favourites = new Favourites('', '', '');
   watchlistModel: WatchList = new WatchList('', '', '');
+  backTopVisible : boolean = false;
   constructor(
     private dialogref: MatDialog,
     private nft: NftServicesService,
@@ -127,6 +128,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
       this.nfts = result;
 
@@ -149,10 +151,18 @@ export class HomeComponent implements OnInit {
           });
       }
     });
+
+    window.addEventListener('scroll', () => {
+      this.backTopVisible = window.pageYOffset !== 0;
+    });
+  }
+
+  public goToTop() {
+    window.scrollTo(0, 0);
   }
 
   /* @HostListener('window:scroll', ['$event']) openConfirmation(e: any) {
-    const element = document.getElementById('sales')!;
-    element.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementsByClassName('home-section')!;
+    element[1].scrollIntoView({ behavior: 'smooth' });
   } */
 }

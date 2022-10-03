@@ -2,6 +2,7 @@ import { style } from '@angular/animations';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { CreateCollectionComponent } from 'src/app/collections/create-collection/create-collection.component';
 import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
 import { OkmessageComponent } from 'src/app/dialogs/okmessage/okmessage.component';
 import { PreviewImageComponent } from 'src/app/dialogs/previewImage/preview-image/preview-image.component';
@@ -38,6 +39,7 @@ export class DialogService {
       disableClose: true,
     });
   }
+
   previewImage(data:PreviewImage):Observable<boolean>{
     console.log("image data:",data.image)
     return this.dialog.open(PreviewImageComponent,{
@@ -45,5 +47,16 @@ export class DialogService {
       width:'100%',
       disableClose:true,
     }).afterClosed();
+  }
+  
+  createCollection(email:string): MatDialogRef<CreateCollectionComponent> {
+    return this.dialog.open(CreateCollectionComponent, {
+      width: '500px',
+      disableClose: true,
+      data: {
+        email:email,
+      },
+    });
+
   }
 }

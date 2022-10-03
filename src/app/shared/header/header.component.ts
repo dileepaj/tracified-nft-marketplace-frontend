@@ -20,10 +20,13 @@ import { WalletComponent } from 'src/app/wallet/wallet.component';
 export class HeaderComponent implements OnInit {
   private rect: any;
   sideNavOpened: boolean = false;
+  accListExpanded: boolean = false;
   tag: any;
   controlGroup: FormGroup;
   bcListExpanded: boolean = false;
   accListExpanded: boolean = false;
+  timedOutCloser;
+  
   constructor(
     private dialogref: MatDialog,
     private router: Router,
@@ -123,7 +126,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public goToOverview(blockchain: string) {
-    this.router.navigate(['/user-dashboard'], {
+    this.router.navigate(['/user-dashboard/overview'], {
       queryParams: { blockchain: blockchain },
     });
     this.sideNavOpened = false;
@@ -150,5 +153,18 @@ export class HeaderComponent implements OnInit {
     }); */
 
     this.dialogService.pendingDialog();
+  }
+
+  mouseEnter(trigger) {
+    if (this.timedOutCloser) {
+      clearTimeout(this.timedOutCloser);
+    }
+    trigger.openMenu();
+  }
+
+  mouseLeave(trigger) {
+    this.timedOutCloser = setTimeout(() => {
+      trigger.closeMenu();
+    }, 50);
   }
 }

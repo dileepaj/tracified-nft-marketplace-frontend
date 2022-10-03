@@ -50,11 +50,13 @@
       fxHide.sm
       fxHide.xs
       [matMenuTriggerFor]="menu"
+      #menuTrigger="matMenuTrigger"
       [class.active-link]="checkPath() === '/explore'"
+
     >
       Explore
     </a>
-    <mat-menu #menu="matMenu" class="explore-menu">
+    <mat-menu #menu="matMenu" class="explore-menu" >
       <button mat-menu-item (click)="goToExplore('ethereum')">
         <img
           class="bc-icon"

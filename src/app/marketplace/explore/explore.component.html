@@ -2,7 +2,7 @@
   <div class="explore-container ">
     <div class="explore-header cont-wrapper">
       <mat-icon class="back" matTooltip="Back">arrow_back</mat-icon>
-      <label class="explore-heading">Explore Collections</label>
+      <label class="explore-heading">Explore NFTs</label>
     </div>
     <!-- <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
       >arrow_back</mat-icon
@@ -24,6 +24,19 @@
     <div class="filters cont-wrapper">
       <div
         class="filter"
+        [class.active-filter]="selectedFilter === 'onsale'"
+        (click)="setFilter('onsale')"
+        matRipple
+      >
+        <img
+          class="filter-icon"
+          [class.filter-icon-active]="selectedFilter === 'onsale'"
+          src="../../../assets/images/on_sale.png"
+        />
+        On Sale
+      </div>
+      <!-- <div
+        class="filter"
         [class.active-filter]="selectedFilter === 'all'"
         (click)="setFilter('all')"
         matRipple
@@ -34,7 +47,7 @@
           src="../../../assets/images/up_to_date.png"
         />
         All
-      </div>
+      </div> -->
       <div
         class="filter"
         [class.active-filter]="selectedFilter === 'uptodate'"
@@ -74,19 +87,7 @@
         />
         Trending
       </div>
-      <div
-        class="filter"
-        [class.active-filter]="selectedFilter === 'onsale'"
-        (click)="setFilter('onsale')"
-        matRipple
-      >
-        <img
-          class="filter-icon"
-          [class.filter-icon-active]="selectedFilter === 'onsale'"
-          src="../../../assets/images/on_sale.png"
-        />
-        On Sale
-      </div>
+
       <div
         class="filter"
         [class.active-filter]="selectedFilter === 'bestcreators'"

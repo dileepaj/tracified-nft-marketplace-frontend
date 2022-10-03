@@ -201,3 +201,16 @@ p.normal-text {
   max-width: 1430px;
 }
 
+.btn-sm {
+  background: #10CEAC;
+  border: none;
+  border-radius: 20px !important;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+
+  color: #000000;
+}

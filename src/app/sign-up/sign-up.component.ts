@@ -30,7 +30,7 @@ export class SignUpComponent implements OnInit {
     private _location: Location,
     private route:ActivatedRoute,
     private dialogService:DialogService,
-    private snackbarSrevice:SnackbarServiceService
+    private snackbarSrevice:SnackbarServiceService,
   ) {}
 
   
@@ -63,8 +63,7 @@ export class SignUpComponent implements OnInit {
     }
 
     if (
-      this.endorse.Blockchain == 'ethereum' ||
-      this.endorse.Blockchain == 'polygon'
+      this.endorse.Blockchain == 'ethereum or polygon'
     ) {
       let metamaskwallet = new UserWallet();
       metamaskwallet = new MetamaskComponent(metamaskwallet);
@@ -88,6 +87,8 @@ export class SignUpComponent implements OnInit {
                 title : 'Endorsment Subbmited',
                 message : "Your Request to be be endorsed has been sent. You will recivea email within the next 48 hours.",
                 confirmText : "Okay"
+              }).subscribe(res=>{
+                 this.back()
               })
             }
           });

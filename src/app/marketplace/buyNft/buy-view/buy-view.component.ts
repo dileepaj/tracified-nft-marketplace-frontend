@@ -35,6 +35,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CodeviewComponent } from 'src/app/nft/codeview/codeview.component';
 import { timeStamp } from 'console';
+import { ConfirmDialogText, PendingDialogText, SnackBarText } from 'src/app/models/confirmDialog';
 
 @Component({
   selector: 'app-buy-view',
@@ -162,14 +163,19 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;
       this.dialogService
         .confirmDialog({
-          title: 'NFT purchase confirmation',
-          message: 'Are you sure you want to purchase this NFT?',
-          confirmText: 'Yes',
-          cancelText: 'No',
+          title:ConfirmDialogText.BUY_VIEW_BUY_NFT_TITLE,
+          message:ConfirmDialogText.BUY_VIEW_BUY_NFT_MESSAGE,
+          confirmText:ConfirmDialogText.CONFIRM_BTN,
+          cancelText:ConfirmDialogText.CANCEL_BTN
         })
         .subscribe((res) => {
           if (res) {
+            const loadingAnimation = this.dialogService.pendingDialog({
+              message:PendingDialogText.BUY_VIEW_CLICKED_BUY
+            })
             this.buyNFTOnStellar();
+            loadingAnimation.close()
+            this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
             // this.saleBE.CurrentOwnerPK =this.userPK;
             // console.log("user pk for stellar: ",this.userPK)
             // this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -187,12 +193,15 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.dialogService.confirmDialog({
-        title:'NFT purchase confirmation',
-        message:"Are you sure you want to purchase this NFT?",
-        confirmText:"Yes",
-        cancelText:"No"
+        title:ConfirmDialogText.BUY_VIEW_BUY_NFT_TITLE,
+        message:ConfirmDialogText.BUY_VIEW_BUY_NFT_MESSAGE,
+        confirmText:ConfirmDialogText.CONFIRM_BTN,
+        cancelText:ConfirmDialogText.CANCEL_BTN
       }).subscribe(res=>{
         if(res){
+          const loadingAnimation = this.dialogService.pendingDialog({
+            message:PendingDialogText.BUY_VIEW_CLICKED_BUY
+          })
           this.transfer
           .createATA(
             environment.fromWalletSecret,
@@ -206,7 +215,8 @@ export class BuyViewComponent implements OnInit {
             this.saveTXNs();
             this.service.updateNFTStatusBackend(this.saleBE).subscribe();
             this.updateGateway();
-            this.snackbar.openSnackBar('NFT has successfully been bought');
+            loadingAnimation.close()
+            this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
             this.showInProfile()
           });
   
@@ -224,7 +234,7 @@ export class BuyViewComponent implements OnInit {
                 window as any
               ).solana.signAndSendTransaction(result);
               await connection.confirmTransaction(signature);
-              this.snackbar.openSnackBar('NFT has successfully been bought');
+              this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
               this.showInProfile()
             } catch (err) {
               alert(err);
@@ -244,12 +254,15 @@ export class BuyViewComponent implements OnInit {
       this.userPK = await walletMetamask.getWalletaddress();
       this.saleBE.CurrentOwnerPK = this.userPK;
       this.dialogService.confirmDialog({
-        title:'NFT purchase confirmation',
-        message:"Are you sure you want to purchase this NFT?",
-        confirmText:"Yes",
-        cancelText:"No"
+        title:ConfirmDialogText.BUY_VIEW_BUY_NFT_TITLE,
+        message:ConfirmDialogText.BUY_VIEW_BUY_NFT_MESSAGE,
+        confirmText:ConfirmDialogText.CONFIRM_BTN,
+        cancelText:ConfirmDialogText.CANCEL_BTN
       }).subscribe(res=>{
         if (res){
+          const loadingAnimation = this.dialogService.pendingDialog({
+            message:PendingDialogText.BUY_VIEW_CLICKED_BUY
+          })
           this.pmarket
           .BuyNFT(
             environment.contractAddressNFTPolygon,
@@ -261,7 +274,8 @@ export class BuyViewComponent implements OnInit {
             this.saveTXNs();
             this.service.updateNFTStatusBackend(this.saleBE).subscribe();
             this.updateGateway();
-            this.snackbar.openSnackBar('NFT has successfully been bought');
+            loadingAnimation.close()
+            this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
             this.showInProfile()
           });
         }
@@ -281,12 +295,15 @@ export class BuyViewComponent implements OnInit {
       console.log('eth wallet address: ', this.userPK);
       this.saleBE.CurrentOwnerPK = this.userPK;
       this.dialogService.confirmDialog({
-        title:'NFT purchase confirmation',
-        message:"Are you sure you want to purchase this NFT?",
-        confirmText:"Yes",
-        cancelText:"No"
+        title:ConfirmDialogText.BUY_VIEW_BUY_NFT_TITLE,
+        message:ConfirmDialogText.BUY_VIEW_BUY_NFT_MESSAGE,
+        confirmText:ConfirmDialogText.CONFIRM_BTN,
+        cancelText:ConfirmDialogText.CANCEL_BTN
       }).subscribe(res=>{
         if (res){
+          const loadingAnimation = this.dialogService.pendingDialog({
+            message:PendingDialogText.BUY_VIEW_CLICKED_BUY
+          })
           this.emarket
           .BuyNFT(
             environment.contractAddressNFTEthereum,
@@ -298,7 +315,8 @@ export class BuyViewComponent implements OnInit {
             this.saveTXNs();
             this.service.updateNFTStatusBackend(this.saleBE).subscribe();
             this.updateGateway();
-            this.snackbar.openSnackBar('NFT has successfully been bough');
+            loadingAnimation.close()
+            this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
             this.showInProfile()
           });
         }})

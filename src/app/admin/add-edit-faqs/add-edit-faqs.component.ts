@@ -6,6 +6,7 @@ import { UpdateUserFAQResponse } from 'src/app/models/userFAQ';
 import { UserFAQService } from 'src/app/services/userFAQService/user-faq.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
+import { ConfirmDialogText, SnackBarText } from 'src/app/models/confirmDialog';
 @Component({
   selector: 'app-add-edit-faqs',
   templateUrl: './add-edit-faqs.component.html',
@@ -24,7 +25,8 @@ export class AddEditFaqsComponent implements OnInit {
     private faqApiService:UserFAQService,
     private router:Router,
     private snackbarService: SnackbarServiceService,
-    private previewImage:DialogService
+    private previewImage:DialogService,
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -46,10 +48,19 @@ export class AddEditFaqsComponent implements OnInit {
     this.userFAQResponse.status = "Closed"
     this.userFAQResponse.answer = this.formValue("answer")
     console.log("response obtained: ",this.userFAQResponse)
-    this.faqApiService.updateFAQ(this.userFAQResponse).subscribe((res:any)=>{
-      if(res!=null){
-        this.snackbarService.openSnackBar("Answer has been Submitted. Email sent to customer")
-        this.router.navigate(['/admin-dashboard'])
+    this.dialogService.confirmDialog({
+      title:ConfirmDialogText.ADMIN_FAQ_SUBMISSION_TITLE,
+      message:ConfirmDialogText.ADMIN_FAQ_SUBMISSION_Message,
+      confirmText:ConfirmDialogText.CONFIRM_BTN,
+      cancelText:ConfirmDialogText.CANCEL_BTN
+    }).subscribe(res=>{
+      if (res){
+        this.faqApiService.updateFAQ(this.userFAQResponse).subscribe((res:any)=>{
+          if(res!=null){
+            this.snackbarService.openSnackBar(SnackBarText.FAQ_SUBMISSION_SUCCESS)
+            this.router.navigate(['/admin-dashboard'])
+          }
+        })
       }
     })
   }

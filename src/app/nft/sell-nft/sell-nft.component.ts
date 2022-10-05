@@ -19,6 +19,7 @@ import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { CodeviewComponent } from '../codeview/codeview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogText, PendingDialogText, SnackBarText } from 'src/app/models/confirmDialog';
 
 @Component({
   selector: 'app-sell-nft',
@@ -162,13 +163,16 @@ export class SellNftComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.dialogService
         .confirmDialog({
-          title: 'NFT Sale confirmation.',
-          message: 'Are you sure you want to put this NFT on sale.',
-          confirmText: 'Yes',
-          cancelText: 'No',
+          title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
+          message: ConfirmDialogText.SELL_VIEW_SELL_NFT_MESSAGE,
+          confirmText: ConfirmDialogText.CONFIRM_BTN,
+          cancelText: ConfirmDialogText.CANCEL_BTN,
         })
         .subscribe((res) => {
           if (res) {
+            const dialog = this.dialogService.pendingDialog({
+              message:PendingDialogText.SELL_VIEW_CLICKED_SALE
+            })
             this.calculatePrice();
             this.addDBBackend();
             this.addDBGateway();
@@ -183,8 +187,9 @@ export class SellNftComponent implements OnInit {
               .then((res: any) => {
                 this.selltxn = res.hash;
                 this.saveTXNs();
+                dialog.close()
                 this.snackbarService.openSnackBar(
-                  'NFT has successfully been put on sale'
+                  SnackBarText.SALE_SUCCESS_MESSAGE
                 );
                 this.showInProfile();
               });
@@ -217,13 +222,16 @@ export class SellNftComponent implements OnInit {
         await phantomWallet.initWallelt();
         this.dialogService
           .confirmDialog({
-            title: 'NFT Sale confirmation.',
-            message: 'Are you sure you want to put this NFT on sale.',
-            confirmText: 'Yes',
-            cancelText: 'No',
+            title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
+            message: ConfirmDialogText.SELL_VIEW_SELL_NFT_MESSAGE,
+            confirmText: ConfirmDialogText.CONFIRM_BTN,
+            cancelText: ConfirmDialogText.CANCEL_BTN,
           })
           .subscribe((res) => {
             if (res) {
+              const dialog = this.dialogService.pendingDialog({
+                message:PendingDialogText.SELL_VIEW_CLICKED_SALE
+              })
               this.middleman
                 .createATA(
                   phantomWallet.getWalletaddress(),
@@ -246,8 +254,9 @@ export class SellNftComponent implements OnInit {
       this.addDBBackend();
                     this.addDBGateway();
                     this.saveTXNs();
+                    dialog.close()
                     this.snackbarService.openSnackBar(
-                      'NFT has successfully been put on sale'
+                      SnackBarText.SALE_SUCCESS_MESSAGE
                     );
                     this.showInProfile()
                   } catch (err) {
@@ -264,13 +273,16 @@ export class SellNftComponent implements OnInit {
       this.tokenid = parseInt(this.NFTList.nftidentifier);
       this.dialogService
         .confirmDialog({
-          title: 'NFT Sale confirmation.',
-          message: 'Are you sure you want to put this NFT on sale.',
-          confirmText: 'Yes',
-          cancelText: 'No',
+          title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
+          message: ConfirmDialogText.SELL_VIEW_SELL_NFT_MESSAGE,
+          confirmText: ConfirmDialogText.CONFIRM_BTN,
+          cancelText: ConfirmDialogText.CANCEL_BTN,
         })
         .subscribe((res) => {
           if (res) {
+            const dialog = this.dialogService.pendingDialog({
+              message:PendingDialogText.SELL_VIEW_CLICKED_SALE
+            })
             this.calculatePrice();
             this.pmarket
               .createSaleOffer(
@@ -285,8 +297,9 @@ export class SellNftComponent implements OnInit {
                 this.saveTXNs();
                 this.addDBBackend();
                 this.addDBGateway();
+                dialog.close()
                 this.snackbarService.openSnackBar(
-                  'NFT has successfully been put on sale'
+                  SnackBarText.SALE_SUCCESS_MESSAGE
                 );
                 this.showInProfile()
               });
@@ -301,13 +314,16 @@ export class SellNftComponent implements OnInit {
       console.log('STARTING ETH SELL');
       this.dialogService
         .confirmDialog({
-          title: 'NFT Sale confirmation.',
-          message: 'Are you sure you want to put this NFT on sale.',
-          confirmText: 'Yes',
-          cancelText: 'No',
+          title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
+          message: ConfirmDialogText.SELL_VIEW_SELL_NFT_MESSAGE,
+          confirmText: ConfirmDialogText.CONFIRM_BTN,
+          cancelText: ConfirmDialogText.CANCEL_BTN,
         })
         .subscribe((res) => {
           if (res) {
+            const dialog = this.dialogService.pendingDialog({
+              message:PendingDialogText.SELL_VIEW_CLICKED_SALE
+            })
             this.calculatePrice();
             this.emarket
               .createSaleOffer(
@@ -322,8 +338,9 @@ export class SellNftComponent implements OnInit {
                 this.saveTXNs();
                 this.addDBBackend();
                 this.addDBGateway();
+                dialog.close()
                 this.snackbarService.openSnackBar(
-                  'NFT has successfully been put on sale'
+                  SnackBarText.SALE_SUCCESS_MESSAGE
                 );
                 this.showInProfile()
               });

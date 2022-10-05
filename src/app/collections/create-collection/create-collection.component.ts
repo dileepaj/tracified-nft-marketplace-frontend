@@ -12,6 +12,7 @@ import { Route, Router } from '@angular/router';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfirmDialogText, SnackBarText } from 'src/app/models/confirmDialog';
 
 export interface Blockchain {
   value: string;
@@ -49,20 +50,20 @@ export class CreateCollectionComponent implements OnInit {
     this.collection.blockchain = "any";
     this.collection.userId=this.mail;
     this.dialogService.confirmDialog({
-      title:'Collection Creation Confirmation',
-      message:"Are you sure you want to create the "+this.collection.collectionName+" collection?",
-      confirmText:"Yes",
-      cancelText:"No"
+      title:ConfirmDialogText.CREATE_COLLECTION_TITLE,
+      message:ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P1 +this.collection.collectionName+ ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P2,
+      confirmText:ConfirmDialogText.CONFIRM_BTN,
+      cancelText:ConfirmDialogText.CANCEL_BTN
     }).subscribe(result=>{
       if(result){
               //sending data to the service
         this.addSubscription = this.service.add(this.collection).subscribe(res=>{
           if(res != null || res!=""){
-            this.snackbarService.openSnackBar(""+this.collection.collectionName+" collection has successfully been added.")
+            this.snackbarService.openSnackBar(this.collection.collectionName+SnackBarText.CREATE_COLLECTION_SUCCESS_MESSAGE)
             this.selectVal = this.collection.collectionName;
             this.dialogRef.close({collectionName : this.collection.collectionName});
           }else{
-            this.snackbarService.openSnackBar("Error occured failed to create collection.")
+            this.snackbarService.openSnackBar(SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE)
           }
         });
       }

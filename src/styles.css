@@ -84,6 +84,19 @@ body {
   border-radius: 10px !important;
 }
 
+.highlighted-text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #10ceac;
+}
+
 .cursor-p {
   cursor: pointer;
 }

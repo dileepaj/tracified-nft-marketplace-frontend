@@ -86,6 +86,7 @@ import { MintNftComponent } from './nft/mint-nft/mint-nft.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ContactUsComponent } from './marketplace/contact-us/contact-us.component';
+import { HelpCenterComponent } from './marketplace/help-center/help-center.component';
 import { AddEditFaqsComponent } from './admin/add-edit-faqs/add-edit-faqs.component';
 import { PreviewImageComponent } from './dialogs/previewImage/preview-image/preview-image.component';
 import { PendingComponent } from './dialogs/pending/pending.component';
@@ -247,6 +248,10 @@ const appRoutes: Routes = [
     component: ContactUsComponent,
   },
   {
+    path: 'help-center',
+    component: HelpCenterComponent,
+  },
+  {
     path:'AnswerUserFAQ',
     component:AddEditFaqsComponent
   },
@@ -325,6 +330,7 @@ const appRoutes: Routes = [
     MintNftComponent,
     FooterComponent,
     ContactUsComponent,
+    HelpCenterComponent,
     AddEditFaqsComponent,
     PreviewImageComponent,
     PendingComponent,

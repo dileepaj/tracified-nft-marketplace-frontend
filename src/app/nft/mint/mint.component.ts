@@ -16,6 +16,7 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
+import { ConfirmDialogText, SnackBarText } from 'src/app/models/confirmDialog';
 
 @Component({
   selector: 'app-mint',
@@ -104,13 +105,13 @@ export class MintComponent implements OnInit {
    */
   onClickSubmit() {
     if (!this.image) {
-      this.snackBar.openSnackBar('Please upload an SVG');
+      this.snackBar.openSnackBar(SnackBarText.MINT1_UPLOAD_SVG_WARNING);
     } else if (this.formValue('Collection') == '') {
-      this.snackBar.openSnackBar('Please select a collection for your NFT');
+      this.snackBar.openSnackBar(SnackBarText.MINT1_COLLECTION_SELECTION_WARNING);
     } else if (this.formValue('NFTName') == '') {
-      this.snackBar.openSnackBar('Please name your NFT');
+      this.snackBar.openSnackBar(SnackBarText.MINT1_NFT_NAME_WARNING);
     } else if (this.formValue('Description') == '') {
-      this.snackBar.openSnackBar('Please add a discription for your NFT');
+      this.snackBar.openSnackBar(SnackBarText.MINT1_NFT_DESCRIPTION_WARNING);
     } else {
       this.sendToMint2();
     }
@@ -141,11 +142,10 @@ export class MintComponent implements OnInit {
           if (result.Status == null || result.Status == '') {
             this.dialogService
               .confirmDialog({
-                title: 'Public Key Endorsment',
-                message:
-                  'Your account is not endorsed. Would you like to get your account Endorsed now',
-                confirmText: 'Yes',
-                cancelText: 'No',
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
               })
               .subscribe((res) => {
                 if (res) {
@@ -181,11 +181,10 @@ export class MintComponent implements OnInit {
           if (result.Status == null || result.Status == '') {
             this.dialogService
               .confirmDialog({
-                title: 'Public Key Endorsment',
-                message:
-                  'Your account is not endorsed. Would you like to get your account Endorsed now',
-                confirmText: 'Yes',
-                cancelText: 'No',
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
               })
               .subscribe((res) => {
                 if (res) {
@@ -221,11 +220,10 @@ export class MintComponent implements OnInit {
         if (result.Status == null || result.Status == '') {
           this.dialogService
             .confirmDialog({
-              title: 'Public Key Endorsment',
-              message:
-                'Your account is not endorsed. Would you like to get your account Endorsed now',
-              confirmText: 'Yes',
-              cancelText: 'No',
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
             })
             .subscribe((res) => {
               if (res) {

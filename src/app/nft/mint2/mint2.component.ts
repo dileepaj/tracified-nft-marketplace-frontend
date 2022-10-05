@@ -48,6 +48,7 @@ import CryptoJS from 'crypto-js';
 import { CollectionService } from 'src/app/services/api-services/collection.service';
 import { CodeviewComponent } from '../codeview/codeview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogText, PendingDialogText, SnackBarText } from 'src/app/models/confirmDialog';
 
 @Component({
   selector: 'app-mint2',
@@ -262,17 +263,20 @@ export class Mint2Component implements OnInit {
           this.pushTag()
          
               this.dialogService.confirmDialog({
-                title: 'NFT Minting Confirmation',
-                message:
-                  'Are you sure you want to Mint this NFT?',
-                confirmText: 'Yes',
-                cancelText: 'No',
+                title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+                message:ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
               })
               .subscribe((res) => {
                 if(res){
+                  const dialog = this.dialogService.pendingDialog({
+                    message:PendingDialogText.MINTING_IN_PROGRESS
+                  });
                   this.sendToMint3();
                   this.mintNFT(this.userPK);
-                  this.snackbar.openSnackBar("NFT has successfully being minted")
+                  dialog.close()
+                  this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
                 }
               })
         }
@@ -295,17 +299,20 @@ export class Mint2Component implements OnInit {
 
             this.dialogService
             .confirmDialog({
-              title: 'NFT Minting Confirmation',
-              message:
-                'Are you sure you want to Mint this NFT?',
-              confirmText: 'Yes',
-              cancelText: 'No',
+                title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+                message:ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
             })
             .subscribe((res) => {
               if(res){
+                const dialog = this.dialogService.pendingDialog({
+                  message:PendingDialogText.MINTING_IN_PROGRESS
+                });
                 this.sendToMint3();
                 this.mintNftSolana(this.mint.NFTIssuerPK);
-                this.snackbar.openSnackBar("NFT has successfully being minted")
+                dialog.close()
+                this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
               }
             })  
     }
@@ -328,14 +335,16 @@ export class Mint2Component implements OnInit {
          
             this.dialogService
               .confirmDialog({
-                title: 'NFT Minting Confirmation',
-                message: 'Are you sure you want to Mint this NFT?',
-                confirmText: 'Yes',
-                cancelText: 'No',
+                title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+                message:ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
               })
               .subscribe((res) => {
                 if (res) {
-                  const dialog = this.dialogService.pendingDialog();
+                  const dialog = this.dialogService.pendingDialog({
+                    message:PendingDialogText.MINTING_IN_PROGRESS
+                  });
                   this.emint
                     .mintInEthereum(
                       this.mint.NFTIssuerPK,
@@ -352,9 +361,7 @@ export class Mint2Component implements OnInit {
                       this.saveContractInGateway();
                       this.saveTXNs();
                       dialog.close();
-                      this.snackbar.openSnackBar(
-                        'NFT has successfully being minted'
-                      );
+                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
                     });
                   }
                 })
@@ -378,13 +385,16 @@ export class Mint2Component implements OnInit {
          
             this.dialogService
               .confirmDialog({
-                title: 'NFT Minting Confirmation',
-                message: 'Are you sure you want to Mint this NFT?',
-                confirmText: 'Yes',
-                cancelText: 'No',
+                title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+                message:ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
               })
               .subscribe((res) => {
                 if (res) {
+                  const dialog = this.dialogService.pendingDialog({
+                    message:PendingDialogText.MINTING_IN_PROGRESS
+                  });
                   this.pmint
                     .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
                     .then((res) => {
@@ -395,9 +405,8 @@ export class Mint2Component implements OnInit {
                       this.sendToMint3();
                       this.saveContractInGateway();
                       this.saveTXNs();
-                      this.snackbar.openSnackBar(
-                        'NFT has successfully being minted'
-                      );
+                      dialog.close()
+                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
                       this.loaderService.isLoading.next(false);
                     });
                   }

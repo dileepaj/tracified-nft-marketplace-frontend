@@ -33,7 +33,14 @@ export const adminENV={
   gateway: 'https://qa.gateway.tracified.com',
   domain: 'localhost',
 }
+export const APIConfigENV={
+  gatewayBaseURL:'',
+  nftbackendBaseURL:'', 
+  APIIntervalTimer:30000,  // 30 seconds
+  APIStartDelay:3000, // 3 seconds
+  homepageIntervalTimer:600000 //10 minutes
 
+}
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -11,6 +11,9 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { interval, timer } from 'rxjs';
+import { APIConfigENV } from 'src/environments/environment';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 
 @Component({
   selector: 'app-explore',
@@ -47,7 +50,8 @@ export class ExploreComponent implements OnInit {
     private route: ActivatedRoute,
     private _location: Location,
     private _sanitizer: DomSanitizer ,
-    private snackbarService:SnackbarServiceService
+    private snackbarService:SnackbarServiceService,
+    private dialogService: DialogService
   ) {}
 
  
@@ -123,22 +127,32 @@ export class ExploreComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    console.log("----------------1")
-    this.route.queryParams.subscribe((params) => {
-      this.selectedBlockchain = params['blockchain'];
-      this.List.splice(0);
+    const loadingAnimation = this.dialogService.pendingDialog({
+      message:"Loading NFTs.."
+    })
+    const timer$ = timer(0,APIConfigENV.homepageIntervalTimer)
+    timer$.subscribe(data=>{
+      console.log("----------------1")
+      this.route.queryParams.subscribe((params) => {
+        this.selectedBlockchain = params['blockchain'];
+        this.List.splice(0);
+      
+        this.nft.getNFTByBlockchain(this.selectedBlockchain).subscribe(async (data) => {
+          console.log("----------------2", data)
+              this.nfts = data;
+              if(this.nft==null){
+                this.ngOnInit()
+              }else{
+                  this.fillCard() 
+              }
+            });
+      });
+      interval(APIConfigENV.APIStartDelay).subscribe(data=>{
+        loadingAnimation.close()
+      })
+      
+    })
     
-      this.nft.getNFTByBlockchain(this.selectedBlockchain).subscribe(async (data) => {
-        console.log("----------------2", data)
-            this.nfts = data;
-            if(this.nft==null){
-              this.ngOnInit()
-            }else{
-                this.fillCard() 
-            }
-          });
-    });
   }
 
   public fillCard(){
@@ -164,7 +178,6 @@ export class ExploreComponent implements OnInit {
 
 
   public filterAndShowCard(arr:any[]){
-   
     for(let x=0; x<(arr.length);x++){
       this.nft.getSVGByHash(arr[x].imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG

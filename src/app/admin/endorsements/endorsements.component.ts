@@ -10,6 +10,7 @@ import { ApiServicesService } from 'src/app/services/api-services/api-services.s
 import { MatDialog } from '@angular/material/dialog';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { ConfirmDialogText, SnackBarText } from 'src/app/models/confirmDialog';
 
 @Component({
   selector: 'app-endorsements',
@@ -64,26 +65,26 @@ export class EndorsementsComponent implements OnInit {
       var updateEndorstment =new UpdateStatus("Accepted",this.data.PublicKey,this.description,this.rating);
       //opens to a confirmation dialog to get users approval before sending the update
       this.dialogService.confirmDialog({
-        title:'Endorsment Acceptance Confirmation',
-        message:'Are you sure you want to accept this endorment',
-        confirmText:'Accept this Endorsment',
-        cancelText:'No'
+        title:ConfirmDialogText.ADMIN_ENDORSE_USER_ACCEPT_TITLE,
+        message:ConfirmDialogText.ADMIN_ENDORSE_USER_ACCEPT_MESSAGE,
+        confirmText:ConfirmDialogText.ACCEPT_ENDORSMENT_BTN,
+        cancelText:ConfirmDialogText.CANCEL_BTN
       }).subscribe(result=>{
         if (result){
           this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateResult:any)=>{
             //if the updation is scuccesfull the user will get routed back to the admin dashboard
             if(updateResult!="" || updateResult != null){
-              this.snackbar.openSnackBar("Endorsment Acceptance Complete email sent to customer")
+              this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSEMENT_ACCEPTED_SUCCESS)
               this.router.navigate(['/admin-dashboard'])
             }else{
-              this.snackbar.openSnackBar("falied to Accept endorsment please try again")
+              this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSMENT_ACCEPTED_ERROR)
             }
              
          })
         }
       })
     }else{
-      this.snackbar.openSnackBar("Review and Rating cannot be empty please add data!")
+      this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSE_BLANK_INPUT_WARNING)
     }
     
   }
@@ -96,16 +97,16 @@ export class EndorsementsComponent implements OnInit {
       var updateEndorstment = new UpdateStatus("Declined",this.data.PublicKey,this.description,this.rating)
       //opens to a confirmation dialog to get users approval before sending the update
       this.dialogService.confirmDialog({
-        title:"Endorsment decline confirmation",
-        message:"Are you sure you want to decline this Endorsment",
-        cancelText:"No",
-        confirmText:"Decline Endorsment"
+        title:ConfirmDialogText.ADMIN_ENDORSE_USER_DECLINE_TITLE,
+        message:ConfirmDialogText.ADMIN_ENDORSE_USER_DECLINE_MESSAGE,
+        cancelText:ConfirmDialogText.CANCEL_BTN,
+        confirmText:ConfirmDialogText.DECLINE_ENDORSMENT_BTN
       }).subscribe(result=>{
         if(result){
           this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateEndorstment:any)=>{
             //if the updation is scuccesfull the user will get routed back to the admin dashboard
             if(updateEndorstment){
-              this.snackbar.openSnackBar("Endorsment decline Complete email sent to customer")
+              this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSMENT_DECLINED_SUCCESS)
               this.router.navigate(['/admin-dashboard'])
             }
             
@@ -114,7 +115,7 @@ export class EndorsementsComponent implements OnInit {
         
       })
     }else{
-      this.snackbar.openSnackBar("Review and Rating cannot be empty please add data!")
+      this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSE_BLANK_INPUT_WARNING)
     }
     
     

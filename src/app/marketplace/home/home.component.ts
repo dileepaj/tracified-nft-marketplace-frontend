@@ -22,6 +22,9 @@ import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { interval, timer } from 'rxjs';
+import { APIConfigENV } from 'src/environments/environment';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 
 @Component({
   selector: 'app-home',
@@ -41,13 +44,15 @@ export class HomeComponent implements OnInit {
   favouritesModel: Favourites = new Favourites('', '', '');
   watchlistModel: WatchList = new WatchList('', '', '');
   backTopVisible : boolean = false;
+  newitemflag: boolean = true;
   constructor(
     private dialogref: MatDialog,
     private nft: NftServicesService,
     private _sanitizer: DomSanitizer,
     private router: Router,
     private api: ApiServicesService,
-    private snackbarService: SnackbarServiceService
+    private snackbarService: SnackbarServiceService,
+    private dialogService: DialogService
   ) {
     document.body.className = 'home-body';
   }
@@ -128,29 +133,39 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
-      this.nfts = result;
-
-      for (let x = 0; x < this.nfts.Response.length; x++) {
-        this.nft
-          .getSVGByHash(this.nfts.Response[x].imagebase64)
-          .subscribe((res: any) => {
-            this.Decryption = res.Response.Base64ImageSVG;
-            this.dec = btoa(this.Decryption);
-            var str2 = this.dec.toString();
-            var str1 = new String('data:image/svg+xml;base64,');
-            var src = str1.concat(str2.toString());
-            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-            let card: HomeCard = new HomeCard('', '', '', '');
-            card.ImageBase64 = this.imageSrc;
-            card.Blockchain = this.nfts.Response[x].blockchain;
-            card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
-            card.NFTName = this.nfts.Response[x].nftname;
-            this.List.push(card);
-          });
-      }
-    });
+    //const timer$ = timer(0,APIConfigENV.homepageIntervalTimer)
+    //timer$.subscribe(data=>{
+      this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
+        this.List=[]
+        this.nfts = result;
+        for (let x = 0; x < this.nfts.Response.length; x++) {
+          this.nft
+            .getSVGByHash(this.nfts.Response[x].imagebase64)
+            .subscribe((res: any) => {
+              this.Decryption = res.Response.Base64ImageSVG;
+              this.dec = btoa(this.Decryption);
+              var str2 = this.dec.toString();
+              var str1 = new String('data:image/svg+xml;base64,');
+              var src = str1.concat(str2.toString());
+              this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              let card: HomeCard = new HomeCard('', '', '', '');
+              card.ImageBase64 = this.imageSrc;
+              card.Blockchain = this.nfts.Response[x].blockchain;
+              card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
+              card.NFTName = this.nfts.Response[x].nftname;
+              this.List.forEach(element=>{
+                if(card == element){
+                  this.newitemflag == false
+                }
+              })
+              if(this.newitemflag){
+                this.List.push(card);
+              }
+            });
+        }
+      });
+    //})
+    
 
     window.addEventListener('scroll', () => {
       this.backTopVisible = window.pageYOffset !== 0;

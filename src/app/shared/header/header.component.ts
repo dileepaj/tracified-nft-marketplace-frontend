@@ -152,7 +152,7 @@ export class HeaderComponent implements OnInit {
       confirmText: 'Yes',
     }); */
 
-    this.dialogService.pendingDialog();
+    this.dialogService.pendingDialog({message:'Loading Contents..'});
   }
 
   mouseEnter(trigger) {

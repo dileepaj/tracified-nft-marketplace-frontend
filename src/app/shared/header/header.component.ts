@@ -7,6 +7,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
 import { WalletComponent } from 'src/app/wallet/wallet.component';
@@ -19,19 +20,23 @@ import { WalletComponent } from 'src/app/wallet/wallet.component';
 export class HeaderComponent implements OnInit {
   private rect: any;
   sideNavOpened: boolean = false;
+  accListExpanded: boolean = false;
   tag: any;
   controlGroup: FormGroup;
   bcListExpanded: boolean = false;
-  accListExpanded: boolean = false;
-
+  //accListExpanded: boolean = false;
+  timedOutCloser;
+  
   constructor(
     private dialogref: MatDialog,
     private router: Router,
     public loaderService: LoaderService,
-    private walletService: WalletSidenavService
+    private walletService: WalletSidenavService,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
+    //this.openDialogTest();
     this.controlGroup = new FormGroup({
       //validation
       Tag: new FormControl(this.tag, Validators.required),
@@ -121,7 +126,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public goToOverview(blockchain: string) {
-    this.router.navigate(['/user-dashboard'], {
+    this.router.navigate(['/user-dashboard/overview'], {
       queryParams: { blockchain: blockchain },
     });
     this.sideNavOpened = false;
@@ -138,5 +143,28 @@ export class HeaderComponent implements OnInit {
 
   public toggleAccList() {
     this.accListExpanded = !this.accListExpanded;
+  }
+
+  private openDialogTest() {
+    /* this.dialogService.okDialog({
+      title: 'User review confirmation',
+      message: 'Are you sure you want to submit this review',
+      confirmText: 'Yes',
+    }); */
+
+    this.dialogService.pendingDialog();
+  }
+
+  mouseEnter(trigger) {
+    if (this.timedOutCloser) {
+      clearTimeout(this.timedOutCloser);
+    }
+    trigger.openMenu();
+  }
+
+  mouseLeave(trigger) {
+    this.timedOutCloser = setTimeout(() => {
+      trigger.closeMenu();
+    }, 50);
   }
 }

@@ -78,6 +78,7 @@ export class OverviewComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
+      console.log("this blockchain: ",this.selectedBlockchain)
 
       this.router.navigate(['./user-dashboard'], {
         queryParams: { blockchain: this.selectedBlockchain },
@@ -252,6 +253,12 @@ export class OverviewComponent implements OnInit {
     this.router.navigate(['./buyNft'],{
     queryParams:{data:JSON.stringify(data)}
     })
+  }
+
+  myCollections(id){
+    this.router.navigate(['./mycollections'],{
+      queryParams:{data:id}
+      })
   }
 
 }

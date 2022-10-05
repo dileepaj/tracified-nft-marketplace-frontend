@@ -1,19 +1,69 @@
 <div class="home-parent">
   <div class="home-container">
-    <div class="home-header">
-      <div>
-        <label class="home-title">Buy, sell, showcase NFTs</label>
+    <!--header-->
+    <div id="homeHeader" class="home-section cont-wrapper">
+      <div class="home-header">
+        <div>
+          <label class="home-title">Buy, sell, showcase NFTs</label>
+        </div>
+        <div class="sub-title-wrapper">
+          <label class="home-subtitle"
+            >Trace your NFTs for better value. Create yours now!</label
+          >
+        </div>
+        <button class="btn-create" [routerLink]="'/mint'">
+          <label>CREATE >></label>
+        </button>
       </div>
-      <div class="sub-title-wrapper">
-        <label class="home-subtitle"
-          >Trace your NFTs for better value. Create yours now!</label
-        >
-      </div>
-      <button class="btn-create" [routerLink]="'/mint'">
-        <label>CREATE >></label>
-      </button>
     </div>
-    <div class="home-content">
+
+    <!--intro-->
+    <div class="home-section cont-wrapper">
+      <div class="card-wrapper">
+        <div class="intro-header">
+          <img src="../../../assets/images/intro_buy.png" />
+        </div>
+        <div class="intro-card">
+          <div class="intro-body">
+            <label class="title">Buy</label>
+            <label class="content-text">
+              Set up or link your wallet and easily purchase any NFT listed on Tracified NFT marketplace.
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <div class="intro-header">
+          <img src="../../../assets/images/intro_sell.png" />
+        </div>
+        <div class="intro-card">
+          <div class="intro-body">
+            <label class="title">Sell</label>
+            <label class="content-text">
+              Mint your own NFTs and put them up for sale on our ever-growing collection of NFTs.
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="card-wrapper">
+        <div class="intro-header">
+          <img src="../../../assets/images/intro_explore.png" />
+        </div>
+        <div class="intro-card">
+          <div class="intro-body">
+            <label class="title">Explore</label>
+            <label class="content-text">
+              Explore a vast collection of NFTs created by various creators around
+              the world.
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--nft block one-->
+    <div class="home-section cont-wrapper">
       <div class="hot-picks" id="sales">
         <div
           class="hot-picks-header"
@@ -21,7 +71,7 @@
           fxLayoutAlign="space-between center"
         >
           <div class="hot-picks-header-title" fxFlex.lt-sm="100%">
-            Sneak Peak into our Sales!
+            Best NFT Picks Right Now
           </div>
           <div class="hot-picks-header-actions">
             <button class="hot-picks-header-btn">View All</button>
@@ -72,13 +122,13 @@
                 (click)="addToFavourites(item.NFTIdentifier, item.Blockchain)"
               />
             </div>
-            <!-- <div class="item-actions">
-
-
-            </div> -->
           </div>
         </div>
       </div>
+    </div>
+
+    <!--nft block two-->
+    <div class="home-section cont-wrapper">
       <div class="hot-picks" id="categories">
         <div
           class="hot-picks-header"
@@ -86,7 +136,7 @@
           fxLayoutAlign="space-between center"
         >
           <div class="hot-picks-header-title" fxFlex.lt-sm="100%">
-            Categories
+            Browse by Category
           </div>
           <div class="hot-picks-header-actions">
             <button class="hot-picks-header-btn">View All</button>
@@ -137,13 +187,69 @@
                 (click)="addToFavourites(item.NFTIdentifier, item.Blockchain)"
               />
             </div>
-            <!-- <div class="item-actions">
-
-
-            </div> -->
           </div>
         </div>
       </div>
     </div>
+
+    <!--news topics-->
+    <div class="home-section cont-wrapper">
+      <div class="hot-picks" id="categories">
+        <div
+          class="hot-picks-header"
+          fxLayout="row wrap"
+          fxLayoutAlign="space-between center"
+        >
+          <div class="hot-picks-header-title" fxFlex.lt-sm="100%">
+            Latest News
+          </div>
+          <div class="hot-picks-header-actions">
+            <button class="hot-picks-header-btn">View All</button>
+            <button class="hot-picks-header-btn rounded">
+              <mat-icon class="material-symbols-outlined">
+                navigate_before
+              </mat-icon>
+            </button>
+            <button class="hot-picks-header-btn rounded">
+              <mat-icon
+                class="material-symbols-outlined"
+                style="transform: rotate(180deg)"
+              >
+                navigate_before
+              </mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="news-container">
+          <div class="news-topic">
+            <h2>
+              Topic One
+            </h2>
+            <label class="normal-text">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a lobortis purus. Pellentesque turpis magna,
+              suscipit commodo arcu quis, tempus dictum leo. Curabitur imperdiet scelerisque tincidunt. Praesent vitae placerat sem.
+              Nulla facilisi. Morbi accumsan efficitur sollicitudin. Phasellus posuere vitae risus sit amet auctor.
+            </label>
+            <button mat-flat-button class="btn-sm">
+              Read More
+            </button>
+          </div>
+          <div class="news-topic">
+            <h2>
+              Topic Two
+            </h2>
+            <label class="normal-text">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a lobortis purus. Pellentesque turpis magna,
+              suscipit commodo arcu quis, tempus dictum leo. Curabitur imperdiet scelerisque tincidunt. Praesent vitae placerat sem.
+              Nulla facilisi. Morbi accumsan efficitur sollicitudin. Phasellus posuere vitae risus sit amet auctor.
+            </label>
+            <button mat-flat-button class="btn-sm">
+              Read More
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

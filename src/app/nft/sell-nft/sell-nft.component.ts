@@ -186,6 +186,7 @@ export class SellNftComponent implements OnInit {
                 this.snackbarService.openSnackBar(
                   'NFT has successfully been put on sale'
                 );
+                this.showInProfile();
               });
           }
         });
@@ -194,13 +195,17 @@ export class SellNftComponent implements OnInit {
       console.log('Solana going on sale');
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.SellingType = 'NFT';
+      this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.calculatePrice();
 
       if (this.NFTList.sellingstatus == 'Minted') {
         this.selltxn = this.NFTList.nfttxnhash;
-        this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
         this.addDBBackend();
         this.addDBGateway();
+        this.snackbarService.openSnackBar(
+          'NFT has successfully been put on sale'
+        );
+        this.showInProfile()
       } else {
         console.log('mint ', this.NFTList.nftissuerpk);
         const connection = new Connection(
@@ -238,12 +243,13 @@ export class SellNftComponent implements OnInit {
 
                     alert('successfully sold!');
                     this.selltxn = signature;
-                    this.addDBBackend();
+      this.addDBBackend();
                     this.addDBGateway();
                     this.saveTXNs();
                     this.snackbarService.openSnackBar(
                       'NFT has successfully been put on sale'
                     );
+                    this.showInProfile()
                   } catch (err) {
                     alert(err);
                   }
@@ -282,6 +288,7 @@ export class SellNftComponent implements OnInit {
                 this.snackbarService.openSnackBar(
                   'NFT has successfully been put on sale'
                 );
+                this.showInProfile()
               });
             //this.addDBBackend()
           }
@@ -318,6 +325,7 @@ export class SellNftComponent implements OnInit {
                 this.snackbarService.openSnackBar(
                   'NFT has successfully been put on sale'
                 );
+                this.showInProfile()
               });
           }
         });
@@ -354,21 +362,31 @@ export class SellNftComponent implements OnInit {
           }
 
           this.api
-            .getWatchlistByBlockchainAndNFTIdentifier(
+            .findWatchlistByBlockchainAndNFTIdentifier(
               this.NFTList.blockchain,
               this.NFTList.nftidentifier
             )
             .subscribe((res: any) => {
-              this.watchlist = res.Response.length;
+              if(res.Response!=null){
+                this.watchlist = res.Response.length
+               }else{
+                this.watchlist=0
+               }
+               
             });
 
           this.api
-            .getFavouritesByBlockchainAndNFTIdentifier(
+            .findFavouritesByBlockchainAndNFTIdentifier(
               this.NFTList.blockchain,
               this.NFTList.nftidentifier
             )
             .subscribe((res: any) => {
-              this.favorites = res.Response.length;
+              if(res.Response!=null){
+                this.favorites = res.Response.length
+               }else{
+                this.favorites=0
+               }
+               
             });
           console.log(
             'MAIN DATA :',

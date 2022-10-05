@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject } from '@angular/core';
 import { Collection } from 'src/app/models/collection';
 import { CollectionService } from 'src/app/services/api-services/collection.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 import { Route, Router } from '@angular/router';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface Blockchain {
   value: string;
@@ -28,12 +29,17 @@ export class CreateCollectionComponent implements OnInit {
   selectVal: string = '';
   collection: Collection = new Collection('', '', '', ''); //declaring the model
   signerPK: string = '';
+  mail:any;
 
   constructor(public service: CollectionService,
      private _location: Location,
      private router:Router,
      private dialogService:DialogService,
-     private snackbarService:SnackbarServiceService ) {}
+     private snackbarService:SnackbarServiceService,
+     private dialogRef: MatDialogRef<CreateCollectionComponent>,
+     @Inject(MAT_DIALOG_DATA) public data: any
+
+      ) {}
 
   async save(): Promise<void> {
     //getting form data and sending it to the collection service to post
@@ -41,7 +47,7 @@ export class CreateCollectionComponent implements OnInit {
     this.collection.collectionName = this.formValue('collectionName');
     this.collection.organizationName = this.formValue('organizationName');
     this.collection.blockchain = "any";
-    this.collection.userId=this.formValue('userId');
+    this.collection.userId=this.mail;
     this.dialogService.confirmDialog({
       title:'Collection Creation Confirmation',
       message:"Are you sure you want to create the "+this.collection.collectionName+" collection?",
@@ -54,13 +60,14 @@ export class CreateCollectionComponent implements OnInit {
           if(res != null || res!=""){
             this.snackbarService.openSnackBar(""+this.collection.collectionName+" collection has successfully been added.")
             this.selectVal = this.collection.collectionName;
+            this.dialogRef.close({collectionName : this.collection.collectionName});
           }else{
             this.snackbarService.openSnackBar("Error occured failed to create collection.")
           }
         });
       }
     })
-      
+
   }
 
   done(){
@@ -70,6 +77,8 @@ export class CreateCollectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.mail=this.data.email
+    console.log("mail is: ",this.mail)
     //validating form data
     this.controlGroup = new FormGroup({
       userId: new FormControl(this.collection.userId, Validators.required),
@@ -81,7 +90,7 @@ export class CreateCollectionComponent implements OnInit {
         this.collection.organizationName,
         Validators.required
       ),
-  
+
     });
   }
 

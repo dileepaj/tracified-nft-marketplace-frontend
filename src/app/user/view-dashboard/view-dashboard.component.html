@@ -13,21 +13,39 @@
             src="../../../assets/images/default_profile.png"
           />
           <h2 style="font-size: 20px; font-weight: 500">USER</h2>
-          <label style="font-size: 25px; font-weight: 700">JOHN SMITH</label>
+          <label style="font-size: 25px; font-weight: 700">{{this.Name}}</label>
         </div>
         <mat-nav-list id="navlist">
-          <mat-list-item
-            class="nav-list-item"
-          
-          >
-            <label>Overview</label>
-          </mat-list-item>
           <!-- <mat-list-item
             class="nav-list-item"
-            (click)="goToEdit()"
+            (click)="goToOverview()"
+          >
+            <label>Overview</label>
+          </mat-list-item> -->
+          <mat-list-item
+            class="nav-list-item"
+            (click)="goToEdit(this.User)"
           >
             <label>Edit Profile</label>
-          </mat-list-item> -->
+          </mat-list-item>
+          <mat-list-item
+          class="nav-list-item"
+          (click)="myCollections(this.User)"
+        >
+          <label>My Collections</label>
+        </mat-list-item>
+        <!-- <mat-list-item
+        class="nav-list-item"
+        (click)="goToOverview()"
+      >
+      <a href="overview.component.html#favourite">Jump to Chapter 4</a> <label>My Favourites</label>
+      </mat-list-item>
+      <mat-list-item
+      class="nav-list-item"
+      (click)="goToOverview()"
+    >
+      <label>My Most Watched</label>
+    </mat-list-item> -->
         </mat-nav-list>
         <button
           mat-icon-button

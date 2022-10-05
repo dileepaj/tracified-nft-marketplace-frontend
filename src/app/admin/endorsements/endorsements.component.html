@@ -7,8 +7,7 @@
           [formGroup]="controlGroup"
           fxLayout="row wrap"
         >
-          <h2 fxFlex="100%">Endorsements</h2>
-          <div fxFlex.lg="50%" fxLayout="row wrap" style="row-gap: 30px">
+          <h1 fxFlex="100%"><strong>Pending Endorsements</strong></h1>          <div fxFlex.lg="50%" fxLayout="row wrap" style="row-gap: 30px">
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >Name</label
             ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
@@ -159,13 +158,13 @@
               appearance="outline"
               fxFlex="100%"
             >
-              <textarea matInput formControlName="description"></textarea>
+              <textarea matInput formControlName="description" class="endorsment-answer"></textarea>
             </mat-form-field>
           </div>
           <div>
             <button
               mat-flat-button
-              class="btn-submit"
+              class="accept-btn"
               (click)="acceptEndorsment()"
               id="submitbtn"
             >
@@ -173,7 +172,7 @@
             </button>
             <button
               mat-flat-button
-              class="btn-submit"
+              class="decline-btn"
               (click)="declineEndorsment()"
               id="submitbtn"
             >

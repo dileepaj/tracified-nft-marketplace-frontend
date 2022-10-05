@@ -1,33 +1,24 @@
 <div class="footer-wrapper">
-  <div class="footer-top">
-    <div class="footer-top-inner">
+  <div class="footer-top ">
+    <div class="footer-top-inner cont-wrapper">
       <label class="title" ngStyle.lt-md="width: 100%">
         Subscribe to stay tuned for new web design and latest updates.
       </label>
       <div class="subscribe-wrapper">
         <label>Let's do it! — </label>
-        <form [formGroup]="controlGroup" class="email-form">
-          <div class="subscribe-input-group">
-            <input
-              type="text"
-              placeholder="joe@gmail.com"
-              formControlName="Mail"
-            />
-          </div>
-          <button
-            mat-flat-button
-            class="btn-subscribe"
-            (click)="subscribeNow()"
-          >
-            Subscribe
-          </button>
+
+        <div class="subscribe-input-group">
+          <form [formGroup]="controlGroup">
+          <input type="text" placeholder="joe@gmail.com" formControlName="Mail"/>
         </form>
+        </div>
+        <button mat-flat-button class="btn-subscribe" (click)="subscribeNow()">Subscribe</button>
       </div>
     </div>
   </div>
   <div class="footer-bottom">
     <div
-      class="footer-bottom-inner"
+      class="footer-bottom-inner cont-wrapper"
       ngStyle.lt-md="flex-wrap: wrap; row-gap: 40px"
     >
       <div class="footer-section-1" ngStyle.lt-md="width: 100%">
@@ -50,13 +41,6 @@
           <a href="#" class="footer-normal-text">Web-design</a>
           <a href="#" class="footer-normal-text">Content</a>
           <a href="#" class="footer-normal-text">Integrations</a>
-        </div>
-        <div class="links-section">
-          <label class="title">Collections</label>
-          <a href="#" class="footer-normal-text">Web-designers</a>
-          <a href="#" class="footer-normal-text">Marketers</a>
-          <a href="#" class="footer-normal-text">Small Business</a>
-          <a href="#" class="footer-normal-text">Website Builder</a>
         </div>
         <div class="links-section">
           <label class="title">Resources</label>

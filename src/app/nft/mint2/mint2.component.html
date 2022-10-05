@@ -27,19 +27,21 @@
       <label>Drag and Drop or Browse</label>
       <div
         class="dnd-area"
+        id="nft-dnd"
         ngStyle.lt-md="width: calc(100% - 6px)"
         matTooltip="Upload Image"
         (click)="triggerClick()"
       >
-        <div class="img-div" *ngIf="!imageSrc">
+        <div id="nft-dnd-ph" class="img-div" *ngIf="!imageSrc">
           <img
+          id="nft-dnd-img"
             src="../../../assets/images/img-upload.png"
             style="width: 133px; height: 138px"
             *ngIf="!imageSrc"
           />
         </div>
 
-        <img [src]="imageSrc" *ngIf="imageSrc" id="img" />
+        <img id="nft-dnd-u-img" [src]="imageSrc" *ngIf="imageSrc" id="img" class="uploaded-img" />
 
         <input
           type="file"
@@ -50,21 +52,25 @@
         />
       </div>
       <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
-        <img src="../../../assets/icons/code-icon.png" style="flex-basis: 40%" />
+        <img
+          src="../../../assets/icons/code-icon.png"
+          style="flex-basis: 40%"
+        />
       </button>
       <label>or Create SVG with Tracified</label>
-      <div
-        class="composer"
-        matRipple
-        ngStyle.lt-sm="width:100%"
-        href="https://qa.nftcomposer.tracified.com/"
-      >
-        Tracified Composer
+      <div class="composer" matRipple ngStyle.lt-sm="width:100%">
+        <a href="https://qa.nftcomposer.tracified.com/" target="_blank"
+          >Tracified Composer</a
+        >
+
         <mat-icon class="material-symbols-outlined"> open_in_new </mat-icon>
       </div>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Name <span class="required">*</span><h6>Maximum characters 12</h6></label>
+      <label class="normal-text"
+        >Name <span class="required">*</span>
+        </label
+      >
       <mat-form-field appearance="outline">
         <input
           type="text"
@@ -74,6 +80,7 @@
           formControlName="NFTName"
           placeholder="Enter a name for your NFT."
         />
+        <mat-hint>Maximum characters 12</mat-hint>
       </mat-form-field>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
@@ -97,20 +104,24 @@
       <label class="normal-text"
         >Collection<span class="required">*</span></label
       >
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" fxHide.md="false" fxHide.gt-md="false" fxShow.lt-md="false">
         <mat-select formControlName="Collection" class="select-bc">
           <mat-select-trigger>
             <label class="collection-dropdown-selected">{{
               controlGroup.controls["Collection"].value
             }}</label>
           </mat-select-trigger>
-          <mat-option *ngFor="let collection of CollectionList"
-          [value]="collection.CollectionName"
-            ><label class="collection-dropdown">{{ collection.CollectionName }}</label></mat-option
+          <mat-option
+            *ngFor="let collection of CollectionList"
+            [value]="collection.CollectionName"
+            ><label class="collection-dropdown">{{
+              collection.CollectionName
+            }}</label></mat-option
           >
         </mat-select>
       </mat-form-field>
       <img
+        fxHide.md="false" fxHide.gt-md="false" fxShow.lt-md="false"
         ngStyle.lt-md="position: absolute;
         top: 100px;
         left: 0px;
@@ -119,8 +130,36 @@
         src="../../../assets/images/add.png"
         class="add-btn"
         matRipple
+        (click)="openCreateCollection()"
         matTooltip="Create collection"
       />
+
+      <!--for mobile views-->
+      <div style="display:flex; flex-direction:row; align-items:center; justify-content: space-between; column-gap: 10px; " fxHide.md="true" fxHide.gt-md="true" fxShow.lt-md="true">
+        <mat-form-field appearance="outline" style="flex-grow: 1;">
+          <mat-select formControlName="Collection" class="select-bc">
+            <mat-select-trigger>
+              <label class="collection-dropdown-selected">{{
+                controlGroup.controls["Collection"].value
+              }}</label>
+            </mat-select-trigger>
+            <mat-option
+              *ngFor="let collection of CollectionList"
+              [value]="collection.CollectionName"
+              ><label class="collection-dropdown">{{
+                collection.CollectionName
+              }}</label></mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <img
+          src="../../../assets/images/add.png"
+          class="add-btn-sm"
+          matRipple
+          (click)="openCreateCollection()"
+          matTooltip="Create collection"
+        />
+      </div>
     </div>
     <div
       class="mint-form-group"
@@ -135,6 +174,7 @@
           formControlName="Blockchain"
           disableOptionCentering
           class="select-bc"
+          d
         >
           <mat-select-trigger
             *ngIf="controlGroup.controls['Blockchain'].value === 'ethereum'"
@@ -170,25 +210,29 @@
           </mat-select-trigger>
 
           <!--options-->
-          <mat-option class="option" value="ethereum">
+          <mat-option
+            class="option"
+            value="ethereum"
+            [disabled]="this.ethereum"
+          >
             <div class="bc-dropdown">
               <img src="../../../assets/images/ethereum-dd.png" />
               <label>Ethereum</label>
             </div>
           </mat-option>
-          <mat-option class="option" value="polygon">
+          <mat-option class="option" value="polygon" [disabled]="this.polygon">
             <div class="bc-dropdown">
               <img src="../../../assets/images/polygon-dd.png" />
               <label>Polygon</label>
             </div>
           </mat-option>
-          <mat-option class="option" value="stellar">
+          <mat-option class="option" value="stellar" [disabled]="this.stellar">
             <div class="bc-dropdown">
               <img src="../../../assets/images/stellar-dd.png" />
               <label>Stellar</label>
             </div>
           </mat-option>
-          <mat-option class="option" value="solana">
+          <mat-option class="option" value="solana" [disabled]="this.solana">
             <div class="bc-dropdown">
               <img src="../../../assets/images/solana-dd.png" />
               <label>Solana</label>
@@ -202,7 +246,7 @@
       style="margin-top: 15px"
       ngStyle.lt-md="width:100%"
     >
-      <label class="normal-text">Tags: </label><h6>Maximum tags allowed is 4</h6>
+      <label class="normal-text">Tags: </label>
       <mat-form-field class="example-chip-list" appearance="outline">
         <mat-chip-list
           #chipList
@@ -225,7 +269,9 @@
             (matChipInputTokenEnd)="add($event)"
           />
         </mat-chip-list>
+        <mat-hint class="tags">Maximum tags allowed is 4</mat-hint>
       </mat-form-field>
+
     </div>
     <div class="mint-form-group margin" ngStyle.lt-md="width:100%">
       <label class="normal-text">Code Profile Link: </label>
@@ -279,7 +325,7 @@
         />
       </mat-form-field>
     </div> -->
-    <div class="mint-form-group" ngStyle.lt-md="width:100%">
+    <div class="mint-form-group" ngStyle.lt-md="width:100%; display: flex; flex-direction : row;justify-content:center">
       <button mat-flat-button class="btn-create" (click)="getIssuer()">
         Create
       </button>

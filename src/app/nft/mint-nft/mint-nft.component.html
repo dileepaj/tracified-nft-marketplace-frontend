@@ -19,6 +19,11 @@
         [email]="email"
       ></app-mint2>
     </mat-step>
-    <mat-step><app-mint3></app-mint3></mat-step>
+    <mat-step>
+      <app-mint3>
+        (proceed)="changeLastTab($event, 3)"
+        [blockchain]="blockchain"
+       
+    </app-mint3></mat-step>
   </mat-stepper>
 </div>

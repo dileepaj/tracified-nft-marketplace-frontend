@@ -82,12 +82,17 @@ import { FaqComponent } from './marketplace/faq/faq.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InterceptorService } from './services/loader/interceptor.service';
 import { OkmessageComponent } from './dialogs/okmessage/okmessage.component';
-import { ConfirmationPopupComponent } from './marketplace/buyNft/confirmation-popup/confirmation-popup.component';
 import { MintNftComponent } from './nft/mint-nft/mint-nft.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ContactUsComponent } from './marketplace/contact-us/contact-us.component';
 import { HelpCenterComponent } from './marketplace/help-center/help-center.component';
+import { AddEditFaqsComponent } from './admin/add-edit-faqs/add-edit-faqs.component';
+import { PreviewImageComponent } from './dialogs/previewImage/preview-image/preview-image.component';
+import { PendingComponent } from './dialogs/pending/pending.component';
+import { UserCollectionsComponent } from './user/user-collections/user-collections.component';
+import { UserCollectionNFTComponent } from './user/user-collection-nft/user-collection-nft.component';
+import { PageNotFoundComponent } from './error-pages/page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
   {
@@ -160,6 +165,14 @@ const appRoutes: Routes = [
         component: OverviewComponent,
       },
       {
+        path: 'mycollections',
+        component: UserCollectionsComponent,
+      },
+      {
+        path: 'mynfts',
+        component: UserCollectionNFTComponent,
+      },
+      {
         path: '',
         redirectTo: 'overview',
         pathMatch: 'full',
@@ -185,6 +198,11 @@ const appRoutes: Routes = [
         canActivate: [AuthGuard],
         path: 'add-news-letter',
         component: AddNewsletterComponent,
+      },
+      {
+        canActivate:[AuthGuard],
+        path:'AnswerUserFAQ',
+        component:AddEditFaqsComponent,
       },
       {
         path: '',
@@ -232,6 +250,26 @@ const appRoutes: Routes = [
   {
     path: 'help-center',
     component: HelpCenterComponent,
+  },
+  {
+    path:'AnswerUserFAQ',
+    component:AddEditFaqsComponent
+  },
+  {
+    path: 'mycollections',
+    component: UserCollectionsComponent,
+  },
+  {
+    path: 'mynfts',
+    component: UserCollectionNFTComponent,
+  },
+  /*Wild Card Route for 404 request
+    NOTE : Always keep this at the end of routes array
+  */
+  {
+    path: '**',
+    pathMatch: 'full',
+    component: PageNotFoundComponent,
   },
 ];
 @NgModule({
@@ -289,11 +327,16 @@ const appRoutes: Routes = [
     DocumentationComponent,
     FaqComponent,
     OkmessageComponent,
-    ConfirmationPopupComponent,
     MintNftComponent,
     FooterComponent,
     ContactUsComponent,
     HelpCenterComponent,
+    AddEditFaqsComponent,
+    PreviewImageComponent,
+    PendingComponent,
+    UserCollectionsComponent,
+    UserCollectionNFTComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,

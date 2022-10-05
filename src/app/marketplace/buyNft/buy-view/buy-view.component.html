@@ -2,13 +2,8 @@
   <div class="nft-view-header" fxFlex="100%" fxLayout="row wrap">
     <div
       fxLayout="row wrap"
-      fxFlex.gt-xl="50%"
-      fxFlex.xl="70%"
-      fxFlex.xs="90%"
-      fxFlex.sm="90%"
-      fxFlex.md="90%"
-      fxFlex.lg="90%"
-      style="display: flex; flex-direction: row; justify-content: space-between"
+      style="display: flex; flex-direction: row; justify-content: space-between;"
+      class="cont-wrapper"
     >
       <div class="breadcrumb-div">
         <a (click)="goToExplore()" class="breadcrumb-link">Explore</a>
@@ -24,14 +19,9 @@
     </div>
   </div>
   <div
-    class="nft-div"
+    class="nft-div cont-wrapper"
     fxLayout="row wrap"
-    fxFlex.gt-xl="50%"
-    fxFlex.xl="70%"
-    fxFlex.xs="90%"
-    fxFlex.sm="90%"
-    fxFlex.md="90%"
-    fxFlex.lg="90%"
+
   >
     <div
       class="nft-sum"
@@ -64,7 +54,7 @@
         />
         <div class="stats" [class.hidden]="selectedTab === 1">
           <mat-icon class="material-symbols-outlined"> visibility </mat-icon>
-          <label style="margin-right: 30px">{{this.watchlist}} views</label>
+          <label style="margin-right: 30px">{{this.watchlist}} watched</label>
           <mat-icon class="material-symbols-outlined"> favorite </mat-icon>
           <label>{{this.favorites}} favorites</label>
           <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
@@ -82,9 +72,9 @@
           <label class="nft-cat"><b>Category - </b>{{this.NFTList.categories}}</label>
           <div class="nft-price">
             <label class="nft-cat"><b>Price - </b></label>
-            <img src="../../../../assets/images/blockchain-icons/ether.png" />
-            <label class="label-hl">{{this.NFTList.currentprice}}</label>
-            <label class="label-sm">($1,604.78)</label>
+            <img src={{this.icon}} />
+            <label class="label-hl">{{this.NFTList.currentprice}} {{this.crypto}}</label>
+            <label class="label-sm">{{this.price}}</label>
           </div>
         </div>
         <button
@@ -100,6 +90,10 @@
         <mat-tab>
           <div class="sell-cont">
             <div class="owners">
+              <div class="prev-o">
+                <label class="owner-s">Creator Name</label>
+                <label class="owner-l">{{this.NFTList.artistname}}</label>
+              </div>
               <div class="prev-o">
                 <label class="owner-s">Creator</label>
                 <label class="owner-l"
@@ -118,15 +112,12 @@
                   >{{this.NFTList.distributorpk}}</label
                 >
               </div>
-              <div class="prev-o">
-                <label class="owner-s">Creator Name</label>
-                <label class="owner-l">{{this.NFTList.artistname}}</label>
-              </div>
+             
             </div>
             <div class="user-story">
-              <label class="heading-s">User Story</label>
+              <label class="heading-s">NFT Story</label>
               <div class="desc">
-                <iframe 
+                <iframe
                   id="iframe"
                   #iframe
                   width="100%"
@@ -154,7 +145,7 @@
                       <td width="25%">{{item.Status}}</td>
                       <td width="25%">
                         <mat-icon class="material-symbols-outlined cursor-p">
-                          <a href="{{item.NFTTxnHash}}" >open_in_new</a> 
+                          <a href="{{item.NFTTxnHash}}" >open_in_new</a>
                         </mat-icon>
                       </td>
                     </tr>

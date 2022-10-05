@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
   background: #2d2d2d;
+  margin-top: 30px;
 }
 
 .footer-top {
@@ -27,7 +28,7 @@
 }
 
 .footer-top .title {
-  width: 400px;
+
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
@@ -153,10 +154,10 @@
 .subscribe-input-group input[type="text"] {
   box-sizing: border-box;
   padding: 10px;
-  font-size: 16px;
+  font-size: 14px;
   float: right;
   width: 95%;
-  height: 58px;
+  height: 40px;
   background: transparent;
   border: none;
   color: black;
@@ -181,7 +182,7 @@
 
   background: #2d2d2d;
   border-radius: 16px;
-  padding: 19px 40px 19px 40px;
+  padding: 9px 40px 9px 40px;
 }
 
 .social {

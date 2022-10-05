@@ -18,7 +18,9 @@ export class ApiServicesService {
   baseUrlSaveFavs:string='http://localhost:6081/favourites/save';
   baseUrlSaveWatchlist:string='http://localhost:6081/watchlists/save';
   baseUrlGetFavs:string='http://localhost:6081/favourites';
+  baseUrlFindFavs:string='http://localhost:6081/favourite';
   baseUrlGetWatchlist:string='http://localhost:6081/watchlists';
+  baseUrlGetWatched:string='http://localhost:6081/watched';
   baseUrlEndorse:string='http://localhost:6081/endorser/save';
   baseUrlEndorsement='http://localhost:6081/endorsement/status';
   baseUrlUpdateEndorse='http://localhost:6081/endorsement';
@@ -99,7 +101,7 @@ export class ApiServicesService {
   }
 
   updateEndorsement(st:UpdateEndorse):Observable<UpdateEndorse>{
-  return this.http.put<UpdateEndorse>(this.baseUrlEndorsement, st, { headers: this.headers }); 
+  return this.http.put<UpdateEndorse>(this.baseUrlUpdateEndorse, st, { headers: this.headers }); 
   }
 
   updateEndorsementStatus(st:UpdateStatus):Observable<UpdateStatus>{
@@ -127,9 +129,21 @@ export class ApiServicesService {
     getFavouritesByBlockchainAndNFTIdentifier(blockchain:string,nftidentifier:string):Observable<NFT[]>{
       return this.http.get<NFT[]>(`${this.baseUrlGetFavs}/${blockchain}/${nftidentifier}`);
     }
+
+    findFavouritesByBlockchainAndNFTIdentifier(blockchain:string,nftidentifier:string):Observable<NFT[]>{
+      return this.http.get<NFT[]>(`${this.baseUrlFindFavs}/${blockchain}/${nftidentifier}`);
+    }
   
     getWatchlistByBlockchainAndNFTIdentifier(blockchain:string,nftidentifier:string):Observable<NFT[]>{
       return this.http.get<NFT[]>(`${this.baseUrlGetWatchlist}/${blockchain}/${nftidentifier}`);
+    }
+
+    findWatchlistByBlockchainAndNFTIdentifier(blockchain:string,nftidentifier:string):Observable<NFT[]>{
+      return this.http.get<NFT[]>(`${this.baseUrlGetWatched}/${blockchain}/${nftidentifier}`);
+    }
+
+    getUSD(currency:string){
+      return this.http.get(`${"https://api.cryptonator.com/api/full"}/${currency}`);
     }
 
     addReviews(st: Reviews): Observable<Reviews> {

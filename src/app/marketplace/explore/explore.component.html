@@ -1,9 +1,13 @@
 <div class="explore-parent">
-  <div class="explore-container">
-    <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
+  <div class="explore-container ">
+    <div class="explore-header cont-wrapper">
+      <mat-icon class="back" matTooltip="Back">arrow_back</mat-icon>
+      <label class="explore-heading">Explore NFTs</label>
+    </div>
+    <!-- <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
       >arrow_back</mat-icon
     >
-    <h1 style="font-size: 40px">Explore Collections</h1>
+    <h1 style="font-size: 40px">Explore Collections</h1> -->
     <div style="margin-top: 10px" fxFlexLayout="row wrap" fxFlexAlign="center">
       <img
         style="
@@ -17,8 +21,21 @@
         selectedBlockchain.charAt(0).toUpperCase() + selectedBlockchain.slice(1)
       }}</label>
     </div>
-    <div class="filters">
+    <div class="filters cont-wrapper">
       <div
+        class="filter"
+        [class.active-filter]="selectedFilter === 'onsale'"
+        (click)="setFilter('onsale')"
+        matRipple
+      >
+        <img
+          class="filter-icon"
+          [class.filter-icon-active]="selectedFilter === 'onsale'"
+          src="../../../assets/images/on_sale.png"
+        />
+        On Sale
+      </div>
+      <!-- <div
         class="filter"
         [class.active-filter]="selectedFilter === 'all'"
         (click)="setFilter('all')"
@@ -30,7 +47,7 @@
           src="../../../assets/images/up_to_date.png"
         />
         All
-      </div>
+      </div> -->
       <div
         class="filter"
         [class.active-filter]="selectedFilter === 'uptodate'"
@@ -70,19 +87,7 @@
         />
         Trending
       </div>
-      <div
-        class="filter"
-        [class.active-filter]="selectedFilter === 'onsale'"
-        (click)="setFilter('onsale')"
-        matRipple
-      >
-        <img
-          class="filter-icon"
-          [class.filter-icon-active]="selectedFilter === 'onsale'"
-          src="../../../assets/images/on_sale.png"
-        />
-        On Sale
-      </div>
+
       <div
         class="filter"
         [class.active-filter]="selectedFilter === 'bestcreators'"
@@ -97,39 +102,38 @@
         Best Creators
       </div>
     </div>
-    <div class="explore-content" fxLayout="row wrap">
-      <div
-        class="nft-item"
-        *ngFor="let item of List"
-      >
-       <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
-        <img class="nft-img" [src]="item.ImageBase64" />
-        <div class="nft-title" >{{ item.NFTName }}</div>
-        <div class="nft-actions">
-          <img
-            class="nft-action-btn"
-            src="../../../assets/images/purchase.png"
-            matTooltip="Buy NFT"
-            (click)="routeToBuy(item.NFTIdentifier)"
-          />
-          <img
-            class="nft-action-btn"
-            src="../../../assets/images/view.png"
-            matTooltip="View NFT"
-            (click)="viewNFT()"
-          />
-          <img
-            class="nft-action-btn"
-            src="../../../assets/images/wishlist.png"
-            matTooltip="Add to watchlist"
-            (click)="addToWatchList(item.NFTIdentifier)"
-          />
-          <img
-            class="nft-action-btn"
-            src="../../../assets/images/favorite.png"
-            matTooltip="Add to favorites"
-            (click)="addToFavourites(item.NFTIdentifier)"
-          />
+    <div class="explore-content cont-wrapper" fxLayout="row wrap">
+      <div class="cont-inner">
+        <div class="nft-item" *ngFor="let item of List">
+          <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
+          <img class="nft-img" [src]="item.ImageBase64" />
+          <div class="nft-title">{{ item.NFTName }}</div>
+          <div class="nft-actions">
+            <img
+              class="nft-action-btn"
+              src="../../../assets/images/purchase.png"
+              matTooltip="Buy NFT"
+              (click)="routeToBuy(item.NFTIdentifier)"
+            />
+            <img
+              class="nft-action-btn"
+              src="../../../assets/images/view.png"
+              matTooltip="View NFT"
+              (click)="viewNFT()"
+            />
+            <img
+              class="nft-action-btn"
+              src="../../../assets/images/wishlist.png"
+              matTooltip="Add to watchlist"
+              (click)="addToWatchList(item.NFTIdentifier)"
+            />
+            <img
+              class="nft-action-btn"
+              src="../../../assets/images/favorite.png"
+              matTooltip="Add to favorites"
+              (click)="addToFavourites(item.NFTIdentifier)"
+            />
+          </div>
         </div>
       </div>
     </div>

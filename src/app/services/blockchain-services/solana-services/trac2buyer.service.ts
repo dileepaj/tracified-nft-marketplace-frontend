@@ -12,22 +12,34 @@ export class Trac2buyerService {
   signers
   async createATA(
     from:Uint8Array,
-    price:number,
+    price:any,
     to:string,
     mintPubkey: PublicKey,
-    ata:PublicKey): Promise<Transaction>{
+    ata:PublicKey,
+    royalty:any,
+    owner:string,
+    prevownerpk:string): Promise<Transaction>{
     return (async () => {
       // Connect to cluster
       const connection = new Connection(clusterApiUrl("testnet"), "confirmed");
      
       let fromKeypair = Keypair.fromSecretKey(from);
+      let totalprice = (price-royalty)* 1000000000
+      let royalties = royalty * 1000000000
    
       const tx = new Transaction()
             tx.add(
                 SystemProgram.transfer({
                 fromPubkey: new PublicKey(to),
-                toPubkey: fromKeypair.publicKey,
-                lamports: LAMPORTS_PER_SOL/10,
+                toPubkey: new PublicKey(prevownerpk),
+                lamports: totalprice,
+              }),
+               )
+               .add(
+                SystemProgram.transfer({
+                fromPubkey: new PublicKey(to),
+                toPubkey: new PublicKey(owner),
+                lamports: royalties,
               }),
                )
        

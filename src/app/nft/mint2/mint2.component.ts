@@ -9,6 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { Canvg } from 'canvg';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, startWith, Subscription } from 'rxjs';
 import {
@@ -712,6 +713,7 @@ export class Mint2Component implements OnInit {
   public uploadImage(event: Event) {
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
+    console.log("-------------:",this)
     reader.onload = this._handleReaderLoaded.bind(this);
     reader.readAsBinaryString(this.file);
   }
@@ -723,6 +725,7 @@ export class Mint2Component implements OnInit {
     this.base64 = this.base64.replace(unwantedText, '');
     let encoded: string = atob(this.base64);
     this.Encoded = encoded;
+    console.log("HTML svg: ",this.Encoded)
 
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
     this.updateHTML();
@@ -735,6 +738,48 @@ export class Mint2Component implements OnInit {
     reader.onload = (_event) => {
       this.img = reader.result;
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.img);
+
+    //   svgToPng(this.Encoded, (imgData) => {
+    //     const pngImage = document.createElement('img');
+    //     document.body.appendChild(pngImage);
+    //     pngImage.src = imgData;
+    //   });
+
+    //   function svgToPng(svg, callback) {
+    //     const url = getSvgUrl(svg);
+    //     svgUrlToPng(url, (imgData) => {
+    //       callback(imgData);
+    //       URL.revokeObjectURL(url);
+    //     });
+    //   }
+
+    //   function getSvgUrl(svg) {
+    //     return URL.createObjectURL(new Blob([svg], {
+    //       type: 'image/svg+xml'
+    //     }));
+    //   }
+
+
+    //   function svgUrlToPng(svgUrl, callback) {
+    //     console.log("svg url: ",svgUrl)
+    //     const svgImage = document.createElement('img');
+    //     document.body.appendChild(svgImage);
+    //     svgImage.onload = () => {
+    //       const canvas = document.createElement('canvas');
+    //       canvas.width = svgImage.clientWidth;
+    //       canvas.height = svgImage.clientHeight;
+    //       const canvasCtx = canvas.getContext('2d');
+    //       canvasCtx!.drawImage(svgImage, 0, 0);
+    //       const imgData = canvas.toDataURL('image/png');
+    //       callback(imgData);
+    //       console.log("image: ",imgData)
+    //      // document.body.removeChild(imgPreview);
+    //     };
+    //     svgImage.src = svgUrl;
+    //     console.log("image svg: ", svgImage.src) 
+    //   }
+      
+    
     };
   }
 

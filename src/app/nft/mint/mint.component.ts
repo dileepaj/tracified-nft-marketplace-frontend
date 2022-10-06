@@ -174,6 +174,7 @@ export class MintComponent implements OnInit {
           freighter = new FreighterComponent(freighter);
           await freighter.initWallelt();
           var key =await freighter.getWalletaddress()
+          this.blockchain="stellar"
        if(key!=null){
         console.log("data: ",this.email,wallet, key)
         this.apiService
@@ -214,6 +215,7 @@ export class MintComponent implements OnInit {
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
      await phantomWallet.initWallelt()
+     this.blockchain="solana"
      var key=await phantomWallet.getWalletaddress()
     if(key!=null){
       console.log("data: ",this.email,wallet, key)

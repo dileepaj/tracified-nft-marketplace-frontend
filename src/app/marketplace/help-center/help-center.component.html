@@ -1,73 +1,78 @@
 <div class="container">
-  <div class="nft-view-header" fxFlex="100%">
-    <div
-      style="
-        width: 80%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-      "
-    >
-      <div class="breadcrumb-div">
-        <a [routerLink]="'/getNft'" class="breadcrumb-link">Resources</a>
-        <mat-icon
-          class="material-symbols-outlined"
-          style="vertical-align: middle"
-        >
-          navigate_next
-        </mat-icon>
-        <a style="color: #00c853">Help Center</a>
+  <div class="cont-wrapper">
+    <div class="nft-view-header" fxFlex="100%">
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        "
+      >
+        <div class="breadcrumb-div">
+          <a [routerLink]="'/getNft'" class="breadcrumb-link">Resources</a>
+          <mat-icon
+            class="material-symbols-outlined"
+            style="vertical-align: middle"
+          >
+            navigate_next
+          </mat-icon>
+          <a style="color: #00c853">Help Center</a>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="help-header">
-    <mat-icon class="back" matTooltip="Back">arrow_back</mat-icon>
-    <label class="contact-heading">Help Center</label>
+    <div class="help-header">
+      <mat-icon class="back" matTooltip="Back">arrow_back</mat-icon>
+      <label class="contact-heading">Help Center</label>
+    </div>
+
+    <p class="normal-text" style="max-width: 100%">
+      Learn about the marketplace or reach out to us for further assistance.
+    </p>
+    <form class="help-form" ngStyle.lt-md="width:90%">
+      <div class="contact-form-group" ngStyle.lt-md="width:100%">
+        <mat-icon class="search-icon">search</mat-icon>
+        <input type="text" name="search" placeholder="Search our resources" />
+        <button mat-flat-button class="btn-search">Search</button>
+        <!-- <mat-form-field class="search-form-field" appearance="outline">
+          <mat-icon class="search-icon" matPrefix>search</mat-icon>
+          <input
+            type="text"
+            class="input"
+            matInput
+            name="search"
+            placeholder="Search our resources"
+          />
+          <button mat-flat-button class="btn-search" matSuffix>Search</button>
+        </mat-form-field> -->
+      </div>
+    </form>
+    <div class="navigate" ngStyle.lt-md="width:90%">
+      <button mat-flat-button class="btn-large" (click)="navigate('/faq')">
+        FAQs
+      </button>
+      <button mat-flat-button class="btn-large" (click)="navigate('/docs')">
+        Documentation
+      </button>
+      <button mat-flat-button class="btn-large" (click)="navigate('/nft-story')">
+        Blog
+      </button>
+    </div>
+    <div class="contact-us-div" ngStyle.lt-md="width:100%">
+      <label class="normal-text highlighted-text" style="max-width: 100%">
+        Can’t find your answer?
+      </label>
+      <label class="normal-text" style="max-width: 100%">
+        Contact us and we’ll get back to you as soon as possible.
+      </label>
+      <button
+        mat-flat-button
+        class="btn-search"
+        (click)="navigate('/contact-us')"
+      >
+        Contact Us
+      </button>
+    </div>
   </div>
 
-  <p class="normal-text" style="max-width: 90%">
-    Learn about the marketplace or reach out to us for further assistance.
-  </p>
-  <form class="help-form" ngStyle.lt-md="width:90%">
-    <div class="contact-form-group" ngStyle.lt-md="width:100%">
-      <mat-form-field class="search-form-field" appearance="outline">
-        <mat-icon class="search-icon" matPrefix>search</mat-icon>
-        <input
-          type="text"
-          class="input"
-          matInput
-          name="search"
-          formControlName="search"
-          placeholder="Search our resources"
-        />
-        <button mat-flat-button class="btn-search" matSuffix>Search</button>
-      </mat-form-field>
-    </div>
-  </form>
-  <div class="navigate" ngStyle.lt-md="width:90%">
-    <button mat-flat-button class="btn-large" (click)="navigate('/faq')">
-      FAQs
-    </button>
-    <button mat-flat-button class="btn-large" (click)="navigate('/docs')">
-      Documentation
-    </button>
-    <button mat-flat-button class="btn-large" (click)="navigate('/nft-story')">
-      Blog
-    </button>
-  </div>
-  <div class="contact-us-div" ngStyle.lt-md="width:90%">
-    <label class="normal-text highlighted-text" style="max-width: 90%">
-      Can’t find your answer?
-    </label>
-    <label class="normal-text" style="max-width: 90%">
-      Contact us and we’ll get back to you as soon as possible.
-    </label>
-    <button
-      mat-flat-button
-      class="btn-search"
-      (click)="navigate('/contact-us')"
-    >
-      Contact Us
-    </button>
-  </div>
 </div>

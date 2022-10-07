@@ -1,6 +1,6 @@
 <div class="dsb-main-div" fxLayout="row wrap">
   <mat-drawer-container class="sidenav-container">
-    <mat-drawer mode="side" class="dsb-drawer" [opened]="opened">
+    <mat-drawer [mode]="smallScreen? 'over' : 'side'" class="dsb-drawer" [opened]="opened">
       <button mat-icon-button id="btn-sidenav-toggle">
         <mat-icon class="material-symbols-outlined" (click)="toggleSidenav()">
           menu_open
@@ -20,14 +20,16 @@
             class="nav-list-item"
             [routerLink]="'overview'"
             [routerLinkActive]="'active-item'"
+            (click)="closeSideNav()"
           >
             <label>Overview</label>
-          
+
           </mat-list-item>
           <mat-list-item
             class="nav-list-item"
             [routerLink]="'add-news-letter'"
             [routerLinkActive]="'active-item'"
+            (click)="closeSideNav()"
           >
             <label>News Letter</label>
           </mat-list-item>
@@ -55,7 +57,7 @@
           border-bottom-right-radius: 0%;
           border-top-right-radius: 0%;
         "
-        *ngIf="!opened"
+        *ngIf="!opened || smallScreen"
       >
         <mat-icon class="material-symbols-outlined" (click)="toggleSidenav()">
           menu_open

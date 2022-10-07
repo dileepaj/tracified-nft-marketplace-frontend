@@ -1,103 +1,47 @@
 <div id="inbox-outer-div">
-  <div id="inbox-header" fxLayout="row wrap" style="background: #232323">
-    <div
-      fxFlex.xl="40%"
-      fxFlex.lg="40%"
-      fxFlex.md="40%"
-      fxFlex.lt-md="100%"
-      class="header-cont"
-    >
-      <img src="../../../assets/images/admin-endorsment.png" /><br><br>
-      <label>Pending Endorsments</label>
-    </div>
-  
-    <div
-      fxFlex.xl="40%"
-      fxFlex.lg="40%"
-      fxFlex.md="40%"
-      fxFlex.lt-md="100%"
-      class="header-cont"
-    >
-    <img src="../../../assets/images/amdin-user-faq.png" /><label
-    >Pendeing User FAQ</label>
-    </div>
-    
-  </div>
-  <div id="inbox-content" fxLayout="row wrap">
+  <div id="inbox-wrapper" fxShow.lt-lg="false">
     <div id="inbox-cont-1" fxFlex.xl="50%" fxFlex.lg="50%" fxFlex.lt-lg="100%">
-      <mat-list id="inbox-list">
+      <div
+        class="header-cont"
+      >
+        <img src="../../../assets/images/admin-endorsment.png" />
+        <label>Pending Endorsments</label>
+      </div>
+      <div class="inbox-separator"></div>
+      <mat-list class="inbox-list">
         <mat-list-item
-          class="inbox-list-item"
+          class="inbox-list-item hover-item"
           *ngFor="let item of pendingEndorsments; index as i"
           matRipple
           (click)="clicked(item)"
         >
-          <table class="content-tbl">
-            <tr>
-              <td>
-                <div mat-line class="inbox-list-item">Name</div>
-              </td>
-              <td>
-                <strong>{{ item.Name }}</strong>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div mat-line class="inbox-list-item">Email</div>
-              </td>
-              <td>
-                <strong>{{ item.Email }}</strong>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div mat-line class="inbox-list-item">Contact</div>
-              </td>
-              <td>
-                <span class="tbl-bold"><strong>{{ item.Contact }}</strong></span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div mat-line class="inbox-list-item">
-                  PublicKey  
-                </div>
-              </td>
-              <td>
-                  <strong>
-                    {{
-                      item.PublicKey.substring(0, 6) +
-                        "..." +
-                        item.PublicKey.substring(item.PublicKey.length - 4, item.PublicKey.length)
-                    }}
-                  </strong>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div mat-line class="inbox-list-item">Blockchain</div>
-              </td>
-              <td>
-                <strong>{{ item.Blockchain }}</strong>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div mat-line class="inbox-list-item">Description</div>
-              </td>
-              <td>
-                <strong>{{ item.Description }}</strong>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div mat-line class="inbox-list-item">Status</div>
-              </td>
-              <td>
-                <p id="endorsment-status"><strong>{{ item.Status }}</strong></p>
-              </td>
-            </tr>
-          </table>
+          <div class="endorse-list">
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Name</label><label fxFlex="50%"><strong>{{ item.Name }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Email</label><label fxFlex="50%"><strong>{{ item.Email }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Contact</label><label fxFlex="50%"><strong>{{ item.Contact }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Public Key</label><label fxFlex="50%"><strong>{{
+                item.PublicKey.substring(0, 6) +
+                  "..." +
+                  item.PublicKey.substring(item.PublicKey.length - 4, item.PublicKey.length)
+              }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Blockchain</label><label fxFlex="50%"><strong>{{ item.Blockchain }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Description</label><label fxFlex="50%"><strong>{{ item.Description }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Status</label><label fxFlex="50%"><span class="status"><strong>{{ item.Status }}</strong></span></label>
+            </div>
+          </div>
         </mat-list-item>
       </mat-list>
     </div>
@@ -108,52 +52,118 @@
     ></div>
     <div id="inbox-cont-2" fxFlex.xl="50%" fxFlex.lg="50%" fxFlex.lt-lg="100%">
       <div
-        class="notification-card"
-        [class.separator]="i !== notifications.length - 1"
-        *ngFor="let item of notifications; index as i"
+      class="header-cont"
       >
-        <div class="chats">
-          <table lass="content-tbl">
-            <tr>
-              <td>
-                <div mat-line class="FAQ-list">Question from</div>
-              </td>
-              <td>
-                <strong>{{ item.usermail }}</strong>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div mat-line class="FAQ-list">Category</div>
-              </td>
-              <td>
-                <strong>{{ item.category }}</strong>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div mat-line class="FAQ-list">Topic</div>
-              </td>
-              <td>
-                <strong>{{ item.subject }}</strong>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div mat-line class="FAQ-list">Description</div>
-              </td>
-              <td>
-                <strong>{{ item.desc }}</strong>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2" style="padding-left: 35%;padding-top: 10px; ">
-                <button mat-flat-button class="btn-view" (click)="sendFAQData(item)">Reply</button>
-              </td>
-            </tr>
-          </table>
-        </div>
+        <img src="../../../assets/images/amdin-user-faq.png" /><label
+        >Pending User FAQ</label>
       </div>
+      <div class="inbox-separator"></div>
+      <mat-list class="inbox-list">
+        <mat-list-item
+          class="inbox-list-item"
+          *ngFor="let item of notifications; index as i"
+          matRipple
+          (click)="clicked(item)"
+        >
+        <div class="endorse-list">
+          <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+            <label fxFlex="50%">Question from</label><label ><strong>{{ item.usermail }}</strong></label>
+          </div>
+          <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+            <label fxFlex="50%">Category</label><label ><strong>{{  item.category }}</strong></label>
+          </div>
+          <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+            <label fxFlex="50%">Topic</label><label ><strong>{{  item.subject }}</strong></label>
+          </div>
+          <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+            <label fxFlex="50%">Description</label><label ><strong>{{  item.desc }}</strong></label>
+          </div>
+          <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+            <button mat-flat-button class="btn-view" (click)="sendFAQData(item)">Reply</button>
+          </div>
+        </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+
+  <!--for mobile screens-->
+  <div id="inbox-tabs-wrapper" fxHide.gt-md="true" >
+    <div class="tabs-header">
+      <div class="tab" [class.active-tab]="tabIndex === 0" (click)="changeTab(0)" matRipple>
+        <img src="../../../assets/images/admin-endorsment.png" />
+        <label>Pending Endorsments</label>
+      </div>
+      <div class="tab" [class.active-tab]="tabIndex === 1"  (click)="changeTab(1)" matRipple>
+        <img src="../../../assets/images/amdin-user-faq.png" /><label
+        >Pending User FAQ</label>
+      </div>
+    </div>
+    <div class="tab-content" *ngIf="tabIndex === 0">
+      <mat-list class="inbox-list">
+        <mat-list-item
+          class="inbox-list-item hover-item"
+          *ngFor="let item of pendingEndorsments; index as i"
+          matRipple
+          (click)="clicked(item)"
+        >
+          <div class="endorse-list">
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Name</label><label fxFlex="50%"><strong>{{ item.Name }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Email</label><label fxFlex="50%"><strong>{{ item.Email }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Contact</label><label fxFlex="50%"><strong>{{ item.Contact }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Public Key</label><label fxFlex="50%"><strong>{{
+                item.PublicKey.substring(0, 6) +
+                  "..." +
+                  item.PublicKey.substring(item.PublicKey.length - 4, item.PublicKey.length)
+              }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Blockchain</label><label fxFlex="50%"><strong>{{ item.Blockchain }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Description</label><label fxFlex="50%"><strong>{{ item.Description }}</strong></label>
+            </div>
+            <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="50%">Status</label><label fxFlex="50%"><span class="status"><strong>{{ item.Status }}</strong></span></label>
+            </div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="tab-content" *ngIf="tabIndex === 1">
+      <mat-list class="inbox-list">
+        <mat-list-item
+          class="inbox-list-item"
+          *ngFor="let item of notifications; index as i"
+          matRipple
+          (click)="clicked(item)"
+        >
+        <div class="endorse-list">
+          <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+            <label fxFlex="50%">Question from</label><label ><strong>{{ item.usermail }}</strong></label>
+          </div>
+          <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+            <label fxFlex="50%">Category</label><label ><strong>{{  item.category }}</strong></label>
+          </div>
+          <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+            <label fxFlex="50%">Topic</label><label ><strong>{{  item.subject }}</strong></label>
+          </div>
+          <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+            <label fxFlex="50%">Description</label><label ><strong>{{  item.desc }}</strong></label>
+          </div>
+          <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
+            <button mat-flat-button class="btn-view" (click)="sendFAQData(item)">Reply</button>
+          </div>
+        </div>
+        </mat-list-item>
+      </mat-list>
     </div>
   </div>
 </div>

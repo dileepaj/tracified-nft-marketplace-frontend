@@ -14,9 +14,10 @@ import { APIConfigENV } from 'src/environments/environment';
   styleUrls: ['./browse-marketplace.component.css'],
 })
 export class BrowseMarketplaceComponent implements OnInit {
+  tabIndex : number = 0;
   pendingEndorsments:any[]
   public notifications
-  
+
   // notifications: any[] = [
   //   {
   //     type: 'endorsement',
@@ -32,7 +33,7 @@ export class BrowseMarketplaceComponent implements OnInit {
   //     topic: 'how does one mint nft with solana?how does one mint nft with solana?how does one mint nft with solana?how does one mint nft with solana?how does one mint nft with solana?',
   //   },
   // ];
-  
+
   constructor(private router:Router,private service:ApiServicesService,private userFAQAPI:UserFAQService,public loaderService: LoaderService,private dialogService: DialogService) {}
 
 
@@ -50,7 +51,7 @@ export class BrowseMarketplaceComponent implements OnInit {
   ngOnInit(): void {
     this.loaderService.isLoading.next(false)
     let status="Pending"
-    //function will return all the endorsments in bending status 
+    //function will return all the endorsments in bending status
     // this.service.getEndorsementByStatus(status).subscribe((data:any)=>{
     //   this.pendingEndorsments=data.Response;
     // });
@@ -63,7 +64,7 @@ export class BrowseMarketplaceComponent implements OnInit {
     const timer$ = timer(APIConfigENV.APIStartDelay,APIConfigENV.APIIntervalTimer);
     timer$.subscribe((data)=>{
        this.loaderService.isLoading.next(false)
-        //function will return all the endorsments in bending status 
+        //function will return all the endorsments in bending status
         this.service.getEndorsementByStatus(status).subscribe((data:any)=>{
           this.pendingEndorsments=data.Response;
         });
@@ -74,6 +75,10 @@ export class BrowseMarketplaceComponent implements OnInit {
         })
         dialog.close()
     })
-    
+
+  }
+
+  public changeTab(index : number) {
+    this.tabIndex = index;
   }
 }

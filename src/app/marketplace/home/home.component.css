@@ -247,6 +247,17 @@
 }
 
 .home-section {
+  min-height: 500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between ;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 30px;
+  row-gap: 100px;
+}
+
+.home-header-section {
   min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: row;

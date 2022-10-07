@@ -89,3 +89,7 @@
   max-width: 250px;
   max-height: 250px;
 }
+
+.ph-img {
+  max-width: 50%;
+}

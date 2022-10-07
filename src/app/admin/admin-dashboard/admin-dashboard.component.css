@@ -18,6 +18,7 @@
   background-color: #2b2b2b !important;
   color: #fff;
   width: 400px;
+  max-width: 100%;
   padding: 20px;
 }
 

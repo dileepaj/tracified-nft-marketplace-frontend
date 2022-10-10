@@ -80,7 +80,7 @@ export class BuyViewComponent implements OnInit {
     '',
     ''
   );
-  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '','');
+  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '','','');
   buyGW: BuyNFTGW = new BuyNFTGW('', '', '', '');
   nftbe: GetNFT = new GetNFT(
     '',
@@ -161,6 +161,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;
+      this.saleBE.Blockchain=this.NFTList.blockchain
       this.dialogService
         .confirmDialog({
           title: 'NFT purchase confirmation',
@@ -185,6 +186,7 @@ export class BuyViewComponent implements OnInit {
       this.userPK = phantomWallet.getWalletaddress();
       this.saleBE.CurrentOwnerPK = this.userPK;
       this.saleBE.SellingType = 'NFT';
+      this.saleBE.Blockchain=this.NFTList.blockchain
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.dialogService.confirmDialog({
@@ -245,6 +247,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.MarketContract = environment.contractAddressMKPolygon;
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
+      this.saleBE.Blockchain=this.NFTList.blockchain
       let walletMetamask = new UserWallet();
       walletMetamask = new MetamaskComponent(walletMetamask);
       await walletMetamask.initWallelt();
@@ -282,6 +285,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.MarketContract = environment.contractAddressMKEthereum;
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
+      this.saleBE.Blockchain=this.NFTList.blockchain
       let walletMetamask = new UserWallet();
       walletMetamask = new MetamaskComponent(walletMetamask);
       await walletMetamask.initWallelt();

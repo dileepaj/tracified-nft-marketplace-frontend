@@ -61,7 +61,7 @@ export class EndorsementsComponent implements OnInit {
     this.rating=this.formValue('rating')
     this.description=this.formValue('description')
     if (this.rating!=null && this.description!=null){
-      var updateEndorstment =new UpdateStatus("Accepted",this.data.PublicKey,this.description,this.rating);
+      var updateEndorstment =new UpdateStatus("Accepted",this.data.PublicKey,this.description,this.rating,this.data.Email);
       //opens to a confirmation dialog to get users approval before sending the update
       this.dialogService.confirmDialog({
         title:'Endorsment Acceptance Confirmation',
@@ -93,7 +93,7 @@ export class EndorsementsComponent implements OnInit {
     this.rating=this.formValue('rating')
     this.description=this.formValue('description')
     if (this.rating!=null && this.description!=null){
-      var updateEndorstment = new UpdateStatus("Declined",this.data.PublicKey,this.description,this.rating)
+      var updateEndorstment = new UpdateStatus("Declined",this.data.PublicKey,this.description,this.rating,this.data.Email)
       //opens to a confirmation dialog to get users approval before sending the update
       this.dialogService.confirmDialog({
         title:"Endorsment decline confirmation",

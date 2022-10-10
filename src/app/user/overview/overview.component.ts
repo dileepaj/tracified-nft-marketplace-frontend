@@ -98,28 +98,23 @@ export class OverviewComponent implements OnInit {
           for( let x=0; x<(this.nfts.Response.length); x++){
 
             if(this.nfts.Response[x].sellingstatus=="ON SALE"){
-              this.Sale.push(this.nfts.Response[x])
-              this.FilterByONSALE(this.Sale)
+              this.FilterByONSALE(this.nfts.Response[x])
             }
              
             if(this.nfts.Response[x].sellingstatus=="NOTFORSALE"){
-              this.Bought.push(this.nfts.Response[x])
-              this.FilterByBoughtNFT(this.Bought)
+              this.FilterByBoughtNFT(this.nfts.Response[x])
             }
 
             if(this.nfts.Response[x].sellingstatus=="Minted"){
-              this.Minted.push(this.nfts.Response[x])
-              this.FilterByMinted(this.Minted)
+              this.FilterByMinted(this.nfts.Response[x])
             }
 
             if(this.nfts.Response[x].trending==true){
-              this.Trend.push(this.nfts.Response[x])
-              this.FilterByTrending(this.Trend)
+              this.FilterByTrending(this.nfts.Response[x])
             }
 
             if(this.nfts.Response[x].hotpicks==true){
-              this.HotPick.push(this.nfts.Response[x])
-              this.FilterByHotpicks(this.HotPick)
+              this.FilterByHotpicks(this.nfts.Response[x])
             }
 
           }
@@ -128,19 +123,12 @@ export class OverviewComponent implements OnInit {
    
     });
 
-    
-   
-
-    // this.router.navigate(['./user-dashboard/edit-profile'], {
-    //   queryParams: { blockchain: this.selectedBlockchain },
-    // });
-      
+  
   }
 
-  FilterByHotpicks(arr:any[]){
-   
-    for(let x=0; x<(arr.length);x++){
-      this.nft.getSVGByHash(arr[x].imagebase64).subscribe((res:any)=>{
+  FilterByHotpicks(response:any){
+   console.log("hotpick arr: ",response)
+      this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         this.dec = btoa(this.Decryption);
       var str2 = this.dec.toString(); 
@@ -149,17 +137,15 @@ export class OverviewComponent implements OnInit {
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
      let card:Card= new Card('','','');
     card.ImageBase64=this.imageSrc
-    card.NFTIdentifier=arr[x].nftidentifier
-    card.NFTName=arr[x].nftname
+    card.NFTIdentifier=response.nftidentifier
+    card.NFTName=response.nftname
       this.ListHotpicks.push(card)
+      console.log("listing hp: ",this.ListHotpicks)
       })
-    }
   }
 
-  FilterByONSALE(arr:any[]){
-   
-    for(let x=0; x<(arr.length);x++){
-      this.nft.getSVGByHash(arr[x].imagebase64).subscribe((res:any)=>{
+  FilterByONSALE(response:any){
+      this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         this.dec = btoa(this.Decryption);
       var str2 = this.dec.toString(); 
@@ -168,17 +154,14 @@ export class OverviewComponent implements OnInit {
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
      let card:Card= new Card('','','');
     card.ImageBase64=this.imageSrc
-    card.NFTIdentifier=arr[x].nftidentifier
-    card.NFTName=arr[x].nftname
+    card.NFTIdentifier=response.nftidentifier
+    card.NFTName=response.nftname
       this.ListSales.push(card)
       })
-    }
   }
 
-  FilterByMinted(arr:any[]){
-   
-    for(let x=0; x<(arr.length);x++){
-      this.nft.getSVGByHash(arr[x].imagebase64).subscribe((res:any)=>{
+  FilterByMinted(response:any){
+      this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         this.dec = btoa(this.Decryption);
       var str2 = this.dec.toString(); 
@@ -187,17 +170,14 @@ export class OverviewComponent implements OnInit {
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
      let card:Card= new Card('','','');
     card.ImageBase64=this.imageSrc
-    card.NFTIdentifier=arr[x].nftidentifier
-    card.NFTName=arr[x].nftname
+    card.NFTIdentifier=response.nftidentifier
+    card.NFTName=response.nftname
       this.ListMinted.push(card)
       })
-    }
   }
 
-  FilterByBoughtNFT(arr:any[]){
-   
-    for(let x=0; x<(arr.length);x++){
-      this.nft.getSVGByHash(arr[x].imagebase64).subscribe((res:any)=>{
+  FilterByBoughtNFT(response:any){
+      this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         this.dec = btoa(this.Decryption);
       var str2 = this.dec.toString(); 
@@ -206,17 +186,14 @@ export class OverviewComponent implements OnInit {
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
      let card:Card= new Card('','','');
     card.ImageBase64=this.imageSrc
-    card.NFTIdentifier=arr[x].nftidentifier
-    card.NFTName=arr[x].nftname
+    card.NFTIdentifier=response.nftidentifier
+    card.NFTName=response.nftname
       this.ListBought.push(card)
       })
-    }
   }
 
-  FilterByTrending(arr:any[]){
-   
-    for(let x=0; x<(arr.length);x++){
-      this.nft.getSVGByHash(arr[x].imagebase64).subscribe((res:any)=>{
+  FilterByTrending(response:any){
+      this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         this.dec = btoa(this.Decryption);
       var str2 = this.dec.toString(); 
@@ -225,11 +202,10 @@ export class OverviewComponent implements OnInit {
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
      let card:Card= new Card('','','');
     card.ImageBase64=this.imageSrc
-    card.NFTIdentifier=arr[x].nftidentifier
-    card.NFTName=arr[x].nftname
+    card.NFTIdentifier=response.nftidentifier
+    card.NFTName=response.nftname
       this.ListTrends.push(card)
       })
-    }
   }
 
   putToSaleafterMint(id:string){

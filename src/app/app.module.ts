@@ -92,6 +92,7 @@ import { PendingComponent } from './dialogs/pending/pending.component';
 import { UserCollectionsComponent } from './user/user-collections/user-collections.component';
 import { UserCollectionNFTComponent } from './user/user-collection-nft/user-collection-nft.component';
 import { PageNotFoundComponent } from './error-pages/page-not-found/page-not-found.component';
+import { NftgridComponent } from './shared/nftgrid/nftgrid.component';
 
 const appRoutes: Routes = [
   {
@@ -130,6 +131,10 @@ const appRoutes: Routes = [
   {
     path: 'buyNft',
     component: BuyViewComponent,
+  },
+  {
+    path: 'gridnft',
+    component: NftgridComponent,
   },
   {
     path: 'createblog',
@@ -331,6 +336,7 @@ const appRoutes: Routes = [
     UserCollectionsComponent,
     UserCollectionNFTComponent,
     PageNotFoundComponent,
+    NftgridComponent,
   ],
   imports: [
     BrowserModule,

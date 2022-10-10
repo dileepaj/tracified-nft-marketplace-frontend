@@ -1,0 +1,61 @@
+<div class="explore-parent">
+    <div class="explore-container ">
+      <div class="explore-header cont-wrapper">
+        <mat-icon class="back" matTooltip="Back" (click)="back()">arrow_back</mat-icon>
+        <label class="explore-heading">Explore NFTs - {{this.status}}</label>
+      </div>
+      <!-- <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
+        >arrow_back</mat-icon
+      >
+      <h1 style="font-size: 40px">Explore Collections</h1> -->
+      <div style="margin-top: 10px" fxFlexLayout="row wrap" fxFlexAlign="center">
+        <img
+          style="
+            vertical-align: middle;
+            margin-right: 10px;
+            transform: scale(1.1);
+          "
+          [src]="'../../../assets/images/' + blockchain + '.png'"
+        />
+        <label style="font-size: 18px">{{
+            blockchain.charAt(0).toUpperCase() + blockchain.slice(1)
+        }}</label>
+      </div>
+      <div class="explore-content cont-wrapper" fxLayout="row wrap">
+        <div class="cont-inner">
+          <div class="nft-item" *ngFor="let item of List">
+            <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
+            <img class="nft-img" [src]="item.ImageBase64" />
+            <div class="nft-title">{{ item.NFTName }}</div>
+            <div class="nft-actions">
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/purchase.png"
+                matTooltip="Buy NFT"
+                (click)="routeToBuy(item.NFTIdentifier)"
+              />
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/view.png"
+                matTooltip="View NFT"
+                (click)="viewNFT()"
+              />
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/wishlist.png"
+                matTooltip="Add to watchlist"
+                (click)="addToWatchList(item.NFTIdentifier)"
+              />
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/favorite.png"
+                matTooltip="Add to favorites"
+                (click)="addToFavourites(item.NFTIdentifier)"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -24,7 +24,7 @@
       Your Hot Picks
     </div>
     <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn">View All</button>
+      <button class="overview-picks-header-btn" (click)="viewall('Hotpicks')">View All</button>
       <button class="overview-picks-header-btn rounded">
         <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
       </button>
@@ -80,7 +80,7 @@
       Your Minted NFTs
     </div>
     <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn">View All</button>
+      <button class="overview-picks-header-btn" (click)="viewall('Mints')">View All</button>
       <button class="overview-picks-header-btn rounded">
         <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
       </button>
@@ -136,7 +136,7 @@
       Items you Bought
     </div>
     <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn">View All</button>
+      <button class="overview-picks-header-btn" (click)="viewall('Bought')">View All</button>
       <button class="overview-picks-header-btn rounded">
         <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
       </button>
@@ -192,7 +192,7 @@
       Your Favourites
     </div>
     <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn">View All</button>
+      <button class="overview-picks-header-btn" (click)="viewall('Favourites')">View All</button>
       <button class="overview-picks-header-btn rounded">
         <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
       </button>
@@ -247,7 +247,7 @@
     Your NFTS on Sale
   </div>
   <div class="overview-picks-header-actions">
-    <button class="overview-picks-header-btn">View All</button>
+    <button class="overview-picks-header-btn" (click)="viewall('Sale')">View All</button>
     <button class="overview-picks-header-btn rounded">
       <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
     </button>

@@ -237,4 +237,10 @@ export class OverviewComponent implements OnInit {
       })
   }
 
+  viewall(status:string){
+    this.router.navigate(['/gridnft'], {
+      queryParams: { data: [status,this.selectedBlockchain] },
+    });
+  }
+
 }

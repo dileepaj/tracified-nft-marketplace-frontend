@@ -233,41 +233,19 @@ export class BuyViewComponent implements OnInit {
               window as any
             ).solana.signAndSendTransaction(result);
             await connection.confirmTransaction(signature);
-            loadingAnimation.close()
-            this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
-            this.showInProfile()
+           // this.showInProfile()
           } catch (err) {
             alert(err);
           }
+          loadingAnimation.close()
           this.buytxn = res;
           this.saveTXNs();
           this.service.updateNFTStatusBackend(this.saleBE).subscribe();
           this.updateGateway();
-          this.snackbar.openSnackBar('NFT has successfully been bought');
+          this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
           this.showInProfile()
         });
            
-          });
-  
-        this.ata
-          .createATA(
-            environment.fromWalletSecret,
-            parseInt(this.NFTList.currentprice),
-            phantomWallet.getWalletaddress(),
-            this.NFTList.nftissuerpk,
-            this.NFTList.nftidentifier
-          )
-          .then(async (result: solanaTransaction) => {
-            try {
-              const { signature } = await (
-                window as any
-              ).solana.signAndSendTransaction(result);
-              await connection.confirmTransaction(signature);
-              this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
-              this.showInProfile()
-            } catch (err) {
-              alert(err);
-            }
           });
       }})
       

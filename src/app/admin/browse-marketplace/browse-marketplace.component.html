@@ -67,19 +67,21 @@
         >
         <div class="endorse-list">
           <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
-            <label fxFlex="50%">Question from</label><label ><strong>{{ item.usermail }}</strong></label>
+            <label fxFlex="40%">Question from</label><label fxFlex="40%"><strong>{{ item.usermail }}</strong></label>
           </div>
           <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
-            <label fxFlex="50%">Category</label><label ><strong>{{  item.category }}</strong></label>
+            <label fxFlex="40%">Category</label><label fxFlex="40%"><strong>{{  item.category }}</strong></label>
           </div>
           <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
-            <label fxFlex="50%">Topic</label><label ><strong>{{  item.subject }}</strong></label>
+            <label fxFlex="40%">Topic</label><label fxFlex="40%"><strong>{{  item.subject }}</strong></label>
           </div>
           <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
-            <label fxFlex="50%">Description</label><label ><strong>{{  item.desc }}</strong></label>
+            <label fxFlex="40%">Description</label><label fxFlex="40%"><strong>{{  item.desc }}</strong></label>
           </div>
           <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
-            <button mat-flat-button class="btn-view" (click)="sendFAQData(item)">Reply</button>
+            <div fxFlex="80%">
+              <button mat-flat-button class="btn-view"  (click)="sendFAQData(item)">Reply</button>
+            </div>
           </div>
         </div>
         </mat-list-item>
@@ -147,16 +149,16 @@
         >
         <div class="endorse-list">
           <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
-            <label fxFlex="50%">Question from</label><label ><strong>{{ item.usermail }}</strong></label>
+            <label fxFlex="50%">Question from</label><label fxFlex="50%"><strong>{{ item.usermail }}</strong></label>
           </div>
           <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
-            <label fxFlex="50%">Category</label><label ><strong>{{  item.category }}</strong></label>
+            <label fxFlex="50%">Category</label><label fxFlex="50%"><strong>{{  item.category }}</strong></label>
           </div>
           <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
-            <label fxFlex="50%">Topic</label><label ><strong>{{  item.subject }}</strong></label>
+            <label fxFlex="50%">Topic</label><label fxFlex="50%"><strong>{{  item.subject }}</strong></label>
           </div>
           <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
-            <label fxFlex="50%">Description</label><label ><strong>{{  item.desc }}</strong></label>
+            <label fxFlex="50%">Description</label><label fxFlex="50%"><strong>{{  item.desc }}</strong></label>
           </div>
           <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center center">
             <button mat-flat-button class="btn-view" (click)="sendFAQData(item)">Reply</button>

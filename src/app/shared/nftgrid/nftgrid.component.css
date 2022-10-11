@@ -1,0 +1,162 @@
+.explore-parent {
+    /* position: fixed;
+    top: 70px;
+    bottom: 0;
+    left: 0;
+    right: 0; */
+    margin-top: 60px;
+    border-top: 1px solid white;
+    padding: 0px 0px 20px 0px;
+  }
+  
+  .explore-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    width: 100%;
+  }
+  
+  .filters {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    column-gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 90%;
+  }
+  
+  .filter {
+    border-radius: 20px;
+    padding: 5px 10px 5px 10px;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .active-filter {
+    background: #10ceac;
+    color: black;
+  }
+  
+  .filter-icon {
+    margin-right: 5px;
+    transform: scale(0.8);
+    vertical-align: middle;
+  }
+  
+  .filter-icon-active {
+    filter: brightness(0) saturate(100%);
+  }
+  
+  .explore-content {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .nft-item {
+    width: 295px;
+    max-width: 100%;
+    height: 245px;
+    border-radius: 20px;
+    background-color: #2d2d2d;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .nft-img {
+    width: 295px;
+    height: 160px;
+  }
+  
+  .nft-title {
+    width: 100%;
+    background-color: #648873;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  .nft-actions {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 15px;
+  }
+  
+  .nft-action-btn {
+    cursor: pointer;
+    transform: scale(0.9);
+  }
+  
+  .back-icon {
+    transform: scale(1.6);
+    vertical-align: middle;
+    margin-right: 83%;
+    position: relative;
+    top: 25px;
+    cursor: pointer;
+  }
+  
+  .explore-heading {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  .back {
+    transform: scale(1.6);
+    cursor: pointer;
+    vertical-align: middle;
+    position: absolute;
+    left: 0;
+  }
+  
+  .explore-header {
+    position: relative;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .cont-inner {
+    /* width: 100%;
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(295px, 1fr)); */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 689px) {
+    .cont-inner {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  

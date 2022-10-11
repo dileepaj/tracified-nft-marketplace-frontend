@@ -81,7 +81,7 @@ export class BuyViewComponent implements OnInit {
     '',
     ''
   );
-  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '');
+  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '','','');
   buyGW: BuyNFTGW = new BuyNFTGW('', '', '', '');
   nftbe: GetNFT = new GetNFT(
     '',
@@ -155,12 +155,14 @@ export class BuyViewComponent implements OnInit {
 
   async updateBackend(): Promise<void> {
     this.saleBE.CurrentPrice = this.NFTList.currentprice;
+    this.saleBE.Royalty=this.NFTList.royalty
     this.saleBE.SellingStatus = 'NOTFORSALE';
     this.saleBE.Timestamp = '2022-04-21:13:41:00';
     if (this.NFTList.blockchain == 'stellar') {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;
+      this.saleBE.Blockchain=this.NFTList.blockchain
       this.dialogService
         .confirmDialog({
           title:ConfirmDialogText.BUY_VIEW_BUY_NFT_TITLE,
@@ -190,6 +192,7 @@ export class BuyViewComponent implements OnInit {
       this.userPK = phantomWallet.getWalletaddress();
       this.saleBE.CurrentOwnerPK = this.userPK;
       this.saleBE.SellingType = 'NFT';
+      this.saleBE.Blockchain=this.NFTList.blockchain
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.dialogService.confirmDialog({
@@ -205,19 +208,45 @@ export class BuyViewComponent implements OnInit {
           this.transfer
           .createATA(
             environment.fromWalletSecret,
-            parseInt(this.NFTList.currentprice),
+            parseFloat(this.NFTList.currentprice),
             phantomWallet.getWalletaddress(),
             this.NFTList.nftissuerpk,
             this.NFTList.nftidentifier
+
           )
           .then(async (res: any) => {
-            this.buytxn = res;
-            this.saveTXNs();
-            this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-            this.updateGateway();
+            
+        this.ata
+        .createATA(
+          environment.fromWalletSecret,
+          parseInt(this.NFTList.currentprice),
+          phantomWallet.getWalletaddress(),
+          this.NFTList.nftissuerpk,
+          this.NFTList.nftidentifier,
+          parseFloat(this.NFTList.royalty),
+          this.NFTList.creatoruserid,
+          this.NFTList.currentownerpk
+        )
+        .then(async (result: solanaTransaction) => {
+          try {
+            const { signature } = await (
+              window as any
+            ).solana.signAndSendTransaction(result);
+            await connection.confirmTransaction(signature);
             loadingAnimation.close()
             this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
             this.showInProfile()
+          } catch (err) {
+            alert(err);
+          }
+          this.buytxn = res;
+          this.saveTXNs();
+          this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+          this.updateGateway();
+          this.snackbar.openSnackBar('NFT has successfully been bought');
+          this.showInProfile()
+        });
+           
           });
   
         this.ata
@@ -248,6 +277,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.MarketContract = environment.contractAddressMKPolygon;
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
+      this.saleBE.Blockchain=this.NFTList.blockchain
       let walletMetamask = new UserWallet();
       walletMetamask = new MetamaskComponent(walletMetamask);
       await walletMetamask.initWallelt();
@@ -267,7 +297,9 @@ export class BuyViewComponent implements OnInit {
           .BuyNFT(
             environment.contractAddressNFTPolygon,
             parseInt(this.NFTList.sellingtype),
-            parseInt(this.NFTList.currentprice)
+            this.NFTList.currentprice,
+            this.NFTList.royalty,
+            this.NFTList.currentownerpk
           )
           .then((res) => {
             this.buytxn = res.transactionHash;
@@ -287,6 +319,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.MarketContract = environment.contractAddressMKEthereum;
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
+      this.saleBE.Blockchain=this.NFTList.blockchain
       let walletMetamask = new UserWallet();
       walletMetamask = new MetamaskComponent(walletMetamask);
       await walletMetamask.initWallelt();
@@ -308,7 +341,9 @@ export class BuyViewComponent implements OnInit {
           .BuyNFT(
             environment.contractAddressNFTEthereum,
             parseInt(this.NFTList.sellingtype),
-            parseInt(this.NFTList.currentprice)
+           this.NFTList.currentprice,
+             this.NFTList.royalty,
+            this.NFTList.currentownerpk
           )
           .then((res) => {
             this.buytxn = res.transactionHash;
@@ -360,7 +395,8 @@ export class BuyViewComponent implements OnInit {
         this.NFTList.nftissuerpk,
         this.userPK,
         this.NFTList.currentprice,
-        this.NFTList.distributorpk
+        this.NFTList.distributorpk,
+        this.NFTList.royalty
       )
       .then((transactionResult: any) => {
         if (transactionResult.successful) {

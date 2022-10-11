@@ -24,7 +24,7 @@
       Your Hot Picks
     </div>
     <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn">View All</button>
+      <button class="overview-picks-header-btn" (click)="viewall('Hotpicks')">View All</button>
       <button class="overview-picks-header-btn rounded">
         <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
       </button>
@@ -42,6 +42,9 @@
     <div class="overview-nft-item" *ngFor="let item1 of ListHotpicks">
       <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
       <img class="overview-nft-img" [src]="item1.ImageBase64" />
+      <!-- <object [data]="item1.ImageBase64" type="image/svg+xml" class="uploaded-img"  id="img" >
+        <img id="nft-dnd-u-img" [src]="item1.ImageBase64" *ngIf="item1.ImageBase64" id="img" class="overview-nft-img"  />
+      </object> -->
       <div class="overview-nft-title">{{ item1.NFTName }}</div>
       <div class="overview-nft-actions">
         <img
@@ -77,7 +80,7 @@
       Your Minted NFTs
     </div>
     <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn">View All</button>
+      <button class="overview-picks-header-btn" (click)="viewall('Mints')">View All</button>
       <button class="overview-picks-header-btn rounded">
         <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
       </button>
@@ -95,6 +98,9 @@
     <div class="overview-nft-item" *ngFor="let item3 of ListMinted">
       <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
       <img class="overview-nft-img" [src]="item3.ImageBase64" />
+      <!-- <object [data]="item3.ImageBase64" type="image/svg+xml" class="uploaded-img"  id="img" >
+        <img id="nft-dnd-u-img" [src]="item3.ImageBase64" *ngIf="item3.ImageBase64" id="img" class="overview-nft-img"  />
+      </object> -->
       <div class="overview-nft-title">{{ item3.NFTName }}</div>
       <div class="overview-nft-actions">
         <img
@@ -130,7 +136,7 @@
       Items you Bought
     </div>
     <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn">View All</button>
+      <button class="overview-picks-header-btn" (click)="viewall('Bought')">View All</button>
       <button class="overview-picks-header-btn rounded">
         <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
       </button>
@@ -148,6 +154,9 @@
     <div class="overview-nft-item" *ngFor="let item4 of ListBought">
       <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
       <img class="overview-nft-img" [src]="item4.ImageBase64" />
+      <!-- <object [data]="item4.ImageBase64" type="image/svg+xml" class="uploaded-img"  id="img" >
+        <img id="nft-dnd-u-img" [src]="item4.ImageBase64" *ngIf="item4.ImageBase64" id="img" class="overview-nft-img"  />
+      </object> -->
       <div class="overview-nft-title">{{ item4.NFTName }}</div>
       <div class="overview-nft-actions">
         <img
@@ -183,7 +192,7 @@
       Your Favourites
     </div>
     <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn">View All</button>
+      <button class="overview-picks-header-btn" (click)="viewall('Favourites')">View All</button>
       <button class="overview-picks-header-btn rounded">
         <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
       </button>
@@ -201,6 +210,9 @@
     <div class="overview-nft-item" *ngFor="let item5 of ListTrends">
       <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
       <img class="overview-nft-img" [src]="item5.ImageBase64" />
+      <!-- <object [data]="item5.ImageBase64" type="image/svg+xml" class="uploaded-img"  id="img" >
+        <img id="nft-dnd-u-img" [src]="item5.ImageBase64" *ngIf="item5.ImageBase64" id="img" class="overview-nft-img"  />
+      </object> -->
       <div class="overview-nft-title">{{ item5.NFTName }}</div>
       <div class="overview-nft-actions">
         <img
@@ -235,7 +247,7 @@
     Your NFTS on Sale
   </div>
   <div class="overview-picks-header-actions">
-    <button class="overview-picks-header-btn">View All</button>
+    <button class="overview-picks-header-btn" (click)="viewall('Sale')">View All</button>
     <button class="overview-picks-header-btn rounded">
       <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
     </button>
@@ -253,6 +265,9 @@
   <div class="overview-nft-item" *ngFor="let item2 of ListSales">
     <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
     <img class="overview-nft-img" [src]="item2.ImageBase64" />
+    <!-- <object [data]="item2.ImageBase64" type="image/svg+xml" class="uploaded-img"  id="img" >
+      <img id="nft-dnd-u-img" [src]="item2.ImageBase64" *ngIf="item2.ImageBase64" id="img" class="overview-nft-img"  />
+    </object> -->
     <div class="overview-nft-title">{{ item2.NFTName }}</div>
     <div class="overview-nft-actions">
       <img

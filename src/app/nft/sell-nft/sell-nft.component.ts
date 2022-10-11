@@ -56,7 +56,7 @@ export class SellNftComponent implements OnInit {
     '',
     ''
   );
-  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '');
+  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '','','');
   saleGW: SalesGW = new SalesGW('', '', '', '');
   sale: Sales = new Sales('', '');
   royalty: any;
@@ -102,12 +102,12 @@ export class SellNftComponent implements OnInit {
   ) {}
 
   calculatePrice(): void {
-    this.royalty = parseInt(this.formValue('Royalty'));
-    this.firstPrice = parseInt(this.formValue('Price'));
+    this.royalty = parseFloat(this.formValue('Royalty'));
+    this.firstPrice = parseFloat(this.formValue('Price'));
     console.log('Price and Royalty is : ', this.royalty, this.firstPrice);
-    this.royaltyCharge = this.firstPrice * (this.royalty / 100);
+    this.royaltyCharge = this.firstPrice * (this.royalty / 100.00);
     this.sellingPrice = this.firstPrice + this.royaltyCharge;
-    console.log('Calculation done');
+    console.log('Calculation done: ',this.sellingPrice,this.royaltyCharge);
   }
 
   public openDialog() {
@@ -134,6 +134,8 @@ export class SellNftComponent implements OnInit {
     this.saleBE.CurrentPrice = this.sellingPrice.toString();
     this.saleBE.Timestamp = '2022-4-20:17:28';
     this.saleBE.CurrentOwnerPK = this.NFTList.currentownerpk;
+    this.saleBE.Royalty=this.royaltyCharge.toString();
+    console.log("--------------: ",this.saleBE)
     this.service.updateNFTStatusBackend(this.saleBE).subscribe();
   }
 
@@ -161,6 +163,7 @@ export class SellNftComponent implements OnInit {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
+      this.saleBE.Blockchain=this.NFTList.blockchain
       this.dialogService
         .confirmDialog({
           title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
@@ -182,7 +185,8 @@ export class SellNftComponent implements OnInit {
                 this.NFTList.nftissuerpk,
                 signerpK,
                 '1',
-                this.sellingPrice
+                this.sellingPrice,
+                this.royaltyCharge
               )
               .then((res: any) => {
                 this.selltxn = res.hash;
@@ -201,6 +205,7 @@ export class SellNftComponent implements OnInit {
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.SellingType = 'NFT';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
+      this.saleBE.Blockchain=this.NFTList.blockchain
       this.calculatePrice();
 
       if (this.NFTList.sellingstatus == 'Minted') {
@@ -270,6 +275,7 @@ export class SellNftComponent implements OnInit {
     if (this.NFTList.blockchain == 'polygon') {
       this.saleBE.MarketContract = environment.contractAddressMKPolygon;
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
+      this.saleBE.Blockchain=this.NFTList.blockchain
       this.tokenid = parseInt(this.NFTList.nftidentifier);
       this.dialogService
         .confirmDialog({
@@ -310,6 +316,7 @@ export class SellNftComponent implements OnInit {
     if (this.NFTList.blockchain == 'ethereum') {
       this.saleBE.MarketContract = environment.contractAddressMKEthereum;
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
+      this.saleBE.Blockchain=this.NFTList.blockchain
       this.tokenid = parseInt(this.NFTList.nftidentifier);
       console.log('STARTING ETH SELL');
       this.dialogService

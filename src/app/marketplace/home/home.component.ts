@@ -75,6 +75,12 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  viewall(status:string){
+    this.router.navigate(['/shownft'], {
+      queryParams: { data: status},
+    });
+  }
+
   async retrive(blockchain: string) {
     if (blockchain == 'stellar') {
       let freighterWallet = new UserWallet();
@@ -133,39 +139,51 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //const timer$ = timer(0,APIConfigENV.homepageIntervalTimer)
-    //timer$.subscribe(data=>{
-      this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
-        this.List=[]
-        this.nfts = result;
-        for (let x = 0; x < this.nfts.Response.length; x++) {
-          this.nft
-            .getSVGByHash(this.nfts.Response[x].imagebase64)
-            .subscribe((res: any) => {
-              this.Decryption = res.Response.Base64ImageSVG;
-              this.dec = btoa(this.Decryption);
-              var str2 = this.dec.toString();
-              var str1 = new String('data:image/svg+xml;base64,');
-              var src = str1.concat(str2.toString());
-              this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-              let card: HomeCard = new HomeCard('', '', '', '');
-              card.ImageBase64 = this.imageSrc;
-              card.Blockchain = this.nfts.Response[x].blockchain;
-              card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
-              card.NFTName = this.nfts.Response[x].nftname;
-              this.List.forEach(element=>{
-                if(card == element){
-                  this.newitemflag == false
-                }
-              })
-              if(this.newitemflag){
-                this.List.push(card);
-              }
-            });
-        }
-      });
-    //})
-    
+
+    this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
+      this.nfts = result;
+
+      for (let x = 0; x < this.nfts.Response.length; x++) {
+        if(this.nfts.Response[x].hotpicks==true){
+        this.nft
+          .getSVGByHash(this.nfts.Response[x].imagebase64)
+          .subscribe((res: any) => {
+            this.Decryption = res.Response.Base64ImageSVG;
+            this.dec = btoa(this.Decryption);
+            var str2 = this.dec.toString();
+            var str1 = new String('data:image/svg+xml;base64,');
+            var src = str1.concat(str2.toString());
+            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            let card: HomeCard = new HomeCard('', '', '', '');
+            card.ImageBase64 = this.imageSrc;
+            card.Blockchain = this.nfts.Response[x].blockchain;
+            card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
+            card.NFTName = this.nfts.Response[x].nftname;
+            this.List.push(card);
+          });
+      }
+
+      if(this.nfts.Response[x].trending==true){
+        this.nft
+          .getSVGByHash(this.nfts.Response[x].imagebase64)
+          .subscribe((res: any) => {
+            this.Decryption = res.Response.Base64ImageSVG;
+            this.dec = btoa(this.Decryption);
+            var str2 = this.dec.toString();
+            var str1 = new String('data:image/svg+xml;base64,');
+            var src = str1.concat(str2.toString());
+            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            let card: HomeCard = new HomeCard('', '', '', '');
+            card.ImageBase64 = this.imageSrc;
+            card.Blockchain = this.nfts.Response[x].blockchain;
+            card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
+            card.NFTName = this.nfts.Response[x].nftname;
+            this.List2.push(card);
+          });
+      }
+    }
+    });
+
 
     window.addEventListener('scroll', () => {
       this.backTopVisible = window.pageYOffset !== 0;

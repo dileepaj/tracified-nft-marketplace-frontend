@@ -82,7 +82,8 @@ export class ViewDashboardComponent implements OnInit {
 
     if (
       blockchain == 'ethereum' ||
-      blockchain == 'polygon'
+      blockchain == 'polygon' ||
+      blockchain=='ethereum or polygon'
     ) {
       let metamaskwallet = new UserWallet();
       metamaskwallet = new MetamaskComponent(metamaskwallet);

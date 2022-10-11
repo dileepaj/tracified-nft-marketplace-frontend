@@ -18,7 +18,7 @@ contract Market is ReentrancyGuard {
     // owner of the marketplace
     address payable owner;
     // price for putting something to sale in the Marketplace
-    uint256 listingPrice = 1 ether;
+    uint256 listingPrice = 0.1 ether;
 
     constructor() {
         //set the owner of the contract to the one that deployed it
@@ -161,9 +161,8 @@ contract Market is ReentrancyGuard {
         emit ProductUpdated(id, oldPrice, newPrice);
     }
 
-    // mateus
-
-    function createMarketSale(address nftContract, uint256 itemId)
+    //Buying a NFT in marketplace
+    function createMarketSale(address nftContract, uint256 itemId,uint256 royalty,address distributor)
         public
         payable
         nonReentrant
@@ -176,7 +175,8 @@ contract Market is ReentrancyGuard {
         );
 
         previousOwners[itemId].push(idToMarketItem[itemId].owner);
-        idToMarketItem[itemId].seller.transfer(msg.value);
+        idToMarketItem[itemId].seller.transfer(msg.value - royalty);
+        payable(distributor).transfer(royalty);
         IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
         idToMarketItem[itemId].owner = payable(msg.sender);
         idToMarketItem[itemId].sold = true;

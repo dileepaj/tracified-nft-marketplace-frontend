@@ -15,15 +15,17 @@ export abstract class Wallet {
     blockchain: string,
     nftcontract: string,
     tokenId: number,
-    price: number,
+    price: string,
     listingPrice: string
   ) {}
   buynft(
     blockchain: string,
     nftcontract: string,
     tokenId: number,
-    price: number,
-    listingPrice: string
+    price: string,
+    listingPrice: string,
+    royalty:string,
+    seller:string
   ) {}
   signTransactionPhantom(userPK: string, tracifiedAta: string) {}
   getBalance(publicKey : string, _callback : any) {}

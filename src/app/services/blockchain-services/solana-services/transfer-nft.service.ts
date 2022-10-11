@@ -13,7 +13,7 @@ export class TransferNftService {
   signers
   async createATA(
     from:Uint8Array,
-    price:number,
+    price:any,
     to:string,
     mintPubkey: PublicKey,
     ata:PublicKey): Promise<any>{

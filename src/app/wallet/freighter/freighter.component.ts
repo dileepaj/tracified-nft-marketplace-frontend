@@ -24,7 +24,7 @@ export class FreighterComponent implements Wallet, OnInit {
     blockchain: string,
     nftcontract: string,
     tokenId: number,
-    price: number,
+    price: string,
     listingPrice: string
   ): void {
     throw new Error('Method not implemented.');
@@ -33,7 +33,7 @@ export class FreighterComponent implements Wallet, OnInit {
     blockchain: string,
     nftcontract: string,
     tokenId: number,
-    price: number
+    price: string
   ): void {
     throw new Error('Method not implemented.');
   }

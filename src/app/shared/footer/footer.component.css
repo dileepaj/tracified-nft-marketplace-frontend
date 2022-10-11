@@ -202,6 +202,10 @@
   text-decoration: underline;
 }
 
+label.footer-normal-text:hover {
+  text-decoration: none;
+}
+
 .email-form {
   display: flex;
   flex-direction: row;

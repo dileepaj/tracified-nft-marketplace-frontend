@@ -11,6 +11,9 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { interval, timer } from 'rxjs';
+import { APIConfigENV } from 'src/environments/environment';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 
 @Component({
   selector: 'app-explore',
@@ -24,10 +27,11 @@ export class ExploreComponent implements OnInit {
   defaultResult: any;
   nfts: any;
   Decryption: any;
- 
+  loading : boolean = false;
+
   dec: string;
   svg:SVG=new SVG('','','NA')
-  
+
   imageSrc:any;
   saleNft: any;
   List:any[]=[];
@@ -47,10 +51,11 @@ export class ExploreComponent implements OnInit {
     private route: ActivatedRoute,
     private _location: Location,
     private _sanitizer: DomSanitizer ,
-    private snackbarService:SnackbarServiceService
+    private snackbarService:SnackbarServiceService,
+    private dialogService: DialogService
   ) {}
 
- 
+
 
   async retrive(blockchain: string) {
     if (blockchain == 'stellar') {
@@ -58,7 +63,7 @@ export class ExploreComponent implements OnInit {
       freighterWallet = new FreighterComponent(freighterWallet);
       await freighterWallet.initWallelt();
       this.favouritesModel.User= await freighterWallet.getWalletaddress();
-     
+
     }
 
     if (blockchain == 'solana') {
@@ -66,7 +71,7 @@ export class ExploreComponent implements OnInit {
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();
       this.favouritesModel.User = await phantomWallet.getWalletaddress();
-     
+
     }
 
     if (
@@ -77,7 +82,7 @@ export class ExploreComponent implements OnInit {
       metamaskwallet = new MetamaskComponent(metamaskwallet);
       await metamaskwallet.initWallelt();
       this.favouritesModel.User = await metamaskwallet.getWalletaddress();
-     
+
     }
 
   }
@@ -91,10 +96,10 @@ export class ExploreComponent implements OnInit {
         this.api.getFavouritesByBlockchainAndNFTIdentifier(this.favouritesModel.Blockchain,this.favouritesModel.NFTIdentifier).subscribe(res=>{
         });
       })
-     
-      
+
+
     })
-   
+
   }
 
   addToWatchList(id:string) {
@@ -106,9 +111,9 @@ export class ExploreComponent implements OnInit {
         this.api.getWatchlistByBlockchainAndNFTIdentifier(this.watchlistModel.Blockchain,this.watchlistModel.NFTIdentifier).subscribe(res=>{
         });
       })
-     
+
     })
-   
+
   }
 
   routeToBuy(id:string){
@@ -123,22 +128,33 @@ export class ExploreComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   /*  const loadingAnimation = this.dialogService.pendingDialog({
+      message:"Loading NFTs.."
+    }) */
+    this.loading = true;
+    const timer$ = timer(0,APIConfigENV.homepageIntervalTimer)
+    timer$.subscribe(data=>{
+      console.log("----------------1")
+      this.route.queryParams.subscribe((params) => {
+        this.selectedBlockchain = params['blockchain'];
+        this.List.splice(0);
 
-    console.log("----------------1")
-    this.route.queryParams.subscribe((params) => {
-      this.selectedBlockchain = params['blockchain'];
-      this.List.splice(0);
-    
-      this.nft.getNFTByBlockchain(this.selectedBlockchain).subscribe(async (data) => {
-        console.log("----------------2", data)
-            this.nfts = data;
-            if(this.nft==null){
-              this.ngOnInit()
-            }else{
-                this.fillCard() 
-            }
-          });
-    });
+        this.nft.getNFTByBlockchain(this.selectedBlockchain).subscribe(async (data) => {
+          console.log("----------------2", data)
+              this.nfts = data;
+              if(this.nft==null){
+                this.ngOnInit()
+              }else{
+                  this.fillCard()
+              }
+            });
+      });
+      interval(APIConfigENV.APIStartDelay).subscribe(data=>{
+        this.loading = false;
+      })
+
+    })
+
   }
 
   public fillCard(){
@@ -146,8 +162,8 @@ export class ExploreComponent implements OnInit {
  this.nft.getSVGByHash(this.nfts.Response[x].imagebase64).subscribe((res:any)=>{
       this.Decryption = res.Response.Base64ImageSVG
     this.dec = btoa(this.Decryption);
-   var str2 = this.dec.toString(); 
-   var str1 = new String( "data:image/svg+xml;base64,"); 
+   var str2 = this.dec.toString();
+   var str1 = new String( "data:image/svg+xml;base64,");
    var src = str1.concat(str2.toString());
    this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
    let card:Card= new Card('','','');
@@ -156,7 +172,7 @@ export class ExploreComponent implements OnInit {
    card.NFTName=this.nfts.Response[x].nftname
      this.List.push(card)
     })
-  
+
   }
   }
 
@@ -164,13 +180,12 @@ export class ExploreComponent implements OnInit {
 
 
   public filterAndShowCard(arr:any[]){
-   
     for(let x=0; x<(arr.length);x++){
       this.nft.getSVGByHash(arr[x].imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         this.dec = btoa(this.Decryption);
-      var str2 = this.dec.toString(); 
-      var str1 = new String( "data:image/svg+xml;base64,"); 
+      var str2 = this.dec.toString();
+      var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
      let card:Card= new Card('','','');
@@ -182,14 +197,14 @@ export class ExploreComponent implements OnInit {
     }
   }
 
-  
+
 
   public setFilter(filter: string) {
     this.List.splice(0);
     this.selectedFilter = filter;
     this.nft.getNFTByBlockchain(this.selectedBlockchain).subscribe(async (data) => {
       this.nfts = data;
-     
+
         if(this.selectedFilter=="trending"){
           for( let a=0; a<(this.nfts.Response.length); a++){
             if(this.nfts.Response[a].trending==true){
@@ -197,7 +212,7 @@ export class ExploreComponent implements OnInit {
               this.filterAndShowCard(this.Trend)
             }
           }
-            
+
         }
         if(this.selectedFilter=="hotpicks"){
           for( let a=0; a<(this.nfts.Response.length); a++){
@@ -217,7 +232,7 @@ export class ExploreComponent implements OnInit {
             }
           }
 
-        }   
+        }
     });
   }
 
@@ -225,5 +240,5 @@ export class ExploreComponent implements OnInit {
     this._location.back();
   }
 
-  
+
 }

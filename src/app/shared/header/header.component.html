@@ -20,63 +20,95 @@
     </button>
 
     <div
-    class="search-input-group"
-    fxFlex.lg="50%"
-    fxFlex.xl="50%"
-    fxHide.md
-    fxHide.sm
-    fxHide.xs
-  >
-  <form [formGroup]="controlGroup">
-    <input type="text" placeholder="Search for NFTS on sale by Tags" formControlName="Tag" />
-    <mat-icon class="material-symbols-outlined" (click)="search()">search</mat-icon>
-  </form>
-  </div>
-    <mat-icon
-      class="material-symbols-outlined example-icon"
-      fxHide.xl
-      fxHide.lg
-      fxShow.md
-      fxShow.sm
-      fxShow.xs
-      (click)="openSideNav()"
+      class="search-input-group"
+      fxFlex.lg="50%"
+      fxFlex.xl="50%"
+      fxHide.md
+      fxHide.sm
+      fxHide.xs
     >
-      menu
-    </mat-icon>
-    <a
+      <form [formGroup]="controlGroup">
+        <input type="text" placeholder="Search for NFTS on sale by Tags" formControlName="Tag" />
+        <mat-icon class="material-symbols-outlined" (click)="search()">search</mat-icon>
+      </form>
+    </div>
+
+    <div class="header-dropdown">
+      <a
       class="navbar-text"
       mat-button
       fxHide.md
       fxHide.sm
       fxHide.xs
-      [matMenuTriggerFor]="menu"
-      #menuTrigger="matMenuTrigger"
       [class.active-link]="checkPath() === '/explore'"
 
-    >
-      Explore
-    </a>
-    <mat-menu #menu="matMenu" class="explore-menu" >
-      <button mat-menu-item (click)="goToExplore('ethereum')">
-        <img
-          class="bc-icon"
-          src="../../../assets/images/ethereum.png"
-        />Ethereum
-      </button>
-      <button mat-menu-item (click)="goToExplore('polygon')">
-        <img class="bc-icon" src="../../../assets/images/polygon.png" />Polygon
-      </button>
-      <button mat-menu-item (click)="goToExplore('stellar')">
-        <img
-          class="bc-icon"
-          src="../../../assets/images/stellar_black.png"
-        />Stellar
-      </button>
-      <button mat-menu-item (click)="goToExplore('solana')">
-        <img class="bc-icon" src="../../../assets/images/solana.png" />Solana
-      </button>
-    </mat-menu>
-    <a
+      >
+        Explore
+      </a>
+      <div class="dropdown-content">
+        <button mat-menu-item (click)="goToExplore('ethereum')" fxLayout="row" fxLayoutAlign="center center">
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img
+            class="bc-icon"
+            src="../../../assets/images/ethereum.png"
+            />
+          </div>
+          <div fxFlex="80%">
+            Ethereum
+          </div>
+        </button>
+        <button mat-menu-item (click)="goToExplore('polygon')" fxLayout="row" fxLayoutAlign="center center">
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img class="bc-icon" src="../../../assets/images/polygon.png" />
+          </div>
+          <div fxFlex="80%">
+            Polygon
+          </div>
+        </button>
+        <button mat-menu-item (click)="goToExplore('stellar')" fxLayout="row" fxLayoutAlign="center center">
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img class="bc-icon" src="../../../assets/images/stellar_black.png" />
+          </div>
+          <div fxFlex="80%">
+            Stellar
+          </div>
+        </button>
+        <button mat-menu-item (click)="goToExplore('solana')" fxLayout="row" fxLayoutAlign="center center">
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img class="bc-icon" src="../../../assets/images/solana.png" />
+          </div>
+          <div fxFlex="80%">
+            Solana
+          </div>
+
+        </button>
+      </div>
+    </div>
+    <div class="header-dropdown">
+      <a
+      class="navbar-text"
+      mat-button
+      fxHide.md
+      fxHide.sm
+      fxHide.xs
+      [class.active-link]="checkPath() === '/resources'"
+
+      >
+        Resources
+      </a>
+      <div class="dropdown-content">
+        <button mat-menu-item [routerLink]="'/help-center'">
+          Help Center
+        </button>
+        <button mat-menu-item [routerLink]="'/docs'">
+          Documentation
+        </button>
+        <button mat-menu-item [routerLink]="'/faq'">
+         FAQ's
+        </button>
+      </div>
+    </div>
+    <!-- <a
       fxHide.md
       fxHide.sm
       fxHide.xs
@@ -88,13 +120,16 @@
       Resources
     </a>
     <mat-menu #remenu="matMenu" class="resource-menu">
+      <button mat-menu-item [routerLink]="'/help-center'">
+        Help Center
+      </button>
       <button mat-menu-item [routerLink]="'/docs'">
         Documentation
       </button>
       <button mat-menu-item [routerLink]="'/faq'">
        FAQ's
       </button>
-    </mat-menu>
+    </mat-menu> -->
     <a
       fxHide.md
       fxHide.sm
@@ -128,12 +163,8 @@
       fxHide.md
       fxHide.sm
       fxHide.xs
-      style="
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-      "
+      style="padding-top: 13px"
+      class="header-dropdown"
     >
       <mat-icon
         class="material-symbols-outlined example-icon"
@@ -141,55 +172,52 @@
       >
         account_circle
       </mat-icon>
-      <mat-icon
-        class="material-symbols-outlined example-icon"
-        [matMenuTriggerFor]="accmenu"
-        matRipple
-      >
-        arrow_drop_down
-      </mat-icon>
-    </div>
 
-    <!-- <button
-          mat-icon-button
-          class="example-icon"
-          aria-label="Notifications"
-          style="color: #00c853"
+        <mat-icon
+          class="material-symbols-outlined example-icon"
+          [matMenuTriggerFor]="accmenu"
+          matRipple
         >
-          <mat-icon>notifications</mat-icon>
-        </button>
-        <button
-          id="btnWallet"
-          mat-icon-button
-          class="example-icon"
-          aria-label="Wallet"
-          style="margin-left: -8px"
-          (click)="openDialog(false)"
-        >
-          <mat-icon class="material-symbols-outlined">
-            account_balance_wallet
-          </mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          class="example-icon"
-          aria-label="User"
-          disableRipple
-        >
-          <mat-icon
-            class="material-symbols-outlined"
-            (click)="goToOverview('ethereum')"
-          >
-            account_circle
-          </mat-icon>
-          <mat-icon
-            class="material-symbols-outlined"
-            [matMenuTriggerFor]="accmenu"
-            matRipple
-          >
-            arrow_drop_down
-          </mat-icon>
-        </button> -->
+          arrow_drop_down
+        </mat-icon>
+        <div class="dropdown-account-content">
+          <button mat-menu-item (click)="goToOverview('ethereum')" fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+              <img
+              class="bc-icon"
+              src="../../../assets/images/ethereum.png"
+              />
+            </div>
+            <div fxFlex="80%">
+              Ethereum
+            </div>
+          </button>
+          <button mat-menu-item (click)="goToOverview('polygon')" fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+              <img class="bc-icon" src="../../../assets/images/polygon.png" />
+            </div>
+            <div fxFlex="80%">
+              Polygon
+            </div>
+          </button>
+          <button mat-menu-item (click)="goToOverview('stellar')" fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+              <img class="bc-icon" src="../../../assets/images/stellar_black.png" />
+            </div>
+            <div fxFlex="80%">
+              Stellar
+            </div>
+          </button>
+          <button mat-menu-item (click)="goToOverview('solana')" fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+              <img class="bc-icon" src="../../../assets/images/solana.png" />
+            </div>
+            <div fxFlex="80%">
+              Solana
+            </div>
+          </button>
+        </div>
+    </div>
 
     <mat-menu #accmenu="matMenu" class="explore-menu">
       <button mat-menu-item (click)="goToOverview('ethereum')">
@@ -211,6 +239,17 @@
         <img class="bc-icon" src="../../../assets/images/solana.png" />Solana
       </button>
     </mat-menu>
+    <mat-icon
+    class="material-symbols-outlined example-icon"
+    fxHide.xl
+    fxHide.lg
+    fxShow.md
+    fxShow.sm
+    fxShow.xs
+    (click)="openSideNav()"
+    >
+      menu
+    </mat-icon>
   </div>
 </mat-toolbar>
 <mat-drawer-container
@@ -298,14 +337,49 @@
       </div>
     </div>
     <div class="side-nav-link">
-      <a
-        class="sidenav-text"
-        mat-button
-        [routerLink]="'/contacts'"
-        [routerLinkActive]="['active-link']"
-      >
-        Resources
-      </a>
+      <div fxLayout="row" fxLayoutAlign="start center" (click)="toggleResources()">
+        <a class="sidenav-text" mat-button [routerLinkActive]="['active-link']">
+          Resources
+        </a>
+        <mat-icon
+          class="material-symbols-outlined example-icon"
+          [ngStyle]="{
+            transform: resourcesExpanded ? 'rotate(0deg)' : 'rotate(270deg)'
+          }"
+          matRipple
+        >
+          arrow_drop_down
+        </mat-icon>
+      </div>
+      <div class="child-nodes" *ngIf="resourcesExpanded">
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          [routerLink]="'/help-center'"
+          (click)="closeSideNav()"
+        >
+          Help Center
+        </a>
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          [routerLink]="'/docs'"
+          (click)="closeSideNav()"
+        >
+          Documentation
+        </a>
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          [routerLink]="'/faq'"
+          (click)="closeSideNav()"
+        >
+          FAQs
+        </a>
+      </div>
     </div>
     <div class="side-nav-link">
       <a

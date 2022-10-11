@@ -6,7 +6,7 @@ import { CreateCollectionComponent } from 'src/app/collections/create-collection
 import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
 import { OkmessageComponent } from 'src/app/dialogs/okmessage/okmessage.component';
 import { PreviewImageComponent } from 'src/app/dialogs/previewImage/preview-image/preview-image.component';
-import { ConfirmDialog, OkDialog, PreviewImage } from 'src/app/models/confirmDialog';
+import { ConfirmDialog, OkDialog, PendingDialog, PreviewImage } from 'src/app/models/confirmDialog';
 import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
 @Injectable({
   providedIn: 'root',
@@ -33,8 +33,9 @@ export class DialogService {
       .afterClosed();
   }
 
-  pendingDialog(): MatDialogRef<PendingComponent> {
+  pendingDialog(data:PendingDialog): MatDialogRef<PendingComponent> {
     return this.dialog.open(PendingComponent, {
+      data,
       width: '500px',
       disableClose: true,
     });

@@ -22,6 +22,9 @@ import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { interval, timer } from 'rxjs';
+import { APIConfigENV } from 'src/environments/environment';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 
 @Component({
   selector: 'app-home',
@@ -41,13 +44,15 @@ export class HomeComponent implements OnInit {
   favouritesModel: Favourites = new Favourites('', '', '');
   watchlistModel: WatchList = new WatchList('', '', '');
   backTopVisible : boolean = false;
+  newitemflag: boolean = true;
   constructor(
     private dialogref: MatDialog,
     private nft: NftServicesService,
     private _sanitizer: DomSanitizer,
     private router: Router,
     private api: ApiServicesService,
-    private snackbarService: SnackbarServiceService
+    private snackbarService: SnackbarServiceService,
+    private dialogService: DialogService
   ) {
     document.body.className = 'home-body';
   }
@@ -178,6 +183,7 @@ export class HomeComponent implements OnInit {
       }
     }
     });
+
 
     window.addEventListener('scroll', () => {
       this.backTopVisible = window.pageYOffset !== 0;

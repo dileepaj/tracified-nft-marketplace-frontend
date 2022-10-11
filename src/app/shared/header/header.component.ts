@@ -24,9 +24,9 @@ export class HeaderComponent implements OnInit {
   tag: any;
   controlGroup: FormGroup;
   bcListExpanded: boolean = false;
-  //accListExpanded: boolean = false;
+  resourcesExpanded : boolean = false;
   timedOutCloser;
-  
+
   constructor(
     private dialogref: MatDialog,
     private router: Router,
@@ -145,6 +145,9 @@ export class HeaderComponent implements OnInit {
     this.accListExpanded = !this.accListExpanded;
   }
 
+  public toggleResources () {
+    this.resourcesExpanded = !this.resourcesExpanded;
+  }
   private openDialogTest() {
     /* this.dialogService.okDialog({
       title: 'User review confirmation',
@@ -152,7 +155,7 @@ export class HeaderComponent implements OnInit {
       confirmText: 'Yes',
     }); */
 
-    this.dialogService.pendingDialog();
+    this.dialogService.pendingDialog({message:'Loading Contents..'});
   }
 
   mouseEnter(trigger) {

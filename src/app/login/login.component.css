@@ -29,8 +29,9 @@
   flex-direction: column;
   align-items: center;
   row-gap: 30px;
-  width: 90%;
-  padding: 20px;
+  width: 100%;
+  height: fit-content;
+  padding: 20px 0px 20px 0px;
 }
 
 .login-input-group {
@@ -38,7 +39,8 @@
   flex-direction: column;
   justify-content: center;
   row-gap: 15px;
-  width: 40%;
+  width: 580px;
+  max-width: 100%;
 }
 .login-input-group label {
   font-style: normal;
@@ -66,7 +68,27 @@
 .back-icon {
   transform: scale(1.6);
   position: relative;
-  top: 40px;
-  margin-right: 83%;
   cursor: pointer;
+}
+
+.cont-wrapper {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-title{
+  font-weight: 400;
+  font-size: 60px;
+
+}
+
+@media screen and (max-width: 396px) {
+  .login-title {
+    margin-top: -50px;
+    line-height: 73px;
+    text-align: center;
+  }
 }

@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../services/dialog-services/dialog.service';
 import { SnackbarServiceService } from '../services/snackbar-service/snackbar-service.service';
+import { ConfirmDialogText, OkDialogText, SnackBarText } from '../models/confirmDialog';
 
 @Component({
   selector: 'app-sign-up',
@@ -75,18 +76,18 @@ export class SignUpComponent implements OnInit {
     if (this.endorse.PublicKey != null) {
       //sending data to the service
       this.dialogService.confirmDialog({
-        title : 'Endorsment Confirmation',
-        message : "Are you sure you want to Endorse your account",
-        confirmText : "Yes",
-        cancelText : "No"
+        title : ConfirmDialogText.ENDORSMENT_SIGN_UP_TITLE,
+        message : ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+        confirmText : ConfirmDialogText.CONFIRM_BTN,
+        cancelText : ConfirmDialogText.CANCEL_BTN
       }).subscribe(result=>{
         if(result){
           this.service.endorse(this.endorse).subscribe(res=>{
             if(res!=null || res!=""){
               this.dialogService.okDialog({
-                title : 'Endorsment Subbmited',
-                message : "Your Request to be be endorsed has been sent. You will recivea email within the next 48 hours.",
-                confirmText : "Okay"
+                title : OkDialogText.ENDORSMENT_SENT_TITLE,
+                message : OkDialogText.ENDORSMENT_SENT_MESSAGE,
+                confirmText : OkDialogText.OKAY_BTN
               }).subscribe(res=>{
                  this.back()
               })
@@ -97,7 +98,7 @@ export class SignUpComponent implements OnInit {
       })
       
     } else {
-      this.snackbarSrevice.openSnackBar("Error occured")
+      this.snackbarSrevice.openSnackBar(SnackBarText.ERROR_MESSAGE)
     }
   }
 

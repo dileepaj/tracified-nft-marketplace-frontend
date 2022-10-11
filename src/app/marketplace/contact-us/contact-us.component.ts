@@ -11,6 +11,10 @@ import CryptoJS from 'crypto-js';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { UserFAQService } from 'src/app/services/userFAQService/user-faq.service';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { Location } from '@angular/common';
+import { ConfirmDialogText, OkDialogText } from 'src/app/models/confirmDialog';
 @Component({
   selector: 'app-contact-us',
   templateUrl: './contact-us.component.html',
@@ -29,7 +33,12 @@ export class ContactUsComponent implements OnInit {
   hash: any;
   binaryString: any;
   base64textString: string;
-  constructor(private apiService:UserFAQService) {}
+  constructor(
+    private apiService:UserFAQService,
+    private dialogService: DialogService,
+    private snackbarService: SnackbarServiceService,
+    private _location: Location
+    ) {}
 
   ngOnInit(): void {
     this.controlGroup = new FormGroup({
@@ -56,10 +65,38 @@ export class ContactUsComponent implements OnInit {
     this.userFAQ.status='Pending'
     this.userFAQ.attached= this.base64textString
     
-    console.log(this.userFAQ)
-    this.apiService.addUserFAQ(this.userFAQ).subscribe(res=>{
-      console.log("server response: ",res)
-    })
+    if(
+      this.userFAQ.usermail == '' ||
+      this.userFAQ.category == '' ||
+      this.userFAQ.subject == '' ||
+      this.userFAQ.desc == ''
+    ){
+      this.snackbarService.openSnackBar("Please Make sure all mandotory feilds are not left empty")
+    }else{
+      this.dialogService.confirmDialog({
+        title:ConfirmDialogText.USER_FAQ_TITLE,
+        message:ConfirmDialogText.USER_FAQ_TITLE,
+        confirmText:ConfirmDialogText.CONFIRM_BTN,
+        cancelText:ConfirmDialogText.CANCEL_BTN
+      }).subscribe(res=>{
+        if (res){
+          const dialog = this.dialogService.pendingDialog({message:'Submititng....'})
+          this.apiService.addUserFAQ(this.userFAQ).subscribe(res=>{
+            console.log("server response: ",res)
+          })
+          dialog.close()
+          this.dialogService.okDialog({
+            title:OkDialogText.USER_FAQ_SUBMIITED_TITLE,
+            message:OkDialogText.USER_FAQ_SUBMIITED_Message,
+            confirmText:OkDialogText.OKAY_BTN
+          }).subscribe(res=>{this._location.back();})
+          
+        }
+      })
+    }
+
+    
+    
   }
 
   @HostListener('dragover', ['$event']) public onDragOver(evt) {

@@ -68,11 +68,11 @@ export const OkDialogText ={
     OKAY_BTN : 'OK',
     //Endorsment signup page
     ENDORSMENT_SENT_TITLE:'Endorsement Submitted',
-    ENDORSMENT_SENT_MESSAGE:'Your request to be endorsed has been sent. You will recieve an email within the next 48 hours.',
+    ENDORSMENT_SENT_MESSAGE:'Your request to be endorsed has been sent. You will receive an email within the next 48 hours.',
 
     //User FAQ submission screen
-    USER_FAQ_SUBMIITED_TITLE:'Question Submission Complete',
-    USER_FAQ_SUBMIITED_Message:'Your question has been submitted. Our team will get back to you as soon as possible.'
+    USER_FAQ_SUBMITTED_TITLE:'Question Submission Complete',
+    USER_FAQ_SUBMITTED_Message:'Your question has been submitted. Our team will get back to you as soon as possible.'
 }
 
 export const SnackBarText={
@@ -86,20 +86,23 @@ export const SnackBarText={
     MINT1_NFT_NAME_WARNING : 'Please enter a name for your NFT.',
     MINT1_NFT_DESCRIPTION_WARNING : 'Please add a description for your NFT.',
     //Mint2 Screen
-    MINTING_SUCCESSFULL_MESSAGE: 'Your NFT has been minted successfully.',
+    MINTING_SUCCESSFUL_MESSAGE: 'Your NFT has been minted successfully.',
 
     //Create collection page
     CREATE_COLLECTION_SUCCESS_MESSAGE:' collection has been created successfully.',
-    CREATE_COLLECTION_FAILED_MESSAGE:'Error occured! Failed to create collection.',
+    CREATE_COLLECTION_FAILED_MESSAGE:'Error occurred! Failed to create collection.',
 
     //Admin add edit FAQ
     FAQ_SUBMISSION_SUCCESS:'Answer has been submitted. User notified via email.',
 
     //Admin User endorsment
     ADMIN_ENDORSEMENT_ACCEPTED_SUCCESS:'Endorsement accepted. User notified via email.',
-    ADMIN_ENDORSMENT_ACCEPTED_ERROR:'Falied to accept endorsement. Please try again.',
+    ADMIN_ENDORSMENT_ACCEPTED_ERROR:'Failed to accept endorsement. Please try again.',
     ADMIN_ENDORSMENT_DECLINED_SUCCESS:'Endorsment declined. User notified via email.',
     ADMIN_ENDORSE_BLANK_INPUT_WARNING:'Review and rating cannot be empty. Please try again.',
+
+    //ContactUs Component
+    CONTACT_US_FIELDS_EMPTY_WARNING:"Please Make sure all mandatory fields are not left empty",
 
     ERROR_MESSAGE:'Something went wrong. Please try again.'
 }
@@ -108,9 +111,11 @@ export const PendingDialogText={
     //ExploreView loading Text
     EXPLORE_VIEW_LOAD : "Loading NFTs...",
     //BuyView  Pending Text
-    BUY_VIEW_CLICKED_BUY:"Confirming your purchase. This will take a momment.",
+    BUY_VIEW_CLICKED_BUY:"Confirming your purchase. This will take a moment.",
     //SellView Pending Text
-    SELL_VIEW_CLICKED_SALE:'NFT is being put on sale. This will take a momment.',
+    SELL_VIEW_CLICKED_SALE:'NFT is being put on sale. This will take a moment.',
     //Mint2 screen
-    MINTING_IN_PROGRESS:"Your NFT is being minted. This will take a momment."
+    MINTING_IN_PROGRESS:"Your NFT is being minted. This will take a moment.",
+     //ContactUs Component
+     CONTACT_US_SUBMITTING:'Submitting....'
 }

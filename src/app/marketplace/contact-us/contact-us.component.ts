@@ -14,7 +14,7 @@ import { UserFAQService } from 'src/app/services/userFAQService/user-faq.service
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { Location } from '@angular/common';
-import { ConfirmDialogText, OkDialogText } from 'src/app/models/confirmDialog';
+import { ConfirmDialogText, OkDialogText, PendingDialogText, SnackBarText } from 'src/app/models/confirmDialog';
 @Component({
   selector: 'app-contact-us',
   templateUrl: './contact-us.component.html',
@@ -71,7 +71,7 @@ export class ContactUsComponent implements OnInit {
       this.userFAQ.subject == '' ||
       this.userFAQ.desc == ''
     ){
-      this.snackbarService.openSnackBar("Please Make sure all mandotory feilds are not left empty")
+      this.snackbarService.openSnackBar(SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING)
     }else{
       this.dialogService.confirmDialog({
         title:ConfirmDialogText.USER_FAQ_TITLE,
@@ -80,14 +80,14 @@ export class ContactUsComponent implements OnInit {
         cancelText:ConfirmDialogText.CANCEL_BTN
       }).subscribe(res=>{
         if (res){
-          const dialog = this.dialogService.pendingDialog({message:'Submititng....'})
+          const dialog = this.dialogService.pendingDialog({message:PendingDialogText.CONTACT_US_SUBMITTING})
           this.apiService.addUserFAQ(this.userFAQ).subscribe(res=>{
             console.log("server response: ",res)
           })
           dialog.close()
           this.dialogService.okDialog({
-            title:OkDialogText.USER_FAQ_SUBMIITED_TITLE,
-            message:OkDialogText.USER_FAQ_SUBMIITED_Message,
+            title:OkDialogText.USER_FAQ_SUBMITTED_TITLE,
+            message:OkDialogText.USER_FAQ_SUBMITTED_Message,
             confirmText:OkDialogText.OKAY_BTN
           }).subscribe(res=>{this._location.back();})
           

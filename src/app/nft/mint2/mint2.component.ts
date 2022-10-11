@@ -276,7 +276,7 @@ export class Mint2Component implements OnInit {
                   this.sendToMint3();
                   this.mintNFT(this.userPK);
                   dialog.close()
-                  this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
+                  this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                 }
               })
         }
@@ -312,7 +312,7 @@ export class Mint2Component implements OnInit {
                 this.sendToMint3();
                 this.mintNftSolana(this.mint.NFTIssuerPK);
                 dialog.close()
-                this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
+                this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
               }
             })  
     }
@@ -361,7 +361,7 @@ export class Mint2Component implements OnInit {
                       this.saveContractInGateway();
                       this.saveTXNs();
                       dialog.close();
-                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
+                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                     });
                   }
                 })
@@ -406,7 +406,7 @@ export class Mint2Component implements OnInit {
                       this.saveContractInGateway();
                       this.saveTXNs();
                       dialog.close()
-                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
+                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                       this.loaderService.isLoading.next(false);
                     });
                   }

@@ -71,6 +71,8 @@ export class SalesBE{
 		public	SellingType  :  string     ,       
 		public MarketContract :string,
 		public CurrentOwnerPK :string,
+		public Royalty :string,
+		public Blockchain:string,
 		
     ){}
 }

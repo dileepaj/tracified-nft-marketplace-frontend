@@ -13,6 +13,7 @@ export class CollectionService {
   baseUrlGet: string = 'http://localhost:6081/collection/userpk';
   baseUrlEndorsing: string = 'http://localhost:6081/endorsement';
   baseUrlNFT:string= 'http://localhost:6081/nftcollection';
+  baseUrlCollection:string= 'http://localhost:6081/collection';
 
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
@@ -20,6 +21,10 @@ export class CollectionService {
 
   getCollectionName(userId:string): Observable<Collection[]> {//request to get collection name according to user public key
     return this.http.get<Collection[]>(`${this.baseUrlGet}/${userId}`);
+  }
+
+  getCollectionPK(publickey:string): Observable<Collection[]> {//request to get collection name according to user public key
+    return this.http.get<Collection[]>(`${this.baseUrlCollection}/${publickey}`);
   }
 
   add(st: Collection): Observable<Collection> {//request to add collection into the nft backend DB

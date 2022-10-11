@@ -335,6 +335,7 @@
   width: 608px;
   height: 300px;
   z-index: 1000;
+
  
 }
 
@@ -366,4 +367,5 @@ mat-hint.tags {
 .uploaded-img {
   max-width: 100%;
   overflow: auto;
+  height: 300px;
 }

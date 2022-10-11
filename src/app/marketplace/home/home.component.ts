@@ -75,6 +75,12 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  viewall(status:string){
+    this.router.navigate(['/shownft'], {
+      queryParams: { data: status},
+    });
+  }
+
   async retrive(blockchain: string) {
     if (blockchain == 'stellar') {
       let freighterWallet = new UserWallet();
@@ -165,6 +171,7 @@ export class HomeComponent implements OnInit {
       }
     });
     //})
+
 
     window.addEventListener('scroll', () => {
       this.backTopVisible = window.pageYOffset !== 0;

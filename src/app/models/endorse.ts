@@ -26,6 +26,7 @@ export class Endorse {
       public status:string,
       public publickey:string,
       public Review:string,
-      public Rating:string
+      public Rating:string,
+      public Email:string
     ) {}
   }

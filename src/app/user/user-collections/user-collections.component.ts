@@ -15,7 +15,7 @@ export class UserCollectionsComponent implements OnInit {
   data: any;
   List:any[]=[];
   key: string;
-  constructor(private route:ActivatedRoute, private service:NftServicesService, private _location: Location,  private router: Router,) { }
+  constructor(private route:ActivatedRoute, private service:NftServicesService, private _location: Location,  private router: Router,private collection: CollectionService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
@@ -23,21 +23,21 @@ export class UserCollectionsComponent implements OnInit {
       console.log("DATA recived: ",this.key)})
 
     if (this.key != null) {
-      this.service.getMyNFT(this.key).subscribe((res:any)=>{
+      this.collection.getCollectionPK(this.key).subscribe((res:any)=>{
         this.data=res
         console.log("data is: ",this.data)
-        let card:MyCollection= new MyCollection('');
-            card.collection=this.data.Response[0].collection
-             this.List.push(card)
-        for(let x=0;x<=this.data.Response.length;x++){
-          console.log("element 1: ",this.data.Response[x].collection)
-          console.log("element 2: ",this.data.Response[x+1].collection)
-          if(this.data.Response[x].collection!=this.data.Response[x+1].collection){
+        // let card:MyCollection= new MyCollection('');
+        //     card.collection=this.data[0].CollectionName
+        //      this.List.push(card)
+        for(let x=0;x<this.data.length;x++){
+          console.log("elements: ",this.data[x].CollectionName)
+          //console.log("element 2: ",this.data[x+1].CollectionName)
+          // if(this.data[x].CollectionName!=this.data[x+1].CollectionName){
             let card:MyCollection= new MyCollection('');
-            card.collection=this.data.Response[x].collection
+            card.collection=this.data[x].CollectionName
              this.List.push(card)
              console.log("this List ",this.List)
-          }
+          //}
         }
       })
   }

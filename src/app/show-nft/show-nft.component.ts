@@ -56,6 +56,7 @@ export class ShowNFTComponent implements OnInit {
   dec: string;
   data: any;
   selectedBlockchain: string;
+  nfts: any;
   constructor(
     private api: ApiServicesService,
     private service: NftServicesService,
@@ -149,8 +150,59 @@ export class ShowNFTComponent implements OnInit {
       console.log("DATA recived: ",this.data)})
 
     if (this.data != null) {
+      if(this.data=='Favourites'){
+        this.service.getNFTOnSale('ON SALE').subscribe((result: any) => {
+          this.nfts = result.Response;
+          console.log("data: ",this.nfts)
+          for(let x=0;x<this.nfts.length;x++){
+            if(this.nfts[x].trending==true){
+              console.log("data: -------------")
+              this.service.getSVGByHash(this.nfts[x].imagebase64).subscribe((res:any)=>{
+                this.Decryption = res.Response.Base64ImageSVG
+              this.dec = btoa(this.Decryption);
+             var str2 = this.dec.toString(); 
+             var str1 = new String( "data:image/svg+xml;base64,"); 
+             var src = str1.concat(str2.toString());
+             this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+             let card:HomeCard= new HomeCard('','','','');
+             card.ImageBase64=this.imageSrc
+             card.NFTIdentifier=this.nfts[x].nftidentifier
+             card.NFTName=this.nfts[x].nftname
+             card.Blockchain=this.nfts.blockchain
+               this.List.push(card)
+               console.log("list ",this.List)
+              })
+            }
+          }
+        })
+      }
+      if(this.data=='hotpicks'){
+        this.service.getNFTOnSale('ON SALE').subscribe((result: any) => {
+          this.nfts = result.Response;
+          console.log("data: ",this.nfts)
+          for(let x=0;x<this.nfts.length;x++){
+            if(this.nfts[x].hotpicks==true){
+              this.service.getSVGByHash(this.nfts[x].imagebase64).subscribe((res:any)=>{
+                this.Decryption = res.Response.Base64ImageSVG
+              this.dec = btoa(this.Decryption);
+             var str2 = this.dec.toString(); 
+             var str1 = new String( "data:image/svg+xml;base64,"); 
+             var src = str1.concat(str2.toString());
+             this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+             let card:HomeCard= new HomeCard('','','','');
+             card.ImageBase64=this.imageSrc
+             card.NFTIdentifier=this.nfts[x].nftidentifier
+             card.NFTName=this.nfts[x].nftname
+             card.Blockchain=this.nfts.blockchain
+               this.List.push(card)
+               console.log("list ",this.List)
+              })
+            }
+          }
+        })
+      }
+      if(this.data!='Favourites' && this.data!='hotpicks'){
       this.mint
-      // 2:nft identifer , 3:blockchain, 0:selling status , 1:svg
         .getNFTByTag(this.data)
         .subscribe((data: any) => {
           console.log("data: ",data)
@@ -181,6 +233,7 @@ export class ShowNFTComponent implements OnInit {
               }
              }
         });
+      }
     } else {
       console.log('User PK not connected or not endorsed');
     }

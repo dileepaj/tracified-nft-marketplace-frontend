@@ -9,6 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { Canvg } from 'canvg';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, startWith, Subscription } from 'rxjs';
 import {
@@ -63,6 +64,7 @@ export class Mint2Component implements OnInit {
   @Output() proceed: EventEmitter<any> = new EventEmitter();
   @Input() email: string;
   @Input() wallet: string;
+  @Input() key: string;
   stxn: StellarTXN = new StellarTXN('', '', '');
   contract: Contracts = new Contracts(
     '',
@@ -276,7 +278,7 @@ export class Mint2Component implements OnInit {
                   this.sendToMint3();
                   this.mintNFT(this.userPK);
                   dialog.close()
-                  this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
+                  this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                 }
               })
         }
@@ -312,7 +314,7 @@ export class Mint2Component implements OnInit {
                 this.sendToMint3();
                 this.mintNftSolana(this.mint.NFTIssuerPK);
                 dialog.close()
-                this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
+                this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
               }
             })  
     }
@@ -361,7 +363,7 @@ export class Mint2Component implements OnInit {
                       this.saveContractInGateway();
                       this.saveTXNs();
                       dialog.close();
-                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
+                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                     });
                   }
                 })
@@ -406,7 +408,7 @@ export class Mint2Component implements OnInit {
                       this.saveContractInGateway();
                       this.saveTXNs();
                       dialog.close()
-                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFULL_MESSAGE);
+                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                       this.loaderService.isLoading.next(false);
                     });
                   }
@@ -570,7 +572,7 @@ export class Mint2Component implements OnInit {
   }
   ngOnChanges(): void {
       console.log("inside mint 2")
-      console.log("wallet and email is: ",this.wallet, this.email)
+      console.log("wallet and email is: ",this.wallet, this.email,this.key)
       if(this.wallet=="metamask"){
         console.log("---------metamaask------")
       this.polygon=false
@@ -720,6 +722,7 @@ export class Mint2Component implements OnInit {
   public uploadImage(event: Event) {
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
+    console.log("-------------:",this)
     reader.onload = this._handleReaderLoaded.bind(this);
     reader.readAsBinaryString(this.file);
   }
@@ -731,6 +734,7 @@ export class Mint2Component implements OnInit {
     this.base64 = this.base64.replace(unwantedText, '');
     let encoded: string = atob(this.base64);
     this.Encoded = encoded;
+    console.log("HTML svg: ",this.Encoded)
 
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
     this.updateHTML();
@@ -743,6 +747,48 @@ export class Mint2Component implements OnInit {
     reader.onload = (_event) => {
       this.img = reader.result;
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.img);
+
+    //   svgToPng(this.Encoded, (imgData) => {
+    //     const pngImage = document.createElement('img');
+    //     document.body.appendChild(pngImage);
+    //     pngImage.src = imgData;
+    //   });
+
+    //   function svgToPng(svg, callback) {
+    //     const url = getSvgUrl(svg);
+    //     svgUrlToPng(url, (imgData) => {
+    //       callback(imgData);
+    //       URL.revokeObjectURL(url);
+    //     });
+    //   }
+
+    //   function getSvgUrl(svg) {
+    //     return URL.createObjectURL(new Blob([svg], {
+    //       type: 'image/svg+xml'
+    //     }));
+    //   }
+
+
+    //   function svgUrlToPng(svgUrl, callback) {
+    //     console.log("svg url: ",svgUrl)
+    //     const svgImage = document.createElement('img');
+    //     document.body.appendChild(svgImage);
+    //     svgImage.onload = () => {
+    //       const canvas = document.createElement('canvas');
+    //       canvas.width = svgImage.clientWidth;
+    //       canvas.height = svgImage.clientHeight;
+    //       const canvasCtx = canvas.getContext('2d');
+    //       canvasCtx!.drawImage(svgImage, 0, 0);
+    //       const imgData = canvas.toDataURL('image/png');
+    //       callback(imgData);
+    //       console.log("image: ",imgData)
+    //      // document.body.removeChild(imgPreview);
+    //     };
+    //     svgImage.src = svgUrl;
+    //     console.log("image svg: ", svgImage.src) 
+    //   }
+      
+    
     };
   }
 
@@ -753,7 +799,7 @@ export class Mint2Component implements OnInit {
   }
 
   public openCreateCollection () {
-    this.dialogService.createCollection(this.email).afterClosed().subscribe((data : any) => {
+    this.dialogService.createCollection(this.email,this.key).afterClosed().subscribe((data : any) => {
       this.CollectionList.push({CollectionName : data.collectionName})
     });
   }

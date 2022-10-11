@@ -9,7 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { Canvg } from 'canvg';
+//import { Canvg } from 'canvg';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, Observable, startWith, Subscription } from 'rxjs';
 import {

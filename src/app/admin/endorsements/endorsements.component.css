@@ -3,17 +3,14 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-
-  align-items: center;
-  padding-left: 75px;
-  padding-right: 75px;
-  padding-top: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px;
   color: white;
 }
 
 .example-full-width {
   height: 100%;
-  width:600px;
+  width: 600px;
 }
 
 .mat-card-content {
@@ -122,6 +119,19 @@
   line-height: 153.52%;
 }
 
+.btn-decline {
+  background: #232323;
+  color: #fff;
+  font-size: medium;
+  border-radius: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 153.52%;
+}
+
 /****** Style Star Rating Widget *****/
 
 .rating {
@@ -132,7 +142,7 @@
   display: none;
 }
 .rating > label:before {
-  margin: 5px;
+  margin: 5px 5px 5px 0px;
   font-size: 36px;
   font-family: FontAwesome;
   display: inline-block;
@@ -189,6 +199,44 @@
 
 .label-data {
   max-width: 50px;
+  word-break: break-all;
+}
+
+::placeholder {
+  color: #686868;
+  opacity: 1;
+}
+.decline-btn {
+  background: #232323;
+  border-radius: 20px;
+  color: #ffffff;
+  width: 117px;
+}
+.accept-btn {
+  background: #10ceac;
+  border-radius: 20px;
+  margin-right: 10px;
+  width: 117px;
+}
+.endorsment-answer {
+  width: 100%;
+}
+
+.endrs-wrapper {
+  margin: 0px 75px 0px 75px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+
+.endrs-title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #ffffff;
 }
 
 .txtarea-input-group {
@@ -198,10 +246,6 @@
   border-radius: 20px;
   transition: 0.15s ease;
 }
-
-/* .txtarea-input-group:focus-within {
-  background: white;
-} */
 
 .txtarea-input-group textarea {
   padding: 10px;
@@ -214,14 +258,12 @@
   color: white;
 }
 
-/* default and hover color */
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   color: transparent;
   background-color: #2d2d2d;
   border-radius: 16px;
 }
 
-/* focused color */
 ::ng-deep
   .mat-form-field-appearance-outline.mat-focused
   .mat-form-field-outline-thick {
@@ -232,29 +274,17 @@
 
 .txtarea-input-group textarea:focus {
   outline: none;
-  /*color: black;*/
 }
 
 .example-full-width textarea {
   height: 175px;
 }
 
-::placeholder {
-  color: #686868;
-  opacity: 1;
-}
-.decline-btn{
-  background: #232323;
- border-radius: 20px;
- color: #FFFFFF;
- width: 117px;
-}
-.accept-btn{
-  background: #10CEAC;
-  border-radius: 20px;
-  margin-right: 10px;
-  width: 117px;
-}
-.endorsment-answer{
-  width: 600px;
+@media screen and (max-width: 600px) {
+  .endrs-main-div {
+    padding-top: 80px;
+  }
+  .endrs-wrapper {
+    margin: 0px 35px 0px 35px;
+  }
 }

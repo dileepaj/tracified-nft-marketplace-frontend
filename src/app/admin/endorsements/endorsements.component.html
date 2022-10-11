@@ -1,4 +1,191 @@
-<div class="endrs-main-div" fxLayout="row wrap">
+<div class="endrs-main-div">
+  <form class="endrs-wrapper" [formGroup]="controlGroup" fxLayout="row wrap">
+    <label class="endrs-title" style="margin-bottom: 10px" fxFlex="100%"
+      >Pending Endorsements</label
+    >
+    <div
+      fxLayout="column"
+      style="row-gap: 30px"
+      fxFlex="50%"
+      fxFlex.lt-sm="100%"
+    >
+      <div fxLayout="row wrap" fxFlex="100%">
+        <label class="label-title" fxFlex="40%" fxFlex.lt-sm="80%">Name</label
+        ><label fxFlex="40%" fxFlex.lt-sm="80%" class="label-data">{{
+          this.data.Name
+        }}</label>
+      </div>
+      <div fxLayout="row wrap" fxFlex="100%">
+        <label class="label-title" fxFlex="40%" fxFlex.lt-sm="80%">Email</label
+        ><label fxFlex="40%" fxFlex.lt-sm="80%" class="label-data">{{
+          this.data.Email
+        }}</label>
+      </div>
+      <div fxLayout="row wrap" fxFlex="100%">
+        <label class="label-title" fxFlex="40%" fxFlex.lt-sm="80%"
+          >Public Key</label
+        ><label fxFlex="40%" fxFlex.lt-sm="80%" class="label-data">{{
+          this.data.PublicKey
+        }}</label>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlex="50%" fxFlex.lt-sm="100%">
+      <div fxLayout="column" fxFlex="100%">
+        <label class="label-title" fxFlex="40%" fxFlex.lt-sm="80%"
+          >Select Start Rating</label
+        >
+        <div
+          fxFlex="100%"
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+
+            margin-left: -10px;
+          "
+          ngStyle.gt-xs="margin-top: -20px;"
+        >
+          <fieldset class="rating">
+            <input
+              type="radio"
+              id="star5"
+              formControlName="rating"
+              value="5"
+            /><label class="full" for="star5" title="Awesome - 5 stars"></label>
+            <input
+              type="radio"
+              id="star4half"
+              formControlName="rating"
+              value="4.5"
+            /><label
+              class="half"
+              for="star4half"
+              title="Very good - 4.5 stars"
+            ></label>
+            <input
+              type="radio"
+              id="star4"
+              formControlName="rating"
+              value="4"
+            /><label
+              class="full"
+              for="star4"
+              title="Pretty good - 4 stars"
+            ></label>
+            <input
+              type="radio"
+              id="star3half"
+              formControlName="rating"
+              value="3.5"
+            /><label
+              class="half"
+              for="star3half"
+              title="Satisfactory - 3.5 stars"
+            ></label>
+            <input
+              type="radio"
+              id="star3"
+              formControlName="rating"
+              value="3"
+            /><label
+              class="full"
+              for="star3"
+              title="Marginal - 3 stars"
+            ></label>
+            <input
+              type="radio"
+              id="star2half"
+              formControlName="rating"
+              value="2.5"
+            /><label
+              class="half"
+              for="star2half"
+              title="Marginaly bad - 2.5 stars"
+            ></label>
+            <input
+              type="radio"
+              id="star2"
+              formControlName="rating"
+              value="2"
+            /><label class="full" for="star2" title=" bad - 2 stars"></label>
+            <input
+              type="radio"
+              id="star1half"
+              formControlName="rating"
+              value="1.5"
+            /><label
+              class="half"
+              for="star1half"
+              title="vary bad - 1.5 stars"
+            ></label>
+            <input
+              type="radio"
+              id="star1"
+              formControlName="rating"
+              value="1"
+            /><label class="full" for="star1" title="very bad - 1 star"></label>
+            <input
+              type="radio"
+              id="starhalf"
+              formControlName="rating"
+              value="0.5"
+            /><label
+              class="half"
+              for="starhalf"
+              title="This should not exist - 0.5 stars"
+            ></label>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div fxFlex="100%" fxLayout="row wrap">
+      <div
+        fxFlex="100%"
+        fxFlex.lt-sm="100%"
+        style="display: flex; flex-direction: column; row-gap: 20px"
+      >
+        <label class="label-title">Type Your Review</label>
+        <mat-form-field
+          class="example-full-width"
+          appearance="outline"
+          fxFlex="100%"
+          style="width: 100%"
+        >
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+      <div
+        fxFlex="100%"
+        style="
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          column-gap: 20px;
+          row-gap: 20px;
+        "
+      >
+        <button
+          mat-flat-button
+          class="btn-submit"
+          id="submitbtn"
+          (click)="acceptEndorsment()"
+        >
+          Accept
+        </button>
+        <button
+          mat-flat-button
+          class="btn-decline"
+          id="submitbtn"
+          (click)="declineEndorsment()"
+        >
+          Decline
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- <div class="endrs-main-div" fxLayout="row wrap">
   <div class="nft-div" fxFlex="100%" fxLayout="row wrap">
     <div>
       <div>
@@ -7,21 +194,29 @@
           [formGroup]="controlGroup"
           fxLayout="row wrap"
         >
-          <h1 fxFlex="100%"><strong>Pending Endorsements</strong></h1>          <div fxFlex.lg="50%" fxLayout="row wrap" style="row-gap: 30px">
+          <h1 fxFlex="100%"><strong>Pending Endorsements</strong></h1>
+          <div fxFlex.lg="50%" fxLayout="row wrap" style="row-gap: 30px">
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >Name</label
-            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >{{this.data.Name}}</label
-            >
+            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data">{{
+              this.data.Name
+            }}</label>
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >Email</label
-            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >{{this.data.Email}}</label
-            >
+            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data">{{
+              this.data.Email
+            }}</label>
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >Public Key</label
-            ><label name="PKval" ngDefaultControl  [(ngModel)]='PKval' [ngModelOptions]="{standalone: true}" fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >{{this.data.PublicKey}}</label
+            ><label
+              name="PKval"
+              ngDefaultControl
+              [(ngModel)]="PKval"
+              [ngModelOptions]="{ standalone: true }"
+              fxFlex="60%"
+              fxFlex.lt-sm="80%"
+              class="label-data"
+              >{{ this.data.PublicKey }}</label
             >
           </div>
           <div
@@ -158,7 +353,11 @@
               appearance="outline"
               fxFlex="100%"
             >
-              <textarea matInput formControlName="description" class="endorsment-answer"></textarea>
+              <textarea
+                matInput
+                formControlName="description"
+                class="endorsment-answer"
+              ></textarea>
             </mat-form-field>
           </div>
           <div>
@@ -184,3 +383,4 @@
     </div>
   </div>
 </div>
+ -->

@@ -18,6 +18,7 @@ export class AddEditFaqsComponent implements OnInit {
   public questionID: any;
   answer: any;
   imagePath: any;
+  imagepresent : boolean=true
   userFAQResponse : UpdateUserFAQResponse = new UpdateUserFAQResponse('','','')
   constructor(
     private route: ActivatedRoute,
@@ -26,14 +27,27 @@ export class AddEditFaqsComponent implements OnInit {
     private router:Router,
     private snackbarService: SnackbarServiceService,
     private previewImage:DialogService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private userFAQAPI:UserFAQService
   ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
       this.questionID =this.data.userquestionID
-      this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,'+this.data.attached)
+      this.userFAQAPI.getAttachmentbyqid(this.data.userquestionID).subscribe((res:any)=>{
+        if(res.Response!=null || res.Response!="No Image"){
+          this.imagepresent= true
+          console.log("Image: ",res)
+          this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,'+res.Response)
+        }
+        if(res.Response=="No Image"){
+          console.log("helooo")
+          this.imagepresent=false
+        }
+        console.log("bool val :",this.imagepresent)
+      })
+      
     })
     /**
      * Adds the requeired validator for rating and validation. when the user tries to submit empty data Visual feedback

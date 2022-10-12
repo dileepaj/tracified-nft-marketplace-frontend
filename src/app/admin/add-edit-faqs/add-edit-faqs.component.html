@@ -44,13 +44,14 @@
       >
     </div>
     <div fxLayout="row wrap" fxFlex="100%">
-      <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+      <label *ngIf="imagepresent" class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
         >Attachment</label
       >
       <img
         fxFlex="20%"
         fxFlex.lt-sm="80%"
         (click)="showimage()"
+        *ngIf="imagepresent"
         class="attachment-img"
         [src]="imagePath"
       />

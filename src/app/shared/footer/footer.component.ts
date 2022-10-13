@@ -3,6 +3,7 @@ import { ApiServicesService } from 'src/app/services/api-services/api-services.s
 import { Subscription } from 'src/app/models/mail';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -13,7 +14,13 @@ export class FooterComponent implements OnInit {
   subscribe: Subscription = new Subscription('');
   controlGroup: FormGroup;
 
-  constructor(private service:ApiServicesService, private snackbarService:SnackbarServiceService) { }
+  constructor(
+    private service:ApiServicesService,
+    private snackbarService:SnackbarServiceService,
+    private router : Router
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.controlGroup = new FormGroup({
@@ -31,5 +38,14 @@ export class FooterComponent implements OnInit {
 this.service.addSubscription(this.subscribe).subscribe(res=>{
   this.snackbarService.openSnackBar("Request to subscribe sent")
 })
+  }
+
+  public isHome() : boolean {
+    if(this.router.url === '/home') {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }

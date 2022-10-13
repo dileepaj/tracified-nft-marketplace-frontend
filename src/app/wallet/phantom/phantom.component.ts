@@ -26,7 +26,7 @@ export class PhantomComponent extends walletOptions implements OnInit {
     blockchain: string,
     nftcontract: string,
     tokenId: number,
-    price: number,
+    price: string,
     listingPrice: string
   ): Promise<any> {
     throw new Error('Method not implemented.');

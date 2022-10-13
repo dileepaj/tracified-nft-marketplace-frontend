@@ -25,7 +25,8 @@ export class SellOfferServiceService {
     asset_issuer: string,
     signerPK: string,
     nftAmmount: string,
-    nftPrice: number
+    nftPrice: number,
+    royalty :number
   ) {
     return new Promise((resolve, reject) => {
       //let sourceKeypair = Keypair.fromSecret(signerSK); //because the distributor has the authority to sell
@@ -36,6 +37,7 @@ export class SellOfferServiceService {
       }
       var asset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();
+      var totalsaleprice = nftPrice-royalty
       var opts = {
         fee: '100',
         timebounds: {
@@ -54,7 +56,7 @@ export class SellOfferServiceService {
                 selling: asset,
                 buying: sellingAsset,
                 amount: nftAmmount,
-                price: nftPrice,
+                price: totalsaleprice,
                 offerId: '0',
               })
              

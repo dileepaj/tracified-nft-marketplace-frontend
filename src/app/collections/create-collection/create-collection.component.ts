@@ -28,9 +28,10 @@ export class CreateCollectionComponent implements OnInit {
   controlGroup: FormGroup;
   addSubscription: Subscription;
   selectVal: string = '';
-  collection: Collection = new Collection('', '', '', ''); //declaring the model
+  collection: Collection = new Collection('', '', '', '',''); //declaring the model
   signerPK: string = '';
   mail:any;
+  key: any;
 
   constructor(public service: CollectionService,
      private _location: Location,
@@ -49,6 +50,7 @@ export class CreateCollectionComponent implements OnInit {
     this.collection.organizationName = this.formValue('organizationName');
     this.collection.blockchain = "any";
     this.collection.userId=this.mail;
+    this.collection.publickey=this.key;
     this.dialogService.confirmDialog({
       title:ConfirmDialogText.CREATE_COLLECTION_TITLE,
       message:ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P1 +this.collection.collectionName+ ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P2,
@@ -79,6 +81,7 @@ export class CreateCollectionComponent implements OnInit {
 
   ngOnInit(): void {
     this.mail=this.data.email
+    this.key=this.data.key
     console.log("mail is: ",this.mail)
     //validating form data
     this.controlGroup = new FormGroup({

@@ -20,9 +20,12 @@ export class TrustLineByBuyerServiceService {
   userSignedTransaction: any;
 
   constructor() { }
-  trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string) {
-    let royalty=(parseFloat(nftPrice)*(0.02)).toFixed(6).toString();
-
+  trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string) {
+   // let royalty=(parseFloat(nftPrice)*(0.02)).toFixed(6).toString();
+let royalties=parseFloat(royalty)
+let sellingprice=parseFloat(nftPrice)
+let TotalPrice=(sellingprice-royalties).toString();
+console.log("Price to be given to seller and royalty is: ",TotalPrice,royalties)
 
     return new Promise((resolve, reject) => {
       //let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
@@ -37,7 +40,7 @@ export class TrustLineByBuyerServiceService {
 
       const senderPublickKey = userPK;
       var asset = new Asset(asset_code, asset_issuer); //for buyer --> gateway
-      var claimer ='GDHV5JPMQXAFASJS6TNRCOTGH7VPYDKLLHQ4C3VYT6ELR56CFA4XOTSC'
+      var claimer =previousOwnerNFTPK
       let server = new Server(blockchainNet);
       server
         .loadAccount(userPK)
@@ -64,7 +67,7 @@ export class TrustLineByBuyerServiceService {
                 selling: sellingAsset,
                 buying: buyAsset,
                 buyAmount: '1',
-                price: nftPrice,
+                price: TotalPrice,
                 offerId: "0",
               })
             )

@@ -27,7 +27,8 @@
           <div class="intro-body">
             <label class="title">Buy</label>
             <label class="content-text">
-              Set up or link your wallet and easily purchase any NFT listed on Tracified NFT marketplace.
+              Set up or link your wallet and easily purchase any NFT listed on
+              Tracified NFT marketplace.
             </label>
           </div>
         </div>
@@ -41,7 +42,8 @@
           <div class="intro-body">
             <label class="title">Sell</label>
             <label class="content-text">
-              Mint your own NFTs and put them up for sale on our ever-growing collection of NFTs.
+              Mint your own NFTs and put them up for sale on our ever-growing
+              collection of NFTs.
             </label>
           </div>
         </div>
@@ -54,8 +56,8 @@
           <div class="intro-body">
             <label class="title">Explore</label>
             <label class="content-text">
-              Explore a vast collection of NFTs created by various creators around
-              the world.
+              Explore a vast collection of NFTs created by various creators
+              around the world.
             </label>
           </div>
         </div>
@@ -75,12 +77,18 @@
           </div>
           <div class="hot-picks-header-actions">
             <button class="hot-picks-header-btn">View All</button>
-            <button class="hot-picks-header-btn rounded">
+            <button
+              class="hot-picks-header-btn rounded"
+              (click)="scrollLeft('hot-picks-content')"
+            >
               <mat-icon class="material-symbols-outlined">
                 navigate_before
               </mat-icon>
             </button>
-            <button class="hot-picks-header-btn rounded">
+            <button
+              class="hot-picks-header-btn rounded"
+              (click)="scrollRight('hot-picks-content')"
+            >
               <mat-icon
                 class="material-symbols-outlined"
                 style="transform: rotate(180deg)"
@@ -136,16 +144,22 @@
           fxLayoutAlign="space-between center"
         >
           <div class="hot-picks-header-title" fxFlex.lt-sm="100%">
-            Browse by Category
+            Check what's Trending
           </div>
           <div class="hot-picks-header-actions">
             <button class="hot-picks-header-btn">View All</button>
-            <button class="hot-picks-header-btn rounded">
+            <button
+              class="hot-picks-header-btn rounded"
+              (click)="scrollLeft('category-content')"
+            >
               <mat-icon class="material-symbols-outlined">
                 navigate_before
               </mat-icon>
             </button>
-            <button class="hot-picks-header-btn rounded">
+            <button
+              class="hot-picks-header-btn rounded"
+              (click)="scrollRight('category-content')"
+            >
               <mat-icon
                 class="material-symbols-outlined"
                 style="transform: rotate(180deg)"
@@ -155,7 +169,7 @@
             </button>
           </div>
         </div>
-        <div class="hot-picks-content" id="hot-picks-content">
+        <div class="hot-picks-content" id="category-content">
           <div class="item" *ngFor="let item of List2">
             <img class="item-actions-image" [src]="item.ImageBase64" />
             <div class="item-name-div">
@@ -194,7 +208,7 @@
 
     <!--news topics-->
     <div class="home-section cont-wrapper">
-      <div class="hot-picks" id="categories">
+      <div class="hot-picks" id="news">
         <div
           class="hot-picks-header"
           fxLayout="row wrap"
@@ -222,34 +236,31 @@
         </div>
         <div class="news-container">
           <div class="news-topic">
-            <h2>
-              Topic One
-            </h2>
+            <h2>Topic One</h2>
             <label class="normal-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a lobortis purus. Pellentesque turpis magna,
-              suscipit commodo arcu quis, tempus dictum leo. Curabitur imperdiet scelerisque tincidunt. Praesent vitae placerat sem.
-              Nulla facilisi. Morbi accumsan efficitur sollicitudin. Phasellus posuere vitae risus sit amet auctor.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a
+              lobortis purus. Pellentesque turpis magna, suscipit commodo arcu
+              quis, tempus dictum leo. Curabitur imperdiet scelerisque
+              tincidunt. Praesent vitae placerat sem. Nulla facilisi. Morbi
+              accumsan efficitur sollicitudin. Phasellus posuere vitae risus sit
+              amet auctor.
             </label>
-            <button mat-flat-button class="btn-sm">
-              Read More
-            </button>
+            <button mat-flat-button class="btn-sm">Read More</button>
           </div>
           <div class="news-topic">
-            <h2>
-              Topic Two
-            </h2>
+            <h2>Topic Two</h2>
             <label class="normal-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a lobortis purus. Pellentesque turpis magna,
-              suscipit commodo arcu quis, tempus dictum leo. Curabitur imperdiet scelerisque tincidunt. Praesent vitae placerat sem.
-              Nulla facilisi. Morbi accumsan efficitur sollicitudin. Phasellus posuere vitae risus sit amet auctor.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a
+              lobortis purus. Pellentesque turpis magna, suscipit commodo arcu
+              quis, tempus dictum leo. Curabitur imperdiet scelerisque
+              tincidunt. Praesent vitae placerat sem. Nulla facilisi. Morbi
+              accumsan efficitur sollicitudin. Phasellus posuere vitae risus sit
+              amet auctor.
             </label>
-            <button mat-flat-button class="btn-sm">
-              Read More
-            </button>
+            <button mat-flat-button class="btn-sm">Read More</button>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>

@@ -164,6 +164,16 @@
 				"internalType": "uint256",
 				"name": "itemId",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "royalty",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "distributor",
+				"type": "address"
 			}
 		],
 		"name": "createMarketSale",

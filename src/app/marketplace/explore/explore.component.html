@@ -103,7 +103,7 @@
       </div>
     </div>
     <div class="explore-content cont-wrapper" fxLayout="row wrap">
-      <div class="cont-inner" *ngIf="!loading">
+      <div class="cont-inner" *ngIf="!loading && List.length > 0">
         <div class="nft-item" *ngFor="let item of List">
           <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
           <img class="nft-img" [src]="item.ImageBase64" />
@@ -146,6 +146,10 @@
           </div>
         </div>
         <label>Loading NFTs...</label>
+      </div>
+      <div class="explore-no-content" *ngIf="!loading && List.length === 0">
+        <img src="../../../assets/images/no-content.png" />
+        <label>No NFTs Found</label>
       </div>
     </div>
   </div>

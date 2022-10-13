@@ -30,19 +30,4 @@ export class AppComponent {
     this.walletService.close();
   }
 
-  isHome() {
-   /*  if (this.router.url.includes('/admin-dashboard') || this.router.url.includes('/user-dashboard')) {
-      return false;
-    } else {
-      return true;
-    } */
-
-
-    if (this.router.url === '/home') {
-      return true;
-    } else {
-      return false;
-    }
-
-  }
 }

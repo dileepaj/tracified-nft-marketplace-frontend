@@ -8,7 +8,10 @@
         <label>Pending Endorsments</label>
       </div>
       <div class="inbox-separator"></div>
-      <mat-list class="inbox-list">
+      <div class="loader-div" *ngIf="showEndorsementLoader">
+        <app-loader [displayText]="'Loading content...'"></app-loader>
+      </div>
+      <mat-list class="inbox-list" *ngIf="!showEndorsementLoader">
         <mat-list-item
           class="inbox-list-item hover-item"
           *ngFor="let item of pendingEndorsments; index as i"
@@ -58,7 +61,10 @@
         >Pending User FAQ</label>
       </div>
       <div class="inbox-separator"></div>
-      <mat-list class="inbox-list">
+      <div class="loader-div" *ngIf="showFaqLoader">
+        <app-loader [displayText]="'Loading content...'"></app-loader>
+      </div>
+      <mat-list class="inbox-list" *ngIf="!showFaqLoader">
         <mat-list-item
           class="inbox-list-item"
           *ngFor="let item of notifications; index as i"
@@ -101,7 +107,10 @@
       </div>
     </div>
     <div class="tab-content" *ngIf="tabIndex === 0">
-      <mat-list class="inbox-list">
+      <div class="loader-div" *ngIf="showEndorsementLoader">
+        <app-loader [displayText]="'Loading content...'"></app-loader>
+      </div>
+      <mat-list class="inbox-list" *ngIf="!showEndorsementLoader">
         <mat-list-item
           class="inbox-list-item hover-item"
           *ngFor="let item of pendingEndorsments; index as i"
@@ -139,7 +148,10 @@
       </mat-list>
     </div>
     <div class="tab-content" *ngIf="tabIndex === 1">
-      <mat-list class="inbox-list">
+      <div class="loader-div" *ngIf="showFaqLoader">
+        <app-loader [displayText]="'Loading content...'"></app-loader>
+      </div>
+      <mat-list class="inbox-list" *ngIf="!showFaqLoader">
         <mat-list-item
           class="inbox-list-item"
           *ngFor="let item of notifications; index as i"

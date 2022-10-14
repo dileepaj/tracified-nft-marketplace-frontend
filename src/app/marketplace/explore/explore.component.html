@@ -137,15 +137,7 @@
         </div>
       </div>
       <div class="explore-loading" *ngIf="loading">
-        <div class="loading-div">
-          <div class="lds-ellipsis">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-        <label>Loading NFTs...</label>
+        <app-loader [displayText]="'Loading NFTs...'"></app-loader>
       </div>
       <div class="explore-no-content" *ngIf="!loading && List.length === 0">
         <img src="../../../assets/images/no-content.png" />

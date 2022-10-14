@@ -94,6 +94,7 @@ import { UserCollectionsComponent } from './user/user-collections/user-collectio
 import { UserCollectionNFTComponent } from './user/user-collection-nft/user-collection-nft.component';
 import { PageNotFoundComponent } from './error-pages/page-not-found/page-not-found.component';
 import { NftgridComponent } from './shared/nftgrid/nftgrid.component';
+import { LoaderComponent } from './shared/loader/loader.component';
 
 const appRoutes: Routes = [
   {
@@ -343,6 +344,7 @@ const appRoutes: Routes = [
     UserCollectionNFTComponent,
     PageNotFoundComponent,
     NftgridComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,

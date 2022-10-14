@@ -195,11 +195,13 @@ export class ExploreComponent implements OnInit {
       this.List.push(card)
       })
     }
+    this.loading = false;
   }
 
 
 
   public setFilter(filter: string) {
+    this.loading = true;
     this.List.splice(0);
     this.selectedFilter = filter;
     this.nft.getNFTByBlockchain(this.selectedBlockchain).subscribe(async (data) => {

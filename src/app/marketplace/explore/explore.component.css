@@ -160,14 +160,6 @@
   align-items: center;
 }
 
-.explore-loading .loading-div{
-  transform: scale(1.5);
-}
-
-.explore-loading label {
-  font-size: 22px;
-}
-
 .explore-no-content {
   height: calc(100vh - 350px);
   width: 100%;

@@ -15,7 +15,9 @@ import { APIConfigENV } from 'src/environments/environment';
 })
 export class BrowseMarketplaceComponent implements OnInit {
   tabIndex : number = 0;
-  pendingEndorsments:any[]
+  pendingEndorsments:any[];
+  public showEndorsementLoader : boolean = false;
+  public showFaqLoader : boolean = false;
   public notifications
 
   // notifications: any[] = [
@@ -49,6 +51,8 @@ export class BrowseMarketplaceComponent implements OnInit {
     })
   }
   ngOnInit(): void {
+    this.showEndorsementLoader = true;
+    this.showFaqLoader = true;
     this.loaderService.isLoading.next(false)
     let status="Pending"
     //function will return all the endorsments in bending status
@@ -60,7 +64,7 @@ export class BrowseMarketplaceComponent implements OnInit {
     //   console.log("Pendong quesitons:",pendingQuestions)
     //   this.notifications=pendingQuestions.Response;
     // })
-    const dialog = this.dialogService.pendingDialog({message:'loading Contents...'})
+    //const dialog = this.dialogService.pendingDialog({message:'loading Contents...'})
     const timer$ = timer(APIConfigENV.APIStartDelay,APIConfigENV.APIIntervalTimer);
     timer$.subscribe((data)=>{
        this.loaderService.isLoading.next(false)
@@ -69,11 +73,14 @@ export class BrowseMarketplaceComponent implements OnInit {
           this.pendingEndorsments=data.Response;
         });
         this.loaderService.isLoading.next(false)
+        this.showEndorsementLoader = false;
+
         this.userFAQAPI.getPendingQuestions().subscribe((pendingQuestions:any)=>{
-          console.log("Pendong quesitons:",pendingQuestions)
+          console.log("Pendong quesitons:",pendingQuestions);
+          this.showFaqLoader = false;
           this.notifications=pendingQuestions.Response;
         })
-        dialog.close()
+        //dialog.close()
     })
 
   }

@@ -104,42 +104,94 @@
     </div>
     <div class="explore-content cont-wrapper" fxLayout="row wrap">
       <div class="cont-inner" *ngIf="!loading && List.length > 0">
-        <div class="nft-item" *ngFor="let item of List">
-          <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
-          <img class="nft-img" [src]="item.ImageBase64" />
-          <div class="nft-title">{{ item.NFTName }}</div>
-          <div class="nft-actions">
-            <img
-              class="nft-action-btn"
-              src="../../../assets/images/purchase.png"
-              matTooltip="Buy NFT"
-              (click)="routeToBuy(item.NFTIdentifier)"
-            />
-            <img
-              class="nft-action-btn"
-              src="../../../assets/images/view.png"
-              matTooltip="View NFT"
-              (click)="viewNFT()"
-            />
-            <img
-              class="nft-action-btn"
-              src="../../../assets/images/wishlist.png"
-              matTooltip="Add to watchlist"
-              (click)="addToWatchList(item.NFTIdentifier)"
-            />
-            <img
-              class="nft-action-btn"
-              src="../../../assets/images/favorite.png"
-              matTooltip="Add to favorites"
-              (click)="addToFavourites(item.NFTIdentifier)"
-            />
+        <div *ngFor="let item of List; index as i">
+          <div class="nft-item" *ngIf="i !== List.length - 1">
+            <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
+            <object [data]="item.ImageBase64" class="nft-img">
+
+            </object>
+            <div [id]="'overlay'+i" class="nft-img-overlay" (click)="toggleView('overlay'+i)">
+              <img src="../../../assets/images/svg.png" />
+              <label ngClass.gt-sm="overlay-text">Click to View</label>
+            </div>
+            <!-- <img class="nft-img" [src]="item.ImageBase64" /> -->
+            <div class="nft-title">{{ item.NFTName }}</div>
+            <div class="nft-actions">
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/purchase.png"
+                matTooltip="Buy NFT"
+                (click)="routeToBuy(item.NFTIdentifier)"
+              />
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/view.png"
+                matTooltip="View NFT"
+                (click)="viewNFT()"
+              />
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/wishlist.png"
+                matTooltip="Add to watchlist"
+                (click)="addToWatchList(item.NFTIdentifier)"
+              />
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/favorite.png"
+                matTooltip="Add to favorites"
+                (click)="addToFavourites(item.NFTIdentifier)"
+              />
+            </div>
+          </div>
+
+          <!--last item-->
+          <div class="nft-item" *ngIf="i === List.length - 1" #theLastItem>
+            <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
+
+            <object [data]="item.ImageBase64" class="nft-img">
+
+            </object>
+            <div class="nft-img-overlay">
+              <img src="../../../assets/images/svg.png" />
+              <label ngClass.gt-sm="overlay-text">Click to View</label>
+            </div>
+            <!-- <img class="nft-img" [src]="item.ImageBase64" /> -->
+            <div class="nft-title">{{ item.NFTName }}</div>
+            <div class="nft-actions">
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/purchase.png"
+                matTooltip="Buy NFT"
+                (click)="routeToBuy(item.NFTIdentifier)"
+              />
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/view.png"
+                matTooltip="View NFT"
+                (click)="viewNFT()"
+              />
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/wishlist.png"
+                matTooltip="Add to watchlist"
+                (click)="addToWatchList(item.NFTIdentifier)"
+              />
+              <img
+                class="nft-action-btn"
+                src="../../../assets/images/favorite.png"
+                matTooltip="Add to favorites"
+                (click)="addToFavourites(item.NFTIdentifier)"
+              />
+            </div>
           </div>
         </div>
+
       </div>
+      <app-loader [displayText]="'Loading NFTs...'" *ngIf="nextPageLoading"></app-loader>
       <div class="explore-loading" *ngIf="loading">
         <app-loader [displayText]="'Loading NFTs...'"></app-loader>
       </div>
-      <div class="explore-no-content" *ngIf="!loading && List.length === 0">
+      <div class="explore-no-content" *ngIf="!loading && !nextPageLoading && List.length === 0">
         <img src="../../../assets/images/no-content.png" />
         <label>No NFTs Found</label>
       </div>

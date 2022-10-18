@@ -21,7 +21,10 @@ export class NftServicesService {
   baseUrlGetMyNFT:string='http://localhost:6081/userid'
   baseUrlfilter:string='http://localhost:6081/blockchain'
   baseUrlTxn:string='http://localhost:6081/txn'
+  baseUrlPaginated : string = 'http://localhost:6081/nftspaginate'
   reqOpts: any;
+
+  pageSize : number = 10;
 
   constructor(private http: HttpClient) { }
 
@@ -46,14 +49,14 @@ export class NftServicesService {
     return this.http.get<GetNFT[]>(`${this.baseUrlfilter}/${Blockchain}`);
   }
 
-  
+
   updateNFTStatusBackend(st: SalesBE): Observable<SalesBE> {
     console.log("data: ",st)
     return this.http.put<SalesBE>(this.baseUrlUpdateStatusBE, st, {headers: this.headers});
   }
 
   updateNFTStatusGateway(price:string,status:string,amount:string,nfttxnhash:string): Observable<any> {
-   
+
     return this.http.put<any>(this.baseUrlUpdateStatusGW
       + `/nft/updatesell?Price=${price}&Status=${status}&Amount=${amount}&NFTTxnHash=${nfttxnhash}`,
       {headers: this.headers});
@@ -74,7 +77,7 @@ export class NftServicesService {
      //request to get collection name according to user public key
      return this.http.get<NFT[]>(`${this.baseUrlGetOnSaleNFT}/${sellingstatus}`);
     }
-  
+
 
 getMyNFTStatus(sellingstatus,userId):Observable<NFT[]>{
   //request to get collection name according to user public key
@@ -94,5 +97,9 @@ getMyNFTStatus(sellingstatus,userId):Observable<NFT[]>{
  getTXNByBlockchainandIdentifier(id,blockchain):Observable<TXN[]>{
   //request to get collection name according to user public key
   return this.http.get<TXN[]>(`${this.baseUrlTxn}/${id}/${blockchain}`);
+ }
+
+ getNFTpaginated (blockchain : string, requestedPage : number) : Observable<GetNFT[]> {
+  return this.http.get<GetNFT[]>(`${this.baseUrlPaginated}/${blockchain}/${this.pageSize}/${requestedPage}`);
  }
 }

@@ -8,6 +8,7 @@ import { OkmessageComponent } from 'src/app/dialogs/okmessage/okmessage.componen
 import { PreviewImageComponent } from 'src/app/dialogs/previewImage/preview-image/preview-image.component';
 import { ConfirmDialog, OkDialog, PendingDialog, PreviewImage } from 'src/app/models/confirmDialog';
 import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
+import { DisclaimerComponent } from 'src/app/dialogs/disclaimer/disclaimer.component';
 @Injectable({
   providedIn: 'root',
 })
@@ -49,7 +50,7 @@ export class DialogService {
       disableClose:true,
     }).afterClosed();
   }
-  
+
   createCollection(email:string,key:string): MatDialogRef<CreateCollectionComponent> {
     return this.dialog.open(CreateCollectionComponent, {
       width: '500px',
@@ -60,5 +61,12 @@ export class DialogService {
       },
     });
 
+  }
+
+  openDisclaimer() :Observable<boolean> {
+    return this.dialog.open(DisclaimerComponent,{
+      width:'800px',
+      disableClose:true,
+    }).afterClosed();
   }
 }

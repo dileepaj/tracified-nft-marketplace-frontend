@@ -3,6 +3,7 @@
   padding-left: 75px;
   padding-right: 75px;
   padding-top: 20px;
+  margin-bottom: 20px;
   color: white;
 }
 
@@ -119,4 +120,5 @@
   margin-top: 20px;
   column-gap: 50px;
   overflow: auto;
+  scroll-behavior: smooth;
 }

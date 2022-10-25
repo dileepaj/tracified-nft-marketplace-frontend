@@ -30,8 +30,8 @@ export class OverviewComponent implements OnInit {
   dec: any;
   imageSrc: any;
   User: string;
- 
-  
+
+
   constructor(private route: ActivatedRoute,
      private router: Router,
     private nft: NftServicesService,
@@ -44,17 +44,17 @@ export class OverviewComponent implements OnInit {
         freighterWallet = new FreighterComponent(freighterWallet);
         await freighterWallet.initWallelt();
         this.User= await freighterWallet.getWalletaddress();
-       
+
       }
-  
+
       if (blockchain == 'solana') {
         let phantomWallet = new UserWallet();
         phantomWallet = new PhantomComponent(phantomWallet);
         await phantomWallet.initWallelt();
         this.User = await phantomWallet.getWalletaddress();
-       
+
       }
-  
+
       if (
         blockchain == 'ethereum' ||
         blockchain == 'polygon'
@@ -63,9 +63,9 @@ export class OverviewComponent implements OnInit {
         metamaskwallet = new MetamaskComponent(metamaskwallet);
         await metamaskwallet.initWallelt();
         this.User = await metamaskwallet.getWalletaddress();
-       
+
       }
-  
+
     }
 
     goToEdit(user){
@@ -83,13 +83,13 @@ export class OverviewComponent implements OnInit {
       this.router.navigate(['./user-dashboard'], {
         queryParams: { blockchain: this.selectedBlockchain },
       });
-      
+
       this.ListBought.splice(0);
       this.ListHotpicks.splice(0);
       this.ListMinted.splice(0);
       this.ListTrends.splice(0);
       this.ListSales.splice(0);
-      this.retrive(this.selectedBlockchain).then(res=>{ 
+      this.retrive(this.selectedBlockchain).then(res=>{
           this.nft.getNFTByBlockchainandUser(this.selectedBlockchain,this.User).subscribe(async (data) => {
         this.nfts = data;
         if(this.nft==null){
@@ -100,7 +100,7 @@ export class OverviewComponent implements OnInit {
             if(this.nfts.Response[x].sellingstatus=="ON SALE"){
               this.FilterByONSALE(this.nfts.Response[x])
             }
-             
+
             if(this.nfts.Response[x].sellingstatus=="NOTFORSALE"){
               this.FilterByBoughtNFT(this.nfts.Response[x])
             }
@@ -120,10 +120,10 @@ export class OverviewComponent implements OnInit {
           }
         }
       });})
-   
+
     });
 
-  
+
   }
 
   FilterByHotpicks(response:any){
@@ -131,8 +131,8 @@ export class OverviewComponent implements OnInit {
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         this.dec = btoa(this.Decryption);
-      var str2 = this.dec.toString(); 
-      var str1 = new String( "data:image/svg+xml;base64,"); 
+      var str2 = this.dec.toString();
+      var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
      let card:Card= new Card('','','');
@@ -148,8 +148,8 @@ export class OverviewComponent implements OnInit {
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         this.dec = btoa(this.Decryption);
-      var str2 = this.dec.toString(); 
-      var str1 = new String( "data:image/svg+xml;base64,"); 
+      var str2 = this.dec.toString();
+      var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
      let card:Card= new Card('','','');
@@ -164,8 +164,8 @@ export class OverviewComponent implements OnInit {
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         this.dec = btoa(this.Decryption);
-      var str2 = this.dec.toString(); 
-      var str1 = new String( "data:image/svg+xml;base64,"); 
+      var str2 = this.dec.toString();
+      var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
      let card:Card= new Card('','','');
@@ -180,8 +180,8 @@ export class OverviewComponent implements OnInit {
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         this.dec = btoa(this.Decryption);
-      var str2 = this.dec.toString(); 
-      var str1 = new String( "data:image/svg+xml;base64,"); 
+      var str2 = this.dec.toString();
+      var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
      let card:Card= new Card('','','');
@@ -196,8 +196,8 @@ export class OverviewComponent implements OnInit {
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         this.dec = btoa(this.Decryption);
-      var str2 = this.dec.toString(); 
-      var str1 = new String( "data:image/svg+xml;base64,"); 
+      var str2 = this.dec.toString();
+      var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
      let card:Card= new Card('','','');
@@ -241,6 +241,14 @@ export class OverviewComponent implements OnInit {
     this.router.navigate(['/gridnft'], {
       queryParams: { data: [status,this.selectedBlockchain] },
     });
+  }
+
+  public scrollLeft(elementId: string) {
+    document.getElementById(elementId)!.scrollLeft -= 300;
+  }
+
+  public scrollRight(elementId: string) {
+    document.getElementById(elementId)!.scrollLeft += 300;
   }
 
 }

@@ -191,12 +191,14 @@
   display: grid;
   grid-gap: 30px;
   grid-template-columns: repeat(auto-fill, minmax(295px, 1fr)); */
+  width: 100%;
   min-height: calc(100vh - 350px);
-  display: flex;
-  flex-direction: row;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 30px;
+  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(295px, 295px));
+  row-gap: 30px;
+  column-gap: 30px;
 }
 
 .explore-loading {

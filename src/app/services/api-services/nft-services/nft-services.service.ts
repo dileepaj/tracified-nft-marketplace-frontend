@@ -24,7 +24,7 @@ export class NftServicesService {
   baseUrlPaginated : string = 'http://localhost:6081/nftspaginate'
   reqOpts: any;
 
-  pageSize : number = 10;
+  pageSize : number = 12;
 
   constructor(private http: HttpClient) { }
 

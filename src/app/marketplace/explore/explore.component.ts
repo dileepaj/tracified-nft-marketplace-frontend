@@ -317,7 +317,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     document.getElementById(element)?.classList.add('overlay-hide');
   }
 
-  @HostListener('document:click')
+  /* @HostListener('document:click')
   clickedOut() {
     if(this.isNftItem) {
       this.isNftItem = false;
@@ -328,7 +328,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         arr[i].classList.remove('overlay-hide');
       }
     }
-  }
+  } */
 
 
 }

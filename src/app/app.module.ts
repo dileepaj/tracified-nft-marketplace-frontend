@@ -28,7 +28,6 @@ import { CreateCollectionComponent } from './collections/create-collection/creat
 import { ViewCollectionsComponent } from './collections/view-collections/view-collections.component';
 import { AdminNavbarLayoutComponent } from './shared/admin-navbar-layout/admin-navbar-layout.component';
 import { HomeNavbarLayoutComponent } from './shared/home-navbar-layout/home-navbar-layout.component';
-import { NftCardComponent } from './shared/nft-card/nft-card.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -96,6 +95,7 @@ import { PageNotFoundComponent } from './error-pages/page-not-found/page-not-fou
 import { NftgridComponent } from './shared/nftgrid/nftgrid.component';
 import { LoaderComponent } from './shared/loader/loader.component';
 import { DisclaimerComponent } from './dialogs/disclaimer/disclaimer.component';
+import { NftCardComponent } from './nft/nft-card/nft-card.component';
 
 const appRoutes: Routes = [
   {
@@ -306,7 +306,6 @@ const appRoutes: Routes = [
     ViewCollectionsComponent,
     AdminNavbarLayoutComponent,
     HomeNavbarLayoutComponent,
-    NftCardComponent,
     Mint2Component,
     Mint3Component,
     HeaderComponent,
@@ -347,6 +346,7 @@ const appRoutes: Routes = [
     NftgridComponent,
     LoaderComponent,
     DisclaimerComponent,
+    NftCardComponent
   ],
   imports: [
     BrowserModule,

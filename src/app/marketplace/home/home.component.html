@@ -99,37 +99,8 @@
           </div>
         </div>
         <div class="hot-picks-content" id="hot-picks-content">
-          <div class="item" *ngFor="let item of List">
-            <img class="item-actions-image" [src]="item.ImageBase64" />
-            <div class="item-name-div">
-              <label class="item-name">{{ item.NFTName }}</label>
-            </div>
-            <div class="item-actions-icons">
-              <img
-                matTooltip="Buy"
-                src="../../../assets/images/purchase.png"
-                class="item-icon"
-                (click)="routeToBuy(item.NFTIdentifier)"
-              />
-              <img
-                matTooltip="View"
-                src="../../../assets/images/view.png"
-                class="item-icon"
-                (click)="viewNFT()"
-              />
-              <img
-                matTooltip="Add to bookmarks"
-                src="../../../assets/images/wishlist.png"
-                class="item-icon"
-                (click)="addToWatchList(item.NFTIdentifier, item.Blockchain)"
-              />
-              <img
-                matTooltip="Add to favorites"
-                src="../../../assets/images/favorite.png"
-                class="item-icon"
-                (click)="addToFavourites(item.NFTIdentifier, item.Blockchain)"
-              />
-            </div>
+          <div *ngFor="let item of List; index as i">
+            <app-nft-card  [item]="item" [itemId]="i.toString()" [blockchain]="item.Blockchain"></app-nft-card>
           </div>
         </div>
       </div>
@@ -170,37 +141,8 @@
           </div>
         </div>
         <div class="hot-picks-content" id="category-content">
-          <div class="item" *ngFor="let item of List2">
-            <img class="item-actions-image" [src]="item.ImageBase64" />
-            <div class="item-name-div">
-              <label class="item-name">{{ item.NFTName }}</label>
-            </div>
-            <div class="item-actions-icons">
-              <img
-                matTooltip="Buy"
-                src="../../../assets/images/purchase.png"
-                class="item-icon"
-                (click)="routeToBuy(item.NFTIdentifier)"
-              />
-              <img
-                matTooltip="View"
-                src="../../../assets/images/view.png"
-                class="item-icon"
-                (click)="viewNFT()"
-              />
-              <img
-                matTooltip="Add to bookmarks"
-                src="../../../assets/images/wishlist.png"
-                class="item-icon"
-                (click)="addToWatchList(item.NFTIdentifier, item.Blockchain)"
-              />
-              <img
-                matTooltip="Add to favorites"
-                src="../../../assets/images/favorite.png"
-                class="item-icon"
-                (click)="addToFavourites(item.NFTIdentifier, item.Blockchain)"
-              />
-            </div>
+          <div class="item" *ngFor="let item of List2; index as i">
+            <app-nft-card  [item]="item" [itemId]="'trndng'+i.toString()" [blockchain]="item.Blockchain"></app-nft-card>
           </div>
         </div>
       </div>

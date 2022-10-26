@@ -1,0 +1,36 @@
+<div class="nft-item">
+  <object [data]="item.ImageBase64" class="nft-img">
+  </object>
+  <div [id]="'overlay'+itemId" class="nft-img-overlay" (click)="toggleView('overlay'+itemId)">
+    <img src="../../../assets/images/svg.png" />
+    <label ngClass.gt-sm="overlay-text">Click to View</label>
+  </div>
+  <div class="nft-title" (click)="routeToBuy(item.NFTIdentifier)">{{ item.NFTName }}</div>
+  <div class="nft-actions">
+    <img
+      class="nft-action-btn"
+      src="../../../assets/images/purchase.png"
+      matTooltip="Buy NFT"
+      (click)="routeToBuy(item.NFTIdentifier)"
+    />
+    <img
+      class="nft-action-btn"
+      src="../../../assets/images/view.png"
+      matTooltip="View NFT"
+      (click)="viewNFT()"
+    />
+    <img
+      class="nft-action-btn"
+      src="../../../assets/images/wishlist.png"
+      matTooltip="Add to watchlist"
+      (click)="addToWatchList(item.NFTIdentifier)"
+
+    />
+    <img
+      class="nft-action-btn"
+      src="../../../assets/images/favorite.png"
+      matTooltip="Add to favorites"
+      (click)="addToFavourites(item.NFTIdentifier)"
+    />
+  </div>
+</div>

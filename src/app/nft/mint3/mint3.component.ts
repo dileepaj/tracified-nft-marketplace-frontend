@@ -39,27 +39,12 @@ export class Mint3Component implements OnInit {
   console.log("---------------------------------")
   this.data=this.blockchain
   console.log("data passed in mint3:",this.data)
-  this.pageRedirect()
   }
   
 
   ngOnInit(): void {
     
   }
-
-   pageRedirect(){
-    var delay = 20000; // time in milliseconds
-    // setTimeout("http://localhost:4200/user-dashboard/overview?blockchain"+this.data,delay)
-    // Display message
-    // document.getElementById("message").innerHTML = "Please wait, you are redirecting to the new page.";
-    
-    timer(delay).pipe(takeWhile(()=>this.alive)).subscribe(_=>{
-      this.router.navigate(['/user-dashboard/overview'], {
-        queryParams: { blockchain: this.data },
-      });
-   })
-   }
-
    ngOnDestroy()
    {
        this.alive=false;

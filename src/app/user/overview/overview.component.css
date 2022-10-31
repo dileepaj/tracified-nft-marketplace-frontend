@@ -1,10 +1,17 @@
 .overview-main-div {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   padding-left: 75px;
   padding-right: 75px;
   padding-top: 20px;
   margin-bottom: 20px;
   color: white;
+
+}
+
+.overview-main-wrapper {
+  width: 100%;
 }
 
 .overview-picks-header {
@@ -121,4 +128,23 @@
   column-gap: 50px;
   overflow: auto;
   scroll-behavior: smooth;
+}
+
+@media screen and (max-width: 1279px) {
+  .overview-main-div {
+    align-items: center;
+    margin-top: 80px;
+    margin-bottom: 20px;
+    color: white;
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 100%;
+  }
+  .overview-nft-content {
+    column-gap: 20px;
+  }
+
+  .overview-main-wrapper {
+    width: 90%;
+  }
 }

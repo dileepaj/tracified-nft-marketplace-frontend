@@ -1,12 +1,18 @@
 .ep-main-div {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   row-gap: 30px;
   padding-left: 75px;
   padding-right: 75px;
   padding-top: 40px;
   padding-bottom: 40px;
   color: white;
+}
+
+.ep-main-wrapper {
+  width: 100%;
+
 }
 
 /* default and hover color */
@@ -104,4 +110,26 @@
   display: flex;
   flex-direction: column;
   row-gap: 30px;
+}
+
+::placeholder {
+  color: #6d6d6d;
+}
+
+@media screen and (max-width: 1279px) {
+  .ep-main-div {
+    align-items: center;
+    margin-top: 80px;
+    margin-bottom: 20px;
+    color: white;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    width: 100%;
+  }
+
+  .ep-main-wrapper {
+    width: 90%;
+  }
 }

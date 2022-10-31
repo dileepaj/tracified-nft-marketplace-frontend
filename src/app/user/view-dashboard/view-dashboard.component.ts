@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Collection } from 'src/app/models/collection';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
@@ -28,6 +28,8 @@ export class ViewDashboardComponent implements OnInit {
   selectedBlockchain: any;
   User: string;
   Name: any;
+  smallScreen : boolean = false;
+
   constructor(
     private api: ApiServicesService,
     private nft: NftServicesService,
@@ -36,7 +38,7 @@ export class ViewDashboardComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  
+
 
   goToOverview(){
     this.router.navigate(['./user-dashboard/overview'], {
@@ -44,16 +46,36 @@ export class ViewDashboardComponent implements OnInit {
     });
     this.sideNavOpened = false;
     this.accListExpanded = false;
-      
+
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
       console.log("this blockchain: ",this.selectedBlockchain)})
-    this.retrive(this.selectedBlockchain)
-     
+    this.retrive(this.selectedBlockchain);
+
+    if (window.innerWidth < 1280) {
+      this.opened = false;
+      this.smallScreen = true;
+    } else {
+      this.opened = true;
+      this.smallScreen = false;
+    }
+
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (window.innerWidth < 1280) {
+      this.opened = false;
+      this.smallScreen = true;
+    } else {
+      this.opened = true;
+      this.smallScreen = false;
+    }
+  }
+
 
   async retrive(blockchain: string) {
     if (blockchain == 'stellar') {
@@ -65,7 +87,7 @@ export class ViewDashboardComponent implements OnInit {
         console.log("data is: ",res)
         this.Name=res.Name
       })
-     
+
     }
 
     if (blockchain == 'solana') {
@@ -77,7 +99,7 @@ export class ViewDashboardComponent implements OnInit {
         console.log("data is: ",res)
         this.Name=res.Name
       })
-     
+
     }
 
     if (
@@ -102,6 +124,8 @@ export class ViewDashboardComponent implements OnInit {
     this.router.navigate(['./user-dashboard/edit-profile'],{
       queryParams:{data:JSON.stringify(user)}
       });
+
+      this.closeSideNav();
 }
 
   public toggleSidenav() {
@@ -117,5 +141,12 @@ export class ViewDashboardComponent implements OnInit {
     this.router.navigate(['./user-dashboard/mycollections'],{
       queryParams:{data:id}
       })
+      this.closeSideNav();
+  }
+
+  public closeSideNav() {
+    if(this.smallScreen) {
+      this.opened = false;
+    }
   }
 }

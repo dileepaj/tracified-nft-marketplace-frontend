@@ -1,34 +1,147 @@
 <div class="overview-main-div">
-  <div>
+  <div class="overview-main-wrapper">
+    <div>
 
-    <img
-      style="vertical-align: middle; margin-right: 10px; transform: scale(1.1)"
-      [src]="'../../../assets/images/' + selectedBlockchain + '.png'"
-    />
-    {{
-      selectedBlockchain[0].toUpperCase() +
-        selectedBlockchain.substring(1, selectedBlockchain.length)
-    }}
-  </div>
-  <!-- <div class="stats">
-    <label style="margin-right: 30px"  (click)="goToEdit(User)">EDIT USER</label>
-    <label (click)="myCollections(User)">MY COLLECTIONS</label>
-  </div> -->
+      <img
+        style="vertical-align: middle; margin-right: 10px; transform: scale(1.1)"
+        [src]="'../../../assets/images/' + selectedBlockchain + '.png'"
+      />
+      {{
+        selectedBlockchain[0].toUpperCase() +
+          selectedBlockchain.substring(1, selectedBlockchain.length)
+      }}
+    </div>
+    <!-- <div class="stats">
+      <label style="margin-right: 30px"  (click)="goToEdit(User)">EDIT USER</label>
+      <label (click)="myCollections(User)">MY COLLECTIONS</label>
+    </div> -->
 
-  <div
+    <div
+      class="overview-picks-header"
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between center"
+    >
+      <div class="overview-picks-header-title" fxFlex.lt-sm="100%"  id="hotpick">
+        Your Hot Picks
+      </div>
+      <div class="overview-picks-header-actions">
+        <button class="overview-picks-header-btn" (click)="viewall('Hotpicks')">View All</button>
+        <button class="overview-picks-header-btn rounded" (click)="scrollLeft('hotPicksContent')">
+          <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
+        </button>
+        <button class="overview-picks-header-btn rounded" (click)="scrollRight('hotPicksContent')">
+          <mat-icon
+            class="material-symbols-outlined"
+            style="transform: rotate(180deg)"
+          >
+            navigate_before
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="overview-nft-content" id="hotPicksContent">
+      <div *ngFor="let item1 of ListHotpicks; index as i">
+        <app-nft-card  [item]="item1" [itemId]="'hpicks'+i.toString()" [blockchain]="item1.Blockchain"></app-nft-card>
+      </div>
+    </div>
+    <div
+      class="overview-picks-header"
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between center"
+    >
+      <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="mints">
+        Your Minted NFTs
+      </div>
+      <div class="overview-picks-header-actions">
+        <button class="overview-picks-header-btn" (click)="viewall('Mints')">View All</button>
+        <button class="overview-picks-header-btn rounded" (click)="scrollLeft('mintedContent')">
+          <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
+        </button>
+        <button class="overview-picks-header-btn rounded" (click)="scrollRight('mintedContent')">
+          <mat-icon
+            class="material-symbols-outlined"
+            style="transform: rotate(180deg)"
+          >
+            navigate_before
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="overview-nft-content" id="mintedContent">
+      <div *ngFor="let item3 of ListMinted; index as i">
+        <app-nft-card  [item]="item3" [itemId]="'lstmntd'+i.toString()" [blockchain]="item3.Blockchain"></app-nft-card>
+      </div>
+    </div>
+    <div
+      class="overview-picks-header"
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between center"
+    >
+      <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="bought">
+        Items you Bought
+      </div>
+      <div class="overview-picks-header-actions">
+        <button class="overview-picks-header-btn" (click)="viewall('Bought')">View All</button>
+        <button class="overview-picks-header-btn rounded" (click)="scrollRight('buyContent')">
+          <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
+        </button>
+        <button class="overview-picks-header-btn rounded" (click)="scrollRight('buyContent')">
+          <mat-icon
+            class="material-symbols-outlined"
+            style="transform: rotate(180deg)"
+          >
+            navigate_before
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="overview-nft-content" id="buyContent">
+      <div *ngFor="let item4 of ListBought; index as i">
+        <app-nft-card  [item]="item4" [itemId]="'bought'+i.toString()" [blockchain]="item4.Blockchain"></app-nft-card>
+      </div>
+    </div>
+    <div
+      class="overview-picks-header"
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between center"
+    >
+      <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="favourite">
+        Your Favourites
+      </div>
+      <div class="overview-picks-header-actions">
+        <button class="overview-picks-header-btn" (click)="viewall('Favourites')">View All</button>
+        <button class="overview-picks-header-btn rounded" (click)="scrollRight('trendingContent')">
+          <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
+        </button>
+        <button class="overview-picks-header-btn rounded" (click)="scrollRight('trendingContent')">
+          <mat-icon
+            class="material-symbols-outlined"
+            style="transform: rotate(180deg)"
+          >
+            navigate_before
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="overview-nft-content" id="trendingContent">
+      <div *ngFor="let item5 of ListTrends; index as i">
+        <app-nft-card  [item]="item5" [itemId]="'trends'+i.toString()" [blockchain]="item5.Blockchain"></app-nft-card>
+      </div>
+    </div>
+    <div
     class="overview-picks-header"
     fxLayout="row wrap"
     fxLayoutAlign="space-between center"
   >
-    <div class="overview-picks-header-title" fxFlex.lt-sm="100%"  id="hotpick">
-      Your Hot Picks
+    <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="sales">
+      Your NFTS on Sale
     </div>
     <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn" (click)="viewall('Hotpicks')">View All</button>
-      <button class="overview-picks-header-btn rounded" (click)="scrollLeft('hotPicksContent')">
+      <button class="overview-picks-header-btn" (click)="viewall('Sale')">View All</button>
+      <button class="overview-picks-header-btn rounded" (click)="scrollRight('salesContent')">
         <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
       </button>
-      <button class="overview-picks-header-btn rounded" (click)="scrollRight('hotPicksContent')">
+      <button class="overview-picks-header-btn rounded" (click)="scrollRight('salesContent')">
         <mat-icon
           class="material-symbols-outlined"
           style="transform: rotate(180deg)"
@@ -38,121 +151,11 @@
       </button>
     </div>
   </div>
-  <div class="overview-nft-content" id="hotPicksContent">
-    <div *ngFor="let item1 of ListHotpicks; index as i">
-      <app-nft-card  [item]="item1" [itemId]="'hpicks'+i.toString()" [blockchain]="item1.Blockchain"></app-nft-card>
+  <div class="overview-nft-content" id="salesContent">
+    <div *ngFor="let item6 of ListSales; index as i">
+      <app-nft-card  [item]="item6" [itemId]="'sales'+i.toString()" [blockchain]="item6.Blockchain"></app-nft-card>
     </div>
   </div>
-  <div
-    class="overview-picks-header"
-    fxLayout="row wrap"
-    fxLayoutAlign="space-between center"
-  >
-    <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="mints">
-      Your Minted NFTs
-    </div>
-    <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn" (click)="viewall('Mints')">View All</button>
-      <button class="overview-picks-header-btn rounded" (click)="scrollLeft('mintedContent')">
-        <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
-      </button>
-      <button class="overview-picks-header-btn rounded" (click)="scrollRight('mintedContent')">
-        <mat-icon
-          class="material-symbols-outlined"
-          style="transform: rotate(180deg)"
-        >
-          navigate_before
-        </mat-icon>
-      </button>
-    </div>
   </div>
-  <div class="overview-nft-content" id="mintedContent">
-    <div *ngFor="let item3 of ListMinted; index as i">
-      <app-nft-card  [item]="item3" [itemId]="'lstmntd'+i.toString()" [blockchain]="item3.Blockchain"></app-nft-card>
-    </div>
-  </div>
-  <div
-    class="overview-picks-header"
-    fxLayout="row wrap"
-    fxLayoutAlign="space-between center"
-  >
-    <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="bought">
-      Items you Bought
-    </div>
-    <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn" (click)="viewall('Bought')">View All</button>
-      <button class="overview-picks-header-btn rounded" (click)="scrollRight('buyContent')">
-        <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
-      </button>
-      <button class="overview-picks-header-btn rounded" (click)="scrollRight('buyContent')">
-        <mat-icon
-          class="material-symbols-outlined"
-          style="transform: rotate(180deg)"
-        >
-          navigate_before
-        </mat-icon>
-      </button>
-    </div>
-  </div>
-  <div class="overview-nft-content" id="buyContent">
-    <div *ngFor="let item4 of ListBought; index as i">
-      <app-nft-card  [item]="item4" [itemId]="'bought'+i.toString()" [blockchain]="item4.Blockchain"></app-nft-card>
-    </div>
-  </div>
-  <div
-    class="overview-picks-header"
-    fxLayout="row wrap"
-    fxLayoutAlign="space-between center"
-  >
-    <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="favourite">
-      Your Favourites
-    </div>
-    <div class="overview-picks-header-actions">
-      <button class="overview-picks-header-btn" (click)="viewall('Favourites')">View All</button>
-      <button class="overview-picks-header-btn rounded" (click)="scrollRight('trendingContent')">
-        <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
-      </button>
-      <button class="overview-picks-header-btn rounded" (click)="scrollRight('trendingContent')">
-        <mat-icon
-          class="material-symbols-outlined"
-          style="transform: rotate(180deg)"
-        >
-          navigate_before
-        </mat-icon>
-      </button>
-    </div>
-  </div>
-  <div class="overview-nft-content" id="trendingContent">
-    <div *ngFor="let item5 of ListTrends; index as i">
-      <app-nft-card  [item]="item5" [itemId]="'trends'+i.toString()" [blockchain]="item5.Blockchain"></app-nft-card>
-    </div>
-  </div>
-  <div
-  class="overview-picks-header"
-  fxLayout="row wrap"
-  fxLayoutAlign="space-between center"
->
-  <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="sales">
-    Your NFTS on Sale
-  </div>
-  <div class="overview-picks-header-actions">
-    <button class="overview-picks-header-btn" (click)="viewall('Sale')">View All</button>
-    <button class="overview-picks-header-btn rounded" (click)="scrollRight('salesContent')">
-      <mat-icon class="material-symbols-outlined"> navigate_before </mat-icon>
-    </button>
-    <button class="overview-picks-header-btn rounded" (click)="scrollRight('salesContent')">
-      <mat-icon
-        class="material-symbols-outlined"
-        style="transform: rotate(180deg)"
-      >
-        navigate_before
-      </mat-icon>
-    </button>
-  </div>
-</div>
-<div class="overview-nft-content" id="salesContent">
-  <div *ngFor="let item6 of ListSales; index as i">
-    <app-nft-card  [item]="item6" [itemId]="'sales'+i.toString()" [blockchain]="item6.Blockchain"></app-nft-card>
-  </div>
-</div>
+
 </div>

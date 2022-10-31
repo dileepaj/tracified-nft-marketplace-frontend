@@ -35,7 +35,8 @@
         ngStyle.lt-lg="width : 400px; height: 400px"
         ngStyle.lt-sm="width : 100%; "
       >
-        <img [src]="imageSrc" *ngIf="imageSrc"  class="nft-img" />
+      <object [data]="imageSrc" *ngIf="imageSrc" class="nft-img">
+      </object>
       </div>
       <p class="p-text sum-text" ngStyle.lt-lg="width : 100%">
        {{this.NFTList.description}}
@@ -112,7 +113,7 @@
                   >{{this.NFTList.distributorpk}}</label
                 >
               </div>
-             
+
             </div>
             <div class="user-story">
               <label class="heading-s">NFT Story</label>

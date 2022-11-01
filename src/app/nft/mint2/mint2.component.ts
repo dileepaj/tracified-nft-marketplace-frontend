@@ -277,10 +277,35 @@ export class Mint2Component implements OnInit {
                   const dialog = this.dialogService.pendingDialog({
                     message:PendingDialogText.MINTING_IN_PROGRESS
                   });
-                  this.sendToMint3();
+
+                 this.apiService.getEndorsement(this.userPK)
+      .subscribe((result: any) => {
+        if (result.Status == null || result.Status == '') {
+          this.dialogService
+            .confirmDialog({
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
+            })
+            .subscribe((res) => {
+              if (res) {
+                //alert("You are not endorsed. Get endorsed now")
+                let arr:any=[this.mint.Blockchain,this.email]
+                this.router.navigate(['./signUp'], {
+                  queryParams: { data: JSON.stringify(arr) },
+                });
+              }
+            });
+          }else{
+            this.sendToMint3();
                   this.mintNFT(this.userPK);
                   dialog.close()
                   this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+          }
+        });
+
+                 
                 }
               })
         }
@@ -313,10 +338,32 @@ export class Mint2Component implements OnInit {
                 const dialog = this.dialogService.pendingDialog({
                   message:PendingDialogText.MINTING_IN_PROGRESS
                 });
-                this.sendToMint3();
-                this.mintNftSolana(this.mint.NFTIssuerPK);
-                dialog.close()
-                this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                this.apiService.getEndorsement(this.userPK)
+                .subscribe((result: any) => {
+                  if (result.Status == null || result.Status == '') {
+                    this.dialogService
+                      .confirmDialog({
+                          title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                          message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                          confirmText: ConfirmDialogText.CONFIRM_BTN,
+                          cancelText: ConfirmDialogText.CANCEL_BTN,
+                      })
+                      .subscribe((res) => {
+                        if (res) {
+                          //alert("You are not endorsed. Get endorsed now")
+                          let arr:any=[this.mint.Blockchain,this.email]
+                          this.router.navigate(['./signUp'], {
+                            queryParams: { data: JSON.stringify(arr) },
+                          });
+                        }
+                      });
+                    }else{
+                     this.sendToMint3();
+                          this.mintNftSolana(this.mint.NFTIssuerPK);
+                          dialog.close()
+                          this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                    }
+                  });
               }
             })  
     }
@@ -349,7 +396,27 @@ export class Mint2Component implements OnInit {
                   const dialog = this.dialogService.pendingDialog({
                     message:PendingDialogText.MINTING_IN_PROGRESS
                   });
-                  this.emint
+                  this.apiService.getEndorsement(this.userPK)
+      .subscribe((result: any) => {
+        if (result.Status == null || result.Status == '') {
+          this.dialogService
+            .confirmDialog({
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
+            })
+            .subscribe((res) => {
+              if (res) {
+                //alert("You are not endorsed. Get endorsed now")
+                let arr:any=[this.mint.Blockchain,this.email]
+                this.router.navigate(['./signUp'], {
+                  queryParams: { data: JSON.stringify(arr) },
+                });
+              }
+            });
+          }else{
+          this.emint
                     .mintInEthereum(
                       this.mint.NFTIssuerPK,
                       this.mint.NFTName,
@@ -367,6 +434,8 @@ export class Mint2Component implements OnInit {
                       dialog.close();
                       this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                     });
+          }
+        });
                   }
                 })
     }
@@ -399,19 +468,41 @@ export class Mint2Component implements OnInit {
                   const dialog = this.dialogService.pendingDialog({
                     message:PendingDialogText.MINTING_IN_PROGRESS
                   });
-                  this.pmint
-                    .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
-                    .then((res) => {
-                      this.mint.NFTTxnHash = res.transactionHash;
-                      this.tokenId = parseInt(res.logs[0].topics[3]);
-                      this.mint.NFTIdentifier = this.tokenId.toString();
-                      //this.apiService.updateSVGBlockchain(this.svgUpdate)
-                      this.sendToMint3();
-                      this.saveContractInGateway();
-                      this.saveTXNs();
-                      dialog.close()
-                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
-                      this.loaderService.isLoading.next(false);
+                  this.apiService.getEndorsement(this.userPK)
+                  .subscribe((result: any) => {
+                    if (result.Status == null || result.Status == '') {
+                      this.dialogService
+                        .confirmDialog({
+                            title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                            message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                            confirmText: ConfirmDialogText.CONFIRM_BTN,
+                            cancelText: ConfirmDialogText.CANCEL_BTN,
+                        })
+                        .subscribe((res) => {
+                          if (res) {
+                            //alert("You are not endorsed. Get endorsed now")
+                            let arr:any=[this.mint.Blockchain,this.email]
+                            this.router.navigate(['./signUp'], {
+                              queryParams: { data: JSON.stringify(arr) },
+                            });
+                          }
+                        });
+                      }else{
+                      this.pmint
+                                .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
+                                .then((res) => {
+                                  this.mint.NFTTxnHash = res.transactionHash;
+                                  this.tokenId = parseInt(res.logs[0].topics[3]);
+                                  this.mint.NFTIdentifier = this.tokenId.toString();
+                                  //this.apiService.updateSVGBlockchain(this.svgUpdate)
+                                  this.sendToMint3();
+                                  this.saveContractInGateway();
+                                  this.saveTXNs();
+                                  dialog.close()
+                                  this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                                  this.loaderService.isLoading.next(false);
+                                });
+                      }
                     });
                   }
                 })

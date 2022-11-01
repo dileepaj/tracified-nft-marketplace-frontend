@@ -208,15 +208,15 @@ export class SellNftComponent implements OnInit {
       this.saleBE.Blockchain=this.NFTList.blockchain
       this.calculatePrice();
 
-      if (this.NFTList.sellingstatus == 'Minted') {
-        this.selltxn = this.NFTList.nfttxnhash;
-        this.addDBBackend();
-        this.addDBGateway();
-        this.snackbarService.openSnackBar(
-          'NFT has successfully been put on sale'
-        );
-        this.showInProfile()
-      } else {
+      // if (this.NFTList.sellingstatus == 'Minted') {
+      //   this.selltxn = this.NFTList.nfttxnhash;
+      //   this.addDBBackend();
+      //   this.addDBGateway();
+      //   this.snackbarService.openSnackBar(
+      //     'NFT has successfully been put on sale'
+      //   );
+      //   this.showInProfile()
+      // } else {
         console.log('mint ', this.NFTList.nftissuerpk);
         const connection = new Connection(
           clusterApiUrl('testnet'),
@@ -270,7 +270,7 @@ export class SellNftComponent implements OnInit {
                 });
             }
           });
-      }
+      //}
     }
     if (this.NFTList.blockchain == 'polygon') {
       this.saleBE.MarketContract = environment.contractAddressMKPolygon;

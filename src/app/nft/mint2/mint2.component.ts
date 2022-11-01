@@ -50,6 +50,7 @@ import { CollectionService } from 'src/app/services/api-services/collection.serv
 import { CodeviewComponent } from '../codeview/codeview.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogText, PendingDialogText, SnackBarText } from 'src/app/models/confirmDialog';
+import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
 
 @Component({
   selector: 'app-mint2',
@@ -163,7 +164,8 @@ export class Mint2Component implements OnInit {
     private dialogService: DialogService,
     private snackbar: SnackbarServiceService,
     private serviceCol: CollectionService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public transfer:TransferNftService
   ) {
     this.filteredtags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -485,7 +487,14 @@ export class Mint2Component implements OnInit {
           this.minter.NFTTxnHash = this.mint.NFTTxnHash;
           this.minter.NFTIdentifier = data.NFTIdentifier;
           this.distributor = data.CreatorUserID;
-          this.updateMinter();
+          this.transfer.createATA( 
+            environment.fromWalletSecret,
+            'none',
+            this.mint.CreatorUserId,
+            data.NFTIssuerPK,
+            data.NFTIdentifier).then((res:any)=>{
+              this.updateMinter()
+            })
         });
     }
   }

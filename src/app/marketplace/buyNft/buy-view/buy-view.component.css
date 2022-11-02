@@ -13,6 +13,9 @@
   justify-content: center;
   border-radius: 40px;
   background-color: #FFFFFF;
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
 }
 
 .svgArea {
@@ -743,4 +746,14 @@ td {
 .user-ratings > label:hover ~ input:checked ~ label, /* lighten current selection */
 .user-ratings > input:checked ~ label:hover ~ label {
   color: rgba(16, 206, 172, 1);
+}
+
+.open-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+#iframe {
+  border: none;
+  margin : 10px;
 }

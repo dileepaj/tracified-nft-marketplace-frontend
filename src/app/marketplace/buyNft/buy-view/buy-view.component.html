@@ -35,8 +35,11 @@
         ngStyle.lt-lg="width : 400px; height: 400px"
         ngStyle.lt-sm="width : 100%; "
       >
-      <object [data]="imageSrc" *ngIf="imageSrc" class="nft-img">
-      </object>
+        <object [data]="imageSrc" *ngIf="imageSrc" class="nft-img">
+        </object>
+        <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
+          <img src="../../../assets/icons/code-icon.png" style="flex-basis: 40%" />
+        </button>
       </div>
       <p class="p-text sum-text" ngStyle.lt-lg="width : 100%">
        {{this.NFTList.description}}
@@ -58,9 +61,7 @@
           <label style="margin-right: 30px">{{this.watchlist}} watched</label>
           <mat-icon class="material-symbols-outlined"> favorite </mat-icon>
           <label>{{this.favorites}} favorites</label>
-          <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
-            <img src="../../../assets/icons/code-icon.png" style="flex-basis: 40%" />
-          </button>
+
         </div>
       </div>
       <div
@@ -146,7 +147,7 @@
                       <td width="25%">{{item.Status}}</td>
                       <td width="25%">
                         <mat-icon class="material-symbols-outlined cursor-p">
-                          <a href="{{item.NFTTxnHash}}" >open_in_new</a>
+                          <a href="{{item.NFTTxnHash}}" class="open-link" >open_in_new</a>
                         </mat-icon>
                       </td>
                     </tr>

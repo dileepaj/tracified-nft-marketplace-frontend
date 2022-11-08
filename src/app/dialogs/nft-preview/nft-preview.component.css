@@ -12,7 +12,6 @@
 
 .dialog-header {
   position: relative;
-  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -41,12 +40,19 @@
   color: black;
 }
 
-.img-div {
-  width: 800px;
-  height: 450px;
-  padding: 0px 20px 0px 20px;
-  background-origin: content-box;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+.dialog-cont {
+  height: 80vh;
+}
+
+.img-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img {
+  width: 98%;
+  height: 65vh;
+  max-height: 530px;
+  border: 1px solid #ccc;
 }

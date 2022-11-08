@@ -9,6 +9,7 @@ import { PreviewImageComponent } from 'src/app/dialogs/previewImage/preview-imag
 import { ConfirmDialog, OkDialog, PendingDialog, PreviewImage } from 'src/app/models/confirmDialog';
 import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
 import { DisclaimerComponent } from 'src/app/dialogs/disclaimer/disclaimer.component';
+import { NftPreviewComponent } from 'src/app/dialogs/nft-preview/nft-preview.component';
 @Injectable({
   providedIn: 'root',
 })
@@ -66,6 +67,17 @@ export class DialogService {
   openDisclaimer() :Observable<boolean> {
     return this.dialog.open(DisclaimerComponent,{
       width:'800px',
+      disableClose:true,
+    }).afterClosed();
+  }
+
+  openNftPreview(data:PreviewImage):Observable<boolean>{
+    return this.dialog.open(NftPreviewComponent,{
+      data,
+      width:'90%',
+      maxWidth : '1000px',
+      height : '80vh',
+      maxHeight : '650px',
       disableClose:true,
     }).afterClosed();
   }

@@ -163,13 +163,13 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;
       this.saleBE.Blockchain=this.NFTList.blockchain
-      this.dialogService
-        .confirmDialog({
+      this.dialogService.openDisclaimer()
+        /* .confirmDialog({
           title:ConfirmDialogText.BUY_VIEW_BUY_NFT_TITLE,
           message:ConfirmDialogText.BUY_VIEW_BUY_NFT_MESSAGE,
           confirmText:ConfirmDialogText.CONFIRM_BTN,
           cancelText:ConfirmDialogText.CANCEL_BTN
-        })
+        }) */
         .subscribe((res) => {
           if (res) {
             const loadingAnimation = this.dialogService.pendingDialog({
@@ -195,12 +195,12 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.Blockchain=this.NFTList.blockchain
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
-      this.dialogService.confirmDialog({
+      this.dialogService.openDisclaimer()./* confirmDialog({
         title:ConfirmDialogText.BUY_VIEW_BUY_NFT_TITLE,
         message:ConfirmDialogText.BUY_VIEW_BUY_NFT_MESSAGE,
         confirmText:ConfirmDialogText.CONFIRM_BTN,
         cancelText:ConfirmDialogText.CANCEL_BTN
-      }).subscribe(res=>{
+      }). */subscribe(res=>{
         if(res){
           const loadingAnimation = this.dialogService.pendingDialog({
             message:PendingDialogText.BUY_VIEW_CLICKED_BUY
@@ -215,7 +215,7 @@ export class BuyViewComponent implements OnInit {
 
           )
           .then(async (res: any) => {
-            
+
         this.ata
         .createATA(
           environment.fromWalletSecret,
@@ -245,10 +245,10 @@ export class BuyViewComponent implements OnInit {
           this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
           this.showInProfile()
         });
-           
+
           });
       }})
-      
+
 
     }
     if (this.NFTList.blockchain == 'polygon') {
@@ -261,12 +261,12 @@ export class BuyViewComponent implements OnInit {
       await walletMetamask.initWallelt();
       this.userPK = await walletMetamask.getWalletaddress();
       this.saleBE.CurrentOwnerPK = this.userPK;
-      this.dialogService.confirmDialog({
+      this.dialogService.openDisclaimer()/* confirmDialog({
         title:ConfirmDialogText.BUY_VIEW_BUY_NFT_TITLE,
         message:ConfirmDialogText.BUY_VIEW_BUY_NFT_MESSAGE,
         confirmText:ConfirmDialogText.CONFIRM_BTN,
         cancelText:ConfirmDialogText.CANCEL_BTN
-      }).subscribe(res=>{
+      } )*/.subscribe(res=>{
         if (res){
           const loadingAnimation = this.dialogService.pendingDialog({
             message:PendingDialogText.BUY_VIEW_CLICKED_BUY
@@ -290,7 +290,7 @@ export class BuyViewComponent implements OnInit {
           });
         }
       })
-      
+
 
     }
     if (this.NFTList.blockchain == 'ethereum') {
@@ -305,12 +305,12 @@ export class BuyViewComponent implements OnInit {
       this.userPK = await walletMetamask.getWalletaddress();
       console.log('eth wallet address: ', this.userPK);
       this.saleBE.CurrentOwnerPK = this.userPK;
-      this.dialogService.confirmDialog({
+      this.dialogService.openDisclaimer()/* confirmDialog({
         title:ConfirmDialogText.BUY_VIEW_BUY_NFT_TITLE,
         message:ConfirmDialogText.BUY_VIEW_BUY_NFT_MESSAGE,
         confirmText:ConfirmDialogText.CONFIRM_BTN,
         cancelText:ConfirmDialogText.CANCEL_BTN
-      }).subscribe(res=>{
+      }) */.subscribe(res=>{
         if (res){
           const loadingAnimation = this.dialogService.pendingDialog({
             message:PendingDialogText.BUY_VIEW_CLICKED_BUY
@@ -469,7 +469,7 @@ export class BuyViewComponent implements OnInit {
              }else{
               this.watchlist=0
              }
-             
+
             });
 
             this.apiService.getAllReviewsByNFTId(this.NFTList.nftidentifier).subscribe((res:any)=>{
@@ -485,7 +485,7 @@ export class BuyViewComponent implements OnInit {
                 console.log("Review List: ",this.ReviewList)
               }
             })
-    
+
             this.getUSDConversion()
             this.apiService.findFavouritesByBlockchainAndNFTIdentifier(this.NFTList.blockchain,this.NFTList.nftidentifier).subscribe((res:any)=>{
              console.log("favs :",res)
@@ -494,7 +494,7 @@ export class BuyViewComponent implements OnInit {
               }else{
                 this.favorites=0
               }
-             
+
             });
             this.apiService.getAllStoryByNFTIdAndBlockchain(this.NFTList.nftidentifier,this.NFTList.blockchain).subscribe(data=>{
                 if (!!data){
@@ -675,20 +675,20 @@ export class BuyViewComponent implements OnInit {
      })
   }
   if( this.nftbe.Blockchain=="polygon"){
-    
+
   }
   if( this.nftbe.Blockchain=="stellar"){
-    
+
   }
   if( this.nftbe.Blockchain=="solana"){
-    
+
   }
 
 }
 
   public populateIframe(iframe: any,data:string) {
     console.log("CALL STARTED")
-    
+
 
     iframe.contentWindow.document.open();
     iframe.contentWindow.document.write(data);

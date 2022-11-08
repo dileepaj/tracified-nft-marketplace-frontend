@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Favourites, WatchList } from 'src/app/models/marketPlaceModel';
 import { UserWallet } from 'src/app/models/userwallet';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
@@ -25,6 +26,7 @@ export class NftCardComponent implements OnInit {
     private router : Router,
     private snackbarService : SnackbarServiceService,
     private api: ApiServicesService,
+    private dialogService : DialogService
   ) { }
 
   ngOnInit(): void {
@@ -126,6 +128,10 @@ export class NftCardComponent implements OnInit {
     else {
       document.getElementById('overlay'+this.itemId)?.classList.remove('overlay-hide');
     }
+  }
+
+  public openPreview() {
+    this.dialogService.openNftPreview({image : this.item.ImageBase64});
   }
 
 }

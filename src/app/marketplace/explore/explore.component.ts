@@ -197,12 +197,14 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         var str1 = new String( "data:image/svg+xml;base64,");
         var src = str1.concat(str2.toString());
         this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-        let card:NFTCard= new NFTCard('','','','','');
+        let card:NFTCard= new NFTCard('','','','','','','');
         card.ImageBase64=this.imageSrc
         card.NFTIdentifier=this.nftItems[x].nftidentifier
         card.NFTName=this.nftItems[x].nftname
         card.Blockchain=this.nftItems[x].blockchain
         card.CreatorUserId=this.nftItems[x].creatoruserid
+        card.SellingStatus=this.nftItems[x].sellingstatus
+        card.CurrentOwnerPK=this.nftItems[x].currentownerpk
         this.List.push(card);
       })
     }
@@ -225,12 +227,14 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-     let card:NFTCard= new NFTCard('','','','','');
+     let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=arr[x].nftidentifier
     card.NFTName=arr[x].nftname
     card.Blockchain=arr[x].blockchain
     card.CreatorUserId=arr[x].creatoruserid
+    card.SellingStatus=arr[x].sellingstatus
+    card.CurrentOwnerPK=arr[x].currentownerpk
       this.List.push(card)
       console.log("list deets : ",this.List)
       })

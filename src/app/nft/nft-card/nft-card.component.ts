@@ -20,10 +20,14 @@ export class NftCardComponent implements OnInit {
   @Input() item: any;
   @Input() blockchain : string;
   @Input() creatoruserid : string;
+  @Input() sellingstatus : string;
+  @Input() currentownerpk : string;
   private isNftItem : boolean = false;
   favouritesModel: Favourites = new Favourites('', '','');
   watchlistModel: WatchList = new WatchList('', '','');
   user: string;
+  command: any;
+  tip: any;
 
   constructor(
     private router : Router,
@@ -35,6 +39,7 @@ export class NftCardComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.itemId)
     console.log("nft card data: ",this.item,this.blockchain)
+   
   }
 
   public async retrive(blockchain: string) {
@@ -131,11 +136,46 @@ export class NftCardComponent implements OnInit {
    * @param id - NFT Identifier
    */
   public routeToBuy(id : string) : void {
-    console.log("this is bc in nftcomponent ",this.blockchain)
-    let data :any[]=[id,this.blockchain];
-    this.router.navigate(['./buyNft'],{
-    queryParams:{data:JSON.stringify(data)}
-    })
+
+    if(this.sellingstatus=="Minted"){
+      this.tip = "Put on Sale"
+      this.retrive(this.blockchain)
+      if(this.user==this.currentownerpk){
+        this.command=false
+        let data : any[] = ["Minted",id,this.blockchain]
+        this.router.navigate(['./sell'],{
+          queryParams:{data:JSON.stringify(data)}
+        });
+      }else{
+        this.snackbarService.openSnackBar("NFT is yet to be put on sale")
+        this.command=true
+      }
+    }else if(this.sellingstatus=="ON SALE"){
+      this.tip = "Buy NFT"
+      this.command=false
+      console.log("this is bc in nftcomponent ",this.blockchain)
+      let data :any[]=[id,this.blockchain];
+      this.router.navigate(['./buyNft'],{
+      queryParams:{data:JSON.stringify(data)}
+      })
+    }else if(this.sellingstatus=="NOTFORSALE"){
+      this.tip = "Put on Sale"
+      this.retrive(this.blockchain)
+      if(this.user==this.currentownerpk){
+        this.command=false
+        let data : any[] = ["NOTFORSALE",id,this.blockchain]
+        this.router.navigate(['./sell'],{
+          queryParams:{data:JSON.stringify(data)}
+        });
+      }else{
+      this.snackbarService.openSnackBar("NFT is yet to be put on sale")
+      this.command=true
+      }
+    }else{
+      this.snackbarService.openSnackBar("Invalid Command!")
+      this.command=true
+    }
+   
   }
 
   @HostListener('document:click')

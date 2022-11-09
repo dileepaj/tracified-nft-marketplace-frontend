@@ -46,7 +46,8 @@ export class Favourites {
         public ImageBase64:string,
         public Blockchain:string,
         public CreatorUserId:string,
-       
+       public SellingStatus:string,
+       public CurrentOwnerPK:string,
      
     ) {}
   }

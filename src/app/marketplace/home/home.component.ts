@@ -159,6 +159,7 @@ export class HomeComponent implements OnInit {
             card.Blockchain = this.nfts.Response[x].blockchain;
             card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
             card.NFTName = this.nfts.Response[x].nftname;
+            card.Blockchain=this.nfts.Response[x].blockchain
             this.List.forEach((element) => {
               if (card == element) {
                 this.newitemflag == false;

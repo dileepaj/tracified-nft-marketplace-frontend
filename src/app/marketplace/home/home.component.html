@@ -141,7 +141,7 @@
           </div>
         </div>
         <div class="hot-picks-content" id="category-content">
-          <div class="item" *ngFor="let item of List2; index as i">
+          <div class="item" *ngFor="let item of List; index as i">
             <app-nft-card  [item]="item" [itemId]="'trndng'+i.toString()" [blockchain]="item.Blockchain"></app-nft-card>
           </div>
         </div>

@@ -99,16 +99,16 @@
           [class.filter-icon-active]="selectedFilter === 'bestcreators'"
           src="../../../assets/images/best_creators.png"
         />
-        Best Creators
+        Best Creations
       </div>
     </div>
     <div class="explore-content cont-wrapper" fxLayout="row wrap">
       <div class="cont-inner" *ngIf="!loading && List.length > 0">
         <div *ngFor="let item of List; index as i">
-          <app-nft-card *ngIf="i !== List.length - 1" [item]="item" [itemId]="i.toString()" [blockchain]="item.Blockchain"></app-nft-card>
+          <app-nft-card *ngIf="i !== List.length - 1" [item]="item" [itemId]="i.toString()" [blockchain]="item.Blockchain"  [creatoruserid]="item.CreatorUserId"></app-nft-card>
 
           <!--last item-->
-          <app-nft-card *ngIf="i === List.length - 1"  [item]="item" [itemId]="i.toString()" [blockchain]="item.Blockchain" #theLastItem></app-nft-card>
+          <app-nft-card *ngIf="i === List.length - 1"  [item]="item" [itemId]="i.toString()" [blockchain]="item.Blockchain"  [creatoruserid]="item.CreatorUserId"  #theLastItem></app-nft-card>
         </div>
 
       </div>

@@ -28,84 +28,93 @@
       fxHide.xs
     >
       <form [formGroup]="controlGroup">
-        <input type="text" placeholder="Search for NFTS on sale by Tags" formControlName="Tag" />
-        <mat-icon class="material-symbols-outlined" (click)="search()">search</mat-icon>
+        <input
+          type="text"
+          placeholder="Search for NFTS on sale by Tags"
+          formControlName="Tag"
+        />
+        <mat-icon class="material-symbols-outlined" (click)="search()"
+          >search</mat-icon
+        >
       </form>
     </div>
 
     <div class="header-dropdown">
       <a
-      class="navbar-text"
-      mat-button
-      fxHide.md
-      fxHide.sm
-      fxHide.xs
-      [class.active-link]="checkPath() === '/explore'"
-
+        class="navbar-text"
+        mat-button
+        fxHide.md
+        fxHide.sm
+        fxHide.xs
+        [class.active-link]="checkPath() === '/explore'"
       >
         Explore
       </a>
       <div class="dropdown-content">
-        <button mat-menu-item (click)="goToExplore('ethereum')" fxLayout="row" fxLayoutAlign="center center">
+        <button
+          mat-menu-item
+          (click)="goToExplore('ethereum')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
-            <img
-            class="bc-icon"
-            src="../../../assets/images/ethereum.png"
-            />
+            <img class="bc-icon" src="../../../assets/images/ethereum.png" />
           </div>
-          <div fxFlex="80%">
-            Ethereum
-          </div>
+          <div fxFlex="80%">Ethereum</div>
         </button>
-        <button mat-menu-item (click)="goToExplore('polygon')" fxLayout="row" fxLayoutAlign="center center">
+        <button
+          mat-menu-item
+          (click)="goToExplore('polygon')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/polygon.png" />
           </div>
-          <div fxFlex="80%">
-            Polygon
-          </div>
+          <div fxFlex="80%">Polygon</div>
         </button>
-        <button mat-menu-item (click)="goToExplore('stellar')" fxLayout="row" fxLayoutAlign="center center">
+        <button
+          mat-menu-item
+          (click)="goToExplore('stellar')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
-            <img class="bc-icon" src="../../../assets/images/stellar_black.png" />
+            <img
+              class="bc-icon"
+              src="../../../assets/images/stellar_black.png"
+            />
           </div>
-          <div fxFlex="80%">
-            Stellar
-          </div>
+          <div fxFlex="80%">Stellar</div>
         </button>
-        <button mat-menu-item (click)="goToExplore('solana')" fxLayout="row" fxLayoutAlign="center center">
+        <button
+          mat-menu-item
+          (click)="goToExplore('solana')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/solana.png" />
           </div>
-          <div fxFlex="80%">
-            Solana
-          </div>
-
+          <div fxFlex="80%">Solana</div>
         </button>
       </div>
     </div>
     <div class="header-dropdown">
       <a
-      class="navbar-text"
-      mat-button
-      fxHide.md
-      fxHide.sm
-      fxHide.xs
-      [class.active-link]="checkPath() === '/resources'"
-
+        class="navbar-text"
+        mat-button
+        fxHide.md
+        fxHide.sm
+        fxHide.xs
+        [class.active-link]="checkPath() === '/resources'"
       >
         Resources
       </a>
       <div class="dropdown-content">
-        <button mat-menu-item [routerLink]="'/help-center'">
-          Help Center
-        </button>
-        <button mat-menu-item [routerLink]="'/docs'">
-          Documentation
-        </button>
-        <button mat-menu-item [routerLink]="'/faq'">
-         FAQ's
-        </button>
+        <button mat-menu-item [routerLink]="'/help-center'">Help Center</button>
+        <button mat-menu-item [routerLink]="'/docs'">Documentation</button>
+        <button mat-menu-item [routerLink]="'/faq'">FAQ's</button>
       </div>
     </div>
     <!-- <a
@@ -148,7 +157,7 @@
       fxHide.xs
       style="color: #00c853"
       class="material-symbols-outlined example-icon"
-      >notifications</mat-icon 
+      >notifications</mat-icon
     >-->
     <mat-icon
       fxHide.md
@@ -173,50 +182,58 @@
         account_circle
       </mat-icon>
 
-        <mat-icon
-          class="material-symbols-outlined example-icon"
-          [matMenuTriggerFor]="accmenu"
-          matRipple
+      <mat-icon class="material-symbols-outlined example-icon" matRipple>
+        arrow_drop_down
+      </mat-icon>
+      <div class="dropdown-account-content">
+        <button
+          mat-menu-item
+          (click)="goToOverview('ethereum')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
         >
-          arrow_drop_down
-        </mat-icon>
-        <div class="dropdown-account-content">
-          <button mat-menu-item (click)="goToOverview('ethereum')" fxLayout="row" fxLayoutAlign="center center">
-            <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
-              <img
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img class="bc-icon" src="../../../assets/images/ethereum.png" />
+          </div>
+          <div fxFlex="80%">Ethereum</div>
+        </button>
+        <button
+          mat-menu-item
+          (click)="goToOverview('polygon')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img class="bc-icon" src="../../../assets/images/polygon.png" />
+          </div>
+          <div fxFlex="80%">Polygon</div>
+        </button>
+        <button
+          mat-menu-item
+          (click)="goToOverview('stellar')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img
               class="bc-icon"
-              src="../../../assets/images/ethereum.png"
-              />
-            </div>
-            <div fxFlex="80%">
-              Ethereum
-            </div>
-          </button>
-          <button mat-menu-item (click)="goToOverview('polygon')" fxLayout="row" fxLayoutAlign="center center">
-            <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
-              <img class="bc-icon" src="../../../assets/images/polygon.png" />
-            </div>
-            <div fxFlex="80%">
-              Polygon
-            </div>
-          </button>
-          <button mat-menu-item (click)="goToOverview('stellar')" fxLayout="row" fxLayoutAlign="center center">
-            <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
-              <img class="bc-icon" src="../../../assets/images/stellar_black.png" />
-            </div>
-            <div fxFlex="80%">
-              Stellar
-            </div>
-          </button>
-          <button mat-menu-item (click)="goToOverview('solana')" fxLayout="row" fxLayoutAlign="center center">
-            <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
-              <img class="bc-icon" src="../../../assets/images/solana.png" />
-            </div>
-            <div fxFlex="80%">
-              Solana
-            </div>
-          </button>
-        </div>
+              src="../../../assets/images/stellar_black.png"
+            />
+          </div>
+          <div fxFlex="80%">Stellar</div>
+        </button>
+        <button
+          mat-menu-item
+          (click)="goToOverview('solana')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img class="bc-icon" src="../../../assets/images/solana.png" />
+          </div>
+          <div fxFlex="80%">Solana</div>
+        </button>
+      </div>
     </div>
 
     <mat-menu #accmenu="matMenu" class="explore-menu">
@@ -240,13 +257,13 @@
       </button>
     </mat-menu>
     <mat-icon
-    class="material-symbols-outlined example-icon"
-    fxHide.xl
-    fxHide.lg
-    fxShow.md
-    fxShow.sm
-    fxShow.xs
-    (click)="openSideNav()"
+      class="material-symbols-outlined example-icon"
+      fxHide.xl
+      fxHide.lg
+      fxShow.md
+      fxShow.sm
+      fxShow.xs
+      (click)="openSideNav()"
     >
       menu
     </mat-icon>
@@ -337,7 +354,11 @@
       </div>
     </div>
     <div class="side-nav-link">
-      <div fxLayout="row" fxLayoutAlign="start center" (click)="toggleResources()">
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        (click)="toggleResources()"
+      >
         <a class="sidenav-text" mat-button [routerLinkActive]="['active-link']">
           Resources
         </a>

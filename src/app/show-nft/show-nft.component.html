@@ -1,43 +1,27 @@
 <div class="explore-parent">
   <div class="explore-container">
-    <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
-      >arrow_back</mat-icon
-    >
-    <h1 style="font-size: 40px">Explore On Sale Collections</h1>
-    <div class="explore-content" fxLayout="row wrap">
-      <div
-        class="nft-item"
-        *ngFor="let item of List"
+    <div class="explore-header cont-wrapper">
+      <mat-icon class="back" matTooltip="Back" (click)="back()"
+        >arrow_back</mat-icon
       >
-       <!-- <img [src]="imageSrc" *ngIf="imageSrc" style="height: 100%; width: 100%;"/> -->
-        <img class="nft-img" [src]="item.ImageBase64" />
-        <div class="nft-title" >{{ item.NFTName }}</div>
-        <div class="nft-actions">
-          <img
-            class="nft-action-btn"
-            src="../../../assets/images/purchase.png"
-            matTooltip="Buy NFT"
-            (click)="routeToBuy(item.NFTIdentifier,item.Blockchain)"
-          />
-          <img
-            class="nft-action-btn"
-            src="../../../assets/images/view.png"
-            matTooltip="View NFT"
-            (click)="viewNFT()"
-          />
-          <img
-            class="nft-action-btn"
-            src="../../../assets/images/wishlist.png"
-            matTooltip="Add to watchlist"
-            (click)="addToWatchList(item.NFTIdentifier,item.Blockchain)"
-          />
-          <img
-            class="nft-action-btn"
-            src="../../../assets/images/favorite.png"
-            matTooltip="Add to favorites"
-            (click)="addToFavourites(item.NFTIdentifier,item.Blockchain)"
-          />
+      <label class="explore-heading">Explore on Sale Collections</label>
+    </div>
+    <div class="explore-content cont-wrapper" fxLayout="row wrap">
+      <div class="cont-inner" *ngIf="!loading">
+        <div *ngFor="let item of List; index as i">
+          <app-nft-card
+            [item]="item"
+            [itemId]="i.toString()"
+            [blockchain]="item.Blockchain"
+          ></app-nft-card>
         </div>
+      </div>
+      <div class="explore-loading" *ngIf="loading">
+        <app-loader [displayText]="'Loading NFTs...'"></app-loader>
+      </div>
+      <div class="explore-no-content" *ngIf="!loading && List.length === 0">
+        <img src="../../../assets/images/no-content.png" />
+        <label>No NFTs Found</label>
       </div>
     </div>
   </div>

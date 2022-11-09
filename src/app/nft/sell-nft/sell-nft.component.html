@@ -18,10 +18,7 @@
       </div>
     </div>
   </div>
-  <div
-    class="nft-div cont-wrapper"
-    fxLayout="row wrap"
-  >
+  <div class="nft-div cont-wrapper" fxLayout="row wrap">
     <div
       class="nft-sum"
       ngClass.lt-lg="nft-sum-mobile"
@@ -34,8 +31,7 @@
         ngStyle.lt-lg="width : 400px; height: 400px"
         ngStyle.lt-sm="width : 100%; "
       >
-      <object [data]="imageSrc" *ngIf="imageSrc" class="nft-img">
-      </object>
+        <object [data]="imageSrc" *ngIf="imageSrc" class="nft-img"></object>
         <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
           <img
             src="../../../assets/icons/code-icon.png"
@@ -82,7 +78,7 @@
           Sell Now
         </button>
       </div>
-      <mat-tab-group [selectedIndex]="selectedTab">
+      <mat-tab-group class="sell-view-tabs" [selectedIndex]="selectedTab">
         <mat-tab>
           <div class="sell-cont">
             <div class="owners">
@@ -102,7 +98,6 @@
                 <label class="owner-s">Issuer</label>
                 <label class="owner-l">{{ this.NFTList.nftissuerpk }}</label>
               </div>
-
             </div>
             <button
               class="btn-primary btn-story"

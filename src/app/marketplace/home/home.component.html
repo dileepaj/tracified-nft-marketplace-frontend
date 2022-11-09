@@ -76,7 +76,7 @@
             Best NFT Picks Right Now
           </div>
           <div class="hot-picks-header-actions">
-            <button class="hot-picks-header-btn">View All</button>
+            <button class="hot-picks-header-btn" (click)="viewHotPicks()">View All</button>
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollLeft('hot-picks-content')"
@@ -118,7 +118,7 @@
             Check what's Trending
           </div>
           <div class="hot-picks-header-actions">
-            <button class="hot-picks-header-btn">View All</button>
+            <button class="hot-picks-header-btn" (click)="viewTrending()">View All</button>
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollLeft('category-content')"

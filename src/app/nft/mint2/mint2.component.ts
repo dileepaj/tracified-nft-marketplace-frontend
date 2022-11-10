@@ -174,7 +174,7 @@ export class Mint2Component implements OnInit {
       )
     );
 
-    console.log("inside constructor; ",this.wallet,this.email)
+    console.log('inside constructor; ', this.wallet, this.email);
   }
 
   sendToMint3(): void {
@@ -212,11 +212,7 @@ export class Mint2Component implements OnInit {
   }
 
   public openDialog() {
-    const dialogRef = this.dialog.open(CodeviewComponent, {
-      data: {
-        imgSrc: this.Encoded,
-      },
-    });
+    this.dialogService.openCodeView(this.Encoded);
   }
 
   pushTag(): void {
@@ -325,7 +321,6 @@ export class Mint2Component implements OnInit {
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
       this.apiService.addSVG(this.svg).subscribe();
-
             this.dialogService
             .confirmDialog({
                 title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
@@ -382,8 +377,7 @@ export class Mint2Component implements OnInit {
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'ethereum';
-      this.apiService.addSVG(this.svg).subscribe();
-         
+      this.apiService.addSVG(this.svg).subscribe();       
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
@@ -531,7 +525,7 @@ export class Mint2Component implements OnInit {
       //   queryParams: { data: JSON.stringify(this.mint.Blockchain) },
       // });
       this.proceed.emit({
-        blockchain:this.mint.Blockchain
+        blockchain: this.mint.Blockchain,
       });
     });
   }
@@ -541,7 +535,7 @@ export class Mint2Component implements OnInit {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
         this.saveTXNs();
         this.proceed.emit({
-          blockchain:this.mint.Blockchain
+          blockchain: this.mint.Blockchain,
         });
       });
     } else {
@@ -553,9 +547,9 @@ export class Mint2Component implements OnInit {
     if (this.stxn.NFTTxnHash != null) {
       this.service.updateTXNStellar(this.stxn).subscribe((res) => {
         this.saveTXNs();
-       this.proceed.emit({
-        blockchain:this.mint.Blockchain
-       });
+        this.proceed.emit({
+          blockchain: this.mint.Blockchain,
+        });
       });
     } else {
       this.TXNStellar();
@@ -667,45 +661,40 @@ export class Mint2Component implements OnInit {
     this.isLoadingPresent = false;
     this.loading.dismiss();
   }
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
   ngOnChanges(): void {
-      console.log("inside mint 2")
-      console.log("wallet and email is: ",this.wallet, this.email,this.key)
-      if(this.wallet=="metamask"){
-        console.log("---------metamaask------")
-      this.polygon=false
-      this.stellar=true
-      this.ethereum=false
-      this.solana=true
-
-      }
-      if(this.wallet=="phantom"){
-        console.log("---------phantom------")
-        this.polygon=true
-      this.stellar=true
-      this.ethereum=true
-      this.solana=false
-      }
-      if(this.wallet=="freighter"){
-        console.log("---------frighter------")
-        this.polygon=true
-      this.stellar=false
-      this.ethereum=true
-      this.solana=true
-      }
-       if (this.email != null) {
-      this.serviceCol
-        .getCollectionName(this.email)
-        .subscribe((data: any) => {
-          this.CollectionList = data;
-        });
+    console.log('inside mint 2');
+    console.log('wallet and email is: ', this.wallet, this.email, this.key);
+    if (this.wallet == 'metamask') {
+      console.log('---------metamaask------');
+      this.polygon = false;
+      this.stellar = true;
+      this.ethereum = false;
+      this.solana = true;
+    }
+    if (this.wallet == 'phantom') {
+      console.log('---------phantom------');
+      this.polygon = true;
+      this.stellar = true;
+      this.ethereum = true;
+      this.solana = false;
+    }
+    if (this.wallet == 'freighter') {
+      console.log('---------frighter------');
+      this.polygon = true;
+      this.stellar = false;
+      this.ethereum = true;
+      this.solana = true;
+    }
+    if (this.email != null) {
+      this.serviceCol.getCollectionName(this.email).subscribe((data: any) => {
+        this.CollectionList = data;
+      });
     } else {
       console.log('User PK not connected or not endorsed');
     }
 
-      //  })
+    //  })
     // });
 
     this.controlGroup = new FormGroup({
@@ -822,7 +811,7 @@ export class Mint2Component implements OnInit {
   public uploadImage(event: Event) {
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
-    console.log("-------------:",this)
+    console.log('-------------:', this);
     reader.onload = this._handleReaderLoaded.bind(this);
     reader.readAsBinaryString(this.file);
   }
@@ -834,7 +823,7 @@ export class Mint2Component implements OnInit {
     this.base64 = this.base64.replace(unwantedText, '');
     let encoded: string = atob(this.base64);
     this.Encoded = encoded;
-    console.log("HTML svg: ",this.Encoded)
+    console.log('HTML svg: ', this.Encoded);
 
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
     this.updateHTML();
@@ -848,47 +837,44 @@ export class Mint2Component implements OnInit {
       this.img = reader.result;
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.img);
 
-    //   svgToPng(this.Encoded, (imgData) => {
-    //     const pngImage = document.createElement('img');
-    //     document.body.appendChild(pngImage);
-    //     pngImage.src = imgData;
-    //   });
+      //   svgToPng(this.Encoded, (imgData) => {
+      //     const pngImage = document.createElement('img');
+      //     document.body.appendChild(pngImage);
+      //     pngImage.src = imgData;
+      //   });
 
-    //   function svgToPng(svg, callback) {
-    //     const url = getSvgUrl(svg);
-    //     svgUrlToPng(url, (imgData) => {
-    //       callback(imgData);
-    //       URL.revokeObjectURL(url);
-    //     });
-    //   }
+      //   function svgToPng(svg, callback) {
+      //     const url = getSvgUrl(svg);
+      //     svgUrlToPng(url, (imgData) => {
+      //       callback(imgData);
+      //       URL.revokeObjectURL(url);
+      //     });
+      //   }
 
-    //   function getSvgUrl(svg) {
-    //     return URL.createObjectURL(new Blob([svg], {
-    //       type: 'image/svg+xml'
-    //     }));
-    //   }
+      //   function getSvgUrl(svg) {
+      //     return URL.createObjectURL(new Blob([svg], {
+      //       type: 'image/svg+xml'
+      //     }));
+      //   }
 
-
-    //   function svgUrlToPng(svgUrl, callback) {
-    //     console.log("svg url: ",svgUrl)
-    //     const svgImage = document.createElement('img');
-    //     document.body.appendChild(svgImage);
-    //     svgImage.onload = () => {
-    //       const canvas = document.createElement('canvas');
-    //       canvas.width = svgImage.clientWidth;
-    //       canvas.height = svgImage.clientHeight;
-    //       const canvasCtx = canvas.getContext('2d');
-    //       canvasCtx!.drawImage(svgImage, 0, 0);
-    //       const imgData = canvas.toDataURL('image/png');
-    //       callback(imgData);
-    //       console.log("image: ",imgData)
-    //      // document.body.removeChild(imgPreview);
-    //     };
-    //     svgImage.src = svgUrl;
-    //     console.log("image svg: ", svgImage.src) 
-    //   }
-      
-    
+      //   function svgUrlToPng(svgUrl, callback) {
+      //     console.log("svg url: ",svgUrl)
+      //     const svgImage = document.createElement('img');
+      //     document.body.appendChild(svgImage);
+      //     svgImage.onload = () => {
+      //       const canvas = document.createElement('canvas');
+      //       canvas.width = svgImage.clientWidth;
+      //       canvas.height = svgImage.clientHeight;
+      //       const canvasCtx = canvas.getContext('2d');
+      //       canvasCtx!.drawImage(svgImage, 0, 0);
+      //       const imgData = canvas.toDataURL('image/png');
+      //       callback(imgData);
+      //       console.log("image: ",imgData)
+      //      // document.body.removeChild(imgPreview);
+      //     };
+      //     svgImage.src = svgUrl;
+      //     console.log("image svg: ", svgImage.src)
+      //   }
     };
   }
 
@@ -898,10 +884,13 @@ export class Mint2Component implements OnInit {
     el.click();
   }
 
-  public openCreateCollection () {
-    this.dialogService.createCollection(this.email,this.key).afterClosed().subscribe((data : any) => {
-      this.CollectionList.push({CollectionName : data.collectionName})
-    });
+  public openCreateCollection() {
+    this.dialogService
+      .createCollection(this.email, this.key)
+      .afterClosed()
+      .subscribe((data: any) => {
+        this.CollectionList.push({ CollectionName: data.collectionName });
+      });
   }
 
   @HostListener('dragover', ['$event']) public onDragOver(evt) {
@@ -920,12 +909,16 @@ export class Mint2Component implements OnInit {
     evt.preventDefault();
     evt.stopPropagation();
     this.onHover = false;
-    if (evt.target.id === 'nft-dnd' || evt.target.id === 'nft-dnd-ph' || evt.target.id === 'nft-dnd-img'  || evt.target.id === 'nft-dnd-u-img') {
+    if (
+      evt.target.id === 'nft-dnd' ||
+      evt.target.id === 'nft-dnd-ph' ||
+      evt.target.id === 'nft-dnd-img' ||
+      evt.target.id === 'nft-dnd-u-img'
+    ) {
       let files = evt.dataTransfer.files;
       let valid_files: Array<File> = files;
       this.file = valid_files[0];
       this.uploadImage(evt);
     }
-
   }
 }

@@ -8,11 +8,14 @@
   color: white;
 }
 
-.code-behind-btn{
+.code-behind-btn {
   align-items: center;
   justify-content: center;
   border-radius: 40px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
 }
 
 .svgArea {
@@ -372,8 +375,9 @@ td {
 .txn-table td {
   background-color: #2d2d2d;
 }
-::ng-deep .mat-tab-header {
-  display: none !important;
+
+::ng-deep .buy-view-tabs > .mat-tab-header {
+  display: none;
 }
 
 .btn-prev mat-icon {
@@ -743,4 +747,14 @@ td {
 .user-ratings > label:hover ~ input:checked ~ label, /* lighten current selection */
 .user-ratings > input:checked ~ label:hover ~ label {
   color: rgba(16, 206, 172, 1);
+}
+
+.open-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+#iframe {
+  border: none;
+  margin: 10px;
 }

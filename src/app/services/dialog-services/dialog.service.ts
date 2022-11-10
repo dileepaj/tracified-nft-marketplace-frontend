@@ -6,9 +6,16 @@ import { CreateCollectionComponent } from 'src/app/collections/create-collection
 import { ConfirmComponent } from 'src/app/dialogs/confirm/confirm.component';
 import { OkmessageComponent } from 'src/app/dialogs/okmessage/okmessage.component';
 import { PreviewImageComponent } from 'src/app/dialogs/previewImage/preview-image/preview-image.component';
-import { ConfirmDialog, OkDialog, PendingDialog, PreviewImage } from 'src/app/models/confirmDialog';
+import {
+  ConfirmDialog,
+  OkDialog,
+  PendingDialog,
+  PreviewImage,
+} from 'src/app/models/confirmDialog';
 import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
 import { DisclaimerComponent } from 'src/app/dialogs/disclaimer/disclaimer.component';
+import { NftPreviewComponent } from 'src/app/dialogs/nft-preview/nft-preview.component';
+import { CodeviewComponent } from 'src/app/nft/codeview/codeview.component';
 @Injectable({
   providedIn: 'root',
 })
@@ -34,7 +41,7 @@ export class DialogService {
       .afterClosed();
   }
 
-  pendingDialog(data:PendingDialog): MatDialogRef<PendingComponent> {
+  pendingDialog(data: PendingDialog): MatDialogRef<PendingComponent> {
     return this.dialog.open(PendingComponent, {
       data,
       width: '500px',
@@ -42,31 +49,62 @@ export class DialogService {
     });
   }
 
-  previewImage(data:PreviewImage):Observable<boolean>{
-    console.log("image data:",data.image)
-    return this.dialog.open(PreviewImageComponent,{
-      data,
-      width:'100%',
-      disableClose:true,
-    }).afterClosed();
+  previewImage(data: PreviewImage): Observable<boolean> {
+    console.log('image data:', data.image);
+    return this.dialog
+      .open(PreviewImageComponent, {
+        data,
+        width: '100%',
+        disableClose: true,
+      })
+      .afterClosed();
   }
 
-  createCollection(email:string,key:string): MatDialogRef<CreateCollectionComponent> {
+  createCollection(
+    email: string,
+    key: string
+  ): MatDialogRef<CreateCollectionComponent> {
     return this.dialog.open(CreateCollectionComponent, {
       width: '500px',
       disableClose: true,
       data: {
-        email:email,
-        key:key
+        email: email,
+        key: key,
       },
     });
-
   }
 
-  openDisclaimer() :Observable<boolean> {
-    return this.dialog.open(DisclaimerComponent,{
-      width:'800px',
-      disableClose:true,
-    }).afterClosed();
+  openDisclaimer(): Observable<boolean> {
+    return this.dialog
+      .open(DisclaimerComponent, {
+        width: '800px',
+        disableClose: true,
+      })
+      .afterClosed();
+  }
+
+  openNftPreview(data: PreviewImage): Observable<boolean> {
+    return this.dialog
+      .open(NftPreviewComponent, {
+        data,
+        width: '90%',
+        maxWidth: '1000px',
+        height: '80vh',
+        maxHeight: '650px',
+        disableClose: true,
+      })
+      .afterClosed();
+  }
+
+  openCodeView(imgSrc: any) {
+    this.dialog.open(CodeviewComponent, {
+      data: {
+        imgSrc,
+      },
+      width: '90%',
+      maxWidth: '1000px',
+      height: '80vh',
+      maxHeight: '650px',
+    });
   }
 }

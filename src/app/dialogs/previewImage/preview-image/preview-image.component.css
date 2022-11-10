@@ -1,3 +1,7 @@
+::ng-deep .mat-dialog-container {
+  border-radius: 16px !important;
+}
+
 .header {
   width: 100%;
 }

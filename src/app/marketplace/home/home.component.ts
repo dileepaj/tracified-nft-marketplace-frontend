@@ -250,6 +250,18 @@ export class HomeComponent implements OnInit {
     document.getElementById(elementId)!.scrollLeft += 300;
   }
 
+  public viewHotPicks () {
+    this.router.navigate(['/shownft'], {
+      queryParams: {data: 'hotpicks' },
+    });
+  }
+
+  public viewTrending () {
+    this.router.navigate(['/shownft'], {
+      queryParams: { data: 'trending' },
+    });
+  }
+
   /* @HostListener('window:scroll', ['$event']) openConfirmation(e: any) {
     const element = document.getElementsByClassName('home-section')!;
     element[1].scrollIntoView({ behavior: 'smooth' });

@@ -97,6 +97,7 @@ import { LoaderComponent } from './shared/loader/loader.component';
 import { DisclaimerComponent } from './dialogs/disclaimer/disclaimer.component';
 import { NftCardComponent } from './nft/nft-card/nft-card.component';
 import { CreatorViewComponent } from './nft/creator-view/creator-view.component';
+import { NftPreviewComponent } from './dialogs/nft-preview/nft-preview.component';
 
 const appRoutes: Routes = [
   {
@@ -348,7 +349,8 @@ const appRoutes: Routes = [
     LoaderComponent,
     DisclaimerComponent,
     NftCardComponent,
-    CreatorViewComponent
+    CreatorViewComponent,
+    NftPreviewComponent,
   ],
   imports: [
     BrowserModule,

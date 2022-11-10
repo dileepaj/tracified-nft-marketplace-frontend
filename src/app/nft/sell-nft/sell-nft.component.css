@@ -442,10 +442,10 @@ td {
 .txn-table td {
   background-color: #2d2d2d;
 }
-::ng-deep .mat-tab-header {
-  display: none !important;
-}
 
+::ng-deep .sell-view-tabs > .mat-tab-header {
+  display: none;
+}
 .btn-prev mat-icon {
   transform: scale(1.8);
 }

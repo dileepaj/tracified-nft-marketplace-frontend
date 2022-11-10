@@ -19,7 +19,11 @@ import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { CodeviewComponent } from '../codeview/codeview.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogText, PendingDialogText, SnackBarText } from 'src/app/models/confirmDialog';
+import {
+  ConfirmDialogText,
+  PendingDialogText,
+  SnackBarText,
+} from 'src/app/models/confirmDialog';
 
 @Component({
   selector: 'app-sell-nft',
@@ -56,7 +60,7 @@ export class SellNftComponent implements OnInit {
     '',
     ''
   );
-  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '','','');
+  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '', '', '');
   saleGW: SalesGW = new SalesGW('', '', '', '');
   sale: Sales = new Sales('', '');
   royalty: any;
@@ -105,17 +109,13 @@ export class SellNftComponent implements OnInit {
     this.royalty = parseFloat(this.formValue('Royalty'));
     this.firstPrice = parseFloat(this.formValue('Price'));
     console.log('Price and Royalty is : ', this.royalty, this.firstPrice);
-    this.royaltyCharge = this.firstPrice * (this.royalty / 100.00);
+    this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
     this.sellingPrice = this.firstPrice + this.royaltyCharge;
-    console.log('Calculation done: ',this.sellingPrice,this.royaltyCharge);
+    console.log('Calculation done: ', this.sellingPrice, this.royaltyCharge);
   }
 
   public openDialog() {
-    const dialogRef = this.dialog.open(CodeviewComponent, {
-      data: {
-        imgSrc: this.Decryption,
-      },
-    });
+    this.dialogService.openCodeView(this.Decryption);
   }
 
   saveTXNs(): void {
@@ -134,8 +134,8 @@ export class SellNftComponent implements OnInit {
     this.saleBE.CurrentPrice = this.sellingPrice.toString();
     this.saleBE.Timestamp = '2022-4-20:17:28';
     this.saleBE.CurrentOwnerPK = this.NFTList.currentownerpk;
-    this.saleBE.Royalty=this.royaltyCharge.toString();
-    console.log("--------------: ",this.saleBE)
+    this.saleBE.Royalty = this.royaltyCharge.toString();
+    console.log('--------------: ', this.saleBE);
     this.service.updateNFTStatusBackend(this.saleBE).subscribe();
   }
 
@@ -163,7 +163,7 @@ export class SellNftComponent implements OnInit {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
-      this.saleBE.Blockchain=this.NFTList.blockchain
+      this.saleBE.Blockchain = this.NFTList.blockchain;
       this.dialogService
         .confirmDialog({
           title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
@@ -174,8 +174,8 @@ export class SellNftComponent implements OnInit {
         .subscribe((res) => {
           if (res) {
             const dialog = this.dialogService.pendingDialog({
-              message:PendingDialogText.SELL_VIEW_CLICKED_SALE
-            })
+              message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
+            });
             this.calculatePrice();
             this.addDBBackend();
             this.addDBGateway();
@@ -191,7 +191,7 @@ export class SellNftComponent implements OnInit {
               .then((res: any) => {
                 this.selltxn = res.hash;
                 this.saveTXNs();
-                dialog.close()
+                dialog.close();
                 this.snackbarService.openSnackBar(
                   SnackBarText.SALE_SUCCESS_MESSAGE
                 );
@@ -205,9 +205,8 @@ export class SellNftComponent implements OnInit {
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.SellingType = 'NFT';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
-      this.saleBE.Blockchain=this.NFTList.blockchain
+      this.saleBE.Blockchain = this.NFTList.blockchain;
       this.calculatePrice();
-
       // if (this.NFTList.sellingstatus == 'Minted') {
       //   this.selltxn = this.NFTList.nfttxnhash;
       //   this.addDBBackend();
@@ -235,8 +234,8 @@ export class SellNftComponent implements OnInit {
           .subscribe((res) => {
             if (res) {
               const dialog = this.dialogService.pendingDialog({
-                message:PendingDialogText.SELL_VIEW_CLICKED_SALE
-              })
+                message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
+              });
               this.middleman
                 .createATA(
                   phantomWallet.getWalletaddress(),
@@ -256,14 +255,14 @@ export class SellNftComponent implements OnInit {
 
                     alert('successfully sold!');
                     this.selltxn = signature;
-      this.addDBBackend();
+                    this.addDBBackend();
                     this.addDBGateway();
                     this.saveTXNs();
-                    dialog.close()
+                    dialog.close();
                     this.snackbarService.openSnackBar(
                       SnackBarText.SALE_SUCCESS_MESSAGE
                     );
-                    this.showInProfile()
+                    this.showInProfile();
                   } catch (err) {
                     alert(err);
                   }
@@ -275,7 +274,7 @@ export class SellNftComponent implements OnInit {
     if (this.NFTList.blockchain == 'polygon') {
       this.saleBE.MarketContract = environment.contractAddressMKPolygon;
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
-      this.saleBE.Blockchain=this.NFTList.blockchain
+      this.saleBE.Blockchain = this.NFTList.blockchain;
       this.tokenid = parseInt(this.NFTList.nftidentifier);
       this.dialogService
         .confirmDialog({
@@ -287,8 +286,8 @@ export class SellNftComponent implements OnInit {
         .subscribe((res) => {
           if (res) {
             const dialog = this.dialogService.pendingDialog({
-              message:PendingDialogText.SELL_VIEW_CLICKED_SALE
-            })
+              message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
+            });
             this.calculatePrice();
             this.pmarket
               .createSaleOffer(
@@ -303,11 +302,11 @@ export class SellNftComponent implements OnInit {
                 this.saveTXNs();
                 this.addDBBackend();
                 this.addDBGateway();
-                dialog.close()
+                dialog.close();
                 this.snackbarService.openSnackBar(
                   SnackBarText.SALE_SUCCESS_MESSAGE
                 );
-                this.showInProfile()
+                this.showInProfile();
               });
             //this.addDBBackend()
           }
@@ -316,7 +315,7 @@ export class SellNftComponent implements OnInit {
     if (this.NFTList.blockchain == 'ethereum') {
       this.saleBE.MarketContract = environment.contractAddressMKEthereum;
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
-      this.saleBE.Blockchain=this.NFTList.blockchain
+      this.saleBE.Blockchain = this.NFTList.blockchain;
       this.tokenid = parseInt(this.NFTList.nftidentifier);
       console.log('STARTING ETH SELL');
       this.dialogService
@@ -329,8 +328,8 @@ export class SellNftComponent implements OnInit {
         .subscribe((res) => {
           if (res) {
             const dialog = this.dialogService.pendingDialog({
-              message:PendingDialogText.SELL_VIEW_CLICKED_SALE
-            })
+              message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
+            });
             this.calculatePrice();
             this.emarket
               .createSaleOffer(
@@ -345,11 +344,11 @@ export class SellNftComponent implements OnInit {
                 this.saveTXNs();
                 this.addDBBackend();
                 this.addDBGateway();
-                dialog.close()
+                dialog.close();
                 this.snackbarService.openSnackBar(
                   SnackBarText.SALE_SUCCESS_MESSAGE
                 );
-                this.showInProfile()
+                this.showInProfile();
               });
           }
         });
@@ -391,12 +390,11 @@ export class SellNftComponent implements OnInit {
               this.NFTList.nftidentifier
             )
             .subscribe((res: any) => {
-              if(res.Response!=null){
-                this.watchlist = res.Response.length
-               }else{
-                this.watchlist=0
-               }
-               
+              if (res.Response != null) {
+                this.watchlist = res.Response.length;
+              } else {
+                this.watchlist = 0;
+              }
             });
 
           this.api
@@ -405,12 +403,11 @@ export class SellNftComponent implements OnInit {
               this.NFTList.nftidentifier
             )
             .subscribe((res: any) => {
-              if(res.Response!=null){
-                this.favorites = res.Response.length
-               }else{
-                this.favorites=0
-               }
-               
+              if (res.Response != null) {
+                this.favorites = res.Response.length;
+              } else {
+                this.favorites = 0;
+              }
             });
           console.log(
             'MAIN DATA :',

@@ -13,6 +13,7 @@ import {
   HomeCard,
   Favourites,
   WatchList,
+  NFTCard,
 } from 'src/app/models/marketPlaceModel';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -138,13 +139,65 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  routeTo(filter:string){
+    if(filter=='/explore'){
+      this.router.navigate([filter], {
+        queryParams: { blockchain: 'ethereum', filter: 'all' },
+      });
+    }else if(filter=='/mint'){
+      this.router.navigate([filter]);
+    }else if(filter=='/explore'){
+      this.router.navigate([filter], {
+        queryParams: { blockchain: 'ethereum', filter: 'all' },
+      });
+    }else if(filter=='/blogs'){
+      this.router.navigate([filter]);
+    }else if(filter=='/docs'){
+      this.router.navigate([filter]);
+    }else{
+      alert("Invalid page!")
+    }
+
+  }
+
   ngOnInit(): void {
     //const timer$ = timer(0,APIConfigENV.homepageIntervalTimer)
     //timer$.subscribe(data=>{
     this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
       this.List = [];
+      this.List2=[];
       this.nfts = result;
       for (let x = 0; x < this.nfts.Response.length; x++) {
+        if(this.nfts.Response[x].trending==true){
+          console.log("trendiing.............",this.nfts.Response[x])
+          this.nft
+          .getSVGByHash(this.nfts.Response[x].imagebase64)
+          .subscribe((res: any) => {
+            this.Decryption = res.Response.Base64ImageSVG;
+            this.dec = btoa(this.Decryption);
+            var str2 = this.dec.toString();
+            var str1 = new String('data:image/svg+xml;base64,');
+            var src = str1.concat(str2.toString());
+            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            let card: NFTCard = new NFTCard('', '', '', '','','','');
+            card.ImageBase64 = this.imageSrc;
+            card.Blockchain = this.nfts.Response[x].blockchain;
+            card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
+            card.NFTName = this.nfts.Response[x].nftname;
+            card.Blockchain=this.nfts.Response[x].blockchain
+            card.CreatorUserId=this.nfts.Response[x].creatoruserid
+            card.SellingStatus=this.nfts.Response[x].sellingstatus
+            card.CurrentOwnerPK=this.nfts.Response[x].currentownerpk
+            this.List2.forEach((element) => {
+              if (card == element) {
+                this.newitemflag == false;
+              }
+            });
+            if (this.newitemflag) {
+              this.List2.push(card);
+            }
+          });
+        }
         this.nft
           .getSVGByHash(this.nfts.Response[x].imagebase64)
           .subscribe((res: any) => {
@@ -154,11 +207,15 @@ export class HomeComponent implements OnInit {
             var str1 = new String('data:image/svg+xml;base64,');
             var src = str1.concat(str2.toString());
             this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-            let card: HomeCard = new HomeCard('', '', '', '');
+            let card: NFTCard = new NFTCard('', '', '', '','','','');
             card.ImageBase64 = this.imageSrc;
             card.Blockchain = this.nfts.Response[x].blockchain;
             card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
             card.NFTName = this.nfts.Response[x].nftname;
+            card.Blockchain=this.nfts.Response[x].blockchain
+            card.CreatorUserId=this.nfts.Response[x].creatoruserid
+            card.SellingStatus=this.nfts.Response[x].sellingstatus
+            card.CurrentOwnerPK=this.nfts.Response[x].currentownerpk
             this.List.forEach((element) => {
               if (card == element) {
                 this.newitemflag == false;
@@ -168,8 +225,11 @@ export class HomeComponent implements OnInit {
               this.List.push(card);
             }
           });
+        
       }
     });
+
+
     //})
 
 

@@ -180,8 +180,7 @@ export class ShowNFTComponent implements OnInit {
             }
           }
         });
-      }
-      if (this.data == 'hotpicks') {
+      }else  if(this.data=='hotpicks'){
         this.service.getNFTOnSale('ON SALE').subscribe((result: any) => {
           this.nfts = result.Response;
           console.log('data: ', this.nfts);
@@ -209,11 +208,12 @@ export class ShowNFTComponent implements OnInit {
             }
           }
         });
-      }
-      if (this.data != 'Favourites' && this.data != 'hotpicks') {
-        this.mint.getNFTByTag(this.data).subscribe((data: any) => {
-          console.log('data: ', data);
-          this.NFTList = data;
+      }else  if(this.data!='Favourites' && this.data!='hotpicks'){
+      this.mint
+        .getNFTByTag(this.data)
+        .subscribe((res: any) => {
+          console.log("data: ",res)
+          this.NFTList = res
           if (this.NFTList == null) {
             console.log('retrying...');
             this.loading = false;

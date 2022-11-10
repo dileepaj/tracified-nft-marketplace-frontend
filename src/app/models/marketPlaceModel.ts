@@ -39,6 +39,19 @@ export class Favourites {
     ) {}
   }
 
+  export class NFTCard {
+    constructor(
+      public NFTName:string,
+        public NFTIdentifier: string,
+        public ImageBase64:string,
+        public Blockchain:string,
+        public CreatorUserId:string,
+       public SellingStatus:string,
+       public CurrentOwnerPK:string,
+     
+    ) {}
+  }
+
   export class MyNFTCard {
     constructor(
       public NFTName:string,

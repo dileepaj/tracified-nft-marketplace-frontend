@@ -41,7 +41,7 @@
     </div>
     <div class="overview-nft-content" id="hotPicksContent">
       <div *ngFor="let item1 of ListHotpicks; index as i">
-        <app-nft-card  [item]="item1" [itemId]="'hpicks'+i.toString()" [blockchain]="item1.Blockchain"></app-nft-card>
+        <app-nft-card  [item]="item1" [itemId]="'hpicks'+i.toString()" [blockchain]="item1.Blockchain" [creatoruserid]="item1.CreatorUserId"   [sellingstatus]="item1.SellingStatus" [currentownerpk]="item1.CurrentOwnerPK"></app-nft-card>
       </div>
     </div>
     <div
@@ -69,7 +69,7 @@
     </div>
     <div class="overview-nft-content" id="mintedContent">
       <div *ngFor="let item3 of ListMinted; index as i">
-        <app-nft-card  [item]="item3" [itemId]="'lstmntd'+i.toString()" [blockchain]="item3.Blockchain"></app-nft-card>
+        <app-nft-card  [item]="item3" [itemId]="'lstmntd'+i.toString()" [blockchain]="item3.Blockchain" [creatoruserid]="item3.CreatorUserId"   [sellingstatus]="item3.SellingStatus" [currentownerpk]="item3.CurrentOwnerPK"></app-nft-card>
       </div>
     </div>
     <div
@@ -97,7 +97,7 @@
     </div>
     <div class="overview-nft-content" id="buyContent">
       <div *ngFor="let item4 of ListBought; index as i">
-        <app-nft-card  [item]="item4" [itemId]="'bought'+i.toString()" [blockchain]="item4.Blockchain"></app-nft-card>
+        <app-nft-card  [item]="item4" [itemId]="'bought'+i.toString()" [blockchain]="item4.Blockchain" [creatoruserid]="item4.CreatorUserId"   [sellingstatus]="item4.SellingStatus" [currentownerpk]="item4.CurrentOwnerPK"></app-nft-card>
       </div>
     </div>
     <div
@@ -125,7 +125,7 @@
     </div>
     <div class="overview-nft-content" id="trendingContent">
       <div *ngFor="let item5 of ListTrends; index as i">
-        <app-nft-card  [item]="item5" [itemId]="'trends'+i.toString()" [blockchain]="item5.Blockchain"></app-nft-card>
+        <app-nft-card  [item]="item5" [itemId]="'trends'+i.toString()" [blockchain]="item5.Blockchain"  [creatoruserid]="item5.CreatorUserId"   [sellingstatus]="item5.SellingStatus" [currentownerpk]="item5.CurrentOwnerPK"></app-nft-card>
       </div>
     </div>
     <div
@@ -153,7 +153,7 @@
   </div>
   <div class="overview-nft-content" id="salesContent">
     <div *ngFor="let item6 of ListSales; index as i">
-      <app-nft-card  [item]="item6" [itemId]="'sales'+i.toString()" [blockchain]="item6.Blockchain"></app-nft-card>
+      <app-nft-card  [item]="item6" [itemId]="'sales'+i.toString()" [blockchain]="item6.Blockchain"  [creatoruserid]="item6.CreatorUserId"   [sellingstatus]="item6.SellingStatus" [currentownerpk]="item6.CurrentOwnerPK"></app-nft-card>
     </div>
   </div>
   </div>

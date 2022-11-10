@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Favourites, WatchList } from 'src/app/models/marketPlaceModel';
 import { UserWallet } from 'src/app/models/userwallet';
@@ -8,6 +9,7 @@ import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackb
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
+import { CreatorViewComponent } from '../creator-view/creator-view.component';
 
 @Component({
   selector: 'app-nft-card',
@@ -18,19 +20,29 @@ export class NftCardComponent implements OnInit {
   @Input() itemId : string;
   @Input() item: any;
   @Input() blockchain : string;
+  @Input() creatoruserid : string;
+  @Input() sellingstatus : string;
+  @Input() currentownerpk : string;
   private isNftItem : boolean = false;
   favouritesModel: Favourites = new Favourites('', '','');
   watchlistModel: WatchList = new WatchList('', '','');
+  user: string;
+  command: any;
+  tip: any;
 
   constructor(
     private router : Router,
     private snackbarService : SnackbarServiceService,
     private api: ApiServicesService,
+    public dialog: MatDialog,
     private dialogService : DialogService
+
   ) { }
 
   ngOnInit(): void {
     console.log(this.itemId)
+    console.log("nft card data: ",this.item,this.blockchain)
+   
   }
 
   public async retrive(blockchain: string) {
@@ -38,7 +50,8 @@ export class NftCardComponent implements OnInit {
       let freighterWallet = new UserWallet();
       freighterWallet = new FreighterComponent(freighterWallet);
       await freighterWallet.initWallelt();
-      this.favouritesModel.User= await freighterWallet.getWalletaddress();
+      this.user=this.watchlistModel.User= this.favouritesModel.User= await freighterWallet.getWalletaddress();
+      
 
     }
 
@@ -46,7 +59,7 @@ export class NftCardComponent implements OnInit {
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();
-      this.favouritesModel.User = await phantomWallet.getWalletaddress();
+      this.user=this.watchlistModel.User=this.favouritesModel.User = await phantomWallet.getWalletaddress();
 
     }
 
@@ -57,7 +70,7 @@ export class NftCardComponent implements OnInit {
       let metamaskwallet = new UserWallet();
       metamaskwallet = new MetamaskComponent(metamaskwallet);
       await metamaskwallet.initWallelt();
-      this.favouritesModel.User = await metamaskwallet.getWalletaddress();
+     this.user= this.watchlistModel.User=this.favouritesModel.User = await metamaskwallet.getWalletaddress();
 
     }
 
@@ -77,6 +90,7 @@ export class NftCardComponent implements OnInit {
    * @param id - NFT Identifier
    */
   public addToFavourites(id : string) : void {
+    this.retrive(this.blockchain)
     this.favouritesModel.Blockchain = this.blockchain;
     this.favouritesModel.NFTIdentifier = id;
     this.retrive(this.favouritesModel.Blockchain).then(res=>{
@@ -93,6 +107,7 @@ export class NftCardComponent implements OnInit {
    * @param id - NFT Identifier
    */
   public addToWatchList(id : string) : void {
+    this.retrive(this.blockchain)
     this.watchlistModel.Blockchain = this.blockchain;
     this.watchlistModel.NFTIdentifier =id;
     this.retrive(this.watchlistModel.Blockchain).then(res=>{
@@ -107,6 +122,16 @@ export class NftCardComponent implements OnInit {
   //TO:DO
   viewNFT(){
 
+    this.api.getEndorsement(this.creatoruserid).subscribe((res:any)=>{
+      console.log("result is: ",res)
+      const dialogRef = this.dialog.open(CreatorViewComponent, {
+        data: {
+          Name: res.Name,
+          Email: res.Email,
+          Contact: res.Contact
+        },
+      });
+    })
   }
 
   /**
@@ -114,10 +139,46 @@ export class NftCardComponent implements OnInit {
    * @param id - NFT Identifier
    */
   public routeToBuy(id : string) : void {
-    let data :any[]=[id,this.blockchain];
-    this.router.navigate(['./buyNft'],{
-    queryParams:{data:JSON.stringify(data)}
-    })
+
+    if(this.sellingstatus=="Minted"){
+      this.tip = "Put on Sale"
+      this.retrive(this.blockchain)
+      if(this.user==this.currentownerpk){
+        this.command=false
+        let data : any[] = ["Minted",id,this.blockchain]
+        this.router.navigate(['./sell'],{
+          queryParams:{data:JSON.stringify(data)}
+        });
+      }else{
+        this.snackbarService.openSnackBar("NFT is yet to be put on sale")
+        this.command=true
+      }
+    }else if(this.sellingstatus=="ON SALE"){
+      this.tip = "Buy NFT"
+      this.command=false
+      console.log("this is bc in nftcomponent ",this.blockchain)
+      let data :any[]=[id,this.blockchain];
+      this.router.navigate(['./buyNft'],{
+      queryParams:{data:JSON.stringify(data)}
+      })
+    }else if(this.sellingstatus=="NOTFORSALE"){
+      this.tip = "Put on Sale"
+      this.retrive(this.blockchain)
+      if(this.user==this.currentownerpk){
+        this.command=false
+        let data : any[] = ["NOTFORSALE",id,this.blockchain]
+        this.router.navigate(['./sell'],{
+          queryParams:{data:JSON.stringify(data)}
+        });
+      }else{
+      this.snackbarService.openSnackBar("NFT is yet to be put on sale")
+      this.command=true
+      }
+    }else{
+      this.snackbarService.openSnackBar("Invalid Command!")
+      this.command=true
+    }
+   
   }
 
   @HostListener('document:click')

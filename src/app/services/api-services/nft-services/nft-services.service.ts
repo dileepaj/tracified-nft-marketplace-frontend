@@ -22,9 +22,11 @@ export class NftServicesService {
   baseUrlfilter:string='http://localhost:6081/blockchain'
   baseUrlTxn:string='http://localhost:6081/txn'
   baseUrlPaginated : string = 'http://localhost:6081/nftspaginate'
+  baseUrlPaginatedFiltering : string = 'http://localhost:6081/nftspaginate/filterby'
+  baseUrlBestCreators:string ='http://localhost:6081/explore/bestcreations'
   reqOpts: any;
 
-  pageSize : number = 12;
+  pageSize : number = 6;
 
   constructor(private http: HttpClient) { }
 
@@ -102,4 +104,17 @@ getMyNFTStatus(sellingstatus,userId):Observable<NFT[]>{
  getNFTpaginated (blockchain : string, requestedPage : number) : Observable<GetNFT[]> {
   return this.http.get<GetNFT[]>(`${this.baseUrlPaginated}/${blockchain}/${this.pageSize}/${requestedPage}`);
  }
+
+ getNFTpaginatedOnSALE (blockchain : string, requestedPage : number, filter : string) : Observable<GetNFT[]> {
+  return this.http.get<GetNFT[]>(`${this.baseUrlPaginated}/${blockchain}/${filter}/${this.pageSize}/${requestedPage}`);
+ }
+
+ getNFTpaginatedTrendsHotpicks (blockchain : string, requestedPage : number, filter : string) : Observable<GetNFT[]> {
+  return this.http.get<GetNFT[]>(`${this.baseUrlPaginatedFiltering}/${filter}/${blockchain}/${this.pageSize}/${requestedPage}`);
+ }
+
+ getBestCreators (requestedPage : number,blockchain:string) : Observable<GetNFT[]> {
+  return this.http.get<GetNFT[]>(`${this.baseUrlBestCreators}/${blockchain}/${this.pageSize}/${requestedPage}`);
+ }
+
 }

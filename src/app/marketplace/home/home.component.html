@@ -19,7 +19,7 @@
 
     <!--intro-->
     <div class="home-section cont-wrapper">
-      <div class="card-wrapper">
+      <div class="card-wrapper" (click)="routeTo('/explore')">
         <div class="intro-header">
           <img src="../../../assets/images/intro_buy.png" />
         </div>
@@ -34,13 +34,13 @@
         </div>
       </div>
 
-      <div class="card-wrapper">
+      <div class="card-wrapper" (click)="routeTo('/mint')">
         <div class="intro-header">
           <img src="../../../assets/images/intro_sell.png" />
         </div>
         <div class="intro-card">
           <div class="intro-body">
-            <label class="title">Sell</label>
+            <label class="title">Mint</label>
             <label class="content-text">
               Mint your own NFTs and put them up for sale on our ever-growing
               collection of NFTs.
@@ -48,7 +48,7 @@
           </div>
         </div>
       </div>
-      <div class="card-wrapper">
+      <div class="card-wrapper"  (click)="routeTo('/explore')">
         <div class="intro-header">
           <img src="../../../assets/images/intro_explore.png" />
         </div>
@@ -100,7 +100,7 @@
         </div>
         <div class="hot-picks-content" id="hot-picks-content">
           <div *ngFor="let item of List; index as i">
-            <app-nft-card  [item]="item" [itemId]="i.toString()" [blockchain]="item.Blockchain"></app-nft-card>
+            <app-nft-card  [item]="item" [itemId]="i.toString()" [blockchain]="item.Blockchain" [creatoruserid]="item.CreatorUserId"   [sellingstatus]="item.SellingStatus"  [currentownerpk]="item.CurrentOwnerPK"></app-nft-card>
           </div>
         </div>
       </div>
@@ -141,8 +141,8 @@
           </div>
         </div>
         <div class="hot-picks-content" id="category-content">
-          <div *ngFor="let item of List2; index as i">
-            <app-nft-card  [item]="item" [itemId]="'trndng'+i.toString()" [blockchain]="item.Blockchain"></app-nft-card>
+          <div class="item" *ngFor="let item2 of List2; index as i">
+            <app-nft-card  [item]="item2" [itemId]="'trndng'+i.toString()" [blockchain]="item2.Blockchain" [creatoruserid]="item2.CreatorUserId"   [sellingstatus]="item2.SellingStatus"  [currentownerpk]="item2.CurrentOwnerPK"></app-nft-card>
           </div>
         </div>
       </div>
@@ -177,27 +177,17 @@
           </div>
         </div>
         <div class="news-container">
-          <div class="news-topic">
-            <h2>Topic One</h2>
+          <div class="news-topic" (click)="routeTo('/blogs')">
+            <h2>About Tracified</h2>
             <label class="normal-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a
-              lobortis purus. Pellentesque turpis magna, suscipit commodo arcu
-              quis, tempus dictum leo. Curabitur imperdiet scelerisque
-              tincidunt. Praesent vitae placerat sem. Nulla facilisi. Morbi
-              accumsan efficitur sollicitudin. Phasellus posuere vitae risus sit
-              amet auctor.
+              Tracified powered by Blockchain technology facilitates a tamper proof platform that streamlines the data flow within a supply chain, using a crypto-economic model.
             </label>
             <button mat-flat-button class="btn-sm">Read More</button>
           </div>
-          <div class="news-topic">
-            <h2>Topic Two</h2>
+          <div class="news-topic" (click)="routeTo('/docs')">
+            <h2>Check out our Documentation</h2>
             <label class="normal-text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras a
-              lobortis purus. Pellentesque turpis magna, suscipit commodo arcu
-              quis, tempus dictum leo. Curabitur imperdiet scelerisque
-              tincidunt. Praesent vitae placerat sem. Nulla facilisi. Morbi
-              accumsan efficitur sollicitudin. Phasellus posuere vitae risus sit
-              amet auctor.
+              Do you need an extensive look into the blockchains we facilitate? How does our minting work? How do you buy an NFT? Our Documentation offers a clear look into some fundamentals of the Tracified Marketplace
             </label>
             <button mat-flat-button class="btn-sm">Read More</button>
           </div>

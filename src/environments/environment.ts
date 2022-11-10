@@ -36,9 +36,9 @@ export const adminENV={
 export const APIConfigENV={
   gatewayBaseURL:'',
   nftbackendBaseURL:'', 
-  APIIntervalTimer:30000,  // 30 seconds
-  APIStartDelay:3000, // 3 seconds
-  homepageIntervalTimer:600000 //10 minutes
+  APIIntervalTimer:60000,  // 30 seconds
+  APIStartDelay:6000, // 3 seconds
+  homepageIntervalTimer:600000 //10 minutes 600000
 
 }
 /*

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Card } from 'src/app/models/marketPlaceModel';
+import { Card, HomeCard, NFTCard } from 'src/app/models/marketPlaceModel';
 import { UserWallet } from 'src/app/models/userwallet';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
@@ -135,10 +135,14 @@ export class OverviewComponent implements OnInit {
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-     let card:Card= new Card('','','');
+     let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
+    card.Blockchain=response.blockchain
+    card.CreatorUserId=response.creatoruserid
+    card.SellingStatus=response.sellingstatus
+    card.CurrentOwnerPK=response.currentownerpk
       this.ListHotpicks.push(card)
       console.log("listing hp: ",this.ListHotpicks)
       })
@@ -152,10 +156,14 @@ export class OverviewComponent implements OnInit {
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-     let card:Card= new Card('','','');
+      let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
+    card.Blockchain=response.blockchain
+    card.CreatorUserId=response.creatoruserid
+    card.SellingStatus=response.sellingstatus
+    card.CurrentOwnerPK=response.currentownerpk
       this.ListSales.push(card)
       })
   }
@@ -168,10 +176,14 @@ export class OverviewComponent implements OnInit {
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-     let card:Card= new Card('','','');
+      let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
+    card.Blockchain=response.blockchain
+    card.CreatorUserId=response.creatoruserid
+    card.SellingStatus=response.sellingstatus
+    card.CurrentOwnerPK=response.currentownerpk
       this.ListMinted.push(card)
       })
   }
@@ -184,10 +196,14 @@ export class OverviewComponent implements OnInit {
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-     let card:Card= new Card('','','');
+      let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
+    card.Blockchain=response.blockchain
+    card.CreatorUserId=response.creatoruserid
+    card.SellingStatus=response.sellingstatus
+    card.CurrentOwnerPK=response.currentownerpk
       this.ListBought.push(card)
       })
   }
@@ -200,10 +216,14 @@ export class OverviewComponent implements OnInit {
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-     let card:Card= new Card('','','');
+      let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
+    card.Blockchain=response.blockchain
+    card.CreatorUserId=response.creatoruserid
+    card.SellingStatus=response.sellingstatus
+    card.CurrentOwnerPK=response.currentownerpk
       this.ListTrends.push(card)
       })
   }

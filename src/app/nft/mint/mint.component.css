@@ -22,7 +22,7 @@
 }
 
 .seperator {
-  width: 92.5%;
+  width: 100%;
   background-color: #595959;
   border: 1px solid #595959;
   margin-top: 30px;
@@ -36,6 +36,7 @@
   border-radius: 16px;
   width: 100%;
   height: 58px;
+  transition: none !important;
 }
 
 /* focused color */

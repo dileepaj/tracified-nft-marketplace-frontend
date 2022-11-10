@@ -26,7 +26,7 @@
 }
 
 .seperator {
-  width: 92.5%;
+  width: 100%;
   background-color: #595959;
   border: 1px solid #595959;
   margin-top: 30px;
@@ -40,6 +40,7 @@
   border-radius: 16px;
   width: 100%;
   height: 58px;
+  transition: none !important;
 }
 
 /* focused color */
@@ -74,6 +75,7 @@
   border-radius: 16px;
   width: 100%;
   min-height: 100px;
+  transition: none !important;
 }
 
 /* focused color */
@@ -190,6 +192,7 @@
   border-radius: 16px;
   width: 100%;
   height: 160px;
+  transition: none !important;
 }
 
 /* focused color */
@@ -335,8 +338,6 @@
   width: 608px;
   height: 300px;
   z-index: 1000;
-
- 
 }
 
 .img-div {
@@ -355,9 +356,9 @@
   background-color: #ffffff;
 }
 mat-hint {
-  color : #fff;
+  color: #fff;
   font-size: 12px;
-  margin-top: 2px
+  margin-top: 2px;
 }
 
 mat-hint.tags {

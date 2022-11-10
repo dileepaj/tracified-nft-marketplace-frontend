@@ -10,7 +10,7 @@
 
 .example-full-width {
   height: 100%;
-  width:600px;
+  width: 600px;
 }
 
 .mat-card-content {
@@ -267,6 +267,7 @@
   color: transparent;
   background-color: #2d2d2d;
   border-radius: 16px;
+  transition: none !important;
 }
 
 /* focused color */

@@ -1,10 +1,15 @@
 <div class="main-div">
-  <div class="registration-header">
-    <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
-      >arrow_back</mat-icon
-    >
-    <h1 style="font-size: 40px">Get Endorsed Now!</h1>
+  <div class="cont-wrapper">
+    <div class="registration-header">
+      <mat-icon class="back" matTooltip="Back">arrow_back</mat-icon>
+      <label class="reg-heading">Get Endorsed Now!</label>
+      <!-- <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
+        >arrow_back</mat-icon
+      >
+      <h1 style="font-size: 40px">Get Endorsed Now!</h1> -->
+    </div>
   </div>
+
   <div class="registration-content">
     <form class="example-form" [formGroup]="controlGroup">
       <!-- <div>
@@ -21,23 +26,29 @@
           <input
             matInput
             placeholder="{{this.mail}}"
-          
+
           />
         </mat-form-field> -->
-        <mat-label>Your email is : {{this.mail}}</mat-label>
+        <mat-label>Your email is : {{ this.mail }}</mat-label>
       </div>
       <div>
         <mat-form-field class="example-full-width" appearance="outline">
-          <input matInput placeholder="Enter the Name" formControlName="Name" />
+          <input
+            matInput
+            placeholder="Enter the Name"
+            formControlName="Name"
+            class="input"
+          />
         </mat-form-field>
       </div>
-     
+
       <div>
         <mat-form-field class="example-full-width" appearance="outline">
           <input
             matInput
             placeholder="Enter the Contact "
             formControlName="Contact"
+            class="input"
           />
         </mat-form-field>
       </div>
@@ -47,6 +58,7 @@
             matInput
             placeholder="Enter the Description "
             formControlName="Description"
+            class="input"
           />
         </mat-form-field>
       </div>

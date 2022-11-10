@@ -20,7 +20,7 @@
           "
         >
           <div class="breadcrumb-div">
-            <a class="breadcrumb-link">Explore</a>
+            <a class="breadcrumb-link">Help Center</a>
             <mat-icon
               class="material-symbols-outlined"
               style="vertical-align: middle"
@@ -28,7 +28,7 @@
               navigate_next
             </mat-icon>
 
-            <a style="color: #00c853">NFT NAME</a>
+            <a style="color: #00c853">BLOGS</a>
           </div>
         </div>
       </div>
@@ -47,59 +47,16 @@
               class="story-img"
             />
           </div>
+          <p>These blogs depict the information of the marketplace and tracified as whole.</p>
 
           <div fxLayout="column">
-            <img
-              src="../../../assets/images/blockchain-icons/ethereum.png"
-              class="blockchain-logo"
-            />
-            <label class="name">TOMATOES - A0003</label>
-            <div style="margin-top: 7px">
-              <label class="cat">Category - </label>
-              <label class="cat-val">Tomatoes A1</label>
-            </div>
+            <label class="name">{{this.topics}}</label>
           </div>
         </div>
       </div>
       <div class="story">
         <p class="normal-text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed
-          tortor at massa hendrerit suscipit. Phasellus justo justo, ultrices a
-          vehicula vel, pellentesque nec odio. Orci varius natoque penatibus et
-          magnis dis parturient montes, nascetur ridiculus mus. Etiam eget justo
-          at enim egestas consequat. In mattis suscipit dui vitae dignissim.
-          Morbi tempus ante aliquet mauris volutpat, at lacinia sem efficitur.
-          Pellentesque tristique id metus non tristique. Donec viverra purus
-          quis porttitor venenatis. Integer posuere quam sed erat convallis
-          volutpat. Integer dapibus urna est, id dapibus orci congue id. Quisque
-          pretium enim ipsum, non lobortis tellus ultrices sit amet. Fusce et
-          nisi et lectus finibus pharetra. Suspendisse faucibus metus vitae
-          tempus tincidunt. Aliquam erat volutpat. Donec in est non tellus
-          rhoncus pretium. Integer pharetra enim vitae tortor molestie pharetra.
-          Donec euismod turpis sed sapien luctus, quis malesuada elit rutrum.
-          Donec nec dignissim lectus. Nulla nec ligula nulla. Vivamus tristique
-          aliquam cursus. Duis justo neque, cursus ut lacus sit amet, dapibus
-          pretium dui. Nullam quis consequat elit, quis semper tortor. Nunc
-          pellentesque lacus sed mi semper, eget scelerisque nibh consequat.
-          <br /><br />
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed
-          tortor at massa hendrerit suscipit. Phasellus justo justo, ultrices a
-          vehicula vel, pellentesque nec odio. Orci varius natoque penatibus et
-          magnis dis parturient montes, nascetur ridiculus mus. Etiam eget justo
-          at enim egestas consequat. In mattis suscipit dui vitae dignissim.
-          Morbi tempus ante aliquet mauris volutpat, at lacinia sem efficitur.
-          Pellentesque tristique id metus non tristique. Donec viverra purus
-          quis porttitor venenatis. Integer posuere quam sed erat convallis
-          volutpat. Integer dapibus urna est, id dapibus orci congue id. Quisque
-          pretium enim ipsum, non lobortis tellus ultrices sit amet. Fusce et
-          nisi et lectus finibus pharetra. Suspendisse faucibus metus vitae
-          tempus tincidunt. Aliquam erat volutpat. Donec in est non tellus
-          rhoncus pretium. Integer pharetra enim vitae tortor molestie pharetra.
-          Donec euismod turpis sed sapien luctus, quis malesuada elit rutrum.
-          Donec nec dignissim lectus. Nulla nec ligula nulla. Vivamus tristique
-          aliquam cursus. Duis justo neque, cursus ut lacus sit amet, dapibus
-          pretium dui. Nullam quis consequat elit, quis semper tortor. Nunc
-          pellentesque lacus sed mi semper, eget scelerisque nibh consequat.
+          {{this.description}}
         </p>
       </div>
     </div>
@@ -108,12 +65,12 @@
         <h3>Browse Stories</h3>
         <div
           class="story-card"
-          *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+          *ngFor="let item of List"
         >
           <img src="https://via.placeholder.com/150" />
           <div class="actions">
-            <label>TOMATOES - A0003</label>
-            <button mat-flat-button>View Story</button>
+            <label>{{item.topic}}</label>
+            <button mat-flat-button (click)="selectBlog(item.topic)">View Story</button>
           </div>
         </div>
       </div>
@@ -130,22 +87,15 @@
       <div class="list">
         <div
           class="story-card"
-          *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+          *ngFor="let item of List"
         >
           <img src="https://via.placeholder.com/150" />
           <div class="actions">
-            <label>TOMATOES - A0003</label>
-            <button mat-flat-button>View Story</button>
+            <label>{{item.topic}}</label>
+            <button mat-flat-button (click)="selectBlog(item.topic)">View Story</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!--  <iframe class="w-100" src="{{this.story}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-<mat-card class="cardblog">
-<pre>
-    <code [innerHTML]="this.nftstory" class="code"></code>
-  </pre>
-</mat-card> -->
 </div>

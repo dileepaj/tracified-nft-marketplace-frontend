@@ -4,7 +4,7 @@
   bottom: 0;
   left: 0;
   right: 0; */
-  margin-top: 60px;
+  margin-top: 65px;
   border-top: 1px solid white;
   padding: 0px 0px 20px 0px;
 }
@@ -75,7 +75,7 @@
 .nft-img {
   width: 295px;
   height: 405px;
- /*  background-color: #fff; */
+  /*  background-color: #fff; */
 }
 
 .nft-img-overlay {
@@ -91,13 +91,13 @@
   justify-content: center;
   align-items: center;
   row-gap: 15px;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .nft-img-overlay .overlay-text {
@@ -118,7 +118,7 @@
   opacity: 1;
 }
 
-.nft-img-overlay img{
+.nft-img-overlay img {
   cursor: pointer;
   width: 82px;
   height: 81px;
@@ -238,5 +238,3 @@
     align-items: center;
   }
 }
-
-

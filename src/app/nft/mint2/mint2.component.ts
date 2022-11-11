@@ -727,7 +727,7 @@ export class Mint2Component implements OnInit {
       Copies: new FormControl(this.mint.Copies, Validators.required),
       Tags: this.tagCtrl,
       NftContentURL: new FormControl(this.mint.NftContentURL),
-      ArtistName: new FormControl(this.mint.ArtistName),
+      ArtistName: new FormControl(this.mint.ArtistName, Validators.required),
       ArtistProfileLink: new FormControl(this.mint.ArtistProfileLink),
       Issuer: new FormControl(this.mint.NFTIssuerPK),
     });

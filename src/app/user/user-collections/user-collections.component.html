@@ -5,24 +5,24 @@
       fxLayout="row wrap"
       fxLayoutAlign="space-between center"
     >
-      <div class="overview-picks-header-title" fxFlex.lt-sm="100%"  id="hotpick">
+      <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="hotpick">
         Explore Your Collections
       </div>
     </div>
     <div class="explore-content cont-wrapper" fxLayout="row wrap">
-      <div class="cont-inner">
+      <div class="cont-inner" *ngIf="List.length > 0">
         <div
-        class="nft-item"
-        *ngFor="let item of List"
-        (click)="showNFT(item.collection)"
-      >
-
-        <img class="nft-img"  src="../../../assets/images/collection.jpg" />
-        <div class="nft-title" >{{ item.collection }}</div>
+          class="nft-item"
+          *ngFor="let item of List"
+          (click)="showNFT(item.collection)"
+        >
+          <img class="nft-img" src="../../../assets/images/collection.jpg" />
+          <div class="nft-title">{{ item.collection }}</div>
+        </div>
       </div>
-
+      <div class="cont-inner" *ngIf="List.length === 0">
+        You do not have any collection.
       </div>
-
     </div>
+  </div>
 </div>
-

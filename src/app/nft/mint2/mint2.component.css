@@ -142,6 +142,7 @@
 }
 
 .dnd-area {
+  position: relative;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -355,6 +356,18 @@
   border-radius: 40px;
   background-color: #ffffff;
 }
+
+.upload-options {
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  background-color: #ffffff;
+}
+
+.upload-options mat-icon {
+  color: #2d2d2d;
+}
+
 mat-hint {
   color: #fff;
   font-size: 12px;
@@ -369,4 +382,24 @@ mat-hint.tags {
   max-width: 100%;
   overflow: auto;
   height: 300px;
+}
+
+.dropdown-options-content {
+  cursor: pointer;
+  display: none;
+  color: #fff;
+  position: absolute;
+  background: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 10px 10px 10px 10px;
+  right: 0;
+}
+
+.dropdown-options-content button label {
+  color: #2d2d2d;
+}
+
+.upload-options:hover .dropdown-options-content {
+  display: block;
 }

@@ -198,6 +198,7 @@ export class HomeComponent implements OnInit {
             }
           });
         }
+        if(this.nfts.Response[x].hotpicks==true){
         this.nft
           .getSVGByHash(this.nfts.Response[x].imagebase64)
           .subscribe((res: any) => {
@@ -225,7 +226,7 @@ export class HomeComponent implements OnInit {
               this.List.push(card);
             }
           });
-        
+        }
       }
     });
 
@@ -258,7 +259,7 @@ export class HomeComponent implements OnInit {
 
   public viewTrending () {
     this.router.navigate(['/shownft'], {
-      queryParams: { data: 'trending' },
+      queryParams: { data: 'Favourites' },
     });
   }
 

@@ -276,7 +276,7 @@ export class Mint2Component implements OnInit {
 
                  this.apiService.getEndorsement(this.userPK)
       .subscribe((result: any) => {
-        if (result.Status == null || result.Status == '') {
+        if (result.Status == null || result.Status == 'Declined') {
           this.dialogService
             .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -333,9 +333,9 @@ export class Mint2Component implements OnInit {
                 const dialog = this.dialogService.pendingDialog({
                   message:PendingDialogText.MINTING_IN_PROGRESS
                 });
-                this.apiService.getEndorsement(this.userPK)
+                this.apiService.getEndorsement(this.mint.NFTIssuerPK)
                 .subscribe((result: any) => {
-                  if (result.Status == null || result.Status == '') {
+                  if (result.Status == null || result.Status == 'Declined') {
                     this.dialogService
                       .confirmDialog({
                           title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -390,9 +390,9 @@ export class Mint2Component implements OnInit {
                   const dialog = this.dialogService.pendingDialog({
                     message:PendingDialogText.MINTING_IN_PROGRESS
                   });
-                  this.apiService.getEndorsement(this.userPK)
+                  this.apiService.getEndorsement(this.mint.DistributorPK)
       .subscribe((result: any) => {
-        if (result.Status == null || result.Status == '') {
+        if (result.Status == null || result.Status == 'Declined') {
           this.dialogService
             .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -462,9 +462,9 @@ export class Mint2Component implements OnInit {
                   const dialog = this.dialogService.pendingDialog({
                     message:PendingDialogText.MINTING_IN_PROGRESS
                   });
-                  this.apiService.getEndorsement(this.userPK)
+                  this.apiService.getEndorsement(this.mint.DistributorPK)
                   .subscribe((result: any) => {
-                    if (result.Status == null || result.Status == '') {
+                    if (result.Status == null || result.Status == 'Declined') {
                       this.dialogService
                         .confirmDialog({
                             title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,

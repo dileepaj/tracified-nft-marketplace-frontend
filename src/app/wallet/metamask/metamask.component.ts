@@ -35,9 +35,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
           return;
         });
     } else {
-      alert('Please Install Metamask');
-      window.location.href =
-        'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn';
+      window.location.href = 'https://metamask.io/';
     }
   }
   public getWalletaddress(): string {

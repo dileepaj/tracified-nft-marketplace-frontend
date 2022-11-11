@@ -59,7 +59,9 @@ export class PhantomComponent extends walletOptions implements OnInit {
       if (_callback !== undefined) {
         _callback(this.walletAddress);
       }
-    } catch (err) {}
+    } catch (err) {
+      window.location.href = 'https://phantom.app/';
+    }
   }
   override getWalletaddress(): string {
     return this.walletAddress;

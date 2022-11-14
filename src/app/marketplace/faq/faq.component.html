@@ -10,7 +10,7 @@
         "
       >
         <div class="breadcrumb-div">
-          <a [routerLink]="'/getNft'" class="breadcrumb-link">Resources</a>
+          <a [routerLink]="'/help-center'" class="breadcrumb-link">Resources</a>
           <mat-icon
             class="material-symbols-outlined"
             style="vertical-align: middle"
@@ -32,14 +32,14 @@
           *ngFor="let data of List"
         >
           <mat-expansion-panel-header class="panel-header">
-            <mat-panel-title> {{data.topic}} </mat-panel-title>
+            <mat-panel-title> {{ data.topic }} </mat-panel-title>
             <mat-panel-description>
               <mat-icon *ngIf="!selectbc.expanded">arrow_right</mat-icon>
               <mat-icon *ngIf="selectbc.expanded">arrow_drop_down</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <div class="answer" >
+          <div class="answer">
             <label class="answer-title">Answer</label>
             <label
               ><div [innerHTML]="data.desc"></div></label
@@ -50,7 +50,9 @@
       <div class="faq-content-footer">
         <label class="faq-footer-header">Can’t find your answer?</label>
         <label>Contact us and we’ll get back to you as soon as we can.</label>
-        <button class="btn-contact" (click)="sendtoContactUsPage()">Contact Us</button>
+        <button class="btn-contact" (click)="sendtoContactUsPage()">
+          Contact Us
+        </button>
       </div>
     </div>
   </div>

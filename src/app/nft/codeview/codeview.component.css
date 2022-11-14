@@ -1,26 +1,80 @@
-@import '~highlight.js/styles/github.css';
+@import "~highlight.js/styles/github.css";
 
-.parent{
-    background: rgb(0, 0, 0);
-        background: linear-gradient(0deg,
-                rgba(0, 0, 0, 1) 24%,
-                rgba(19, 139, 69, 1) 100%);
-        background-repeat: no-repeat;
-        margin: -24px;
+::ng-deep .mat-dialog-container {
+  border-radius: 16px !important;
 }
 
-h2 mat-icon {
-    color: white;
-    float: right;
-    cursor: pointer;
+.header {
+  width: 100%;
+}
+.image-area {
+  width: 100%;
+  height: 100%;
 }
 
-.close-btn{
-    color: red;
+.dialog-header {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.uploaded-img {
-    max-width: 100%;
-    overflow: auto;
-    height: 300px;
-  }
+.dialog-header mat-icon {
+  cursor: pointer;
+  transform: scale(0.9);
+  margin-top: -10px;
+}
+
+.close-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: -10px -10px 0px 0px;
+}
+
+.close-div mat-icon {
+  cursor: pointer;
+  transform: scale(0.9);
+}
+
+.close-div mat-icon:hover {
+  color: black;
+}
+
+.img-div {
+  width: 800px;
+  height: 450px;
+  padding: 0px 20px 0px 20px;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.svg-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.img-wrapper {
+  width: 90vw;
+  max-width: 950px;
+  height: 80vh;
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img {
+  width: 98%;
+  flex: 1;
+  border: 1px solid #ccc;
+}

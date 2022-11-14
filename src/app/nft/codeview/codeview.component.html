@@ -1,26 +1,52 @@
-<h2>SVG Code
-    <button style="float: inline-end;" mat-icon-button mat-dialog-close>
-        <mat-icon style="color: red;">close</mat-icon>
-    </button>
-</h2>
-<mat-dialog-content >
+<div class="header">
+  <div class="close-div"></div>
+  <div class="dialog-header">
+    <label mat-dialog-title>SVG Code</label>
+    <mat-icon mat-dialog-close> close </mat-icon>
+  </div>
+  <mat-dialog-content class="svg-conatiner">
     <div class="modal-content">
-        <mat-tab-group>
-            <mat-tab label="Code">
-                <div class="content-div">
-                    <pre><code data-ln-start-from="1" [highlight]="code"></code></pre>
-                </div>
-            </mat-tab>
-            <mat-tab label="SVG" style="width:100%;height:100%">
-                <div class="content-div">
-                    <object [data]="image" type="image/svg+xml" class="uploaded-img"  id="img" >
-                        <!-- <img id="nft-dnd-u-img" [src]="image" *ngIf="image" id="img" class="uploaded-img" /> -->
-                      </object>
-                </div>
-              
-               
-            </mat-tab>
-        
-    </mat-tab-group>
+      <mat-tab-group>
+        <mat-tab label="Code">
+          <div class="code-div">
+            <pre><code data-ln-start-from="1" [highlight]="code"></code></pre>
+          </div>
+        </mat-tab>
+        <mat-tab label="SVG" style="width: 100%">
+          <div class="img-wrapper">
+            <iframe [src]="image" class="img"></iframe>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </div>
+  </mat-dialog-content>
+
+  <!-- <h2>
+  SVG Code
+  <button style="float: inline-end" mat-icon-button mat-dialog-close>
+    <mat-icon style="color: red">close</mat-icon>
+  </button>
+</h2>
+<mat-dialog-content>
+  <div class="modal-content">
+    <mat-tab-group>
+      <mat-tab label="Code">
+        <div class="content-div">
+          <pre><code data-ln-start-from="1" [highlight]="code"></code></pre>
+        </div>
+      </mat-tab>
+      <mat-tab label="SVG" style="width: 100%; height: 100%">
+        <div class="content-div">
+          <object
+            [data]="image"
+            type="image/svg+xml"
+            class="uploaded-img"
+            id="img"
+          ></object>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </mat-dialog-content>
+ -->
+</div>

@@ -9,6 +9,12 @@
   color: white;
 }
 
+.mint-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 mat-stepper {
   background-color: transparent !important;
   width: 100%;
@@ -69,12 +75,16 @@ mat-stepper {
   pointer-events: none !important;
 }
 
+.back-icon-wrapper {
+  position: relative;
+}
+
 .back-icon {
   transform: scale(1.6);
   vertical-align: middle;
   position: absolute;
   top: 18px;
-  left: 5%;
+  left: 0%;
   cursor: pointer;
 }
 

@@ -50,6 +50,7 @@ import { CollectionService } from 'src/app/services/api-services/collection.serv
 import { CodeviewComponent } from '../codeview/codeview.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogText, PendingDialogText, SnackBarText } from 'src/app/models/confirmDialog';
+import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
 
 @Component({
   selector: 'app-mint2',
@@ -163,7 +164,8 @@ export class Mint2Component implements OnInit {
     private dialogService: DialogService,
     private snackbar: SnackbarServiceService,
     private serviceCol: CollectionService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public transfer:TransferNftService
   ) {
     this.filteredtags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -172,7 +174,7 @@ export class Mint2Component implements OnInit {
       )
     );
 
-    console.log("inside constructor; ",this.wallet,this.email)
+    console.log('inside constructor; ', this.wallet, this.email);
   }
 
   sendToMint3(): void {
@@ -210,11 +212,7 @@ export class Mint2Component implements OnInit {
   }
 
   public openDialog() {
-    const dialogRef = this.dialog.open(CodeviewComponent, {
-      data: {
-        imgSrc: this.Encoded,
-      },
-    });
+    this.dialogService.openCodeView(this.Encoded);
   }
 
   pushTag(): void {
@@ -275,10 +273,35 @@ export class Mint2Component implements OnInit {
                   const dialog = this.dialogService.pendingDialog({
                     message:PendingDialogText.MINTING_IN_PROGRESS
                   });
-                  this.sendToMint3();
+
+                 this.apiService.getEndorsement(this.userPK)
+      .subscribe((result: any) => {
+        if (result.Status == null || result.Status == '') {
+          this.dialogService
+            .confirmDialog({
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
+            })
+            .subscribe((res) => {
+              if (res) {
+                //alert("You are not endorsed. Get endorsed now")
+                let arr:any=[this.mint.Blockchain,this.email]
+                this.router.navigate(['./signUp'], {
+                  queryParams: { data: JSON.stringify(arr) },
+                });
+              }
+            });
+          }else{
+            this.sendToMint3();
                   this.mintNFT(this.userPK);
                   dialog.close()
                   this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+          }
+        });
+
+                 
                 }
               })
         }
@@ -298,7 +321,6 @@ export class Mint2Component implements OnInit {
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
       this.apiService.addSVG(this.svg).subscribe();
-
             this.dialogService
             .confirmDialog({
                 title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
@@ -311,10 +333,32 @@ export class Mint2Component implements OnInit {
                 const dialog = this.dialogService.pendingDialog({
                   message:PendingDialogText.MINTING_IN_PROGRESS
                 });
-                this.sendToMint3();
-                this.mintNftSolana(this.mint.NFTIssuerPK);
-                dialog.close()
-                this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                this.apiService.getEndorsement(this.userPK)
+                .subscribe((result: any) => {
+                  if (result.Status == null || result.Status == '') {
+                    this.dialogService
+                      .confirmDialog({
+                          title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                          message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                          confirmText: ConfirmDialogText.CONFIRM_BTN,
+                          cancelText: ConfirmDialogText.CANCEL_BTN,
+                      })
+                      .subscribe((res) => {
+                        if (res) {
+                          //alert("You are not endorsed. Get endorsed now")
+                          let arr:any=[this.mint.Blockchain,this.email]
+                          this.router.navigate(['./signUp'], {
+                            queryParams: { data: JSON.stringify(arr) },
+                          });
+                        }
+                      });
+                    }else{
+                     this.sendToMint3();
+                          this.mintNftSolana(this.mint.NFTIssuerPK);
+                          dialog.close()
+                          this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                    }
+                  });
               }
             })  
     }
@@ -333,8 +377,7 @@ export class Mint2Component implements OnInit {
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'ethereum';
-      this.apiService.addSVG(this.svg).subscribe();
-         
+      this.apiService.addSVG(this.svg).subscribe();       
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
@@ -347,7 +390,27 @@ export class Mint2Component implements OnInit {
                   const dialog = this.dialogService.pendingDialog({
                     message:PendingDialogText.MINTING_IN_PROGRESS
                   });
-                  this.emint
+                  this.apiService.getEndorsement(this.userPK)
+      .subscribe((result: any) => {
+        if (result.Status == null || result.Status == '') {
+          this.dialogService
+            .confirmDialog({
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
+            })
+            .subscribe((res) => {
+              if (res) {
+                //alert("You are not endorsed. Get endorsed now")
+                let arr:any=[this.mint.Blockchain,this.email]
+                this.router.navigate(['./signUp'], {
+                  queryParams: { data: JSON.stringify(arr) },
+                });
+              }
+            });
+          }else{
+          this.emint
                     .mintInEthereum(
                       this.mint.NFTIssuerPK,
                       this.mint.NFTName,
@@ -365,6 +428,8 @@ export class Mint2Component implements OnInit {
                       dialog.close();
                       this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                     });
+          }
+        });
                   }
                 })
     }
@@ -397,19 +462,41 @@ export class Mint2Component implements OnInit {
                   const dialog = this.dialogService.pendingDialog({
                     message:PendingDialogText.MINTING_IN_PROGRESS
                   });
-                  this.pmint
-                    .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
-                    .then((res) => {
-                      this.mint.NFTTxnHash = res.transactionHash;
-                      this.tokenId = parseInt(res.logs[0].topics[3]);
-                      this.mint.NFTIdentifier = this.tokenId.toString();
-                      //this.apiService.updateSVGBlockchain(this.svgUpdate)
-                      this.sendToMint3();
-                      this.saveContractInGateway();
-                      this.saveTXNs();
-                      dialog.close()
-                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
-                      this.loaderService.isLoading.next(false);
+                  this.apiService.getEndorsement(this.userPK)
+                  .subscribe((result: any) => {
+                    if (result.Status == null || result.Status == '') {
+                      this.dialogService
+                        .confirmDialog({
+                            title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                            message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                            confirmText: ConfirmDialogText.CONFIRM_BTN,
+                            cancelText: ConfirmDialogText.CANCEL_BTN,
+                        })
+                        .subscribe((res) => {
+                          if (res) {
+                            //alert("You are not endorsed. Get endorsed now")
+                            let arr:any=[this.mint.Blockchain,this.email]
+                            this.router.navigate(['./signUp'], {
+                              queryParams: { data: JSON.stringify(arr) },
+                            });
+                          }
+                        });
+                      }else{
+                      this.pmint
+                                .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
+                                .then((res) => {
+                                  this.mint.NFTTxnHash = res.transactionHash;
+                                  this.tokenId = parseInt(res.logs[0].topics[3]);
+                                  this.mint.NFTIdentifier = this.tokenId.toString();
+                                  //this.apiService.updateSVGBlockchain(this.svgUpdate)
+                                  this.sendToMint3();
+                                  this.saveContractInGateway();
+                                  this.saveTXNs();
+                                  dialog.close()
+                                  this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                                  this.loaderService.isLoading.next(false);
+                                });
+                      }
                     });
                   }
                 })
@@ -438,7 +525,7 @@ export class Mint2Component implements OnInit {
       //   queryParams: { data: JSON.stringify(this.mint.Blockchain) },
       // });
       this.proceed.emit({
-        blockchain:this.mint.Blockchain
+        blockchain: this.mint.Blockchain,
       });
     });
   }
@@ -448,7 +535,7 @@ export class Mint2Component implements OnInit {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
         this.saveTXNs();
         this.proceed.emit({
-          blockchain:this.mint.Blockchain
+          blockchain: this.mint.Blockchain,
         });
       });
     } else {
@@ -460,9 +547,9 @@ export class Mint2Component implements OnInit {
     if (this.stxn.NFTTxnHash != null) {
       this.service.updateTXNStellar(this.stxn).subscribe((res) => {
         this.saveTXNs();
-       this.proceed.emit({
-        blockchain:this.mint.Blockchain
-       });
+        this.proceed.emit({
+          blockchain: this.mint.Blockchain,
+        });
       });
     } else {
       this.TXNStellar();
@@ -485,7 +572,14 @@ export class Mint2Component implements OnInit {
           this.minter.NFTTxnHash = this.mint.NFTTxnHash;
           this.minter.NFTIdentifier = data.NFTIdentifier;
           this.distributor = data.CreatorUserID;
-          this.updateMinter();
+          this.transfer.createATA( 
+            environment.fromWalletSecret,
+            'none',
+            this.mint.CreatorUserId,
+            data.NFTIssuerPK,
+            data.NFTIdentifier).then((res:any)=>{
+              this.updateMinter()
+            })
         });
     }
   }
@@ -567,45 +661,40 @@ export class Mint2Component implements OnInit {
     this.isLoadingPresent = false;
     this.loading.dismiss();
   }
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
   ngOnChanges(): void {
-      console.log("inside mint 2")
-      console.log("wallet and email is: ",this.wallet, this.email,this.key)
-      if(this.wallet=="metamask"){
-        console.log("---------metamaask------")
-      this.polygon=false
-      this.stellar=true
-      this.ethereum=false
-      this.solana=true
-
-      }
-      if(this.wallet=="phantom"){
-        console.log("---------phantom------")
-        this.polygon=true
-      this.stellar=true
-      this.ethereum=true
-      this.solana=false
-      }
-      if(this.wallet=="freighter"){
-        console.log("---------frighter------")
-        this.polygon=true
-      this.stellar=false
-      this.ethereum=true
-      this.solana=true
-      }
-       if (this.email != null) {
-      this.serviceCol
-        .getCollectionName(this.email)
-        .subscribe((data: any) => {
-          this.CollectionList = data;
-        });
+    console.log('inside mint 2');
+    console.log('wallet and email is: ', this.wallet, this.email, this.key);
+    if (this.wallet == 'metamask') {
+      console.log('---------metamaask------');
+      this.polygon = false;
+      this.stellar = true;
+      this.ethereum = false;
+      this.solana = true;
+    }
+    if (this.wallet == 'phantom') {
+      console.log('---------phantom------');
+      this.polygon = true;
+      this.stellar = true;
+      this.ethereum = true;
+      this.solana = false;
+    }
+    if (this.wallet == 'freighter') {
+      console.log('---------frighter------');
+      this.polygon = true;
+      this.stellar = false;
+      this.ethereum = true;
+      this.solana = true;
+    }
+    if (this.email != null) {
+      this.serviceCol.getCollectionName(this.email).subscribe((data: any) => {
+        this.CollectionList = data;
+      });
     } else {
       console.log('User PK not connected or not endorsed');
     }
 
-      //  })
+    //  })
     // });
 
     this.controlGroup = new FormGroup({
@@ -722,7 +811,7 @@ export class Mint2Component implements OnInit {
   public uploadImage(event: Event) {
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
-    console.log("-------------:",this)
+    console.log('-------------:', this);
     reader.onload = this._handleReaderLoaded.bind(this);
     reader.readAsBinaryString(this.file);
   }
@@ -734,7 +823,7 @@ export class Mint2Component implements OnInit {
     this.base64 = this.base64.replace(unwantedText, '');
     let encoded: string = atob(this.base64);
     this.Encoded = encoded;
-    console.log("HTML svg: ",this.Encoded)
+    console.log('HTML svg: ', this.Encoded);
 
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
     this.updateHTML();
@@ -748,47 +837,44 @@ export class Mint2Component implements OnInit {
       this.img = reader.result;
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.img);
 
-    //   svgToPng(this.Encoded, (imgData) => {
-    //     const pngImage = document.createElement('img');
-    //     document.body.appendChild(pngImage);
-    //     pngImage.src = imgData;
-    //   });
+      //   svgToPng(this.Encoded, (imgData) => {
+      //     const pngImage = document.createElement('img');
+      //     document.body.appendChild(pngImage);
+      //     pngImage.src = imgData;
+      //   });
 
-    //   function svgToPng(svg, callback) {
-    //     const url = getSvgUrl(svg);
-    //     svgUrlToPng(url, (imgData) => {
-    //       callback(imgData);
-    //       URL.revokeObjectURL(url);
-    //     });
-    //   }
+      //   function svgToPng(svg, callback) {
+      //     const url = getSvgUrl(svg);
+      //     svgUrlToPng(url, (imgData) => {
+      //       callback(imgData);
+      //       URL.revokeObjectURL(url);
+      //     });
+      //   }
 
-    //   function getSvgUrl(svg) {
-    //     return URL.createObjectURL(new Blob([svg], {
-    //       type: 'image/svg+xml'
-    //     }));
-    //   }
+      //   function getSvgUrl(svg) {
+      //     return URL.createObjectURL(new Blob([svg], {
+      //       type: 'image/svg+xml'
+      //     }));
+      //   }
 
-
-    //   function svgUrlToPng(svgUrl, callback) {
-    //     console.log("svg url: ",svgUrl)
-    //     const svgImage = document.createElement('img');
-    //     document.body.appendChild(svgImage);
-    //     svgImage.onload = () => {
-    //       const canvas = document.createElement('canvas');
-    //       canvas.width = svgImage.clientWidth;
-    //       canvas.height = svgImage.clientHeight;
-    //       const canvasCtx = canvas.getContext('2d');
-    //       canvasCtx!.drawImage(svgImage, 0, 0);
-    //       const imgData = canvas.toDataURL('image/png');
-    //       callback(imgData);
-    //       console.log("image: ",imgData)
-    //      // document.body.removeChild(imgPreview);
-    //     };
-    //     svgImage.src = svgUrl;
-    //     console.log("image svg: ", svgImage.src) 
-    //   }
-      
-    
+      //   function svgUrlToPng(svgUrl, callback) {
+      //     console.log("svg url: ",svgUrl)
+      //     const svgImage = document.createElement('img');
+      //     document.body.appendChild(svgImage);
+      //     svgImage.onload = () => {
+      //       const canvas = document.createElement('canvas');
+      //       canvas.width = svgImage.clientWidth;
+      //       canvas.height = svgImage.clientHeight;
+      //       const canvasCtx = canvas.getContext('2d');
+      //       canvasCtx!.drawImage(svgImage, 0, 0);
+      //       const imgData = canvas.toDataURL('image/png');
+      //       callback(imgData);
+      //       console.log("image: ",imgData)
+      //      // document.body.removeChild(imgPreview);
+      //     };
+      //     svgImage.src = svgUrl;
+      //     console.log("image svg: ", svgImage.src)
+      //   }
     };
   }
 
@@ -798,10 +884,13 @@ export class Mint2Component implements OnInit {
     el.click();
   }
 
-  public openCreateCollection () {
-    this.dialogService.createCollection(this.email,this.key).afterClosed().subscribe((data : any) => {
-      this.CollectionList.push({CollectionName : data.collectionName})
-    });
+  public openCreateCollection() {
+    this.dialogService
+      .createCollection(this.email, this.key)
+      .afterClosed()
+      .subscribe((data: any) => {
+        this.CollectionList.push({ CollectionName: data.collectionName });
+      });
   }
 
   @HostListener('dragover', ['$event']) public onDragOver(evt) {
@@ -820,12 +909,16 @@ export class Mint2Component implements OnInit {
     evt.preventDefault();
     evt.stopPropagation();
     this.onHover = false;
-    if (evt.target.id === 'nft-dnd' || evt.target.id === 'nft-dnd-ph' || evt.target.id === 'nft-dnd-img'  || evt.target.id === 'nft-dnd-u-img') {
+    if (
+      evt.target.id === 'nft-dnd' ||
+      evt.target.id === 'nft-dnd-ph' ||
+      evt.target.id === 'nft-dnd-img' ||
+      evt.target.id === 'nft-dnd-u-img'
+    ) {
       let files = evt.dataTransfer.files;
       let valid_files: Array<File> = files;
       this.file = valid_files[0];
       this.uploadImage(evt);
     }
-
   }
 }

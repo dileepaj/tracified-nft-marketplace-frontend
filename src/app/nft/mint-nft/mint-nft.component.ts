@@ -14,8 +14,8 @@ export class MintNftComponent implements OnInit {
   public mint: Mint2;
   public email: string;
   public wallet: string;
-  public key : string;
-  public blockchain:string;
+  public key: string;
+  public blockchain: string;
   constructor(private _location: Location) {}
 
   ngOnInit(): void {
@@ -34,9 +34,8 @@ export class MintNftComponent implements OnInit {
       if (index == 1) {
         this.email = event.email;
         this.wallet = event.wallet;
-        this.key=event.key;
-      }
-      else if (index == 2) {
+        this.key = event.key;
+      } else if (index == 2) {
         this.blockchain = event.blockchain;
       }
       this.selectedIndex = index;
@@ -47,9 +46,10 @@ export class MintNftComponent implements OnInit {
   }
 
   public back() {
-    //this._location.back();
     if (this.selectedIndex > 0) {
       this.selectedIndex--;
+    } else {
+      this._location.back();
     }
   }
 }

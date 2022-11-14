@@ -1,0 +1,26 @@
+@import '~highlight.js/styles/github.css';
+
+.parent{
+    background: rgb(0, 0, 0);
+        background: linear-gradient(0deg,
+                rgba(0, 0, 0, 1) 24%,
+                rgba(19, 139, 69, 1) 100%);
+        background-repeat: no-repeat;
+        margin: -24px;
+}
+
+h2 mat-icon {
+    color: white;
+    float: right;
+    cursor: pointer;
+}
+
+.close-btn{
+    color: red;
+}
+
+.uploaded-img {
+    max-width: 100%;
+    overflow: auto;
+    height: 300px;
+  }

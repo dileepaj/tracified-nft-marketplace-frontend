@@ -2,7 +2,7 @@
   <div class="nft-view-header" fxFlex="100%" fxLayout="row wrap">
     <div
       fxLayout="row wrap"
-      style="display: flex; flex-direction: row; justify-content: space-between;"
+      style="display: flex; flex-direction: row; justify-content: space-between"
       class="cont-wrapper"
     >
       <div class="breadcrumb-div">
@@ -14,15 +14,11 @@
           navigate_next
         </mat-icon>
 
-        <a style="color: #00c853">{{this.NFTList.nftname}}</a>
+        <a style="color: #00c853">{{ this.NFTList.nftname }}</a>
       </div>
     </div>
   </div>
-  <div
-    class="nft-div cont-wrapper"
-    fxLayout="row wrap"
-
-  >
+  <div class="nft-div cont-wrapper" fxLayout="row wrap">
     <div
       class="nft-sum"
       ngClass.lt-lg="nft-sum-mobile"
@@ -35,14 +31,16 @@
         ngStyle.lt-lg="width : 400px; height: 400px"
         ngStyle.lt-sm="width : 100%; "
       >
-        <object [data]="imageSrc" *ngIf="imageSrc" class="nft-img">
-        </object>
+        <object [data]="imageSrc" *ngIf="imageSrc" class="nft-img"></object>
         <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
-          <img src="../../../assets/icons/code-icon.png" style="flex-basis: 40%" />
+          <img
+            src="../../../assets/icons/code-icon.png"
+            style="flex-basis: 40%"
+          />
         </button>
       </div>
       <p class="p-text sum-text" ngStyle.lt-lg="width : 100%">
-       {{this.NFTList.description}}
+        {{ this.NFTList.description }}
       </p>
     </div>
     <div
@@ -52,16 +50,12 @@
       fxFlex.lt-lg="100%"
     >
       <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-        <img
-          src={{this.image}}
-          class="blockchain-logo"
-        />
+        <img src="{{ this.image }}" class="blockchain-logo" />
         <div class="stats" [class.hidden]="selectedTab === 1">
           <mat-icon class="material-symbols-outlined"> visibility </mat-icon>
-          <label style="margin-right: 30px">{{this.watchlist}} watched</label>
+          <label style="margin-right: 30px">{{ this.watchlist }} watched</label>
           <mat-icon class="material-symbols-outlined"> favorite </mat-icon>
-          <label>{{this.favorites}} favorites</label>
-
+          <label>{{ this.favorites }} favorites</label>
         </div>
       </div>
       <div
@@ -70,13 +64,18 @@
         class="nft-det-wrapper"
       >
         <div class="nft-det">
-          <label class="nft-name">{{this.NFTList.nftname}}</label>
-          <label class="nft-cat"><b>Category - </b>{{this.NFTList.categories}}</label>
+          <label class="nft-name">{{ this.NFTList.nftname }}</label>
+          <label class="nft-cat"
+            ><b>Category - </b>{{ this.NFTList.categories }}</label
+          >
           <div class="nft-price">
             <label class="nft-cat"><b>Price - </b></label>
-            <img src={{this.icon}} />
-            <label class="label-hl">{{this.NFTList.currentprice}} {{this.crypto}}  <small>includes royalties</small></label>
-            <label class="label-sm">{{this.price}}</label>
+            <img src="{{ this.icon }}" />
+            <label class="label-hl"
+              >{{ this.NFTList.currentprice }} {{ this.crypto }}
+              <small>includes royalties</small></label
+            >
+            <label class="label-sm">{{ this.price }}</label>
           </div>
         </div>
         <button
@@ -88,33 +87,26 @@
           Buy Now
         </button>
       </div>
-      <mat-tab-group [selectedIndex]="selectedTab">
+      <mat-tab-group class="buy-view-tabs" [selectedIndex]="selectedTab">
         <mat-tab>
           <div class="sell-cont">
             <div class="owners">
               <div class="prev-o">
                 <label class="owner-s">Creator Name</label>
-                <label class="owner-l">{{this.NFTList.artistname}}</label>
+                <label class="owner-l">{{ this.NFTList.artistname }}</label>
               </div>
               <div class="prev-o">
                 <label class="owner-s">Creator</label>
-                <label class="owner-l"
-                  >{{this.NFTList.creatoruserid}}</label
-                >
+                <label class="owner-l">{{ this.NFTList.creatoruserid }}</label>
               </div>
               <div class="prev-o">
                 <label class="owner-s">Issuer</label>
-                <label class="owner-l"
-                  >{{this.NFTList.marketcontract}}</label
-                >
+                <label class="owner-l">{{ this.NFTList.marketcontract }}</label>
               </div>
               <div class="prev-o">
                 <label class="owner-s">Previous Owner</label>
-                <label class="owner-l"
-                  >{{this.NFTList.distributorpk}}</label
-                >
+                <label class="owner-l">{{ this.NFTList.distributorpk }}</label>
               </div>
-
             </div>
             <div class="user-story">
               <label class="heading-s">NFT Story</label>
@@ -142,12 +134,14 @@
                   <tbody>
                     <tr *ngFor="let item of List">
                       <td width="50%">
-                        {{item.NFTName}}
+                        {{ item.NFTName }}
                       </td>
-                      <td width="25%">{{item.Status}}</td>
+                      <td width="25%">{{ item.Status }}</td>
                       <td width="25%">
                         <mat-icon class="material-symbols-outlined cursor-p">
-                          <a href="{{item.NFTTxnHash}}" class="open-link" >open_in_new</a>
+                          <a href="{{ item.NFTTxnHash }}" class="open-link"
+                            >open_in_new</a
+                          >
                         </mat-icon>
                       </td>
                     </tr>
@@ -193,8 +187,8 @@
                     fxFlex.md="15%"
                     fxFlex.lt-md="100%"
                   >
-                    <label class="name">{{items.UserID}}</label>
-                    <label class="date">{{items.Time}}</label>
+                    <label class="name">{{ items.UserID }}</label>
+                    <label class="date">{{ items.Time }}</label>
                     <div>
                       <div
                         style="
@@ -215,7 +209,8 @@
                             class="full"
                             for="star5"
                             title="Awesome - 5 stars"
-                          >{{items.Rating}}</label>
+                            >{{ items.Rating }}</label
+                          >
                         </fieldset>
                       </div>
                     </div>
@@ -228,7 +223,7 @@
                     fxFlex.lt-md="100%"
                   >
                     <p class="p-text">
-                     {{items.Description}}
+                      {{ items.Description }}
                     </p>
                   </div>
                 </div>
@@ -248,7 +243,7 @@
             </button>
           </div>
           <div>
-            <form class="sell-form"  [formGroup]="controlGroup" >
+            <form class="sell-form" [formGroup]="controlGroup">
               <label class="review-label">Add Your Review</label>
               <div
                 style="
@@ -435,9 +430,6 @@
     </div>
   </div>
 </div>
-
-
-
 
 <!-- <div class="main-div" fxLayout="row wrap">
   <div class="nft-view-header" fxFlex="100%">

@@ -362,7 +362,7 @@ const appRoutes: Routes = [
     MatCardModule,
     MatIconModule,
     MatToolbarModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, { scrollPositionRestoration: 'enabled' }),
     MatExpansionModule,
     MatCheckboxModule,
     MatSelectModule,

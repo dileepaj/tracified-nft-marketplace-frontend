@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="contact-us-header">
+  <div class="contact-us-header cont-wrapper">
     <mat-icon class="back" matTooltip="Back" (click)="back()"
       >arrow_back</mat-icon
     >
@@ -38,15 +38,59 @@
       >
       <mat-form-field appearance="outline">
         <mat-select
-          formControlName="Collection"
+          formControlName="Category"
           class="select-bc"
-          value="minting"
+          value="Minting"
+          placeholder="Select category"
+          disableOptionCentering
         >
-          <mat-select-trigger>
-            <label class="collection-dropdown-selected">Minting</label>
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Category'].value === 'Minting'"
+          >
+            <label class="collection-dropdown-selected"> Minting </label>
           </mat-select-trigger>
-          <mat-option value="minting" name="type"
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Category'].value === 'Selling'"
+          >
+            <label class="collection-dropdown-selected">Selling</label>
+          </mat-select-trigger>
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Category'].value === 'Buying'"
+          >
+            <label class="collection-dropdown-selected">Buying</label>
+          </mat-select-trigger>
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Category'].value === 'Royalties'"
+          >
+            <label class="collection-dropdown-selected">Royalties</label>
+          </mat-select-trigger>
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Category'].value === 'Endorsements'"
+          >
+            <label class="collection-dropdown-selected">Endorsements</label>
+          </mat-select-trigger>
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Category'].value === 'Other'"
+          >
+            <label class="collection-dropdown-selected">Other</label>
+          </mat-select-trigger>
+          <mat-option value="Minting" name="type"
             ><label class="collection-dropdown">Minting</label></mat-option
+          >
+          <mat-option value="Selling" name="type"
+            ><label class="collection-dropdown">Selling</label></mat-option
+          >
+          <mat-option value="Buying" name="type"
+            ><label class="collection-dropdown">Buying</label></mat-option
+          >
+          <mat-option value="Royalties" name="type"
+            ><label class="collection-dropdown">Royalties</label></mat-option
+          >
+          <mat-option value="Endorsements" name="type"
+            ><label class="collection-dropdown">Endorsements</label></mat-option
+          >
+          <mat-option value="Other" name="type"
+            ><label class="collection-dropdown">Other</label></mat-option
           >
         </mat-select>
       </mat-form-field>
@@ -103,7 +147,10 @@
       </div>
       <label class="file-name">{{ name }}</label>
     </div>
-    <div class="contact-form-group" ngStyle.lt-md="width:100%">
+    <div
+      class="contact-form-group"
+      ngStyle.lt-md="width:100%; display : flex; flex-direction: row; justify-content: center"
+    >
       <button mat-flat-button class="btn-submit" (click)="saveUserFAQ()">
         Submit
       </button>

@@ -51,7 +51,7 @@ export class ContactUsComponent implements OnInit {
         Validators.email,
         Validators.required,
       ]),
-      Collection: new FormControl(this.userFAQ.category, Validators.required),
+      Category: new FormControl(this.userFAQ.category, Validators.required),
       Subject: new FormControl(this.userFAQ.subject, Validators.required),
       Description: new FormControl(this.userFAQ.desc, Validators.required),
       attachment: new FormControl(this.userFAQ.attached, Validators.required),

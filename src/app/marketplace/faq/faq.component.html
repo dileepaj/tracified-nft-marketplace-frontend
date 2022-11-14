@@ -41,7 +41,9 @@
 
           <div class="answer">
             <label class="answer-title">Answer</label>
-            <label>{{ data.desc }}</label>
+            <label
+              ><div [innerHTML]="data.desc"></div></label
+            >
           </div>
         </mat-expansion-panel>
       </div>

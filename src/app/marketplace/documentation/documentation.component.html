@@ -57,12 +57,9 @@
                 hideToggle="true"
                 *ngFor="let data of List"
               >
-                <mat-expansion-panel-header
-                  class="doc-panel-header"
-                  (click)="selectDoc(data.topic)"
-                >
+                <mat-expansion-panel-header class="doc-panel-header" (click)="selectDoc(data.topic)">
                   <mat-panel-title>
-                    {{ data.topic }}
+                   {{data.topic}}
                   </mat-panel-title>
                   <mat-panel-description>
                     <mat-icon
@@ -80,6 +77,7 @@
             </div>
           </div>
         </div>
+        
         <div
           class="doc-cont"
           fxFlex.xl="60%"
@@ -94,12 +92,12 @@
             stories.
           </p>
           <h1 class="doc-topic">{{ this.topic }}</h1>
-
-          <p>
-            {{ this.desc }}
-          </p>
+          <div [innerHTML]="this.desc">
+           <!-- {{this.desc}} -->
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<!-- <img src="../../../assets/images/freighter.png"> -->

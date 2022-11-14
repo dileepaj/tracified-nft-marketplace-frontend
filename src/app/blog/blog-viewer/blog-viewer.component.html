@@ -4,7 +4,7 @@
       class="nft-story-content"
       ngStyle.lt-lg="height : fit-content; padding-right: 0px;"
     >
-      <div class="nft-story-header" fxFlex="100%" fxLayout="row wrap">
+      <div class="nft-story-header" fxLayout="row wrap">
         <div
           fxLayout="row wrap"
           fxFlex.gt-xl="50%"
@@ -20,7 +20,11 @@
           "
         >
           <div class="breadcrumb-div">
-            <a class="breadcrumb-link">Help Center</a>
+            <a
+              class="breadcrumb-link"
+              (click)="breadCrumbNavigate('/help-center')"
+              >Help Center</a
+            >
             <mat-icon
               class="material-symbols-outlined"
               style="vertical-align: middle"
@@ -47,30 +51,55 @@
               class="story-img"
             />
           </div>
-          <p>These blogs depict the information of the marketplace and tracified as whole.</p>
-
-          <div fxLayout="column">
-            <label class="name">{{this.topics}}</label>
+          <div style="flex: 1">
+            <p>
+              These blogs depict the information of the marketplace and
+              tracified as whole.
+            </p>
+            <label class="name">{{ this.topics }}</label>
           </div>
         </div>
       </div>
       <div class="story">
         <p class="normal-text">
-          {{this.description}}
+          {{ this.description }}
         </p>
       </div>
     </div>
     <div class="sidebar-wrapper" fxHide.lt-lg="true">
       <div class="nft-story-sidebar">
         <h3>Browse Stories</h3>
-        <div
-          class="story-card"
-          *ngFor="let item of List"
-        >
-          <img src="https://via.placeholder.com/150" />
-          <div class="actions">
-            <label>{{item.topic}}</label>
-            <button mat-flat-button (click)="selectBlog(item.topic)">View Story</button>
+        <div class="story-sidebar-content">
+          <div class="story-card" *ngFor="let item of List">
+            <img src="https://via.placeholder.com/150" />
+            <div class="actions">
+              <div
+                style="
+                  width: 100%;
+                  height: 20px;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <label class="story-title">{{ item.topic }}</label>
+              </div>
+              <div
+                style="
+                  width: 100%;
+                  height: 40px;
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <button mat-flat-button (click)="selectBlog(item.topic)">
+                  View Story
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -85,14 +114,13 @@
     <div class="browse">
       <h3>Browse Stories</h3>
       <div class="list">
-        <div
-          class="story-card"
-          *ngFor="let item of List"
-        >
+        <div class="story-card" *ngFor="let item of List">
           <img src="https://via.placeholder.com/150" />
           <div class="actions">
-            <label>{{item.topic}}</label>
-            <button mat-flat-button (click)="selectBlog(item.topic)">View Story</button>
+            <label>{{ item.topic }}</label>
+            <button mat-flat-button (click)="selectBlog(item.topic)">
+              View Story
+            </button>
           </div>
         </div>
       </div>

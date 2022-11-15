@@ -10,6 +10,7 @@ export class NFT{
     public  Categories:string,
     public Tags:string[],
     public Imagebase64:string,
+    public AttachmentType:string,
     public ArtistName:string,
     public ArtistProfileLink:string,
     public NFTIssuerPK:string,
@@ -138,6 +139,7 @@ export interface Image {
         public Hash:string,
         public Base64ImageSVG:string,
         public blockchain:string="NA",
+        public AttachmentType:string,
     ){}
 }
 

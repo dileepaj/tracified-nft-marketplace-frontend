@@ -31,7 +31,7 @@
         ngStyle.lt-lg="width : 400px; height: 400px"
         ngStyle.lt-sm="width : 100%; "
       >
-        <object [data]="imageSrc" *ngIf="imageSrc" class="nft-img"></object>
+        <embed [src]="imageSrc" *ngIf="imageSrc" class="nft-img" >
         <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
           <img
             src="../../../assets/icons/code-icon.png"

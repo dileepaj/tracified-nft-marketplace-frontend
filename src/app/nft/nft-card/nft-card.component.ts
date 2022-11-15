@@ -41,7 +41,7 @@ export class NftCardComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.itemId)
-    console.log("nft card data: ",this.item,this.blockchain)
+    console.log("nft card data: ",this.item.ImageBase64,this.blockchain)
    
   }
 

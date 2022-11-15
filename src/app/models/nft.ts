@@ -37,6 +37,7 @@ export class GetNFT{
 	public Category       :                string,
 	public Collection      :                 string,
 	public Imagebase64        :              string,
+	public AttachmentType:string,
 	public Blockchain     :        string,
 	public NFTTxnhash       :                string,
 	public Timestamp       :                 string,

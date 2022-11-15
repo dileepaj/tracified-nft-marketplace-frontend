@@ -31,7 +31,8 @@ export class ViewDashboardComponent implements OnInit {
   Name: any;
   smallScreen : boolean = false;
   imagePath: any;
-  
+  greeting : string = '';
+
   constructor(
     private api: ApiServicesService,
     private _sanitizer: DomSanitizer,
@@ -57,7 +58,7 @@ export class ViewDashboardComponent implements OnInit {
       this.selectedBlockchain = params['blockchain']
       console.log("this blockchain: ",this.selectedBlockchain)})
     this.retrive(this.selectedBlockchain);
-
+    this.setGreeting();
     if (window.innerWidth < 1280) {
       this.opened = false;
       this.smallScreen = true;
@@ -76,6 +77,20 @@ export class ViewDashboardComponent implements OnInit {
     } else {
       this.opened = true;
       this.smallScreen = false;
+    }
+  }
+
+  private setGreeting () {
+    const date = new Date().toLocaleString('en-US', {hour : 'numeric', hour12 : false});
+    let time = Number(date);
+    if(time >= 1 && time < 12 || time == 24) {
+      this.greeting = 'Good Morning';
+    }
+    else if(time >= 12 && time < 16) {
+      this.greeting = 'Good Afternoon';
+    }
+    else {
+      this.greeting = 'Good Evening';
     }
   }
 

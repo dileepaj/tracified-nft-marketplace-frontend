@@ -18,6 +18,15 @@ export class Endorse {
       public PublicKey:string,
       public Email:string,
       public Contact:string,
+      public profilepic:string
+    ) {}
+  }
+  export class UpdateEndorseNoImage {
+    constructor(
+      public Name: string,
+      public PublicKey:string,
+      public Email:string,
+      public Contact:string,
     ) {}
   }
 
@@ -27,6 +36,6 @@ export class Endorse {
       public publickey:string,
       public Review:string,
       public Rating:string,
-      public Email:string
+      public Email:string,
     ) {}
   }

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UpdateEndorse } from 'src/app/models/endorse';
+import { UpdateEndorse, UpdateEndorseNoImage } from 'src/app/models/endorse';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { Location } from '@angular/common';
@@ -12,7 +12,8 @@ import { Location } from '@angular/common';
 })
 export class EditProfileComponent implements OnInit {
   @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
-  endorse:UpdateEndorse= new UpdateEndorse('','','','')
+  endorse: UpdateEndorse = new UpdateEndorse('', '', '', '', '')
+  endorseNoImage: UpdateEndorseNoImage = new UpdateEndorseNoImage('', '', '', "")
   file: File;
   base64: string = '';
   img: any = '';
@@ -21,24 +22,26 @@ export class EditProfileComponent implements OnInit {
   controlGroupPassword: FormGroup;
   data: any;
   image: string;
-  EndorseList:any;
-  constructor(private router: Router,private _location: Location,private route:ActivatedRoute,private service:ApiServicesService,  private snackbarSrevice:SnackbarServiceService) {}
+  currentImage: string;
+  EndorseList: any;
+  constructor(private router: Router, private _location: Location, private route: ActivatedRoute, private service: ApiServicesService, private snackbarSrevice: SnackbarServiceService) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params)=>{
-      this.data=JSON.parse(params['data']);
-      this.service.getEndorsement(this.data).subscribe((res:any)=>{
-        this.EndorseList=res
-        console.log("endorsed previously: ",this.EndorseList)
+    this.route.queryParams.subscribe((params) => {
+      this.data = JSON.parse(params['data']);
+      this.service.getEndorsement(this.data).subscribe((res: any) => {
+        this.EndorseList = res
+        this.currentImage = res.profilepic
+        this.image=""
+        this.endorse.Name = res.Name;
+        this.endorse.Contact = res.Contact
+        this.endorse.Email = res.Email
       })
     })
-
-
-
     this.controlGroupProfile = new FormGroup({
-      name: new FormControl(this.endorse.Name, Validators.required),
-      contact: new FormControl(this.endorse.Contact, Validators.required),
-      mail: new FormControl(this.endorse.Email, Validators.required),
+      name: new FormControl(this.endorse.Name),
+      contact: new FormControl(this.endorse.Contact),
+      mail: new FormControl(this.endorse.Email, Validators.email),
     });
   }
 
@@ -47,18 +50,28 @@ export class EditProfileComponent implements OnInit {
   }
 
   public saveProfile() {
-    this.endorse.Name = this.controlGroupProfile.get('name')!.value;
-    this.endorse.Contact = this.controlGroupProfile.get('contact')!.value;
-    this.endorse.Email = this.controlGroupProfile.get('mail')!.value;
-    this.endorse.PublicKey=this.data
-   // this.profile.image = this.base64;
-console.log("Data enterred is: ",this.endorse)
-    this.service.updateEndorsement(this.endorse).subscribe(res=>{
+    if (this.controlGroupProfile.get('name')!.value!=""){
+      this.endorse.Name = this.controlGroupProfile.get('name')!.value;
+    }
+    if(this.controlGroupProfile.get('contact')!.value!=""){
+      this.endorse.Contact = this.controlGroupProfile.get('contact')!.value;
+    }
+    if(this.controlGroupProfile.get('mail')!.value!=""){
+      this.endorse.Email = this.controlGroupProfile.get('mail')!.value;
+    }
+    this.endorse.PublicKey = this.data
+    if(this.image!=""){
+      this.endorse.profilepic = this.image
+    }else{
+      this.endorse.profilepic = this.currentImage
+    }
+    // this.profile.image = this.base64;
+    console.log("Data enterred is: ", this.endorse)
+    this.service.updateEndorsement(this.endorse).subscribe(res => {
       this.snackbarSrevice.openSnackBar("Profile has been updated successfully")
+      this.router.navigate(['./home']);
     })
-
   }
-
 
   public onChange(event: any) {
     this.file = event.target.files[0];

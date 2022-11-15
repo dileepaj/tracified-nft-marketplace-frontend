@@ -680,7 +680,7 @@ export class BuyViewComponent implements OnInit {
         reviewcard.UserID = this.review[x].userid;
         reviewcard.Rating = this.review[x].rating;
         reviewcard.Description = this.review[x].description;
-        reviewcard.Time = this.review[x].timestamp;
+        reviewcard.Timestamp = this.review[x].timestamp;
         this.ReviewList.push(reviewcard);
         console.log('Review List: ', this.ReviewList);
       }

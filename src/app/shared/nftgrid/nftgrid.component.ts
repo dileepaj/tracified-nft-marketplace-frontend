@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Card, Favourites, WatchList } from 'src/app/models/marketPlaceModel';
+import { Card, Favourites, NFTCard, WatchList } from 'src/app/models/marketPlaceModel';
 import { SVG } from 'src/app/models/minting';
 import { NFTMarket } from 'src/app/models/nft';
 import { UserWallet } from 'src/app/models/userwallet';
@@ -210,10 +210,15 @@ export class NftgridComponent implements OnInit {
     var src = str1.concat(str2.toString());
     this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
       }
-      let card: Card = new Card('', '', '');
+      let card: NFTCard = new NFTCard('', '', '', '','','','');
       card.ImageBase64 = this.imageSrc;
       card.NFTIdentifier = response.nftidentifier;
       card.NFTName = response.nftname;
+      card.Blockchain = response.blockchain;
+      card.CreatorUserId=response.creatoruserid;
+      card.CurrentOwnerPK=response.currentownerpk;
+      card.SellingStatus=response.sellingstatus;
+    
       this.List.push(card);
       console.log('listing hp: ', this.List);
     });

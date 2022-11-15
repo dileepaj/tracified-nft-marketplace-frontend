@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
   tag: any;
   controlGroup: FormGroup;
   bcListExpanded: boolean = false;
-  resourcesExpanded : boolean = false;
+  resourcesExpanded: boolean = false;
   timedOutCloser;
 
   constructor(
@@ -107,9 +107,13 @@ export class HeaderComponent implements OnInit {
   public search() {
     const tag = this.formValue('Tag');
     console.log('tags :', tag);
-    this.router.navigate(['/shownft'], {
-      queryParams: { data: tag },
-    });
+    if (tag !== '') {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/shownft'], {
+          queryParams: { data: tag },
+        });
+      });
+    }
   }
 
   public goToResource(route: any) {
@@ -145,7 +149,7 @@ export class HeaderComponent implements OnInit {
     this.accListExpanded = !this.accListExpanded;
   }
 
-  public toggleResources () {
+  public toggleResources() {
     this.resourcesExpanded = !this.resourcesExpanded;
   }
   private openDialogTest() {
@@ -155,7 +159,7 @@ export class HeaderComponent implements OnInit {
       confirmText: 'Yes',
     }); */
 
-    this.dialogService.pendingDialog({message:'Loading Contents..'});
+    this.dialogService.pendingDialog({ message: 'Loading Contents..' });
   }
 
   mouseEnter(trigger) {

@@ -10,10 +10,10 @@
         <div id="profile-cont">
           <img
             id="profile-img"
-            src="../../../assets/images/default_profile.png"
+            [src]="imagePath"
           />
-          <h2 style="font-size: 20px; font-weight: 500">USER</h2>
-          <label style="font-size: 25px; font-weight: 700">{{this.Name}}</label>
+          <!-- <h2 style="font-size: 20px; font-weight: 500">Hi</h2> -->
+          <label style="font-size: 25px; font-weight: 700">{{this.greeting}}, {{this.Name}}</label>
         </div>
         <mat-nav-list id="navlist">
           <!-- <mat-list-item
@@ -49,8 +49,9 @@
         </mat-nav-list>
         <button
           mat-icon-button
-          style="color: #f17272; margin-top: 20px"
-          matTooltip="Logout"
+          style="color: #00C853; margin-top: 20px"
+          matTooltip="Back to profile overview"
+          (click)="backtoHome()"
         >
           <mat-icon>logout</mat-icon>
         </button>

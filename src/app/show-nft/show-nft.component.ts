@@ -5,6 +5,7 @@ import {
   Card,
   Favourites,
   HomeCard,
+  NFTCard,
   WatchList,
 } from '../models/marketPlaceModel';
 import { SVG, Track } from '../models/minting';
@@ -27,7 +28,7 @@ export class ShowNFTComponent implements OnInit {
   Decryption: any;
   NFTList: any;
   List: any[] = [];
-  svg: SVG = new SVG('', '', 'NA');
+  svg: SVG = new SVG('', '', 'NA','');
   favouritesModel: Favourites = new Favourites('', '', '');
   watchlistModel: WatchList = new WatchList('', '', '');
   nft: NFTMarket = new NFTMarket(
@@ -162,17 +163,25 @@ export class ShowNFTComponent implements OnInit {
                 .getSVGByHash(this.nfts[x].imagebase64)
                 .subscribe((res: any) => {
                   this.Decryption = res.Response.Base64ImageSVG;
-                  this.dec = btoa(this.Decryption);
-                  var str2 = this.dec.toString();
-                  var str1 = new String('data:image/svg+xml;base64,');
-                  var src = str1.concat(str2.toString());
-                  this.imageSrc =
-                    this._sanitizer.bypassSecurityTrustResourceUrl(src);
-                  let card: HomeCard = new HomeCard('', '', '', '');
+
+                  if(this.nfts[x].attachmenttype == "image/jpeg" || this.nfts[x].attachmenttype == "image/jpg" || this.nfts[x].attachmenttype == "image/png"){
+                    this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+                  }else{
+                    this.dec = btoa(this.Decryption);
+                var str2 = this.dec.toString();
+                var str1 = new String( "data:image/svg+xml;base64,");
+                var src = str1.concat(str2.toString());
+                this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+                  }
+           
+                   let card: NFTCard = new NFTCard('', '', '', '','','','');
                   card.ImageBase64 = this.imageSrc;
                   card.NFTIdentifier = this.nfts[x].nftidentifier;
                   card.NFTName = this.nfts[x].nftname;
-                  card.Blockchain = this.nfts.blockchain;
+                  card.Blockchain = this.nfts[x].blockchain;
+                  card.CreatorUserId=this.nfts[x].creatoruserid;
+                  card.CurrentOwnerPK=this.nfts[x].currentownerpk;
+                  card.SellingStatus=this.nfts[x].sellingstatus;
                   this.List.push(card);
                   console.log('list ', this.List);
                   this.loading = false;
@@ -190,17 +199,24 @@ export class ShowNFTComponent implements OnInit {
                 .getSVGByHash(this.nfts[x].imagebase64)
                 .subscribe((res: any) => {
                   this.Decryption = res.Response.Base64ImageSVG;
-                  this.dec = btoa(this.Decryption);
-                  var str2 = this.dec.toString();
-                  var str1 = new String('data:image/svg+xml;base64,');
-                  var src = str1.concat(str2.toString());
-                  this.imageSrc =
-                    this._sanitizer.bypassSecurityTrustResourceUrl(src);
-                  let card: HomeCard = new HomeCard('', '', '', '');
+
+                  if(this.nfts[x].attachmenttype == "image/jpeg" || this.nfts[x].attachmenttype == "image/jpg" || this.nfts[x].attachmenttype == "image/png"){
+                    this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+                  }else{
+                    this.dec = btoa(this.Decryption);
+                var str2 = this.dec.toString();
+                var str1 = new String( "data:image/svg+xml;base64,");
+                var src = str1.concat(str2.toString());
+                this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+                  }
+                   let card: NFTCard = new NFTCard('', '', '', '','','','');
                   card.ImageBase64 = this.imageSrc;
                   card.NFTIdentifier = this.nfts[x].nftidentifier;
                   card.NFTName = this.nfts[x].nftname;
-                  card.Blockchain = this.nfts.blockchain;
+                  card.Blockchain = this.nfts[x].blockchain;
+                  card.CreatorUserId=this.nfts[x].creatoruserid;
+                  card.CurrentOwnerPK=this.nfts[x].currentownerpk;
+                  card.SellingStatus=this.nfts[x].sellingstatus;
                   this.List.push(card);
                   console.log('list ', this.List);
                   this.loading = false;
@@ -225,17 +241,24 @@ export class ShowNFTComponent implements OnInit {
                 .getSVGByHash(this.NFTList.Response[x].imagebase64)
                 .subscribe((res: any) => {
                   this.Decryption = res.Response.Base64ImageSVG;
-                  this.dec = btoa(this.Decryption);
-                  var str2 = this.dec.toString();
-                  var str1 = new String('data:image/svg+xml;base64,');
-                  var src = str1.concat(str2.toString());
-                  this.imageSrc =
-                    this._sanitizer.bypassSecurityTrustResourceUrl(src);
-                  let card: HomeCard = new HomeCard('', '', '', '');
+
+                  if(this.NFTList.Response[x].attachmenttype == "image/jpeg" || this.NFTList.Response[x].attachmenttype == "image/jpg" || this.NFTList.Response[x].attachmenttype == "image/png"){
+                    this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+                  }else{
+                    this.dec = btoa(this.Decryption);
+                var str2 = this.dec.toString();
+                var str1 = new String( "data:image/svg+xml;base64,");
+                var src = str1.concat(str2.toString());
+                this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+                  }
+                let card: NFTCard = new NFTCard('', '', '', '','','','');
                   card.ImageBase64 = this.imageSrc;
                   card.NFTIdentifier = this.NFTList.Response[x].nftidentifier;
                   card.NFTName = this.NFTList.Response[x].nftname;
                   card.Blockchain = this.NFTList.Response[x].blockchain;
+                  card.CreatorUserId=this.NFTList.Response[x].creatoruserid;
+                  card.CurrentOwnerPK=this.NFTList.Response[x].currentownerpk;
+                  card.SellingStatus=this.NFTList.Response[x].sellingstatus;
                   this.List.push(card);
                   console.log('list ', this.List);
                   this.loading = false;

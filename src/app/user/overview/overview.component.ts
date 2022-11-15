@@ -130,11 +130,16 @@ export class OverviewComponent implements OnInit {
    console.log("hotpick arr: ",response)
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
-        this.dec = btoa(this.Decryption);
+        if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" || response.attachmenttype == "image/png"){
+          this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+        }else{
+          this.dec = btoa(this.Decryption);
       var str2 = this.dec.toString();
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        }
+ 
      let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
@@ -151,11 +156,16 @@ export class OverviewComponent implements OnInit {
   FilterByONSALE(response:any){
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
-        this.dec = btoa(this.Decryption);
+        if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" || response.attachmenttype == "image/png"){
+          this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+        }else{
+          this.dec = btoa(this.Decryption);
       var str2 = this.dec.toString();
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        }
+ 
       let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
@@ -171,11 +181,18 @@ export class OverviewComponent implements OnInit {
   FilterByMinted(response:any){
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
-        this.dec = btoa(this.Decryption);
+        console.log("response attched: ",response.attachmenttype)
+        if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" || response.attachmenttype == "image/png"){
+          console.log("--------------------------img",this.Decryption)
+          this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+        }else{
+          this.dec = btoa(this.Decryption);
       var str2 = this.dec.toString();
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        }
+ 
       let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
@@ -191,11 +208,16 @@ export class OverviewComponent implements OnInit {
   FilterByBoughtNFT(response:any){
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
-        this.dec = btoa(this.Decryption);
+        if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" || response.attachmenttype == "image/png"){
+          this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+        }else{
+          this.dec = btoa(this.Decryption);
       var str2 = this.dec.toString();
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        }
+ 
       let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
@@ -211,11 +233,18 @@ export class OverviewComponent implements OnInit {
   FilterByTrending(response:any){
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
-        this.dec = btoa(this.Decryption);
+        console.log("response attched: ",response.attachmenttype)
+        if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" || response.attachmenttype == "image/png"){
+          console.log("--------------------------img",this.Decryption)
+          this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+        }else{
+          this.dec = btoa(this.Decryption);
       var str2 = this.dec.toString();
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        }
+ 
       let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier

@@ -79,7 +79,7 @@ export class SellNftComponent implements OnInit {
   Decryption: any;
   dec: string;
   List: any[] = [];
-  svg: SVG = new SVG('', '', 'NA');
+  svg: SVG = new SVG('', '', 'NA','');
   NFTList: any;
   prevOwner: string;
   watchlist: any;
@@ -153,6 +153,17 @@ export class SellNftComponent implements OnInit {
       )
       .subscribe();
   }
+
+  dataURItoBlob(dataURI,type) {
+   // const byteString = window.atob(dataURI);
+    const arrayBuffer = new ArrayBuffer(dataURI.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < dataURI.length; i++) {
+      int8Array[i] = dataURI.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], { type: 'image/png' });    
+    return blob;
+ }
 
   async Sell(): Promise<void> {
     if (this.NFTList.blockchain == 'stellar') {
@@ -472,13 +483,18 @@ export class SellNftComponent implements OnInit {
               console.log('service res:', res);
               this.Decryption = res.Response.Base64ImageSVG;
               console.log('decrypted sg:', this.Decryption);
-              this.dec = btoa(this.Decryption);
-              console.log('dec : ', this.dec);
-              var str2 = this.dec.toString();
-              var str1 = new String('data:image/svg+xml;base64,');
-              var src = str1.concat(str2.toString());
-              this.imageSrc =
-                this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" ||this.NFTList.attachmenttype == "image/png"){
+                console.log("its an image",this.Decryption)
+             
+               this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+
+              }else{
+                this.dec = btoa(this.Decryption);
+            var str2 = this.dec.toString();
+            var str1 = new String( "data:image/svg+xml;base64,");
+            var src = str1.concat(str2.toString());
+            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              }
               console.log('image src : ', this.imageSrc);
             });
 
@@ -495,7 +511,7 @@ export class SellNftComponent implements OnInit {
                 card.Status = txn.Response[x].Status;
                 if (txn.Response[x].Blockchain == 'ethereum') {
                   card.NFTTxnHash =
-                    'https://rinkeby.etherscan.io/tx/' +
+                    'https://goerli.etherscan.io/tx/' +
                     txn.Response[x].NFTTxnHash;
                 }
                 if (txn.Response[x].Blockchain == 'polygon') {

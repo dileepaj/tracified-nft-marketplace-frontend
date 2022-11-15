@@ -123,6 +123,8 @@
   height: 40px;
   position: absolute;
   top: 0;
+  color: #fff !important;
+  font-size: 18px;
 }
 
 ::ng-deep .mat-select-arrow {
@@ -170,9 +172,18 @@
 
 ::ng-deep .mat-select-panel {
   background-color: #2d2d2d !important;
-  color: tra !important;
+  color: transparent !important;
   font-size: 16px !important;
   height: fit-content !important;
+}
+
+::ng-deep .mat-select-placeholder {
+  font-family: "Inter" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+
+  color: #848484 !important;
 }
 
 .file-dnd-area {

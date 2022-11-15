@@ -13,7 +13,16 @@ import { Router } from '@angular/router';
 export class FooterComponent implements OnInit {
   subscribe: Subscription = new Subscription('');
   controlGroup: FormGroup;
-
+  private readonly mkURL:string=`http://localhost:4200`
+   readonly mkHome:string=`${this.mkURL}/home`
+   readonly mkETHURL:string=`${this.mkURL}/explore?blockchain=ethereum&filter=all`
+   readonly mkPolygon:string=`${this.mkURL}/explore?blockchain=polygon&filter=all`
+   readonly mkStellar:string=`${this.mkURL}/explore?blockchain=stellar&filter=all`
+   readonly mkSolana:string=`${this.mkURL}/explore?blockchain=solana&filter=all`
+   readonly mkBlog:string=`${this.mkURL}/nft-story`
+   readonly mkFaq:string=`${this.mkURL}/faq`
+   readonly mkContact_us:string=`${this.mkURL}/contact-us`
+   readonly mkDocs:string=`${this.mkURL}/docs`
   constructor(
     private service:ApiServicesService,
     private snackbarService:SnackbarServiceService,

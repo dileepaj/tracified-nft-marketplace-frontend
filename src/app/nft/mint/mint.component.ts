@@ -44,7 +44,7 @@ export class MintComponent implements OnInit {
   loading: boolean;
   imgSrc: any;
   hash: any;
-  svg: SVG = new SVG('', '', 'NA');
+  svg: SVG = new SVG('', '', 'NA','');
   mint: Mint2 = new Mint2('', '', '', '', '', this.svg); //declaring model to mint and post
   svgresult;
   email: string = '';
@@ -139,7 +139,7 @@ export class MintComponent implements OnInit {
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
-          if (result.Status == null || result.Status == '') {
+          if (result.Status == null || result.Status == 'Declined') {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -156,6 +156,13 @@ export class MintComponent implements OnInit {
                   });
                 }
               });
+            }else if(result.Status == 'Pending'){
+              this.dialogService
+              .okDialog({
+                title: "Endorsement in Pending",
+                message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+              })
             }else{
               this.proceed.emit({
                 email:this.email,
@@ -180,7 +187,7 @@ export class MintComponent implements OnInit {
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
-          if (result.Status == null || result.Status == '') {
+          if (result.Status == null || result.Status == 'Declined') {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -197,6 +204,13 @@ export class MintComponent implements OnInit {
                   });
                 }
               });
+            }else if(result.Status == 'Pending'){
+              this.dialogService
+              .okDialog({
+                title: "Endorsement in Pending",
+                message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+              })
             }else{
               this.proceed.emit({
                 email:this.email,
@@ -207,7 +221,7 @@ export class MintComponent implements OnInit {
           });
       
        }else{
-        window.location.href = 'https://metamask.io/';
+        window.location.href = 'https://www.freighter.app/';
        }
     }
     if(wallet=="phantom"){
@@ -221,7 +235,7 @@ export class MintComponent implements OnInit {
       this.apiService
       .getEndorsement(key)
       .subscribe((result: any) => {
-        if (result.Status == null || result.Status == '') {
+        if (result.Status == null || result.Status == 'Declined') {
           this.dialogService
             .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -238,6 +252,13 @@ export class MintComponent implements OnInit {
                 });
               }
             });
+          }else if(result.Status == 'Pending'){
+            this.dialogService
+            .okDialog({
+              title: "Endorsement in Pending",
+              message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+              confirmText: ConfirmDialogText.CONFIRM_BTN,
+            })
           }else{
             this.proceed.emit({
               email:this.email,
@@ -248,7 +269,7 @@ export class MintComponent implements OnInit {
         });
     
      }else{
-      window.location.href = 'https://metamask.io/';
+      window.location.href = 'https://phantom.app/';
      }
     }
   }

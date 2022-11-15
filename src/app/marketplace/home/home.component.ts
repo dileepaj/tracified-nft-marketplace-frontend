@@ -174,11 +174,15 @@ export class HomeComponent implements OnInit {
           .getSVGByHash(this.nfts.Response[x].imagebase64)
           .subscribe((res: any) => {
             this.Decryption = res.Response.Base64ImageSVG;
-            this.dec = btoa(this.Decryption);
-            var str2 = this.dec.toString();
-            var str1 = new String('data:image/svg+xml;base64,');
-            var src = str1.concat(str2.toString());
-            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            if(this.nfts.Response[x].attachmenttype == "image/jpeg" || this.nfts.Response[x].attachmenttype == "image/jpg" || this.nfts.Response[x].attachmenttype == "image/png"){
+              this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+            }else{
+              this.dec = btoa(this.Decryption);
+          var str2 = this.dec.toString();
+          var str1 = new String( "data:image/svg+xml;base64,");
+          var src = str1.concat(str2.toString());
+          this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            }
             let card: NFTCard = new NFTCard('', '', '', '','','','');
             card.ImageBase64 = this.imageSrc;
             card.Blockchain = this.nfts.Response[x].blockchain;
@@ -198,15 +202,20 @@ export class HomeComponent implements OnInit {
             }
           });
         }
+        if(this.nfts.Response[x].hotpicks==true){
         this.nft
           .getSVGByHash(this.nfts.Response[x].imagebase64)
           .subscribe((res: any) => {
             this.Decryption = res.Response.Base64ImageSVG;
-            this.dec = btoa(this.Decryption);
-            var str2 = this.dec.toString();
-            var str1 = new String('data:image/svg+xml;base64,');
-            var src = str1.concat(str2.toString());
-            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            if(this.nfts.Response[x].attachmenttype == "image/jpeg" || this.nfts.Response[x].attachmenttype == "image/jpg" || this.nfts.Response[x].attachmenttype == "image/png"){
+              this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+            }else{
+              this.dec = btoa(this.Decryption);
+          var str2 = this.dec.toString();
+          var str1 = new String( "data:image/svg+xml;base64,");
+          var src = str1.concat(str2.toString());
+          this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            }
             let card: NFTCard = new NFTCard('', '', '', '','','','');
             card.ImageBase64 = this.imageSrc;
             card.Blockchain = this.nfts.Response[x].blockchain;
@@ -225,7 +234,7 @@ export class HomeComponent implements OnInit {
               this.List.push(card);
             }
           });
-        
+        }
       }
     });
 
@@ -258,7 +267,7 @@ export class HomeComponent implements OnInit {
 
   public viewTrending () {
     this.router.navigate(['/shownft'], {
-      queryParams: { data: 'trending' },
+      queryParams: { data: 'Favourites' },
     });
   }
 

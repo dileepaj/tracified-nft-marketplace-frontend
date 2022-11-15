@@ -150,6 +150,7 @@ export class ApiServicesService {
     }
 
     addReviews(st: Reviews): Observable<Reviews> {
+      console.log("reviews servie: ",st)
       return this.http.post<Reviews>(this.baseUrlSaveReview, st, {headers: this.headers});
     }
 

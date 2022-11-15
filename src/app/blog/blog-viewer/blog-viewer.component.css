@@ -107,6 +107,7 @@
   max-width: 100%;
   height: 267px;
   border-radius: 20px;
+  object-fit: cover;
 }
 
 .blockchain-logo {
@@ -191,6 +192,7 @@
 
 .story-card img {
   height: 180px;
+  object-fit: cover;
 }
 
 .story-card .actions {

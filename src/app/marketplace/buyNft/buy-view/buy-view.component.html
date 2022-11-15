@@ -31,7 +31,7 @@
         ngStyle.lt-lg="width : 400px; height: 400px"
         ngStyle.lt-sm="width : 100%; "
       >
-        <object [data]="imageSrc" *ngIf="imageSrc" class="nft-img"></object>
+        <embed [src]="imageSrc" *ngIf="imageSrc" class="nft-img" >
         <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
           <img
             src="../../../assets/icons/code-icon.png"
@@ -188,7 +188,7 @@
                     fxFlex.lt-md="100%"
                   >
                     <label class="name">{{ items.UserID }}</label>
-                    <label class="date">{{ items.Time }}</label>
+                   
                     <div>
                       <div
                         style="
@@ -224,7 +224,10 @@
                   >
                     <p class="p-text">
                       {{ items.Description }}
+                      <br>
+                      <label class="date"><h5 style="color:aqua">{{ items.Timestamp }}</h5></label>
                     </p>
+                   
                   </div>
                 </div>
               </div>

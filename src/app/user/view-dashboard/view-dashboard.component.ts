@@ -9,6 +9,7 @@ import { UserWallet } from 'src/app/models/userwallet';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-view-dashboard',
   templateUrl: './view-dashboard.component.html',
@@ -29,9 +30,12 @@ export class ViewDashboardComponent implements OnInit {
   User: string;
   Name: any;
   smallScreen : boolean = false;
+  imagePath: any;
+  greeting : string = '';
 
   constructor(
     private api: ApiServicesService,
+    private _sanitizer: DomSanitizer,
     private nft: NftServicesService,
     private collection: CollectionService,
     private router: Router,
@@ -54,7 +58,7 @@ export class ViewDashboardComponent implements OnInit {
       this.selectedBlockchain = params['blockchain']
       console.log("this blockchain: ",this.selectedBlockchain)})
     this.retrive(this.selectedBlockchain);
-
+    this.setGreeting();
     if (window.innerWidth < 1280) {
       this.opened = false;
       this.smallScreen = true;
@@ -76,6 +80,20 @@ export class ViewDashboardComponent implements OnInit {
     }
   }
 
+  private setGreeting () {
+    const date = new Date().toLocaleString('en-US', {hour : 'numeric', hour12 : false});
+    let time = Number(date);
+    if(time >= 1 && time < 12 || time == 24) {
+      this.greeting = 'Good Morning';
+    }
+    else if(time >= 12 && time < 16) {
+      this.greeting = 'Good Afternoon';
+    }
+    else {
+      this.greeting = 'Good Evening';
+    }
+  }
+
 
   async retrive(blockchain: string) {
     if (blockchain == 'stellar') {
@@ -84,6 +102,11 @@ export class ViewDashboardComponent implements OnInit {
       await freighterWallet.initWallelt();
       this.User= await freighterWallet.getWalletaddress();
       this.api.getEndorsement(this.User).subscribe((res:any)=>{
+        if(res.profilepic!=""){
+          this.imagePath = res.profilepic
+        }else{
+          this.imagePath = "../../../assets/images/default_profile.png"
+        }
         console.log("data is: ",res)
         this.Name=res.Name
       })
@@ -96,6 +119,11 @@ export class ViewDashboardComponent implements OnInit {
       await phantomWallet.initWallelt();
       this.User = await phantomWallet.getWalletaddress();
       this.api.getEndorsement(this.User).subscribe((res:any)=>{
+        if(res.profilepic!=""){
+          this.imagePath = res.profilepic
+        }else{
+          this.imagePath = "../../../assets/images/default_profile.png"
+        }
         console.log("data is: ",res)
         this.Name=res.Name
       })
@@ -112,6 +140,11 @@ export class ViewDashboardComponent implements OnInit {
       await metamaskwallet.initWallelt();
       this.User = await metamaskwallet.getWalletaddress();
       this.api.getEndorsement(this.User).subscribe((res:any)=>{
+        if(res.profilepic!=""){
+          this.imagePath = res.profilepic
+        }else{
+          this.imagePath = "../../../assets/images/default_profile.png"
+        }
         console.log("data is: ",res)
         this.Name=res.Name
       })
@@ -122,7 +155,7 @@ export class ViewDashboardComponent implements OnInit {
   goToEdit(user:any){
 
     this.router.navigate(['./user-dashboard/edit-profile'],{
-      queryParams:{data:JSON.stringify(user)}
+      queryParams:{data:JSON.stringify(user),blockchain:this.selectedBlockchain}
       });
 
       this.closeSideNav();
@@ -139,7 +172,7 @@ export class ViewDashboardComponent implements OnInit {
   myCollections(id:any){
     console.log("Id: ",id)
     this.router.navigate(['./user-dashboard/mycollections'],{
-      queryParams:{data:id}
+      queryParams:{data:id,blockchain:this.selectedBlockchain}
       })
       this.closeSideNav();
   }
@@ -148,5 +181,11 @@ export class ViewDashboardComponent implements OnInit {
     if(this.smallScreen) {
       this.opened = false;
     }
+  }
+  backtoHome(){
+    console.log("selected BC:",this.selectedBlockchain)
+    this.router.navigate(['/user-dashboard/overview'], {
+      queryParams: { blockchain: this.selectedBlockchain },
+    });
   }
 }

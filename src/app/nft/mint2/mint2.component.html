@@ -32,16 +32,22 @@
         matTooltip="Upload Image"
         (click)="triggerClick()"
       >
-      <div id="nft-dnd-ph" class="img-div" *ngIf="!imageSrc">
-        <object
-        id="nft-dnd-img"
-          data="../../../assets/images/img-upload.png"
-          style="width: 133px; height: 138px"
-          *ngIf="!imageSrc"
-        ></object>
-      </div>
+        <div id="nft-dnd-ph" class="img-div" *ngIf="!imageSrc">
+          <object
+            id="nft-dnd-img"
+            data="../../../assets/images/img-upload.png"
+            style="width: 133px; height: 138px"
+            *ngIf="!imageSrc"
+          ></object>
+        </div>
 
-      <object id="nft-dnd-u-img" [data]="imageSrc" *ngIf="imageSrc" id="img" class="uploaded-img" ></object>
+        <object
+          id="nft-dnd-u-img"
+          [data]="imageSrc"
+          *ngIf="imageSrc"
+          id="img"
+          class="uploaded-img"
+        ></object>
 
         <input
           type="file"
@@ -51,12 +57,30 @@
           hidden
         />
       </div>
-      <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
-        <img
-          src="../../../assets/icons/code-icon.png"
-          style="flex-basis: 40%"
-        />
-      </button>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between">
+        <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
+          <img
+            src="../../../assets/icons/code-icon.png"
+            style="flex-basis: 40%"
+          />
+        </button>
+        <button
+          mat-icon-button
+          id="upload-options"
+          class="upload-options"
+          *ngIf="imageSrc"
+        >
+          <mat-icon class="material-symbols-outlined"> more_vert </mat-icon>
+          <div class="dropdown-options-content">
+            <button mat-menu-item fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="100%" (click)="triggerClick()"
+                >Upload a New Image</label
+              >
+            </button>
+          </div>
+        </button>
+      </div>
+
       <label>or Create SVG with Tracified</label>
       <div class="composer" matRipple ngStyle.lt-sm="width:100%">
         <a href="https://qa.nftcomposer.tracified.com/" target="_blank"
@@ -67,10 +91,7 @@
       </div>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text"
-        >Name <span class="required">*</span>
-        </label
-      >
+      <label class="normal-text">Name <span class="required">*</span> </label>
       <mat-form-field appearance="outline">
         <input
           type="text"
@@ -79,6 +100,7 @@
           name="name"
           formControlName="NFTName"
           placeholder="Enter a name for your NFT."
+          maxlength="12"
         />
         <mat-hint>Maximum characters 12</mat-hint>
       </mat-form-field>
@@ -104,7 +126,12 @@
       <label class="normal-text"
         >Collection<span class="required">*</span></label
       >
-      <mat-form-field appearance="outline" fxHide.md="false" fxHide.gt-md="false" fxShow.lt-md="false">
+      <mat-form-field
+        appearance="outline"
+        fxHide.md="false"
+        fxHide.gt-md="false"
+        fxShow.lt-md="false"
+      >
         <mat-select formControlName="Collection" class="select-bc">
           <mat-select-trigger>
             <label class="collection-dropdown-selected">{{
@@ -121,7 +148,9 @@
         </mat-select>
       </mat-form-field>
       <img
-        fxHide.md="false" fxHide.gt-md="false" fxShow.lt-md="false"
+        fxHide.md="false"
+        fxHide.gt-md="false"
+        fxShow.lt-md="false"
         ngStyle.lt-md="position: absolute;
         top: 100px;
         left: 0px;
@@ -135,8 +164,19 @@
       />
 
       <!--for mobile views-->
-      <div style="display:flex; flex-direction:row; align-items:center; justify-content: space-between; column-gap: 10px; " fxHide.md="true" fxHide.gt-md="true" fxShow.lt-md="true">
-        <mat-form-field appearance="outline" style="flex-grow: 1;">
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          column-gap: 10px;
+        "
+        fxHide.md="true"
+        fxHide.gt-md="true"
+        fxShow.lt-md="true"
+      >
+        <mat-form-field appearance="outline" style="flex-grow: 1">
           <mat-select formControlName="Collection" class="select-bc">
             <mat-select-trigger>
               <label class="collection-dropdown-selected">{{
@@ -271,7 +311,6 @@
         </mat-chip-list>
         <mat-hint class="tags">Maximum tags allowed is 4</mat-hint>
       </mat-form-field>
-
     </div>
     <div class="mint-form-group margin" ngStyle.lt-md="width:100%">
       <label class="normal-text">Code Profile Link: </label>
@@ -325,7 +364,10 @@
         />
       </mat-form-field>
     </div> -->
-    <div class="mint-form-group" ngStyle.lt-md="width:100%; display: flex; flex-direction : row;justify-content:center">
+    <div
+      class="mint-form-group"
+      ngStyle.lt-md="width:100%; display: flex; flex-direction : row;justify-content:center"
+    >
       <button mat-flat-button class="btn-create" (click)="getIssuer()">
         Create
       </button>

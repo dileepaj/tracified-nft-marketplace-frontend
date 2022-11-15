@@ -140,8 +140,8 @@
             </button>
           </div>
         </div>
-        <div class="hot-picks-content" id="category-content">
-          <div class="item" *ngFor="let item2 of List2; index as i">
+        <div class="hot-picks-content" id="hot-picks-content">
+          <div *ngFor="let item2 of List2; index as i">
             <app-nft-card  [item]="item2" [itemId]="'trndng'+i.toString()" [blockchain]="item2.Blockchain" [creatoruserid]="item2.CreatorUserId"   [sellingstatus]="item2.SellingStatus"  [currentownerpk]="item2.CurrentOwnerPK"></app-nft-card>
           </div>
         </div>
@@ -159,7 +159,7 @@
           <div class="hot-picks-header-title" fxFlex.lt-sm="100%">
             Latest News
           </div>
-          <div class="hot-picks-header-actions">
+          <!-- <div class="hot-picks-header-actions">
             <button class="hot-picks-header-btn">View All</button>
             <button class="hot-picks-header-btn rounded">
               <mat-icon class="material-symbols-outlined">
@@ -174,7 +174,7 @@
                 navigate_before
               </mat-icon>
             </button>
-          </div>
+          </div> -->
         </div>
         <div class="news-container">
           <div class="news-topic" (click)="routeTo('/blogs')">

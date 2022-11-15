@@ -57,7 +57,7 @@ export class BuyViewComponent implements OnInit {
   NFTList: any;
   List: any[] = [];
   ReviewList: any[] = [];
-  reviews: Reviews = new Reviews('', '', '', 0.0, '');
+  reviews: Reviews = new Reviews('', '', '', 0.0, '','');
   controlGroup: FormGroup;
   nft: NFTMarket = new NFTMarket(
     '',
@@ -113,6 +113,7 @@ export class BuyViewComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
   signerSK = 'SBKFJD35H4EZBMBELBB7SZQR4ZZ2H5WMRO4N6KWALXMF63DWJVMR2K5D';
@@ -120,7 +121,7 @@ export class BuyViewComponent implements OnInit {
   Decryption: any;
   buytxn: any;
   data: any;
-  svg: SVG = new SVG('', '', 'NA');
+  svg: SVG = new SVG('', '', 'NA','');
   txn: TXN = new TXN('', '', '', '', '', '');
   dec: string;
   transaction: Uint8Array;
@@ -495,7 +496,9 @@ export class BuyViewComponent implements OnInit {
                   reviewcard.UserID = this.list[x].userid;
                   reviewcard.Rating = this.list[x].rating;
                   reviewcard.Description = this.list[x].description;
-                  reviewcard.Time = this.list[x].timestamp;
+                  reviewcard.Timestamp = this.list[x].timestamp;
+                  const unwantedText = 'GMT+0530 (India Standard Time)';
+                  reviewcard.Timestamp = reviewcard.Timestamp.replace(unwantedText, '');
                   this.ReviewList.push(reviewcard);
                   console.log('Review List: ', this.ReviewList);
                 }
@@ -559,12 +562,15 @@ export class BuyViewComponent implements OnInit {
             this.svg.Hash = this.NFTList.imagebase64;
             this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
               this.Decryption = res.Response.Base64ImageSVG;
-              this.dec = btoa(this.Decryption);
-              var str2 = this.dec.toString();
-              var str1 = new String('data:image/svg+xml;base64,');
-              var src = str1.concat(str2.toString());
-              this.imageSrc =
-                this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" || this.NFTList.attachmenttype == "image/png"){
+                this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+              }else{
+                this.dec = btoa(this.Decryption);
+            var str2 = this.dec.toString();
+            var str1 = new String( "data:image/svg+xml;base64,");
+            var src = str1.concat(str2.toString());
+            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              }
               console.log('image in buy: ', this.imageSrc);
               this.service
                 .getTXNByBlockchainandIdentifier(
@@ -579,7 +585,7 @@ export class BuyViewComponent implements OnInit {
                     card.Status = txn.Response[x].Status;
                     if (txn.Response[x].Blockchain == 'ethereum') {
                       card.NFTTxnHash =
-                        'https://rinkeby.etherscan.io/tx/' +
+                        'https://goerli.etherscan.io/tx/' +
                         txn.Response[x].NFTTxnHash;
                     }
                     if (txn.Response[x].Blockchain == 'polygon') {
@@ -612,12 +618,15 @@ export class BuyViewComponent implements OnInit {
             this.svg.Hash = this.NFTList.imagebase64;
             this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
               this.Decryption = res.Response.Base64ImageSVG;
-              this.dec = btoa(this.Decryption);
-              var str2 = this.dec.toString();
-              var str1 = new String('data:image/svg+xml;base64,');
-              var src = str1.concat(str2.toString());
-              this.imageSrc =
-                this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" || this.NFTList.attachmenttype == "image/png"){
+                this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+              }else{
+                this.dec = btoa(this.Decryption);
+            var str2 = this.dec.toString();
+            var str1 = new String( "data:image/svg+xml;base64,");
+            var src = str1.concat(str2.toString());
+            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              }
             });
 
             this.controlGroup = new FormGroup({
@@ -702,6 +711,8 @@ export class BuyViewComponent implements OnInit {
     this.reviews.Rating = Number(this.controlGroup.get('rating')!.value);
     this.reviews.NFTIdentifier = this.NFTList.nftidentifier;
     this.reviews.UserID = this.controlGroup.get('userid')!.value;
+    this.reviews.Timestamp=new Date().toString();
+    console.log("time is: ",this.reviews.Timestamp)
     this.dialogService
       .confirmDialog({
         title: 'User review confirmation',

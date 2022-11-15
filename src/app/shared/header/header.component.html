@@ -32,6 +32,7 @@
           type="text"
           placeholder="Search for NFTS on sale by Tags"
           formControlName="Tag"
+          (keyup.enter)="search()"
         />
         <mat-icon class="material-symbols-outlined" (click)="search()"
           >search</mat-icon

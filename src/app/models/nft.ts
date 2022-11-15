@@ -37,6 +37,7 @@ export class GetNFT{
 	public Category       :                string,
 	public Collection      :                 string,
 	public Imagebase64        :              string,
+	public AttachmentType:string,
 	public Blockchain     :        string,
 	public NFTTxnhash       :                string,
 	public Timestamp       :                 string,
@@ -110,6 +111,7 @@ export class Reviews{
 		public Status   :string,  
 		public Rating   :number,  
 		public Description   :string,   
+		public Timestamp :string,
 		
     ){}
 
@@ -121,7 +123,7 @@ export class ReviewsCard{
 		public UserID   :string,  
 		public Rating   :string,  
 		public Description   :string,   
-		public Time  : string
+		public Timestamp  : string
     ){}
 	}
 

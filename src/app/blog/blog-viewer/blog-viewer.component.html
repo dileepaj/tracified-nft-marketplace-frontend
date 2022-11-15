@@ -47,7 +47,7 @@
             "
           >
             <img
-              src="../../../assets/images/Rectangle 2.png"
+              [src]="thumbnail"
               class="story-img"
             />
           </div>
@@ -71,7 +71,7 @@
         <h3>Browse Stories</h3>
         <div class="story-sidebar-content">
           <div class="story-card" *ngFor="let item of List">
-            <img src="https://via.placeholder.com/150" />
+            <img [src]="item.thumbnail" />
             <div class="actions">
               <div
                 style="
@@ -115,7 +115,7 @@
       <h3>Browse Stories</h3>
       <div class="list">
         <div class="story-card" *ngFor="let item of List">
-          <img src="https://via.placeholder.com/150" />
+          <img [src]="item.thumbnail" />
           <div class="actions">
             <label>{{ item.topic }}</label>
             <button mat-flat-button (click)="selectBlog(item.topic)">

@@ -51,8 +51,6 @@ export class NftCardComponent implements OnInit {
     }else{
       alert("Something went wrong!")
     }
-
-   
   }
 
   public async retrive(blockchain: string) {

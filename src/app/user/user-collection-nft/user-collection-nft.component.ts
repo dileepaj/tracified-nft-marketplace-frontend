@@ -74,11 +74,15 @@ export class UserCollectionNFTComponent implements OnInit {
     for (let a = 0; a < arr.length; a++) {
       this.nft.getSVGByHash(arr[a].imagebase64).subscribe((res: any) => {
         this.Decryption = res.Response.Base64ImageSVG;
-        this.dec = btoa(this.Decryption);
-        var str2 = this.dec.toString();
-        var str1 = new String('data:image/svg+xml;base64,');
-        var src = str1.concat(str2.toString());
-        this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        if(arr[a].attachmenttype == "image/jpeg" || arr[a].attachmenttype == "image/jpg" ||arr[a].attachmenttype == "image/png"){
+          this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+        }else{
+          this.dec = btoa(this.Decryption);
+      var str2 = this.dec.toString();
+      var str1 = new String( "data:image/svg+xml;base64,");
+      var src = str1.concat(str2.toString());
+      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        }
         let card: MyNFTCard = new MyNFTCard('', '', '', '', '');
         card.ImageBase64 = this.imageSrc;
         card.NFTIdentifier = arr[a].nftidentifier;

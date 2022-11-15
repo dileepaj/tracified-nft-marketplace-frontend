@@ -23,7 +23,7 @@ export class NftgridComponent implements OnInit {
   Decryption: any;
   NFTList: any;
   List: any[] = [];
-  svg: SVG = new SVG('', '', 'NA');
+  svg: SVG = new SVG('', '', 'NA','');
   favouritesModel: Favourites = new Favourites('', '', '');
   watchlistModel: WatchList = new WatchList('', '', '');
   nft: NFTMarket = new NFTMarket(
@@ -201,11 +201,15 @@ export class NftgridComponent implements OnInit {
     console.log('hotpick arr: ', response);
     this.service.getSVGByHash(response.imagebase64).subscribe((res: any) => {
       this.Decryption = res.Response.Base64ImageSVG;
-      this.dec = btoa(this.Decryption);
-      var str2 = this.dec.toString();
-      var str1 = new String('data:image/svg+xml;base64,');
-      var src = str1.concat(str2.toString());
-      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+      if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" ||response.attachmenttype == "image/png"){
+        this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+      }else{
+        this.dec = btoa(this.Decryption);
+    var str2 = this.dec.toString();
+    var str1 = new String( "data:image/svg+xml;base64,");
+    var src = str1.concat(str2.toString());
+    this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+      }
       let card: Card = new Card('', '', '');
       card.ImageBase64 = this.imageSrc;
       card.NFTIdentifier = response.nftidentifier;

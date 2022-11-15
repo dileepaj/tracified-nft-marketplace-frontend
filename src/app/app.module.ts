@@ -129,10 +129,10 @@ const appRoutes: Routes = [
     path: 'sell',
     component: SellNftComponent,
   },
-  {
+  /* {
     path: 'getNft',
     component: ViewNftCardComponent,
-  },
+  }, */
   {
     path: 'buyNft',
     component: BuyViewComponent,
@@ -209,9 +209,9 @@ const appRoutes: Routes = [
         component: AddNewsletterComponent,
       },
       {
-        canActivate:[AuthGuard],
-        path:'AnswerUserFAQ',
-        component:AddEditFaqsComponent,
+        canActivate: [AuthGuard],
+        path: 'AnswerUserFAQ',
+        component: AddEditFaqsComponent,
       },
       {
         path: '',
@@ -261,8 +261,8 @@ const appRoutes: Routes = [
     component: HelpCenterComponent,
   },
   {
-    path:'AnswerUserFAQ',
-    component:AddEditFaqsComponent
+    path: 'AnswerUserFAQ',
+    component: AddEditFaqsComponent,
   },
   {
     path: 'mycollections',

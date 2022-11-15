@@ -31,7 +31,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   loading : boolean = false;
 
   dec: string;
-  svg:SVG=new SVG('','','NA')
+  svg:SVG=new SVG('','','NA','')
 
   imageSrc:any;
   saleNft: any;
@@ -194,11 +194,17 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       this.nft.getSVGByHash(this.nftItems[x].imagebase64).subscribe(async(res:any)=>{
         console.log("svg result is: ",res)
         this.Decryption = res.Response.Base64ImageSVG
-        this.dec = btoa(this.Decryption);
-        var str2 = this.dec.toString();
-        var str1 = new String( "data:image/svg+xml;base64,");
-        var src = str1.concat(str2.toString());
-        this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        console.log("imageee ",this.nftItems[x].attachmenttype,this.nftItems[x])
+        if(this.nftItems[x].attachmenttype == "image/jpeg" || this.nftItems[x].attachmenttype == "image/jpg" || this.nftItems[x].attachmenttype == "image/png"){
+         console.log("-------------------------------------",this.imageSrc)
+          this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+        }else{
+          this.dec = btoa(this.Decryption);
+      var str2 = this.dec.toString();
+      var str1 = new String( "data:image/svg+xml;base64,");
+      var src = str1.concat(str2.toString());
+      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        }
         let card:NFTCard= new NFTCard('','','','','','','');
         card.ImageBase64=this.imageSrc
         card.NFTIdentifier=this.nftItems[x].nftidentifier
@@ -224,11 +230,17 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       this.nft.getSVGByHash(arr[x].imagebase64).subscribe(async(res:any)=>{
       console.log("svg result is: ",res)
         this.Decryption = res.Response.Base64ImageSVG
-        this.dec = btoa(this.Decryption);
+        console.log("imageee ",arr[x].attachmenttype)
+        if(arr[x].attachmenttype == "image/jpeg" || arr[x].attachmenttype == "image/jpg" || arr[x].attachmenttype == "image/png"){
+          console.log("-------------------------------------",this.imageSrc)
+          this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+        }else{
+          this.dec = btoa(this.Decryption);
       var str2 = this.dec.toString();
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        }
      let card:NFTCard= new NFTCard('','','','','','','');
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=arr[x].nftidentifier

@@ -1,7 +1,9 @@
 <div class="explore-parent">
-  <div class="explore-container ">
+  <div class="explore-container">
     <div class="explore-header cont-wrapper">
-      <mat-icon class="back" matTooltip="Back">arrow_back</mat-icon>
+      <mat-icon class="back" matTooltip="Back" (click)="back()"
+        >arrow_back</mat-icon
+      >
       <label class="explore-heading">Explore NFTs</label>
     </div>
     <!-- <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
@@ -105,18 +107,40 @@
     <div class="explore-content cont-wrapper" fxLayout="row wrap">
       <div class="cont-inner" *ngIf="!loading && List.length > 0">
         <div *ngFor="let item of List; index as i">
-          <app-nft-card *ngIf="i !== List.length - 1" [item]="item" [itemId]="i.toString()" [blockchain]="item.Blockchain"  [creatoruserid]="item.CreatorUserId"   [sellingstatus]="item.SellingStatus"  [currentownerpk]="item.CurrentOwnerPK"></app-nft-card>
+          <app-nft-card
+            *ngIf="i !== List.length - 1"
+            [item]="item"
+            [itemId]="i.toString()"
+            [blockchain]="item.Blockchain"
+            [creatoruserid]="item.CreatorUserId"
+            [sellingstatus]="item.SellingStatus"
+            [currentownerpk]="item.CurrentOwnerPK"
+          ></app-nft-card>
 
           <!--last item-->
-          <app-nft-card *ngIf="i === List.length - 1"  [item]="item" [itemId]="i.toString()" [blockchain]="item.Blockchain"  [creatoruserid]="item.CreatorUserId"  [sellingstatus]="item.SellingStatus" [currentownerpk]="item.CurrentOwnerPK" #theLastItem></app-nft-card>
+          <app-nft-card
+            *ngIf="i === List.length - 1"
+            [item]="item"
+            [itemId]="i.toString()"
+            [blockchain]="item.Blockchain"
+            [creatoruserid]="item.CreatorUserId"
+            [sellingstatus]="item.SellingStatus"
+            [currentownerpk]="item.CurrentOwnerPK"
+            #theLastItem
+          ></app-nft-card>
         </div>
-
       </div>
-      <app-loader [displayText]="'Loading NFTs...'" *ngIf="nextPageLoading"></app-loader>
+      <app-loader
+        [displayText]="'Loading NFTs...'"
+        *ngIf="nextPageLoading"
+      ></app-loader>
       <div class="explore-loading" *ngIf="loading">
         <app-loader [displayText]="'Loading NFTs...'"></app-loader>
       </div>
-      <div class="explore-no-content" *ngIf="!loading && !nextPageLoading && List.length === 0">
+      <div
+        class="explore-no-content"
+        *ngIf="!loading && !nextPageLoading && List.length === 0"
+      >
         <img src="../../../assets/images/no-content.png" />
         <label>No NFTs Found</label>
       </div>

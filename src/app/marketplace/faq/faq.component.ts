@@ -7,13 +7,86 @@ import { Router } from '@angular/router';
   styleUrls: ['./faq.component.css']
 })
 export class FaqComponent implements OnInit {
-
+  private readonly linkToDocs :string="http://localhost:4200/docs"
   constructor(private router: Router) { }
-  List:any[]=[{topic:"What is Ethereum",desc:"Blockchain underwent a revolution with the introduction of Bitcoin, but other latecomers, like Ethereum, have gained just as much support as Bitcoin, if not more. The Ethereum Blockchain is a decentralized, open-source platform that was first introduced in 2015. Since its debut, Ethereum has accomplished a number of significant milestones. The collaboration between Microsoft and ConsenSys is one of the platform's most notable recent accomplishments. Through the cooperation, developers and organizations using Microsoft Azure will have access to Ethereum Blockchain as a Service (EBaaS). The Ethereum network functions the same as every other Blockchain network. Different nodes known as miners evaluate each new transaction after it has been logged. To update the transaction in the decentralized ledger, these miners run the program code on their computer. For each piece of code they run or each transaction they add to the chain, miners are rewarded 3 ether. The output of each miner's code is added to the consensus, which is then inspected to verify the most recent transaction for efficient network-wide transactions."},
-  {topic:"What is Polygon",desc:"The Polygon blockchain project is a framework for building and connecting Ethereum-compatible blockchain networks as well as a scaling solution for Ethereum. Low throughput and high transaction fees are two of the most serious problems the Ethereum ecosystem is now dealing with, and they are challenges that the protocol seeks to address."},
-  {topic:"What is Stellar",desc:"Jed McCaleb founded Stellar, an Open source payment technology blockchain in 2014 with the intention of bridging the gap between all financial institutions and lowering the cost and time of international transfers significantly. The fundamental workings of stellar are comparable to the payment systems used by many decentralized platforms. A distributed ledger that is updated among all nodes every 2 to 5 seconds is used by Stellar to run on decentralized servers. The Stellar consensus does not rely on the network of miners to approve transactions. It uses the Federated Byzantine Agreement (FBA) algorithm, which uses quorum slices to validate and accept the transaction, allowing the transaction to execute swiftly. Every node in the network chooses a different group of reliable nodes. Once all of the nodes in the set have authorized the transaction, it is deemed to be approved. The approval process for transactions made the Stellar network extremely quick. Due to this, it claims to process approx 1000 network operations in one second."},
-  {topic:"What is Solana",desc:"Solana is basically just another blockchain network optimized for producing cryptocurrencies such as Bitcoin and Ethereum. It is a superior substitute for Ethereum, especially in terms of transaction speed. In actuality, the new blockchain platform could execute transactions at a rate of approximately 50,000 per second with ease. Within a few seconds, SOL may quickly integrate a variety of qualities into the current network, such as application development or SOL token mining. The cryptocurrency has rightfully established itself as Ethereum's rival."},
-  {topic:"What is NFT",desc:"NFT (Non - Fungible Token) is a representation of a real-world item, such as artwork, music, in-game items, or films in digital format. They are regularly purchased and traded online in exchange for cryptocurrencies, and they are typically encoded using the same software as many other cryptos."}];
+  List:any[]=[
+    {
+      topic:"What is a NFT?",
+      desc:`
+        <p>
+          NFT (Non - Fungible Token) is a representation of a real-world item, such as artwork, music, in-game items, or films in digital format. They are regularly purchased and traded online in exchange for cryptocurrencies, and they are typically encoded using the same software as many other cryptos.
+        </p>
+      `
+    },
+    {
+      topic:"How to get your account Endorsed",
+      desc:`
+        <p>Before you mint, if your public key has not been endorsed before, you will be prompted to a registration screen, in which you need to fill your/organizational details. After the Submitting the Tracified marketplace team will respond to your endorsment within <strong>48 hours</strong>. In oder to verify your details and identity and finish the endorsment process</p>
+
+        <p>If you or your organization gets endorsment. Access to mint NFTs will be provided.
+      `
+    },
+    {
+      topic:"Why is it necessary get endorsed?",
+      desc:`
+        <p>It means you have been recognized by Tracified, as a legitimate entity with the power to mint your own NFTs.</p>
+      `
+    },
+    {
+      topic:"How do you know you have been endorsed ?",
+      desc:`
+        <p>
+        Once a request via the registration has been sent, Tracified marketplace admin will review and accept / decline. The result would be sent via your registered mail in <strong>48 working hours
+        </strong></p>
+      `
+    },
+    {
+      topic:"How to view blockchain transactions?",
+      desc:`
+        <p>
+        Using the transaction hashes, displayed in a table format under the NFT overview when selling and buying, you can either click the link that routes you to a blockchain explorer or you yourself can copy the transaction hash and insert it into the search box of the ideal explorer. </p>
+        <strong> Refer below table to access respective block explores</strong><br>
+        <table>
+            <tr>
+                <td><strong>Blockchain</strong></td>
+                <td><strong>Link to block explorer</strong></td>
+            </tr>
+            <tr>
+                 <td>Stellar</td>
+                 <td><a href="https://stellar.expert/explorer/public" target="_blank">Stellar Expert</a></td>
+            </tr>
+            <tr>
+                 <td>Solana</td>
+                 <td><a href="https://solscan.io/" target="_blank">SolScan</a></td>
+            </tr>
+            <tr>
+                 <td>Polygon</td>
+                 <td><a href=" https://polygonscan.com/" target="_blank">PolyScan</a></td>
+            </tr>
+            <tr>
+                 <td>Ethereum </td>
+                 <td><a href="https://etherscan.io/" target="_blank">EtherScan</a></td>
+            </tr>
+        </table>
+      `
+    },
+    {
+      topic:"What is a Collection? How do I create One?",
+      desc:`
+        <p>
+          A Collection acts as a Container that will allow you to group similar NFTs to gether.A new collection can be created by clicking on the plus icon in the minting screen.This will open a form to enter the collection name. upon submission the newly created collection will get added to the drop down list. where all your other created collection reside
+        </p>
+      `
+    },
+    {
+      topic:"What blockchain should choose when minting a NFT?",
+      desc:`
+        <p>
+          Unlike other marketplaces out there. Tracified marketplace offers its users the ability to mint using four blockchains Ethereum, Polygon,Solana and stellar. It is import to know the differences and traits of each blockchain prior to minting your NFT. Refer our <a href="`+this.linkToDocs+`">documentation </a> section for more information
+        </p>
+      `
+    },
+  ];
 
   ngOnInit(): void {
     console.log("List :", this.List)
@@ -22,4 +95,5 @@ export class FaqComponent implements OnInit {
   sendtoContactUsPage(){
     this.router.navigate(['./contact-us'])
   }
+
 }

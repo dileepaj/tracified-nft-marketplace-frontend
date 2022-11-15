@@ -45,9 +45,7 @@ export class FreighterComponent implements Wallet, OnInit {
     if ((window as any).freighterApi.isConnected()) {
       return;
     } else {
-      alert('Please Install Freighter');
-      window.location.href =
-        'https://chrome.google.com/webstore/detail/freighter/bcacfldlkkdogcmkkibnjlakofdplcbk?hl=en';
+      window.location.href = 'https://www.freighter.app/';
     }
   }
   getWalletaddress(): string {

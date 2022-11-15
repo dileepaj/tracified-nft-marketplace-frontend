@@ -139,7 +139,7 @@ export class MintComponent implements OnInit {
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
-          if (result.Status == null || result.Status == '') {
+          if (result.Status == null || result.Status == 'Declined') {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -180,7 +180,7 @@ export class MintComponent implements OnInit {
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
-          if (result.Status == null || result.Status == '') {
+          if (result.Status == null || result.Status == 'Declined') {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -207,7 +207,7 @@ export class MintComponent implements OnInit {
           });
       
        }else{
-        window.location.href = 'https://metamask.io/';
+        window.location.href = 'https://www.freighter.app/';
        }
     }
     if(wallet=="phantom"){
@@ -221,7 +221,7 @@ export class MintComponent implements OnInit {
       this.apiService
       .getEndorsement(key)
       .subscribe((result: any) => {
-        if (result.Status == null || result.Status == '') {
+        if (result.Status == null || result.Status == 'Declined') {
           this.dialogService
             .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -248,7 +248,7 @@ export class MintComponent implements OnInit {
         });
     
      }else{
-      window.location.href = 'https://metamask.io/';
+      window.location.href = 'https://phantom.app/';
      }
     }
   }

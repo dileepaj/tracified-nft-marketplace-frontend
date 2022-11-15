@@ -272,7 +272,6 @@ export class Mint2Component implements OnInit {
           this.userPK = await freighter.getWalletaddress();
           this.mint.CreatorUserId = this.userPK;
           this.pushTag();
-
           this.dialogService
             .confirmDialog({
               title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
@@ -289,7 +288,7 @@ export class Mint2Component implements OnInit {
                 this.apiService
                   .getEndorsement(this.userPK)
                   .subscribe((result: any) => {
-                    if (result.Status == null || result.Status == '') {
+                      if (result.Status == null || result.Status == 'Declined') {
                       this.dialogService
                         .confirmDialog({
                           title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -336,49 +335,46 @@ export class Mint2Component implements OnInit {
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.AttachmentType=this.type
       this.apiService.addSVG(this.svg).subscribe();
-      this.dialogService
-        .confirmDialog({
-          title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-          message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-          confirmText: ConfirmDialogText.CONFIRM_BTN,
-          cancelText: ConfirmDialogText.CANCEL_BTN,
-        })
-        .subscribe((res) => {
-          if (res) {
-            const dialog = this.dialogService.pendingDialog({
-              message: PendingDialogText.MINTING_IN_PROGRESS,
-            });
-            this.apiService
-              .getEndorsement(this.userPK)
-              .subscribe((result: any) => {
-                if (result.Status == null || result.Status == '') {
-                  this.dialogService
-                    .confirmDialog({
-                      title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                      message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                      confirmText: ConfirmDialogText.CONFIRM_BTN,
-                      cancelText: ConfirmDialogText.CANCEL_BTN,
-                    })
-                    .subscribe((res) => {
-                      if (res) {
-                        //alert("You are not endorsed. Get endorsed now")
-                        let arr: any = [this.mint.Blockchain, this.email];
-                        this.router.navigate(['./signUp'], {
-                          queryParams: { data: JSON.stringify(arr) },
-                        });
-                      }
-                    });
-                } else {
-                  this.sendToMint3();
-                  this.mintNftSolana(this.mint.NFTIssuerPK);
-                  dialog.close();
-                  this.snackbar.openSnackBar(
-                    SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-                  );
-                }
-              });
-          }
-        });
+            this.dialogService
+            .confirmDialog({
+                title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+                message:ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
+            })
+            .subscribe((res) => {
+              if(res){
+                const dialog = this.dialogService.pendingDialog({
+                  message:PendingDialogText.MINTING_IN_PROGRESS
+                });
+                this.apiService.getEndorsement(this.mint.NFTIssuerPK)
+                .subscribe((result: any) => {
+                  if (result.Status == null || result.Status == 'Declined') {
+                    this.dialogService
+                      .confirmDialog({
+                          title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                          message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                          confirmText: ConfirmDialogText.CONFIRM_BTN,
+                          cancelText: ConfirmDialogText.CANCEL_BTN,
+                      })
+                      .subscribe((res) => {
+                        if (res) {
+                          //alert("You are not endorsed. Get endorsed now")
+                          let arr:any=[this.mint.Blockchain,this.email]
+                          this.router.navigate(['./signUp'], {
+                            queryParams: { data: JSON.stringify(arr) },
+                          });
+                        }
+                      });
+                    }else{
+                     this.sendToMint3();
+                          this.mintNftSolana(this.mint.NFTIssuerPK);
+                          dialog.close()
+                          this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                    }
+                  });
+              }
+            })  
     }
 
     if (this.mint.Blockchain == 'ethereum') {
@@ -412,7 +408,7 @@ export class Mint2Component implements OnInit {
             this.apiService
               .getEndorsement(this.userPK)
               .subscribe((result: any) => {
-                if (result.Status == null || result.Status == 'Declined' || result.Status == 'Pending') {
+                if (result.Status == null || result.Status == 'Declined') {
                   this.dialogService
                     .confirmDialog({
                       title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -471,37 +467,37 @@ export class Mint2Component implements OnInit {
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'polygon';
       this.svg.AttachmentType=this.type
-      this.apiService.addSVG(this.svg).subscribe();
-
-      this.dialogService
-        .confirmDialog({
-          title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-          message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-          confirmText: ConfirmDialogText.CONFIRM_BTN,
-          cancelText: ConfirmDialogText.CANCEL_BTN,
-        })
-        .subscribe((res) => {
-          if (res) {
-            const dialog = this.dialogService.pendingDialog({
-              message: PendingDialogText.MINTING_IN_PROGRESS,
-            });
-            this.apiService
-              .getEndorsement(this.userPK)
-              .subscribe((result: any) => {
-                if (result.Status == null || result.Status == '') {
-                  this.dialogService
-                    .confirmDialog({
-                      title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                      message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                      confirmText: ConfirmDialogText.CONFIRM_BTN,
-                      cancelText: ConfirmDialogText.CANCEL_BTN,
-                    })
-                    .subscribe((res) => {
-                      if (res) {
-                        //alert("You are not endorsed. Get endorsed now")
-                        let arr: any = [this.mint.Blockchain, this.email];
-                        this.router.navigate(['./signUp'], {
-                          queryParams: { data: JSON.stringify(arr) },
+      this.apiService.addSVG(this.svg).subscribe();    
+            this.dialogService
+              .confirmDialog({
+                title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+                message:ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
+              })
+              .subscribe((res) => {
+                if (res) {
+                  const dialog = this.dialogService.pendingDialog({
+                    message:PendingDialogText.MINTING_IN_PROGRESS
+                  });
+                  this.apiService.getEndorsement(this.mint.DistributorPK)
+                  .subscribe((result: any) => {
+                    if (result.Status == null || result.Status == 'Declined') {
+                      this.dialogService
+                        .confirmDialog({
+                            title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                            message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                            confirmText: ConfirmDialogText.CONFIRM_BTN,
+                            cancelText: ConfirmDialogText.CANCEL_BTN,
+                        })
+                        .subscribe((res) => {
+                          if (res) {
+                            //alert("You are not endorsed. Get endorsed now")
+                            let arr:any=[this.mint.Blockchain,this.email]
+                            this.router.navigate(['./signUp'], {
+                              queryParams: { data: JSON.stringify(arr) },
+                            });
+                          }
                         });
                       }
                     });

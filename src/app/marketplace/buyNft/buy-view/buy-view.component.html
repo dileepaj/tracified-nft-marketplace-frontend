@@ -112,6 +112,7 @@
               <label class="heading-s">NFT Story</label>
               <div class="desc">
                 <iframe
+                  *ngIf="hasStory"
                   id="iframe"
                   #iframe
                   width="100%"
@@ -175,61 +176,67 @@
                 </div>
               </div>
               <div class="reviews-cont">
-                <div
+                <div class="no-reviews-div"  *ngIf="ReviewList.length === 0">
+                    <label>No Reviews.</label>
+                </div>
+                <div *ngIf="ReviewList.length > 0">
+                  <div
                   class="review"
                   fxLayout="row wrap"
                   *ngFor="let items of ReviewList"
-                >
-                  <div
-                    class="user-rating"
-                    fxFlex.lg="15%"
-                    fxFlex.gt-lg="15%"
-                    fxFlex.md="15%"
-                    fxFlex.lt-md="100%"
                   >
-                    <label class="name">{{ items.UserID }}</label>
-                   
-                    <div>
-                      <div
-                        style="
-                          margin-left: -15px;
-                          display: flex;
-                          flex-direction: row;
-                          justify-content: flex-start;
-                        "
-                      >
-                        <fieldset class="user-ratings">
-                          <input
-                            type="radio"
-                            id="star5"
-                            value="5"
-                            checked
-                            [disabled]="true"
-                          /><label
-                            class="full"
-                            for="star5"
-                            title="Awesome - 5 stars"
-                            >{{ items.Rating }}</label
-                          >
-                        </fieldset>
+                    <div
+                      class="user-rating"
+                      fxFlex.lg="15%"
+                      fxFlex.gt-lg="15%"
+                      fxFlex.md="15%"
+                      fxFlex.lt-md="100%"
+                    >
+                      <label class="name">{{ items.UserID }}</label>
+
+                      <div>
+                        <div
+                          style="
+                            margin-left: -15px;
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: flex-start;
+                          "
+                        >
+                          <fieldset class="user-ratings">
+                            <input
+                              type="radio"
+                              id="star5"
+                              value="5"
+                              checked
+                              [disabled]="true"
+                            /><label
+                              class="full"
+                              for="star5"
+                              title="Awesome - 5 stars"
+                              >{{ items.Rating }}</label
+                            >
+                          </fieldset>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    class="comment"
-                    fxFlex.lg="80%"
-                    fxFlex.gt-lg="80%"
-                    fxFlex.md="80%"
-                    fxFlex.lt-md="100%"
-                  >
-                    <p class="p-text">
-                      {{ items.Description }}
-                      <br>
-                      <label class="date"><h5 style="color:aqua">{{ items.Timestamp }}</h5></label>
-                    </p>
-                   
+                    <div
+                      class="comment"
+                      fxFlex.lg="80%"
+                      fxFlex.gt-lg="80%"
+                      fxFlex.md="80%"
+                      fxFlex.lt-md="100%"
+                    >
+                      <p class="p-text">
+                        {{ items.Description }}
+                        <br>
+                        <label class="date"><h5 style="color:aqua">{{ items.Timestamp }}</h5></label>
+                      </p>
+
+                    </div>
                   </div>
                 </div>
+
               </div>
               <button mat-flat-button class="btn-review" (click)="addReview()">
                 Add Review

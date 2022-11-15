@@ -144,6 +144,7 @@ export class BuyViewComponent implements OnInit {
   loadingn : boolean = false;
   nextPageLoading : boolean = false;
   filterChanged : boolean = false;
+  hasStory : boolean = true;
 
   constructor(
     private service: NftServicesService,
@@ -533,7 +534,9 @@ export class BuyViewComponent implements OnInit {
                   let html: string = htmlopen + content + htmlclose;
                   console.log('HTML OUT PUT :', html);
                   this.populateIframe(this.iframe.nativeElement, html);
+
                 }
+
               });
             if (this.NFTList.blockchain == 'ethereum') {
               this.image =
@@ -763,6 +766,11 @@ export class BuyViewComponent implements OnInit {
     if (this.nftbe.Blockchain == 'solana') {
     }
   }
+  ngAfterViewInit() {
+    let htmlopen: string = '<body style="color:white;">';
+    let htmlclose: string = '</body>';
+    this.populateIframe(this.iframe.nativeElement, `${htmlopen}<div style="display : flex;flex-direction : row; justify-content: center; align-items : center; height : 100px ">No Story</div>${htmlclose}`)
+  }
 
   public populateIframe(iframe: any, data: string) {
     console.log('CALL STARTED');
@@ -771,5 +779,6 @@ export class BuyViewComponent implements OnInit {
     iframe.contentWindow.document.write(data);
     iframe.contentWindow.document.close();
     this.loaded = false;
+
   }
 }

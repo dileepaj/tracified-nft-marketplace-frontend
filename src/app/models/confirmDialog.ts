@@ -73,6 +73,7 @@ export const OkDialogText ={
     //User FAQ submission screen
     USER_FAQ_SUBMITTED_TITLE:'Question Submission Complete',
     USER_FAQ_SUBMITTED_Message:'Your question has been submitted. Our team will get back to you as soon as possible.'
+
 }
 
 export const SnackBarText={

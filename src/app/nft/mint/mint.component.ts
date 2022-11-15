@@ -156,6 +156,13 @@ export class MintComponent implements OnInit {
                   });
                 }
               });
+            }else if(result.Status == 'Pending'){
+              this.dialogService
+              .okDialog({
+                title: "Endorsement in Pending",
+                message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+              })
             }else{
               this.proceed.emit({
                 email:this.email,
@@ -197,6 +204,13 @@ export class MintComponent implements OnInit {
                   });
                 }
               });
+            }else if(result.Status == 'Pending'){
+              this.dialogService
+              .okDialog({
+                title: "Endorsement in Pending",
+                message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+              })
             }else{
               this.proceed.emit({
                 email:this.email,
@@ -238,6 +252,13 @@ export class MintComponent implements OnInit {
                 });
               }
             });
+          }else if(result.Status == 'Pending'){
+            this.dialogService
+            .okDialog({
+              title: "Endorsement in Pending",
+              message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+              confirmText: ConfirmDialogText.CONFIRM_BTN,
+            })
           }else{
             this.proceed.emit({
               email:this.email,

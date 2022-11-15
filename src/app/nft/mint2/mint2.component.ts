@@ -306,7 +306,14 @@ export class Mint2Component implements OnInit {
                             });
                           }
                         });
-                    } else {
+                    }else if(result.Status == 'Pending'){
+                      this.dialogService
+                      .okDialog({
+                        title: "Endorsement in Pending",
+                        message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                        confirmText: ConfirmDialogText.CONFIRM_BTN,
+                      })
+                    }else {
                       this.sendToMint3();
                       this.mintNFT(this.userPK);
                       dialog.close();
@@ -366,6 +373,13 @@ export class Mint2Component implements OnInit {
                           });
                         }
                       });
+                    }else if(result.Status == 'Pending'){
+                      this.dialogService
+                      .okDialog({
+                        title: "Endorsement in Pending",
+                        message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                        confirmText: ConfirmDialogText.CONFIRM_BTN,
+                      })
                     }else{
                      this.sendToMint3();
                           this.mintNftSolana(this.mint.NFTIssuerPK);
@@ -425,6 +439,13 @@ export class Mint2Component implements OnInit {
                         });
                       }
                     });
+                }else if(result.Status == 'Pending'){
+                  this.dialogService
+                  .okDialog({
+                    title: "Endorsement in Pending",
+                    message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                    confirmText: ConfirmDialogText.CONFIRM_BTN,
+                  })
                 } else {
                   this.emint
                     .mintInEthereum(
@@ -476,10 +497,10 @@ export class Mint2Component implements OnInit {
                 cancelText: ConfirmDialogText.CANCEL_BTN,
               })
               .subscribe((res) => {
+                const dialog = this.dialogService.pendingDialog({
+                  message:PendingDialogText.MINTING_IN_PROGRESS
+                });
                 if (res) {
-                  const dialog = this.dialogService.pendingDialog({
-                    message:PendingDialogText.MINTING_IN_PROGRESS
-                  });
                   this.apiService.getEndorsement(this.mint.DistributorPK)
                   .subscribe((result: any) => {
                     if (result.Status == null || result.Status == 'Declined') {
@@ -499,30 +520,35 @@ export class Mint2Component implements OnInit {
                             });
                           }
                         });
+                      }else if(result.Status == 'Pending'){
+                        this.dialogService
+                        .okDialog({
+                          title: "Endorsement in Pending",
+                          message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                          confirmText: ConfirmDialogText.CONFIRM_BTN,
+                        })
+                      }else {
+                        this.pmint
+                          .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
+                          .then((res) => {
+                            this.mint.NFTTxnHash = res.transactionHash;
+                            this.tokenId = parseInt(res.logs[0].topics[3]);
+                            this.mint.NFTIdentifier = this.tokenId.toString();
+                            //this.apiService.updateSVGBlockchain(this.svgUpdate)
+                            this.sendToMint3();
+                            this.saveContractInGateway();
+                            this.saveTXNs();
+                            dialog.close();
+                            this.snackbar.openSnackBar(
+                              SnackBarText.MINTING_SUCCESSFUL_MESSAGE
+                            );
+                            this.loaderService.isLoading.next(false);
+                          });
                       }
                     });
-                } else {
-                  this.pmint
-                    .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
-                    .then((res) => {
-                      this.mint.NFTTxnHash = res.transactionHash;
-                      this.tokenId = parseInt(res.logs[0].topics[3]);
-                      this.mint.NFTIdentifier = this.tokenId.toString();
-                      //this.apiService.updateSVGBlockchain(this.svgUpdate)
-                      this.sendToMint3();
-                      this.saveContractInGateway();
-                      this.saveTXNs();
-                      dialog.close();
-                      this.snackbar.openSnackBar(
-                        SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-                      );
-                      this.loaderService.isLoading.next(false);
-                    });
-                }
+                } 
               });
           }
-        });
-    }
   }
 
   saveContractInGateway() {

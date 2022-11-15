@@ -56,7 +56,7 @@ export class BuyViewComponent implements OnInit {
   NFTList: any;
   List: any[] = [];
   ReviewList: any[] = [];
-  reviews: Reviews = new Reviews('', '', '', 0.0, '');
+  reviews: Reviews = new Reviews('', '', '', 0.0, '','');
   controlGroup: FormGroup;
   nft: NFTMarket = new NFTMarket(
     '',
@@ -489,7 +489,9 @@ export class BuyViewComponent implements OnInit {
                   reviewcard.UserID = this.list[x].userid;
                   reviewcard.Rating = this.list[x].rating;
                   reviewcard.Description = this.list[x].description;
-                  reviewcard.Time = this.list[x].timestamp;
+                  reviewcard.Timestamp = this.list[x].timestamp;
+                  const unwantedText = 'GMT+0530 (India Standard Time)';
+                  reviewcard.Timestamp = reviewcard.Timestamp.replace(unwantedText, '');
                   this.ReviewList.push(reviewcard);
                   console.log('Review List: ', this.ReviewList);
                 }
@@ -576,7 +578,7 @@ export class BuyViewComponent implements OnInit {
                     card.Status = txn.Response[x].Status;
                     if (txn.Response[x].Blockchain == 'ethereum') {
                       card.NFTTxnHash =
-                        'https://rinkeby.etherscan.io/tx/' +
+                        'https://goerli.etherscan.io/tx/' +
                         txn.Response[x].NFTTxnHash;
                     }
                     if (txn.Response[x].Blockchain == 'polygon') {
@@ -658,6 +660,8 @@ export class BuyViewComponent implements OnInit {
     this.reviews.Rating = Number(this.controlGroup.get('rating')!.value);
     this.reviews.NFTIdentifier = this.NFTList.nftidentifier;
     this.reviews.UserID = this.controlGroup.get('userid')!.value;
+    this.reviews.Timestamp=new Date().toString();
+    console.log("time is: ",this.reviews.Timestamp)
     this.dialogService
       .confirmDialog({
         title: 'User review confirmation',

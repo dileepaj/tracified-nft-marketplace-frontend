@@ -111,6 +111,7 @@ export class Reviews{
 		public Status   :string,  
 		public Rating   :number,  
 		public Description   :string,   
+		public Timestamp :string,
 		
     ){}
 
@@ -122,7 +123,7 @@ export class ReviewsCard{
 		public UserID   :string,  
 		public Rating   :string,  
 		public Description   :string,   
-		public Time  : string
+		public Timestamp  : string
     ){}
 	}
 

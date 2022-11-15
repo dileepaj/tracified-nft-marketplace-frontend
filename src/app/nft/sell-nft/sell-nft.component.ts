@@ -511,7 +511,7 @@ export class SellNftComponent implements OnInit {
                 card.Status = txn.Response[x].Status;
                 if (txn.Response[x].Blockchain == 'ethereum') {
                   card.NFTTxnHash =
-                    'https://rinkeby.etherscan.io/tx/' +
+                    'https://goerli.etherscan.io/tx/' +
                     txn.Response[x].NFTTxnHash;
                 }
                 if (txn.Response[x].Blockchain == 'polygon') {

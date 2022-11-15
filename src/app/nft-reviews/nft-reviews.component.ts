@@ -16,7 +16,7 @@ export class NftReviewsComponent implements OnInit {
   controlGroup: FormGroup;
   addSubscription: Subscription;
   rating: number;
-  reviews:Reviews=new Reviews('','','',0.0,'')
+  reviews:Reviews=new Reviews('','','',0.0,'','')
   description: ExecFileSyncOptionsWithStringEncoding;
   data: any;
   List:any[]=[];
@@ -34,6 +34,7 @@ export class NftReviewsComponent implements OnInit {
     this.reviews.Rating=Number(this.controlGroup.get('rating')!.value);
     this.reviews.NFTIdentifier=this.data.nftidentifier;
     this.reviews.UserID=this.data.currentownerpk;
+    this.reviews.Timestamp=new Date().toString()
     this.dialogService.confirmDialog({
       title:"User review confirmation",
       message:"Are you sure you want to submit this review",

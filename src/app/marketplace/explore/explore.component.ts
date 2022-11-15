@@ -426,7 +426,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
               if(this.nfts.Response.content[a].sellingstatus === 'Minted' || this.nfts.Response.content[a].sellingstatus === 'ON SALE' || this.nfts.Response.content[a].sellingstatus === 'NOTFORSALE') {
                 console.log("minted nft: ",this.nfts.Response.content[a])
                 this.nftItems.push(this.nfts.Response.content[a]);
-               
               }
              //}
 

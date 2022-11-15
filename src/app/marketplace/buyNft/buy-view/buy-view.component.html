@@ -157,20 +157,20 @@
                 <div class="reviews-filters-cont">
                   <span
                     class="review-filter"
-                    [class.review-filter-active]="filter === 'newest'"
-                    (click)="setFilter('newest')"
+                    [class.review-filter-active]="filter === 'latest'"
+                    (click)="setFilter('latest',this.NFTList.nftidentifier)"
                     >Newest</span
                   >
                   <span
                     class="review-filter"
-                    [class.review-filter-active]="filter === 'highest'"
-                    (click)="setFilter('highest')"
+                    [class.review-filter-active]="filter === 'high'"
+                    (click)="setFilter('high',this.NFTList.nftidentifier)"
                     >Highest</span
                   >
                   <span
                     class="review-filter"
-                    [class.review-filter-active]="filter === 'lowest'"
-                    (click)="setFilter('lowest')"
+                    [class.review-filter-active]="filter === 'low'"
+                    (click)="setFilter('low',this.NFTList.nftidentifier)"
                     >Lowest</span
                   >
                 </div>

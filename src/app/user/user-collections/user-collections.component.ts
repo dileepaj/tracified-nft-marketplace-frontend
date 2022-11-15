@@ -15,12 +15,15 @@ export class UserCollectionsComponent implements OnInit {
   data: any;
   List:any[]=[];
   key: string;
+  selectedblockchain:any;
   constructor(private route:ActivatedRoute, private service:NftServicesService, private _location: Location,  private router: Router,private collection: CollectionService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
       this.key=(params['data']);
-      console.log("DATA recived: ",this.key)})
+      this.selectedblockchain=(params['blockchain'])
+      console.log("DATA recived: ",this.key,this.selectedblockchain)
+    })
 
     if (this.key != null) {
       this.collection.getCollectionPK(this.key).subscribe((res:any)=>{
@@ -47,7 +50,7 @@ export class UserCollectionsComponent implements OnInit {
 showNFT(collection){
   console.log("key is: ",this.key)
   this.router.navigate(['./user-dashboard/mynfts'], {
-    queryParams: { collection: [collection,this.key] },//this.data
+    queryParams: { collection: [collection,this.key],blockchain:this.selectedblockchain},//this.data
   });
 }
 

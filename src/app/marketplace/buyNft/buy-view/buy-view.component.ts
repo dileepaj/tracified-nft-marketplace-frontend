@@ -490,6 +490,8 @@ export class BuyViewComponent implements OnInit {
                   reviewcard.Rating = this.list[x].rating;
                   reviewcard.Description = this.list[x].description;
                   reviewcard.Timestamp = this.list[x].timestamp;
+                  const unwantedText = 'GMT+0530 (India Standard Time)';
+                  reviewcard.Timestamp = reviewcard.Timestamp.replace(unwantedText, '');
                   this.ReviewList.push(reviewcard);
                   console.log('Review List: ', this.ReviewList);
                 }

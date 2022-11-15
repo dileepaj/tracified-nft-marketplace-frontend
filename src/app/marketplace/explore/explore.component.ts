@@ -387,22 +387,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
           }
           // this.nftItems.splice(0)
            for(let a=0; a<this.nfts.Response.content.length; a++){
-
-            // if(this.selectedFilter === 'onsale') {
-            //   if(this.nfts.Response.content[a].sellingstatus === 'ON SALE') {
-            //     this.nftItems.push(this.nfts.Response.content[a]);
-            //   }
-            // }
-            // else if (this.selectedFilter === 'trending'){
-            //   if(this.nfts.Response.content[a].trending) {
-            //     this.nftItems.push(this.nfts.Response.content[a]);
-            //   }
-            // }
-            // else if (this.selectedFilter === 'hotpicks'){
-            //   if(this.nfts.Response.content[a].hotpicks) {
-            //     this.nftItems.push(this.nfts.Response.content[a]);
-            //   }
-            // }else 
             if(this.selectedFilter === 'all') {
               if(this.nfts.Response.content[a].sellingstatus === 'Minted') {
                 this.nftItems.push(this.nfts.Response.content[a]);

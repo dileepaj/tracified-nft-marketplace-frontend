@@ -26,8 +26,11 @@ export class ApiServicesService {
   baseUrlUpdateEndorse='http://localhost:6081/endorsement';
   baseUrlPartner='http://localhost:6081/partner/'
   baseUrlSaveReview='http://localhost:6081/review/';
+  baseUrlFilterReview='http://localhost:6081/review/filterby';
   baseUrlSaveStory='http://localhost:6081/story/';
   baseUrlSubscribe ='http://localhost:6081/subscribe/';
+
+  pageSize : number = 10;
 
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
@@ -148,6 +151,11 @@ export class ApiServicesService {
 
     addReviews(st: Reviews): Observable<Reviews> {
       return this.http.post<Reviews>(this.baseUrlSaveReview, st, {headers: this.headers});
+    }
+
+    getReviewsByFilter(filter:string,page:number,id:string):Observable<Reviews[]> {
+      console.log("inside pagination review")
+      return this.http.get<Reviews[]>(`${this.baseUrlFilterReview}/${filter}/${id}/${this.pageSize}/${page}`);
     }
 
     getAllReviewsByNFTId(id:string):Observable<Reviews[]> {

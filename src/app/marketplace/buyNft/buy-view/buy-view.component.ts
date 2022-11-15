@@ -11,7 +11,7 @@ import {
   ReviewsCard,
   Reviews,
 } from 'src/app/models/nft';
-import { environment } from 'src/environments/environment';
+import { APIConfigENV, environment } from 'src/environments/environment';
 import { TrustLineByBuyerServiceService } from 'src/app/services/blockchain-services/stellar-services/trust-line-by-buyer-service.service';
 import { BuyNftServiceService } from 'src/app/services/blockchain-services/stellar-services/buy-nft-service.service';
 import { Trac2buyerService } from 'src/app/services/blockchain-services/solana-services/trac2buyer.service';
@@ -40,6 +40,7 @@ import {
   PendingDialogText,
   SnackBarText,
 } from 'src/app/models/confirmDialog';
+import { interval, timer } from 'rxjs';
 
 @Component({
   selector: 'app-buy-view',
@@ -136,6 +137,12 @@ export class BuyViewComponent implements OnInit {
   conversion: any;
   icon: string;
   crypto: string;
+  currentPage : number = 1;
+  observer: IntersectionObserver;
+  review: any;
+  loadingn : boolean = false;
+  nextPageLoading : boolean = false;
+  filterChanged : boolean = false;
 
   constructor(
     private service: NftServicesService,
@@ -641,8 +648,52 @@ export class BuyViewComponent implements OnInit {
     this.selectedTab = 0;
   }
 
-  public setFilter(filter: string) {
+  public setFilter(filter: string,id:string) {
+    const timer$ = timer(0,APIConfigENV.homepageIntervalTimer)
+    timer$.subscribe(data=>{
+      this.loadingn = true;
+    
+    this.ReviewList.splice(0)
     this.filter = filter;
+    this.intersectionObserver(filter,id)
+    if(!this.loadingn) {
+      this.nextPageLoading = true;
+    }
+    this.apiService.getReviewsByFilter(this.filter,this.currentPage,id).subscribe((res:any)=>{
+      this.review=res.Response.reviewcontent
+      console.log("reviews : ",this.review)
+      this.nextPageLoading = false;
+      for (let x = 0; x < this.review.length; x++) {
+        let reviewcard: ReviewsCard = new ReviewsCard('', '', '', '');
+        reviewcard.UserID = this.review[x].userid;
+        reviewcard.Rating = this.review[x].rating;
+        reviewcard.Description = this.review[x].description;
+        reviewcard.Time = this.review[x].timestamp;
+        this.ReviewList.push(reviewcard);
+        console.log('Review List: ', this.ReviewList);
+      }
+    })
+    interval(APIConfigENV.APIStartDelay).subscribe(data=>{
+      this.loadingn = false;
+    })
+  })
+  }
+
+  intersectionObserver(filter,id) {
+    const option = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1,
+    };
+
+    this.observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        if (this.review.Response.PaginationInfo.nextpage !== 0) {
+          this.currentPage++;
+          this.setFilter(filter,id);
+        }
+      }
+    }, option);
   }
 
   public openConfirmation() {

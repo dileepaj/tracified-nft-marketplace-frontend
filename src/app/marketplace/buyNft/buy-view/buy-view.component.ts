@@ -112,6 +112,7 @@ export class BuyViewComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
   signerSK = 'SBKFJD35H4EZBMBELBB7SZQR4ZZ2H5WMRO4N6KWALXMF63DWJVMR2K5D';
@@ -119,7 +120,7 @@ export class BuyViewComponent implements OnInit {
   Decryption: any;
   buytxn: any;
   data: any;
-  svg: SVG = new SVG('', '', 'NA');
+  svg: SVG = new SVG('', '', 'NA','');
   txn: TXN = new TXN('', '', '', '', '', '');
   dec: string;
   transaction: Uint8Array;
@@ -552,12 +553,15 @@ export class BuyViewComponent implements OnInit {
             this.svg.Hash = this.NFTList.imagebase64;
             this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
               this.Decryption = res.Response.Base64ImageSVG;
-              this.dec = btoa(this.Decryption);
-              var str2 = this.dec.toString();
-              var str1 = new String('data:image/svg+xml;base64,');
-              var src = str1.concat(str2.toString());
-              this.imageSrc =
-                this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" || this.NFTList.attachmenttype == "image/png"){
+                this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+              }else{
+                this.dec = btoa(this.Decryption);
+            var str2 = this.dec.toString();
+            var str1 = new String( "data:image/svg+xml;base64,");
+            var src = str1.concat(str2.toString());
+            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              }
               console.log('image in buy: ', this.imageSrc);
               this.service
                 .getTXNByBlockchainandIdentifier(
@@ -605,12 +609,15 @@ export class BuyViewComponent implements OnInit {
             this.svg.Hash = this.NFTList.imagebase64;
             this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
               this.Decryption = res.Response.Base64ImageSVG;
-              this.dec = btoa(this.Decryption);
-              var str2 = this.dec.toString();
-              var str1 = new String('data:image/svg+xml;base64,');
-              var src = str1.concat(str2.toString());
-              this.imageSrc =
-                this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" || this.NFTList.attachmenttype == "image/png"){
+                this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+              }else{
+                this.dec = btoa(this.Decryption);
+            var str2 = this.dec.toString();
+            var str1 = new String( "data:image/svg+xml;base64,");
+            var src = str1.concat(str2.toString());
+            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              }
             });
 
             this.controlGroup = new FormGroup({

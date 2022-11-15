@@ -71,7 +71,7 @@ export class PutOnResaleComponent implements OnInit {
   Decryption: any;
   dec: string;
 
-  svg: SVG = new SVG('', '', 'NA');
+  svg: SVG = new SVG('', '', 'NA','');
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -305,13 +305,15 @@ export class PutOnResaleComponent implements OnInit {
     this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
       console.log('service res:', res);
       this.Decryption = res.Response.Base64ImageSVG;
-      console.log('decrypted sg:', this.Decryption);
-      this.dec = btoa(this.Decryption);
-      console.log('dec : ', this.dec);
-      var str2 = this.dec.toString();
-      var str1 = new String('data:image/svg+xml;base64,');
-      var src = str1.concat(str2.toString());
-      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+      if(this.data.attachmenttype == "image/jpeg" || this.data.attachmenttype == "image/jpg" ||this.data.attachmenttype == "image/png"){
+        this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+      }else{
+        this.dec = btoa(this.Decryption);
+    var str2 = this.dec.toString();
+    var str1 = new String( "data:image/svg+xml;base64,");
+    var src = str1.concat(str2.toString());
+    this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+      }
       console.log('imgsrc', this.imageSrc);
     });
 

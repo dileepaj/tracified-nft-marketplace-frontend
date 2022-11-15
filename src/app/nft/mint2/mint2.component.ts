@@ -124,6 +124,7 @@ export class Mint2Component implements OnInit {
     '',
     '',
     '',
+    '',
     false,
     false
   );
@@ -131,7 +132,7 @@ export class Mint2Component implements OnInit {
   tokenId: number;
   txn: TXN = new TXN('', '', '', '', '', '');
   svgUpdate: UpdateSVG = new UpdateSVG('', '');
-  svg: SVG = new SVG('', '', 'NA');
+  svg: SVG = new SVG('', '', 'NA','');
   Decryption: any;
   dec: string;
   imageSrc: any;
@@ -153,6 +154,9 @@ export class Mint2Component implements OnInit {
   stellar: boolean;
   polygon: boolean;
   solana: boolean;
+  name: string;
+  base64textString: string;
+  type: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -244,6 +248,7 @@ export class Mint2Component implements OnInit {
     this.mint.NFTName = this.formValue('NFTName');
     this.mint.NftContentURL = this.formValue('NftContentURL');
     this.mint.Imagebase64 = this.hash;
+    this.mint.AttachmentType=this.type;
     this.mint.Description = this.formValue('Description');
     this.svgUpdate.Id = this.hash;
 
@@ -256,6 +261,8 @@ export class Mint2Component implements OnInit {
         this.svg.blockchain = 'stellar';
         this.svg.Hash = this.hash;
         this.svg.Base64ImageSVG = this.Encoded;
+        this.svg.AttachmentType=this.type
+
         this.apiService.addSVG(this.svg).subscribe();
 
         if (this.mint.NFTIssuerPK != null) {
@@ -327,6 +334,7 @@ export class Mint2Component implements OnInit {
       this.svg.blockchain = 'solana';
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
+      this.svg.AttachmentType=this.type
       this.apiService.addSVG(this.svg).subscribe();
       this.dialogService
         .confirmDialog({
@@ -387,6 +395,7 @@ export class Mint2Component implements OnInit {
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'ethereum';
+      this.svg.AttachmentType=this.type
       this.apiService.addSVG(this.svg).subscribe();
       this.dialogService
         .confirmDialog({
@@ -403,7 +412,7 @@ export class Mint2Component implements OnInit {
             this.apiService
               .getEndorsement(this.userPK)
               .subscribe((result: any) => {
-                if (result.Status == null || result.Status == '') {
+                if (result.Status == null || result.Status == 'Declined' || result.Status == 'Pending') {
                   this.dialogService
                     .confirmDialog({
                       title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -461,6 +470,7 @@ export class Mint2Component implements OnInit {
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'polygon';
+      this.svg.AttachmentType=this.type
       this.apiService.addSVG(this.svg).subscribe();
 
       this.dialogService
@@ -825,8 +835,15 @@ export class Mint2Component implements OnInit {
     this.file = event.target.files[0];
     console.log(this.file.type);
     if (this.file.type.toLowerCase().includes('svg')) {
+      this.type= this.file.type
       this.uploadImage(true);
-    } else {
+    } else if (this.file.type.toLowerCase().includes('png')||this.file.type.toLowerCase().includes('jpg')
+    || this.file.type.toLowerCase().includes('jpeg')){
+      this.type=this.file.type
+      var reader = new FileReader();
+      reader.readAsDataURL(this.file);
+      reader.onload =this._handleReaderLoadedImage.bind(this);
+      reader.readAsBinaryString(this.file);
       this.updateHTML();
     }
   }
@@ -850,6 +867,14 @@ export class Mint2Component implements OnInit {
     console.log('HTML svg: ', this.Encoded);
 
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
+    this.updateHTML();
+  }
+
+  private _handleReaderLoadedImage(readerEvt: any) {
+    var binaryString = readerEvt.target.result;
+    this.Encoded = binaryString;
+    console.log('Image svg: ', this.Encoded);
+    this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
     this.updateHTML();
   }
 

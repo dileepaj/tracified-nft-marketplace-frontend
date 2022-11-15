@@ -14,7 +14,7 @@ export class ViewNftCardComponent implements OnInit {
   Decryption: any;
   NFTList: any;
   List:any[]=[];
-  svg: SVG = new SVG('', '', 'NA');
+  svg: SVG = new SVG('', '', 'NA','');
   nft: NFTMarket = new NFTMarket(
     '',
     '',
@@ -95,13 +95,15 @@ export class ViewNftCardComponent implements OnInit {
           this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
             console.log('service res:', res);
             this.Decryption = res.Response.Base64ImageSVG;
-            console.log('decrypted sg:', this.Decryption);
-            this.dec = btoa(this.Decryption);
-            console.log('dec : ', this.dec);
-            var str2 = this.dec.toString();
-            var str1 = new String('data:image/svg+xml;base64,');
-            var src = str1.concat(str2.toString());
-            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" ||this.NFTList.attachmenttype == "image/png"){
+              this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+            }else{
+              this.dec = btoa(this.Decryption);
+          var str2 = this.dec.toString();
+          var str1 = new String( "data:image/svg+xml;base64,");
+          var src = str1.concat(str2.toString());
+          this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            }
             this.service.getTXNByBlockchainandIdentifier(this.NFTList.Identifier,this.NFTList.NftIssuingBlockchain).subscribe((txn:any)=>{
               console.log("TXNS :",txn)
               for( let x=0; x<(txn.Response.length); x++){

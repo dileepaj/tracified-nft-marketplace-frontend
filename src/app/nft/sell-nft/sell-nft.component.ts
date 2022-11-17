@@ -19,6 +19,8 @@ import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { CodeviewComponent } from '../codeview/codeview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { EthereumMintService } from 'src/app/services/contract-services/ethereum-mint.service';
+import { PolygonMintService } from 'src/app/services/contract-services/polygon-mint.service';
 import {
   ConfirmDialogText,
   PendingDialogText,
@@ -102,7 +104,9 @@ export class SellNftComponent implements OnInit {
     private dialogService: DialogService,
     private snackbarService: SnackbarServiceService,
     private api: ApiServicesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public emint:EthereumMintService,
+    public pmint:PolygonMintService
   ) {}
 
   calculatePrice(): void {
@@ -300,7 +304,9 @@ export class SellNftComponent implements OnInit {
               message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
             });
             this.calculatePrice();
-            this.pmarket
+            if(this.NFTList.sellingstatus=='Minted'){
+
+              this.pmarket
               .createSaleOffer(
                 environment.contractAddressNFTPolygon,
                 this.tokenid,
@@ -319,7 +325,32 @@ export class SellNftComponent implements OnInit {
                 );
                 this.showInProfile();
               });
-            //this.addDBBackend()
+            }else{
+              console.log("bfore approval")
+              this.pmint.approveContract(this.tokenid).then((res:any)=>{
+                console.log("transaction result is: ",res)
+                this.pmarket
+                .createSaleOffer(
+                  environment.contractAddressNFTPolygon,
+                  this.tokenid,
+                  this.sellingPrice
+                )
+                .then((res) => {
+                  this.selltxn = res.transactionHash;
+                  this.itemId = parseInt(res.logs[3].topics[1]);
+                  this.saleBE.SellingType = this.itemId.toString();
+                  this.saveTXNs();
+                  this.addDBBackend();
+                  this.addDBGateway();
+                  dialog.close();
+                  this.snackbarService.openSnackBar(
+                    SnackBarText.SALE_SUCCESS_MESSAGE
+                  );
+                  this.showInProfile();
+                });
+              })
+             
+            }
           }
         });
     }
@@ -342,7 +373,8 @@ export class SellNftComponent implements OnInit {
               message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
             });
             this.calculatePrice();
-            this.emarket
+            if(this.NFTList.sellingstatus=='Minted'){
+              this.emarket
               .createSaleOffer(
                 environment.contractAddressNFTEthereum,
                 this.tokenid,
@@ -361,6 +393,31 @@ export class SellNftComponent implements OnInit {
                 );
                 this.showInProfile();
               });
+            }else{
+              console.log("bfore approval")
+              this.emint.approveContract(this.tokenid).then((res:any)=>{
+                console.log("transaction is approved: ",res)
+                this.emarket
+                .createSaleOffer(
+                  environment.contractAddressNFTEthereum,
+                  this.tokenid,
+                  this.sellingPrice
+                )
+                .then((res) => {
+                  this.selltxn = res.transactionHash;
+                  this.itemId = parseInt(res.logs[2].topics[1]);
+                  this.saleBE.SellingType = this.itemId.toString();
+                  this.saveTXNs();
+                  this.addDBBackend();
+                  this.addDBGateway();
+                  dialog.close();
+                  this.snackbarService.openSnackBar(
+                    SnackBarText.SALE_SUCCESS_MESSAGE
+                  );
+                  this.showInProfile();
+                });
+              })
+            }
           }
         });
     }

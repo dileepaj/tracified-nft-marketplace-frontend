@@ -149,8 +149,7 @@ export class NftCardComponent implements OnInit {
   public routeToBuy(id : string) : void {
 console.log("current owner ",this.currentownerpk)
     if(this.sellingstatus=="Minted"){
-      this.retrive(this.blockchain)
-      console.log("user and co: ",this.user, this.currentownerpk)
+      this.retrive(this.blockchain).then(res=>{   console.log("user and co: ",this.user, this.currentownerpk)
       if(this.user==this.currentownerpk){
         this.command=false
         let data : any[] = ["Minted",id,this.blockchain]
@@ -160,7 +159,7 @@ console.log("current owner ",this.currentownerpk)
       }else{
         this.snackbarService.openSnackBar("NFT is yet to be put on sale")
         this.command=true
-      }
+      }})
     }else if(this.sellingstatus=="ON SALE"){
       this.command=false
       console.log("this is bc in nftcomponent ",this.blockchain)
@@ -169,17 +168,18 @@ console.log("current owner ",this.currentownerpk)
       queryParams:{data:JSON.stringify(data)}
       })
     }else if(this.sellingstatus=="NOTFORSALE"){
-      this.retrive(this.blockchain)
-      if(this.user==this.currentownerpk){
-        this.command=false
-        let data : any[] = ["NOTFORSALE",id,this.blockchain]
-        this.router.navigate(['./sell'],{
-          queryParams:{data:JSON.stringify(data)}
-        });
-      }else{
-      this.snackbarService.openSnackBar("NFT is yet to be put on sale")
-      this.command=true
-      }
+      this.retrive(this.blockchain).then(res=>{
+        if(this.user==this.currentownerpk){
+          this.command=false
+          let data : any[] = ["NOTFORSALE",id,this.blockchain]
+          this.router.navigate(['./sell'],{
+            queryParams:{data:JSON.stringify(data)}
+          });
+        }else{
+        this.snackbarService.openSnackBar("NFT is yet to be put on sale")
+        this.command=true
+        }
+      })
     }else{
       this.snackbarService.openSnackBar("Invalid Command!")
       this.command=true

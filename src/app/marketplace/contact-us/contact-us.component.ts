@@ -70,7 +70,7 @@ export class ContactUsComponent implements OnInit {
 
   public saveUserFAQ() {
     this.userFAQ.usermail = this.formValue('Email');
-    this.userFAQ.category = this.formValue('Collection');
+    this.userFAQ.category = this.formValue('Category');
     this.userFAQ.subject = this.formValue('Subject');
     this.userFAQ.desc = this.formValue('Description');
     this.userFAQ.status = 'Pending';

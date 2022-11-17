@@ -18,7 +18,7 @@ export class TransferNftService {
     mintPubkey: PublicKey,
     ata:PublicKey): Promise<any>{
     return (async () => {
-      
+      console.log("-----------------------------------insideee")
       // Connect to cluster
       const connection = new Connection(clusterApiUrl("testnet"), "confirmed");
     

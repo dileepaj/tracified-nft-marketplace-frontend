@@ -160,7 +160,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       this.Creators.splice(0)
       this.Sale.splice(0)
        this.nftItems.splice(0)
-      //this.List.splice(0)
+      this.List.splice(0)
   console.log("proceeding................")
       this.route.queryParams.subscribe((params) => {
         this.loading = true;

@@ -139,7 +139,8 @@ export class MintComponent implements OnInit {
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
-          if (result.Status == null || result.Status == 'Declined') {
+          console.log("-------------------kkkk-------",result.Status,result)
+          if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -187,7 +188,7 @@ export class MintComponent implements OnInit {
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
-          if (result.Status == null || result.Status == 'Declined') {
+          if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -235,7 +236,7 @@ export class MintComponent implements OnInit {
       this.apiService
       .getEndorsement(key)
       .subscribe((result: any) => {
-        if (result.Status == null || result.Status == 'Declined') {
+        if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
           this.dialogService
             .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,

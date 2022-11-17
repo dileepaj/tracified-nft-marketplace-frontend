@@ -33,12 +33,12 @@
         (click)="triggerClick()"
       >
         <div id="nft-dnd-ph" class="img-div" *ngIf="!imageSrc">
-          <object
+          <embed
             id="nft-dnd-img"
             data="../../../assets/images/img-upload.png"
             style="width: 133px; height: 138px"
             *ngIf="!imageSrc"
-          ></object>
+          >
         </div>
 
         <embed

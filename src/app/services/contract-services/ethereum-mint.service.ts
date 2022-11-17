@@ -43,4 +43,16 @@ export class EthereumMintService {
     const tx = await transaction.wait()
     return tx
   }
+
+  public async approveContract(tokenId:number):Promise<any>{
+    console.log("inside service")
+    var marketcontract=environment.contractAddressMKEthereum
+    const contract = await EthereumMintService.getContract(true)
+    const transaction = await contract['approve'](
+      marketcontract,
+      tokenId
+    )
+    const tx = await transaction.wait()
+    return tx
+  }
 }

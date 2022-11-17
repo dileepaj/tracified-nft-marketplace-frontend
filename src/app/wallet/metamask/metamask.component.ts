@@ -5,6 +5,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
 import { ethers } from 'ethers';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
+import { EthereumMintService } from 'src/app/services/contract-services/ethereum-mint.service';
 @Component({
   selector: 'app-metamask',
   templateUrl: './metamask.component.html',
@@ -118,4 +119,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       return tx;
     }
   }
+
+ 
+  
 }

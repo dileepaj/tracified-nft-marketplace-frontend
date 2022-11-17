@@ -66,6 +66,7 @@ export class Mint2Component implements OnInit {
   //declaring models and variables
   @ViewChild('tagsInput') tagsInput: ElementRef<HTMLInputElement>;
   @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
+  @ViewChild('thumbUpload') thumbUpload: ElementRef<HTMLElement>;
   @Output() proceed: EventEmitter<any> = new EventEmitter();
   @Input() email: string;
   @Input() wallet: string;
@@ -157,6 +158,12 @@ export class Mint2Component implements OnInit {
   name: string;
   base64textString: string;
   type: string;
+  thumbSrc : any;
+  thumbFile : File;
+  thumbnail : any;
+  thumbType : string;
+  thumbEncoded: string;
+  thumbHash: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -388,7 +395,7 @@ export class Mint2Component implements OnInit {
                     }
                   });
               }
-            })  
+            })
     }
 
     if (this.mint.Blockchain == 'ethereum') {
@@ -488,7 +495,7 @@ export class Mint2Component implements OnInit {
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'polygon';
       this.svg.AttachmentType=this.type
-      this.apiService.addSVG(this.svg).subscribe();    
+      this.apiService.addSVG(this.svg).subscribe();
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
@@ -546,7 +553,7 @@ export class Mint2Component implements OnInit {
                           });
                       }
                     });
-                } 
+                }
               });
           }
   }
@@ -955,6 +962,12 @@ export class Mint2Component implements OnInit {
     el.click();
   }
 
+  //trigger file input click event
+  public triggerThumbnailUpload() {
+    let el: HTMLElement = this.thumbUpload.nativeElement;
+    el.click();
+  }
+
   public openCreateCollection() {
     this.dialogService
       .createCollection(this.email, this.key)
@@ -962,6 +975,38 @@ export class Mint2Component implements OnInit {
       .subscribe((data: any) => {
         this.CollectionList.push({ CollectionName: data.collectionName });
       });
+  }
+
+  public onThumbnailChange(event: any) {
+    console.log('---on change thumb---')
+    this.thumbFile = event.target.files[0];
+    if (this.thumbFile.type.toLowerCase().includes('png')||this.thumbFile.type.toLowerCase().includes('jpg')
+      || this.thumbFile.type.toLowerCase().includes('jpeg')){
+        this.thumbType = this.thumbFile.type
+        var reader = new FileReader();
+        reader.readAsDataURL(this.thumbFile);
+        reader.onload =this._handleReaderLoadedThumbnail.bind(this);
+        reader.readAsBinaryString(this.thumbFile);
+        this.updateThumbnailHTML();
+    }
+  }
+
+  public updateThumbnailHTML () {
+    console.log('---update thumb---')
+    const reader = new FileReader();
+    reader.readAsDataURL(this.thumbFile);
+    reader.onload = (_event) => {
+      this.thumbnail = reader.result;
+      this.thumbSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.thumbnail);
+    };
+  }
+
+  //create base64 image
+  private _handleReaderLoadedThumbnail(readerEvt: any) {
+    var binaryString = readerEvt.target.result;
+    this.thumbEncoded = binaryString;
+    this.thumbHash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
+    this.updateThumbnailHTML();
   }
 
   @HostListener('dragover', ['$event']) public onDragOver(evt) {

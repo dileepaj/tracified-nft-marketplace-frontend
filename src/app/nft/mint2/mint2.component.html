@@ -13,7 +13,7 @@
       >
       <div fxLayoutAlign="space-between center">
         <label class="normal-text" style="margin-bottom: 10px"
-          >Upload SVG<span class="required">*</span></label
+          >Upload Thumbnail <span class="required">*</span></label
         >
         <label
           class="hint"
@@ -22,6 +22,63 @@
           fxHide.sm="false"
           fxHide.gt-sm="false"
           ><span class="required">*</span>Required fields</label
+        >
+      </div>
+      <label>Drag and Drop or Browse</label>
+      <div
+        class="dnd-area"
+        id="thumb-dnd"
+        ngStyle.lt-md="width: calc(100% - 6px)"
+        matTooltip="Upload Image"
+        (click)="triggerThumbnailUpload()"
+      >
+        <div id="thumb-dnd-ph" class="img-div" *ngIf="!thumbSrc">
+          <object
+            id="thumb-dnd-img"
+            data="../../../assets/images/img-upload.png"
+            style="width: 133px; height: 138px"
+            *ngIf="!thumbSrc"
+          ></object>
+        </div>
+
+        <embed
+          id="thumb-dnd-u-img"
+          [src]="thumbSrc"
+          *ngIf="thumbSrc"
+          id="img"
+          class="uploaded-img"
+        >
+
+        <input
+          type="file"
+          accept="image/png, image/jpeg"
+          #thumbUpload
+          (change)="onThumbnailChange($event)"
+          hidden
+        />
+      </div>
+      <div fxLayout="row wrap" fxLayoutAlign="flex-end">
+        <button
+          mat-icon-button
+          id="upload-options"
+          class="upload-options"
+          *ngIf="thumbSrc"
+        >
+          <mat-icon class="material-symbols-outlined"> more_vert </mat-icon>
+          <div class="dropdown-options-content">
+            <button mat-menu-item fxLayout="row" fxLayoutAlign="center center">
+              <label fxFlex="100%" (click)="triggerThumbnailUpload()"
+                >Upload a New Image</label
+              >
+            </button>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="dnd-outer-div" ngStyle.lt-md="width:100%">
+      <div fxLayoutAlign="space-between center">
+        <label class="normal-text" style="margin-bottom: 10px"
+          >Upload SVG <span class="required">*</span></label
         >
       </div>
       <label>Drag and Drop or Browse</label>
@@ -107,7 +164,7 @@
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text"
-        >Description<span class="required">*</span></label
+        >Description <span class="required">*</span></label
       >
       <mat-form-field appearance="outline" class="description">
         <textarea
@@ -124,7 +181,7 @@
       ngStyle.lt-md="width:100%; margin-bottom: 35px"
     >
       <label class="normal-text"
-        >Collection<span class="required">*</span></label
+        >Collection <span class="required">*</span></label
       >
       <mat-form-field
         appearance="outline"
@@ -132,7 +189,7 @@
         fxHide.gt-md="false"
         fxShow.lt-md="false"
       >
-        <mat-select formControlName="Collection" class="select-bc">
+        <mat-select formControlName="Collection" class="select-bc"  placeholder="Select Collection">
           <mat-select-trigger>
             <label class="collection-dropdown-selected">{{
               controlGroup.controls["Collection"].value
@@ -207,7 +264,7 @@
       ngStyle.lt-md="width:100%"
     >
       <label class="normal-text"
-        >Choose your Blockchain<span class="required">*</span></label
+        >Choose your Blockchain <span class="required">*</span></label
       >
       <mat-form-field appearance="outline">
         <mat-select
@@ -286,7 +343,7 @@
       style="margin-top: 15px"
       ngStyle.lt-md="width:100%"
     >
-      <label class="normal-text">Tags: </label>
+      <label class="normal-text">Tags </label>
       <mat-form-field class="example-chip-list" appearance="outline">
         <mat-chip-list
           #chipList
@@ -313,7 +370,7 @@
       </mat-form-field>
     </div>
     <div class="mint-form-group margin" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Code Profile Link: </label>
+      <label class="normal-text">Code Profile Link </label>
       <mat-form-field appearance="outline">
         <input
           type="text"
@@ -326,7 +383,7 @@
       </mat-form-field>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Creator Name:</label>
+      <label class="normal-text">Creator Name  <span class="required">*</span></label>
       <mat-form-field appearance="outline">
         <input
           type="text"
@@ -339,7 +396,7 @@
       </mat-form-field>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Creator Profile Link:</label>
+      <label class="normal-text">Creator Profile Link </label>
       <mat-form-field appearance="outline">
         <input
           type="text"

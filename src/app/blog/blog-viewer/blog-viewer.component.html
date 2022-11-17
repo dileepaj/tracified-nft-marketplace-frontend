@@ -32,7 +32,15 @@
               navigate_next
             </mat-icon>
 
-            <a style="color: #00c853">BLOGS</a>
+            <a>Blogs</a>
+            <mat-icon
+              class="material-symbols-outlined"
+              style="vertical-align: middle"
+            >
+              navigate_next
+            </mat-icon>
+
+            <a style="color: #00c853">{{ this.topics }}</a>
           </div>
         </div>
       </div>
@@ -46,10 +54,7 @@
               justify-content: center;
             "
           >
-            <img
-              [src]="thumbnail"
-              class="story-img"
-            />
+            <img [src]="thumbnail" class="story-img" />
           </div>
           <div style="flex: 1">
             <p>

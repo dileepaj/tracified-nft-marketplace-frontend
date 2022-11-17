@@ -38,6 +38,7 @@ export class ContactUsComponent implements OnInit {
   hash: any;
   binaryString: any;
   base64textString: string;
+  selectedTab: number = 1;
   constructor(
     private apiService: UserFAQService,
     private dialogService: DialogService,
@@ -70,7 +71,7 @@ export class ContactUsComponent implements OnInit {
 
   public saveUserFAQ() {
     this.userFAQ.usermail = this.formValue('Email');
-    this.userFAQ.category = this.formValue('Collection');
+    this.userFAQ.category = this.formValue('Category');
     this.userFAQ.subject = this.formValue('Subject');
     this.userFAQ.desc = this.formValue('Description');
     this.userFAQ.status = 'Pending';
@@ -150,5 +151,9 @@ export class ContactUsComponent implements OnInit {
   private _handleReaderLoaded(readerEvt: any) {
     var binaryString = readerEvt.target.result;
     this.base64textString = btoa(binaryString);
+  }
+
+  public changeTab(index: number) {
+    this.selectedTab = index;
   }
 }

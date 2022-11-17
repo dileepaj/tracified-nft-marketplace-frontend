@@ -39,6 +39,7 @@
   width: 100%;
   height: 0px;
   border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .nft-view-header {
@@ -67,10 +68,18 @@
   margin-top: 50px;
 }
 
+.mat-expansion-panel-header {
+  min-height: 40px !important;
+  height: fit-content !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
 .mat-expansion-panel-header-title {
   color: #10ceac;
   font-weight: 400;
   font-size: medium;
+  word-break: break-all;
 }
 
 .mat-expansion-panel-header-title,
@@ -172,4 +181,10 @@
   padding: 5px 20px 5px 20px;
   cursor: pointer;
   color: #000000;
+}
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

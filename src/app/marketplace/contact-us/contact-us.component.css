@@ -25,6 +25,7 @@
   align-content: center;
   row-gap: 7px;
   width: 620px;
+  max-width: 90%;
 }
 
 .required {
@@ -149,11 +150,10 @@
 }
 
 .contact-form {
-  margin-top: 65px;
   margin-bottom: 65px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
   row-gap: 40px;
 }
@@ -189,6 +189,7 @@
 .file-dnd-area {
   cursor: pointer;
   width: 614px;
+  max-width: calc(100% - 6px);
   height: 60px;
   border: 3px dashed #10ceac;
   display: flex;
@@ -252,4 +253,114 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.contact-us-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  row-gap: 50px;
+}
+
+.contact-us-content .content-1 {
+  width: calc(50% - 1px);
+  border-right: 1px solid #6b6b6b;
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 145.02%;
+  /* or 29px */
+
+  color: #ffffff;
+}
+
+.content-1-wrapper {
+  width: 614px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contact-us-content .content-2 {
+  width: calc(50% - 1px);
+}
+
+.map-wrapper {
+  width: 100%;
+  margin-top: 50px;
+  overflow: hidden;
+  border-radius: 10px 10px 0px 0px;
+  background-color: #2d2d2d;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-tabs {
+  display: flex;
+  flex-direction: row;
+}
+
+.map-tab-header {
+  cursor: pointer;
+  width: 100%;
+  padding: 10px 0px 10px;
+  text-align: center;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 131.02%;
+  /* or 26px */
+
+  color: #ffffff;
+}
+
+.selected-tab {
+  background-color: #10ceac;
+  color: #2d2d2d;
+}
+
+.map-tab {
+  display: flex;
+  flex-direction: column;
+}
+
+.map {
+  height: 530px;
+  width: 100%;
+}
+
+@media screen and (max-width: 959px) {
+  .contact-us-content .content-1 {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #6b6b6b;
+    padding-bottom: 50px;
+  }
+  .contact-us-content .content-2 {
+    width: 100%;
+  }
+  .content-1-wrapper {
+    margin-right: 0px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .contact-form {
+    margin-bottom: 65px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    row-gap: 40px;
+  }
 }

@@ -116,6 +116,7 @@
         <button mat-menu-item [routerLink]="'/help-center'">Help Center</button>
         <button mat-menu-item [routerLink]="'/docs'">Documentation</button>
         <button mat-menu-item [routerLink]="'/faq'">FAQ's</button>
+        <button mat-menu-item [routerLink]="'/blogs'">Blogs</button>
       </div>
     </div>
     <!-- <a
@@ -400,6 +401,15 @@
           (click)="closeSideNav()"
         >
           FAQs
+        </a>
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          [routerLink]="'/blogs'"
+          (click)="closeSideNav()"
+        >
+          Blogs
         </a>
       </div>
     </div>

@@ -271,6 +271,13 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   Filters(filter:string){
+    this.Trend.splice(0)
+      this.HotPick.splice(0)
+      this.UpToDate.splice(0)
+      this.Creators.splice(0)
+      this.Sale.splice(0)
+      this.nftItems.splice(0)
+      this.List.splice(0)
     if(filter === 'onsale'){
       if(!this.loading) {
         this.nextPageLoading = true;
@@ -284,12 +291,13 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         this.sales = data
        // this.List.splice(0)
       for(let a=0; a<this.sales.Response.content.length; a++){
-        //this.List.splice(0)
+        this.List.splice(0)
         //this.Sale.splice(0);
         this.Sale.push(this.sales.Response.content[a]);  
         console.log("this sale list: ",this.Sale)
       }
       this.nextPageLoading = false;
+      this.nftItems.splice(0)
       this.filterAndShowCard(this.Sale);  
     }else{
       window.location.reload();
@@ -309,12 +317,13 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         this.hotpicks = data
        // this.List.splice(0)
         for(let a=0; a<this.hotpicks.Response.content.length; a++){
-          // this.List.splice(0)
+           this.List.splice(0)
           // this.HotPick.splice(0);
           this.HotPick.push(this.hotpicks.Response.content[a]);  
           console.log("this hotpick list: ",this.HotPick)
         }
         this.nextPageLoading = false;
+        this.nftItems.splice(0)
         this.filterAndShowCard(this.HotPick);  
       }else{
         window.location.reload();

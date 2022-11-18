@@ -636,6 +636,7 @@ export class Mint2Component implements OnInit {
               data.NFTIdentifier
             )
             .then((res: any) => {
+              console.log("after transfer ",res)
               this.updateMinter();
             });
         });

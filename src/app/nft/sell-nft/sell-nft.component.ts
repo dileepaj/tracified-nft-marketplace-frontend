@@ -233,7 +233,7 @@ export class SellNftComponent implements OnInit {
       // } else {
         console.log('mint ', this.NFTList.nftissuerpk);
         const connection = new Connection(
-          clusterApiUrl('testnet'),
+          clusterApiUrl('devnet'),
           'confirmed'
         );
         let phantomWallet = new UserWallet();

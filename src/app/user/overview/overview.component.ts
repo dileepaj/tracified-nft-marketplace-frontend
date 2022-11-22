@@ -140,7 +140,7 @@ export class OverviewComponent implements OnInit {
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
  
-     let card:NFTCard= new NFTCard('','','','','','','');
+     let card:NFTCard= new NFTCard('','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
@@ -166,7 +166,7 @@ export class OverviewComponent implements OnInit {
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
  
-      let card:NFTCard= new NFTCard('','','','','','','');
+      let card:NFTCard= new NFTCard('','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
@@ -193,7 +193,7 @@ export class OverviewComponent implements OnInit {
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
  
-      let card:NFTCard= new NFTCard('','','','','','','');
+      let card:NFTCard= new NFTCard('','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
@@ -218,7 +218,7 @@ export class OverviewComponent implements OnInit {
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
  
-      let card:NFTCard= new NFTCard('','','','','','','');
+      let card:NFTCard= new NFTCard('','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
@@ -245,7 +245,7 @@ export class OverviewComponent implements OnInit {
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
  
-      let card:NFTCard= new NFTCard('','','','','','','');
+      let card:NFTCard= new NFTCard('','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname

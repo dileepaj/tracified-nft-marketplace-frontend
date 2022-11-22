@@ -183,7 +183,7 @@ export class HomeComponent implements OnInit {
           var src = str1.concat(str2.toString());
           this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
             }
-            let card: NFTCard = new NFTCard('', '', '', '','','','');
+            let card: NFTCard = new NFTCard('', '', '', '','','','',false,false);
             card.ImageBase64 = this.imageSrc;
             card.Blockchain = this.nfts.Response[x].blockchain;
             card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
@@ -216,7 +216,7 @@ export class HomeComponent implements OnInit {
           var src = str1.concat(str2.toString());
           this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
             }
-            let card: NFTCard = new NFTCard('', '', '', '','','','');
+            let card: NFTCard = new NFTCard('', '', '', '','','','',false,false);
             card.ImageBase64 = this.imageSrc;
             card.Blockchain = this.nfts.Response[x].blockchain;
             card.NFTIdentifier = this.nfts.Response[x].nftidentifier;

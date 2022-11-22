@@ -174,7 +174,7 @@ export class ShowNFTComponent implements OnInit {
                 this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
                   }
            
-                   let card: NFTCard = new NFTCard('', '', '', '','','','');
+                   let card: NFTCard = new NFTCard('', '', '', '','','','',false,false);
                   card.ImageBase64 = this.imageSrc;
                   card.NFTIdentifier = this.nfts[x].nftidentifier;
                   card.NFTName = this.nfts[x].nftname;
@@ -209,7 +209,7 @@ export class ShowNFTComponent implements OnInit {
                 var src = str1.concat(str2.toString());
                 this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
                   }
-                   let card: NFTCard = new NFTCard('', '', '', '','','','');
+                   let card: NFTCard = new NFTCard('', '', '', '','','','',false,false);
                   card.ImageBase64 = this.imageSrc;
                   card.NFTIdentifier = this.nfts[x].nftidentifier;
                   card.NFTName = this.nfts[x].nftname;
@@ -251,7 +251,7 @@ export class ShowNFTComponent implements OnInit {
                 var src = str1.concat(str2.toString());
                 this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
                   }
-                let card: NFTCard = new NFTCard('', '', '', '','','','');
+                let card: NFTCard = new NFTCard('', '', '', '','','','',false,false);
                   card.ImageBase64 = this.imageSrc;
                   card.NFTIdentifier = this.NFTList.Response[x].nftidentifier;
                   card.NFTName = this.NFTList.Response[x].nftname;

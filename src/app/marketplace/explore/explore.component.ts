@@ -36,6 +36,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   imageSrc:any;
   saleNft: any;
   List:any[]=[];
+  ListNew:any[]=[];
   All:any[]=[];
   Trend:any[]=[];
   HotPick:any[]=[];
@@ -148,6 +149,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+   // window.location.reload();
+    this.List.splice(0)
    /*  const loadingAnimation = this.dialogService.pendingDialog({
       message:"Loading NFTs.."
     }) */
@@ -171,13 +174,14 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         if(this.selectedFilter === 'onsale' || this.selectedFilter === 'hotpicks' || this.selectedFilter === 'trending'  || this.selectedFilter === 'bestcreators' || this.selectedFilter === 'uptodate'){
           this.currentPage=1;
           this.intersectionFilterObserver(this.selectedFilter)
+          this.List.splice(0)
           this.Filters(this.selectedFilter)
         }else{
           this.currentPage=1;
           this.List.splice(0)
-          this.intersectionObserver();
+          this.intersectionObserver(this.selectedFilter);
           console.log("bc data and filter: ",this.selectedBlockchain,this.selectedFilter)
-          this.getAllNFTs();
+          this.getAllNFTs(this.selectedFilter);
         }
        
         });
@@ -189,9 +193,9 @@ export class ExploreComponent implements OnInit, AfterViewInit {
 
   }
 
-  public fillCard(){
+  public async fillCard(filter:string){
     for( let x=0; x<(this.nftItems.length); x++){
-      this.nft.getSVGByHash(this.nftItems[x].imagebase64).subscribe(async(res:any)=>{
+   await this.nft.getSVGByHash(this.nftItems[x].imagebase64).subscribe(async(res:any)=>{
         console.log("svg result is: ",res)
         this.Decryption = res.Response.Base64ImageSVG
         console.log("imageee ",this.nftItems[x].attachmenttype,this.nftItems[x])
@@ -205,7 +209,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
-        let card:NFTCard= new NFTCard('','','','','','','');
+        let card:NFTCard= new NFTCard('','','','','','','',false,false);
         card.ImageBase64=this.imageSrc
         card.NFTIdentifier=this.nftItems[x].nftidentifier
         card.NFTName=this.nftItems[x].nftname
@@ -213,6 +217,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         card.CreatorUserId=this.nftItems[x].creatoruserid
         card.SellingStatus=this.nftItems[x].sellingstatus
         card.CurrentOwnerPK=this.nftItems[x].currentownerpk
+        card.Hotpicks=this.nftItems[x].hotpicks
+        card.Trending=this.nftItems[x].trending
         this.List.push(card);
       })
     }
@@ -221,10 +227,10 @@ export class ExploreComponent implements OnInit, AfterViewInit {
 
 
 
-  public filterAndShowCard(arr:any[]){
+  public filterAndShowCard(arr:any[],filter:string){
     console.log("list is: ",this.List)
-    //this.List.splice(0);
     console.log("array: ",arr)
+  
     for(let x=0; x<(arr.length);x++){
       console.log
       this.nft.getSVGByHash(arr[x].imagebase64).subscribe(async(res:any)=>{
@@ -241,7 +247,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
-     let card:NFTCard= new NFTCard('','','','','','','');
+     let card:NFTCard= new NFTCard('','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
     card.NFTIdentifier=arr[x].nftidentifier
     card.NFTName=arr[x].nftname
@@ -249,13 +255,16 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     card.CreatorUserId=arr[x].creatoruserid
     card.SellingStatus=arr[x].sellingstatus
     card.CurrentOwnerPK=arr[x].currentownerpk
-    console.log("current owner: ",arr[x].currentownerpk)
-      this.List.push(card)
-      console.log("list deets : ",this.List)
+    card.Hotpicks=arr[x].hotpicks
+    card.Trending=arr[x].trending
+    console.log("current owner and filter: ",arr[x].currentownerpk, filter)
+   
+    this.List.push(card)
+    console.log("list deets : ",this.List)
+  
       })
     }
-    console.log("list after getting all: ",this.List)
-    //this.loading = true;
+ 
   }
 
 
@@ -264,6 +273,11 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.filterChanged = true;
     this.List.splice(0);
     this.nftItems.splice(0);
+    this.Trend.splice(0)
+    this.HotPick.splice(0)
+    this.UpToDate.splice(0)
+    this.Creators.splice(0)
+    this.Sale.splice(0)
     console.log("in filter picked bc and filter: ",this.selectedBlockchain,filter)
     this.router.navigate(['/explore'], {
       queryParams: { blockchain: this.selectedBlockchain, filter },
@@ -277,28 +291,27 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       this.Creators.splice(0)
       this.Sale.splice(0)
       this.nftItems.splice(0)
-      this.List.splice(0)
     if(filter === 'onsale'){
       if(!this.loading) {
         this.nextPageLoading = true;
       }
       this.Sale.splice(0);
-     // this.List.splice(0)
       console.log("current page: ",this.currentPage)
       this.nft.getNFTpaginatedOnSALE(this.selectedBlockchain,this.currentPage,'ON SALE').subscribe(async(data:any) => {
         console.log("sales data: ",data)
         if(data.Response.content!=null){
         this.sales = data
-       // this.List.splice(0)
+      
       for(let a=0; a<this.sales.Response.content.length; a++){
-        this.List.splice(0)
-        //this.Sale.splice(0);
         this.Sale.push(this.sales.Response.content[a]);  
         console.log("this sale list: ",this.Sale)
+        if(this.List.length>0  && this.currentPage==1){
+          window.location.reload();
+        }
       }
       this.nextPageLoading = false;
       this.nftItems.splice(0)
-      this.filterAndShowCard(this.Sale);  
+      this.filterAndShowCard(this.Sale,filter);  
     }else{
       window.location.reload();
     }
@@ -306,7 +319,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     }
 
     if(filter === 'hotpicks'){
-      // this.List.splice(0)
       this.HotPick.splice(0);
       if(!this.loading) {
         this.nextPageLoading = true;
@@ -315,16 +327,18 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         console.log("hotpicks data: ",data)
         if(data.Response.content!=null){
         this.hotpicks = data
-       // this.List.splice(0)
+        console.log("this.List inside hotpicks ,",this.List)
+        if(this.List.length>0  && this.currentPage==1){
+          window.location.reload();
+        }
+        
         for(let a=0; a<this.hotpicks.Response.content.length; a++){
-           this.List.splice(0)
-          // this.HotPick.splice(0);
           this.HotPick.push(this.hotpicks.Response.content[a]);  
           console.log("this hotpick list: ",this.HotPick)
         }
         this.nextPageLoading = false;
         this.nftItems.splice(0)
-        this.filterAndShowCard(this.HotPick);  
+        this.filterAndShowCard(this.HotPick,filter);  
       }else{
         window.location.reload();
       }
@@ -332,7 +346,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     }
 
     if(filter == 'trending'){
-     // this.List.splice(0)
       this.Trend.splice(0);
       if(!this.loading) {
         this.nextPageLoading = true;
@@ -341,15 +354,16 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         console.log("trends data: ",data)
         if(data.Response.content!=null){
         this.trends = data
-       // this.List.splice(0)
         for(let a=0; a<this.trends.Response.content.length; a++){
-          // this.List.splice(0)
-          // this.Trend.splice(0);
           this.Trend.push(this.trends.Response.content[a]);  
           console.log("this trends list: ",this.Trend)
+          if(this.List.length>0  && this.currentPage==1){
+            window.location.reload();
+          }
         }
         this.nextPageLoading = false;
-        this.filterAndShowCard(this.Trend);  
+        this.nftItems.splice(0)
+        this.filterAndShowCard(this.Trend,filter);  
       }else{
         window.location.reload();
       }
@@ -357,7 +371,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     }
 
     if(filter === 'uptodate'){
-      //this.List.splice(0)
       this.UpToDate.splice(0);
       if(!this.loading) {
         this.nextPageLoading = true;
@@ -367,15 +380,17 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         console.log("uptodate data: ",data)
         if(data.Response.content!=null){
         this.uptodates = data
-       // this.List.splice(0)
-       // this.UpToDate.splice(0); 
+      
      for(let a=0; a<this.uptodates.Response.content.length; a++){
-       // this.List.splice(0)
         this.UpToDate.push(this.uptodates.Response.content[a]);  
         console.log("this update list: ",this.UpToDate)
+        if(this.List.length>0 && this.currentPage==1 ){
+          window.location.reload();
+        }
       }
       this.nextPageLoading = false;
-      this.filterAndShowCard(this.UpToDate);  
+      this.nftItems.splice(0)
+      this.filterAndShowCard(this.UpToDate,filter);  
     }else{
       window.location.reload();
     }
@@ -393,11 +408,15 @@ export class ExploreComponent implements OnInit, AfterViewInit {
           this.creators = data
           this.Creators.splice(0)
           for(let a=0; a<this.creators.Response.content.length; a++){
-            // this.List.splice(0)
              this.Creators.push(this.creators.Response.content[a]);  
              console.log("this update list: ",this.Creators)
+             if(this.List.length>0 && this.currentPage==1){
+              window.location.reload();
+            }
            }
-           this.filterAndShowCard(this.Creators);  
+           this.nextPageLoading = false;
+           this.nftItems.splice(0)
+           this.filterAndShowCard(this.Creators,filter);  
         }else{
           window.location.reload();
         }
@@ -405,7 +424,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public getAllNFTs() {
+  public getAllNFTs(filter) {
    // window.location.reload();
     this.nftItems.splice(0)
     console.log("hwere did this come from------------------")
@@ -442,12 +461,12 @@ export class ExploreComponent implements OnInit, AfterViewInit {
           }
            console.log("this nft items:", this.nftItems)
           this.nextPageLoading = false;
-                this.filterAndShowCard(this.nftItems);
+                this.filterAndShowCard(this.nftItems,filter);
         }
     });
   }
 
-  intersectionObserver() {
+  intersectionObserver(filter:string) {
     const option = {
       root: null,
       rootMargin: '0px',
@@ -458,7 +477,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       if (entries[0].isIntersecting) {
         if (this.nfts.Response.PaginationInfo.nextpage !== 0) {
           this.currentPage++;
-          this.getAllNFTs();
+          this.getAllNFTs(filter);
         }
       }
     }, option);

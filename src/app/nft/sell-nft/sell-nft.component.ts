@@ -122,9 +122,7 @@ export class SellNftComponent implements OnInit {
     }else{
       this.dialogService.openCodeView(this.Decryption);
     }
-    
   }
-
   saveTXNs(): void {
     this.txn.Blockchain = this.NFTList.blockchain;
     this.txn.ImageURL = this.NFTList.imagebase64;
@@ -513,7 +511,6 @@ export class SellNftComponent implements OnInit {
             }
             
               }
-              console.log('thubnaail src : ', this.imageSrc);
             });
 
           this.service

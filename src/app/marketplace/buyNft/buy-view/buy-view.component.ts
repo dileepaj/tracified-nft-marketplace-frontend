@@ -654,7 +654,6 @@ export class BuyViewComponent implements OnInit {
             }else{
               this.imageSrc=this._sanitizer.bypassSecurityTrustResourceUrl(src);
             }
-            // this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
               }
             });
 

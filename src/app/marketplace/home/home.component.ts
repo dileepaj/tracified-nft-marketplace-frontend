@@ -187,10 +187,8 @@ export class HomeComponent implements OnInit {
               this.thumbnailSRC=this.imageSrc
           }else{
             this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.nfts.Response[x].thumbnail);
-          }
-          
+          } 
             }
-
             let card: NFTCard = new NFTCard('', '', '', '','','','','');
             card.ImageBase64 = this.imageSrc;
             card.thumbnail=this.thumbnailSRC

@@ -127,13 +127,14 @@ export class Mint2Component implements OnInit {
     '',
     '',
     false,
-    false
+    false,
+    '',
   );
   minter: Minter = new Minter('', '', '', '', '');
   tokenId: number;
   txn: TXN = new TXN('', '', '', '', '', '');
   svgUpdate: UpdateSVG = new UpdateSVG('', '');
-  svg: SVG = new SVG('', '', 'NA','');
+  svg: SVG = new SVG('', '', 'NA','','');
   Decryption: any;
   dec: string;
   imageSrc: any;
@@ -227,7 +228,13 @@ export class Mint2Component implements OnInit {
   }
 
   public openDialog() {
-    this.dialogService.openCodeView(this.Encoded);
+    console.log("MINt2 file tpe: ",this.file.type)
+    console.log("image: ",this.imageSrc)
+    if(this.file.type == "image/jpeg" ||this.file.type == "image/jpg" || this.file.type == "image/png"){
+      this.dialogService.openNftPreview({image : this.imageSrc})
+    }else{
+      this.dialogService.openCodeView(this.Encoded);
+    }
   }
 
   pushTag(): void {
@@ -257,6 +264,7 @@ export class Mint2Component implements OnInit {
     this.mint.Imagebase64 = this.hash;
     this.mint.AttachmentType=this.type;
     this.mint.Description = this.formValue('Description');
+    this.mint.thumbnail=this.thumbnail
     this.svgUpdate.Id = this.hash;
 
     if (this.mint.Blockchain == 'stellar') {
@@ -269,7 +277,7 @@ export class Mint2Component implements OnInit {
         this.svg.Hash = this.hash;
         this.svg.Base64ImageSVG = this.Encoded;
         this.svg.AttachmentType=this.type
-
+        // this.svg.thumbnail=this.thumbnail
         this.apiService.addSVG(this.svg).subscribe();
 
         if (this.mint.NFTIssuerPK != null) {
@@ -343,7 +351,7 @@ export class Mint2Component implements OnInit {
       this.mint.NFTIssuerPK = phantomWallet.getWalletaddress();
       this.mint.NFTIdentifier = this.mint.NFTIssuerPK;
       this.mint.CreatorUserId = this.mint.NFTIssuerPK;
-
+      this.mint.thumbnail=this.thumbnail
       this.svg.blockchain = 'solana';
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
@@ -409,6 +417,7 @@ export class Mint2Component implements OnInit {
       this.mint.MintedContract = environment.contractAddressNFTEthereum;
       this.mint.MarketContract = environment.contractAddressMKEthereum;
       this.mint.CreatorUserId = this.mint.DistributorPK;
+      this.mint.thumbnail=this.thumbnail
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'ethereum';
@@ -490,7 +499,7 @@ export class Mint2Component implements OnInit {
       this.mint.MintedContract = environment.contractAddressNFTPolygon;
       this.mint.MarketContract = environment.contractAddressMKPolygon;
       this.mint.CreatorUserId = this.mint.DistributorPK;
-
+      this.mint.thumbnail=this.thumbnail
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'polygon';

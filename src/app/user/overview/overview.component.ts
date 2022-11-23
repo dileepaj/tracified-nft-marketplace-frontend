@@ -30,6 +30,7 @@ export class OverviewComponent implements OnInit {
   dec: any;
   imageSrc: any;
   User: string;
+  thumbnailSRC: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -138,10 +139,15 @@ export class OverviewComponent implements OnInit {
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-        }
- 
-     let card:NFTCard= new NFTCard('','','','','','','');
+      }
+      if(response.thumbnail==""){
+        this.thumbnailSRC=this.imageSrc
+      }else{
+        this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
+      }    
+    let card:NFTCard= new NFTCard('','','','','','','','');
     card.ImageBase64=this.imageSrc
+    card.thumbnail=this.thumbnailSRC
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
     card.Blockchain=response.blockchain
@@ -164,10 +170,18 @@ export class OverviewComponent implements OnInit {
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+      
         }
- 
-      let card:NFTCard= new NFTCard('','','','','','','');
+      if(response.thumbnail==""){
+        this.thumbnailSRC=this.imageSrc
+      }
+      else{
+        this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
+      }
+        
+      let card:NFTCard= new NFTCard('','','','','','','','');
     card.ImageBase64=this.imageSrc
+    card.thumbnail=this.thumbnailSRC
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
     card.Blockchain=response.blockchain
@@ -192,9 +206,15 @@ export class OverviewComponent implements OnInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
- 
-      let card:NFTCard= new NFTCard('','','','','','','');
+        if(response.thumbnail==""){
+          this.thumbnailSRC=this.imageSrc
+        }
+        else{
+          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
+        }
+      let card:NFTCard= new NFTCard('','','','','','','','');
     card.ImageBase64=this.imageSrc
+    card.thumbnail=this.thumbnailSRC
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
     card.Blockchain=response.blockchain
@@ -217,9 +237,15 @@ export class OverviewComponent implements OnInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
- 
-      let card:NFTCard= new NFTCard('','','','','','','');
+        if(response.thumbnail==""){
+          this.thumbnailSRC=this.imageSrc
+        }
+        else{
+          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
+        }
+      let card:NFTCard= new NFTCard('','','','','','','','');
     card.ImageBase64=this.imageSrc
+    card.thumbnail=this.thumbnailSRC
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
     card.Blockchain=response.blockchain
@@ -244,9 +270,15 @@ export class OverviewComponent implements OnInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
- 
-      let card:NFTCard= new NFTCard('','','','','','','');
+        if(response.thumbnail==""){
+          this.thumbnailSRC=this.imageSrc
+        }
+        else{
+          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
+        }
+      let card:NFTCard= new NFTCard('','','','','','','','');
     card.ImageBase64=this.imageSrc
+    card.thumbnail=this.thumbnailSRC
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
     card.Blockchain=response.blockchain

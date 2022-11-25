@@ -25,27 +25,27 @@
       <div class="faq-content-header">Frequently Asked Questions</div>
       <div class="separator"></div>
       <div class="faq-content-body">
-        <mat-expansion-panel
-          class="panel"
-          #selectbc
-          hideToggle="true"
-          *ngFor="let data of List"
-        >
-          <mat-expansion-panel-header class="panel-header">
-            <mat-panel-title> {{ data.topic }} </mat-panel-title>
-            <mat-panel-description>
-              <mat-icon *ngIf="!selectbc.expanded">arrow_right</mat-icon>
-              <mat-icon *ngIf="selectbc.expanded">arrow_drop_down</mat-icon>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
+        <mat-accordion class="accordion">
+          <mat-expansion-panel
+            class="panel"
+            #selectbc
+            hideToggle="true"
+            *ngFor="let data of List"
+          >
+            <mat-expansion-panel-header class="panel-header">
+              <mat-panel-title> {{ data.topic }} </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon *ngIf="!selectbc.expanded">arrow_right</mat-icon>
+                <mat-icon *ngIf="selectbc.expanded">arrow_drop_down</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-          <div class="answer">
-            <label class="answer-title">Answer</label>
-            <label
-              ><div [innerHTML]="data.desc"></div></label
-            >
-          </div>
-        </mat-expansion-panel>
+            <div class="answer">
+              <label class="answer-title">Answer</label>
+              <label><div [innerHTML]="data.desc"></div></label>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
       <div class="faq-content-footer">
         <label class="faq-footer-header">Can’t find your answer?</label>

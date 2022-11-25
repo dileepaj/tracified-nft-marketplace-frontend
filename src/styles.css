@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
+* {
+  font-family: "Inter";
+}
+
 @import "~highlight.js/styles/github.css";
 body {
   background: radial-gradient(
@@ -132,14 +137,14 @@ body {
 }
 
 .dialog-btn-primary:disabled {
-  cursor:not-allowed;
+  cursor: not-allowed;
   border: 1px solid #525252;
   color: #dcdcdc;
   background: #525252;
 }
 
 .dialog-btn-secondary:disabled {
-  cursor:not-allowed;
+  cursor: not-allowed;
   border: 1px solid #525252;
   color: #dcdcdc;
 }
@@ -219,7 +224,6 @@ p.normal-text {
   }
 }
 
-
 /*popups*/
 
 .cont-wrapper {
@@ -228,7 +232,7 @@ p.normal-text {
 }
 
 .btn-sm {
-  background: #10CEAC;
+  background: #10ceac;
   border: none;
   border-radius: 20px !important;
   font-family: 'Open Sans', sans-serif;

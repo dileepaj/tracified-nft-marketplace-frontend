@@ -3,157 +3,210 @@
     <mat-icon class="back" matTooltip="Back" (click)="back()"
       >arrow_back</mat-icon
     >
-    <label class="contact-heading">Contact Us</label>
+    <label class="contact-heading">Get in Touch</label>
   </div>
 
   <p class="normal-text" style="max-width: 90%">
-    We are more than happy to be of assitance for any of your queries.
+    We are more than happy to be of assistance for any of your queries.
   </p>
-  <form
-    class="contact-form"
-    ngStyle.lt-md="width:90%"
-    [formGroup]="controlGroup"
-  >
-    <div class="contact-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text"
-        >Email Address <span class="required">*</span>
-      </label>
-      <mat-form-field appearance="outline">
-        <input
-          type="email"
-          class="input"
-          matInput
-          name="Email"
-          formControlName="Email"
-          placeholder="Enter your email address here."
-        />
-      </mat-form-field>
-    </div>
-    <div
-      class="contact-form-group"
-      ngStyle.lt-md="width:100%; margin-bottom: 35px"
-    >
-      <label class="normal-text"
-        >Category <span class="required">*</span></label
-      >
-      <mat-form-field appearance="outline">
-        <mat-select
-          formControlName="Category"
-          class="select-bc"
-          value="Minting"
-          placeholder="Select category"
-          disableOptionCentering
-        >
-          <mat-select-trigger
-            *ngIf="controlGroup.controls['Category'].value === 'Minting'"
-          >
-            <label class="collection-dropdown-selected"> Minting </label>
-          </mat-select-trigger>
-          <mat-select-trigger
-            *ngIf="controlGroup.controls['Category'].value === 'Selling'"
-          >
-            <label class="collection-dropdown-selected">Selling</label>
-          </mat-select-trigger>
-          <mat-select-trigger
-            *ngIf="controlGroup.controls['Category'].value === 'Buying'"
-          >
-            <label class="collection-dropdown-selected">Buying</label>
-          </mat-select-trigger>
-          <mat-select-trigger
-            *ngIf="controlGroup.controls['Category'].value === 'Royalties'"
-          >
-            <label class="collection-dropdown-selected">Royalties</label>
-          </mat-select-trigger>
-          <mat-select-trigger
-            *ngIf="controlGroup.controls['Category'].value === 'Endorsements'"
-          >
-            <label class="collection-dropdown-selected">Endorsements</label>
-          </mat-select-trigger>
-          <mat-select-trigger
-            *ngIf="controlGroup.controls['Category'].value === 'Other'"
-          >
-            <label class="collection-dropdown-selected">Other</label>
-          </mat-select-trigger>
-          <mat-option value="Minting" name="type"
-            ><label class="collection-dropdown">Minting</label></mat-option
-          >
-          <mat-option value="Selling" name="type"
-            ><label class="collection-dropdown">Selling</label></mat-option
-          >
-          <mat-option value="Buying" name="type"
-            ><label class="collection-dropdown">Buying</label></mat-option
-          >
-          <mat-option value="Royalties" name="type"
-            ><label class="collection-dropdown">Royalties</label></mat-option
-          >
-          <mat-option value="Endorsements" name="type"
-            ><label class="collection-dropdown">Endorsements</label></mat-option
-          >
-          <mat-option value="Other" name="type"
-            ><label class="collection-dropdown">Other</label></mat-option
-          >
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div
-      class="contact-form-group"
-      style="margin-top: 8px"
-      ngStyle.lt-md="width:100%; margin-top: -17px"
-    >
-      <label class="normal-text"
-        >Subject <span class="required">*</span>
-      </label>
-      <mat-form-field appearance="outline">
-        <input
-          type="text"
-          class="input"
-          matInput
-          name="subject"
-          formControlName="Subject"
-          placeholder="Enter subject here."
-        />
-      </mat-form-field>
-    </div>
-    <div class="contact-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text"
-        >Description<span class="required">*</span></label
-      >
-      <mat-form-field appearance="outline" class="description">
-        <textarea
-          class="textarea"
-          matInput
-          formControlName="Description"
-          maxlength="80"
-          placeholder="Describe your issue by entering as many details as you can."
-        ></textarea>
-      </mat-form-field>
-    </div>
-
-    <div class="contact-form-group" ngStyle.lt-md="width:100%">
-      <div
-        id="cntct-dnd"
-        class="file-dnd-area"
-        ngStyle.lt-md="width:100%"
-        (click)="triggerClick()"
-      >
-        <label id="cntct-dnd-label">Add file or drag files here</label>
-        <input
-          type="file"
-          accept=".png,.jpg"
-          #fileUpload
-          (change)="onChange($event)"
-          hidden
-        />
+  <div class="contact-us-content cont-wrapper">
+    <div class="content-1">
+      <div class="content-1-wrapper">
+        <p style="margin-bottom: 40px">
+          Contact us through the form or send an email regarding any of your
+          queries. we will get back to you within 24 hours.
+        </p>
+        <div fxLayout="row" style="column-gap: 10px; margin-bottom: 10px">
+          <img
+            src="../../../assets/images/Email.png"
+            width="24px"
+            height="24px"
+          />
+          <label> info@tracified.com </label>
+        </div>
+        <div fxLayout="row" style="column-gap: 10px">
+          <img
+            src="../../../assets/images/phone.png"
+            width="24px"
+            height="24px"
+          />
+          <label> 03 6215 8715 (Japan) </label>
+        </div>
+        <div class="map-wrapper">
+          <div class="map-tabs">
+            <div
+              class="map-tab-header"
+              matRipple
+              [class.selected-tab]="selectedTab === 1"
+              (click)="changeTab(1)"
+            >
+              Japan
+            </div>
+          </div>
+          <div class="map-tab" *ngIf="selectedTab === 1">
+            <iframe
+              class="map"
+              frameborder="0"
+              scrolling="no"
+              marginheight="0"
+              marginwidth="0"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=139.7599768638611%2C35.70130685541025%2C139.78006124496463%2C35.71334671547798&amp;layer=mapnik&amp;marker=35.70732701275398%2C139.77001905441284"
+            ></iframe>
+          </div>
+        </div>
       </div>
-      <label class="file-name">{{ name }}</label>
     </div>
-    <div
-      class="contact-form-group"
-      ngStyle.lt-md="width:100%; display : flex; flex-direction: row; justify-content: center"
-    >
-      <button mat-flat-button class="btn-submit" (click)="saveUserFAQ()">
-        Submit
-      </button>
+    <div class="content-2">
+      <form class="contact-form" [formGroup]="controlGroup">
+        <div class="contact-form-group" ngStyle.lt-md="width:100%">
+          <label class="normal-text"
+            >Email Address <span class="required">*</span>
+          </label>
+          <mat-form-field appearance="outline">
+            <input
+              type="email"
+              class="input"
+              matInput
+              name="Email"
+              formControlName="Email"
+              placeholder="Enter your email address here."
+            />
+          </mat-form-field>
+        </div>
+        <div
+          class="contact-form-group"
+          ngStyle.lt-md="width:100%; margin-bottom: 35px"
+        >
+          <label class="normal-text"
+            >Category <span class="required">*</span></label
+          >
+          <mat-form-field appearance="outline">
+            <mat-select
+              formControlName="Category"
+              class="select-bc"
+              value="Minting"
+              placeholder="Select category"
+              disableOptionCentering
+            >
+              <mat-select-trigger
+                *ngIf="controlGroup.controls['Category'].value === 'Minting'"
+              >
+                <label class="collection-dropdown-selected"> Minting </label>
+              </mat-select-trigger>
+              <mat-select-trigger
+                *ngIf="controlGroup.controls['Category'].value === 'Selling'"
+              >
+                <label class="collection-dropdown-selected">Selling</label>
+              </mat-select-trigger>
+              <mat-select-trigger
+                *ngIf="controlGroup.controls['Category'].value === 'Buying'"
+              >
+                <label class="collection-dropdown-selected">Buying</label>
+              </mat-select-trigger>
+              <mat-select-trigger
+                *ngIf="controlGroup.controls['Category'].value === 'Royalties'"
+              >
+                <label class="collection-dropdown-selected">Royalties</label>
+              </mat-select-trigger>
+              <mat-select-trigger
+                *ngIf="
+                  controlGroup.controls['Category'].value === 'Endorsements'
+                "
+              >
+                <label class="collection-dropdown-selected">Endorsements</label>
+              </mat-select-trigger>
+              <mat-select-trigger
+                *ngIf="controlGroup.controls['Category'].value === 'Other'"
+              >
+                <label class="collection-dropdown-selected">Other</label>
+              </mat-select-trigger>
+              <mat-option value="Minting" name="type"
+                ><label class="collection-dropdown">Minting</label></mat-option
+              >
+              <mat-option value="Selling" name="type"
+                ><label class="collection-dropdown">Selling</label></mat-option
+              >
+              <mat-option value="Buying" name="type"
+                ><label class="collection-dropdown">Buying</label></mat-option
+              >
+              <mat-option value="Royalties" name="type"
+                ><label class="collection-dropdown"
+                  >Royalties</label
+                ></mat-option
+              >
+              <mat-option value="Endorsements" name="type"
+                ><label class="collection-dropdown"
+                  >Endorsements</label
+                ></mat-option
+              >
+              <mat-option value="Other" name="type"
+                ><label class="collection-dropdown">Other</label></mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div
+          class="contact-form-group"
+          style="margin-top: 8px"
+          ngStyle.lt-md="width:100%; margin-top: -17px"
+        >
+          <label class="normal-text"
+            >Subject <span class="required">*</span>
+          </label>
+          <mat-form-field appearance="outline">
+            <input
+              type="text"
+              class="input"
+              matInput
+              name="subject"
+              formControlName="Subject"
+              placeholder="Enter subject here."
+            />
+          </mat-form-field>
+        </div>
+        <div class="contact-form-group" ngStyle.lt-md="width:100%">
+          <label class="normal-text"
+            >Description <span class="required">*</span></label
+          >
+          <mat-form-field appearance="outline" class="description">
+            <textarea
+              class="textarea"
+              matInput
+              formControlName="Description"
+              maxlength="80"
+              placeholder="Describe your issue by entering as many details as you can."
+            ></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="contact-form-group" ngStyle.lt-md="width:100%">
+          <div
+            id="cntct-dnd"
+            class="file-dnd-area"
+            ngStyle.lt-md="width:100%"
+            (click)="triggerClick()"
+          >
+            <label id="cntct-dnd-label">Add file or drag files here</label>
+            <input
+              type="file"
+              accept=".png,.jpg"
+              #fileUpload
+              (change)="onChange($event)"
+              hidden
+            />
+          </div>
+          <label class="file-name">{{ name }}</label>
+        </div>
+        <div
+          class="contact-form-group"
+          ngStyle.lt-md="width:100%; display : flex; flex-direction: row; justify-content: center"
+        >
+          <button mat-flat-button class="btn-submit" (click)="saveUserFAQ()">
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
+  <!-- -->
 </div>

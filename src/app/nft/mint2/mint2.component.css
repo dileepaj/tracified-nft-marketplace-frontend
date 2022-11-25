@@ -11,7 +11,7 @@
 }
 
 .heading {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -90,7 +90,7 @@
 }
 
 .hint {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -117,7 +117,7 @@
 }
 
 ::placeholder {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -132,7 +132,7 @@
 .dnd-outer-div {
   display: flex;
   flex-direction: column;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -165,7 +165,7 @@
 
   background: #ffffff;
   border-radius: 10px;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -208,7 +208,7 @@
 }
 
 ::ng-deep mat-form-field span.mat-form-field-label-wrapper label {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   font-size: 16px;
   margin-top: -7px !important;
@@ -310,7 +310,7 @@
   height: 35px;
   background: #10ceac;
   border-radius: 20px;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;

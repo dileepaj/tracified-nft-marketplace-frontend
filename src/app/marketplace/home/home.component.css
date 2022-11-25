@@ -313,10 +313,10 @@
   flex-direction: column;
   align-items: center;
   row-gap: 25px;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 149.02%;
   text-align: center;
   word-wrap: break-word;
@@ -325,7 +325,7 @@
 
 .intro-body .title {
   margin-top: 80px;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 40px;
@@ -360,10 +360,10 @@
 }
 
 .news-topic h2 {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 34px;
+  font-size: 25px;
   line-height: 41px;
   text-transform: capitalize;
   margin-right: 40px;
@@ -371,21 +371,37 @@
   color: #ffffff;
 }
 
+.news-header-title{
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 41px;
+  text-transform: capitalize;
+  margin-right: 40px;
+  border-bottom: 5px solid #00c820;
+  color: #ffffff;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
 .normal-text {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 22px;
-  line-height: 149.02%;
+  line-height: 33px;
   /* or 33px */
   color: #ffffff;
   margin-right: 40px;
+  align-content: center;
 }
 
 .btn-sm {
   margin-top: 50px;
   width: 144px;
   margin-right: 40px;
+  
 }
 
 @media only screen and (max-width: 1217px) {
@@ -415,7 +431,7 @@
   }
 
   .news-topic h2 {
-    font-family: "Inter";
+    font-family: 'Open Sans', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 34px;
@@ -427,7 +443,7 @@
   }
 
   .normal-text {
-    font-family: "Inter";
+    font-family: 'Open Sans', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 22px;
@@ -442,5 +458,6 @@
     width: 144px;
     margin-right: 0px;
     align-self: center;
+    position: fixed;
   }
 }

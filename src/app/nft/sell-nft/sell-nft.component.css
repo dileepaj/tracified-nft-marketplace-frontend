@@ -141,7 +141,7 @@
 }
 
 .nft-name {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 36px;
@@ -239,7 +239,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -259,7 +259,7 @@
 }
 
 .nft-cat {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -295,7 +295,7 @@
 .prev-o {
   display: flex;
   flex-direction: column;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   line-height: 32px;
   /* or 178% */
@@ -306,7 +306,7 @@
 .curr-o {
   display: flex;
   flex-direction: column;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   line-height: 32px;
   /* or 178% */
@@ -349,7 +349,7 @@
 .heading-s {
   margin-top: 45px;
   margin-bottom: 15px;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -371,7 +371,7 @@
 
 .txn-table thead {
   background-color: #fff;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -457,7 +457,7 @@ td {
 }
 
 .sell-label {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -495,7 +495,7 @@ td {
 }
 
 .sell-input-grp label {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;

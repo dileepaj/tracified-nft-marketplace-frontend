@@ -25,7 +25,7 @@
 }
 
 .faq-content-header {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -109,7 +109,7 @@
 }
 
 .answer {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-size: 16px;
   line-height: 19px;
@@ -119,7 +119,7 @@
 
 .answer-title {
   font-weight: 700;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-size: 16px;
   line-height: 19px;
@@ -135,7 +135,7 @@
   margin-top: 50px;
   margin-bottom: 50px;
   row-gap: 20px;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -146,7 +146,7 @@
 }
 
 .faq-footer-header {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -163,7 +163,7 @@
   background: #10ceac;
   border-radius: 20px;
   border: none;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;

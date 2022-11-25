@@ -13,7 +13,10 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(90deg, #025400 0%, #178e48 100%);
+  background: linear-gradient(90.81deg, #046F02 -10.8%, #38B56C 93.63%);
+
+
+  ;
 }
 
 .footer-top-inner {
@@ -28,10 +31,10 @@
 
 .footer-top .title {
 
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 25px;
   color: #ffffff;
 }
@@ -83,13 +86,13 @@
 }
 
 .title {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
   color: #ffffff;
-  margin-bottom: 15px;
+  margin-bottom: -1px;
 }
 
 .contact {
@@ -100,7 +103,7 @@
 }
 
 .footer-section-1 p {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -113,7 +116,7 @@
 }
 
 .footer-section-1 label {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -132,15 +135,17 @@
   row-gap: 20px;
   max-width: 100%;
   flex-wrap: wrap;
+  margin-bottom: 15px;
 }
 
 .subscribe-wrapper label {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 22px;
   color: #ffffff;
+  margin-bottom: -15px;
 }
 
 .subscribe-input-group {
@@ -148,6 +153,7 @@
   max-width: 80%;
   background: #fff;
   border-radius: 16px;
+  margin-bottom: -15px;
 }
 
 .subscribe-input-group input[type="text"] {
@@ -167,13 +173,13 @@
 }
 
 .btn-subscribe {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
   /* identical to box height */
-
+margin-bottom: -15px;
   display: flex;
   align-items: center;
 

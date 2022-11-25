@@ -15,7 +15,7 @@
 }
 
 .text-1 {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -26,7 +26,7 @@
 }
 
 .text-2 {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 22px;
@@ -51,7 +51,7 @@
 .btn-primary {
   margin-top: 102px;
   border-radius: 20px !important;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;

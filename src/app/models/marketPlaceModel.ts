@@ -48,7 +48,10 @@ export class Favourites {
         public CreatorUserId:string,
        public SellingStatus:string,
        public CurrentOwnerPK:string,
-      public thumbnail:string,
+       public thumbnail:string,
+       public Hotpicks:boolean,
+       public Trending:boolean,
+      
     ) {}
   }
 

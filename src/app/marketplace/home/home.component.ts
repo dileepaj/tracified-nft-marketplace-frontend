@@ -189,7 +189,7 @@ export class HomeComponent implements OnInit {
             this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.nfts.Response[x].thumbnail);
           } 
             }
-            let card: NFTCard = new NFTCard('', '', '', '','','','','');
+            let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
             card.thumbnail=this.thumbnailSRC
             card.Blockchain = this.nfts.Response[x].blockchain;
@@ -229,7 +229,7 @@ export class HomeComponent implements OnInit {
           }
           
             }
-            let card: NFTCard = new NFTCard('', '', '', '','','','','');
+            let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
             card.thumbnail=this.thumbnailSRC
             card.Blockchain = this.nfts.Response[x].blockchain;

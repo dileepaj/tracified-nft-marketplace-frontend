@@ -181,7 +181,7 @@ export class ShowNFTComponent implements OnInit {
                   else{
                     this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.Response[x].thumbnail);
                   }
-                   let card: NFTCard = new NFTCard('', '', '', '','','','','');
+                   let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
                   card.ImageBase64 = this.imageSrc;
                   card.thumbnail=this.thumbnailSRC
                   card.NFTIdentifier = this.nfts[x].nftidentifier;
@@ -223,7 +223,7 @@ export class ShowNFTComponent implements OnInit {
                   else{
                     this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.Response[x].thumbnail);
                   }
-                   let card: NFTCard = new NFTCard('', '', '', '','','','','');
+                   let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
                   card.ImageBase64 = this.imageSrc;
                   card.thumbnail=this.thumbnailSRC
                   card.NFTIdentifier = this.nfts[x].nftidentifier;
@@ -272,7 +272,7 @@ export class ShowNFTComponent implements OnInit {
                   else{
                     this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.Response[x].thumbnail);
                   }
-                let card: NFTCard = new NFTCard('', '', '', '','','','','');
+                let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
                   card.ImageBase64 = this.imageSrc;
                   card.thumbnail=this.thumbnailSRC
                   card.NFTIdentifier = this.NFTList.Response[x].nftidentifier;

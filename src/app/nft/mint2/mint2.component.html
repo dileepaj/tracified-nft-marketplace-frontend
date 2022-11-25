@@ -49,8 +49,12 @@
       <div class="dnd-area" id="nft-dnd" ngStyle.lt-md="width: calc(100% - 6px)" matTooltip="Upload Image"
         (click)="triggerClick()">
         <div id="nft-dnd-ph" class="img-div" *ngIf="!imageSrc">
-          <object id="nft-dnd-img" data="../../../assets/images/img-upload.png" style="width: 133px; height: 138px"
-            *ngIf="!imageSrc"></object>
+          <embed
+            id="nft-dnd-img"
+            data="../../../assets/images/img-upload.png"
+            style="width: 133px; height: 138px"
+            *ngIf="!imageSrc"
+          >
         </div>
 
         <embed id="nft-dnd-u-img" [src]="imageSrc" *ngIf="imageSrc" id="img" class="uploaded-img">

@@ -21,7 +21,7 @@ export class Trac2buyerService {
     prevownerpk:string): Promise<Transaction>{
     return (async () => {
       // Connect to cluster
-      const connection = new Connection(clusterApiUrl("testnet"), "confirmed");
+      const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
      
       let fromKeypair = Keypair.fromSecretKey(from);
       let totalprice = (price-royalty)* 1000000000

@@ -9,7 +9,7 @@
 }
 
 .contact-heading {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -61,7 +61,7 @@
 }
 
 ::placeholder {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -82,7 +82,7 @@
 .btn-search {
   background: #10ceac;
   border-radius: 20px;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -126,7 +126,7 @@
 }
 
 .highlighted-text {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -143,7 +143,7 @@
   width: 261px;
   height: 60px;
   border-radius: 16px;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 24px;

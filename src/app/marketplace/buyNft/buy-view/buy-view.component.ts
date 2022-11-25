@@ -203,7 +203,7 @@ export class BuyViewComponent implements OnInit {
         });
     }
     if (this.NFTList.blockchain == 'solana') {
-      const connection = new Connection(clusterApiUrl('testnet'), 'confirmed');
+      const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();

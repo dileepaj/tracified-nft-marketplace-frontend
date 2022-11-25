@@ -309,7 +309,7 @@ export class Mint2Component implements OnInit {
                 this.apiService
                   .getEndorsement(this.userPK)
                   .subscribe((result: any) => {
-                      if (result.Status == null || result.Status == 'Declined') {
+                      if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
                       this.dialogService
                         .confirmDialog({
                           title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -377,7 +377,7 @@ export class Mint2Component implements OnInit {
                 });
                 this.apiService.getEndorsement(this.mint.NFTIssuerPK)
                 .subscribe((result: any) => {
-                  if (result.Status == null || result.Status == 'Declined') {
+                  if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
                     this.dialogService
                       .confirmDialog({
                           title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -414,7 +414,8 @@ export class Mint2Component implements OnInit {
 
     if (this.mint.Blockchain == 'ethereum') {
       //minting if blockchain == ethereum
-      this.loaderService.isLoading.next(true);
+     // this.loaderService.isLoading.next(true);
+     console.log("insideee----------------------------------")
       let metamask = new UserWallet();
       metamask = new MetamaskComponent(metamask);
       await metamask.initWallelt();
@@ -441,10 +442,13 @@ export class Mint2Component implements OnInit {
             const dialog = this.dialogService.pendingDialog({
               message: PendingDialogText.MINTING_IN_PROGRESS,
             });
+            console.log("tttttttttttttttttttttttttttttttttttttt")
             this.apiService
-              .getEndorsement(this.userPK)
+              .getEndorsement(this.mint.DistributorPK)
               .subscribe((result: any) => {
-                if (result.Status == null || result.Status == 'Declined') {
+                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",result)
+                if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+                  console.log("111111111111111111111")
                   this.dialogService
                     .confirmDialog({
                       title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -462,6 +466,7 @@ export class Mint2Component implements OnInit {
                       }
                     });
                 }else if(result.Status == 'Pending'){
+                  console.log("2222222222222222222222222222")
                   this.dialogService
                   .okDialog({
                     title: "Endorsement in Pending",
@@ -469,6 +474,7 @@ export class Mint2Component implements OnInit {
                     confirmText: ConfirmDialogText.CONFIRM_BTN,
                   })
                 } else {
+                  console.log("im here")
                   this.emint
                     .mintInEthereum(
                       this.mint.NFTIssuerPK,
@@ -525,7 +531,7 @@ export class Mint2Component implements OnInit {
                 if (res) {
                   this.apiService.getEndorsement(this.mint.DistributorPK)
                   .subscribe((result: any) => {
-                    if (result.Status == null || result.Status == 'Declined') {
+                    if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
                       this.dialogService
                         .confirmDialog({
                             title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -633,6 +639,7 @@ export class Mint2Component implements OnInit {
       this.service
         .getMinter(this.minter.ImageBase64, this.minter.Blockchain)
         .subscribe((data: any) => {
+          console.log("----------------",data)
           if (data == null) {
             this.Minter();
           }
@@ -651,6 +658,7 @@ export class Mint2Component implements OnInit {
               data.NFTIdentifier
             )
             .then((res: any) => {
+              console.log("after transfer ",res)
               this.updateMinter();
             });
         });
@@ -881,7 +889,8 @@ export class Mint2Component implements OnInit {
     if (this.file.type.toLowerCase().includes('svg')) {
       this.type= this.file.type
       this.uploadImage(true);
-    } else if (this.file.type.toLowerCase().includes('png')||this.file.type.toLowerCase().includes('jpg')
+    } 
+    else if (this.file.type.toLowerCase().includes('png')||this.file.type.toLowerCase().includes('jpg')
     || this.file.type.toLowerCase().includes('jpeg')){
       this.type=this.file.type
       var reader = new FileReader();

@@ -87,10 +87,13 @@ export class SellNftComponent implements OnInit {
   favorites: any;
   image: any;
   html: any;
+  currency: string;
+  isLoading: boolean = false;
   public loaded = false;
   private htmStr: string;
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
   maincontent: any;
+
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -159,16 +162,16 @@ export class SellNftComponent implements OnInit {
       .subscribe();
   }
 
-  dataURItoBlob(dataURI,type) {
-   // const byteString = window.atob(dataURI);
+  dataURItoBlob(dataURI, type) {
+    // const byteString = window.atob(dataURI);
     const arrayBuffer = new ArrayBuffer(dataURI.length);
     const int8Array = new Uint8Array(arrayBuffer);
     for (let i = 0; i < dataURI.length; i++) {
       int8Array[i] = dataURI.charCodeAt(i);
     }
-    const blob = new Blob([int8Array], { type: 'image/png' });    
+    const blob = new Blob([int8Array], { type: 'image/png' });
     return blob;
- }
+  }
 
   async Sell(): Promise<void> {
     if (this.NFTList.blockchain == 'stellar') {
@@ -232,59 +235,56 @@ export class SellNftComponent implements OnInit {
       //   );
       //   this.showInProfile()
       // } else {
-        console.log('mint ', this.NFTList.nftissuerpk);
-        const connection = new Connection(
-          clusterApiUrl('testnet'),
-          'confirmed'
-        );
-        let phantomWallet = new UserWallet();
-        phantomWallet = new PhantomComponent(phantomWallet);
-        await phantomWallet.initWallelt();
-        this.dialogService
-          .confirmDialog({
-            title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
-            message: ConfirmDialogText.SELL_VIEW_SELL_NFT_MESSAGE,
-            confirmText: ConfirmDialogText.CONFIRM_BTN,
-            cancelText: ConfirmDialogText.CANCEL_BTN,
-          })
-          .subscribe((res) => {
-            if (res) {
-              const dialog = this.dialogService.pendingDialog({
-                message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
+      console.log('mint ', this.NFTList.nftissuerpk);
+      const connection = new Connection(clusterApiUrl('testnet'), 'confirmed');
+      let phantomWallet = new UserWallet();
+      phantomWallet = new PhantomComponent(phantomWallet);
+      await phantomWallet.initWallelt();
+      this.dialogService
+        .confirmDialog({
+          title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
+          message: ConfirmDialogText.SELL_VIEW_SELL_NFT_MESSAGE,
+          confirmText: ConfirmDialogText.CONFIRM_BTN,
+          cancelText: ConfirmDialogText.CANCEL_BTN,
+        })
+        .subscribe((res) => {
+          if (res) {
+            const dialog = this.dialogService.pendingDialog({
+              message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
+            });
+            this.middleman
+              .createATA(
+                phantomWallet.getWalletaddress(),
+                environment.fromWalletSecret,
+                this.NFTList.nftissuerpk
+              )
+              .then(async (result) => {
+                try {
+                  const signedTransaction = await (
+                    window as any
+                  ).solana.signTransaction(result);
+
+                  this.transaction = signedTransaction.serialize();
+                  const signature = await connection.sendRawTransaction(
+                    this.transaction
+                  );
+
+                  alert('successfully sold!');
+                  this.selltxn = signature;
+                  this.addDBBackend();
+                  this.addDBGateway();
+                  this.saveTXNs();
+                  dialog.close();
+                  this.snackbarService.openSnackBar(
+                    SnackBarText.SALE_SUCCESS_MESSAGE
+                  );
+                  this.showInProfile();
+                } catch (err) {
+                  alert(err);
+                }
               });
-              this.middleman
-                .createATA(
-                  phantomWallet.getWalletaddress(),
-                  environment.fromWalletSecret,
-                  this.NFTList.nftissuerpk
-                )
-                .then(async (result) => {
-                  try {
-                    const signedTransaction = await (
-                      window as any
-                    ).solana.signTransaction(result);
-
-                    this.transaction = signedTransaction.serialize();
-                    const signature = await connection.sendRawTransaction(
-                      this.transaction
-                    );
-
-                    alert('successfully sold!');
-                    this.selltxn = signature;
-                    this.addDBBackend();
-                    this.addDBGateway();
-                    this.saveTXNs();
-                    dialog.close();
-                    this.snackbarService.openSnackBar(
-                      SnackBarText.SALE_SUCCESS_MESSAGE
-                    );
-                    this.showInProfile();
-                  } catch (err) {
-                    alert(err);
-                  }
-                });
-            }
-          });
+          }
+        });
       //}
     }
     if (this.NFTList.blockchain == 'polygon') {
@@ -378,11 +378,25 @@ export class SellNftComponent implements OnInit {
     });
   }
 
+  public setCurrency() {
+    if (this.data[2].toLowerCase().trim() === 'ethereum') {
+      this.currency = 'ETH';
+    } else if (this.data[2].toLowerCase().trim() === 'polygon') {
+      this.currency = 'MATIC';
+    } else if (this.data[2].toLowerCase().trim() === 'solana') {
+      this.currency = 'SOL';
+    } else if (this.data[2].toLowerCase().trim() === 'stellar') {
+      this.currency = 'XLM';
+    }
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
       console.log('DATA recived: ', this.data);
+      this.setCurrency();
     });
+    this.isLoading = true;
     if (this.data != null) {
       this.service
         // 1:nft identifer , 2:blockchain, 0:selling status
@@ -511,7 +525,6 @@ export class SellNftComponent implements OnInit {
               this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
               this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(src) 
             }
-            
               }
             });
 
@@ -551,6 +564,7 @@ export class SellNftComponent implements OnInit {
                 this.List.push(card);
               }
             });
+          this.isLoading = false;
         });
     } else {
       console.log('User PK not connected or not endorsed');

@@ -148,6 +148,7 @@ export class BuyViewComponent implements OnInit {
   filterChanged : boolean = false;
   hasStory : boolean = true;
   maincontent: any;
+  isLoading : boolean = false;
 
   constructor(
     private service: NftServicesService,
@@ -463,6 +464,7 @@ export class BuyViewComponent implements OnInit {
       this.nftbe.Blockchain = this.data[1];
       this.nftbe.NFTIdentifier = this.data[0];
       this.nftbe.SellingStatus = 'ON SALE';
+      this.isLoading = true;
       if (
         this.nftbe.NFTIdentifier != null &&
         this.nftbe.SellingStatus == 'ON SALE' &&
@@ -665,6 +667,7 @@ export class BuyViewComponent implements OnInit {
               ),
               userid: new FormControl(this.reviews.UserID, Validators.required),
             });
+            this.isLoading = false;
           });
       } else {
         this.snackbar.openSnackBar('User PK not connected or not endorsed');
@@ -689,7 +692,7 @@ export class BuyViewComponent implements OnInit {
     const timer$ = timer(0,APIConfigENV.homepageIntervalTimer)
     timer$.subscribe(data=>{
       this.loadingn = true;
-    
+
     this.ReviewList.splice(0)
     this.filter = filter;
     this.intersectionObserver(filter,id)

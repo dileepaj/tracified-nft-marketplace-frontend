@@ -22,28 +22,37 @@ story:NFTStory=new NFTStory('','','')
   public  data :string ="" ;  
   result:any
    save() {
-      this.story.NFTIdentifier=this.result[0]
-      this.story.Blockchain=this.result[1]
-      this.story.NFTStory=btoa(this.data)
-      console.log("story data ",this.story)
-      this.dialogService.confirmDialog({
-        title : "NFT story save confirmation",
-        message: "Are you sure you want to add this story to your NFT?",
-        confirmText : "Yes",
-        cancelText: "No"
-        }).subscribe(res=>{
-          if(res){
-            this.service.addStory(this.story).subscribe(storyres=>{
-              if(storyres!= null || storyres>0){
-                this.snackbarService.openSnackBar("Successfully addded NFT story to NFT")
-                this._location.back();
-              }
-              else{
-                this.snackbarService.openSnackBar("Failed to add NFT story.Please try again")
-              }
-            })  
-          }
-        })
+    console.log("DATA:",this.data)
+    if(this.data==""){
+      this.dialogService.okDialog({
+        title:'NFT story is empty',
+        message:'NFT story cannot be empty',
+        confirmText:'Okay'
+      })
+    }else{
+        this.story.NFTIdentifier=this.result[0]
+        this.story.Blockchain=this.result[1]
+        this.story.NFTStory=btoa(this.data)
+        console.log("story data ",this.story)
+        this.dialogService.confirmDialog({
+          title : "NFT story save confirmation",
+          message: "Are you sure you want to add this story to your NFT?",
+          confirmText : "Yes",
+          cancelText: "No"
+          }).subscribe(res=>{
+            if(res){
+              this.service.addStory(this.story).subscribe(storyres=>{
+                if(storyres!= null || storyres>0){
+                  this.snackbarService.openSnackBar("Successfully addded NFT story to NFT")
+                  this._location.back();
+                }
+                else{
+                  this.snackbarService.openSnackBar("Failed to add NFT story.Please try again")
+                }
+              })  
+            }
+          })
+      }
          
   }
   ngOnInit(): void {
@@ -53,4 +62,7 @@ story:NFTStory=new NFTStory('','','')
 
   }
 
+  public back() {
+    this._location.back();
+  }
 }

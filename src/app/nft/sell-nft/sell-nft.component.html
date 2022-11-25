@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <div class="nft-div cont-wrapper" fxLayout="row wrap">
+  <div class="nft-div cont-wrapper" fxLayout="row wrap" *ngIf="!isLoading">
     <div
       class="nft-sum"
       ngClass.lt-lg="nft-sum-mobile"
@@ -31,8 +31,7 @@
         ngStyle.lt-lg="width : 400px; height: 400px"
         ngStyle.lt-sm="width : 100%; "
       >
-      
-        <embed [src]="imageSrc" *ngIf="imageSrc" class="nft-img" >
+        <embed [src]="imageSrc" *ngIf="imageSrc" class="nft-img" />
         <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
           <img
             src="../../../assets/icons/code-icon.png"
@@ -169,11 +168,11 @@
               <div
                 class="sell-input-grp"
                 ngStyle.lt-sm="width : 100%"
-                ngStyle.sm="width : 50%"
-                ngStyle.md="width : 50%"
-                ngStyle.lg="width : 50%"
-                ngStyle.xl="width : 30%"
-                ngStyle.gt-xl="width : 20%"
+                ngStyle.sm="width : 20%"
+                ngStyle.md="width : 20%"
+                ngStyle.lg="width : 20%"
+                ngStyle.xl="width : 20%"
+                ngStyle.gt-xl="width : 10%"
               >
                 <label>Price</label>
                 <mat-form-field appearance="outline">
@@ -184,16 +183,17 @@
                     name="Price"
                     formControlName="Price"
                   />
+                  <span matSuffix>{{ this.currency }}</span>
                 </mat-form-field>
               </div>
               <div
                 class="sell-input-grp"
                 ngStyle.lt-sm="width : 100%"
-                ngStyle.sm="width : 50%"
-                ngStyle.md="width : 50%"
-                ngStyle.lg="width : 50%"
-                ngStyle.xl="width : 30%"
-                ngStyle.gt-xl="width : 20%"
+                ngStyle.sm="width : 20%"
+                ngStyle.md="width : 20%"
+                ngStyle.lg="width : 20%"
+                ngStyle.xl="width : 20%"
+                ngStyle.gt-xl="width : 10%"
               >
                 <label>Royalty</label>
                 <mat-form-field appearance="outline">
@@ -204,6 +204,7 @@
                     name="Royalty"
                     formControlName="Royalty"
                   />
+                  <span matSuffix>{{ this.currency }}</span>
                 </mat-form-field>
               </div>
               <button

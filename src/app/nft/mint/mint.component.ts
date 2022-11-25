@@ -44,7 +44,7 @@ export class MintComponent implements OnInit {
   loading: boolean;
   imgSrc: any;
   hash: any;
-  svg: SVG = new SVG('', '', 'NA','');
+  svg: SVG = new SVG('', '', 'NA','','');
   mint: Mint2 = new Mint2('', '', '', '', '', this.svg); //declaring model to mint and post
   svgresult;
   email: string = '';

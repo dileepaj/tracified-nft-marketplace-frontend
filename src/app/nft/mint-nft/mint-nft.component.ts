@@ -25,7 +25,7 @@ export class MintNftComponent implements OnInit {
       Description: ' ',
       Collection: '',
       imgObjectID: '',
-      svg: new SVG('', '', 'NA',''),
+      svg: new SVG('', '', 'NA','',''),
     };
   }
 

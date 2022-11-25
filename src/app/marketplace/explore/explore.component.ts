@@ -31,7 +31,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   loading : boolean = false;
 
   dec: string;
-  svg:SVG=new SVG('','','NA','')
+  svg:SVG=new SVG('','','NA','','')
 
   imageSrc:any;
   saleNft: any;
@@ -57,6 +57,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   hotpicks: any;
   sales: any;
   creators: any;
+  thumbnailSRC: any;
 
   constructor(
     private api: ApiServicesService,
@@ -209,7 +210,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
-        let card:NFTCard= new NFTCard('','','','','','','',false,false);
+        let card:NFTCard= new NFTCard('','','','','','','','',false,false);
         card.ImageBase64=this.imageSrc
         card.NFTIdentifier=this.nftItems[x].nftidentifier
         card.NFTName=this.nftItems[x].nftname
@@ -232,7 +233,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     console.log("array: ",arr)
   
     for(let x=0; x<(arr.length);x++){
-      console.log
+      this.thumbnailSRC=""
       this.nft.getSVGByHash(arr[x].imagebase64).subscribe(async(res:any)=>{
       console.log("svg result is: ",res)
         this.Decryption = res.Response.Base64ImageSVG
@@ -246,9 +247,16 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+      
         }
-     let card:NFTCard= new NFTCard('','','','','','','',false,false);
+     let card:NFTCard= new NFTCard('','','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
+    if(arr[x].thumbnail==""){
+       this.thumbnailSRC=this.imageSrc
+    }else{
+      this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(arr[x].thumbnail);
+    }
+    card.thumbnail=this.thumbnailSRC
     card.NFTIdentifier=arr[x].nftidentifier
     card.NFTName=arr[x].nftname
     card.Blockchain=arr[x].blockchain

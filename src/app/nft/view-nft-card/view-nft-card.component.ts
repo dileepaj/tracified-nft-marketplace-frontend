@@ -14,8 +14,9 @@ export class ViewNftCardComponent implements OnInit {
   Decryption: any;
   NFTList: any;
   List:any[]=[];
-  svg: SVG = new SVG('', '', 'NA','');
+  svg: SVG = new SVG('', '', 'NA','','');
   nft: NFTMarket = new NFTMarket(
+    '',
     '',
     '',
     '',

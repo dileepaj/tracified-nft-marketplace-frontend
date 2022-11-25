@@ -98,7 +98,7 @@ import { DisclaimerComponent } from './dialogs/disclaimer/disclaimer.component';
 import { NftCardComponent } from './nft/nft-card/nft-card.component';
 import { CreatorViewComponent } from './nft/creator-view/creator-view.component';
 import { NftPreviewComponent } from './dialogs/nft-preview/nft-preview.component';
-
+import { ImageCropperModule } from 'ngx-image-cropper';
 const appRoutes: Routes = [
   {
     path: 'home',
@@ -385,6 +385,7 @@ const appRoutes: Routes = [
     MatListModule,
     MatProgressBarModule,
     MatChipsModule,
+    ImageCropperModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },

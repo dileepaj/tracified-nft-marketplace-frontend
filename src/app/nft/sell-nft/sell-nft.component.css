@@ -474,6 +474,7 @@ td {
   border-radius: 16px;
   width: 100%;
   height: 58px;
+  transition: none !important;
 }
 
 /* focused color */

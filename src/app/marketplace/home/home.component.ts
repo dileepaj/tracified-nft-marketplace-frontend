@@ -46,6 +46,7 @@ export class HomeComponent implements OnInit {
   watchlistModel: WatchList = new WatchList('', '', '');
   backTopVisible: boolean = false;
   newitemflag: boolean = true;
+  thumbnailSRC: any;
   constructor(
     private dialogref: MatDialog,
     private nft: NftServicesService,
@@ -182,9 +183,15 @@ export class HomeComponent implements OnInit {
           var str1 = new String( "data:image/svg+xml;base64,");
           var src = str1.concat(str2.toString());
           this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+          if(this.nfts.Response[x].thumbnail==""){
+              this.thumbnailSRC=this.imageSrc
+          }else{
+            this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.nfts.Response[x].thumbnail);
+          } 
             }
-            let card: NFTCard = new NFTCard('', '', '', '','','','',false,false);
+            let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
+            card.thumbnail=this.thumbnailSRC
             card.Blockchain = this.nfts.Response[x].blockchain;
             card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
             card.NFTName = this.nfts.Response[x].nftname;
@@ -215,9 +222,16 @@ export class HomeComponent implements OnInit {
           var str1 = new String( "data:image/svg+xml;base64,");
           var src = str1.concat(str2.toString());
           this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+          if (this.nfts.Response[x].thumbnail==""){
+            this.thumbnailSRC=this._sanitizer.bypassSecurityTrustResourceUrl(src);
+          }else{
+            this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.nfts.Response[x].thumbnail);
+          }
+          
             }
-            let card: NFTCard = new NFTCard('', '', '', '','','','',false,false);
+            let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
+            card.thumbnail=this.thumbnailSRC
             card.Blockchain = this.nfts.Response[x].blockchain;
             card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
             card.NFTName = this.nfts.Response[x].nftname;

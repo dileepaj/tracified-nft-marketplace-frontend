@@ -412,3 +412,20 @@ mat-hint.tags {
 .upload-options:hover .dropdown-options-content {
   display: block;
 }
+#img-cropper-window{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 60px;
+  display:block;
+  float:center;
+  top:300px;
+  bottom:300px;
+  left: 25%;
+  width: 50%;
+  height: 300px;
+}
+.tooltip{
+  font-size: small;
+  font-family: 'Open Sans', sans-serif;
+  color: #848484;
+}

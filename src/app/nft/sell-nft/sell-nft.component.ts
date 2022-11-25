@@ -118,7 +118,7 @@ export class SellNftComponent implements OnInit {
 
   public openDialog() {
     if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" || this.NFTList.attachmenttype == "image/png"){
-      this.dialogService.openNftPreview({image:this.imageSrc})
+      this.dialogService.openNftPreview({image:this.maincontent})
     }else{
       this.dialogService.openCodeView(this.Decryption);
     }
@@ -492,9 +492,11 @@ export class SellNftComponent implements OnInit {
                 console.log("its an image",this.Decryption)
                 if(this.NFTList.thumbnail==""){
                   this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+                  this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())     
+
                 }else{
                   this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
-                  
+                  this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())     
                 }
                
               }else{

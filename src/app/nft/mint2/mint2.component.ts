@@ -55,6 +55,7 @@ import {
   SnackBarText,
 } from 'src/app/models/confirmDialog';
 import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-mint2',
@@ -166,6 +167,11 @@ export class Mint2Component implements OnInit {
   thumbEncoded: string;
   thumbHash: any;
 
+
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  cropperStat: boolean=false;
+  showthumbnailContainer: boolean=true;
   constructor(
     private route: ActivatedRoute,
     private service: MintService,
@@ -1008,6 +1014,7 @@ export class Mint2Component implements OnInit {
       this.thumbnail = reader.result;
       this.thumbSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.thumbnail);
     };
+    console.log("thumbnail to be sent: ",this.thumbnail)
   }
 
   //create base64 image
@@ -1046,4 +1053,30 @@ export class Mint2Component implements OnInit {
       this.uploadImage(evt);
     }
   }
+
+
+fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+    this.cropperStat=true
+    this.showthumbnailContainer=false
+}
+imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+    this.thumbSrc=this.croppedImage
+    //this.updateThumbnailHTML()
+    this.thumbnail=this.croppedImage
+    console.log("thumbnail to be sent: ",this.thumbnail)
+}
+hideCropper(){
+  this.cropperStat=false
+  this.showthumbnailContainer=true;
+}
+imageLoaded(image?: LoadedImage) {
+}
+cropperReady() {
+    // cropper ready
+}
+loadImageFailed() {
+    // show message
+}
 }

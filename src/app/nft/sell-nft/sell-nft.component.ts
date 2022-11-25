@@ -58,6 +58,7 @@ export class SellNftComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
   saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '', '', '');
@@ -79,7 +80,7 @@ export class SellNftComponent implements OnInit {
   Decryption: any;
   dec: string;
   List: any[] = [];
-  svg: SVG = new SVG('', '', 'NA', '');
+  svg: SVG = new SVG('', '', 'NA','','');
   NFTList: any;
   prevOwner: string;
   watchlist: any;
@@ -91,6 +92,7 @@ export class SellNftComponent implements OnInit {
   public loaded = false;
   private htmStr: string;
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
+  maincontent: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -118,9 +120,12 @@ export class SellNftComponent implements OnInit {
   }
 
   public openDialog() {
-    this.dialogService.openCodeView(this.Decryption);
+    if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" || this.NFTList.attachmenttype == "image/png"){
+      this.dialogService.openNftPreview({image:this.maincontent})
+    }else{
+      this.dialogService.openCodeView(this.Decryption);
+    }
   }
-
   saveTXNs(): void {
     this.txn.Blockchain = this.NFTList.blockchain;
     this.txn.ImageURL = this.NFTList.imagebase64;
@@ -494,28 +499,33 @@ export class SellNftComponent implements OnInit {
           this.service
             .getSVGByHash(this.NFTList.imagebase64)
             .subscribe((res: any) => {
-              console.log('service res:', res);
+              console.log('service res:', this.NFTList);
               this.Decryption = res.Response.Base64ImageSVG;
               console.log('decrypted sg:', this.Decryption);
-              if (
-                this.NFTList.attachmenttype == 'image/jpeg' ||
-                this.NFTList.attachmenttype == 'image/jpg' ||
-                this.NFTList.attachmenttype == 'image/png'
-              ) {
-                console.log('its an image', this.Decryption);
+              if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" ||this.NFTList.attachmenttype == "image/png"){
+                console.log("its an image",this.Decryption)
+                if(this.NFTList.thumbnail==""){
+                  this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+                  this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())     
 
-                this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(
-                  this.Decryption.toString()
-                );
-              } else {
+                }else{
+                  this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
+                  this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())     
+                }
+               
+              }else{
                 this.dec = btoa(this.Decryption);
-                var str2 = this.dec.toString();
-                var str1 = new String('data:image/svg+xml;base64,');
-                var src = str1.concat(str2.toString());
-                this.imageSrc =
-                  this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            var str2 = this.dec.toString();
+            var str1 = new String( "data:image/svg+xml;base64,");
+            var src = str1.concat(str2.toString());
+            if(this.NFTList.thumbnail==""){
+              this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(src)
+              
+            }else{
+              this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
+              this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(src) 
+            }
               }
-              console.log('image src : ', this.imageSrc);
             });
 
           this.service

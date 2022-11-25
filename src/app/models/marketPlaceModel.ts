@@ -48,7 +48,7 @@ export class Favourites {
         public CreatorUserId:string,
        public SellingStatus:string,
        public CurrentOwnerPK:string,
-     
+      public thumbnail:string,
     ) {}
   }
 
@@ -59,7 +59,7 @@ export class Favourites {
         public ImageBase64:string,
         public Blockchain:string,
         public SellingStatus:string,
-       
+        public thumbnail:string,
      
     ) {}
   }

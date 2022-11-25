@@ -55,6 +55,7 @@ import {
   SnackBarText,
 } from 'src/app/models/confirmDialog';
 import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-mint2',
@@ -66,6 +67,7 @@ export class Mint2Component implements OnInit {
   //declaring models and variables
   @ViewChild('tagsInput') tagsInput: ElementRef<HTMLInputElement>;
   @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
+  @ViewChild('thumbUpload') thumbUpload: ElementRef<HTMLElement>;
   @Output() proceed: EventEmitter<any> = new EventEmitter();
   @Input() email: string;
   @Input() wallet: string;
@@ -126,13 +128,14 @@ export class Mint2Component implements OnInit {
     '',
     '',
     false,
-    false
+    false,
+    '',
   );
   minter: Minter = new Minter('', '', '', '', '');
   tokenId: number;
   txn: TXN = new TXN('', '', '', '', '', '');
   svgUpdate: UpdateSVG = new UpdateSVG('', '');
-  svg: SVG = new SVG('', '', 'NA','');
+  svg: SVG = new SVG('', '', 'NA','','');
   Decryption: any;
   dec: string;
   imageSrc: any;
@@ -157,7 +160,18 @@ export class Mint2Component implements OnInit {
   name: string;
   base64textString: string;
   type: string;
+  thumbSrc : any;
+  thumbFile : File;
+  thumbnail : any;
+  thumbType : string;
+  thumbEncoded: string;
+  thumbHash: any;
 
+
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  cropperStat: boolean=false;
+  showthumbnailContainer: boolean=true;
   constructor(
     private route: ActivatedRoute,
     private service: MintService,
@@ -220,7 +234,13 @@ export class Mint2Component implements OnInit {
   }
 
   public openDialog() {
-    this.dialogService.openCodeView(this.Encoded);
+    console.log("MINt2 file tpe: ",this.file.type)
+    console.log("image: ",this.imageSrc)
+    if(this.file.type == "image/jpeg" ||this.file.type == "image/jpg" || this.file.type == "image/png"){
+      this.dialogService.openNftPreview({image : this.imageSrc})
+    }else{
+      this.dialogService.openCodeView(this.Encoded);
+    }
   }
 
   pushTag(): void {
@@ -250,6 +270,7 @@ export class Mint2Component implements OnInit {
     this.mint.Imagebase64 = this.hash;
     this.mint.AttachmentType=this.type;
     this.mint.Description = this.formValue('Description');
+    this.mint.thumbnail=this.thumbnail
     this.svgUpdate.Id = this.hash;
 
     if (this.mint.Blockchain == 'stellar') {
@@ -262,7 +283,7 @@ export class Mint2Component implements OnInit {
         this.svg.Hash = this.hash;
         this.svg.Base64ImageSVG = this.Encoded;
         this.svg.AttachmentType=this.type
-
+        // this.svg.thumbnail=this.thumbnail
         this.apiService.addSVG(this.svg).subscribe();
 
         if (this.mint.NFTIssuerPK != null) {
@@ -336,7 +357,7 @@ export class Mint2Component implements OnInit {
       this.mint.NFTIssuerPK = phantomWallet.getWalletaddress();
       this.mint.NFTIdentifier = this.mint.NFTIssuerPK;
       this.mint.CreatorUserId = this.mint.NFTIssuerPK;
-
+      this.mint.thumbnail=this.thumbnail
       this.svg.blockchain = 'solana';
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
@@ -388,7 +409,7 @@ export class Mint2Component implements OnInit {
                     }
                   });
               }
-            })  
+            })
     }
 
     if (this.mint.Blockchain == 'ethereum') {
@@ -402,6 +423,7 @@ export class Mint2Component implements OnInit {
       this.mint.MintedContract = environment.contractAddressNFTEthereum;
       this.mint.MarketContract = environment.contractAddressMKEthereum;
       this.mint.CreatorUserId = this.mint.DistributorPK;
+      this.mint.thumbnail=this.thumbnail
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'ethereum';
@@ -483,12 +505,12 @@ export class Mint2Component implements OnInit {
       this.mint.MintedContract = environment.contractAddressNFTPolygon;
       this.mint.MarketContract = environment.contractAddressMKPolygon;
       this.mint.CreatorUserId = this.mint.DistributorPK;
-
+      this.mint.thumbnail=this.thumbnail
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'polygon';
       this.svg.AttachmentType=this.type
-      this.apiService.addSVG(this.svg).subscribe();    
+      this.apiService.addSVG(this.svg).subscribe();
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
@@ -546,7 +568,7 @@ export class Mint2Component implements OnInit {
                           });
                       }
                     });
-                } 
+                }
               });
           }
   }
@@ -955,6 +977,12 @@ export class Mint2Component implements OnInit {
     el.click();
   }
 
+  //trigger file input click event
+  public triggerThumbnailUpload() {
+    let el: HTMLElement = this.thumbUpload.nativeElement;
+    el.click();
+  }
+
   public openCreateCollection() {
     this.dialogService
       .createCollection(this.email, this.key)
@@ -962,6 +990,39 @@ export class Mint2Component implements OnInit {
       .subscribe((data: any) => {
         this.CollectionList.push({ CollectionName: data.collectionName });
       });
+  }
+
+  public onThumbnailChange(event: any) {
+    console.log('---on change thumb---')
+    this.thumbFile = event.target.files[0];
+    if (this.thumbFile.type.toLowerCase().includes('png')||this.thumbFile.type.toLowerCase().includes('jpg')
+      || this.thumbFile.type.toLowerCase().includes('jpeg')){
+        this.thumbType = this.thumbFile.type
+        var reader = new FileReader();
+        reader.readAsDataURL(this.thumbFile);
+        reader.onload =this._handleReaderLoadedThumbnail.bind(this);
+        reader.readAsBinaryString(this.thumbFile);
+        this.updateThumbnailHTML();
+    }
+  }
+
+  public updateThumbnailHTML () {
+    console.log('---update thumb---')
+    const reader = new FileReader();
+    reader.readAsDataURL(this.thumbFile);
+    reader.onload = (_event) => {
+      this.thumbnail = reader.result;
+      this.thumbSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.thumbnail);
+    };
+    console.log("thumbnail to be sent: ",this.thumbnail)
+  }
+
+  //create base64 image
+  private _handleReaderLoadedThumbnail(readerEvt: any) {
+    var binaryString = readerEvt.target.result;
+    this.thumbEncoded = binaryString;
+    this.thumbHash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
+    this.updateThumbnailHTML();
   }
 
   @HostListener('dragover', ['$event']) public onDragOver(evt) {
@@ -992,4 +1053,30 @@ export class Mint2Component implements OnInit {
       this.uploadImage(evt);
     }
   }
+
+
+fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+    this.cropperStat=true
+    this.showthumbnailContainer=false
+}
+imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+    this.thumbSrc=this.croppedImage
+    //this.updateThumbnailHTML()
+    this.thumbnail=this.croppedImage
+    console.log("thumbnail to be sent: ",this.thumbnail)
+}
+hideCropper(){
+  this.cropperStat=false
+  this.showthumbnailContainer=true;
+}
+imageLoaded(image?: LoadedImage) {
+}
+cropperReady() {
+    // cropper ready
+}
+loadImageFailed() {
+    // show message
+}
 }

@@ -26,8 +26,8 @@ export class NFT{
     public Status:string,
     public NFTTxnHash:string,
     public Trending:boolean,
-    public HotPicks:boolean
-   
+    public HotPicks:boolean,
+    public thumbnail:string,
     ){}
 }
 
@@ -140,6 +140,7 @@ export interface Image {
         public Base64ImageSVG:string,
         public blockchain:string="NA",
         public AttachmentType:string,
+        public thumbnail:string
     ){}
 }
 

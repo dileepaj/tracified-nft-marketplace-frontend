@@ -24,6 +24,7 @@ export class UserCollectionNFTComponent implements OnInit {
   data: any;
   key: any;
   loading: boolean = false;
+  thumbnailSRC: any;
 
   constructor(
     private router: Router,
@@ -83,8 +84,15 @@ export class UserCollectionNFTComponent implements OnInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
-        let card: MyNFTCard = new MyNFTCard('', '', '', '', '');
+        if(arr[a].thumbnail==""){
+          this.thumbnailSRC=this.imageSrc
+        }
+        else{
+          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(arr[a].thumbnail);
+        }
+        let card: MyNFTCard = new MyNFTCard('', '', '', '', '','');
         card.ImageBase64 = this.imageSrc;
+        card.thumbnail=this.thumbnailSRC
         card.NFTIdentifier = arr[a].nftidentifier;
         card.NFTName = arr[a].nftname;
         card.Blockchain = arr[a].blockchain;

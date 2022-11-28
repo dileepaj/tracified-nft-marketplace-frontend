@@ -175,7 +175,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -195,7 +195,7 @@
 }
 
 .nft-cat {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -231,7 +231,7 @@
 .prev-o {
   display: flex;
   flex-direction: column;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   line-height: 32px;
   /* or 178% */
@@ -242,7 +242,7 @@
 .curr-o {
   display: flex;
   flex-direction: column;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   line-height: 32px;
   /* or 178% */
@@ -286,7 +286,7 @@
 .heading-s {
   margin-top: 45px;
   margin-bottom: 15px;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -308,7 +308,7 @@
 
 .txn-table thead {
   background-color: #fff;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -395,7 +395,7 @@ td {
 }
 
 .review-label {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -433,7 +433,7 @@ td {
 }
 
 .sell-input-grp label {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -490,7 +490,7 @@ td {
 }
 
 .label-hl {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -502,7 +502,7 @@ td {
 
 .label-sm {
   margin-top: 4px;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -532,7 +532,7 @@ td {
 }
 
 .reviews-header label {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
@@ -552,7 +552,7 @@ td {
 
 .review-filter {
   cursor: pointer;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -576,7 +576,7 @@ td {
 .btn-review {
   background: #10ceac;
   border-radius: 20px;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -608,7 +608,7 @@ td {
 }
 
 .user-rating .name {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
@@ -620,7 +620,7 @@ td {
 }
 
 .user-rating .date {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -769,7 +769,7 @@ td {
   display : flex;
   flex-direction : row;
   justify-content : center;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;

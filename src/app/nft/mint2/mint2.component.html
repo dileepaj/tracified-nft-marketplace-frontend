@@ -21,7 +21,7 @@
       <div class="dnd-area" id="thumb-dnd" ngStyle.lt-md="width: calc(100% - 6px)" matTooltip="Upload Image"
         (click)="triggerThumbnailUpload()" *ngIf="showthumbnailContainer" >
         <div id="thumb-dnd-ph" class="img-div" *ngIf="!croppedImage">
-          <object id="thumb-dnd-img" data="../../../assets/images/img-upload.png" style="width: 133px; height: 138px"
+          <object id="thumb-dnd-img" data="../../../assets/images/thumbnail-mint2.png" style="width: 133px; height: 138px"
             *ngIf="!thumbSrc"></object>
         </div>
 
@@ -49,12 +49,12 @@
       <div class="dnd-area" id="nft-dnd" ngStyle.lt-md="width: calc(100% - 6px)" matTooltip="Upload Image"
         (click)="triggerClick()">
         <div id="nft-dnd-ph" class="img-div" *ngIf="!imageSrc">
-          <embed
+          <object
             id="nft-dnd-img"
-            data="../../../assets/images/img-upload.png"
+            data="../../../assets/images/thumbnail-mint2.png"
             style="width: 133px; height: 138px"
             *ngIf="!imageSrc"
-          >
+          ></object>
         </div>
 
         <embed id="nft-dnd-u-img" [src]="imageSrc" *ngIf="imageSrc" id="img" class="uploaded-img">

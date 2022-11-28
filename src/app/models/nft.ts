@@ -26,7 +26,7 @@ export class NFTMarket{
 	public MainAccountPK     :               string,
 	public PreviousOwnerNFTPK      :         string,
 	public CurrentOwnerNFTPK    :            string,
-   
+	public thumbnail:string,
     ){}
 }
 
@@ -58,7 +58,7 @@ export class GetNFT{
 	public Tags:string,
 	public SellingType:string,
 	public Status:string,
-
+	public thumbnail:string,
    
     ){}
 }

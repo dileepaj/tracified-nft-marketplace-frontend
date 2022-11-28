@@ -17,10 +17,10 @@ export class DocumentationComponent implements OnInit {
       topic: "What is a Blockchian",
       desc: `
         <p>A blockchain is a shared distributed database or ledger between computer network nodes. A blockchain serves as an electronic database for storing data in digital form. The most well-known use of blockchains is in cryptocurrency systems, where they play a critical role in keeping a secure and decentralized record of transactions. The innovation of a blockchain is that it fosters confidence without the necessity for a reliable third party by ensuring the fidelity and security of a record of data.</p>
-        <p>What is the difference between a blockchain and an operational database?
+        <br><p>What is the difference between a blockchain and an operational database?
         The way the data is organized in a blockchain differs significantly from how it is typically organized. In a blockchain, data is gathered in groups called blocks that each include sets of data. Blocks have specific storage capacities, and when filled, they are sealed and connected to the block that came before them to create the data chain known as the blockchain. Every additional piece of information that comes after that newly added block is combined into a brand-new block, which is then added to the chain once it is full.
-        </p>
-        <p>A blockchain, as its name suggests, arranges its data into pieces (blocks) that are strung together, whereas a database typically organizes its data into tables. When used in a decentralized way, this data structure creates an irreversible chronology of data by design. When a block is completed, it is irrevocably sealed and added to the timeline. When a block is added to the chain, it receives a precise timestamp.
+        <br></p>
+        <br><p>A blockchain, as its name suggests, arranges its data into pieces (blocks) that are strung together, whereas a database typically organizes its data into tables. When used in a decentralized way, this data structure creates an irreversible chronology of data by design. When a block is completed, it is irrevocably sealed and added to the timeline. When a block is added to the chain, it receives a precise timestamp.
         </p>
       `
     },
@@ -29,9 +29,9 @@ export class DocumentationComponent implements OnInit {
       desc: `
       <center><img src="../../../assets/images/blockchain-icons/stellar.PNG" width="252px" height="209px"></center>
       <br>
-        <p>Jed McCaleb founded Stellar, an Open source payment technology blockchain in 2014 with the intention of bridging the gap between all financial institutions and lowering the cost and time of international transfers significantly.</p>
-        <p>The fundamental workings of stellar are comparable to the payment systems used by many decentralized platforms. A distributed ledger that is updated among all nodes every 2 to 5 seconds is used by Stellar to run on decentralized servers. The Stellar consensus does not rely on the network of miners to approve transactions. It uses the <a href="https://golden.com/wiki/Federated_Byzantine_Agreement_(FBA)">Federated Byzantine Agreement (FBA) algorithm</a>, which uses quorum slices to validate and accept the transaction, allowing the transaction to execute swiftly. Every node in the network chooses a different group of reliable nodes. Once all of the nodes in the set have authorized the transaction, it is deemed to be approved. The approval process for transactions made the Stellar network extremely quick. Due to this, it claims to process approx 1000 network operations in one second.</p>
-        <p>For Information on stellar visit <a href="https://stellar.org/" target="_blank">Stellar Org</p>
+        <p>Jed McCaleb founded Stellar, an Open source payment technology blockchain in 2014 with the intention of bridging the gap between all financial institutions and lowering the cost and time of international transfers significantly.</p><br>
+        <br><p>The fundamental workings of stellar are comparable to the payment systems used by many decentralized platforms. A distributed ledger that is updated among all nodes every 2 to 5 seconds is used by Stellar to run on decentralized servers. The Stellar consensus does not rely on the network of miners to approve transactions. It uses the <a href="https://golden.com/wiki/Federated_Byzantine_Agreement_(FBA)">Federated Byzantine Agreement (FBA) algorithm</a>, which uses quorum slices to validate and accept the transaction, allowing the transaction to execute swiftly. Every node in the network chooses a different group of reliable nodes. Once all of the nodes in the set have authorized the transaction, it is deemed to be approved. The approval process for transactions made the Stellar network extremely quick. Due to this, it claims to process approx 1000 network operations in one second.</p>
+        <br><p>For Information on stellar visit <a href="https://stellar.org/" target="_blank">Stellar Org</p>
       `
     },
     {
@@ -40,12 +40,12 @@ export class DocumentationComponent implements OnInit {
       <center><img src="../../../assets/images/blockchain-icons/ethereum.png" width="252px" height="209px"></center>
       <br>
         <p>Blockchain underwent a revolution with the introduction of Bitcoin, but other latecomers, like Ethereum, have gained just as much support as <a class="testLink" href="https://developer.bitcoin.org/reference/block_chain.html" target="_blank">Bitcoin</a>, if not more. The Ethereum Blockchain is a decentralized, open-source platform that was first introduced in 2015. Since its debut, Ethereum has accomplished a number of significant milestones. The collaboration between Microsoft and ConsenSys is one of the platform's most notable recent accomplishments. Through the cooperation, developers and organizations using Microsoft Azure will have access to Ethereum Blockchain as a Service (EBaaS).</p>
-        <p>The Ethereum network functions the same as every other Blockchain network. Different nodes known as miners evaluate each new transaction after it has been logged. To update the transaction in the decentralized ledger, these miners run the program code on their computer. For each piece of code they run or each transaction they add to the chain, miners are rewarded 3 ether. The output of each miner's code is added to the consensus, which i</p>
+        <br><p>The Ethereum network functions the same as every other Blockchain network. Different nodes known as miners evaluate each new transaction after it has been logged. To update the transaction in the decentralized ledger, these miners run the program code on their computer. For each piece of code they run or each transaction they add to the chain, miners are rewarded 3 ether. The output of each miner's code is added to the consensus, which i</p>
 
-        <h2>What are smart contracts?</h2>
+        <br><h2>What are smart contracts?</h2>
         <p>Blockchain-based smart contracts are a set of computer programs and protocols that automatically enforce particular contract terms. The smart contract codes serve as the set of guidelines that all parties must follow. The contract automatically initiates the next action decided upon by the developers when one or more of the conditions are met. The security, trust, autonomy, and efficiency of Blockchain technology are all present in these contracts.</p>
 
-        <p>For Information on Ethereum visit <a href="https://ethereum.org/en/" target="_blank">ethereum.org</a>
+        <br><p>For Information on Ethereum visit <a href="https://ethereum.org/en/" target="_blank">ethereum.org</a>
       `
     },
     {
@@ -54,8 +54,8 @@ export class DocumentationComponent implements OnInit {
       <center><img src="../../../assets/images/blockchain-icons/polygon.PNG"></center>
       <br>
         <p>The Polygon blockchain project is a framework for building and connecting Ethereum-compatible blockchain networks as well as a scaling solution for Ethereum. Low throughput and high transaction fees are two of the most serious problems the Ethereum ecosystem is now dealing with, and they are challenges that the protocol seeks to address.</p>
-        <p>The Matic Network project, which later became the Polygon project, began in 2017. The three co-founders of Matic, who had all been prominent members of the Indian crypto community, wanted the platform to address the Ethereum scaling issue, so they started looking into two different approaches: a Layer 2 solution based on an implementation of Plasma, and a Proof-of-Stake sidechain solution known as the PoS Chain. Because of this, Polygon is frequently called a sidechain, despite the fact that the sidechain solution is only one part of the platform's scalability promise.</p>
-        <p>Layer 2 choices and side chains are both supported by Polygon as well as other forms of scaling solutions. Stand-alone chains and secured chains are the two distinct sorts of chains that the protocol supports. The former do not need Ethereum for security because they have their own consensus methods. However, creating a trustworthy consensus process is a difficult endeavour that will undoubtedly prove challenging for many enterprises. Running a secured chain might be a preferable choice for those.</p>
+        <br><p>The Matic Network project, which later became the Polygon project, began in 2017. The three co-founders of Matic, who had all been prominent members of the Indian crypto community, wanted the platform to address the Ethereum scaling issue, so they started looking into two different approaches: a Layer 2 solution based on an implementation of Plasma, and a Proof-of-Stake sidechain solution known as the PoS Chain. Because of this, Polygon is frequently called a sidechain, despite the fact that the sidechain solution is only one part of the platform's scalability promise.</p>
+        <br><p>Layer 2 choices and side chains are both supported by Polygon as well as other forms of scaling solutions. Stand-alone chains and secured chains are the two distinct sorts of chains that the protocol supports. The former do not need Ethereum for security because they have their own consensus methods. However, creating a trustworthy consensus process is a difficult endeavour that will undoubtedly prove challenging for many enterprises. Running a secured chain might be a preferable choice for those.</p>
         <p>For Information on Polygon visit <a href="https://polygon.technology/" target="_blank">polygon.technology</a>
       `
     },
@@ -65,8 +65,8 @@ export class DocumentationComponent implements OnInit {
       <center><img src="../../../assets/images/blockchain-icons/solana.PNG" width="252px" height="209px"></center>
       <br>
         <p>Solana is basically just another blockchain network optimized for producing cryptocurrencies such as Bitcoin and Ethereum. It is a superior substitute for Ethereum, especially in terms of transaction speed. In actuality, the new blockchain platform could execute transactions at a rate of approximately 50,000 per second with ease. Within a few seconds, SOL may quickly integrate a variety of qualities into the current network, such as application development or SOL token mining. The cryptocurrency has rightfully established itself as Ethereum's rival.</p>
-        <p>The Solana blockchain guarantees censorship resistance, speed, and security. Based on the RUST programming language, SOL offers a strong foundation for transaction security. Additionally, it can provide a highly scalable and effective network thanks to the usage of Proof of History.</p>
-        <p>For Information on Solana visit <a href="https://solana.com/" target="_blank">Solana.com</a>
+        <br><p>The Solana blockchain guarantees censorship resistance, speed, and security. Based on the RUST programming language, SOL offers a strong foundation for transaction security. Additionally, it can provide a highly scalable and effective network thanks to the usage of Proof of History.</p>
+        <br><p>For Information on Solana visit <a href="https://solana.com/" target="_blank">Solana.com</a>
       `
     },
     {
@@ -83,11 +83,11 @@ export class DocumentationComponent implements OnInit {
             <li>Paper Wallets(Cold Wallets)</li>
         </ol>
         These wallets have the ability to generate the necessary information to send and receive cryptocurrency/NFT via a blockchain. Furthermore the wallet holds the private and public key pair of an user which is used to identify an user.
-        <br>
+        <br><br>
         A wallet contains an alphanumeric identifier which is generated based on the users public and private keys which can be used to store assets.</p>
 
         <strong> NOTE:- Marketplace v1.0 supports only uses software wallets</strong>
-        <br>
+        <br><br>
         <p>Marketplace supports following wallet integrations : <br>
         <table >
           <tr>
@@ -175,13 +175,13 @@ export class DocumentationComponent implements OnInit {
 
       <p>
         <h1>Minting NFTs with Ethereum and Polygon</h1>
-        <br>
+        <br><br>
         mint(receiver, newItemId); Here the main two variables needed are the public key of the owner of the NFT/ issuer and the tokenID which is generated each time an NFT is put to mint.  _setTokenURI(newItemId, _name); and attributes[newItemId] = Attr(_name); would tally the tokenID to the data passed as tokenURI/ProofData etc. This is done in the NFT contract
       </p>
       <p>
         <h1> Selling an NFT in Ethereum and Polygon</h1>
         The tokenID, nft contract address and price you wish to sell it for is sent as parameters to the marketplace contract. A listing price can be declared and should be added as a parameter when sending to the contract from the frontend. 
-        <br>
+        <br><br>
         When an NFT is put on sale an ItemID is generated. This is different from the tokenID as itemID depends on whether the NFT has been put on sale. But the ItemID can be equal to the tokenID if the NFT is put on sale straight after minting.
       </p>
       <p>

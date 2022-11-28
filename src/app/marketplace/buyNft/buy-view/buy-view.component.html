@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <div class="nft-div cont-wrapper" fxLayout="row wrap">
+  <div class="nft-div cont-wrapper" fxLayout="row wrap" *ngIf="!isLoading">
     <div
       class="nft-sum"
       ngClass.lt-lg="nft-sum-mobile"
@@ -141,7 +141,7 @@
                       <td width="25%">
                         <mat-icon class="material-symbols-outlined cursor-p">
                           <a href="{{ item.NFTTxnHash }}" class="open-link"
-                            >open_in_new</a
+                            target="_blank"><img src="https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/external-link.png"></a
                           >
                         </mat-icon>
                       </td>

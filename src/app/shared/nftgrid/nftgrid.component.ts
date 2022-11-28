@@ -23,10 +23,11 @@ export class NftgridComponent implements OnInit {
   Decryption: any;
   NFTList: any;
   List: any[] = [];
-  svg: SVG = new SVG('', '', 'NA','');
+  svg: SVG = new SVG('', '', 'NA','','');
   favouritesModel: Favourites = new Favourites('', '', '');
   watchlistModel: WatchList = new WatchList('', '', '');
   nft: NFTMarket = new NFTMarket(
+    '',
     '',
     '',
     '',
@@ -61,6 +62,7 @@ export class NftgridComponent implements OnInit {
   User: string;
   nfts: any;
   loading: boolean = false;
+  thumbnailSRC: any;
   constructor(
     private api: ApiServicesService,
     private service: NftServicesService,
@@ -210,8 +212,14 @@ export class NftgridComponent implements OnInit {
     var src = str1.concat(str2.toString());
     this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
       }
-      let card: NFTCard = new NFTCard('', '', '', '','','','');
+      if(res.Response.thumbnail==""){
+        this.thumbnailSRC=this.imageSrc
+      }else{
+        this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(res.Response.thumbnail);
+      }
+       let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
       card.ImageBase64 = this.imageSrc;
+      card.thumbnail=this.thumbnailSRC
       card.NFTIdentifier = response.nftidentifier;
       card.NFTName = response.nftname;
       card.Blockchain = response.blockchain;

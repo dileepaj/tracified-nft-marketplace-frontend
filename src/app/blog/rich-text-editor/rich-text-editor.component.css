@@ -1,0 +1,39 @@
+.btn-save-story {
+    width: 190px;
+    height: 35px;
+    background: #10ceac;
+    border-radius: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    border: none;
+    margin-left: 40%;
+    margin-right: 40%;
+    color: #000000;
+}
+
+.heading {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .back {
+    transform: scale(1.6);
+    cursor: pointer;
+    vertical-align: middle;
+    color: white;
+    left: 0;
+  }
+
+  .save-icon{
+    width: 20px;
+    height: 20px;
+    padding-bottom: 5px;
+  }

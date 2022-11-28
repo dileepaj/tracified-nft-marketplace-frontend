@@ -44,7 +44,7 @@ export class MintComponent implements OnInit {
   loading: boolean;
   imgSrc: any;
   hash: any;
-  svg: SVG = new SVG('', '', 'NA','');
+  svg: SVG = new SVG('', '', 'NA','','');
   mint: Mint2 = new Mint2('', '', '', '', '', this.svg); //declaring model to mint and post
   svgresult;
   email: string = '';
@@ -139,7 +139,8 @@ export class MintComponent implements OnInit {
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
-          if (result.Status == null || result.Status == 'Declined') {
+          console.log("-------------------kkkk-------",result.Status,result)
+          if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -187,7 +188,7 @@ export class MintComponent implements OnInit {
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
-          if (result.Status == null || result.Status == 'Declined') {
+          if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -235,7 +236,7 @@ export class MintComponent implements OnInit {
       this.apiService
       .getEndorsement(key)
       .subscribe((result: any) => {
-        if (result.Status == null || result.Status == 'Declined') {
+        if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
           this.dialogService
             .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,

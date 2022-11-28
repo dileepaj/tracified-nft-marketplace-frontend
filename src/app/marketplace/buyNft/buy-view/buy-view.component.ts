@@ -84,11 +84,13 @@ export class BuyViewComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
   saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '', '', '');
   buyGW: BuyNFTGW = new BuyNFTGW('', '', '', '');
   nftbe: GetNFT = new GetNFT(
+    '',
     '',
     '',
     '',
@@ -121,7 +123,7 @@ export class BuyViewComponent implements OnInit {
   Decryption: any;
   buytxn: any;
   data: any;
-  svg: SVG = new SVG('', '', 'NA','');
+  svg: SVG = new SVG('', '', 'NA','','');
   txn: TXN = new TXN('', '', '', '', '', '');
   dec: string;
   transaction: Uint8Array;
@@ -145,6 +147,8 @@ export class BuyViewComponent implements OnInit {
   nextPageLoading : boolean = false;
   filterChanged : boolean = false;
   hasStory : boolean = true;
+  maincontent: any;
+  isLoading : boolean = false;
 
   constructor(
     private service: NftServicesService,
@@ -199,7 +203,7 @@ export class BuyViewComponent implements OnInit {
         });
     }
     if (this.NFTList.blockchain == 'solana') {
-      const connection = new Connection(clusterApiUrl('testnet'), 'confirmed');
+      const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();
@@ -445,7 +449,12 @@ export class BuyViewComponent implements OnInit {
   }
 
   public openDialog() {
-    this.dialogService.openCodeView(this.Decryption);
+    if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" || this.NFTList.attachmenttype == "image/png"){
+        this.dialogService.openNftPreview({image : this.maincontent})
+    }else{
+      this.dialogService.openCodeView(this.Decryption,);
+    }
+    
   }
 
   ngOnInit(): void {
@@ -455,6 +464,7 @@ export class BuyViewComponent implements OnInit {
       this.nftbe.Blockchain = this.data[1];
       this.nftbe.NFTIdentifier = this.data[0];
       this.nftbe.SellingStatus = 'ON SALE';
+      this.isLoading = true;
       if (
         this.nftbe.NFTIdentifier != null &&
         this.nftbe.SellingStatus == 'ON SALE' &&
@@ -566,13 +576,22 @@ export class BuyViewComponent implements OnInit {
             this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
               this.Decryption = res.Response.Base64ImageSVG;
               if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" || this.NFTList.attachmenttype == "image/png"){
-                this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+                if(this.NFTList.thumbnail!=""){
+                  this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
+                  this.maincontent= this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString());
+                }else{
+                  this.imageSrc=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString());
+                }
               }else{
                 this.dec = btoa(this.Decryption);
-            var str2 = this.dec.toString();
-            var str1 = new String( "data:image/svg+xml;base64,");
-            var src = str1.concat(str2.toString());
-            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+                var str2 = this.dec.toString();
+                var str1 = new String( "data:image/svg+xml;base64,");
+                var src = str1.concat(str2.toString());
+                if(this.NFTList.thumbnail!=""){
+                  this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
+                }else{
+                  this.imageSrc=this._sanitizer.bypassSecurityTrustResourceUrl(src);
+                }
               }
               console.log('image in buy: ', this.imageSrc);
               this.service
@@ -622,13 +641,21 @@ export class BuyViewComponent implements OnInit {
             this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
               this.Decryption = res.Response.Base64ImageSVG;
               if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" || this.NFTList.attachmenttype == "image/png"){
-                this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+                if(this.NFTList.thumbnail!=""){
+                  this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
+                }else{
+                  this.imageSrc=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString());
+                }
               }else{
                 this.dec = btoa(this.Decryption);
             var str2 = this.dec.toString();
             var str1 = new String( "data:image/svg+xml;base64,");
             var src = str1.concat(str2.toString());
-            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            if(this.NFTList.thumbnail!=""){
+              this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
+            }else{
+              this.imageSrc=this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            }
               }
             });
 
@@ -640,6 +667,7 @@ export class BuyViewComponent implements OnInit {
               ),
               userid: new FormControl(this.reviews.UserID, Validators.required),
             });
+            this.isLoading = false;
           });
       } else {
         this.snackbar.openSnackBar('User PK not connected or not endorsed');
@@ -664,7 +692,7 @@ export class BuyViewComponent implements OnInit {
     const timer$ = timer(0,APIConfigENV.homepageIntervalTimer)
     timer$.subscribe(data=>{
       this.loadingn = true;
-    
+
     this.ReviewList.splice(0)
     this.filter = filter;
     this.intersectionObserver(filter,id)

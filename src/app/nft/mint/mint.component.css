@@ -11,7 +11,7 @@
 }
 
 .heading {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -118,7 +118,7 @@
 }
 
 ::placeholder {
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;

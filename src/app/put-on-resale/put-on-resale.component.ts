@@ -50,6 +50,7 @@ export class PutOnResaleComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
   saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '','','');
@@ -71,7 +72,7 @@ export class PutOnResaleComponent implements OnInit {
   Decryption: any;
   dec: string;
 
-  svg: SVG = new SVG('', '', 'NA','');
+  svg: SVG = new SVG('', '', 'NA','','');
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,

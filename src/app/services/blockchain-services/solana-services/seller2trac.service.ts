@@ -20,7 +20,7 @@ export class Seller2tracService {
     ): Promise<Transaction>{
     return (async () => {
       // Connect to cluster
-      const connection = new Connection(clusterApiUrl("testnet"), "confirmed");
+      const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
      
       let toKeypair = Keypair.fromSecretKey(to);
     

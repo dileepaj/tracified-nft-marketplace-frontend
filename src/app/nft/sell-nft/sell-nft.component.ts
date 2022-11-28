@@ -19,6 +19,8 @@ import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { CodeviewComponent } from '../codeview/codeview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { EthereumMintService } from 'src/app/services/contract-services/ethereum-mint.service';
+import { PolygonMintService } from 'src/app/services/contract-services/polygon-mint.service';
 import {
   ConfirmDialogText,
   PendingDialogText,
@@ -34,6 +36,7 @@ export class SellNftComponent implements OnInit {
   selectedTab: number = 0;
   controlGroupSell: FormGroup;
   nft: NFTMarket = new NFTMarket(
+    '',
     '',
     '',
     '',
@@ -79,16 +82,20 @@ export class SellNftComponent implements OnInit {
   Decryption: any;
   dec: string;
   List: any[] = [];
-  svg: SVG = new SVG('', '', 'NA','');
+  svg: SVG = new SVG('', '', 'NA','','');
   NFTList: any;
   prevOwner: string;
   watchlist: any;
   favorites: any;
   image: any;
   html: any;
+  currency: string;
+  isLoading: boolean = false;
   public loaded = false;
   private htmStr: string;
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
+  maincontent: any;
+
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -102,7 +109,9 @@ export class SellNftComponent implements OnInit {
     private dialogService: DialogService,
     private snackbarService: SnackbarServiceService,
     private api: ApiServicesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public emint:EthereumMintService,
+    public pmint:PolygonMintService
   ) {}
 
   calculatePrice(): void {
@@ -115,9 +124,12 @@ export class SellNftComponent implements OnInit {
   }
 
   public openDialog() {
-    this.dialogService.openCodeView(this.Decryption);
+    if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" || this.NFTList.attachmenttype == "image/png"){
+      this.dialogService.openNftPreview({image:this.maincontent})
+    }else{
+      this.dialogService.openCodeView(this.Decryption);
+    }
   }
-
   saveTXNs(): void {
     this.txn.Blockchain = this.NFTList.blockchain;
     this.txn.ImageURL = this.NFTList.imagebase64;
@@ -154,16 +166,16 @@ export class SellNftComponent implements OnInit {
       .subscribe();
   }
 
-  dataURItoBlob(dataURI,type) {
-   // const byteString = window.atob(dataURI);
+  dataURItoBlob(dataURI, type) {
+    // const byteString = window.atob(dataURI);
     const arrayBuffer = new ArrayBuffer(dataURI.length);
     const int8Array = new Uint8Array(arrayBuffer);
     for (let i = 0; i < dataURI.length; i++) {
       int8Array[i] = dataURI.charCodeAt(i);
     }
-    const blob = new Blob([int8Array], { type: 'image/png' });    
+    const blob = new Blob([int8Array], { type: 'image/png' });
     return blob;
- }
+  }
 
   async Sell(): Promise<void> {
     if (this.NFTList.blockchain == 'stellar') {
@@ -229,7 +241,7 @@ export class SellNftComponent implements OnInit {
       // } else {
         console.log('mint ', this.NFTList.nftissuerpk);
         const connection = new Connection(
-          clusterApiUrl('testnet'),
+          clusterApiUrl('devnet'),
           'confirmed'
         );
         let phantomWallet = new UserWallet();
@@ -258,28 +270,27 @@ export class SellNftComponent implements OnInit {
                     const signedTransaction = await (
                       window as any
                     ).solana.signTransaction(result);
+                  this.transaction = signedTransaction.serialize();
+                  const signature = await connection.sendRawTransaction(
+                    this.transaction
+                  );
 
-                    this.transaction = signedTransaction.serialize();
-                    const signature = await connection.sendRawTransaction(
-                      this.transaction
-                    );
-
-                    alert('successfully sold!');
-                    this.selltxn = signature;
-                    this.addDBBackend();
-                    this.addDBGateway();
-                    this.saveTXNs();
-                    dialog.close();
-                    this.snackbarService.openSnackBar(
-                      SnackBarText.SALE_SUCCESS_MESSAGE
-                    );
-                    this.showInProfile();
-                  } catch (err) {
-                    alert(err);
-                  }
-                });
-            }
-          });
+                  alert('successfully sold!');
+                  this.selltxn = signature;
+                  this.addDBBackend();
+                  this.addDBGateway();
+                  this.saveTXNs();
+                  dialog.close();
+                  this.snackbarService.openSnackBar(
+                    SnackBarText.SALE_SUCCESS_MESSAGE
+                  );
+                  this.showInProfile();
+                } catch (err) {
+                  alert(err);
+                }
+              });
+          }
+        });
       //}
     }
     if (this.NFTList.blockchain == 'polygon') {
@@ -300,7 +311,9 @@ export class SellNftComponent implements OnInit {
               message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
             });
             this.calculatePrice();
-            this.pmarket
+            if(this.NFTList.sellingstatus=='Minted'){
+
+              this.pmarket
               .createSaleOffer(
                 environment.contractAddressNFTPolygon,
                 this.tokenid,
@@ -319,7 +332,32 @@ export class SellNftComponent implements OnInit {
                 );
                 this.showInProfile();
               });
-            //this.addDBBackend()
+            }else{
+              console.log("bfore approval")
+              this.pmint.approveContract(this.tokenid).then((res:any)=>{
+                console.log("transaction result is: ",res)
+                this.pmarket
+                .createSaleOffer(
+                  environment.contractAddressNFTPolygon,
+                  this.tokenid,
+                  this.sellingPrice
+                )
+                .then((res) => {
+                  this.selltxn = res.transactionHash;
+                  this.itemId = parseInt(res.logs[3].topics[1]);
+                  this.saleBE.SellingType = this.itemId.toString();
+                  this.saveTXNs();
+                  this.addDBBackend();
+                  this.addDBGateway();
+                  dialog.close();
+                  this.snackbarService.openSnackBar(
+                    SnackBarText.SALE_SUCCESS_MESSAGE
+                  );
+                  this.showInProfile();
+                });
+              })
+             
+            }
           }
         });
     }
@@ -342,7 +380,8 @@ export class SellNftComponent implements OnInit {
               message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
             });
             this.calculatePrice();
-            this.emarket
+            if(this.NFTList.sellingstatus=='Minted'){
+              this.emarket
               .createSaleOffer(
                 environment.contractAddressNFTEthereum,
                 this.tokenid,
@@ -361,6 +400,31 @@ export class SellNftComponent implements OnInit {
                 );
                 this.showInProfile();
               });
+            }else{
+              console.log("bfore approval")
+              this.emint.approveContract(this.tokenid).then((res:any)=>{
+                console.log("transaction is approved: ",res)
+                this.emarket
+                .createSaleOffer(
+                  environment.contractAddressNFTEthereum,
+                  this.tokenid,
+                  this.sellingPrice
+                )
+                .then((res) => {
+                  this.selltxn = res.transactionHash;
+                  this.itemId = parseInt(res.logs[2].topics[1]);
+                  this.saleBE.SellingType = this.itemId.toString();
+                  this.saveTXNs();
+                  this.addDBBackend();
+                  this.addDBGateway();
+                  dialog.close();
+                  this.snackbarService.openSnackBar(
+                    SnackBarText.SALE_SUCCESS_MESSAGE
+                  );
+                  this.showInProfile();
+                });
+              })
+            }
           }
         });
     }
@@ -373,11 +437,25 @@ export class SellNftComponent implements OnInit {
     });
   }
 
+  public setCurrency() {
+    if (this.data[2].toLowerCase().trim() === 'ethereum') {
+      this.currency = 'ETH';
+    } else if (this.data[2].toLowerCase().trim() === 'polygon') {
+      this.currency = 'MATIC';
+    } else if (this.data[2].toLowerCase().trim() === 'solana') {
+      this.currency = 'SOL';
+    } else if (this.data[2].toLowerCase().trim() === 'stellar') {
+      this.currency = 'XLM';
+    }
+  }
+
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
       console.log('DATA recived: ', this.data);
+      this.setCurrency();
     });
+    this.isLoading = true;
     if (this.data != null) {
       this.service
         // 1:nft identifer , 2:blockchain, 0:selling status
@@ -480,22 +558,33 @@ export class SellNftComponent implements OnInit {
           this.service
             .getSVGByHash(this.NFTList.imagebase64)
             .subscribe((res: any) => {
-              console.log('service res:', res);
+              console.log('service res:', this.NFTList);
               this.Decryption = res.Response.Base64ImageSVG;
               console.log('decrypted sg:', this.Decryption);
               if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" ||this.NFTList.attachmenttype == "image/png"){
                 console.log("its an image",this.Decryption)
-             
-               this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+                if(this.NFTList.thumbnail==""){
+                  this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+                  this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())     
 
+                }else{
+                  this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
+                  this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())     
+                }
+               
               }else{
                 this.dec = btoa(this.Decryption);
             var str2 = this.dec.toString();
             var str1 = new String( "data:image/svg+xml;base64,");
             var src = str1.concat(str2.toString());
-            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+            if(this.NFTList.thumbnail==""){
+              this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(src)
+              
+            }else{
+              this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
+              this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(src) 
+            }
               }
-              console.log('image src : ', this.imageSrc);
             });
 
           this.service
@@ -534,6 +623,7 @@ export class SellNftComponent implements OnInit {
                 this.List.push(card);
               }
             });
+          this.isLoading = false;
         });
     } else {
       console.log('User PK not connected or not endorsed');

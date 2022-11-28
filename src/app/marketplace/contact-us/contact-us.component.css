@@ -270,7 +270,7 @@
   border-right: 1px solid #6b6b6b;
   display: flex;
   flex-direction: column;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -312,7 +312,7 @@
   width: 100%;
   padding: 10px 0px 10px;
   text-align: center;
-  font-family: "Inter";
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;

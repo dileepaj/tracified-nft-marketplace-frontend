@@ -231,7 +231,7 @@
 }
 
 ::ng-deep .mat-select-placeholder {
-  font-family: "Inter" !important;
+  font-family: 'Open Sans', sans-serif !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 16px !important;

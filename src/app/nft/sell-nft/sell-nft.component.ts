@@ -26,6 +26,7 @@ import {
   PendingDialogText,
   SnackBarText,
 } from 'src/app/models/confirmDialog';
+import { BlockchainConfig } from 'src/environments/environment.qa';
 
 @Component({
   selector: 'app-sell-nft',
@@ -95,7 +96,7 @@ export class SellNftComponent implements OnInit {
   private htmStr: string;
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
   maincontent: any;
-
+  readonly network :any =BlockchainConfig.solananetwork;
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -227,7 +228,7 @@ export class SellNftComponent implements OnInit {
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.calculatePrice();
         const connection = new Connection(
-          clusterApiUrl('devnet'),
+          clusterApiUrl(this.network),
           'confirmed'
         );
         let phantomWallet = new UserWallet();

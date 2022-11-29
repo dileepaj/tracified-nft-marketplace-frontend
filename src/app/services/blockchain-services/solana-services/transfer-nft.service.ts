@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { clusterApiUrl, Connection, Keypair ,PublicKey, Transaction, sendAndConfirmTransaction} from  "@solana/web3.js";
 import { createTransferCheckedInstruction, getAssociatedTokenAddress, getOrCreateAssociatedTokenAccount } from  "@solana/spl-token";
+import { BlockchainConfig } from 'src/environments/environment.qa';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransferNftService {
-
+  readonly network :any =BlockchainConfig.solananetwork;
   constructor() { }
 
   toTokenAccount;
@@ -19,7 +20,7 @@ export class TransferNftService {
     ata:PublicKey): Promise<any>{
     return (async () => {
       // Connect to cluster
-      const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+      const connection = new Connection(clusterApiUrl(this.network), "confirmed");
     
       let fromKeypair = Keypair.fromSecretKey(from);
     

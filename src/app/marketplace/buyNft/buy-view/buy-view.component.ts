@@ -11,7 +11,7 @@ import {
   ReviewsCard,
   Reviews,
 } from 'src/app/models/nft';
-import { APIConfigENV, environment } from 'src/environments/environment';
+import { APIConfigENV, BlockchainConfig, environment } from 'src/environments/environment.qa';
 import { TrustLineByBuyerServiceService } from 'src/app/services/blockchain-services/stellar-services/trust-line-by-buyer-service.service';
 import { BuyNftServiceService } from 'src/app/services/blockchain-services/stellar-services/buy-nft-service.service';
 import { Trac2buyerService } from 'src/app/services/blockchain-services/solana-services/trac2buyer.service';
@@ -149,7 +149,7 @@ export class BuyViewComponent implements OnInit {
   hasStory : boolean = true;
   maincontent: any;
   isLoading : boolean = false;
-
+  readonly network :any =BlockchainConfig.solananetwork;
   constructor(
     private service: NftServicesService,
     private trust: TrustLineByBuyerServiceService,
@@ -194,7 +194,7 @@ export class BuyViewComponent implements OnInit {
         });
     }
     if (this.NFTList.blockchain == 'solana') {
-      const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
+      const connection = new Connection(clusterApiUrl(this.network), 'confirmed');
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();

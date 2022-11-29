@@ -12,6 +12,7 @@ import {
 } from '@solana/web3.js';
 import { WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import * as bs58 from 'bs58';
+import { BlockchainConfig } from 'src/environments/environment.qa';
 
 @Component({
   selector: 'app-phantom',
@@ -19,6 +20,7 @@ import * as bs58 from 'bs58';
   styleUrls: ['./phantom.component.css'],
 })
 export class PhantomComponent extends walletOptions implements OnInit {
+  readonly networkURL :any =BlockchainConfig.solananetworkURL;
   public signTransaction() {
     throw new Error('Method not implemented.');
   }
@@ -68,7 +70,7 @@ export class PhantomComponent extends walletOptions implements OnInit {
   }
 
   override getBalance(publicKey: string, _callback?: any) {
-    const connection = new Connection('https://api.devnet.solana.com');
+    const connection = new Connection(this.networkURL);
     (async () => {
       const pk = new PublicKey(publicKey);
       let balance = await connection.getBalance(pk);

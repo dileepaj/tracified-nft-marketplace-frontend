@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserFAQ } from 'src/app/models/mail';
 import { UpdateUserFAQResponse } from 'src/app/models/userFAQ';
+import { APIConfigENV } from 'src/environments/environment.qa';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,11 @@ import { UpdateUserFAQResponse } from 'src/app/models/userFAQ';
 export class UserFAQService {
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
-  private baseURL='http://localhost:6081/'
-  private addUserFAQURL :string = this.baseURL+"userfaq/"
-  private getPendingQuestionsURL : string = this.baseURL+"userfaq/status/Pending"
-  private updateFAQURL: string = this.baseURL+"userfaq/status"
-  private getattachment:string= this.baseURL+"userfaq/attachment/"
+  private readonly nftBackendBaseURL = APIConfigENV.nftbackendBaseURL
+  private addUserFAQURL :string = this.nftBackendBaseURL+"userfaq/"
+  private getPendingQuestionsURL : string = this.nftBackendBaseURL+"userfaq/status/Pending"
+  private updateFAQURL: string = this.nftBackendBaseURL+"userfaq/status"
+  private getattachment:string= this.nftBackendBaseURL+"userfaq/attachment/"
   constructor(private http: HttpClient) { }
   addUserFAQ(userFAQ: UserFAQ): Observable<string>{
     return this.http.post<string>(this.addUserFAQURL,userFAQ,{headers:this.headers})

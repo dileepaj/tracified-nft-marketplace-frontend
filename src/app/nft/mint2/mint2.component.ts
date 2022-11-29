@@ -195,8 +195,6 @@ export class Mint2Component implements OnInit {
         tag ? this._filter(tag) : this.alltags.slice()
       )
     );
-
-    console.log('inside constructor; ', this.wallet, this.email);
   }
 
   sendToMint3(): void {
@@ -234,8 +232,6 @@ export class Mint2Component implements OnInit {
   }
 
   public openDialog() {
-    console.log("MINt2 file tpe: ",this.file.type)
-    console.log("image: ",this.imageSrc)
     if(this.file.type == "image/jpeg" ||this.file.type == "image/jpg" || this.file.type == "image/png"){
       this.dialogService.openNftPreview({image : this.imageSrc})
     }else{
@@ -320,7 +316,6 @@ export class Mint2Component implements OnInit {
                         })
                         .subscribe((res) => {
                           if (res) {
-                            //alert("You are not endorsed. Get endorsed now")
                             let arr: any = [this.mint.Blockchain, this.email];
                             this.router.navigate(['./signUp'], {
                               queryParams: { data: JSON.stringify(arr) },
@@ -413,9 +408,6 @@ export class Mint2Component implements OnInit {
     }
 
     if (this.mint.Blockchain == 'ethereum') {
-      //minting if blockchain == ethereum
-     // this.loaderService.isLoading.next(true);
-     console.log("insideee----------------------------------")
       let metamask = new UserWallet();
       metamask = new MetamaskComponent(metamask);
       await metamask.initWallelt();
@@ -442,13 +434,10 @@ export class Mint2Component implements OnInit {
             const dialog = this.dialogService.pendingDialog({
               message: PendingDialogText.MINTING_IN_PROGRESS,
             });
-            console.log("tttttttttttttttttttttttttttttttttttttt")
             this.apiService
               .getEndorsement(this.mint.DistributorPK)
               .subscribe((result: any) => {
-                console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",result)
                 if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
-                  console.log("111111111111111111111")
                   this.dialogService
                     .confirmDialog({
                       title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -466,7 +455,6 @@ export class Mint2Component implements OnInit {
                       }
                     });
                 }else if(result.Status == 'Pending'){
-                  console.log("2222222222222222222222222222")
                   this.dialogService
                   .okDialog({
                     title: "Endorsement in Pending",
@@ -474,7 +462,6 @@ export class Mint2Component implements OnInit {
                     confirmText: ConfirmDialogText.CONFIRM_BTN,
                   })
                 } else {
-                  console.log("im here")
                   this.emint
                     .mintInEthereum(
                       this.mint.NFTIssuerPK,
@@ -541,7 +528,6 @@ export class Mint2Component implements OnInit {
                         })
                         .subscribe((res) => {
                           if (res) {
-                            //alert("You are not endorsed. Get endorsed now")
                             let arr:any=[this.mint.Blockchain,this.email]
                             this.router.navigate(['./signUp'], {
                               queryParams: { data: JSON.stringify(arr) },
@@ -562,7 +548,6 @@ export class Mint2Component implements OnInit {
                             this.mint.NFTTxnHash = res.transactionHash;
                             this.tokenId = parseInt(res.logs[0].topics[3]);
                             this.mint.NFTIdentifier = this.tokenId.toString();
-                            //this.apiService.updateSVGBlockchain(this.svgUpdate)
                             this.sendToMint3();
                             this.saveContractInGateway();
                             this.saveTXNs();
@@ -597,9 +582,6 @@ export class Mint2Component implements OnInit {
     this.contract.Tags = this.tags;
     this.contract.Identifier = this.mint.NFTIdentifier;
     this.service.addNFTGW(this.contract).subscribe((res) => {
-      // this.router.navigate(['./mint3'], {
-      //   queryParams: { data: JSON.stringify(this.mint.Blockchain) },
-      // });
       this.proceed.emit({
         blockchain: this.mint.Blockchain,
       });
@@ -639,7 +621,6 @@ export class Mint2Component implements OnInit {
       this.service
         .getMinter(this.minter.ImageBase64, this.minter.Blockchain)
         .subscribe((data: any) => {
-          console.log("----------------",data)
           if (data == null) {
             this.Minter();
           }
@@ -658,7 +639,6 @@ export class Mint2Component implements OnInit {
               data.NFTIdentifier
             )
             .then((res: any) => {
-              console.log("after transfer ",res)
               this.updateMinter();
             });
         });
@@ -720,7 +700,6 @@ export class Mint2Component implements OnInit {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
-                //this.mint.NFTName="";
               })
               .catch((error) => {
                 if (this.isLoadingPresent) {
@@ -744,24 +723,19 @@ export class Mint2Component implements OnInit {
   }
   ngOnInit(): void {}
   ngOnChanges(): void {
-    console.log('inside mint 2');
-    console.log('wallet and email is: ', this.wallet, this.email, this.key);
     if (this.wallet == 'metamask') {
-      console.log('---------metamaask------');
       this.polygon = false;
       this.stellar = true;
       this.ethereum = false;
       this.solana = true;
     }
     if (this.wallet == 'phantom') {
-      console.log('---------phantom------');
       this.polygon = true;
       this.stellar = true;
       this.ethereum = true;
       this.solana = false;
     }
     if (this.wallet == 'freighter') {
-      console.log('---------frighter------');
       this.polygon = true;
       this.stellar = false;
       this.ethereum = true;
@@ -833,8 +807,6 @@ export class Mint2Component implements OnInit {
     });
   }
 
-  ///////////////////////////////////////
-
   add(event: any): void {
     const value = (event.value || '').trim();
 
@@ -885,7 +857,6 @@ export class Mint2Component implements OnInit {
 
   public onChange(event: any) {
     this.file = event.target.files[0];
-    console.log(this.file.type);
     if (this.file.type.toLowerCase().includes('svg')) {
       this.type= this.file.type
       this.uploadImage(true);
@@ -905,7 +876,6 @@ export class Mint2Component implements OnInit {
   public uploadImage(isSvg: boolean) {
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
-    console.log('-------------:', this);
     reader.onload = this._handleReaderLoaded.bind(this);
     reader.readAsBinaryString(this.file);
   }
@@ -917,7 +887,6 @@ export class Mint2Component implements OnInit {
     this.base64 = this.base64.replace(unwantedText, '');
     let encoded: string = atob(this.base64);
     this.Encoded = encoded;
-    console.log('HTML svg: ', this.Encoded);
 
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
     this.updateHTML();
@@ -926,7 +895,6 @@ export class Mint2Component implements OnInit {
   private _handleReaderLoadedImage(readerEvt: any) {
     var binaryString = readerEvt.target.result;
     this.Encoded = binaryString;
-    console.log('Image svg: ', this.Encoded);
     this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
     this.updateHTML();
   }
@@ -938,45 +906,6 @@ export class Mint2Component implements OnInit {
     reader.onload = (_event) => {
       this.img = reader.result;
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.img);
-
-      //   svgToPng(this.Encoded, (imgData) => {
-      //     const pngImage = document.createElement('img');
-      //     document.body.appendChild(pngImage);
-      //     pngImage.src = imgData;
-      //   });
-
-      //   function svgToPng(svg, callback) {
-      //     const url = getSvgUrl(svg);
-      //     svgUrlToPng(url, (imgData) => {
-      //       callback(imgData);
-      //       URL.revokeObjectURL(url);
-      //     });
-      //   }
-
-      //   function getSvgUrl(svg) {
-      //     return URL.createObjectURL(new Blob([svg], {
-      //       type: 'image/svg+xml'
-      //     }));
-      //   }
-
-      //   function svgUrlToPng(svgUrl, callback) {
-      //     console.log("svg url: ",svgUrl)
-      //     const svgImage = document.createElement('img');
-      //     document.body.appendChild(svgImage);
-      //     svgImage.onload = () => {
-      //       const canvas = document.createElement('canvas');
-      //       canvas.width = svgImage.clientWidth;
-      //       canvas.height = svgImage.clientHeight;
-      //       const canvasCtx = canvas.getContext('2d');
-      //       canvasCtx!.drawImage(svgImage, 0, 0);
-      //       const imgData = canvas.toDataURL('image/png');
-      //       callback(imgData);
-      //       console.log("image: ",imgData)
-      //      // document.body.removeChild(imgPreview);
-      //     };
-      //     svgImage.src = svgUrl;
-      //     console.log("image svg: ", svgImage.src)
-      //   }
     };
   }
 
@@ -1002,7 +931,6 @@ export class Mint2Component implements OnInit {
   }
 
   public onThumbnailChange(event: any) {
-    console.log('---on change thumb---')
     this.thumbFile = event.target.files[0];
     if (this.thumbFile.type.toLowerCase().includes('png')||this.thumbFile.type.toLowerCase().includes('jpg')
       || this.thumbFile.type.toLowerCase().includes('jpeg')){
@@ -1016,14 +944,12 @@ export class Mint2Component implements OnInit {
   }
 
   public updateThumbnailHTML () {
-    console.log('---update thumb---')
     const reader = new FileReader();
     reader.readAsDataURL(this.thumbFile);
     reader.onload = (_event) => {
       this.thumbnail = reader.result;
       this.thumbSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.thumbnail);
     };
-    console.log("thumbnail to be sent: ",this.thumbnail)
   }
 
   //create base64 image
@@ -1074,7 +1000,6 @@ imageCropped(event: ImageCroppedEvent) {
     this.thumbSrc=this.croppedImage
     //this.updateThumbnailHTML()
     this.thumbnail=this.croppedImage
-    console.log("thumbnail to be sent: ",this.thumbnail)
 }
 hideCropper(){
   this.cropperStat=false

@@ -100,7 +100,6 @@ export class ContactUsComponent implements OnInit {
               message: PendingDialogText.CONTACT_US_SUBMITTING,
             });
             this.apiService.addUserFAQ(this.userFAQ).subscribe((res) => {
-              console.log('server response: ', res);
             });
             dialog.close();
             this.dialogService

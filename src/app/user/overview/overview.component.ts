@@ -79,7 +79,6 @@ export class OverviewComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
-      console.log("this blockchain: ",this.selectedBlockchain)
 
       this.router.navigate(['./user-dashboard'], {
         queryParams: { blockchain: this.selectedBlockchain },
@@ -128,7 +127,6 @@ export class OverviewComponent implements OnInit {
   }
 
   FilterByHotpicks(response:any){
-   console.log("hotpick arr: ",response)
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" || response.attachmenttype == "image/png"){
@@ -155,7 +153,6 @@ export class OverviewComponent implements OnInit {
     card.SellingStatus=response.sellingstatus
     card.CurrentOwnerPK=response.currentownerpk
       this.ListHotpicks.push(card)
-      console.log("listing hp: ",this.ListHotpicks)
       })
   }
 
@@ -193,9 +190,7 @@ export class OverviewComponent implements OnInit {
   FilterByMinted(response:any){
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
-        console.log("response attched: ",response.attachmenttype)
         if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" || response.attachmenttype == "image/png"){
-          console.log("--------------------------img",this.Decryption)
           this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
         }else{
           this.dec = btoa(this.Decryption);
@@ -257,9 +252,7 @@ export class OverviewComponent implements OnInit {
   FilterByTrending(response:any){
       this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
-        console.log("response attched: ",response.attachmenttype)
         if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" || response.attachmenttype == "image/png"){
-          console.log("--------------------------img",this.Decryption)
           this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
         }else{
           this.dec = btoa(this.Decryption);
@@ -288,7 +281,6 @@ export class OverviewComponent implements OnInit {
   }
 
   putToSaleafterMint(id:string){
-    console.log("image 64 hash : ",id)
     let data : any[] = ["Minted",id,this.selectedBlockchain]
     this.router.navigate(['./sell'],{
       queryParams:{data:JSON.stringify(data)}
@@ -296,7 +288,6 @@ export class OverviewComponent implements OnInit {
   }
 
   putToSaleafterBought(id:string){
-    console.log("image 64 hash : ",id)
     let data : any[] = ["NOTFORSALE",id,this.selectedBlockchain]
     this.router.navigate(['./sell'],{
       queryParams:{data:JSON.stringify(data)}

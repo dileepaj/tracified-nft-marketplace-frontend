@@ -43,7 +43,6 @@ export class FooterComponent implements OnInit {
 
   subscribeNow(){
     this.subscribe.mail = this.formValue('Mail');
-    console.log("mail :",this.subscribe.mail)
 this.service.addSubscription(this.subscribe).subscribe(res=>{
   this.snackbarService.openSnackBar("Request to subscribe sent")
 })

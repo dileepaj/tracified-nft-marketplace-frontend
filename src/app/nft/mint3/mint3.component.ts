@@ -35,14 +35,7 @@ export class Mint3Component implements OnInit {
   }
 
   ngOnChanges(): void {
-    //   this.route.queryParams.subscribe((params) => {
-    //     this.data = JSON.parse(params['data']);
-    //     console.log("data passed in mint3:",this.data)
-    //     this.pageRedirect()
-    // })
-    console.log('---------------------------------');
     this.data = this.blockchain;
-    console.log('data passed in mint3:', this.data);
   }
 
   ngOnInit(): void {}

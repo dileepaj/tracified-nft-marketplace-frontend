@@ -3,24 +3,27 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable,Subject} from "rxjs";
 import { Collection } from 'src/app/models/collection';
 import { Issuer, Ownership ,NFT,tags, Minter,StellarTXN,Contracts} from 'src/app/models/minting';
+import { APIConfigENV } from 'src/environments/environment.qa';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MintService {
-  baseUrlSave: string = 'http://localhost:6081/marketplace/save';
-  baseUrlSaveGW: string = 'http://localhost:9080/nft/mintcontract';
-  baseUrlOwner: string ='http://localhost:6081/marketplace/owner';
-  baseUrlTags:string='http://localhost:6081/tags/save';
-  baseUrlNftByTags:string='http://localhost:6081/tags/'
-  baseUrlGet: string = 'http://localhost:6081/collection/save';
-  baseUrlGetIssuer = 'http://localhost:9080/nft/issueaccount';
-  baseUrlMintStellar='http://localhost:9080/nft/mintStellar';
-  baseUrlMintSolana = 'http://localhost:9080/nft/mintSolana';
-  baseUrlMinter='http://localhost:9080/nft/minter';
-  baseUrlUpdate="http://localhost:6081/marketplace/nft";
-  baseUrlStellarUpdate="http://localhost:6081/marketplace/txn";
-  baseUrlGetStellarTXN='http://localhost:9080/nft/gettxn';
+  private readonly nftBackendBaseURL = APIConfigENV.nftbackendBaseURL
+  private readonly gateWayBaseURL = APIConfigENV.gatewayBaseURL
+  baseUrlSave: string = this.nftBackendBaseURL+'marketplace/save';
+  baseUrlSaveGW: string = this.gateWayBaseURL+'nft/mintcontract';
+  baseUrlOwner: string =this.nftBackendBaseURL+'marketplace/owner';
+  baseUrlTags:string=this.nftBackendBaseURL+'tags/save';
+  baseUrlNftByTags:string=this.nftBackendBaseURL+'tags/'
+  baseUrlGet: string = this.nftBackendBaseURL+'collection/save';
+  baseUrlGetIssuer = this.gateWayBaseURL+'nft/issueaccount';
+  baseUrlMintStellar=this.gateWayBaseURL+'nft/mintStellar';
+  baseUrlMintSolana = this.gateWayBaseURL+'nft/mintSolana';
+  baseUrlMinter=this.gateWayBaseURL+'nft/minter';
+  baseUrlUpdate=this.nftBackendBaseURL+"marketplace/nft";
+  baseUrlStellarUpdate=this.nftBackendBaseURL+"marketplace/txn";
+  baseUrlGetStellarTXN=this.gateWayBaseURL+'nft/gettxn';
   mint:NFT
   tag:tags
   reqOpts: any;

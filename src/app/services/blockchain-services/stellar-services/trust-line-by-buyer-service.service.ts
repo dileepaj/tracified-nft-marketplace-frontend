@@ -21,11 +21,9 @@ export class TrustLineByBuyerServiceService {
 
   constructor() { }
   trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string) {
-   // let royalty=(parseFloat(nftPrice)*(0.02)).toFixed(6).toString();
 let royalties=parseFloat(royalty)
 let sellingprice=parseFloat(nftPrice)
 let TotalPrice=(sellingprice-royalties).toString();
-console.log("Price to be given to seller and royalty is: ",TotalPrice,royalties)
 
     return new Promise((resolve, reject) => {
       //let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key

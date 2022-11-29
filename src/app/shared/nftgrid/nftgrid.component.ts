@@ -145,18 +145,14 @@ export class NftgridComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = params['data'];
-      console.log('this data: ', this.data);
       this.status = this.data[0];
       this.blockchain = this.data[1];
-      console.log('this data: ', this.blockchain, this.status);
       this.loading = true;
       this.retrive(this.blockchain).then((res) => {
-        console.log('this data: -----------------------------');
         this.service
           .getNFTByBlockchainandUser(this.blockchain, this.User)
           .subscribe(async (data) => {
             this.nfts = data;
-            console.log('data : ', this.nfts);
             if (this.nft == null) {
               this.ngOnInit();
               this.loading = false;
@@ -200,7 +196,6 @@ export class NftgridComponent implements OnInit {
   }
 
   Filter(response: any) {
-    console.log('hotpick arr: ', response);
     this.service.getSVGByHash(response.imagebase64).subscribe((res: any) => {
       this.Decryption = res.Response.Base64ImageSVG;
       if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" ||response.attachmenttype == "image/png"){
@@ -228,71 +223,6 @@ export class NftgridComponent implements OnInit {
       card.SellingStatus=response.sellingstatus;
     
       this.List.push(card);
-      console.log('listing hp: ', this.List);
     });
   }
-
-  //  FilterByONSALE(response:any){
-  //      this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
-  //        this.Decryption = res.Response.Base64ImageSVG
-  //        this.dec = btoa(this.Decryption);
-  //      var str2 = this.dec.toString();
-  //      var str1 = new String( "data:image/svg+xml;base64,");
-  //      var src = str1.concat(str2.toString());
-  //      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-  //     let card:Card= new Card('','','');
-  //    card.ImageBase64=this.imageSrc
-  //    card.NFTIdentifier=response.nftidentifier
-  //    card.NFTName=response.nftname
-  //      this.ListSales.push(card)
-  //      })
-  //  }
-
-  //  FilterByMinted(response:any){
-  //      this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
-  //        this.Decryption = res.Response.Base64ImageSVG
-  //        this.dec = btoa(this.Decryption);
-  //      var str2 = this.dec.toString();
-  //      var str1 = new String( "data:image/svg+xml;base64,");
-  //      var src = str1.concat(str2.toString());
-  //      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-  //     let card:Card= new Card('','','');
-  //    card.ImageBase64=this.imageSrc
-  //    card.NFTIdentifier=response.nftidentifier
-  //    card.NFTName=response.nftname
-  //      this.ListMinted.push(card)
-  //      })
-  //  }
-
-  //  FilterByBoughtNFT(response:any){
-  //      this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
-  //        this.Decryption = res.Response.Base64ImageSVG
-  //        this.dec = btoa(this.Decryption);
-  //      var str2 = this.dec.toString();
-  //      var str1 = new String( "data:image/svg+xml;base64,");
-  //      var src = str1.concat(str2.toString());
-  //      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-  //     let card:Card= new Card('','','');
-  //    card.ImageBase64=this.imageSrc
-  //    card.NFTIdentifier=response.nftidentifier
-  //    card.NFTName=response.nftname
-  //      this.ListBought.push(card)
-  //      })
-  //  }
-
-  //  FilterByTrending(response:any){
-  //      this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
-  //        this.Decryption = res.Response.Base64ImageSVG
-  //        this.dec = btoa(this.Decryption);
-  //      var str2 = this.dec.toString();
-  //      var str1 = new String( "data:image/svg+xml;base64,");
-  //      var src = str1.concat(str2.toString());
-  //      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-  //     let card:Card= new Card('','','');
-  //    card.ImageBase64=this.imageSrc
-  //    card.NFTIdentifier=response.nftidentifier
-  //    card.NFTName=response.nftname
-  //      this.ListTrends.push(card)
-  //      })
-  //  }
 }

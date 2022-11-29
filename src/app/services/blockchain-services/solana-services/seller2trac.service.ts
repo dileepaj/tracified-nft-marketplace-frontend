@@ -4,6 +4,7 @@
 import { Injectable } from '@angular/core';
 import { clusterApiUrl, Connection, Keypair ,PublicKey, Transaction} from  "@solana/web3.js";
 import { createTransferCheckedInstruction, getAssociatedTokenAddress } from  "@solana/spl-token";
+import { BlockchainConfig } from 'src/environments/environment.qa';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class Seller2tracService {
     ): Promise<Transaction>{
     return (async () => {
       // Connect to cluster
-      const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+      const network :any =BlockchainConfig.solananetwork;
+      const connection = new Connection(clusterApiUrl(network), "confirmed");
      
       let toKeypair = Keypair.fromSecretKey(to);
     

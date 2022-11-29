@@ -68,19 +68,10 @@ export class MintComponent implements OnInit {
     this.mint.NFTName = this.formValue('NFTName');
     this.mint.Description = this.formValue('Description');
     this.mint.svg = this.svg;
-  
-    //let data :any=this.mint;
-    // this.router.navigate(['./mint2'], {
-    //   queryParams: { data: JSON.stringify(this.mint) },
-    // });
   }
 
  
   ngOnInit(): void {
-    console.log("which scrennnnnnn--------------------")
-    // this.route.queryParams.subscribe((params) => {
-    //   this.collection.userId = JSON.parse(params['data']);
-    // });
    
     //validation of form data
     this.controlGroupMint = new FormGroup({
@@ -127,7 +118,6 @@ export class MintComponent implements OnInit {
   }
 
   public async selectWallet(wallet: string) {
-    console.log("wallet is",wallet)
     if(wallet=="metamask"){
       let metamaskwallet = new UserWallet();
       metamaskwallet = new MetamaskComponent(metamaskwallet);
@@ -135,11 +125,9 @@ export class MintComponent implements OnInit {
       var key=  metamaskwallet.getWalletaddress()
       this.blockchain="ethereum or polygon"
        if(key!=null){
-        console.log("data: ",this.email,wallet, key)
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
-          console.log("-------------------kkkk-------",result.Status,result)
           if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
             this.dialogService
               .confirmDialog({
@@ -150,7 +138,6 @@ export class MintComponent implements OnInit {
               })
               .subscribe((res) => {
                 if (res) {
-                  //alert("You are not endorsed. Get endorsed now")
                   let arr:any=[this.blockchain,this.email]
                   this.router.navigate(['./signUp'], {
                     queryParams: { data: JSON.stringify(arr) },
@@ -184,7 +171,6 @@ export class MintComponent implements OnInit {
           var key =await freighter.getWalletaddress()
           this.blockchain="stellar"
        if(key!=null){
-        console.log("data: ",this.email,wallet, key)
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
@@ -198,7 +184,6 @@ export class MintComponent implements OnInit {
               })
               .subscribe((res) => {
                 if (res) {
-                  //alert("You are not endorsed. Get endorsed now") 
                    let arr:any=[this.blockchain,this.email]
                   this.router.navigate(['./signUp'], {
                     queryParams: { data: JSON.stringify(arr) },
@@ -232,7 +217,6 @@ export class MintComponent implements OnInit {
      this.blockchain="solana"
      var key=await phantomWallet.getWalletaddress()
     if(key!=null){
-      console.log("data: ",this.email,wallet, key)
       this.apiService
       .getEndorsement(key)
       .subscribe((result: any) => {
@@ -246,7 +230,6 @@ export class MintComponent implements OnInit {
             })
             .subscribe((res) => {
               if (res) {
-                //alert("You are not endorsed. Get endorsed now")
                 let arr:any=[this.blockchain,this.email]
                 this.router.navigate(['./signUp'], {
                   queryParams: { data: JSON.stringify(arr) },

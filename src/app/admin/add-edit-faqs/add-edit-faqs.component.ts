@@ -38,14 +38,11 @@ export class AddEditFaqsComponent implements OnInit {
       this.userFAQAPI.getAttachmentbyqid(this.data.userquestionID).subscribe((res:any)=>{
         if(res.Response!=null || res.Response!="No Image"){
           this.imagepresent= true
-          console.log("Image: ",res)
           this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,'+res.Response)
         }
         if(res.Response=="No Image"){
-          console.log("helooo")
           this.imagepresent=false
         }
-        console.log("bool val :",this.imagepresent)
       })
       
     })
@@ -61,7 +58,6 @@ export class AddEditFaqsComponent implements OnInit {
     this.userFAQResponse.userquestionID = this.questionID
     this.userFAQResponse.status = "Closed"
     this.userFAQResponse.answer = this.formValue("answer")
-    console.log("response obtained: ",this.userFAQResponse)
     this.dialogService.confirmDialog({
       title:ConfirmDialogText.ADMIN_FAQ_SUBMISSION_TITLE,
       message:ConfirmDialogText.ADMIN_FAQ_SUBMISSION_Message,

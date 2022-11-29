@@ -162,15 +162,12 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //const timer$ = timer(0,APIConfigENV.homepageIntervalTimer)
-    //timer$.subscribe(data=>{
     this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
       this.List = [];
       this.List2=[];
       this.nfts = result;
       for (let x = 0; x < this.nfts.Response.length; x++) {
         if(this.nfts.Response[x].trending==true){
-          console.log("trendiing.............",this.nfts.Response[x])
           this.nft
           .getSVGByHash(this.nfts.Response[x].imagebase64)
           .subscribe((res: any) => {
@@ -253,8 +250,6 @@ export class HomeComponent implements OnInit {
     });
 
 
-    //})
-
 
     window.addEventListener('scroll', () => {
       this.backTopVisible = window.pageYOffset !== 0;
@@ -284,9 +279,4 @@ export class HomeComponent implements OnInit {
       queryParams: { data: 'Favourites' },
     });
   }
-
-  /* @HostListener('window:scroll', ['$event']) openConfirmation(e: any) {
-    const element = document.getElementsByClassName('home-section')!;
-    element[1].scrollIntoView({ behavior: 'smooth' });
-  } */
 }

@@ -106,7 +106,6 @@ export class HeaderComponent implements OnInit {
 
   public search() {
     const tag = this.formValue('Tag');
-    console.log('tags :', tag);
     if (tag !== '') {
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/shownft'], {

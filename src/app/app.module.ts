@@ -3,9 +3,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NewsletterComponent } from './resources/newsletter/newsletter.component';
-import { FaqsComponent } from './resources/faqs/faqs.component';
-import { DocsComponent } from './resources/docs/docs.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { ViewEditNewsletterComponent } from './admin/newsletterOp/view-edit-newsletter/view-edit-newsletter.component';
@@ -64,7 +61,6 @@ import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { MintPopupComponent } from './nft/mint-popup/mint-popup.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { PartnersComponent } from './admin/partnersOp/partners/partners.component';
-import { ViewPartnersComponent } from './resources/view-partners/view-partners.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { MatListModule } from '@angular/material/list';
 import { BrowseMarketplaceComponent } from './admin/browse-marketplace/browse-marketplace.component';
@@ -286,9 +282,6 @@ const appRoutes: Routes = [
     AppComponent,
     SellNftComponent,
     MintComponent,
-    NewsletterComponent,
-    FaqsComponent,
-    DocsComponent,
     SignUpComponent,
     WalletComponent,
     ViewEditNewsletterComponent,
@@ -319,12 +312,10 @@ const appRoutes: Routes = [
     CodeviewComponent,
     MintPopupComponent,
     PartnersComponent,
-    ViewPartnersComponent,
     LoginComponent,
     AdminDashboardComponent,
     BrowseMarketplaceComponent,
     EndorsementsComponent,
-    NewsletterComponent,
     AddNewsletterComponent,
     EditProfileComponent,
     OverviewComponent,

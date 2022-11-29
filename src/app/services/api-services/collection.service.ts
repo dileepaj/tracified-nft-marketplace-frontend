@@ -4,16 +4,18 @@ import {Observable} from "rxjs";
 import { Collection } from 'src/app/models/collection';
 import { NFT } from 'src/app/models/minting';
 import { Endorse } from 'src/app/models/endorse';
+import { APIConfigENV } from 'src/environments/environment.qa';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CollectionService {
-  baseUrlSave: string = 'http://localhost:6081/collection/save';
-  baseUrlGet: string = 'http://localhost:6081/collection/userpk';
-  baseUrlEndorsing: string = 'http://localhost:6081/endorsement';
-  baseUrlNFT:string= 'http://localhost:6081/nftcollection';
-  baseUrlCollection:string= 'http://localhost:6081/collection';
+  private readonly nftBackendBaseURL = APIConfigENV.nftbackendBaseURL
+  baseUrlSave: string = this.nftBackendBaseURL+'collection/save';
+  baseUrlGet: string = this.nftBackendBaseURL+'collection/userpk';
+  baseUrlEndorsing: string = this.nftBackendBaseURL+'endorsement';
+  baseUrlNFT:string= this.nftBackendBaseURL+'nftcollection';
+  baseUrlCollection:string= this.nftBackendBaseURL+'collection';
 
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');

@@ -65,8 +65,6 @@ export class EditProfileComponent implements OnInit {
     }else{
       this.endorse.profilepic = this.currentImage
     }
-    // this.profile.image = this.base64;
-    console.log("Data enterred is: ", this.endorse)
     this.service.updateEndorsement(this.endorse).subscribe(res => {
       this.snackbarSrevice.openSnackBar("Profile has been updated successfully")
       this.router.navigate(['./home']);

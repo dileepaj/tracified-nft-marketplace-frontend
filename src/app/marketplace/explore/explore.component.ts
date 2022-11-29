@@ -132,7 +132,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   routeToBuy(id:string){
-    console.log("this bc: ",this.selectedBlockchain)
     let data :any[]=[id,this.selectedBlockchain];
     this.router.navigate(['./buyNft'],{
     queryParams:{data:JSON.stringify(data)}
@@ -155,7 +154,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
    /*  const loadingAnimation = this.dialogService.pendingDialog({
       message:"Loading NFTs.."
     }) */
-    console.log("inside on init")
     const timer$ = timer(0,APIConfigENV.homepageIntervalTimer)
     timer$.subscribe(data=>{
       this.Trend.splice(0)
@@ -165,7 +163,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       this.Sale.splice(0)
        this.nftItems.splice(0)
       this.List.splice(0)
-  console.log("proceeding................")
       this.route.queryParams.subscribe((params) => {
         this.loading = true;
         this.selectedBlockchain = params['blockchain'];
@@ -181,7 +178,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
           this.currentPage=1;
           this.List.splice(0)
           this.intersectionObserver(this.selectedFilter);
-          console.log("bc data and filter: ",this.selectedBlockchain,this.selectedFilter)
           this.getAllNFTs(this.selectedFilter);
         }
        
@@ -197,11 +193,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   public async fillCard(filter:string){
     for( let x=0; x<(this.nftItems.length); x++){
    await this.nft.getSVGByHash(this.nftItems[x].imagebase64).subscribe(async(res:any)=>{
-        console.log("svg result is: ",res)
         this.Decryption = res.Response.Base64ImageSVG
-        console.log("imageee ",this.nftItems[x].attachmenttype,this.nftItems[x])
         if(this.nftItems[x].attachmenttype == "image/jpeg" || this.nftItems[x].attachmenttype == "image/jpg" || this.nftItems[x].attachmenttype == "image/png"){
-         console.log("-------------------------------------",this.imageSrc)
           this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
         }else{
           this.dec = btoa(this.Decryption);
@@ -229,17 +222,11 @@ export class ExploreComponent implements OnInit, AfterViewInit {
 
 
   public filterAndShowCard(arr:any[],filter:string){
-    console.log("list is: ",this.List)
-    console.log("array: ",arr)
-  
     for(let x=0; x<(arr.length);x++){
       this.thumbnailSRC=""
       this.nft.getSVGByHash(arr[x].imagebase64).subscribe(async(res:any)=>{
-      console.log("svg result is: ",res)
         this.Decryption = res.Response.Base64ImageSVG
-        console.log("imageee ",arr[x].attachmenttype)
         if(arr[x].attachmenttype == "image/jpeg" || arr[x].attachmenttype == "image/jpg" || arr[x].attachmenttype == "image/png"){
-          console.log("-------------------------------------",this.imageSrc)
           this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
         }else{
           this.dec = btoa(this.Decryption);
@@ -265,11 +252,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     card.CurrentOwnerPK=arr[x].currentownerpk
     card.Hotpicks=arr[x].hotpicks
     card.Trending=arr[x].trending
-    console.log("current owner and filter: ",arr[x].currentownerpk, filter)
    
     this.List.push(card)
-    console.log("list deets : ",this.List)
-  
       })
     }
  
@@ -286,7 +270,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.UpToDate.splice(0)
     this.Creators.splice(0)
     this.Sale.splice(0)
-    console.log("in filter picked bc and filter: ",this.selectedBlockchain,filter)
     this.router.navigate(['/explore'], {
       queryParams: { blockchain: this.selectedBlockchain, filter },
     });
@@ -304,15 +287,12 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         this.nextPageLoading = true;
       }
       this.Sale.splice(0);
-      console.log("current page: ",this.currentPage)
       this.nft.getNFTpaginatedOnSALE(this.selectedBlockchain,this.currentPage,'ON SALE').subscribe(async(data:any) => {
-        console.log("sales data: ",data)
         if(data.Response.content!=null){
         this.sales = data
       
       for(let a=0; a<this.sales.Response.content.length; a++){
         this.Sale.push(this.sales.Response.content[a]);  
-        console.log("this sale list: ",this.Sale)
         if(this.List.length>0  && this.currentPage==1){
           window.location.reload();
         }
@@ -332,17 +312,14 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         this.nextPageLoading = true;
       }
       this.nft.getNFTpaginatedTrendsHotpicks(this.selectedBlockchain,this.currentPage,'hotpicks').subscribe(async(data:any) => {
-        console.log("hotpicks data: ",data)
         if(data.Response.content!=null){
         this.hotpicks = data
-        console.log("this.List inside hotpicks ,",this.List)
         if(this.List.length>0  && this.currentPage==1){
           window.location.reload();
         }
         
         for(let a=0; a<this.hotpicks.Response.content.length; a++){
           this.HotPick.push(this.hotpicks.Response.content[a]);  
-          console.log("this hotpick list: ",this.HotPick)
         }
         this.nextPageLoading = false;
         this.nftItems.splice(0)
@@ -359,12 +336,10 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         this.nextPageLoading = true;
       }
       this.nft.getNFTpaginatedTrendsHotpicks(this.selectedBlockchain,this.currentPage,'trending').subscribe(async(data:any) => {
-        console.log("trends data: ",data)
         if(data.Response.content!=null){
         this.trends = data
         for(let a=0; a<this.trends.Response.content.length; a++){
           this.Trend.push(this.trends.Response.content[a]);  
-          console.log("this trends list: ",this.Trend)
           if(this.List.length>0  && this.currentPage==1){
             window.location.reload();
           }
@@ -383,15 +358,12 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       if(!this.loading) {
         this.nextPageLoading = true;
       }
-      console.log("current page: ",this.currentPage)
       this.nft.getNFTpaginated(this.selectedBlockchain, this.currentPage).subscribe(async(data:any) => {
-        console.log("uptodate data: ",data)
         if(data.Response.content!=null){
         this.uptodates = data
       
      for(let a=0; a<this.uptodates.Response.content.length; a++){
         this.UpToDate.push(this.uptodates.Response.content[a]);  
-        console.log("this update list: ",this.UpToDate)
         if(this.List.length>0 && this.currentPage==1 ){
           window.location.reload();
         }
@@ -411,13 +383,11 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         this.nextPageLoading = true;
       }
       this.nft.getBestCreators(this.currentPage, this.selectedBlockchain).subscribe(async(data:any)=>{
-        console.log("creators data: ",data)
         if(data.Response.content!=null){
           this.creators = data
           this.Creators.splice(0)
           for(let a=0; a<this.creators.Response.content.length; a++){
              this.Creators.push(this.creators.Response.content[a]);  
-             console.log("this update list: ",this.Creators)
              if(this.List.length>0 && this.currentPage==1){
               window.location.reload();
             }
@@ -433,41 +403,23 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   public getAllNFTs(filter) {
-   // window.location.reload();
     this.nftItems.splice(0)
-    console.log("hwere did this come from------------------")
     if(!this.loading) {
       this.nextPageLoading = true;
     }
-    //this.List.splice(0)
-   // this.nftItems.splice(0);
-    console.log("blockchain is: ",this.selectedBlockchain)
     this.nft.getNFTpaginated(this.selectedBlockchain, this.currentPage).subscribe(async(data:any) => {
-      console.log("----------------paginated data", data)
       if(data.Response.content==null){
-        console.log("result is null")
-         //this.nftItems.splice(0)
-        // this.getAllNFTs()
         window.location.reload();
       }else{
-        console.log("result is there")
           this.nfts = data;
-          // if(this.filterChanged) {
-          //   this.nftItems = [];
-          //   this.filterChanged = false;
-          // }
           this.nftItems.splice(0)
            for(let a=0; a<this.nfts.Response.content.length; a++){
-            // if(this.selectedFilter === 'all') {
               if(this.nfts.Response.content[a].sellingstatus === 'Minted' || this.nfts.Response.content[a].sellingstatus === 'ON SALE' || this.nfts.Response.content[a].sellingstatus === 'NOTFORSALE') {
-                console.log("minted nft: ",this.nfts.Response.content[a])
                 this.nftItems.push(this.nfts.Response.content[a]);
               }
-             //}
 
 
           }
-           console.log("this nft items:", this.nftItems)
           this.nextPageLoading = false;
                 this.filterAndShowCard(this.nftItems,filter);
         }
@@ -541,19 +493,4 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.isNftItem = true;
     document.getElementById(element)?.classList.add('overlay-hide');
   }
-
-  /* @HostListener('document:click')
-  clickedOut() {
-    if(this.isNftItem) {
-      this.isNftItem = false;
-    }
-    else {
-      const arr = document.getElementsByClassName('nft-img-overlay');
-      for(let i = 0; i < arr.length; i++) {
-        arr[i].classList.remove('overlay-hide');
-      }
-    }
-  } */
-
-
 }

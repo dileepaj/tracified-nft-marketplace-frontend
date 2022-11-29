@@ -149,7 +149,6 @@ export class ShowNFTComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = params['data'];
-      console.log('DATA recived: ', this.data);
     });
 
     if (this.data != null) {
@@ -157,10 +156,8 @@ export class ShowNFTComponent implements OnInit {
       if (this.data == 'Favourites') {
         this.service.getNFTOnSale('ON SALE').subscribe((result: any) => {
           this.nfts = result.Response;
-          console.log('data: ', this.nfts);
           for (let x = 0; x < this.nfts.length; x++) {
             if (this.nfts[x].trending == true) {
-              console.log('data: -------------');
               this.service
                 .getSVGByHash(this.nfts[x].imagebase64)
                 .subscribe((res: any) => {
@@ -191,7 +188,6 @@ export class ShowNFTComponent implements OnInit {
                   card.CurrentOwnerPK=this.nfts[x].currentownerpk;
                   card.SellingStatus=this.nfts[x].sellingstatus;
                   this.List.push(card);
-                  console.log('list ', this.List);
                   this.loading = false;
                 });
             }
@@ -200,7 +196,6 @@ export class ShowNFTComponent implements OnInit {
       }else  if(this.data=='hotpicks'){
         this.service.getNFTOnSale('ON SALE').subscribe((result: any) => {
           this.nfts = result.Response;
-          console.log('data: ', this.nfts);
           for (let x = 0; x < this.nfts.length; x++) {
             if (this.nfts[x].hotpicks == true) {
               this.service
@@ -233,7 +228,6 @@ export class ShowNFTComponent implements OnInit {
                   card.CurrentOwnerPK=this.nfts[x].currentownerpk;
                   card.SellingStatus=this.nfts[x].sellingstatus;
                   this.List.push(card);
-                  console.log('list ', this.List);
                   this.loading = false;
                 });
             }
@@ -243,10 +237,8 @@ export class ShowNFTComponent implements OnInit {
       this.mint
         .getNFTByTag(this.data)
         .subscribe((res: any) => {
-          console.log("data: ",res)
           this.NFTList = res
           if (this.NFTList == null) {
-            console.log('retrying...');
             this.loading = false;
             this.ngOnInit();
           }
@@ -282,7 +274,6 @@ export class ShowNFTComponent implements OnInit {
                   card.CurrentOwnerPK=this.NFTList.Response[x].currentownerpk;
                   card.SellingStatus=this.NFTList.Response[x].sellingstatus;
                   this.List.push(card);
-                  console.log('list ', this.List);
                   this.loading = false;
                 });
             } else {

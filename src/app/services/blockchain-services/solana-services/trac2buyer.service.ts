@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { clusterApiUrl, Connection, Keypair ,PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL} from  "@solana/web3.js";
+import { BlockchainConfig } from 'src/environments/environment.qa';
 
 
 @Injectable({
@@ -21,7 +22,8 @@ export class Trac2buyerService {
     prevownerpk:string): Promise<Transaction>{
     return (async () => {
       // Connect to cluster
-      const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+      const network :any =BlockchainConfig.solananetwork;
+      const connection = new Connection(clusterApiUrl(network), "confirmed");
      
       let fromKeypair = Keypair.fromSecretKey(from);
       let totalprice = (price-royalty)* 1000000000

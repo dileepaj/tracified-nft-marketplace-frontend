@@ -40,8 +40,6 @@ export class NftCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.itemId)
-    console.log("nft card data: ",this.item,this.blockchain)
     if(this.sellingstatus=='Minted'){
       this.tip="PUT ON SALE"
     }else if(this.sellingstatus=='ON SALE'){
@@ -131,7 +129,6 @@ export class NftCardComponent implements OnInit {
   viewNFT(){
 
     this.api.getEndorsement(this.creatoruserid).subscribe((res:any)=>{
-      console.log("result is: ",res)
       const dialogRef = this.dialog.open(CreatorViewComponent, {
         data: {
           Name: res.Name,
@@ -147,9 +144,8 @@ export class NftCardComponent implements OnInit {
    * @param id - NFT Identifier
    */
   public routeToBuy(id : string) : void {
-console.log("current owner ",this.currentownerpk)
     if(this.sellingstatus=="Minted"){
-      this.retrive(this.blockchain).then(res=>{   console.log("user and co: ",this.user, this.currentownerpk)
+      this.retrive(this.blockchain).then(res=>{
       if(this.user==this.currentownerpk){
         this.command=false
         let data : any[] = ["Minted",id,this.blockchain]
@@ -162,7 +158,6 @@ console.log("current owner ",this.currentownerpk)
       }})
     }else if(this.sellingstatus=="ON SALE"){
       this.command=false
-      console.log("this is bc in nftcomponent ",this.blockchain)
       let data :any[]=[id,this.blockchain];
       this.router.navigate(['./buyNft'],{
       queryParams:{data:JSON.stringify(data)}

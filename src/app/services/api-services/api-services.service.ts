@@ -7,28 +7,29 @@ import { Endorse, UpdateEndorse, UpdateStatus } from 'src/app/models/endorse';
 import { Partners, UpdatePartners } from 'src/app/models/admin';
 import { NFTStory, Reviews } from 'src/app/models/nft';
 import { Subscription } from 'src/app/models/mail';
-
+import { APIConfigENV } from 'src/environments/environment.qa';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiServicesService {
-  baseUrlSaveSvg: string = 'http://localhost:6081/svg/save';
-  baseUrlSaveTxn: string = 'http://localhost:6081/txn/save';
-  baseUrlUpdateSVGBC:string='http://localhost:6081/svg';
-  baseUrlSaveFavs:string='http://localhost:6081/favourites/save';
-  baseUrlSaveWatchlist:string='http://localhost:6081/watchlists/save';
-  baseUrlGetFavs:string='http://localhost:6081/favourites';
-  baseUrlFindFavs:string='http://localhost:6081/favourite';
-  baseUrlGetWatchlist:string='http://localhost:6081/watchlists';
-  baseUrlGetWatched:string='http://localhost:6081/watched';
-  baseUrlEndorse:string='http://localhost:6081/endorser/save';
-  baseUrlEndorsement='http://localhost:6081/endorsement/status';
-  baseUrlUpdateEndorse='http://localhost:6081/endorsement';
-  baseUrlPartner='http://localhost:6081/partner/'
-  baseUrlSaveReview='http://localhost:6081/review/';
-  baseUrlFilterReview='http://localhost:6081/review/filterby';
-  baseUrlSaveStory='http://localhost:6081/story/';
-  baseUrlSubscribe ='http://localhost:6081/subscribe/';
+  private readonly nftBackendBaseURL = APIConfigENV.nftbackendBaseURL
+  baseUrlSaveSvg: string = this.nftBackendBaseURL+'svg/save';
+  baseUrlSaveTxn: string = this.nftBackendBaseURL+'txn/save';
+  baseUrlUpdateSVGBC:string=this.nftBackendBaseURL+'svg';
+  baseUrlSaveFavs:string=this.nftBackendBaseURL+'favourites/save';
+  baseUrlSaveWatchlist:string=this.nftBackendBaseURL+'watchlists/save';
+  baseUrlGetFavs:string=this.nftBackendBaseURL+'favourites';
+  baseUrlFindFavs:string=this.nftBackendBaseURL+'favourite';
+  baseUrlGetWatchlist:string=this.nftBackendBaseURL+'watchlists';
+  baseUrlGetWatched:string=this.nftBackendBaseURL+'watched';
+  baseUrlEndorse:string=this.nftBackendBaseURL+'endorser/save';
+  baseUrlEndorsement=this.nftBackendBaseURL+'endorsement/status';
+  baseUrlUpdateEndorse=this.nftBackendBaseURL+'endorsement';
+  baseUrlPartner=this.nftBackendBaseURL+'partner/'
+  baseUrlSaveReview=this.nftBackendBaseURL+'review/';
+  baseUrlFilterReview=this.nftBackendBaseURL+'review/filterby';
+  baseUrlSaveStory=this.nftBackendBaseURL+'story/';
+  baseUrlSubscribe =this.nftBackendBaseURL+'subscribe/';
 
   pageSize : number = 10;
 
@@ -150,17 +151,14 @@ export class ApiServicesService {
     }
 
     addReviews(st: Reviews): Observable<Reviews> {
-      console.log("reviews servie: ",st)
       return this.http.post<Reviews>(this.baseUrlSaveReview, st, {headers: this.headers});
     }
 
     getReviewsByFilter(filter:string,page:number,id:string):Observable<Reviews[]> {
-      console.log("inside pagination review")
       return this.http.get<Reviews[]>(`${this.baseUrlFilterReview}/${filter}/${id}/${this.pageSize}/${page}`);
     }
 
     getAllReviewsByNFTId(id:string):Observable<Reviews[]> {
-      console.log("inside service review")
       return this.http.get<Reviews[]>(`${this.baseUrlSaveReview}/${id}`);
     }
 

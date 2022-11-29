@@ -26,6 +26,7 @@ import {
   PendingDialogText,
   SnackBarText,
 } from 'src/app/models/confirmDialog';
+import { BlockchainConfig } from 'src/environments/environment.qa';
 
 @Component({
   selector: 'app-sell-nft',
@@ -95,7 +96,7 @@ export class SellNftComponent implements OnInit {
   private htmStr: string;
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
   maincontent: any;
-
+  readonly network :any =BlockchainConfig.solananetwork;
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -117,10 +118,8 @@ export class SellNftComponent implements OnInit {
   calculatePrice(): void {
     this.royalty = parseFloat(this.formValue('Royalty'));
     this.firstPrice = parseFloat(this.formValue('Price'));
-    console.log('Price and Royalty is : ', this.royalty, this.firstPrice);
     this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
     this.sellingPrice = this.firstPrice + this.royaltyCharge;
-    console.log('Calculation done: ', this.sellingPrice, this.royaltyCharge);
   }
 
   public openDialog() {
@@ -147,7 +146,6 @@ export class SellNftComponent implements OnInit {
     this.saleBE.Timestamp = '2022-4-20:17:28';
     this.saleBE.CurrentOwnerPK = this.NFTList.currentownerpk;
     this.saleBE.Royalty = this.royaltyCharge.toString();
-    console.log('--------------: ', this.saleBE);
     this.service.updateNFTStatusBackend(this.saleBE).subscribe();
   }
 
@@ -224,24 +222,13 @@ export class SellNftComponent implements OnInit {
         });
     }
     if (this.NFTList.blockchain == 'solana') {
-      console.log('Solana going on sale');
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.SellingType = 'NFT';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.calculatePrice();
-      // if (this.NFTList.sellingstatus == 'Minted') {
-      //   this.selltxn = this.NFTList.nfttxnhash;
-      //   this.addDBBackend();
-      //   this.addDBGateway();
-      //   this.snackbarService.openSnackBar(
-      //     'NFT has successfully been put on sale'
-      //   );
-      //   this.showInProfile()
-      // } else {
-        console.log('mint ', this.NFTList.nftissuerpk);
         const connection = new Connection(
-          clusterApiUrl('devnet'),
+          clusterApiUrl(this.network),
           'confirmed'
         );
         let phantomWallet = new UserWallet();
@@ -333,9 +320,7 @@ export class SellNftComponent implements OnInit {
                 this.showInProfile();
               });
             }else{
-              console.log("bfore approval")
               this.pmint.approveContract(this.tokenid).then((res:any)=>{
-                console.log("transaction result is: ",res)
                 this.pmarket
                 .createSaleOffer(
                   environment.contractAddressNFTPolygon,
@@ -366,7 +351,6 @@ export class SellNftComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.tokenid = parseInt(this.NFTList.nftidentifier);
-      console.log('STARTING ETH SELL');
       this.dialogService
         .confirmDialog({
           title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
@@ -401,9 +385,7 @@ export class SellNftComponent implements OnInit {
                 this.showInProfile();
               });
             }else{
-              console.log("bfore approval")
               this.emint.approveContract(this.tokenid).then((res:any)=>{
-                console.log("transaction is approved: ",res)
                 this.emarket
                 .createSaleOffer(
                   environment.contractAddressNFTEthereum,
@@ -452,7 +434,6 @@ export class SellNftComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
-      console.log('DATA recived: ', this.data);
       this.setCurrency();
     });
     this.isLoading = true;
@@ -461,10 +442,8 @@ export class SellNftComponent implements OnInit {
         // 1:nft identifer , 2:blockchain, 0:selling status
         .getNFTDetails(this.data[1], this.data[0], this.data[2])
         .subscribe((data: any) => {
-          console.log('data: ', data);
           this.NFTList = data.Response[0];
           if (this.NFTList == null) {
-            console.log('retrying...');
             this.ngOnInit();
           }
           if (this.data[0] == 'Minted') {
@@ -498,11 +477,6 @@ export class SellNftComponent implements OnInit {
                 this.favorites = 0;
               }
             });
-          console.log(
-            'MAIN DATA :',
-            this.NFTList.nftidentifier,
-            this.NFTList.blockchain
-          );
           this.apiService
             .getAllStoryByNFTIdAndBlockchain(
               this.NFTList.nftidentifier,
@@ -512,7 +486,6 @@ export class SellNftComponent implements OnInit {
               if (!!data) {
                 this.htmStr = atob(data.Response[0].NFTStory);
                 const content = this.htmStr;
-                console.log('HTML STRING: ', this.htmStr);
                 let style = `<style>table, td, th {border: 1px solid white;}table {border-collapse: collapse;}
                 ::-webkit-scrollbar {
                   width: 5px;
@@ -536,7 +509,6 @@ export class SellNftComponent implements OnInit {
                 let htmlclose: string = '</body></html>';
                 let html: string =
                   htmlHead + link + style + htmlopen + content + htmlclose;
-                console.log('HTML OUT PUT :', html);
                 this.html = html;
                 this.populateIframe(this.iframe.nativeElement, html);
               }
@@ -558,11 +530,8 @@ export class SellNftComponent implements OnInit {
           this.service
             .getSVGByHash(this.NFTList.imagebase64)
             .subscribe((res: any) => {
-              console.log('service res:', this.NFTList);
               this.Decryption = res.Response.Base64ImageSVG;
-              console.log('decrypted sg:', this.Decryption);
               if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" ||this.NFTList.attachmenttype == "image/png"){
-                console.log("its an image",this.Decryption)
                 if(this.NFTList.thumbnail==""){
                   this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
                   this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())     
@@ -593,7 +562,6 @@ export class SellNftComponent implements OnInit {
               this.NFTList.blockchain
             )
             .subscribe((txn: any) => {
-              console.log('TXNS :', txn);
               for (let x = 0; x < txn.Response.length; x++) {
                 let card: Track = new Track('', '', '');
                 card.NFTName = txn.Response[x].NFTName;
@@ -655,20 +623,12 @@ export class SellNftComponent implements OnInit {
     }, 100);
   }
   createStory() {
-    console.log('Data list:', this.NFTList);
-    console.log(
-      'Data passed to create story:',
-      this.NFTList.nftidentifier,
-      this.NFTList.blockchain
-    );
     let data: any[] = [this.NFTList.nftidentifier, this.NFTList.blockchain];
     this.router.navigate(['./createblog'], {
       queryParams: { data: JSON.stringify(data) },
     });
   }
   public populateIframe(iframe: any, data: string) {
-    console.log('CALL STARTED');
-
     iframe.contentWindow.document.open();
     iframe.contentWindow.document.write(data);
     iframe.contentWindow.document.close();

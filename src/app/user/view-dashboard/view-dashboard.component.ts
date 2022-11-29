@@ -56,7 +56,7 @@ export class ViewDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
-      console.log("this blockchain: ",this.selectedBlockchain)})
+})
     this.retrive(this.selectedBlockchain);
     this.setGreeting();
     if (window.innerWidth < 1280) {
@@ -107,7 +107,6 @@ export class ViewDashboardComponent implements OnInit {
         }else{
           this.imagePath = "../../../assets/images/default_profile.png"
         }
-        console.log("data is: ",res)
         this.Name=res.Name
       })
 
@@ -124,7 +123,6 @@ export class ViewDashboardComponent implements OnInit {
         }else{
           this.imagePath = "../../../assets/images/default_profile.png"
         }
-        console.log("data is: ",res)
         this.Name=res.Name
       })
 
@@ -145,7 +143,6 @@ export class ViewDashboardComponent implements OnInit {
         }else{
           this.imagePath = "../../../assets/images/default_profile.png"
         }
-        console.log("data is: ",res)
         this.Name=res.Name
       })
     }
@@ -170,7 +167,6 @@ export class ViewDashboardComponent implements OnInit {
   }
 
   myCollections(id:any){
-    console.log("Id: ",id)
     this.router.navigate(['./user-dashboard/mycollections'],{
       queryParams:{data:id,blockchain:this.selectedBlockchain}
       })
@@ -183,7 +179,6 @@ export class ViewDashboardComponent implements OnInit {
     }
   }
   backtoHome(){
-    console.log("selected BC:",this.selectedBlockchain)
     this.router.navigate(['/user-dashboard/overview'], {
       queryParams: { blockchain: this.selectedBlockchain },
     });

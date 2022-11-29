@@ -82,8 +82,6 @@ export class CreateCollectionComponent implements OnInit {
   ngOnInit(): void {
     this.mail=this.data.email
     this.key=this.data.key
-    console.log("mail is: ",this.mail)
-    //validating form data
     this.controlGroup = new FormGroup({
       userId: new FormControl(this.collection.userId, Validators.required),
       collectionName: new FormControl(

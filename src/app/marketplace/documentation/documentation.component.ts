@@ -11,7 +11,6 @@ export class DocumentationComponent implements OnInit {
   smallScreen: boolean = true;
   constructor() { }
   desc: any
-  // ../../../assets/images/blockchain-icons/stellar.PNG
   List: any[] = [
     {
       topic: "What is a Blockchian",
@@ -224,7 +223,6 @@ export class DocumentationComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    console.log("List :", this.List)
     if (window.innerWidth < 960) {
       this.showTopics = false;
       this.smallScreen = true;
@@ -235,10 +233,8 @@ export class DocumentationComponent implements OnInit {
   }
 
   selectDoc(topic: string) {
-    console.log("----------------------")
     for (let x = 0; x < this.List.length; x++) {
       if (this.List[x].topic == topic) {
-        console.log("the Desc :", this.List[x].desc)
         this.desc = this.List[x].desc
         this.topic = this.List[x].topic
         if (this.smallScreen) {

@@ -43,10 +43,8 @@ export class BlogViewerComponent implements OnInit {
   }
 
   selectBlog(topic: string) {
-    console.log('----------------------', this.List.length);
     for (let x = 0; x < this.List.length; x++) {
       if (this.List[x].topic == topic) {
-        console.log('the Desc :', this.List[x].desc);
         this.description = this.List[x].desc;
         this.topics = this.List[x].topic;
         this.thumbnail = this.List[x].thumbnail;

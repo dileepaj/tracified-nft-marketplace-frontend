@@ -48,7 +48,6 @@ export class PolygonMarketServiceService {
   }
 
   public async BuyNFT(nftContract: string,itemId:number,price:string,royalty:string,seller:string): Promise<any> {
-    console.log("hereeeeeeeeeeeeeeeeeee: ",price,royalty)
     let metamaskWallet = new UserWallet();
     metamaskWallet = new MetamaskComponent(metamaskWallet);
     const tx=metamaskWallet.buynft('polygon', nftContract, itemId, price, '0.25',royalty,seller);

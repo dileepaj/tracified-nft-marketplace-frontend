@@ -20,22 +20,6 @@ export class BrowseMarketplaceComponent implements OnInit {
   public showFaqLoader : boolean = false;
   public notifications
 
-  // notifications: any[] = [
-  //   {
-  //     type: 'endorsement',
-  //   },
-  //   {
-  //     type: 'chat',
-  //     from: 'John Doe',
-  //     topic: 'how does one mint nft with solana?',
-  //   },
-  //   {
-  //     type: 'chat',
-  //     from: 'John Doe',
-  //     topic: 'how does one mint nft with solana?how does one mint nft with solana?how does one mint nft with solana?how does one mint nft with solana?how does one mint nft with solana?',
-  //   },
-  // ];
-
   constructor(private router:Router,private service:ApiServicesService,private userFAQAPI:UserFAQService,public loaderService: LoaderService,private dialogService: DialogService) {}
 
 
@@ -45,7 +29,6 @@ export class BrowseMarketplaceComponent implements OnInit {
     })
   }
   public sendFAQData(item:any){
-    console.log("data to be sent : ",item)
     this.router.navigate(['/admin-dashboard/AnswerUserFAQ'],{
       queryParams:{data:JSON.stringify(item)}
     })
@@ -55,20 +38,10 @@ export class BrowseMarketplaceComponent implements OnInit {
     this.showFaqLoader = true;
     this.loaderService.isLoading.next(false)
     let status="Pending"
-    //function will return all the endorsments in bending status
-    // this.service.getEndorsementByStatus(status).subscribe((data:any)=>{
-    //   this.pendingEndorsments=data.Response;
-    // });
 
-    // this.userFAQAPI.getPendingQuestions().subscribe((pendingQuestions:any)=>{
-    //   console.log("Pendong quesitons:",pendingQuestions)
-    //   this.notifications=pendingQuestions.Response;
-    // })
-    //const dialog = this.dialogService.pendingDialog({message:'loading Contents...'})
-    const timer$ = timer(APIConfigENV.APIStartDelay,APIConfigENV.APIIntervalTimer);
+      const timer$ = timer(APIConfigENV.APIStartDelay,APIConfigENV.APIIntervalTimer);
     timer$.subscribe((data)=>{
        this.loaderService.isLoading.next(false)
-        //function will return all the endorsments in bending status
         this.service.getEndorsementByStatus(status).subscribe((data:any)=>{
           this.pendingEndorsments=data.Response;
         });
@@ -76,11 +49,9 @@ export class BrowseMarketplaceComponent implements OnInit {
         this.showEndorsementLoader = false;
 
         this.userFAQAPI.getPendingQuestions().subscribe((pendingQuestions:any)=>{
-          console.log("Pendong quesitons:",pendingQuestions);
           this.showFaqLoader = false;
           this.notifications=pendingQuestions.Response;
         })
-        //dialog.close()
     })
 
   }

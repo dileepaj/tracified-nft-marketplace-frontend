@@ -70,7 +70,6 @@ export class ViewNftCardComponent implements OnInit {
 
   showInProfile(){
     let data: any = this.NFTList.NftIssuingBlockchain;
-    console.log("bc ",this.NFTList.NftIssuingBlockchain)
     this.router.navigate(['/user-dashboard'], {
       queryParams: { blockchain: this.NFTList.NftIssuingBlockchain },
     });
@@ -78,23 +77,18 @@ export class ViewNftCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
-      this.data=JSON.parse(params['data']);
-      console.log("DATA recived: ",this.data)})
+      this.data=JSON.parse(params['data']);})
     this.nft.InitialDistributorPK =this.data;
     if (this.nft.InitialDistributorPK != null) {
       this.service
         .getLastNFTDetails(this.nft.InitialDistributorPK)
         .subscribe((data: any) => {
-          console.log("data: ",data)
           this.NFTList = data;
           if (this.NFTList == null) {
-            console.log('retrying...');
             this.ngOnInit();
           }
           this.svg.Hash = this.NFTList.ImageBase64;
-          console.log('svg : ', this.svg.Hash);
           this.service.getSVGByHash(this.svg.Hash).subscribe((res: any) => {
-            console.log('service res:', res);
             this.Decryption = res.Response.Base64ImageSVG;
             if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" ||this.NFTList.attachmenttype == "image/png"){
               this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
@@ -106,7 +100,6 @@ export class ViewNftCardComponent implements OnInit {
           this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
             }
             this.service.getTXNByBlockchainandIdentifier(this.NFTList.Identifier,this.NFTList.NftIssuingBlockchain).subscribe((txn:any)=>{
-              console.log("TXNS :",txn)
               for( let x=0; x<(txn.Response.length); x++){
                 let card:Track= new Track('','','');
                 card.NFTName=txn.Response[x].NFTName
@@ -116,19 +109,6 @@ export class ViewNftCardComponent implements OnInit {
               }
             })
           });
-
-          // if (this.NFTList.NftIssuingBlockchain == 'stellar') {
-          //   this.NFTList.NFTIssuerPK = this.NFTList.NFTIssuerPK;
-          // }
-          // if (this.NFTList.Blockchain == 'solana') {
-          //   this.NFTList.NFTIssuerPK = this.NFTList.;
-          // }
-          // if (this.NFTList.Blockchain == 'polygon') {
-          //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-          // }
-          // if (this.NFTList.Blockchain == 'ethereum') {
-          //   this.NFTList.NFTIssuerPK = this.NFTList.MintedContract;
-          // }
         });
     } else {
       console.log('User PK not connected or not endorsed');

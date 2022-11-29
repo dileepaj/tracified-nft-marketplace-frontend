@@ -53,8 +53,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     listingPrice: string
   ): Promise<any> {
     if (blockchain == 'ethereum') {
-      console.log("gatewayyyy: ",price)
-      console.log("gatewayyyy -----------: ", ethers.utils.parseEther(price.toString()))
       const contract = await EthereumMarketServiceService.getContract(true);
       const transaction = await contract['sellNFT'](
         nftcontract,
@@ -89,8 +87,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     seller:string
   ): Promise<any> {
     if (blockchain == 'ethereum') {
-      console.log("gatewayyyyy; ",price)
-      console.log("gatewayyyyy buyyyy; ", ethers.utils.parseEther(royalty.toString()))
       const contract = await EthereumMarketServiceService.getContract(true);
       const val = price.toString();
       const transaction = await contract['createMarketSale'](
@@ -103,10 +99,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       const tx = await transaction.wait();
       return tx;
     } else if (blockchain == 'polygon') {
-      console.log("gatewayyyyy; ",price)
-      console.log("gatewayyyyy buyyyy; ", ethers.utils.parseEther(royalty.toString()))
       const contract = await PolygonMarketServiceService.getContract(true);
-      console.log("---------------------------1")
       const transaction = await contract['createMarketSale'](
         nftcontract,
         itemId,
@@ -114,7 +107,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         seller,
         { value: ethers.utils.parseEther(price.toString()) }
       );
-      console.log("---------------------------2")
       const tx = await transaction.wait();
       return tx;
     }

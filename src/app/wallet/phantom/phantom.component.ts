@@ -83,7 +83,6 @@ export class PhantomComponent extends walletOptions implements OnInit {
     (window as any).solana
       .disconnect()(window as any)
       .solana.on('disconnect', () => {
-        console.log('Disconnected');
       });
   }
 

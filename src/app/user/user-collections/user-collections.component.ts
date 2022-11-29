@@ -22,25 +22,15 @@ export class UserCollectionsComponent implements OnInit {
     this.route.queryParams.subscribe((params)=>{
       this.key=(params['data']);
       this.selectedblockchain=(params['blockchain'])
-      console.log("DATA recived: ",this.key,this.selectedblockchain)
     })
 
     if (this.key != null) {
       this.collection.getCollectionPK(this.key).subscribe((res:any)=>{
         this.data=res
-        console.log("data is: ",this.data)
-        // let card:MyCollection= new MyCollection('');
-        //     card.collection=this.data[0].CollectionName
-        //      this.List.push(card)
         for(let x=0;x<this.data.length;x++){
-          console.log("elements: ",this.data[x].CollectionName)
-          //console.log("element 2: ",this.data[x+1].CollectionName)
-          // if(this.data[x].CollectionName!=this.data[x+1].CollectionName){
             let card:MyCollection= new MyCollection('');
             card.collection=this.data[x].CollectionName
              this.List.push(card)
-             console.log("this List ",this.List)
-          //}
         }
       })
   }
@@ -48,7 +38,6 @@ export class UserCollectionsComponent implements OnInit {
 }
 
 showNFT(collection){
-  console.log("key is: ",this.key)
   this.router.navigate(['./user-dashboard/mynfts'], {
     queryParams: { collection: [collection,this.key],blockchain:this.selectedblockchain},//this.data
   });

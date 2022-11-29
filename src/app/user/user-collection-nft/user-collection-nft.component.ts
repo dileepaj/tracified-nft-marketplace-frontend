@@ -40,7 +40,6 @@ export class UserCollectionNFTComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.data = params['collection'];
     });
-    console.log('data passed: ', this.data);
     this.collection = this.data[0];
     this.key = this.data[1];
     this.MyList.splice(0);
@@ -53,11 +52,9 @@ export class UserCollectionNFTComponent implements OnInit {
         if (this.nfts == null) {
           this.ngOnInit();
         } else {
-          console.log('nfts: ', this.nfts);
           for (let x = 0; x < this.nfts.length; x++) {
             if (this.nfts[x].creatoruserid == this.key) {
               this.MyList.push(this.nfts[x]);
-              console.log('MyList: ', this.MyList);
             }
           }
           this.showNFT(this.MyList);
@@ -98,28 +95,24 @@ export class UserCollectionNFTComponent implements OnInit {
         card.Blockchain = arr[a].blockchain;
         card.SellingStatus = arr[a].sellingstatus;
         this.List.push(card);
-        console.log('My List at th end:', this.List);
       });
     }
   }
 
   seeNFT(id, status, blockchain) {
     if (status == 'Minted') {
-      console.log('image 64 hash : ', id, status, blockchain);
       let data: any[] = ['Minted', id, blockchain];
       this.router.navigate(['./sell'], {
         queryParams: { data: JSON.stringify(data) },
       });
     }
     if (status == 'ON SALE') {
-      console.log('image 64 hash : ', id, status, blockchain);
       let data: any[] = [id, blockchain];
       this.router.navigate(['./buyNft'], {
         queryParams: { data: JSON.stringify(data) },
       });
     }
     if (status == 'NOTFORSALE') {
-      console.log('image 64 hash : ', id, status, blockchain);
       let data: any[] = ['NOTFORSALE', id, blockchain];
       this.router.navigate(['./sell'], {
         queryParams: { data: JSON.stringify(data) },

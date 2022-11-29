@@ -150,17 +150,14 @@ export class ApiServicesService {
     }
 
     addReviews(st: Reviews): Observable<Reviews> {
-      console.log("reviews servie: ",st)
       return this.http.post<Reviews>(this.baseUrlSaveReview, st, {headers: this.headers});
     }
 
     getReviewsByFilter(filter:string,page:number,id:string):Observable<Reviews[]> {
-      console.log("inside pagination review")
       return this.http.get<Reviews[]>(`${this.baseUrlFilterReview}/${filter}/${id}/${this.pageSize}/${page}`);
     }
 
     getAllReviewsByNFTId(id:string):Observable<Reviews[]> {
-      console.log("inside service review")
       return this.http.get<Reviews[]>(`${this.baseUrlSaveReview}/${id}`);
     }
 

@@ -18,7 +18,6 @@ export class TransferNftService {
     mintPubkey: PublicKey,
     ata:PublicKey): Promise<any>{
     return (async () => {
-      console.log("-----------------------------------insideee")
       // Connect to cluster
       const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
     
@@ -32,13 +31,10 @@ export class TransferNftService {
         new PublicKey(to)
       );
 
-     console.log("------------------to token acc",toTokenAccount)
-
       const ata = await getAssociatedTokenAddress(
         new PublicKey(mintPubkey),
         fromKeypair.publicKey
       )
-      console.log("------------------to token acc",ata)
      
       const tx1 = new Transaction()
             tx1.add(
@@ -53,7 +49,6 @@ export class TransferNftService {
               ),
             )
             
-            console.log("------------------transaction",tx1)
        
        tx1.feePayer = fromKeypair.publicKey;
         var signature = await sendAndConfirmTransaction(

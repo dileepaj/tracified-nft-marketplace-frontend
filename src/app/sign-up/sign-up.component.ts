@@ -105,7 +105,6 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
       this.data=JSON.parse(params['data']);
-console.log("data passed endorse: ",this.data)
 this.mail=this.data[1]
 this.blockchain=this.data[0]
     })

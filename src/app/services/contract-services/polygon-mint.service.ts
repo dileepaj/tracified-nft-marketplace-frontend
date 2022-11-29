@@ -45,7 +45,6 @@ export class PolygonMintService {
   }
 
   public async approveContract(tokenId:number):Promise<any>{
-    console.log("inside service")
     var marketcontract=environment.contractAddressMKPolygon
     const contract = await PolygonMintService.getContract(true)
     const transaction = await contract['approve'](

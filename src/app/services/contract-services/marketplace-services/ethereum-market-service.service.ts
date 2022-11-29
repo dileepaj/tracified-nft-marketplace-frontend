@@ -38,7 +38,6 @@ export class EthereumMarketServiceService {
 
   
   public async createSaleOffer(nftcontract: string,tokenId:number,price:string): Promise<any> {
-  console.log("it came: ",price)
     let metmaskWallet = new UserWallet();
     metmaskWallet = new MetamaskComponent(metmaskWallet);
     const tx = metmaskWallet.createSaleOffer('ethereum',nftcontract, tokenId, price,'0.1')

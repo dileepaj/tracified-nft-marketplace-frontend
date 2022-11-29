@@ -50,7 +50,6 @@ export class DialogService {
   }
 
   previewImage(data: PreviewImage): Observable<boolean> {
-    console.log('image data:', data.image);
     return this.dialog
       .open(PreviewImageComponent, {
         data,

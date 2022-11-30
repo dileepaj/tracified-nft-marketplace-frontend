@@ -26,7 +26,7 @@ import {
   PendingDialogText,
   SnackBarText,
 } from 'src/app/models/confirmDialog';
-import { BlockchainConfig } from 'src/environments/environment.qa';
+import { BlockchainConfig } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sell-nft',

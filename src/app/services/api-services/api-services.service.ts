@@ -7,7 +7,7 @@ import { Endorse, UpdateEndorse, UpdateStatus } from 'src/app/models/endorse';
 import { Partners, UpdatePartners } from 'src/app/models/admin';
 import { NFTStory, Reviews } from 'src/app/models/nft';
 import { Subscription } from 'src/app/models/mail';
-import { APIConfigENV } from 'src/environments/environment.qa';
+import { APIConfigENV } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })

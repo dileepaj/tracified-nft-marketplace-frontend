@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserFAQ } from 'src/app/models/mail';
 import { UpdateUserFAQResponse } from 'src/app/models/userFAQ';
-import { APIConfigENV } from 'src/environments/environment.qa';
+import { APIConfigENV } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'

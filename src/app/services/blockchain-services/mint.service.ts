@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable,Subject} from "rxjs";
 import { Collection } from 'src/app/models/collection';
 import { Issuer, Ownership ,NFT,tags, Minter,StellarTXN,Contracts} from 'src/app/models/minting';
-import { APIConfigENV } from 'src/environments/environment.qa';
+import { APIConfigENV } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'

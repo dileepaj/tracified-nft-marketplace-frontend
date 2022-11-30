@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { clusterApiUrl, Connection, Keypair ,PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL} from  "@solana/web3.js";
-import { BlockchainConfig } from 'src/environments/environment.qa';
+import { BlockchainConfig } from 'src/environments/environment';
 
 
 @Injectable({

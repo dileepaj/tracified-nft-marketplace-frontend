@@ -36,7 +36,6 @@ export const adminENV = {
 }
 export const APIConfigENV = {
   production: false,
-  mode: 'qa',
   gatewayBaseURL: 'http://localhost:9080/',
   nftbackendBaseURL: 'http://localhost:6081/',
   APIIntervalTimer: 60000,  // 30 seconds

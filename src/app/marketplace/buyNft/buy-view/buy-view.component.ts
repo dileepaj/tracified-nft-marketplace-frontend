@@ -11,7 +11,7 @@ import {
   ReviewsCard,
   Reviews,
 } from 'src/app/models/nft';
-import { APIConfigENV, BlockchainConfig, environment } from 'src/environments/environment.qa';
+import { APIConfigENV, BlockchainConfig, environment } from 'src/environments/environment';
 import { TrustLineByBuyerServiceService } from 'src/app/services/blockchain-services/stellar-services/trust-line-by-buyer-service.service';
 import { BuyNftServiceService } from 'src/app/services/blockchain-services/stellar-services/buy-nft-service.service';
 import { Trac2buyerService } from 'src/app/services/blockchain-services/solana-services/trac2buyer.service';

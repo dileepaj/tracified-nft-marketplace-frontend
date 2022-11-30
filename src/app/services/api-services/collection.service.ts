@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import { Collection } from 'src/app/models/collection';
 import { NFT } from 'src/app/models/minting';
 import { Endorse } from 'src/app/models/endorse';
-import { APIConfigENV } from 'src/environments/environment.qa';
+import { APIConfigENV } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'

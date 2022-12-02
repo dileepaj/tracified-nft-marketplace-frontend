@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { APIConfigENV } from 'src/environments/environment';
 
 @Component({
   selector: 'app-faq',
@@ -7,7 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./faq.component.css']
 })
 export class FaqComponent implements OnInit {
-  private readonly linkToDocs :string="http://localhost:4200/docs"
+  private readonly marketplaceBaseURL = APIConfigENV.marketplaceBaseURL
+  private readonly linkToDocs :string=this.marketplaceBaseURL+"docs"
   constructor(private router: Router) { }
   List:any[]=[
     {

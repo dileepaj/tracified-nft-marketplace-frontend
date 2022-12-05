@@ -12,7 +12,7 @@ import {
 } from '@solana/web3.js';
 import { WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import * as bs58 from 'bs58';
-import { BlockchainConfig } from 'src/environments/environment.qa';
+import { BlockchainConfig } from 'src/environments/environment';
 
 @Component({
   selector: 'app-phantom',

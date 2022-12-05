@@ -36,6 +36,7 @@ export const APIConfigENV = {
   mode: 'qa',
   gatewayBaseURL: 'https://qa.gateway.tracified.com/',
   nftbackendBaseURL: 'https://qa.api.nft.tracified.com/',
+  marketplaceBaseURL:"https://qa.marketplace.nft.tracified.com",
   APIIntervalTimer: 60000,  // 30 seconds
   APIStartDelay: 6000, // 3 seconds
   homepageIntervalTimer: 600000 //10 minutes 600000

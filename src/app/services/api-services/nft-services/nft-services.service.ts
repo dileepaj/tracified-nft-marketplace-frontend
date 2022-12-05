@@ -3,27 +3,30 @@ import { Observable } from 'rxjs';
 import { BuyNFTGW, GetNFT, NFTMarket, SalesBE, SalesGW } from 'src/app/models/nft';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import { NFT, SVG, TXN } from 'src/app/models/minting';
+import { APIConfigENV } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NftServicesService {
+  private readonly nftBackendBaseURL = APIConfigENV.nftbackendBaseURL
+  private readonly gateWayBaseURL = APIConfigENV.gatewayBaseURL
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
-  baseUrlGetLastNFT: string = 'http://localhost:9080/lastnft';
-  baseUrlGetNFT:string='http://localhost:6081/buying'
-  baseUrlUpdateStatusBE:string='http://localhost:6081/nft/sale';
-  baseUrlUpdateStatusGW:string='http://localhost:9080';
-  baseUrlSVG:string='http://localhost:6081/svg';
-  baseUrlGetAllNFT:string='http://localhost:6081/marketplace';
-  baseUrlGetOnSaleNFT:string='http://localhost:6081/nft';
-  baseUrlGetMyNFTByStatus:string='http://localhost:6081/selling'
-  baseUrlGetMyNFT:string='http://localhost:6081/userid'
-  baseUrlfilter:string='http://localhost:6081/blockchain'
-  baseUrlTxn:string='http://localhost:6081/txn'
-  baseUrlPaginated : string = 'http://localhost:6081/nftspaginate'
-  baseUrlPaginatedFiltering : string = 'http://localhost:6081/nftspaginate/filterby'
-  baseUrlBestCreators:string ='http://localhost:6081/explore/bestcreations'
+  baseUrlGetLastNFT: string = this.gateWayBaseURL+'lastnft';
+  baseUrlGetNFT:string=this.nftBackendBaseURL+'buying'
+  baseUrlUpdateStatusBE:string=this.nftBackendBaseURL+'nft/sale';
+  baseUrlUpdateStatusGW:string=this.gateWayBaseURL;
+  baseUrlSVG:string=this.nftBackendBaseURL+'svg';
+  baseUrlGetAllNFT:string=this.nftBackendBaseURL+'marketplace';
+  baseUrlGetOnSaleNFT:string=this.nftBackendBaseURL+'nft';
+  baseUrlGetMyNFTByStatus:string=this.nftBackendBaseURL+'selling'
+  baseUrlGetMyNFT:string=this.nftBackendBaseURL+'userid'
+  baseUrlfilter:string=this.nftBackendBaseURL+'blockchain'
+  baseUrlTxn:string=this.nftBackendBaseURL+'txn'
+  baseUrlPaginated : string = this.nftBackendBaseURL+'nftspaginate'
+  baseUrlPaginatedFiltering : string = this.nftBackendBaseURL+'nftspaginate/filterby'
+  baseUrlBestCreators:string =this.nftBackendBaseURL+'explore/bestcreations'
   reqOpts: any;
 
   pageSize : number = 6;
@@ -60,13 +63,13 @@ export class NftServicesService {
   updateNFTStatusGateway(price:string,status:string,amount:string,nfttxnhash:string): Observable<any> {
 
     return this.http.put<any>(this.baseUrlUpdateStatusGW
-      + `/nft/updatesell?Price=${price}&Status=${status}&Amount=${amount}&NFTTxnHash=${nfttxnhash}`,
+      + `nft/updatesell?Price=${price}&Status=${status}&Amount=${amount}&NFTTxnHash=${nfttxnhash}`,
       {headers: this.headers});
   }
 
   updateNFTBuyStatusGateway(sellingStatus:string,currentPK:string,previousPK:string,nfthash:string): Observable<BuyNFTGW> {
     return this.http.put<any>(this.baseUrlUpdateStatusGW
-      + `/nft/updatebuy?sellingStatus=${sellingStatus}&currentPK=${currentPK}&previousPK=${previousPK}&nfthash=${nfthash}`,
+      + `nft/updatebuy?sellingStatus=${sellingStatus}&currentPK=${currentPK}&previousPK=${previousPK}&nfthash=${nfthash}`,
       {headers: this.headers});
   }
 

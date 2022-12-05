@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import { clusterApiUrl, Connection, Keypair ,PublicKey, Transaction} from  "@solana/web3.js";
 import { createTransferCheckedInstruction, getAssociatedTokenAddress } from  "@solana/spl-token";
-import { BlockchainConfig } from 'src/environments/environment.qa';
+import { BlockchainConfig } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'

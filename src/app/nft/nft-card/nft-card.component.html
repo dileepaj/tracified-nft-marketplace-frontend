@@ -1,6 +1,6 @@
 <div class="nft-item">
   <!-- *ngIf="item.ImageBase64" -->
-  <embed [src]="item.thumbnail" class="nft-img" >
+  <img [src]="item.thumbnail" class="nft-img" />
   <!-- </object> -->
   <div [id]="'overlay'+itemId" class="nft-img-overlay" (click)="openPreview()">
     <label ngClass.gt-sm="overlay-text">Click to View</label>

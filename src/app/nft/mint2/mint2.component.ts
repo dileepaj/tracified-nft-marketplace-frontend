@@ -647,7 +647,7 @@ export class Mint2Component implements OnInit {
 
   TXNStellar(): void {
     if (this.mint.Imagebase64 != null) {
-      this.stxn.ImageBase64 = this.mint.NftContentURL;
+      this.stxn.ImageBase64 = this.mint.Imagebase64;
       this.stxn.Blockchain = this.mint.Blockchain;
       this.service
         .getStellarTXN(this.stxn.ImageBase64, this.stxn.Blockchain)

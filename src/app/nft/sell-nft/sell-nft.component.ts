@@ -27,6 +27,7 @@ import {
   SnackBarText,
 } from 'src/app/models/confirmDialog';
 import { BlockchainConfig } from 'src/environments/environment';
+import { id } from 'ethers/lib/utils';
 
 @Component({
   selector: 'app-sell-nft',
@@ -94,6 +95,7 @@ export class SellNftComponent implements OnInit {
   isLoading: boolean = false;
   public loaded = false;
   private htmStr: string;
+  royaltyamount = 0;
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
   maincontent: any;
   readonly network :any =BlockchainConfig.solananetwork;
@@ -117,6 +119,7 @@ export class SellNftComponent implements OnInit {
 
   calculatePrice(): void {
     this.royalty = parseFloat(this.formValue('Royalty'));
+    this.royaltyamount=this.royalty
     this.firstPrice = parseFloat(this.formValue('Price'));
     this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
     this.sellingPrice = this.firstPrice + this.royaltyCharge;
@@ -185,6 +188,15 @@ export class SellNftComponent implements OnInit {
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.saleBE.Blockchain = this.NFTList.blockchain;
+      this.royaltyamount = parseFloat(this.formValue('Royalty'));
+      if(isNaN(+this.royaltyamount)){
+        this.snackbarService.openSnackBar("Royality must be inputed as a number")
+        return
+      }
+      if(this.royaltyamount <0 || this.royaltyamount>100){
+        this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+        return
+      }
       this.dialogService
         .confirmDialog({
           title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
@@ -234,6 +246,15 @@ export class SellNftComponent implements OnInit {
         let phantomWallet = new UserWallet();
         phantomWallet = new PhantomComponent(phantomWallet);
         await phantomWallet.initWallelt();
+        this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        if(isNaN(+this.royaltyamount)){
+          this.snackbarService.openSnackBar("Royality must be inputed as a number")
+          return
+        }
+        if(this.royaltyamount <0 || this.royaltyamount>100){
+          this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+          return
+        }
         this.dialogService
           .confirmDialog({
             title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
@@ -285,6 +306,15 @@ export class SellNftComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.tokenid = parseInt(this.NFTList.nftidentifier);
+      this.royaltyamount = parseFloat(this.formValue('Royalty'));
+      if(isNaN(+this.royaltyamount)){
+        this.snackbarService.openSnackBar("Royality must be inputed as a number")
+        return
+      }
+      if(this.royaltyamount <0 || this.royaltyamount>100){
+        this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+        return
+      }
       this.dialogService
         .confirmDialog({
           title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
@@ -351,6 +381,15 @@ export class SellNftComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.tokenid = parseInt(this.NFTList.nftidentifier);
+      this.royaltyamount = parseFloat(this.formValue('Royalty'));
+      if(isNaN(+this.royaltyamount)){
+        this.snackbarService.openSnackBar("Royality must be inputed as a number")
+        return
+      }
+      if(this.royaltyamount <0 || this.royaltyamount>100){
+        this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+        return
+      }
       this.dialogService
         .confirmDialog({
           title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,

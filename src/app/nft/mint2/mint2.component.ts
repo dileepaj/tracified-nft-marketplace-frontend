@@ -54,8 +54,10 @@ import {
   PendingDialogText,
   SnackBarText,
 } from 'src/app/models/confirmDialog';
+import { TrustByDistributorService } from 'src/app/services/blockchain-services/stellar-services/albedo-transactions/trust-by-distributor.service';
 import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import albedo from '@albedo-link/intent';
 
 @Component({
   selector: 'app-mint2',
@@ -187,7 +189,8 @@ export class Mint2Component implements OnInit {
     private snackbar: SnackbarServiceService,
     private serviceCol: CollectionService,
     public dialog: MatDialog,
-    public transfer: TransferNftService
+    public transfer: TransferNftService,
+    private trust:TrustByDistributorService
   ) {
     this.filteredtags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -283,7 +286,8 @@ export class Mint2Component implements OnInit {
         this.apiService.addSVG(this.svg).subscribe();
 
         if (this.mint.NFTIssuerPK != null) {
-          let freighter = new UserWallet();
+          if(this.wallet=='freighter'){
+            let freighter = new UserWallet();
           freighter = new FreighterComponent(freighter);
           await freighter.initWallelt();
           this.userPK = await freighter.getWalletaddress();
@@ -340,6 +344,69 @@ export class Mint2Component implements OnInit {
                   });
               }
             });
+          }
+          if(this.wallet=='albedo'){
+            albedo.publicKey({
+              require_existing: true
+          })
+              .then((res:any) => {
+                console.log(res)
+                this.userPK=res.pubkey})
+          this.mint.CreatorUserId = this.userPK;
+          this.pushTag();
+          this.dialogService
+            .confirmDialog({
+              title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+              message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+              confirmText: ConfirmDialogText.CONFIRM_BTN,
+              cancelText: ConfirmDialogText.CANCEL_BTN,
+            })
+            .subscribe((res) => {
+              if (res) {
+                const dialog = this.dialogService.pendingDialog({
+                  message: PendingDialogText.MINTING_IN_PROGRESS,
+                });
+
+                this.apiService
+                  .getEndorsement(this.userPK)
+                  .subscribe((result: any) => {
+                      if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+                      this.dialogService
+                        .confirmDialog({
+                          title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                          message:
+                            ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                          confirmText: ConfirmDialogText.CONFIRM_BTN,
+                          cancelText: ConfirmDialogText.CANCEL_BTN,
+                        })
+                        .subscribe((res) => {
+                          if (res) {
+                            let arr: any = [this.mint.Blockchain, this.email];
+                            this.router.navigate(['./signUp'], {
+                              queryParams: { data: JSON.stringify(arr) },
+                            });
+                          }
+                        });
+                    }else if(result.Status == 'Pending'){
+                      this.dialogService
+                      .okDialog({
+                        title: "Endorsement in Pending",
+                        message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                        confirmText: ConfirmDialogText.CONFIRM_BTN,
+                      })
+                    }else {
+                      this.sendToMint3();
+                      this.mintNFT(this.userPK);
+                      dialog.close();
+                      this.snackbar.openSnackBar(
+                        SnackBarText.MINTING_SUCCESSFUL_MESSAGE
+                      );
+                    }
+                  });
+              }
+            });
+          }
+          
         }
       });
     }
@@ -717,6 +784,61 @@ export class Mint2Component implements OnInit {
     }
   }
 
+  mintNFTOnAlbedo(userPK: string): void {
+    //minting nft using stellar
+    if (this.mint.CreatorUserId != null) {
+      //step 1. - change trust by distributor
+      this.trust
+        .changeTrustByDistributor(
+          this.mint.NFTName,
+          this.mint.NFTIssuerPK,
+          userPK
+        )
+        .then((transactionResult: any) => {
+          if (transactionResult.successful) {
+            this.service
+              .minNFTStellar(
+                //step 2. - mint
+                transactionResult.successful,
+                this.mint.NFTIssuerPK,
+                userPK,
+                this.mint.NFTName,
+                this.mint.Imagebase64,
+                this.mint.Description,
+                this.mint.Collection,
+                this.mint.Blockchain,
+                this.mint.Tags,
+                this.mint.Categories,
+                this.mint.Copies,
+                this.mint.NftContentURL,
+                transactionResult.created_at,
+                this.mint.ArtistName,
+                this.mint.ArtistProfileLink
+              )
+              .then((res) => {
+                this.TXNStellar();
+              })
+              .then((nft) => {
+                if (this.isLoadingPresent) {
+                  this.dissmissLoading();
+                }
+              })
+              .catch((error) => {
+                if (this.isLoadingPresent) {
+                  this.dissmissLoading();
+                }
+              });
+          } else {
+            if (this.isLoadingPresent) {
+              this.dissmissLoading();
+            }
+          }
+        });
+    } else {
+      console.log('User PK not connected or not endorsed');
+    }
+  }
+
   dissmissLoading() {
     this.isLoadingPresent = false;
     this.loading.dismiss();
@@ -736,6 +858,12 @@ export class Mint2Component implements OnInit {
       this.solana = false;
     }
     if (this.wallet == 'freighter') {
+      this.polygon = true;
+      this.stellar = false;
+      this.ethereum = true;
+      this.solana = true;
+    }
+    if (this.wallet == 'albedo') {
       this.polygon = true;
       this.stellar = false;
       this.ethereum = true;

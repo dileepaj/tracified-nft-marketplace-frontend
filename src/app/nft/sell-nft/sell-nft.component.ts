@@ -24,10 +24,12 @@ import { PolygonMintService } from 'src/app/services/contract-services/polygon-m
 import {
   ConfirmDialogText,
   PendingDialogText,
+  SelectWalletText,
   SnackBarText,
 } from 'src/app/models/confirmDialog';
 import { BlockchainConfig } from 'src/environments/environment';
 import { id } from 'ethers/lib/utils';
+import albedo from '@albedo-link/intent';
 
 @Component({
   selector: 'app-sell-nft',
@@ -99,6 +101,8 @@ export class SellNftComponent implements OnInit {
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
   maincontent: any;
   readonly network :any =BlockchainConfig.solananetwork;
+  wallet: any;
+  signerpK: string;
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -180,10 +184,32 @@ export class SellNftComponent implements OnInit {
 
   async Sell(): Promise<void> {
     if (this.NFTList.blockchain == 'stellar') {
-      let freighterWallet = new UserWallet();
-      freighterWallet = new FreighterComponent(freighterWallet);
-      await freighterWallet.initWallelt();
-      let signerpK = await freighterWallet.getWalletaddress();
+      this.dialogService
+      .selectWallet({
+        title: SelectWalletText.WALLET_TITLE,
+        message: SelectWalletText.WALLET_MESSAGE,
+        selectA: SelectWalletText.WALLET_ALBEDO,
+        selectF: SelectWalletText.WALLET_FREIGHTER,
+      })
+      .subscribe((res:any) => {
+        console.log("res is: ",res.wallet)
+        this.wallet=res.wallet
+      })
+      if(this.wallet=='freighter'){
+        let freighterWallet = new UserWallet();
+        freighterWallet = new FreighterComponent(freighterWallet);
+        await freighterWallet.initWallelt();
+        this.signerpK = await freighterWallet.getWalletaddress();
+      }
+      if(this.wallet=='albedo'){
+        albedo.publicKey({
+          require_existing: true
+      })
+          .then((res:any) => {
+            console.log(res)
+            this.signerpK=res.pubkey})
+      }
+    
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
@@ -216,7 +242,7 @@ export class SellNftComponent implements OnInit {
               .sellNft(
                 this.NFTList.nftname,
                 this.NFTList.nftissuerpk,
-                signerpK,
+                this.signerpK,
                 '1',
                 this.sellingPrice,
                 this.royaltyCharge

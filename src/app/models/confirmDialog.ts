@@ -4,6 +4,13 @@ export interface ConfirmDialog{
     confirmText:string;
     cancelText:string;
 }
+
+export interface selectWalletDialog{
+    title:string;
+    message:string;
+    selectF:string;
+    selectA:string;
+}
 export interface OkDialog{
     title:string;
     message:string;
@@ -21,6 +28,7 @@ export const ConfirmDialogText={
     //dialog box buttons
     CONFIRM_BTN : 'Yes',
     CANCEL_BTN : 'No',
+
     //BuyView Text
     BUY_VIEW_BUY_NFT_TITLE:'NFT Purchase Confirmation',
     BUY_VIEW_BUY_NFT_MESSAGE:'Are you sure you want to purchase this NFT?',
@@ -62,6 +70,17 @@ export const ConfirmDialogText={
    DECLINE_ENDORSMENT_BTN:'Decline'
     
 
+}
+
+export const SelectWalletText={
+      //wallet buttons
+      WALLET_ALBEDO :'Albedo',
+      WALLET_FREIGHTER : 'Freighter',
+  
+      //Select Wallet for Stellar
+      WALLET_TITLE : 'Select Stellar based Wallet',
+      WALLET_MESSAGE : 'Select a wallet to advance with the stellar transaction. Please note that Freighter is not mobile compatible' ,
+  
 }
 
 export const OkDialogText ={

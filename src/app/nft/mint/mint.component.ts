@@ -17,6 +17,7 @@ import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { ConfirmDialogText, SnackBarText } from 'src/app/models/confirmDialog';
+import albedo from '@albedo-link/intent';
 
 @Component({
   selector: 'app-mint',
@@ -49,6 +50,7 @@ export class MintComponent implements OnInit {
   svgresult;
   email: string = '';
   blockchain: any;
+  albedopk: string;
   constructor(
     private service: CollectionService,
     private router: Router,
@@ -208,6 +210,55 @@ export class MintComponent implements OnInit {
       
        }else{
         window.location.href = 'https://www.freighter.app/';
+       }
+    }
+    if(wallet=="albedo"){
+      albedo.publicKey({
+        require_existing: true
+    })
+        .then((res:any) => {
+          console.log(res)
+        this.albedopk=res.pubkey})
+          var key =this.albedopk
+          this.blockchain="stellar"
+       if(key!=null){
+        this.apiService
+        .getEndorsement(key)
+        .subscribe((result: any) => {
+          if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+            this.dialogService
+              .confirmDialog({
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
+              })
+              .subscribe((res) => {
+                if (res) {
+                   let arr:any=[this.blockchain,this.email]
+                  this.router.navigate(['./signUp'], {
+                    queryParams: { data: JSON.stringify(arr) },
+                  });
+                }
+              });
+            }else if(result.Status == 'Pending'){
+              this.dialogService
+              .okDialog({
+                title: "Endorsement in Pending",
+                message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+              })
+            }else{
+              this.proceed.emit({
+                email:this.email,
+                wallet,
+                key:key
+              });
+            }
+          });
+      
+       }else{
+        window.location.href = 'https://albedo.link/';
        }
     }
     if(wallet=="phantom"){

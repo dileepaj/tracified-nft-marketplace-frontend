@@ -16,11 +16,10 @@ export class MintPopupComponent implements OnInit {
   ngOnInit(): void {}
 
   public close() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   public onClickYes() {
-    this.router.navigate(['/mint2']);
-    this.close();
+    this.dialogRef.close(true);
   }
 }

@@ -8,7 +8,7 @@ import TestLogger from './test-logger';
 if (environment.production) {
   enableProdMode();
 } else {
-  TestLogger();
+  // TestLogger();
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)

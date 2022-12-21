@@ -24,7 +24,7 @@ export default function () {
           if (typeof arg === "object") {
             consoleOriginal.log(arg, arg.constructor.name)
           }
-          return typeof arg === "object" ? arg.constructor.name + " " + arg.toString() : arg.toString();
+          return typeof arg === "object" ? (arg?.constructor?.name || "") + " " + arg.toString() : arg.toString();
         }).join(", ")}`
 
         if (panel) panel.appendChild(line);

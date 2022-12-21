@@ -67,7 +67,7 @@ export class EditProfileComponent implements OnInit {
     }
     this.service.updateEndorsement(this.endorse).subscribe(res => {
       this.snackbarSrevice.openSnackBar("Profile has been updated successfully")
-      this.router.navigate(['./home']);
+      this.router.navigate(['/']);
     })
   }
 

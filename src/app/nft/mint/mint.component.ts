@@ -70,9 +70,9 @@ export class MintComponent implements OnInit {
     this.mint.svg = this.svg;
   }
 
- 
+
   ngOnInit(): void {
-   
+
     //validation of form data
     this.controlGroupMint = new FormGroup({
       Email: new FormControl(this.email, Validators.required),
@@ -159,9 +159,10 @@ export class MintComponent implements OnInit {
               });
             }
           });
-      
+
        }else{
-        window.location.href = 'https://metamask.io/';
+         console.log("metamaskwallet.getWalletaddress is null");
+        // window.location.href = 'https://metamask.io/';
        }
     }
     if(wallet=="freighter"){
@@ -205,7 +206,7 @@ export class MintComponent implements OnInit {
               });
             }
           });
-      
+
        }else{
         window.location.href = 'https://www.freighter.app/';
        }
@@ -251,7 +252,7 @@ export class MintComponent implements OnInit {
             });
           }
         });
-    
+
      }else{
       window.location.href = 'https://phantom.app/';
      }
@@ -260,5 +261,5 @@ export class MintComponent implements OnInit {
 
   }
 
-  
+
 

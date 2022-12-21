@@ -184,7 +184,7 @@ export class HomeComponent implements OnInit {
               this.thumbnailSRC=this.imageSrc
           }else{
             this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.nfts.Response[x].thumbnail);
-          } 
+          }
             }
             let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
@@ -224,7 +224,7 @@ export class HomeComponent implements OnInit {
           }else{
             this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.nfts.Response[x].thumbnail);
           }
-          
+
             }
             let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;

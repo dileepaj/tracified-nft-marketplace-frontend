@@ -137,7 +137,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public goToHome() {
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 
   public toggleBcList() {

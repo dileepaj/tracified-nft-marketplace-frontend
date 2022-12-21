@@ -51,7 +51,7 @@ this.service.addSubscription(this.subscribe).subscribe(res=>{
   }
 
   public isHome() : boolean {
-    if(this.router.url === '/home') {
+    if(this.router.url === '/') {
       return true;
     }
     else {

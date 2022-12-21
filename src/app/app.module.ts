@@ -97,7 +97,7 @@ import { NftPreviewComponent } from './dialogs/nft-preview/nft-preview.component
 import { ImageCropperModule } from 'ngx-image-cropper';
 const appRoutes: Routes = [
   {
-    path: 'home',
+    path: '',
     component: HomeComponent,
   },
   {
@@ -115,11 +115,6 @@ const appRoutes: Routes = [
   {
     path: 'collections',
     component: CreateCollectionComponent,
-  },
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full',
   },
   {
     path: 'sell',

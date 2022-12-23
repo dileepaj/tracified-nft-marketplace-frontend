@@ -1,8 +1,24 @@
-<h2>Minting Done!</h2>
-<mat-dialog-content class="mat-typography">
-  <p>Do you want to mint your NFT on another blockchain?</p>
+<div class="close-div"><mat-icon mat-dialog-close> close </mat-icon></div>
+<div class="dialog-header">
+  <label mat-dialog-title>Minting Done!</label>
+</div>
+<mat-dialog-content>
+  <div class="dialog-content">Do you want to mint your NFT on another blockchain?</div>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>No</button>
-  <button mat-button (click)="onClickYes()" cdkFocusInitial>Yes</button>
+<mat-dialog-actions align="center" class="dialog-actions">
+  <button
+    mat-dialog-close
+    class="dialog-btn-secondary"
+    matRipple
+  >
+    No
+  </button>
+  <button
+    cdkFocusInitial
+    class="dialog-btn-primary"
+    (click)="onClickYes()"
+    matRipple
+  >
+    Yes
+  </button>
 </mat-dialog-actions>

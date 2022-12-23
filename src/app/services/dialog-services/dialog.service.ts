@@ -16,6 +16,7 @@ import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
 import { DisclaimerComponent } from 'src/app/dialogs/disclaimer/disclaimer.component';
 import { NftPreviewComponent } from 'src/app/dialogs/nft-preview/nft-preview.component';
 import { CodeviewComponent } from 'src/app/nft/codeview/codeview.component';
+import { MintPopupComponent } from 'src/app/nft/mint-popup/mint-popup.component';
 @Injectable({
   providedIn: 'root',
 })
@@ -106,4 +107,11 @@ export class DialogService {
       maxHeight: '650px',
     });
   }
+
+  openMintAgain() : Observable<boolean> {
+    return this.dialog
+      .open(MintPopupComponent)
+      .afterClosed();
+  }
+
 }

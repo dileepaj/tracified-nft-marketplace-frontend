@@ -26,6 +26,7 @@ import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackb
 import { interval, timer } from 'rxjs';
 import { APIConfigENV } from 'src/environments/environment';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
+import { NFT } from 'src/app/models/minting';
 
 @Component({
   selector: 'app-home',
@@ -161,41 +162,40 @@ export class HomeComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
-      this.List = [];
-      this.List2=[];
-      this.nfts = result;
-      for (let x = 0; x < this.nfts.Response.length; x++) {
-        if(this.nfts.Response[x].trending==true){
-          this.nft
-          .getSVGByHash(this.nfts.Response[x].imagebase64)
+  ngOnInit() : void {
+    this.List = [];
+    this.List2=[];
+    this.nft.getFilteredNFTs('ethereum', 0, 'trending', 6).subscribe((result: any) => {
+      result.Response.content.forEach((cont) => {
+        console.log(cont.nftname, cont.thumbnail)
+        this.nft
+          .getSVGByHash(cont.imagebase64)
           .subscribe((res: any) => {
             this.Decryption = res.Response.Base64ImageSVG;
-            if(this.nfts.Response[x].attachmenttype == "image/jpeg" || this.nfts.Response[x].attachmenttype == "image/jpg" || this.nfts.Response[x].attachmenttype == "image/png"){
+            if(cont.attachmenttype == "image/jpeg" || cont.attachmenttype == "image/jpg" || cont.attachmenttype == "image/png"){
               this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
             }else{
               this.dec = btoa(this.Decryption);
-          var str2 = this.dec.toString();
-          var str1 = new String( "data:image/svg+xml;base64,");
-          var src = str1.concat(str2.toString());
-          this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-          if(this.nfts.Response[x].thumbnail==""){
-              this.thumbnailSRC=this.imageSrc
-          }else{
-            this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.nfts.Response[x].thumbnail);
-          }
+              var str2 = this.dec.toString();
+              var str1 = new String( "data:image/svg+xml;base64,");
+              var src = str1.concat(str2.toString());
+
+              this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              if(cont.thumbnail == "") {
+                cont.thumbnail = this.imageSrc;
+              }
             }
+            console.log(this.thumbnailSRC)
             let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
-            card.thumbnail=this.thumbnailSRC
-            card.Blockchain = this.nfts.Response[x].blockchain;
-            card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
-            card.NFTName = this.nfts.Response[x].nftname;
-            card.Blockchain=this.nfts.Response[x].blockchain
-            card.CreatorUserId=this.nfts.Response[x].creatoruserid
-            card.SellingStatus=this.nfts.Response[x].sellingstatus
-            card.CurrentOwnerPK=this.nfts.Response[x].currentownerpk
+            card.thumbnail= cont.thumbnail;
+            card.Blockchain = cont.blockchain;
+            card.NFTIdentifier = cont.nftidentifier;
+            card.NFTName = cont.nftname;
+            card.Blockchain=cont.blockchain
+            card.CreatorUserId=cont.creatoruserid
+            card.SellingStatus=cont.sellingstatus
+            card.CurrentOwnerPK=cont.currentownerpk
             this.List2.forEach((element) => {
               if (card == element) {
                 this.newitemflag == false;
@@ -205,37 +205,37 @@ export class HomeComponent implements OnInit {
               this.List2.push(card);
             }
           });
-        }
-        if(this.nfts.Response[x].hotpicks==true){
+      })
+    })
+
+    this.nft.getFilteredNFTs('ethereum', 0, 'hotpicks', 6).subscribe((result: any) => {
+      result.Response.content.forEach((cont) => {
         this.nft
-          .getSVGByHash(this.nfts.Response[x].imagebase64)
+          .getSVGByHash(cont.imagebase64)
           .subscribe((res: any) => {
             this.Decryption = res.Response.Base64ImageSVG;
-            if(this.nfts.Response[x].attachmenttype == "image/jpeg" || this.nfts.Response[x].attachmenttype == "image/jpg" || this.nfts.Response[x].attachmenttype == "image/png"){
+            if(cont.attachmenttype == "image/jpeg" || cont.attachmenttype == "image/jpg" || cont.attachmenttype == "image/png"){
               this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
             }else{
               this.dec = btoa(this.Decryption);
-          var str2 = this.dec.toString();
-          var str1 = new String( "data:image/svg+xml;base64,");
-          var src = str1.concat(str2.toString());
-          this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-          if (this.nfts.Response[x].thumbnail==""){
-            this.thumbnailSRC=this._sanitizer.bypassSecurityTrustResourceUrl(src);
-          }else{
-            this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.nfts.Response[x].thumbnail);
-          }
-
+              var str2 = this.dec.toString();
+              var str1 = new String( "data:image/svg+xml;base64,");
+              var src = str1.concat(str2.toString());
+              this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              if(cont.thumbnail == "") {
+                cont.thumbnail = this.imageSrc;
+              }
             }
             let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
-            card.thumbnail=this.thumbnailSRC
-            card.Blockchain = this.nfts.Response[x].blockchain;
-            card.NFTIdentifier = this.nfts.Response[x].nftidentifier;
-            card.NFTName = this.nfts.Response[x].nftname;
-            card.Blockchain=this.nfts.Response[x].blockchain
-            card.CreatorUserId=this.nfts.Response[x].creatoruserid
-            card.SellingStatus=this.nfts.Response[x].sellingstatus
-            card.CurrentOwnerPK=this.nfts.Response[x].currentownerpk
+            card.thumbnail=cont.thumbnail;
+            card.Blockchain = cont.blockchain;
+            card.NFTIdentifier = cont.nftidentifier;
+            card.NFTName = cont.nftname;
+            card.Blockchain=cont.blockchain
+            card.CreatorUserId=cont.creatoruserid
+            card.SellingStatus=cont.sellingstatus
+            card.CurrentOwnerPK=cont.currentownerpk
             this.List.forEach((element) => {
               if (card == element) {
                 this.newitemflag == false;
@@ -245,11 +245,8 @@ export class HomeComponent implements OnInit {
               this.List.push(card);
             }
           });
-        }
-      }
-    });
-
-
+      })
+    })
 
     window.addEventListener('scroll', () => {
       this.backTopVisible = window.pageYOffset !== 0;
@@ -276,7 +273,7 @@ export class HomeComponent implements OnInit {
 
   public viewTrending () {
     this.router.navigate(['/shownft'], {
-      queryParams: { data: 'Favourites' },
+      queryParams: { data: 'trending' },
     });
   }
 }

@@ -27,6 +27,7 @@ export class NftServicesService {
   baseUrlPaginated : string = this.nftBackendBaseURL+'nftspaginate'
   baseUrlPaginatedFiltering : string = this.nftBackendBaseURL+'nftspaginate/filterby'
   baseUrlBestCreators:string =this.nftBackendBaseURL+'explore/bestcreations'
+  baseUrlOnSale:string =this.nftBackendBaseURL+'onsale';
   reqOpts: any;
 
   pageSize : number = 6;
@@ -118,6 +119,10 @@ getMyNFTStatus(sellingstatus,userId):Observable<NFT[]>{
 
  getBestCreators (requestedPage : number,blockchain:string) : Observable<GetNFT[]> {
   return this.http.get<GetNFT[]>(`${this.baseUrlBestCreators}/${blockchain}/${this.pageSize}/${requestedPage}`);
+ }
+
+ getFilteredNFTs(blockchain : string, requestedPage : number, filter : string, pageSize : number) : Observable<NFT[]> {
+  return this.http.get<NFT[]>(`${this.baseUrlOnSale}/${filter}/${blockchain}/${pageSize}/${requestedPage}`);
  }
 
 }

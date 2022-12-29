@@ -120,6 +120,7 @@ export class MintComponent implements OnInit {
   }
 
   public async selectWallet(wallet: string) {
+    console.log("--------------------wallet ",wallet)
     if(wallet=="metamask"){
       let metamaskwallet = new UserWallet();
       metamaskwallet = new MetamaskComponent(metamaskwallet);
@@ -140,7 +141,7 @@ export class MintComponent implements OnInit {
               })
               .subscribe((res) => {
                 if (res) {
-                  let arr:any=[this.blockchain,this.email]
+                  let arr:any=[this.blockchain,this.email,wallet]
                   this.router.navigate(['./signUp'], {
                     queryParams: { data: JSON.stringify(arr) },
                   });
@@ -186,7 +187,7 @@ export class MintComponent implements OnInit {
               })
               .subscribe((res) => {
                 if (res) {
-                   let arr:any=[this.blockchain,this.email]
+                   let arr:any=[this.blockchain,this.email,wallet]
                   this.router.navigate(['./signUp'], {
                     queryParams: { data: JSON.stringify(arr) },
                   });
@@ -212,12 +213,14 @@ export class MintComponent implements OnInit {
         window.location.href = 'https://www.freighter.app/';
        }
     }
+
     if(wallet=="albedo"){
-      albedo.publicKey({
+      console.log("hereeeeeeeeeeeeeeeeeeeeeeeee")
+      await albedo.publicKey({
         require_existing: true
     })
-        .then((res:any) => {
-          console.log(res)
+.then((res:any) => {
+          console.log("--------------------------result---------",res)
         this.albedopk=res.pubkey})
           var key =this.albedopk
           this.blockchain="stellar"
@@ -235,7 +238,7 @@ export class MintComponent implements OnInit {
               })
               .subscribe((res) => {
                 if (res) {
-                   let arr:any=[this.blockchain,this.email]
+                   let arr:any=[this.blockchain,this.email,wallet]
                   this.router.navigate(['./signUp'], {
                     queryParams: { data: JSON.stringify(arr) },
                   });
@@ -258,6 +261,7 @@ export class MintComponent implements OnInit {
           });
       
        }else{
+        console.log("no albedo")
         window.location.href = 'https://albedo.link/';
        }
     }
@@ -281,7 +285,7 @@ export class MintComponent implements OnInit {
             })
             .subscribe((res) => {
               if (res) {
-                let arr:any=[this.blockchain,this.email]
+                let arr:any=[this.blockchain,this.email,wallet]
                 this.router.navigate(['./signUp'], {
                   queryParams: { data: JSON.stringify(arr) },
                 });

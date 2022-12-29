@@ -6,6 +6,7 @@ import { UserWallet } from '../models/userwallet';
 import { PhantomComponent } from './phantom/phantom.component';
 import { WalletSidenavService } from '../services/wallet-sidenav.service';
 import { BigNumber, ethers } from 'ethers';
+import albedo from '@albedo-link/intent';
 
 @Component({
   selector: 'app-wallet',
@@ -23,6 +24,7 @@ export class WalletComponent implements OnInit {
   usd: string = '';
   walletName: string = '';
   loading: boolean = false;
+  User: any;
   constructor(
     private walletService: WalletSidenavService,
     private ref: ChangeDetectorRef
@@ -75,6 +77,15 @@ export class WalletComponent implements OnInit {
     });
     this.userPK = await phantomWallet.getWalletaddress();
 
+  }
+
+  async albedo() {
+      await albedo.publicKey({
+        require_existing: true
+    })
+.then((res:any) => {
+          console.log("--------------------------result---------",res)
+          this.User=res.pubkey})
   }
 
    //get wallet balance

@@ -320,7 +320,7 @@ export class Mint2Component implements OnInit {
                         })
                         .subscribe((res) => {
                           if (res) {
-                            let arr: any = [this.mint.Blockchain, this.email];
+                            let arr: any = [this.mint.Blockchain, this.email,this.wallet];
                             this.router.navigate(['./signUp'], {
                               queryParams: { data: JSON.stringify(arr) },
                             });
@@ -346,65 +346,67 @@ export class Mint2Component implements OnInit {
             });
           }
           if(this.wallet=='albedo'){
-            albedo.publicKey({
+            await albedo.publicKey({
               require_existing: true
           })
               .then((res:any) => {
                 console.log(res)
-                this.userPK=res.pubkey})
-          this.mint.CreatorUserId = this.userPK;
-          this.pushTag();
-          this.dialogService
-            .confirmDialog({
-              title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-              message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-              confirmText: ConfirmDialogText.CONFIRM_BTN,
-              cancelText: ConfirmDialogText.CANCEL_BTN,
-            })
-            .subscribe((res) => {
-              if (res) {
-                const dialog = this.dialogService.pendingDialog({
-                  message: PendingDialogText.MINTING_IN_PROGRESS,
-                });
-
-                this.apiService
-                  .getEndorsement(this.userPK)
-                  .subscribe((result: any) => {
-                      if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
-                      this.dialogService
-                        .confirmDialog({
-                          title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                          message:
-                            ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                          confirmText: ConfirmDialogText.CONFIRM_BTN,
-                          cancelText: ConfirmDialogText.CANCEL_BTN,
-                        })
-                        .subscribe((res) => {
-                          if (res) {
-                            let arr: any = [this.mint.Blockchain, this.email];
-                            this.router.navigate(['./signUp'], {
-                              queryParams: { data: JSON.stringify(arr) },
-                            });
+                this.userPK=res.pubkey
+                this.mint.CreatorUserId = this.userPK;
+                this.pushTag();
+                this.dialogService
+                  .confirmDialog({
+                    title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+                    message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+                    confirmText: ConfirmDialogText.CONFIRM_BTN,
+                    cancelText: ConfirmDialogText.CANCEL_BTN,
+                  })
+                  .subscribe((res) => {
+                    if (res) {
+                      const dialog = this.dialogService.pendingDialog({
+                        message: PendingDialogText.MINTING_IN_PROGRESS,
+                      });
+      
+                      this.apiService
+                        .getEndorsement(this.userPK)
+                        .subscribe((result: any) => {
+                          console.log("--------endorsement: ",result.Status)
+                            if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+                            this.dialogService
+                              .confirmDialog({
+                                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                                message:
+                                  ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                                cancelText: ConfirmDialogText.CANCEL_BTN,
+                              })
+                              .subscribe((res) => {
+                                if (res) {
+                                  let arr: any = [this.mint.Blockchain, this.email,this.wallet];
+                                  this.router.navigate(['./signUp'], {
+                                    queryParams: { data: JSON.stringify(arr) },
+                                  });
+                                }
+                              });
+                          }else if(result.Status == 'Pending'){
+                            this.dialogService
+                            .okDialog({
+                              title: "Endorsement in Pending",
+                              message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                              confirmText: ConfirmDialogText.CONFIRM_BTN,
+                            })
+                          }else {
+                            this.sendToMint3();
+                            this.mintNFTOnAlbedo(this.userPK);
+                             dialog.close();
+                            // this.snackbar.openSnackBar(
+                            //   SnackBarText.MINTING_SUCCESSFUL_MESSAGE
+                            // );
                           }
                         });
-                    }else if(result.Status == 'Pending'){
-                      this.dialogService
-                      .okDialog({
-                        title: "Endorsement in Pending",
-                        message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
-                        confirmText: ConfirmDialogText.CONFIRM_BTN,
-                      })
-                    }else {
-                      this.sendToMint3();
-                      this.mintNFT(this.userPK);
-                      dialog.close();
-                      this.snackbar.openSnackBar(
-                        SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-                      );
                     }
-                  });
-              }
-            });
+                  });})
+          
           }
           
         }
@@ -450,7 +452,7 @@ export class Mint2Component implements OnInit {
                       .subscribe((res) => {
                         if (res) {
                           //alert("You are not endorsed. Get endorsed now")
-                          let arr:any=[this.mint.Blockchain,this.email]
+                          let arr:any=[this.mint.Blockchain,this.email,this.wallet]
                           this.router.navigate(['./signUp'], {
                             queryParams: { data: JSON.stringify(arr) },
                           });
@@ -515,7 +517,7 @@ export class Mint2Component implements OnInit {
                     .subscribe((res) => {
                       if (res) {
                         //alert("You are not endorsed. Get endorsed now")
-                        let arr: any = [this.mint.Blockchain, this.email];
+                        let arr: any = [this.mint.Blockchain, this.email,this.wallet];
                         this.router.navigate(['./signUp'], {
                           queryParams: { data: JSON.stringify(arr) },
                         });
@@ -595,7 +597,7 @@ export class Mint2Component implements OnInit {
                         })
                         .subscribe((res) => {
                           if (res) {
-                            let arr:any=[this.mint.Blockchain,this.email]
+                            let arr:any=[this.mint.Blockchain,this.email,this.wallet]
                             this.router.navigate(['./signUp'], {
                               queryParams: { data: JSON.stringify(arr) },
                             });
@@ -658,6 +660,9 @@ export class Mint2Component implements OnInit {
   updateMinter(): void {
     if (this.minter.NFTIssuerPK != null) {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
+        this.snackbar.openSnackBar(
+          SnackBarText.MINTING_SUCCESSFUL_MESSAGE
+        );
         this.saveTXNs();
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
@@ -671,6 +676,9 @@ export class Mint2Component implements OnInit {
   updateStellarTXN(): void {
     if (this.stxn.NFTTxnHash != null) {
       this.service.updateTXNStellar(this.stxn).subscribe((res) => {
+        this.snackbar.openSnackBar(
+          SnackBarText.MINTING_SUCCESSFUL_MESSAGE
+        );
         this.saveTXNs();
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
@@ -729,7 +737,7 @@ export class Mint2Component implements OnInit {
     }
   }
 
-  mintNFT(userPK: string): void {
+  mintNFT(userPK: string) {
     //minting nft using stellar
     if (this.mint.CreatorUserId != null) {
       //step 1. - change trust by distributor
@@ -784,7 +792,7 @@ export class Mint2Component implements OnInit {
     }
   }
 
-  mintNFTOnAlbedo(userPK: string): void {
+  mintNFTOnAlbedo(userPK: string) {
     //minting nft using stellar
     if (this.mint.CreatorUserId != null) {
       //step 1. - change trust by distributor
@@ -795,11 +803,11 @@ export class Mint2Component implements OnInit {
           userPK
         )
         .then((transactionResult: any) => {
-          if (transactionResult.successful) {
+          console.log("---------------------------txnresult ",transactionResult)
             this.service
               .minNFTStellar(
                 //step 2. - mint
-                transactionResult.successful,
+                true,
                 this.mint.NFTIssuerPK,
                 userPK,
                 this.mint.NFTName,
@@ -811,7 +819,7 @@ export class Mint2Component implements OnInit {
                 this.mint.Categories,
                 this.mint.Copies,
                 this.mint.NftContentURL,
-                transactionResult.created_at,
+                Date().toString(),
                 this.mint.ArtistName,
                 this.mint.ArtistProfileLink
               )
@@ -828,11 +836,6 @@ export class Mint2Component implements OnInit {
                   this.dissmissLoading();
                 }
               });
-          } else {
-            if (this.isLoadingPresent) {
-              this.dissmissLoading();
-            }
-          }
         });
     } else {
       console.log('User PK not connected or not endorsed');

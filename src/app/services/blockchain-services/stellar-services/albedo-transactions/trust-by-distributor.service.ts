@@ -35,9 +35,10 @@ export class TrustByDistributorService {
   
            let txn=  transaction.toEnvelope().toXDR().toString("base64");
            console.log("----------xdr ------------- ",txn)
-          const transactionToSubmit= albedo.tx({
+          return await albedo.tx({
             xdr: txn,
-            network: Networks.TESTNET
+            network: Networks.TESTNET,
+            submit :true
         })
             .then(res => console.log(res))
       

@@ -189,9 +189,10 @@ export class BuyViewComponent implements OnInit {
             const loadingAnimation = this.dialogService.pendingDialog({
               message: PendingDialogText.BUY_VIEW_CLICKED_BUY,
             });
-            this.buyNFTOnStellar();
-            loadingAnimation.close();
-            this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+            this.buyNFTOnStellar().then(res=>{
+              loadingAnimation.close();
+            });
+            
           }
         });
     }
@@ -364,76 +365,74 @@ export class BuyViewComponent implements OnInit {
       selectA: SelectWalletText.WALLET_ALBEDO,
       selectF: SelectWalletText.WALLET_FREIGHTER,
     })
-    .subscribe((res:any) => {
-      console.log("res is: ",res.wallet)
-      this.wallet=res.wallet
+    .subscribe(async (res:any) => {
+      console.log("res is: ",res)
+      this.wallet=res
+
+      if(this.wallet=='freighter'){
+        let walletf = new UserWallet();
+        walletf = new FreighterComponent(walletf);
+        await walletf.initWallelt();
+        this.userPK = await walletf.getWalletaddress();
+        this.trust
+          .trustlineByBuyer(
+            this.NFTList.nftname,
+            this.NFTList.nftissuerpk,
+            this.userPK,
+            this.NFTList.currentprice,
+            this.NFTList.distributorpk,
+            this.NFTList.royalty
+          )
+          .then((transactionResult: any) => {
+            if (transactionResult.successful) {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+              this.buytxn = transactionResult.hash;
+              this.saveTXNs();
+              this.saleBE.CurrentOwnerPK = this.userPK;
+              this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+              this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+              this.showInProfile();
+            } else {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+            }
+          });
+      }
+      if(this.wallet=='albedo'){
+        await albedo.publicKey({
+          require_existing: true
+      })
+          .then((res:any) => {
+            console.log(res)
+            this.userPK=res.pubkey
+            this.trustalbedo
+            .trustlineByBuyer(
+              this.NFTList.nftname,
+              this.NFTList.nftissuerpk,
+              this.userPK,
+              this.NFTList.currentprice,
+              this.NFTList.distributorpk,
+              this.NFTList.royalty
+            )
+            .then((transactionResult: any) => {
+              
+              console.log("transaction went through: ",transactionResult)
+                this.buytxn = transactionResult.tx_hash;
+                this.saveTXNs();
+                this.saleBE.CurrentOwnerPK = this.userPK;
+                this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+                this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+                this.showInProfile();
+           
+            });
+          })
+        
+      }
     })
-    if(this.wallet=='freighter'){
-      let walletf = new UserWallet();
-      walletf = new FreighterComponent(walletf);
-      await walletf.initWallelt();
-      this.userPK = await walletf.getWalletaddress();
-      this.trust
-        .trustlineByBuyer(
-          this.NFTList.nftname,
-          this.NFTList.nftissuerpk,
-          this.userPK,
-          this.NFTList.currentprice,
-          this.NFTList.distributorpk,
-          this.NFTList.royalty
-        )
-        .then((transactionResult: any) => {
-          if (transactionResult.successful) {
-            if (this.isLoadingPresent) {
-              this.dissmissLoading();
-            }
-            this.buytxn = transactionResult.hash;
-            this.saveTXNs();
-            this.saleBE.CurrentOwnerPK = this.userPK;
-            this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-            this.snackbar.openSnackBar('NFT has successfully been bough');
-            this.showInProfile();
-          } else {
-            if (this.isLoadingPresent) {
-              this.dissmissLoading();
-            }
-          }
-        });
-    }
-    if(this.wallet=='albedo'){
-      albedo.publicKey({
-        require_existing: true
-    })
-        .then((res:any) => {
-          console.log(res)
-          this.userPK=res.pubkey})
-      this.trustalbedo
-        .trustlineByBuyer(
-          this.NFTList.nftname,
-          this.NFTList.nftissuerpk,
-          this.userPK,
-          this.NFTList.currentprice,
-          this.NFTList.distributorpk,
-          this.NFTList.royalty
-        )
-        .then((transactionResult: any) => {
-          if (transactionResult.successful) {
-            if (this.isLoadingPresent) {
-              this.dissmissLoading();
-            }
-            this.buytxn = transactionResult.hash;
-            this.saveTXNs();
-            this.saleBE.CurrentOwnerPK = this.userPK;
-            this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-            this.snackbar.openSnackBar('NFT has successfully been bough');
-            this.showInProfile();
-          } else {
-            if (this.isLoadingPresent) {
-              this.dissmissLoading();
-            }
-          }
-        });
-    }
+
   
   }
 

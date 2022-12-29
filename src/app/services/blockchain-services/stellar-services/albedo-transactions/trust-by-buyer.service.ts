@@ -81,11 +81,11 @@ export class TrustByBuyerService {
                 .build();
                 let txn=  transaction.toEnvelope().toXDR().toString("base64");
                 console.log("----------xdr ------------- ",txn)
-               const transactionToSubmit= albedo.tx({
+               return albedo.tx({
                  xdr: txn,
-                 network: Networks.TESTNET
+                 network: Networks.TESTNET,
+                 submit :true
              })
-                 .then(res => console.log(res))
            
             })
             .then((transactionResult) => {

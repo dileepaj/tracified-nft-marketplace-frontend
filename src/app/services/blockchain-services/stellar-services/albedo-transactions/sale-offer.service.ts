@@ -7,6 +7,7 @@ import { Asset, Networks, Operation, Server, TransactionBuilder } from 'stellar-
   providedIn: 'root'
 })
 export class SaleOfferService {
+  res: string;
 
   constructor() { }
   sellNft(
@@ -53,14 +54,17 @@ export class SaleOfferService {
             .setTimeout(60000)
             .build();
             let txn=  transaction.toEnvelope().toXDR().toString("base64");
-            const transactionToSubmit= albedo.tx({
+            return albedo.tx({
               xdr: txn,
-              network: Networks.TESTNET
-          }).then(res => console.log(res))
+              network: Networks.TESTNET,
+              submit :true
+           })
+         // .then(res =>{console.log(res)
+          // this.res=res.tx_hash})
 
         })
-        .then((transactionResult) => {
-          resolve(transactionResult);
+        .then((transactionToSubmit) => {
+          resolve(transactionToSubmit);
         })
         .catch((err) => {
           reject(err);

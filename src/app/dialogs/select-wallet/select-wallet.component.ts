@@ -18,15 +18,13 @@ export class SelectWalletComponent implements OnInit {
   }
 
   public selectFreighter() {
-    this.matDialogRef.close(true);
-    const wallet ='freighter'
-    return wallet
+    const wallet ="freighter"
+    this.matDialogRef.close(wallet);
   }
 
   public selectAlbedo() {
-    this.matDialogRef.close(true);
-    const wallet ='albedo'
-    return wallet
+    const wallet ="albedo"
+    this.matDialogRef.close(wallet);
   }
 
 }

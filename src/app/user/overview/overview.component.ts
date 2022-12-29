@@ -1,3 +1,4 @@
+import albedo from '@albedo-link/intent';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -41,10 +42,34 @@ export class OverviewComponent implements OnInit {
 
     async retrive(blockchain: string) {
       if (blockchain == 'stellar') {
+
+        /* Storing user's device details in a variable*/
+      let details = navigator.userAgent;
+      
+      /* Creating a regular expression
+      containing some mobile devices keywords
+      to search it in details string*/
+      let regexp = /android|iphone|kindle|ipad/i;
+      
+      /* Using test() method to search regexp in details
+      it returns boolean value*/
+      let isMobileDevice = regexp.test(details);
+      
+      if(isMobileDevice) {
+         console.log("Its a Mobile Device !");
+        await albedo.publicKey({
+          require_existing: true
+      }).then((res:any) => {
+            console.log("--------------------------result---------",res)
+            this.User=res.pubkey
+          })
+      } else {
         let freighterWallet = new UserWallet();
         freighterWallet = new FreighterComponent(freighterWallet);
         await freighterWallet.initWallelt();
         this.User= await freighterWallet.getWalletaddress();
+      }
+
 
       }
 

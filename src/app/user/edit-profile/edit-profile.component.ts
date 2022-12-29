@@ -5,6 +5,8 @@ import { UpdateEndorse, UpdateEndorseNoImage } from 'src/app/models/endorse';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { Location } from '@angular/common';
+import { DialogService } from 'src/app/services/dialog-services/dialog.service';
+import { ConfirmDialogText } from 'src/app/models/confirmDialog';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -24,7 +26,7 @@ export class EditProfileComponent implements OnInit {
   image: string;
   currentImage: string;
   EndorseList: any;
-  constructor(private router: Router, private _location: Location, private route: ActivatedRoute, private service: ApiServicesService, private snackbarSrevice: SnackbarServiceService) { }
+  constructor(private router: Router,private dialogService: DialogService, private _location: Location, private route: ActivatedRoute, private service: ApiServicesService, private snackbarSrevice: SnackbarServiceService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -65,10 +67,39 @@ export class EditProfileComponent implements OnInit {
     }else{
       this.endorse.profilepic = this.currentImage
     }
-    this.service.updateEndorsement(this.endorse).subscribe(res => {
-      this.snackbarSrevice.openSnackBar("Profile has been updated successfully")
-      this.router.navigate(['./home']);
+
+    this.service.getEndorsement(this.endorse.PublicKey).subscribe((res: any) => {
+      if(res.Status=='Accepted'){
+        this.service.updateEndorsement(this.endorse).subscribe(res => {
+          this.snackbarSrevice.openSnackBar("Profile has been updated successfully")
+          this.router.navigate(['./home']);
+        })
+      }else if(res.Status == null || res.Status == 'Declined' || res.Status == '') {
+        this.dialogService
+          .confirmDialog({
+            title: ConfirmDialogText.PROFILE_ENDORSMENT_TITLE,
+            message:ConfirmDialogText.PROFILE_ENDORSMENT_MESSAGE,
+            confirmText: ConfirmDialogText.CONFIRM_BTN,
+            cancelText: ConfirmDialogText.CANCEL_BTN,
+          })
+          .subscribe((res) => {
+            if (res) {
+              this.router.navigate(['./mint']);
+            }
+          });
+        }else if(res.Status == 'Pending'){
+          this.dialogService
+          .okDialog({
+            title: "Endorsement in Pending",
+            message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+            confirmText: ConfirmDialogText.CONFIRM_BTN,
+          })
+        }
+
+
+      
     })
+   
   }
 
   public onChange(event: any) {

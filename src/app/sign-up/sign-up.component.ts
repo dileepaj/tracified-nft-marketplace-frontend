@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from '../services/dialog-services/dialog.service';
 import { SnackbarServiceService } from '../services/snackbar-service/snackbar-service.service';
 import { ConfirmDialogText, OkDialogText, SnackBarText } from '../models/confirmDialog';
+import albedo from '@albedo-link/intent';
 
 @Component({
   selector: 'app-sign-up',
@@ -26,6 +27,8 @@ export class SignUpComponent implements OnInit {
   data: any;
   mail: any;
   blockchain: any;
+  wallet: any;
+  albedopk: any;
   constructor(
     private service: ApiServicesService,
     private _location: Location,
@@ -48,11 +51,23 @@ export class SignUpComponent implements OnInit {
     this.endorse.Status = 'Pending';
 
     if (this.endorse.Blockchain == 'stellar') {
-      let freighterWallet = new UserWallet();
-      freighterWallet = new FreighterComponent(freighterWallet);
-      await freighterWallet.initWallelt();
-      this.signerPK = await freighterWallet.getWalletaddress();
-      this.endorse.PublicKey = this.signerPK;
+      if(this.wallet=="freighter"){
+        let freighterWallet = new UserWallet();
+        freighterWallet = new FreighterComponent(freighterWallet);
+        await freighterWallet.initWallelt();
+        this.signerPK = await freighterWallet.getWalletaddress();
+        this.endorse.PublicKey = this.signerPK;
+      }
+      if(this.wallet=="albedo"){
+        await albedo.publicKey({
+          require_existing: true
+      })
+  .then((res:any) => {
+            console.log("--------------------------result---------",res)
+          this.albedopk=res.pubkey
+          this.endorse.PublicKey = this.albedopk;})
+      }
+     
     }
 
     if (this.endorse.Blockchain == 'solana') {
@@ -107,6 +122,7 @@ export class SignUpComponent implements OnInit {
       this.data=JSON.parse(params['data']);
 this.mail=this.data[1]
 this.blockchain=this.data[0]
+this.wallet=this.data[2]
     })
     //validating form data
     this.controlGroup = new FormGroup({

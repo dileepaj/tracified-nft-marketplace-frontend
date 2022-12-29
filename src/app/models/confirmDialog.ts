@@ -40,6 +40,10 @@ export const ConfirmDialogText={
     MINT1_PK_ENDORSMENT_TITLE: 'Public Key Endorsment',
     MINT1_PK_ENDORSMENT_MESSAGE:'Your account is not endorsed. Would you like to get it endorsed now?',
     
+    //Edit profile
+    PROFILE_ENDORSMENT_TITLE: 'Get Endorsed',
+    PROFILE_ENDORSMENT_MESSAGE:'Your account is not endorsed. To endorse, visit the Create page and select a wallet account to get endorsed. Would you like to proceed?',
+    
    //Mint2 screen
    MINT2_MINT_CONFIRM_TITLE:'NFT Minting Confirmation',
    MINT2_MINT_CONFIRM_MESSAGE:'Are you sure you want to Mint this NFT?',

@@ -273,7 +273,10 @@ export class Mint2Component implements OnInit {
     this.mint.thumbnail=this.thumbnail
     this.svgUpdate.Id = this.hash;
 
-    if(this.mint.Blockchain === "" || this.mint.NFTName === "" || this.mint.Description === "" ||  this.formValue("Collection") === "" || this.formValue("ArtistName") === "") {
+    if(!this.mint.Imagebase64 || !this.mint.thumbnail || this.mint.Blockchain === "" || this.mint.NFTName === "" || this.mint.Description === "" ||  this.formValue("Collection") === "" || this.formValue("ArtistName") === "") {
+      this.snackbar.openSnackBar(
+        SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING
+      );
       return
     }
 
@@ -776,7 +779,7 @@ export class Mint2Component implements OnInit {
       Issuer: new FormControl(this.mint.NFTIssuerPK),
     });
 
-    this.controlGroup.get('Blockchain')?.setValue('ethereum');
+    this.controlGroup.get('Blockchain')?.setValue('');
   }
 
   private formValue(controlName: string): any {

@@ -113,8 +113,8 @@
   display: flex;
   flex-direction: column;
   align-content: center;
-  row-gap: 7px;
   width: 620px;
+  row-gap: 7px;
 }
 
 ::placeholder {
@@ -455,7 +455,18 @@ mat-hint.tags {
   height: 300px;
 }
 .tooltip{
-  font-size: small;
+  font-size: 14px;
   font-family: 'Open Sans', sans-serif;
   color: #848484;
+  margin-bottom: 8px;
+}
+
+.normal-text {
+  font-family: 'Open Sans', sans-serif !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 22px !important;
+  /* identical to box height */
+  line-height: 15px !important;
+  color: #ffffff !important;
 }

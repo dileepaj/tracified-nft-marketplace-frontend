@@ -1,4 +1,4 @@
-import albedo from '@albedo-link/intent';
+import albedo1 from '@albedo-link/intent';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -41,28 +41,31 @@ export class OverviewComponent implements OnInit {
 
 
     async retrive(blockchain: string) {
+      console.log("ON IN IT 1")
       if (blockchain == 'stellar') {
 
         /* Storing user's device details in a variable*/
-      let details = navigator.userAgent;
+      let details1 = navigator.userAgent;
+      console.log("user agent: ",details1)
       
       /* Creating a regular expression
       containing some mobile devices keywords
       to search it in details string*/
-      let regexp = /android|iphone|kindle|ipad/i;
+      let regexp1 = /android|iphone|kindle|ipad/i;
       
       /* Using test() method to search regexp in details
       it returns boolean value*/
-      let isMobileDevice = regexp.test(details);
+      let isMobileDevice1 = regexp1.test(details1);
       
-      if(isMobileDevice) {
-         console.log("Its a Mobile Device !");
-        await albedo.publicKey({
-          require_existing: true
+      if(isMobileDevice1) {
+         alert("Its a Mobile Device !");
+        await albedo1.publicKey({
+          require_existing: false
       }).then((res:any) => {
             console.log("--------------------------result---------",res)
             this.User=res.pubkey
           })
+
       } else {
         let freighterWallet = new UserWallet();
         freighterWallet = new FreighterComponent(freighterWallet);
@@ -102,12 +105,23 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.route.queryParams.subscribe((params) => {
+    //   this.User = params['user']
+    //   console.log("--------------user passed ",this.User)
+
+      
+    //   this.router.navigate(['./user-dashboard'], {
+    //     queryParams: { user: this.User },
+    //   });
+    // })
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
+      this.User = params['user']
+      console.log("user : ",this.User)
+      // this.router.navigate(['./user-dashboard'], {
+      //   queryParams: { blockchain: this.selectedBlockchain , user:this.User},
+      // });
 
-      this.router.navigate(['./user-dashboard'], {
-        queryParams: { blockchain: this.selectedBlockchain },
-      });
 
       this.ListBought.splice(0);
       this.ListHotpicks.splice(0);

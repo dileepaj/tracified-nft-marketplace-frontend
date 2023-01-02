@@ -1,3 +1,4 @@
+import albedo from '@albedo-link/intent';
 import {
   Component,
   HostListener,
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit {
   bcListExpanded: boolean = false;
   resourcesExpanded: boolean = false;
   timedOutCloser;
+  tx: any;
 
   constructor(
     private dialogref: MatDialog,
@@ -128,13 +130,47 @@ export class HeaderComponent implements OnInit {
     this.sideNavOpened = false;
   }
 
-  public goToOverview(blockchain: string) {
+  public async goToOverview(blockchain: string) {
+    if (blockchain == 'stellar') {
+      let details = navigator.userAgent;
+      console.log("user agent: ",details)
+      
+      /* Creating a regular expression
+      containing some mobile devices keywords
+      to search it in details string*/
+      let regexp = /android|iphone|kindle|ipad/i;
+      console.log("-------------------------this is in user dash")
+      /* Using test() method to search regexp in details
+      it returns boolean value*/
+      let isMobileDevice = await regexp.test(details);
+      
+      if(isMobileDevice) {
+          await albedo.publicKey({require_existing:true}).then( (re1s:any) => {
+            this.tx=re1s
+              console.log("-mithilaaaaa", { blockchain:blockchain,user: this.tx.pubkey} )
+              this.router.navigate(['/user-dashboard/overview'], {
+                queryParams: { user: this.tx.pubkey , blockchain:blockchain},
+              });
+    // this.router.navigate(['/user-dashboard/overview'], {
+    //   queryParams: { blockchain: blockchain },
+    // });
+    this.sideNavOpened = false;
+    this.accListExpanded = false;
+          })
+          console.log("Its a Mobile Device ----------------------------------------------------------!");
+  }else{     
     this.router.navigate(['/user-dashboard/overview'], {
       queryParams: { blockchain: blockchain },
     });
     this.sideNavOpened = false;
     this.accListExpanded = false;
   }
+}
+    
+
+this.sideNavOpened = false;
+this.accListExpanded = false;
+}
 
   public goToHome() {
     this.router.navigate(['/home']);

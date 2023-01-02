@@ -10,6 +10,7 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import albedo from '@albedo-link/intent';
 @Component({
   selector: 'app-view-dashboard',
   templateUrl: './view-dashboard.component.html',
@@ -45,6 +46,7 @@ export class ViewDashboardComponent implements OnInit {
 
 
   goToOverview(){
+
     this.router.navigate(['./user-dashboard/overview'], {
       queryParams: { blockchain: this.selectedBlockchain },
     });
@@ -53,11 +55,21 @@ export class ViewDashboardComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
+    // this.route.queryParams.subscribe((params) => {
+    //   this.User = params['user']
+    //   console.log("--------------user passed ",this.User)
+    // })
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
+      this.User = params['user']
+      console.log("--------------bc passed ",this.selectedBlockchain)
+      console.log("--------------bc passed user ",this.User)
+      this.retrive(this.selectedBlockchain,this.User);
 })
-    this.retrive(this.selectedBlockchain);
+
+  
     this.setGreeting();
     if (window.innerWidth < 1280) {
       this.opened = false;
@@ -95,12 +107,44 @@ export class ViewDashboardComponent implements OnInit {
   }
 
 
-  async retrive(blockchain: string) {
+  async retrive(blockchain: string,user:string) {
+    console.log("ON IN IT 2 ")
     if (blockchain == 'stellar') {
+      let details = navigator.userAgent;
+      console.log("user agent: ",details)
+      
+      /* Creating a regular expression
+      containing some mobile devices keywords
+      to search it in details string*/
+      let regexp = /android|iphone|kindle|ipad/i;
+      console.log("-------------------------this is in user dash")
+      /* Using test() method to search regexp in details
+      it returns boolean value*/
+      let isMobileDevice = regexp.test(details);
+      
+      if(isMobileDevice) {
+          console.log("Its a Mobile Device ----------------------------------------------------------!");
+
+          // await albedo.publicKey({require_existing:true}).then( re1s => {
+          //     console.log("-----yyyyyyyyyyyyyyyyyyyyyy-----------result---------",re1s)
+       
+              console.log("==================start albedo profile======================",user)
+            
+             this.api.getEndorsement(user).subscribe((res: any) => {
+            console.log("==================start profile======================", res);
+            if (res.profilepic != "") {
+              this.imagePath = res.profilepic;
+            } else {
+              this.imagePath = "../../../assets/images/default_profile.png";
+            }
+            this.Name = res.Name;
+          })
+           
+        }else{
       let freighterWallet = new UserWallet();
       freighterWallet = new FreighterComponent(freighterWallet);
-      await freighterWallet.initWallelt();
-      this.User= await freighterWallet.getWalletaddress();
+      freighterWallet.initWallelt();
+      this.User= freighterWallet.getWalletaddress();
       this.api.getEndorsement(this.User).subscribe((res:any)=>{
         if(res.profilepic!=""){
           this.imagePath = res.profilepic
@@ -109,14 +153,14 @@ export class ViewDashboardComponent implements OnInit {
         }
         this.Name=res.Name
       })
-
+    }
     }
 
     if (blockchain == 'solana') {
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
-      await phantomWallet.initWallelt();
-      this.User = await phantomWallet.getWalletaddress();
+      phantomWallet.initWallelt();
+      this.User = phantomWallet.getWalletaddress();
       this.api.getEndorsement(this.User).subscribe((res:any)=>{
         if(res.profilepic!=""){
           this.imagePath = res.profilepic
@@ -135,8 +179,8 @@ export class ViewDashboardComponent implements OnInit {
     ) {
       let metamaskwallet = new UserWallet();
       metamaskwallet = new MetamaskComponent(metamaskwallet);
-      await metamaskwallet.initWallelt();
-      this.User = await metamaskwallet.getWalletaddress();
+      metamaskwallet.initWallelt();
+      this.User = metamaskwallet.getWalletaddress();
       this.api.getEndorsement(this.User).subscribe((res:any)=>{
         if(res.profilepic!=""){
           this.imagePath = res.profilepic

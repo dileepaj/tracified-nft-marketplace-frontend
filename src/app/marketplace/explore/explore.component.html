@@ -130,11 +130,7 @@
           ></app-nft-card>
         </div>
       </div>
-      <app-loader
-        [displayText]="'Loading NFTs...'"
-        *ngIf="nextPageLoading"
-      ></app-loader>
-      <div class="explore-loading" *ngIf="loading">
+      <div class="explore-loading" *ngIf="loading || nextPageLoading">
         <app-loader [displayText]="'Loading NFTs...'"></app-loader>
       </div>
       <div

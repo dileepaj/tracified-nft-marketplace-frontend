@@ -96,7 +96,7 @@
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text">Description <span class="required">*</span></label>
-      <h6 class="tooltip">This will be displayed in the nft details page along with the image</h6>
+      <label class="tooltip">This will be displayed in the nft details page along with the image</label>
       <mat-form-field appearance="outline" class="description">
         <textarea class="textarea" matInput formControlName="Description" maxlength="80"
           placeholder="Provide a detailed description of your NFT."></textarea>
@@ -104,7 +104,7 @@
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%; margin-bottom: 35px">
       <label class="normal-text">Collection <span class="required">*</span></label>
-      <h6 class="tooltip">Your nft must be part of a collection. You can create any number of NFTs per collection</h6>
+      <label class="tooltip">Your nft must be part of a collection. You can create any number of NFTs per collection</label>
       <div style="position: relative; display: flex; flex-direction: row; align-items: center;">
         <mat-form-field appearance="outline" fxHide.md="false" fxHide.gt-md="false" fxShow.lt-md="false" style="width: 100%">
           <mat-select formControlName="Collection" class="select-bc" placeholder="Select Collection" >
@@ -154,7 +154,7 @@
     </div>
     <div class="mint-form-group" style="margin-top: 15px" ngStyle.lt-md="width:100%">
       <label class="normal-text">Choose your Blockchain <span class="required">*</span></label>
-      <h6 class="tooltip">Your NFT will be created in the selected blockchain. Transaction fees may vary</h6>
+      <label class="tooltip">Your NFT will be created in the selected blockchain. Transaction fees may vary</label>
       <mat-form-field appearance="outline">
         <mat-select formControlName="Blockchain" disableOptionCentering class="select-bc" d>
           <mat-select-trigger *ngIf="controlGroup.controls['Blockchain'].value === 'ethereum'">
@@ -212,7 +212,7 @@
     </div>
     <div class="mint-form-group" style="margin-top: 15px" ngStyle.lt-md="width:100%">
       <label class="normal-text">Tags </label>
-      <h6 class="tooltip">Enter one to four tags that best describes your NFT.</h6>
+      <label class="tooltip">Enter one to four tags that best describes your NFT.</label>
       <mat-form-field class="example-chip-list" appearance="outline">
         <mat-chip-list #chipList style="position: absolute; top: 15px; left: 10px; right: 10px">
           <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">
@@ -230,7 +230,7 @@
     </div>
     <div class="mint-form-group margin" ngStyle.lt-md="width:100%">
       <label class="normal-text">External Link </label>
-      <h6 class="tooltip">Include an external link to a page further describing your NFT.</h6>
+      <label class="tooltip">Include an external link to a page further describing your NFT.</label>
       <mat-form-field appearance="outline">
         <input type="text" class="input" matInput name="codeforprofile" formControlName="NftContentURL"
           placeholder="https://" />
@@ -238,7 +238,7 @@
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text">Creator Name <span class="required">*</span></label>
-      <h6 class="tooltip">Enter name of the NFT creator.</h6>
+      <label class="tooltip">Enter name of the NFT creator.</label>
       <mat-form-field appearance="outline">
         <input type="text" class="input" matInput name="creatorname" formControlName="ArtistName"
           placeholder="Enter name of the creator." />
@@ -246,7 +246,7 @@
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text">Creator Profile Link </label>
-      <h6 class="tooltip">Include a link to more information about the creator (Social Media, Personal Website, etc.)</h6>
+      <label class="tooltip">Include a link to more information about the creator (Social Media, Personal Website, etc.)</label>
       <mat-form-field appearance="outline">
         <input type="text" class="input" matInput name="profilelink" formControlName="ArtistProfileLink"
           placeholder="Enter profile URL of the creator." />

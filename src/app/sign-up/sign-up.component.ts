@@ -63,7 +63,6 @@ export class SignUpComponent implements OnInit {
           require_existing: true
       })
   .then((res:any) => {
-            console.log("--------------------------result---------",res)
           this.albedopk=res.pubkey
           this.endorse.PublicKey = this.albedopk;})
       }

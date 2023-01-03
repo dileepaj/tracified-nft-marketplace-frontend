@@ -80,7 +80,6 @@ export class TrustByBuyerService {
                 .setTimeout(60000)
                 .build();
                 let txn=  transaction.toEnvelope().toXDR().toString("base64");
-                console.log("----------xdr ------------- ",txn)
                return albedo.tx({
                  xdr: txn,
                  network: Networks.TESTNET,

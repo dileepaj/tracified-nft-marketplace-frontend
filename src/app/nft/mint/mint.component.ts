@@ -120,7 +120,7 @@ export class MintComponent implements OnInit {
   }
 
   public async selectWallet(wallet: string) {
-    console.log("--------------------wallet ",wallet)
+
     if(wallet=="metamask"){
       let metamaskwallet = new UserWallet();
       metamaskwallet = new MetamaskComponent(metamaskwallet);
@@ -215,12 +215,10 @@ export class MintComponent implements OnInit {
     }
 
     if(wallet=="albedo"){
-      console.log("hereeeeeeeeeeeeeeeeeeeeeeeee")
       await albedo.publicKey({
         require_existing: true
     })
 .then((res:any) => {
-          console.log("--------------------------result---------",res)
         this.albedopk=res.pubkey})
           var key =this.albedopk
           this.blockchain="stellar"
@@ -261,7 +259,6 @@ export class MintComponent implements OnInit {
           });
       
        }else{
-        console.log("no albedo")
         window.location.href = 'https://albedo.link/';
        }
     }

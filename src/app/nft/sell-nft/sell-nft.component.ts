@@ -194,7 +194,6 @@ export class SellNftComponent implements OnInit {
         selectF: SelectWalletText.WALLET_FREIGHTER,
       })
       .subscribe(async (res:any) => {
-        console.log("res is: ",res)
         this.wallet=res
 
         if(this.wallet=='freighter'){
@@ -257,7 +256,6 @@ export class SellNftComponent implements OnInit {
             require_existing: true
         })
             .then((res:any) => {
-              console.log(res)
               this.signerpK=res.pubkey
             
               this.saleBE.SellingType = 'NFT';
@@ -298,7 +296,6 @@ export class SellNftComponent implements OnInit {
                   this.royaltyCharge
                 )
                 .then((res: any) => {
-                  console.log("txn result: ",res)
                   this.selltxn = res.tx_hash;
                   this.saveTXNs();
                   dialog.close();
@@ -717,7 +714,9 @@ export class SellNftComponent implements OnInit {
           this.isLoading = false;
         });
     } else {
-      console.log('User PK not connected or not endorsed');
+      this.snackbarService.openSnackBar(
+        'User PK not connected or not endorsed'
+      );
     }
 
     this.controlGroupSell = new FormGroup({

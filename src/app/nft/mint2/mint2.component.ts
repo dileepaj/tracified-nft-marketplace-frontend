@@ -309,7 +309,8 @@ export class Mint2Component implements OnInit {
                 this.apiService
                   .getEndorsement(this.userPK)
                   .subscribe((result: any) => {
-                      if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+                 
+                      if (result.Status == '' || result.Status == 'Declined' || result.Status == null) {
                       this.dialogService
                         .confirmDialog({
                           title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -334,6 +335,9 @@ export class Mint2Component implements OnInit {
                         confirmText: ConfirmDialogText.CONFIRM_BTN,
                       })
                     }else {
+                      const dialog = this.dialogService.pendingDialog({
+                        message: PendingDialogText.MINTING_IN_PROGRESS,
+                      });
                       this.sendToMint3();
                       this.mintNFT(this.userPK);
                       dialog.close();
@@ -350,7 +354,6 @@ export class Mint2Component implements OnInit {
               require_existing: true
           })
               .then((res:any) => {
-                console.log(res)
                 this.userPK=res.pubkey
                 this.mint.CreatorUserId = this.userPK;
                 this.pushTag();
@@ -370,7 +373,6 @@ export class Mint2Component implements OnInit {
                       this.apiService
                         .getEndorsement(this.userPK)
                         .subscribe((result: any) => {
-                          console.log("--------endorsement: ",result.Status)
                             if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
                             this.dialogService
                               .confirmDialog({
@@ -396,6 +398,9 @@ export class Mint2Component implements OnInit {
                               confirmText: ConfirmDialogText.CONFIRM_BTN,
                             })
                           }else {
+                            const dialog = this.dialogService.pendingDialog({
+                              message: PendingDialogText.MINTING_IN_PROGRESS,
+                            });
                             this.sendToMint3();
                             this.mintNFTOnAlbedo(this.userPK);
                              dialog.close();
@@ -466,6 +471,9 @@ export class Mint2Component implements OnInit {
                         confirmText: ConfirmDialogText.CONFIRM_BTN,
                       })
                     }else{
+                      const dialog = this.dialogService.pendingDialog({
+                        message: PendingDialogText.MINTING_IN_PROGRESS,
+                      });
                      this.sendToMint3();
                           this.mintNftSolana(this.mint.NFTIssuerPK);
                           dialog.close()
@@ -500,13 +508,12 @@ export class Mint2Component implements OnInit {
         })
         .subscribe((res) => {
           if (res) {
-            const dialog = this.dialogService.pendingDialog({
-              message: PendingDialogText.MINTING_IN_PROGRESS,
-            });
+          
             this.apiService
               .getEndorsement(this.mint.DistributorPK)
               .subscribe((result: any) => {
                 if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+                
                   this.dialogService
                     .confirmDialog({
                       title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -531,6 +538,9 @@ export class Mint2Component implements OnInit {
                     confirmText: ConfirmDialogText.CONFIRM_BTN,
                   })
                 } else {
+                  const dialog = this.dialogService.pendingDialog({
+                    message: PendingDialogText.MINTING_IN_PROGRESS,
+                  });
                   this.emint
                     .mintInEthereum(
                       this.mint.NFTIssuerPK,
@@ -611,6 +621,9 @@ export class Mint2Component implements OnInit {
                           confirmText: ConfirmDialogText.CONFIRM_BTN,
                         })
                       }else {
+                        const dialog = this.dialogService.pendingDialog({
+                          message: PendingDialogText.MINTING_IN_PROGRESS,
+                        });
                         this.pmint
                           .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
                           .then((res) => {
@@ -738,6 +751,7 @@ export class Mint2Component implements OnInit {
   }
 
   mintNFT(userPK: string) {
+   
     //minting nft using stellar
     if (this.mint.CreatorUserId != null) {
       //step 1. - change trust by distributor
@@ -788,7 +802,9 @@ export class Mint2Component implements OnInit {
           }
         });
     } else {
-      console.log('User PK not connected or not endorsed');
+      this.snackbar.openSnackBar(
+        'User PK not connected or not endorsed'
+      );
     }
   }
 
@@ -803,7 +819,6 @@ export class Mint2Component implements OnInit {
           userPK
         )
         .then((transactionResult: any) => {
-          console.log("---------------------------txnresult ",transactionResult)
             this.service
               .minNFTStellar(
                 //step 2. - mint
@@ -838,7 +853,9 @@ export class Mint2Component implements OnInit {
               });
         });
     } else {
-      console.log('User PK not connected or not endorsed');
+      this.snackbar.openSnackBar(
+        'User PK not connected or not endorsed'
+      );
     }
   }
 
@@ -877,7 +894,9 @@ export class Mint2Component implements OnInit {
         this.CollectionList = data;
       });
     } else {
-      console.log('User PK not connected or not endorsed');
+      this.snackbar.openSnackBar(
+        'User PK not connected or not endorsed'
+      );
     }
 
     //  })

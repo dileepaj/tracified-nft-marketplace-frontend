@@ -59,8 +59,6 @@ export class SaleOfferService {
               network: Networks.TESTNET,
               submit :true
            })
-         // .then(res =>{console.log(res)
-          // this.res=res.tx_hash})
 
         })
         .then((transactionToSubmit) => {

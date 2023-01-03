@@ -84,7 +84,6 @@ export class WalletComponent implements OnInit {
         require_existing: true
     })
 .then((res:any) => {
-          console.log("--------------------------result---------",res)
           this.User=res.pubkey})
   }
 

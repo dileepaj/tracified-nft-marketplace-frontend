@@ -32,6 +32,7 @@ export class OverviewComponent implements OnInit {
   imageSrc: any;
   User: string;
   thumbnailSRC: any;
+  user: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -40,29 +41,19 @@ export class OverviewComponent implements OnInit {
     private _sanitizer: DomSanitizer ) {}
 
 
-    async retrive(blockchain: string) {
+    async retrive(blockchain: string,user:string) {
+    
       if (blockchain == 'stellar') {
 
-        /* Storing user's device details in a variable*/
-      let details = navigator.userAgent;
+      let details1 = navigator.userAgent;
+     
+      let regexp1 = /android|iphone|kindle|ipad/i;
       
-      /* Creating a regular expression
-      containing some mobile devices keywords
-      to search it in details string*/
-      let regexp = /android|iphone|kindle|ipad/i;
+      let isMobileDevice1 = regexp1.test(details1);
       
-      /* Using test() method to search regexp in details
-      it returns boolean value*/
-      let isMobileDevice = regexp.test(details);
-      
-      if(isMobileDevice) {
-         console.log("Its a Mobile Device !");
-        await albedo.publicKey({
-          require_existing: true
-      }).then((res:any) => {
-            console.log("--------------------------result---------",res)
-            this.User=res.pubkey
-          })
+      if(isMobileDevice1) {
+        this.User=user
+
       } else {
         let freighterWallet = new UserWallet();
         freighterWallet = new FreighterComponent(freighterWallet);
@@ -104,9 +95,10 @@ export class OverviewComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
-
-      this.router.navigate(['./user-dashboard'], {
-        queryParams: { blockchain: this.selectedBlockchain },
+      this.user = params['user']
+    
+      this.router.navigate(['/user-dashboard'], {
+        queryParams: {  user:this.user,blockchain: this.selectedBlockchain },
       });
 
       this.ListBought.splice(0);
@@ -114,7 +106,7 @@ export class OverviewComponent implements OnInit {
       this.ListMinted.splice(0);
       this.ListTrends.splice(0);
       this.ListSales.splice(0);
-      this.retrive(this.selectedBlockchain).then(res=>{
+      this.retrive(this.selectedBlockchain,this.user).then(res=>{
           this.nft.getNFTByBlockchainandUser(this.selectedBlockchain,this.User).subscribe(async (data) => {
         this.nfts = data;
         if(this.nft==null){

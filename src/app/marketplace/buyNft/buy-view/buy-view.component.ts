@@ -366,7 +366,6 @@ export class BuyViewComponent implements OnInit {
       selectF: SelectWalletText.WALLET_FREIGHTER,
     })
     .subscribe(async (res:any) => {
-      console.log("res is: ",res)
       this.wallet=res
 
       if(this.wallet=='freighter'){
@@ -406,7 +405,6 @@ export class BuyViewComponent implements OnInit {
           require_existing: true
       })
           .then((res:any) => {
-            console.log(res)
             this.userPK=res.pubkey
             this.trustalbedo
             .trustlineByBuyer(
@@ -419,7 +417,6 @@ export class BuyViewComponent implements OnInit {
             )
             .then((transactionResult: any) => {
               
-              console.log("transaction went through: ",transactionResult)
                 this.buytxn = transactionResult.tx_hash;
                 this.saveTXNs();
                 this.saleBE.CurrentOwnerPK = this.userPK;

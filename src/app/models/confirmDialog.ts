@@ -4,6 +4,13 @@ export interface ConfirmDialog{
     confirmText:string;
     cancelText:string;
 }
+
+export interface selectWalletDialog{
+    title:string;
+    message:string;
+    selectF:string;
+    selectA:string;
+}
 export interface OkDialog{
     title:string;
     message:string;
@@ -21,6 +28,7 @@ export const ConfirmDialogText={
     //dialog box buttons
     CONFIRM_BTN : 'Yes',
     CANCEL_BTN : 'No',
+
     //BuyView Text
     BUY_VIEW_BUY_NFT_TITLE:'NFT Purchase Confirmation',
     BUY_VIEW_BUY_NFT_MESSAGE:'Are you sure you want to purchase this NFT?',
@@ -31,6 +39,10 @@ export const ConfirmDialogText={
     //Mint 1 screen
     MINT1_PK_ENDORSMENT_TITLE: 'Public Key Endorsment',
     MINT1_PK_ENDORSMENT_MESSAGE:'Your account is not endorsed. Would you like to get it endorsed now?',
+    
+    //Edit profile
+    PROFILE_ENDORSMENT_TITLE: 'Get Endorsed',
+    PROFILE_ENDORSMENT_MESSAGE:'Your account is not endorsed. To endorse, visit the Create page and select a wallet account to get endorsed. Would you like to proceed?',
     
    //Mint2 screen
    MINT2_MINT_CONFIRM_TITLE:'NFT Minting Confirmation',
@@ -62,6 +74,17 @@ export const ConfirmDialogText={
    DECLINE_ENDORSMENT_BTN:'Decline'
     
 
+}
+
+export const SelectWalletText={
+      //wallet buttons
+      WALLET_ALBEDO :'Albedo',
+      WALLET_FREIGHTER : 'Freighter',
+  
+      //Select Wallet for Stellar
+      WALLET_TITLE : 'Select Stellar based Wallet',
+      WALLET_MESSAGE : 'Select a wallet to advance with the stellar transaction. Please note that Freighter is not mobile compatible' ,
+  
 }
 
 export const OkDialogText ={

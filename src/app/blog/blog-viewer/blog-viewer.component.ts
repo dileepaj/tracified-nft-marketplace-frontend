@@ -48,9 +48,7 @@ export class BlogViewerComponent implements OnInit {
         this.description = this.List[x].desc;
         this.topics = this.List[x].topic;
         this.thumbnail = this.List[x].thumbnail;
-      } else {
-        console.log('it wasnt the same');
-      }
+      } 
     }
   }
 

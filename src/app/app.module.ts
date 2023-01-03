@@ -95,6 +95,8 @@ import { NftCardComponent } from './nft/nft-card/nft-card.component';
 import { CreatorViewComponent } from './nft/creator-view/creator-view.component';
 import { NftPreviewComponent } from './dialogs/nft-preview/nft-preview.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { SelectWalletComponent } from './dialogs/select-wallet/select-wallet.component';
+
 const appRoutes: Routes = [
   {
     path: '',
@@ -337,6 +339,7 @@ const appRoutes: Routes = [
     NftCardComponent,
     CreatorViewComponent,
     NftPreviewComponent,
+    SelectWalletComponent,
   ],
   imports: [
     BrowserModule,

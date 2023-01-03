@@ -277,13 +277,17 @@ export class ShowNFTComponent implements OnInit {
                   this.loading = false;
                 });
             } else {
-              console.log('NOT ON SALE');
+              this.snackbarService.openSnackBar(
+                'NOT ON SALE'
+              );
             }
           }
         });
       }
     } else {
-      console.log('User PK not connected or not endorsed');
+      this.snackbarService.openSnackBar(
+        'User PK not connected or not endorsed'
+      );
     }
   }
 }

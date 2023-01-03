@@ -203,8 +203,11 @@
                     matInput
                     name="Royalty"
                     formControlName="Royalty"
+                    min=0
+                    max=100
                   />
-                  <span matSuffix>{{ this.currency }}</span>
+                  
+                  <span matSuffix style="font-size:18px;">%</span>
                 </mat-form-field>
               </div>
               <button

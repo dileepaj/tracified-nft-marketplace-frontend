@@ -11,12 +11,15 @@ import {
   OkDialog,
   PendingDialog,
   PreviewImage,
+  selectWalletDialog,
 } from 'src/app/models/confirmDialog';
 import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
 import { DisclaimerComponent } from 'src/app/dialogs/disclaimer/disclaimer.component';
 import { NftPreviewComponent } from 'src/app/dialogs/nft-preview/nft-preview.component';
 import { CodeviewComponent } from 'src/app/nft/codeview/codeview.component';
+import { SelectWalletComponent } from 'src/app/dialogs/select-wallet/select-wallet.component';
 import { MintPopupComponent } from 'src/app/nft/mint-popup/mint-popup.component';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -72,6 +75,15 @@ export class DialogService {
         key: key,
       },
     });
+  }
+
+  selectWallet(data:selectWalletDialog)
+  : Observable<string> {
+    return this.dialog.open(SelectWalletComponent, {
+      width: '500px',
+      disableClose: true,
+      data,
+    }).afterClosed();
   }
 
   openDisclaimer(): Observable<boolean> {

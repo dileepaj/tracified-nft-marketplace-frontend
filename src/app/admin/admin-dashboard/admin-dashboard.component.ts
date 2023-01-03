@@ -9,6 +9,7 @@ import { Route } from '@angular/router';
 export class AdminDashboardComponent implements OnInit {
   opened: boolean = true;
   smallScreen : boolean = false;
+  username : string;
   //route : ActivatedRoute
   data : any
   constructor(private router: Router,private route : ActivatedRoute) {}
@@ -17,6 +18,7 @@ export class AdminDashboardComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
      })
+     this.username = JSON.parse(sessionStorage.getItem('User') || '').UserName!;
      if (window.innerWidth < 1280) {
         this.opened = false;
         this.smallScreen = true;

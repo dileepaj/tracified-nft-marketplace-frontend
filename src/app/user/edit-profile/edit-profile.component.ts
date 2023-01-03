@@ -95,9 +95,6 @@ export class EditProfileComponent implements OnInit {
             confirmText: ConfirmDialogText.CONFIRM_BTN,
           })
         }
-
-
-      
     })
    
   }

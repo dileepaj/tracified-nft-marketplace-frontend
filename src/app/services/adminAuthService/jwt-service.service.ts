@@ -16,14 +16,14 @@ export class JwtServiceService {
   private key = new Key()
   constructor(private _cookieService:CookieService) { 
     if(adminENV.name == 'Production'){
-      this.tokenName = 'PTOKENCOMNFT';
-      this.expName = 'PWAITCOMNFT';
+      this.tokenName = 'PTOKENCOMNFTMK';
+      this.expName = 'PWAITCOMNFTMK';
     }else if (adminENV.name == 'staging') {
-      this.tokenName = 'STOKENCOMNFT';
-      this.expName = 'SWAITCOMNFT';
+      this.tokenName = 'STOKENCOMNFTMK';
+      this.expName = 'SWAITCOMNFTMK';
     } else if (adminENV.name == 'qa') {
-      this.tokenName = 'QATOKENCOMNFT';
-      this.expName = 'QWAITCOMNFT';
+      this.tokenName = 'QATOKENCOMNFTMK';
+      this.expName = 'QWAITCOMNFTMMK';
     }
     this.domain = adminENV.domain;
   }

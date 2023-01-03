@@ -99,7 +99,7 @@ import { SelectWalletComponent } from './dialogs/select-wallet/select-wallet.com
 
 const appRoutes: Routes = [
   {
-    path: 'home',
+    path: '',
     component: HomeComponent,
   },
   {
@@ -117,11 +117,6 @@ const appRoutes: Routes = [
   {
     path: 'collections',
     component: CreateCollectionComponent,
-  },
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full',
   },
   {
     path: 'sell',

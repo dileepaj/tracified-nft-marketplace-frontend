@@ -221,6 +221,10 @@ export class Mint2Component implements OnInit {
     }
     this.pushOwner(); //calling function
     this.pushTag(); //calling fnction
+    this.proceed.emit({
+      email : this.email,
+      blockchain: this.mint.Blockchain
+    })
   }
   pushOwner(): void {
     //posting owner data via service to backend
@@ -271,6 +275,13 @@ export class Mint2Component implements OnInit {
     this.mint.Description = this.formValue('Description');
     this.mint.thumbnail=this.thumbnail
     this.svgUpdate.Id = this.hash;
+
+    if(!this.mint.Imagebase64 || !this.mint.thumbnail || this.mint.Blockchain === "" || this.mint.NFTName === "" || this.mint.Description === "" ||  this.formValue("Collection") === "" || this.formValue("ArtistName") === "") {
+      this.snackbar.openSnackBar(
+        SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING
+      );
+      return
+    }
 
     if (this.mint.Blockchain == 'stellar') {
       //minting if blockchain == stellar
@@ -918,8 +929,7 @@ export class Mint2Component implements OnInit {
       Issuer: new FormControl(this.mint.NFTIssuerPK),
     });
 
-    this.controlGroup.get('Blockchain')?.setValue('ethereum');
-    this.controlGroup.get('Collection')?.setValue('Collection');
+    this.controlGroup.get('Blockchain')?.setValue('');
   }
 
   private formValue(controlName: string): any {
@@ -1010,7 +1020,7 @@ export class Mint2Component implements OnInit {
     if (this.file.type.toLowerCase().includes('svg')) {
       this.type= this.file.type
       this.uploadImage(true);
-    } 
+    }
     else if (this.file.type.toLowerCase().includes('png')||this.file.type.toLowerCase().includes('jpg')
     || this.file.type.toLowerCase().includes('jpeg')){
       this.type=this.file.type

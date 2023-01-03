@@ -18,6 +18,8 @@ import { DisclaimerComponent } from 'src/app/dialogs/disclaimer/disclaimer.compo
 import { NftPreviewComponent } from 'src/app/dialogs/nft-preview/nft-preview.component';
 import { CodeviewComponent } from 'src/app/nft/codeview/codeview.component';
 import { SelectWalletComponent } from 'src/app/dialogs/select-wallet/select-wallet.component';
+import { MintPopupComponent } from 'src/app/nft/mint-popup/mint-popup.component';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -117,4 +119,11 @@ export class DialogService {
       maxHeight: '650px',
     });
   }
+
+  openMintAgain() : Observable<boolean> {
+    return this.dialog
+      .open(MintPopupComponent)
+      .afterClosed();
+  }
+
 }

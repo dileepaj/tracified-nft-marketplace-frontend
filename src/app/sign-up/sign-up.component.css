@@ -43,10 +43,17 @@
 .block {
   width: 100px;
 }
+.example-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .example-full-width {
   height: 250%;
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   margin-top: 1%;
 }
 
@@ -94,12 +101,7 @@
   margin-left: 150px;
 }
 
-.example-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
 
 .registration-header {
   position: relative;
@@ -154,4 +156,12 @@
 ::placeholder {
   color: #686868;
   opacity: 1;
+}
+
+.form-input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

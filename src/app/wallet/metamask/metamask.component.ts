@@ -36,7 +36,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
           return;
         });
     } else {
-      window.location.href = 'https://metamask.io/';
+      console.log("window.ethereum is null");
+      // window.location.href = 'https://metamask.io/';
     }
   }
   public getWalletaddress(): string {
@@ -112,6 +113,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     }
   }
 
- 
-  
+
+
 }

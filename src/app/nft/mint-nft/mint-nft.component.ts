@@ -46,7 +46,7 @@ export class MintNftComponent implements OnInit {
   }
 
   public mintAgain() {
-    this.selectedIndex = 1;
+    this.selectedIndex = 0;
     console.log('yoo')
   }
 

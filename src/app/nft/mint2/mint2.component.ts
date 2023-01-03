@@ -313,9 +313,6 @@ export class Mint2Component implements OnInit {
             })
             .subscribe((res) => {
               if (res) {
-                const dialog = this.dialogService.pendingDialog({
-                  message: PendingDialogText.MINTING_IN_PROGRESS,
-                });
 
                 this.apiService
                   .getEndorsement(this.userPK)
@@ -377,9 +374,7 @@ export class Mint2Component implements OnInit {
                   })
                   .subscribe((res) => {
                     if (res) {
-                      const dialog = this.dialogService.pendingDialog({
-                        message: PendingDialogText.MINTING_IN_PROGRESS,
-                      });
+                     
       
                       this.apiService
                         .getEndorsement(this.userPK)
@@ -452,9 +447,7 @@ export class Mint2Component implements OnInit {
             })
             .subscribe((res) => {
               if(res){
-                const dialog = this.dialogService.pendingDialog({
-                  message:PendingDialogText.MINTING_IN_PROGRESS
-                });
+               
                 this.apiService.getEndorsement(this.mint.NFTIssuerPK)
                 .subscribe((result: any) => {
                   if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
@@ -602,9 +595,7 @@ export class Mint2Component implements OnInit {
                 cancelText: ConfirmDialogText.CANCEL_BTN,
               })
               .subscribe((res) => {
-                const dialog = this.dialogService.pendingDialog({
-                  message:PendingDialogText.MINTING_IN_PROGRESS
-                });
+              
                 if (res) {
                   this.apiService.getEndorsement(this.mint.DistributorPK)
                   .subscribe((result: any) => {

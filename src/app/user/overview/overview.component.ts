@@ -1,3 +1,4 @@
+import albedo from '@albedo-link/intent';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,6 +32,7 @@ export class OverviewComponent implements OnInit {
   imageSrc: any;
   User: string;
   thumbnailSRC: any;
+  user: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -39,12 +41,26 @@ export class OverviewComponent implements OnInit {
     private _sanitizer: DomSanitizer ) {}
 
 
-    async retrive(blockchain: string) {
+    async retrive(blockchain: string,user:string) {
+    
       if (blockchain == 'stellar') {
+
+      let details1 = navigator.userAgent;
+     
+      let regexp1 = /android|iphone|kindle|ipad/i;
+      
+      let isMobileDevice1 = regexp1.test(details1);
+      
+      if(isMobileDevice1) {
+        this.User=user
+
+      } else {
         let freighterWallet = new UserWallet();
         freighterWallet = new FreighterComponent(freighterWallet);
         await freighterWallet.initWallelt();
         this.User= await freighterWallet.getWalletaddress();
+      }
+
 
       }
 
@@ -79,9 +95,10 @@ export class OverviewComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
-
-      this.router.navigate(['./user-dashboard'], {
-        queryParams: { blockchain: this.selectedBlockchain },
+      this.user = params['user']
+    
+      this.router.navigate(['/user-dashboard'], {
+        queryParams: {  user:this.user,blockchain: this.selectedBlockchain },
       });
 
       this.ListBought.splice(0);
@@ -89,7 +106,7 @@ export class OverviewComponent implements OnInit {
       this.ListMinted.splice(0);
       this.ListTrends.splice(0);
       this.ListSales.splice(0);
-      this.retrive(this.selectedBlockchain).then(res=>{
+      this.retrive(this.selectedBlockchain,this.user).then(res=>{
           this.nft.getNFTByBlockchainandUser(this.selectedBlockchain,this.User).subscribe(async (data) => {
         this.nfts = data;
         if(this.nft==null){

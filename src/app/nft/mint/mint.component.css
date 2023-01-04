@@ -5,9 +5,11 @@
   margin-top: 30px;
 }
 
-.mat-input-element::placeholder {
-  user-select: none;
-  transition: color 400ms 133.3333333333ms cubic-bezier(0.25, 0.8, 0.25, 1);
+
+.input {
+  caret-color: #fff;
+  font-size: 18px;
+  margin-top: -4px;
 }
 
 .heading {
@@ -27,6 +29,15 @@
   border: 1px solid #595959;
   margin-top: 30px;
   margin-bottom: 30px;
+}
+
+::ng-deep mat-form-field span.mat-form-field-label-wrapper label {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  margin-top: -7px !important;
+  color: #848484 !important;
+  transition: none !important;
 }
 
 /* default and hover color */
@@ -130,8 +141,8 @@
   text-align: center;
 }
 
-.input {
-  caret-color: #fff;
-  font-size: 18px;
-  margin-top: -4px;
+.normal-text {
+  margin-right: 0px;
+  line-height: 33px;
 }
+

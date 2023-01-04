@@ -91,7 +91,7 @@ export class FaqComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    console.log("List :", this.List)
+   
   }
 
   sendtoContactUsPage(){

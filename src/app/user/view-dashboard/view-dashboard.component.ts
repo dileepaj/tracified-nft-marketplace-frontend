@@ -32,6 +32,7 @@ export class ViewDashboardComponent implements OnInit {
   smallScreen : boolean = false;
   imagePath: any;
   greeting : string = '';
+  pk: any;
 
   constructor(
     private api: ApiServicesService,
@@ -56,17 +57,24 @@ export class ViewDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
-})
-    this.retrive(this.selectedBlockchain);
-    this.setGreeting();
-    if (window.innerWidth < 1280) {
-      this.opened = false;
-      this.smallScreen = true;
-    } else {
-      this.opened = true;
-      this.smallScreen = false;
-    }
+      this.pk = params['user']
+    
+      this.retrive(this.selectedBlockchain,this.pk).then(res=>{
 
+        this.setGreeting();
+        if (window.innerWidth < 1280) {
+          this.opened = false;
+          this.smallScreen = true;
+        } else {
+          this.opened = true;
+          this.smallScreen = false;
+        }
+      })
+
+
+  
+  
+  })
   }
 
   @HostListener('window:resize', ['$event'])
@@ -95,21 +103,49 @@ export class ViewDashboardComponent implements OnInit {
   }
 
 
-  async retrive(blockchain: string) {
+  async retrive(blockchain: string,pk:string) {
+   
     if (blockchain == 'stellar') {
+      let details = navigator.userAgent;
+     
+      let regexp = /android|iphone|kindle|ipad/i;
+     
+      let isMobileDevice = regexp.test(details);
+      
+      if(isMobileDevice) {
+            
+             this.api.getEndorsement(pk).subscribe((res: any) => {
+              if(res.Name != ""){
+            if (res.profilepic != '') {
+              this.imagePath = res.profilepic;
+            } else {
+              this.imagePath = "../../../assets/images/default_profile.png";
+            }
+            this.Name = res.Name;
+          }else{
+            this.Name="New User"
+          }
+          })
+           
+        }else{
       let freighterWallet = new UserWallet();
       freighterWallet = new FreighterComponent(freighterWallet);
       await freighterWallet.initWallelt();
       this.User= await freighterWallet.getWalletaddress();
       this.api.getEndorsement(this.User).subscribe((res:any)=>{
-        if(res.profilepic!=""){
-          this.imagePath = res.profilepic
+      
+        if(res.Name != ""){
+          if (res.profilepic != "") {
+            this.imagePath = res.profilepic;
+          } else {
+            this.imagePath = "../../../assets/images/default_profile.png";
+          }
+          this.Name = res.Name;
         }else{
-          this.imagePath = "../../../assets/images/default_profile.png"
+          this.Name="New User"
         }
-        this.Name=res.Name
       })
-
+    }
     }
 
     if (blockchain == 'solana') {
@@ -118,12 +154,16 @@ export class ViewDashboardComponent implements OnInit {
       await phantomWallet.initWallelt();
       this.User = await phantomWallet.getWalletaddress();
       this.api.getEndorsement(this.User).subscribe((res:any)=>{
-        if(res.profilepic!=""){
-          this.imagePath = res.profilepic
+        if(res.Name != ""){
+          if (res.profilepic != "") {
+            this.imagePath = res.profilepic;
+          } else {
+            this.imagePath = "../../../assets/images/default_profile.png";
+          }
+          this.Name = res.Name;
         }else{
-          this.imagePath = "../../../assets/images/default_profile.png"
+          this.Name="New User"
         }
-        this.Name=res.Name
       })
 
     }
@@ -138,12 +178,16 @@ export class ViewDashboardComponent implements OnInit {
       await metamaskwallet.initWallelt();
       this.User = await metamaskwallet.getWalletaddress();
       this.api.getEndorsement(this.User).subscribe((res:any)=>{
-        if(res.profilepic!=""){
-          this.imagePath = res.profilepic
+        if(res.Name != ""){
+          if (res.profilepic != "") {
+            this.imagePath = res.profilepic;
+          } else {
+            this.imagePath = "../../../assets/images/default_profile.png";
+          }
+          this.Name = res.Name;
         }else{
-          this.imagePath = "../../../assets/images/default_profile.png"
+          this.Name="New User"
         }
-        this.Name=res.Name
       })
     }
 

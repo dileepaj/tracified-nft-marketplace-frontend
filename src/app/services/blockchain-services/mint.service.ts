@@ -84,7 +84,7 @@ export class MintService {
   }
 
   minNFTStellar(
-    transactionResultSuccessful:string,
+    transactionResultSuccessful:any,
     issuerPublicKey:string,
     distributorPublickKey:string,
     asset_code:string,

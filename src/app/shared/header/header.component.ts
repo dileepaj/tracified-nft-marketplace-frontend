@@ -1,3 +1,4 @@
+import albedo from '@albedo-link/intent';
 import {
   Component,
   HostListener,
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit {
   bcListExpanded: boolean = false;
   resourcesExpanded: boolean = false;
   timedOutCloser;
+  tx: any;
 
   constructor(
     private dialogref: MatDialog,
@@ -128,12 +130,40 @@ export class HeaderComponent implements OnInit {
     this.sideNavOpened = false;
   }
 
-  public goToOverview(blockchain: string) {
+  public async goToOverview(blockchain: string) {
+    if (blockchain == 'stellar') {
+      let details = navigator.userAgent;
+      
+      let regexp = /android|iphone|kindle|ipad/i;
+    
+      let isMobileDevice = await regexp.test(details);
+      
+      if(isMobileDevice) {
+          await albedo.publicKey({require_existing:true}).then( (re1s:any) => {
+            this.tx=re1s
+              this.router.navigate(['/user-dashboard/overview'], {
+                queryParams: { user: this.tx.pubkey , blockchain:blockchain},
+              });
+    
+    this.sideNavOpened = false;
+    this.accListExpanded = false;
+          })
+        
+  }else{     
     this.router.navigate(['/user-dashboard/overview'], {
-      queryParams: { blockchain: blockchain },
+      queryParams: { user: "laptop",blockchain: blockchain },
     });
     this.sideNavOpened = false;
     this.accListExpanded = false;
+  }
+}else{
+    
+  this.router.navigate(['/user-dashboard/overview'], {
+    queryParams: { user:"not stellar",blockchain: blockchain },
+  });
+this.sideNavOpened = false;
+this.accListExpanded = false;
+}
   }
 
   public goToHome() {

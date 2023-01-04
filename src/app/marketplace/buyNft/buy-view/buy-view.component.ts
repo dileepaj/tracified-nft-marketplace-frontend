@@ -13,7 +13,6 @@ import {
 } from 'src/app/models/nft';
 import { APIConfigENV, BlockchainConfig, environment } from 'src/environments/environment';
 import { TrustLineByBuyerServiceService } from 'src/app/services/blockchain-services/stellar-services/trust-line-by-buyer-service.service';
-import { BuyNftServiceService } from 'src/app/services/blockchain-services/stellar-services/buy-nft-service.service';
 import { Trac2buyerService } from 'src/app/services/blockchain-services/solana-services/trac2buyer.service';
 import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
@@ -33,14 +32,15 @@ import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CodeviewComponent } from 'src/app/nft/codeview/codeview.component';
-import { timeStamp } from 'console';
+import { TrustByBuyerService } from 'src/app/services/blockchain-services/stellar-services/albedo-transactions/trust-by-buyer.service';
 import {
   ConfirmDialogText,
   PendingDialogText,
+  SelectWalletText,
   SnackBarText,
 } from 'src/app/models/confirmDialog';
 import { interval, timer } from 'rxjs';
+import albedo from '@albedo-link/intent';
 
 @Component({
   selector: 'app-buy-view',
@@ -150,10 +150,11 @@ export class BuyViewComponent implements OnInit {
   maincontent: any;
   isLoading : boolean = false;
   readonly network :any =BlockchainConfig.solananetwork;
+  wallet: any;
   constructor(
     private service: NftServicesService,
     private trust: TrustLineByBuyerServiceService,
-    private buyNftService: BuyNftServiceService,
+    private trustalbedo:TrustByBuyerService,
     private ata: Trac2buyerService,
     private _sanitizer: DomSanitizer,
     private emarket: EthereumMarketServiceService,
@@ -175,6 +176,7 @@ export class BuyViewComponent implements OnInit {
     this.saleBE.Royalty = this.NFTList.royalty;
     this.saleBE.SellingStatus = 'NOTFORSALE';
     this.saleBE.Timestamp = '2022-04-21:13:41:00';
+
     if (this.NFTList.blockchain == 'stellar') {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
@@ -187,9 +189,10 @@ export class BuyViewComponent implements OnInit {
             const loadingAnimation = this.dialogService.pendingDialog({
               message: PendingDialogText.BUY_VIEW_CLICKED_BUY,
             });
-            this.buyNFTOnStellar();
-            loadingAnimation.close();
-            this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+            this.buyNFTOnStellar().then(res=>{
+              loadingAnimation.close();
+            });
+            
           }
         });
     }
@@ -355,36 +358,79 @@ export class BuyViewComponent implements OnInit {
   }
 
   async buyNFTOnStellar(): Promise<void> {
-    let walletf = new UserWallet();
-    walletf = new FreighterComponent(walletf);
-    await walletf.initWallelt();
-    this.userPK = await walletf.getWalletaddress();
-    this.trust
-      .trustlineByBuyer(
-        this.NFTList.nftname,
-        this.NFTList.nftissuerpk,
-        this.userPK,
-        this.NFTList.currentprice,
-        this.NFTList.distributorpk,
-        this.NFTList.royalty
-      )
-      .then((transactionResult: any) => {
-        if (transactionResult.successful) {
-          if (this.isLoadingPresent) {
-            this.dissmissLoading();
-          }
-          this.buytxn = transactionResult.hash;
-          this.saveTXNs();
-          this.saleBE.CurrentOwnerPK = this.userPK;
-          this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-          this.snackbar.openSnackBar('NFT has successfully been bough');
-          this.showInProfile();
-        } else {
-          if (this.isLoadingPresent) {
-            this.dissmissLoading();
-          }
-        }
-      });
+    this.dialogService
+    .selectWallet({
+      title: SelectWalletText.WALLET_TITLE,
+      message: SelectWalletText.WALLET_MESSAGE,
+      selectA: SelectWalletText.WALLET_ALBEDO,
+      selectF: SelectWalletText.WALLET_FREIGHTER,
+    })
+    .subscribe(async (res:any) => {
+      this.wallet=res
+
+      if(this.wallet=='freighter'){
+        let walletf = new UserWallet();
+        walletf = new FreighterComponent(walletf);
+        await walletf.initWallelt();
+        this.userPK = await walletf.getWalletaddress();
+        this.trust
+          .trustlineByBuyer(
+            this.NFTList.nftname,
+            this.NFTList.nftissuerpk,
+            this.userPK,
+            this.NFTList.currentprice,
+            this.NFTList.distributorpk,
+            this.NFTList.royalty
+          )
+          .then((transactionResult: any) => {
+            if (transactionResult.successful) {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+              this.buytxn = transactionResult.hash;
+              this.saveTXNs();
+              this.saleBE.CurrentOwnerPK = this.userPK;
+              this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+              this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+              this.showInProfile();
+            } else {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+            }
+          });
+      }
+      if(this.wallet=='albedo'){
+        await albedo.publicKey({
+          require_existing: true
+      })
+          .then((res:any) => {
+            this.userPK=res.pubkey
+            this.trustalbedo
+            .trustlineByBuyer(
+              this.NFTList.nftname,
+              this.NFTList.nftissuerpk,
+              this.userPK,
+              this.NFTList.currentprice,
+              this.NFTList.distributorpk,
+              this.NFTList.royalty
+            )
+            .then((transactionResult: any) => {
+              
+                this.buytxn = transactionResult.tx_hash;
+                this.saveTXNs();
+                this.saleBE.CurrentOwnerPK = this.userPK;
+                this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+                this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+                this.showInProfile();
+           
+            });
+          })
+        
+      }
+    })
+
+  
   }
 
   dissmissLoading() {

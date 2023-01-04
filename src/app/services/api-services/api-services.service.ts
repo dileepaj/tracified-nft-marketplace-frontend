@@ -30,6 +30,7 @@ export class ApiServicesService {
   baseUrlFilterReview=this.nftBackendBaseURL+'review/filterby';
   baseUrlSaveStory=this.nftBackendBaseURL+'story/';
   baseUrlSubscribe =this.nftBackendBaseURL+'subscribe/';
+  baseUrlNFT =this.nftBackendBaseURL+'nft/';
 
   pageSize : number = 10;
 
@@ -97,6 +98,11 @@ export class ApiServicesService {
 
   endorse(st: Endorse): Observable<Endorse> {//request to add collection into the nft backend DB
     return this.http.post<Endorse>(this.baseUrlEndorse, st, {headers: this.headers});
+  }
+
+  getImagebase64(imgb64:string): Observable<NFT> {
+    //request to get imagebase64
+    return this.http.get<NFT>(`${this.baseUrlNFT}/${imgb64}`);
   }
 
   getEndorsement(userId:string): Observable<Endorse[]> {

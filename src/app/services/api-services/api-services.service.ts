@@ -30,7 +30,10 @@ export class ApiServicesService {
   baseUrlFilterReview=this.nftBackendBaseURL+'review/filterby';
   baseUrlSaveStory=this.nftBackendBaseURL+'story/';
   baseUrlSubscribe =this.nftBackendBaseURL+'subscribe/';
-
+  getwatchlistbyUserPK = this.nftBackendBaseURL+'verify/watchlistCount/'
+  removeUserfromWatchList = this.nftBackendBaseURL+'watchlist'
+  getfavouritebyUserPK = this.nftBackendBaseURL+'verify/favouriteCount/'
+  removeUserfromFavourite = this.nftBackendBaseURL+'favourite'
   pageSize : number = 10;
 
   readonly headers = new HttpHeaders()
@@ -63,6 +66,14 @@ export class ApiServicesService {
 
   addToFavourites(st:Favourites):Observable<Favourites>{
     return this.http.post<Favourites>(this.baseUrlSaveFavs, st, {headers: this.headers});
+  }
+
+  getFavouritebyBlockchainandUserPK(blockchain:string,userPK:string,nftidentifier:string):Observable<NFT>{
+    return this.http.get<NFT>(`${this.getfavouritebyUserPK}/${blockchain}/${userPK}/${nftidentifier}`);
+  }
+
+  removeuserfromFavourite(favouriteID:string):Observable<NFT>{
+    return this.http.delete<NFT>(`${this.removeUserfromFavourite}/${favouriteID}`);
   }
 
   getWatchLists(): Observable<WatchList[]> {
@@ -142,6 +153,12 @@ export class ApiServicesService {
       return this.http.get<NFT[]>(`${this.baseUrlGetWatchlist}/${blockchain}/${nftidentifier}`);
     }
 
+    getWatchlistbyBlockchainandUserPK(blockchain:string,userPK:string,nftidentifier:string):Observable<NFT>{
+      return this.http.get<NFT>(`${this.getwatchlistbyUserPK}/${blockchain}/${userPK}/${nftidentifier}`);
+    }
+    removeuserfromWatchList(watchlistID:string):Observable<NFT>{
+      return this.http.delete<NFT>(`${this.removeUserfromWatchList}/${watchlistID}`);
+    }
     findWatchlistByBlockchainAndNFTIdentifier(blockchain:string,nftidentifier:string):Observable<NFT[]>{
       return this.http.get<NFT[]>(`${this.baseUrlGetWatched}/${blockchain}/${nftidentifier}`);
     }

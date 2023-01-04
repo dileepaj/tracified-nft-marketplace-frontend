@@ -100,11 +100,21 @@ export class NftCardComponent implements OnInit {
     this.favouritesModel.Blockchain = this.blockchain;
     this.favouritesModel.NFTIdentifier = id;
     this.retrive(this.favouritesModel.Blockchain).then(res=>{
-      this.api.addToFavourites(this.favouritesModel).subscribe(res=>{
-        this.snackbarService.openSnackBar("Added to favourites")
-        this.api.getFavouritesByBlockchainAndNFTIdentifier(this.favouritesModel.Blockchain,this.favouritesModel.NFTIdentifier).subscribe(res=>{
-        });
+      this.api.getFavouritebyBlockchainandUserPK(this.favouritesModel.Blockchain,this.user,this.favouritesModel.NFTIdentifier).subscribe((favouriteresponse:any)=>{
+        if(favouriteresponse.user=="Add to favourite"){
+            this.api.addToFavourites(this.favouritesModel).subscribe(res=>{
+              this.snackbarService.openSnackBar("Added to favourites")
+              this.api.getFavouritesByBlockchainAndNFTIdentifier(this.favouritesModel.Blockchain,this.favouritesModel.NFTIdentifier).subscribe(res=>{
+              });
+            })
+          
+        }else{
+          this.api.removeuserfromFavourite(favouriteresponse.id).subscribe(removerst=>{
+            this.snackbarService.openSnackBar("Removed from favourites")
+          })
+        }
       })
+      
     })
   }
 
@@ -117,11 +127,30 @@ export class NftCardComponent implements OnInit {
     this.watchlistModel.Blockchain = this.blockchain;
     this.watchlistModel.NFTIdentifier =id;
     this.retrive(this.watchlistModel.Blockchain).then(res=>{
-      this.api.addToWatchList(this.watchlistModel).subscribe(res=>{
-        this.snackbarService.openSnackBar("Added to watchlists")
-        this.api.getWatchlistByBlockchainAndNFTIdentifier(this.watchlistModel.Blockchain,this.watchlistModel.NFTIdentifier).subscribe(res=>{
-        });
+      this.api.getWatchlistbyBlockchainandUserPK(this.watchlistModel.Blockchain,this.user,this.watchlistModel.NFTIdentifier).subscribe((watchlistresponse:any)=>{
+        if(watchlistresponse.user=="Add to watch"){
+          this.api.addToWatchList(this.watchlistModel).subscribe(res=>{
+            this.snackbarService.openSnackBar("Added to watchlists")
+            this.api.getWatchlistByBlockchainAndNFTIdentifier(this.watchlistModel.Blockchain,this.watchlistModel.NFTIdentifier).subscribe(res=>{
+            });
+          })
+        }else{
+          this.dialogService.confirmDialog({
+            title:"Watchlist removal confirmation.",
+            message:"Do you want to remove this NFT from your watchlist?",
+            confirmText:"Yes",
+            cancelText:"No",
+          }).subscribe(respoonse=>{
+            if(respoonse){
+              this.api.removeuserfromWatchList(watchlistresponse.id).subscribe(delresponse=>{
+                this.snackbarService.openSnackBar("Removed from Watchlist")
+              })
+            }
+          })
+        }
       })
+      return
+      
     })
   }
 

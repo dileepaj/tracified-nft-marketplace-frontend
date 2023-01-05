@@ -1040,14 +1040,34 @@ export class Mint2Component implements OnInit {
     this.Encoded = encoded;
 
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
-    this.updateHTML();
+    this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
+      console.log("----------result is ",resnft)
+      if(resnft!=null){
+        this.snackbar.openSnackBar(
+            "This SVG has already been used, please add another!"
+           );
+      }else{
+        this.updateHTML();
+      }
+    })
+  
+  
   }
 
   private _handleReaderLoadedImage(readerEvt: any) {
     var binaryString = readerEvt.target.result;
     this.Encoded = binaryString;
     this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
-    this.updateHTML();
+    this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
+      console.log("----------result is ",resnft)
+      if(resnft!=null){
+        this.snackbar.openSnackBar(
+            "This Image has already been used, please add another!"
+           );
+      }else{
+        this.updateHTML();
+      }
+    })
   }
 
   //update html

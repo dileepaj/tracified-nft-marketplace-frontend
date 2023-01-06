@@ -535,7 +535,7 @@ export class SellNftComponent implements OnInit {
   showInProfile() {
     let data: any = this.NFTList.blockchain;
     this.router.navigate(['/user-dashboard'], {
-      queryParams: { blockchain: data },
+      queryParams: { user:this.NFTList.currentownerpk,blockchain: data },
     });
   }
 

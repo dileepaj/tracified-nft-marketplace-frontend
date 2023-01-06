@@ -223,7 +223,8 @@ export class Mint2Component implements OnInit {
     this.pushTag(); //calling fnction
     this.proceed.emit({
       email : this.email,
-      blockchain: this.mint.Blockchain
+      blockchain: this.mint.Blockchain,
+      user: this.mint.CreatorUserId,
     })
   }
   pushOwner(): void {
@@ -666,8 +667,10 @@ export class Mint2Component implements OnInit {
     this.contract.Tags = this.tags;
     this.contract.Identifier = this.mint.NFTIdentifier;
     this.service.addNFTGW(this.contract).subscribe((res) => {
+      console.log("data is here: ",this.mint.CreatorUserId)
       this.proceed.emit({
         blockchain: this.mint.Blockchain,
+        user:  this.mint.CreatorUserId,
       });
     });
   }
@@ -681,6 +684,7 @@ export class Mint2Component implements OnInit {
         this.saveTXNs();
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
+          user :  this.mint.CreatorUserId,
         });
       });
     } else {
@@ -697,6 +701,7 @@ export class Mint2Component implements OnInit {
         this.saveTXNs();
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
+          user : this.mint.CreatorUserId,
         });
       });
     } else {
@@ -1042,12 +1047,12 @@ export class Mint2Component implements OnInit {
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
     this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
       console.log("----------result is ",resnft)
-      if(resnft!=null){
-        this.snackbar.openSnackBar(
-            "This SVG has already been used, please add another!"
-           );
-      }else{
+      if( resnft.Response.imagebase64=="" ){
         this.updateHTML();
+      }else{
+        this.snackbar.openSnackBar(
+          "This SVG has already been used, please add another!"
+         );
       }
     })
   
@@ -1060,12 +1065,13 @@ export class Mint2Component implements OnInit {
     this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
     this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
       console.log("----------result is ",resnft)
-      if(resnft!=null){
-        this.snackbar.openSnackBar(
-            "This Image has already been used, please add another!"
-           );
-      }else{
+      if( resnft.Response.imagebase64==""){
         this.updateHTML();
+      }else{
+        this.snackbar.openSnackBar(
+          "This Image has already been used, please add another!"
+         );
+       
       }
     })
   }

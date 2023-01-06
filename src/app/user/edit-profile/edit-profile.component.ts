@@ -30,7 +30,8 @@ export class EditProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.data = JSON.parse(params['data']);
+      this.data = params['user'];
+
       this.service.getEndorsement(this.data).subscribe((res: any) => {
         this.EndorseList = res
         this.currentImage = res.profilepic

@@ -47,7 +47,7 @@ export class ViewDashboardComponent implements OnInit {
 
   goToOverview(){
     this.router.navigate(['./user-dashboard/overview'], {
-      queryParams: { blockchain: this.selectedBlockchain },
+      queryParams: { user:this.pk,blockchain: this.selectedBlockchain },
     });
     this.sideNavOpened = false;
     this.accListExpanded = false;
@@ -58,7 +58,7 @@ export class ViewDashboardComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
       this.pk = params['user']
-    
+    console.log("back here ",this.pk, this.selectedBlockchain)
       this.retrive(this.selectedBlockchain,this.pk).then(res=>{
 
         this.setGreeting();
@@ -128,12 +128,8 @@ export class ViewDashboardComponent implements OnInit {
           })
            
         }else{
-      let freighterWallet = new UserWallet();
-      freighterWallet = new FreighterComponent(freighterWallet);
-      await freighterWallet.initWallelt();
-      this.User= await freighterWallet.getWalletaddress();
-      this.api.getEndorsement(this.User).subscribe((res:any)=>{
-      
+      this.api.getEndorsement(pk).subscribe((res:any)=>{
+        console.log("resss-------------------- ",res)
         if(res.Name != ""){
           if (res.profilepic != "") {
             this.imagePath = res.profilepic;
@@ -149,11 +145,7 @@ export class ViewDashboardComponent implements OnInit {
     }
 
     if (blockchain == 'solana') {
-      let phantomWallet = new UserWallet();
-      phantomWallet = new PhantomComponent(phantomWallet);
-      await phantomWallet.initWallelt();
-      this.User = await phantomWallet.getWalletaddress();
-      this.api.getEndorsement(this.User).subscribe((res:any)=>{
+      this.api.getEndorsement(pk).subscribe((res:any)=>{
         if(res.Name != ""){
           if (res.profilepic != "") {
             this.imagePath = res.profilepic;
@@ -173,11 +165,7 @@ export class ViewDashboardComponent implements OnInit {
       blockchain == 'polygon' ||
       blockchain=='ethereum or polygon'
     ) {
-      let metamaskwallet = new UserWallet();
-      metamaskwallet = new MetamaskComponent(metamaskwallet);
-      await metamaskwallet.initWallelt();
-      this.User = await metamaskwallet.getWalletaddress();
-      this.api.getEndorsement(this.User).subscribe((res:any)=>{
+      this.api.getEndorsement(pk).subscribe((res:any)=>{
         if(res.Name != ""){
           if (res.profilepic != "") {
             this.imagePath = res.profilepic;
@@ -195,8 +183,8 @@ export class ViewDashboardComponent implements OnInit {
 
   goToEdit(user:any){
 
-    this.router.navigate(['./user-dashboard/edit-profile'],{
-      queryParams:{data:JSON.stringify(user),blockchain:this.selectedBlockchain}
+    this.router.navigate(['/user-dashboard/edit-profile'],{
+      queryParams:{user:user,blockchain:this.selectedBlockchain}
       });
 
       this.closeSideNav();
@@ -212,7 +200,7 @@ export class ViewDashboardComponent implements OnInit {
 
   myCollections(id:any){
     this.router.navigate(['./user-dashboard/mycollections'],{
-      queryParams:{data:id,blockchain:this.selectedBlockchain}
+      queryParams:{user:id,blockchain:this.selectedBlockchain}
       })
       this.closeSideNav();
   }
@@ -224,7 +212,7 @@ export class ViewDashboardComponent implements OnInit {
   }
   backtoHome(){
     this.router.navigate(['/user-dashboard/overview'], {
-      queryParams: { blockchain: this.selectedBlockchain },
+      queryParams: { user:this.pk,blockchain: this.selectedBlockchain },
     });
   }
 }

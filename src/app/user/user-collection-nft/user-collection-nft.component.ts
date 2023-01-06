@@ -25,6 +25,7 @@ export class UserCollectionNFTComponent implements OnInit {
   key: any;
   loading: boolean = false;
   thumbnailSRC: any;
+  pk: any;
 
   constructor(
     private router: Router,
@@ -39,9 +40,10 @@ export class UserCollectionNFTComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = params['collection'];
+      this.pk = params['user'];
     });
-    this.collection = this.data[0];
-    this.key = this.data[1];
+    this.collection = this.data;
+    this.key = this.pk;
     this.MyList.splice(0);
     this.List.splice(0);
     this.loading = true;

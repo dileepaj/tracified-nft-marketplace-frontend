@@ -460,9 +460,8 @@ export class BuyViewComponent implements OnInit {
   }
 
   showInProfile() {
-    let data: any = this.nftbe.Blockchain;
     this.router.navigate(['/user-dashboard'], {
-      queryParams: { blockchain: this.nftbe.Blockchain },
+      queryParams: { user:this.saleBE.CurrentOwnerPK,blockchain: this.nftbe.Blockchain },
     });
   }
 

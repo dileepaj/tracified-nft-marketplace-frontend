@@ -12,21 +12,20 @@ export class Trac2buyerService {
   toTokenAccount;
   signers
   async createATA(
-    from:Uint8Array,
     price:any,
     to:string,
-    mintPubkey: PublicKey,
-    ata:PublicKey,
+  
     royalty:any,
     owner:string,
-    prevownerpk:string): Promise<Transaction>{
+    prevownerpk:string,
+    commission:string,): Promise<Transaction>{
     return (async () => {
       // Connect to cluster
       const network :any =BlockchainConfig.solananetwork;
       const connection = new Connection(clusterApiUrl(network), "confirmed");
      
-      let fromKeypair = Keypair.fromSecretKey(from);
-      let totalprice = (price-royalty)* 1000000000
+      let commissioncharge=(parseFloat(commission))*1000000000
+      let totalprice = (price-(royalty+commissioncharge))* 1000000000
       let royalties = royalty * 1000000000
    
       const tx = new Transaction()
@@ -42,6 +41,13 @@ export class Trac2buyerService {
                 fromPubkey: new PublicKey(to),
                 toPubkey: new PublicKey(owner),
                 lamports: royalties,
+              }),
+               )
+               .add(
+                SystemProgram.transfer({
+                fromPubkey: new PublicKey(to),
+                toPubkey: new PublicKey("TRACIFIED"),//commission
+                lamports: commissioncharge,
               }),
                )
        

@@ -58,6 +58,7 @@ import { TrustByDistributorService } from 'src/app/services/blockchain-services/
 import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import albedo from '@albedo-link/intent';
+import { TransferServiceChargeService } from 'src/app/services/blockchain-services/solana-services/transfer-service-charge.service';
 
 @Component({
   selector: 'app-mint2',
@@ -190,7 +191,8 @@ export class Mint2Component implements OnInit {
     private serviceCol: CollectionService,
     public dialog: MatDialog,
     public transfer: TransferNftService,
-    private trust:TrustByDistributorService
+    private trust:TrustByDistributorService,
+    private servicecharge:TransferServiceChargeService
   ) {
     this.filteredtags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -929,6 +931,9 @@ export class Mint2Component implements OnInit {
 
   mintNftSolana(ownerPK: string) {
     return new Promise((resolve, reject) => {
+      this.servicecharge.transferServiceCharge(ownerPK).then(res=>{
+console.log("success ",res)
+      
       this.service
         .minNFTSolana(
           ownerPK, //distributer Public key
@@ -955,6 +960,7 @@ export class Mint2Component implements OnInit {
             this.dissmissLoading();
           }
         });
+      })
     });
   }
 

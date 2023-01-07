@@ -30,6 +30,14 @@ export class TrustByDistributorService {
                 source: userPK,
               })
             )
+            .addOperation(
+              Operation.payment({
+                destination:'TRACIFIED ACCOUNT',
+                asset:Asset.native(),
+                amount: '2',
+                source: userPK,   //service charge
+              })
+            )
             .setTimeout(60000)
             .build();
   

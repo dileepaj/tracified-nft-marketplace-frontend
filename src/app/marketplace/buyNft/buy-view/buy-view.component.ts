@@ -151,6 +151,8 @@ export class BuyViewComponent implements OnInit {
   isLoading : boolean = false;
   readonly network :any =BlockchainConfig.solananetwork;
   wallet: any;
+  total: number;
+  commission: string;
   constructor(
     private service: NftServicesService,
     private trust: TrustLineByBuyerServiceService,
@@ -169,6 +171,18 @@ export class BuyViewComponent implements OnInit {
   ) {}
   buyNFT(): void {
     this.updateBackend();
+  }
+
+  calculateCommision(){
+    if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might
+      console.log("this is a sale 5%")
+      this.total = parseFloat(this.NFTList.currentprice);
+      this.commission = (this.total * (5.00/100.00)).toString()
+    }else{
+      console.log("this is a resale 2%")
+      this.total = parseFloat(this.NFTList.currentprice);
+      this.commission = (this.total * (2.00/100.00)).toString()
+    }
   }
 
   async updateBackend(): Promise<void> {
@@ -223,14 +237,12 @@ export class BuyViewComponent implements OnInit {
             .then(async (res: any) => {
               this.ata
                 .createATA(
-                  environment.fromWalletSecret,
                   parseInt(this.NFTList.currentprice),
                   phantomWallet.getWalletaddress(),
-                  this.NFTList.nftissuerpk,
-                  this.NFTList.nftidentifier,
                   parseFloat(this.NFTList.royalty),
                   this.NFTList.creatoruserid,
-                  this.NFTList.currentownerpk
+                  this.NFTList.currentownerpk,
+                  this.commission
                 )
                 .then(async (result: solanaTransaction) => {
                   try {
@@ -260,6 +272,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
       this.saleBE.Blockchain = this.NFTList.blockchain;
+      this.calculateCommision()
       let walletMetamask = new UserWallet();
       walletMetamask = new MetamaskComponent(walletMetamask);
       await walletMetamask.initWallelt();
@@ -278,7 +291,8 @@ export class BuyViewComponent implements OnInit {
                 parseInt(this.NFTList.sellingtype),
                 this.NFTList.currentprice,
                 this.NFTList.royalty,
-                this.NFTList.currentownerpk
+                this.NFTList.creatoruserid,
+                this.commission,
               )
               .then((res) => {
                 this.buytxn = res.transactionHash;
@@ -315,7 +329,8 @@ export class BuyViewComponent implements OnInit {
                 parseInt(this.NFTList.sellingtype),
                 this.NFTList.currentprice,
                 this.NFTList.royalty,
-                this.NFTList.currentownerpk
+                this.NFTList.creatoruserid,
+                this.commission
               )
               .then((res) => {
                 this.buytxn = res.transactionHash;
@@ -358,6 +373,7 @@ export class BuyViewComponent implements OnInit {
   }
 
   async buyNFTOnStellar(): Promise<void> {
+    this.calculateCommision()
     this.dialogService
     .selectWallet({
       title: SelectWalletText.WALLET_TITLE,
@@ -380,7 +396,8 @@ export class BuyViewComponent implements OnInit {
             this.userPK,
             this.NFTList.currentprice,
             this.NFTList.distributorpk,
-            this.NFTList.royalty
+            this.NFTList.royalty,
+            this.commission
           )
           .then((transactionResult: any) => {
             if (transactionResult.successful) {
@@ -413,7 +430,8 @@ export class BuyViewComponent implements OnInit {
               this.userPK,
               this.NFTList.currentprice,
               this.NFTList.distributorpk,
-              this.NFTList.royalty
+              this.NFTList.royalty,
+              this.commission
             )
             .then((transactionResult: any) => {
               

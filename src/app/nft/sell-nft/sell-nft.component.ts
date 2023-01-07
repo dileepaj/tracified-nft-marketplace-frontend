@@ -104,6 +104,9 @@ export class SellNftComponent implements OnInit {
   readonly network :any =BlockchainConfig.solananetwork;
   wallet: any;
   signerpK: string;
+  commission: string;
+  Royalty: any;
+  value: boolean;
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -124,11 +127,24 @@ export class SellNftComponent implements OnInit {
   ) {}
 
   calculatePrice(): void {
-    this.royalty = parseFloat(this.formValue('Royalty'));
-    this.royaltyamount=this.royalty
-    this.firstPrice = parseFloat(this.formValue('Price'));
-    this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
-    this.sellingPrice = this.firstPrice + this.royaltyCharge;
+    if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
+      console.log("this is a sale 5%")
+      this.Royalty = this.NFTList.royalty
+      this.royalty = parseFloat(this.formValue('Royalty'));
+      this.royaltyamount=this.royalty
+      this.firstPrice = parseFloat(this.formValue('Price'));
+      this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
+      this.sellingPrice = this.firstPrice + this.royaltyCharge;
+      this.commission = (parseFloat(this.formValue('Price')) * (5.00/100.00)).toString()
+      this.value = false
+    }else{
+      console.log("this is a resale 2%")
+      this.Royalty = this.NFTList.royalty
+      this.firstPrice = parseFloat(this.formValue('Price'));
+      this.commission = (parseFloat(this.formValue('Price')) * (5.00/100.00)).toString()
+      this.value = true
+    }
+   
   }
 
   public openDialog() {
@@ -409,34 +425,36 @@ export class SellNftComponent implements OnInit {
               message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
             });
             this.calculatePrice();
-            if(this.NFTList.sellingstatus=='Minted'){
+            // if(this.NFTList.sellingstatus=='Minted'){
 
-              this.pmarket
-              .createSaleOffer(
-                environment.contractAddressNFTPolygon,
-                this.tokenid,
-                this.sellingPrice
-              )
-              .then((res) => {
-                this.selltxn = res.transactionHash;
-                this.itemId = parseInt(res.logs[3].topics[1]);
-                this.saleBE.SellingType = this.itemId.toString();
-                this.saveTXNs();
-                this.addDBBackend();
-                this.addDBGateway();
-                dialog.close();
-                this.snackbarService.openSnackBar(
-                  SnackBarText.SALE_SUCCESS_MESSAGE
-                );
-                this.showInProfile();
-              });
-            }else{
+            //   this.pmarket
+            //   .createSaleOffer(
+            //     environment.contractAddressNFTPolygon,
+            //     this.tokenid,
+            //     this.sellingPrice,
+            //     this.commission
+            //   )
+            //   .then((res) => {
+            //     this.selltxn = res.transactionHash;
+            //     this.itemId = parseInt(res.logs[3].topics[1]);
+            //     this.saleBE.SellingType = this.itemId.toString();
+            //     this.saveTXNs();
+            //     this.addDBBackend();
+            //     this.addDBGateway();
+            //     dialog.close();
+            //     this.snackbarService.openSnackBar(
+            //       SnackBarText.SALE_SUCCESS_MESSAGE
+            //     );
+            //     this.showInProfile();
+            //   });
+            // }else{
               this.pmint.approveContract(this.tokenid).then((res:any)=>{
                 this.pmarket
                 .createSaleOffer(
                   environment.contractAddressNFTPolygon,
                   this.tokenid,
-                  this.sellingPrice
+                  this.sellingPrice,
+                  this.commission
                 )
                 .then((res) => {
                   this.selltxn = res.transactionHash;
@@ -453,7 +471,7 @@ export class SellNftComponent implements OnInit {
                 });
               })
              
-            }
+         //   }
           }
         });
     }
@@ -484,33 +502,35 @@ export class SellNftComponent implements OnInit {
               message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
             });
             this.calculatePrice();
-            if(this.NFTList.sellingstatus=='Minted'){
-              this.emarket
-              .createSaleOffer(
-                environment.contractAddressNFTEthereum,
-                this.tokenid,
-                this.sellingPrice
-              )
-              .then((res) => {
-                this.selltxn = res.transactionHash;
-                this.itemId = parseInt(res.logs[2].topics[1]);
-                this.saleBE.SellingType = this.itemId.toString();
-                this.saveTXNs();
-                this.addDBBackend();
-                this.addDBGateway();
-                dialog.close();
-                this.snackbarService.openSnackBar(
-                  SnackBarText.SALE_SUCCESS_MESSAGE
-                );
-                this.showInProfile();
-              });
-            }else{
+            // if(this.NFTList.sellingstatus=='Minted'){
+            //   this.emarket
+            //   .createSaleOffer(
+            //     environment.contractAddressNFTEthereum,
+            //     this.tokenid,
+            //     this.sellingPrice,
+            //     this.commission
+            //   )
+            //   .then((res) => {
+            //     this.selltxn = res.transactionHash;
+            //     this.itemId = parseInt(res.logs[2].topics[1]);
+            //     this.saleBE.SellingType = this.itemId.toString();
+            //     this.saveTXNs();
+            //     this.addDBBackend();
+            //     this.addDBGateway();
+            //     dialog.close();
+            //     this.snackbarService.openSnackBar(
+            //       SnackBarText.SALE_SUCCESS_MESSAGE
+            //     );
+            //     this.showInProfile();
+            //   });
+           // }else{
               this.emint.approveContract(this.tokenid).then((res:any)=>{
                 this.emarket
                 .createSaleOffer(
                   environment.contractAddressNFTEthereum,
                   this.tokenid,
-                  this.sellingPrice
+                  this.sellingPrice,
+                  this.commission
                 )
                 .then((res) => {
                   this.selltxn = res.transactionHash;
@@ -526,7 +546,7 @@ export class SellNftComponent implements OnInit {
                   this.showInProfile();
                 });
               })
-            }
+           // }
           }
         });
     }

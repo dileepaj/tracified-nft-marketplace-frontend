@@ -900,10 +900,6 @@ export class Mint2Component implements OnInit {
       this.serviceCol.getCollectionName(this.email).subscribe((data: any) => {
         this.CollectionList = data;
       });
-    } else {
-      this.snackbar.openSnackBar(
-        'User PK not connected or not endorsed'
-      );
     }
 
     //  })

@@ -63,7 +63,7 @@ let TotalPrice=(sellingprice-(royalties+commissioncharge)).toString();
             )
             .addOperation(
               Operation.payment({
-                destination:"TRACIFIED",  //commission
+                destination:"GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV",  //commission
                 asset:Asset.native(),
                 amount: commission,
                 source: senderPublickKey,

@@ -54,6 +54,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     listingPrice: string
   ): Promise<any> {
     if (blockchain == 'ethereum') {
+      console.log("price plus royalty, listing price ",price,listingPrice)
       const contract = await EthereumMarketServiceService.getContract(true);
       const transaction = await contract['sellNFT'](
         nftcontract,

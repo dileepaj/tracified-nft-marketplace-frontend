@@ -52,6 +52,7 @@ export class NftgridComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
   imageSrc: any;

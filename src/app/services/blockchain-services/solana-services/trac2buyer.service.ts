@@ -25,7 +25,7 @@ export class Trac2buyerService {
       const connection = new Connection(clusterApiUrl(network), "confirmed");
      
       let commissioncharge=(parseFloat(commission))*1000000000
-      let totalprice = (price-(royalty+commissioncharge))* 1000000000
+      let totalprice = (price)* 1000000000
       let royalties = royalty * 1000000000
    
       const tx = new Transaction()
@@ -46,7 +46,7 @@ export class Trac2buyerService {
                .add(
                 SystemProgram.transfer({
                 fromPubkey: new PublicKey(to),
-                toPubkey: new PublicKey("TRACIFIED"),//commission
+                toPubkey: new PublicKey("FfEztWGUyS7FjdxS6SPenpNiFmABBc3jLpLSPvPq1QP7"),//commission
                 lamports: commissioncharge,
               }),
                )

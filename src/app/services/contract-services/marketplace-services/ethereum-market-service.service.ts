@@ -46,7 +46,7 @@ export class EthereumMarketServiceService {
   }
 
   public async BuyNFT(nftcontract: string,itemId:number,price:string,royalty:string,seller:string,commission:string): Promise<any> {
-    
+    console.log("----------price , royalty, commission ",price, royalty, commission)
     let metmaskWallet = new UserWallet();
     metmaskWallet = new MetamaskComponent(metmaskWallet);
     const tx = metmaskWallet.buynft('ethereum',nftcontract, itemId, price,commission,royalty,seller)

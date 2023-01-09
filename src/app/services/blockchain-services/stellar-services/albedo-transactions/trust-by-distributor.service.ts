@@ -10,6 +10,7 @@ export class TrustByDistributorService {
 
   constructor() { }
   changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string) {
+    console.log("lets mint")
     return new Promise((resolve, reject) => {
       if (blockchainNetType === "live") {
         Networks.TESTNET
@@ -32,7 +33,7 @@ export class TrustByDistributorService {
             )
             .addOperation(
               Operation.payment({
-                destination:'TRACIFIED ACCOUNT',
+                destination:'GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV',
                 asset:Asset.native(),
                 amount: '2',
                 source: userPK,   //service charge

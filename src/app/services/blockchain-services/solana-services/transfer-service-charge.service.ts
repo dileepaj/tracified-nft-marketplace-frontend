@@ -17,18 +17,20 @@ export class TransferServiceChargeService {
       // Connect to cluster
       const network :any =BlockchainConfig.solananetwork;
       const connection = new Connection(clusterApiUrl(network), "confirmed");
-     
+     console.log("we here")
    
       const tx = new Transaction()
             tx.add(
                 SystemProgram.transfer({
                 fromPubkey: new PublicKey(to),
-                toPubkey: new PublicKey("TRACFIED"),
+                toPubkey: new PublicKey("FfEztWGUyS7FjdxS6SPenpNiFmABBc3jLpLSPvPq1QP7"),
                 lamports: 2, //service charge
               }),
                )
-       tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-       tx.feePayer = new PublicKey(to);
+               tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+    
+               tx.feePayer = new PublicKey(to);
+          
       
       return tx;
     })();

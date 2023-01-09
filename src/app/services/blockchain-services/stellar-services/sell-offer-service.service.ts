@@ -26,7 +26,8 @@ export class SellOfferServiceService {
     signerPK: string,
     nftAmmount: string,
     nftPrice: number,
-    royalty :number
+    royalty :number,
+    commission:number
   ) {
     return new Promise((resolve, reject) => {
       //let sourceKeypair = Keypair.fromSecret(signerSK); //because the distributor has the authority to sell
@@ -37,7 +38,8 @@ export class SellOfferServiceService {
       }
       var asset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();
-      var totalsaleprice = nftPrice-royalty
+      console.log("price.royalty,commission ",nftPrice,royalty,commission)
+      var totalsaleprice = nftPrice-(royalty+commission)
       var opts = {
         fee: '100',
         timebounds: {

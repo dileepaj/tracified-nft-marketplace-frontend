@@ -30,6 +30,7 @@ export class ApiServicesService {
   baseUrlFilterReview=this.nftBackendBaseURL+'review/filterby';
   baseUrlSaveStory=this.nftBackendBaseURL+'story/';
   baseUrlSubscribe =this.nftBackendBaseURL+'subscribe/';
+  baseURLSubscribeCheck=this.nftBackendBaseURL+'subscribe/check'
   baseUrlNFT =this.nftBackendBaseURL+'nft/';
   getwatchlistbyUserPK = this.nftBackendBaseURL+'verify/watchlistCount/'
   removeUserfromWatchList = this.nftBackendBaseURL+'watchlist'
@@ -50,6 +51,9 @@ export class ApiServicesService {
     const svgToAdd = this.http.post<Subscription>(this.baseUrlSubscribe, st, {headers: this.headers});
     return svgToAdd
   }
+  checkifSubscribed(email:string):Observable<Subscription>{
+      return this.http.get<Subscription>(`${this.baseURLSubscribeCheck}/${email}`)
+  }   
   updateSVGBlockchain(st:UpdateSVG):Observable<UpdateSVG>{
     this.UpdatesvgResponseObservable= this.http.put<UpdateSVG>(this.baseUrlUpdateSVGBC, st, {headers: this.headers})
     this.UpdatesvgResponseObservable.subscribe(res=>{

@@ -1,0 +1,56 @@
+<div class="close-div"><mat-icon mat-dialog-close> close </mat-icon></div>
+<div class="dialog-header">
+  <div class="dialog-header-cont">
+    <label class="dialog-title">You are selling</label>
+    <label class="nft-name">NFT NAME </label>
+  </div>
+  <div class="dialog-header-cont">
+    <img [src]="data?.thumbnail" class="nft-thumb" />
+  </div>
+
+</div>
+<mat-dialog-content>
+  <div class="dialog-content">
+    <label class="bold-text">You will be charged</label>
+    <div class="fee-cont">
+      <label>Royalty Fee</label>
+      <label>0.002 ETH (2.62 USD)</label>
+    </div>
+    <div class="fee-cont">
+      <label>ETH Gas Fee</label>
+      <label>0.002 ETH (2.62 USD)</label>
+    </div>
+    <div class="fee-cont">
+      <label>Service Fee</label>
+      <label>0.002 ETH (2.62 USD)</label>
+    </div>
+    <div class="fee-cont bold-text">
+      <label>Total</label>
+      <label>0.002 ETH (2.62 USD)</label>
+    </div>
+    <div class="checkbox-group">
+      <input type="checkbox"  (change)="onCheckedChange($event)" />
+      <label>I accept the <a href="#" class="highlight">Terms of Service</a> for using this service, and hereby
+        confirm I have read the <a href="#" class="highlight">Privacy Policy.</a></label>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="dialog-actions">
+<!--   <button
+    mat-dialog-close
+    class="dialog-btn-secondary"
+    (click)="cancel()"
+    matRipple
+  >
+    {{ data?.cancelText }}
+  </button> -->
+  <button
+    cdkFocusInitial
+    class="dialog-btn-primary"
+    [disabled]="!acceptEnabled"
+    (click)="confirm()"
+    matRipple
+  >
+    Sell Now
+  </button>
+</mat-dialog-actions>

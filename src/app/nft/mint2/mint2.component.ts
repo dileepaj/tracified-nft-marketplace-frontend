@@ -306,11 +306,16 @@ export class Mint2Component implements OnInit {
           this.mint.CreatorUserId = this.userPK;
           this.pushTag();
           this.dialogService
-            .confirmDialog({
+            .confirmMintDialog({
               title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
               message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
               confirmText: ConfirmDialogText.CONFIRM_BTN,
               cancelText: ConfirmDialogText.CANCEL_BTN,
+              nftName: this.mint.NFTName,
+              thumbnail: this.mint.thumbnail,
+              serviceFee : 0.000501,
+              total : 0.000501,
+              blockchain: this.svg.blockchain
             })
             .subscribe((res) => {
               if (res) {
@@ -318,16 +323,16 @@ export class Mint2Component implements OnInit {
                 this.apiService
                   .getEndorsement(this.userPK)
                   .subscribe((result: any) => {
-                 
+
                       if (result.Status == '' || result.Status == 'Declined' || result.Status == null) {
                       this.dialogService
                         .confirmDialog({
                           title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
                           message:
                             ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                          confirmText: ConfirmDialogText.CONFIRM_BTN,
-                          cancelText: ConfirmDialogText.CANCEL_BTN,
-                        })
+                        confirmText: ConfirmDialogText.CONFIRM_BTN,
+                        cancelText: ConfirmDialogText.CANCEL_BTN,
+                      })
                         .subscribe((res) => {
                           if (res) {
                             let arr: any = [this.mint.Blockchain, this.email,this.wallet];
@@ -344,8 +349,10 @@ export class Mint2Component implements OnInit {
                         confirmText: ConfirmDialogText.CONFIRM_BTN,
                       })
                     }else {
-                      const dialog = this.dialogService.pendingDialog({
+                      const dialog = this.dialogService.mintingDialog({
                         message: PendingDialogText.MINTING_IN_PROGRESS,
+                        nftName: this.mint.NFTName,
+                         thumbnail: this.mint.thumbnail,
                       });
                       this.sendToMint3();
                       this.mintNFT(this.userPK);
@@ -367,16 +374,21 @@ export class Mint2Component implements OnInit {
                 this.mint.CreatorUserId = this.userPK;
                 this.pushTag();
                 this.dialogService
-                  .confirmDialog({
-                    title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-                    message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-                    confirmText: ConfirmDialogText.CONFIRM_BTN,
-                    cancelText: ConfirmDialogText.CANCEL_BTN,
-                  })
+                .confirmMintDialog({
+                  title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+                  message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+                  confirmText: ConfirmDialogText.CONFIRM_BTN,
+                  cancelText: ConfirmDialogText.CANCEL_BTN,
+                  nftName: this.mint.NFTName,
+                  thumbnail: this.mint.thumbnail,
+                  serviceFee : 0.000501,
+                  total : 0.000501,
+                  blockchain: this.svg.blockchain
+                })
                   .subscribe((res) => {
                     if (res) {
-                     
-      
+
+
                       this.apiService
                         .getEndorsement(this.userPK)
                         .subscribe((result: any) => {
@@ -386,9 +398,9 @@ export class Mint2Component implements OnInit {
                                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
                                 message:
                                   ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                                confirmText: ConfirmDialogText.CONFIRM_BTN,
-                                cancelText: ConfirmDialogText.CANCEL_BTN,
-                              })
+                              confirmText: ConfirmDialogText.CONFIRM_BTN,
+                              cancelText: ConfirmDialogText.CANCEL_BTN,
+                            })
                               .subscribe((res) => {
                                 if (res) {
                                   let arr: any = [this.mint.Blockchain, this.email,this.wallet];
@@ -405,8 +417,10 @@ export class Mint2Component implements OnInit {
                               confirmText: ConfirmDialogText.CONFIRM_BTN,
                             })
                           }else {
-                            const dialog = this.dialogService.pendingDialog({
+                            const dialog = this.dialogService.mintingDialog({
                               message: PendingDialogText.MINTING_IN_PROGRESS,
+                              nftName: this.mint.NFTName,
+                               thumbnail: this.mint.thumbnail,
                             });
                             this.sendToMint3();
                             this.mintNFTOnAlbedo(this.userPK);
@@ -418,9 +432,9 @@ export class Mint2Component implements OnInit {
                         });
                     }
                   });})
-          
+
           }
-          
+
         }
       });
     }
@@ -440,15 +454,20 @@ export class Mint2Component implements OnInit {
       this.svg.AttachmentType=this.type
       this.apiService.addSVG(this.svg).subscribe();
             this.dialogService
-            .confirmDialog({
-                title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-                message:ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-                confirmText: ConfirmDialogText.CONFIRM_BTN,
-                cancelText: ConfirmDialogText.CANCEL_BTN,
+            .confirmMintDialog({
+              title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+              message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+              confirmText: ConfirmDialogText.CONFIRM_BTN,
+              cancelText: ConfirmDialogText.CANCEL_BTN,
+              nftName: this.mint.NFTName,
+              thumbnail: this.mint.thumbnail,
+              serviceFee : 0.000501,
+              total : 0.000501,
+              blockchain: this.svg.blockchain
             })
             .subscribe((res) => {
               if(res){
-               
+
                 this.apiService.getEndorsement(this.mint.NFTIssuerPK)
                 .subscribe((result: any) => {
                   if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
@@ -456,9 +475,9 @@ export class Mint2Component implements OnInit {
                       .confirmDialog({
                           title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
                           message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                          confirmText: ConfirmDialogText.CONFIRM_BTN,
-                          cancelText: ConfirmDialogText.CANCEL_BTN,
-                      })
+                      confirmText: ConfirmDialogText.CONFIRM_BTN,
+                      cancelText: ConfirmDialogText.CANCEL_BTN,
+                    })
                       .subscribe((res) => {
                         if (res) {
                           //alert("You are not endorsed. Get endorsed now")
@@ -476,8 +495,10 @@ export class Mint2Component implements OnInit {
                         confirmText: ConfirmDialogText.CONFIRM_BTN,
                       })
                     }else{
-                      const dialog = this.dialogService.pendingDialog({
+                      const dialog = this.dialogService.mintingDialog({
                         message: PendingDialogText.MINTING_IN_PROGRESS,
+                        nftName: this.mint.NFTName,
+                         thumbnail: this.mint.thumbnail,
                       });
                      this.sendToMint3();
                           this.mintNftSolana(this.mint.NFTIssuerPK);
@@ -505,27 +526,32 @@ export class Mint2Component implements OnInit {
       this.svg.AttachmentType=this.type
       this.apiService.addSVG(this.svg).subscribe();
       this.dialogService
-        .confirmDialog({
-          title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-          message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-          confirmText: ConfirmDialogText.CONFIRM_BTN,
-          cancelText: ConfirmDialogText.CANCEL_BTN,
-        })
+      .confirmMintDialog({
+        title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+        message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+        confirmText: ConfirmDialogText.CONFIRM_BTN,
+        cancelText: ConfirmDialogText.CANCEL_BTN,
+        nftName: this.mint.NFTName,
+        thumbnail: this.mint.thumbnail,
+        serviceFee : 0.000501,
+        total : 0.000501,
+        blockchain: this.svg.blockchain
+      })
         .subscribe((res) => {
           if (res) {
-          
+
             this.apiService
               .getEndorsement(this.mint.DistributorPK)
               .subscribe((result: any) => {
                 if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
-                
+
                   this.dialogService
                     .confirmDialog({
                       title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
                       message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                      confirmText: ConfirmDialogText.CONFIRM_BTN,
-                      cancelText: ConfirmDialogText.CANCEL_BTN,
-                    })
+                    confirmText: ConfirmDialogText.CONFIRM_BTN,
+                    cancelText: ConfirmDialogText.CANCEL_BTN,
+                  })
                     .subscribe((res) => {
                       if (res) {
                         //alert("You are not endorsed. Get endorsed now")
@@ -543,8 +569,10 @@ export class Mint2Component implements OnInit {
                     confirmText: ConfirmDialogText.CONFIRM_BTN,
                   })
                 } else {
-                  const dialog = this.dialogService.pendingDialog({
+                  const dialog = this.dialogService.mintingDialog({
                     message: PendingDialogText.MINTING_IN_PROGRESS,
+                    nftName: this.mint.NFTName,
+                     thumbnail: this.mint.thumbnail,
                   });
                   this.emint
                     .mintInEthereum(
@@ -589,14 +617,19 @@ export class Mint2Component implements OnInit {
       this.svg.AttachmentType=this.type
       this.apiService.addSVG(this.svg).subscribe();
             this.dialogService
-              .confirmDialog({
-                title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-                message:ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-                confirmText: ConfirmDialogText.CONFIRM_BTN,
-                cancelText: ConfirmDialogText.CANCEL_BTN,
-              })
+            .confirmMintDialog({
+              title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
+              message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
+              confirmText: ConfirmDialogText.CONFIRM_BTN,
+              cancelText: ConfirmDialogText.CANCEL_BTN,
+              nftName: this.mint.NFTName,
+              thumbnail: this.mint.thumbnail,
+              serviceFee : 0.000501,
+              total : 0.000501,
+              blockchain: this.svg.blockchain
+            })
               .subscribe((res) => {
-              
+
                 if (res) {
                   this.apiService.getEndorsement(this.mint.DistributorPK)
                   .subscribe((result: any) => {
@@ -605,9 +638,9 @@ export class Mint2Component implements OnInit {
                         .confirmDialog({
                             title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
                             message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                            confirmText: ConfirmDialogText.CONFIRM_BTN,
-                            cancelText: ConfirmDialogText.CANCEL_BTN,
-                        })
+                        confirmText: ConfirmDialogText.CONFIRM_BTN,
+                        cancelText: ConfirmDialogText.CANCEL_BTN,
+                      })
                         .subscribe((res) => {
                           if (res) {
                             let arr:any=[this.mint.Blockchain,this.email,this.wallet]
@@ -624,8 +657,10 @@ export class Mint2Component implements OnInit {
                           confirmText: ConfirmDialogText.CONFIRM_BTN,
                         })
                       }else {
-                        const dialog = this.dialogService.pendingDialog({
+                        const dialog = this.dialogService.mintingDialog({
                           message: PendingDialogText.MINTING_IN_PROGRESS,
+                          nftName: this.mint.NFTName,
+                           thumbnail: this.mint.thumbnail,
                         });
                         this.pmint
                           .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
@@ -758,7 +793,7 @@ export class Mint2Component implements OnInit {
   }
 
   mintNFT(userPK: string) {
-   
+
     //minting nft using stellar
     if (this.mint.CreatorUserId != null) {
       //step 1. - change trust by distributor
@@ -1051,8 +1086,8 @@ export class Mint2Component implements OnInit {
          );
       }
     })
-  
-  
+
+
   }
 
   private _handleReaderLoadedImage(readerEvt: any) {
@@ -1067,7 +1102,7 @@ export class Mint2Component implements OnInit {
         this.snackbar.openSnackBar(
           "This Image has already been used, please add another!"
          );
-       
+
       }
     })
   }

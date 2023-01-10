@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -25,6 +25,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./show-nft.component.css'],
 })
 export class ShowNFTComponent implements OnInit {
+  @ViewChildren('theLastItem', {read : ElementRef}) theLastItem : QueryList<ElementRef>;
   Decryption: any;
   NFTList: any;
   List: any[] = [];
@@ -66,6 +67,11 @@ export class ShowNFTComponent implements OnInit {
   nfts: any;
   loading: boolean = false;
   thumbnailSRC: any;
+  observer: any;
+  currentPage : number = 0;
+  nextPage: number = 1;
+  nextPageLoading : boolean = false;
+
 
   constructor(
     private api: ApiServicesService,
@@ -194,79 +200,12 @@ export class ShowNFTComponent implements OnInit {
           }
         });
       }else  if(this.data=='hotpicks'){
-        this.service.getNFTOnSale('ON SALE').subscribe((result: any) => {
-          this.nfts = result.Response;
-          for (let x = 0; x < this.nfts.length; x++) {
-            if (this.nfts[x].hotpicks == true) {
-              this.service
-                .getSVGByHash(this.nfts[x].imagebase64)
-                .subscribe((res: any) => {
-                  this.Decryption = res.Response.Base64ImageSVG;
-                if(this.nfts[x].attachmenttype == "image/jpeg" || this.nfts[x].attachmenttype == "image/jpg" || this.nfts[x].attachmenttype == "image/png"){
-                  this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
-                }else{
-                  this.dec = btoa(this.Decryption);
-                  var str2 = this.dec.toString();
-                  var str1 = new String( "data:image/svg+xml;base64,");
-                  var src = str1.concat(str2.toString());
-                  this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-                  if(this.nfts[x].thumbnail == "") {
-                    this.nfts[x].thumbnail = this.imageSrc;
-                  }
-                }
-                let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
-                card.ImageBase64 = this.imageSrc;
-                card.thumbnail=this.nfts[x].thumbnail;
-                card.Blockchain = this.nfts[x].blockchain;
-                card.NFTIdentifier = this.nfts[x].nftidentifier;
-                card.NFTName = this.nfts[x].nftname;
-                card.Blockchain=this.nfts[x].blockchain
-                card.CreatorUserId=this.nfts[x].creatoruserid
-                card.SellingStatus=this.nfts[x].sellingstatus
-                card.CurrentOwnerPK=this.nfts[x].currentownerpk
-                this.List.push(card);
-                this.loading = false
-                });
-            }
-          }
-        });
+        this.getFilteredNFTs('hotpicks');
+        this.intersectionFilterObserver('hotpicks')
+
       }else  if(this.data=='trending'){
-        this.service.getNFTOnSale('ON SALE').subscribe((result: any) => {
-          this.nfts = result.Response;
-          for (let x = 0; x < this.nfts.length; x++) {
-            if (this.nfts[x].trending == true) {
-              this.service
-                .getSVGByHash(this.nfts[x].imagebase64)
-                .subscribe((res: any) => {
-                  this.Decryption = res.Response.Base64ImageSVG;
-                if(this.nfts[x].attachmenttype == "image/jpeg" || this.nfts[x].attachmenttype == "image/jpg" || this.nfts[x].attachmenttype == "image/png"){
-                  this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
-                }else{
-                  this.dec = btoa(this.Decryption);
-                  var str2 = this.dec.toString();
-                  var str1 = new String( "data:image/svg+xml;base64,");
-                  var src = str1.concat(str2.toString());
-                  this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-                  if(this.nfts[x].thumbnail == "") {
-                    this.nfts[x].thumbnail = this.imageSrc;
-                  }
-                }
-                let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
-                card.ImageBase64 = this.imageSrc;
-                card.thumbnail=this.nfts[x].thumbnail;
-                card.Blockchain = this.nfts[x].blockchain;
-                card.NFTIdentifier = this.nfts[x].nftidentifier;
-                card.NFTName = this.nfts[x].nftname;
-                card.Blockchain=this.nfts[x].blockchain
-                card.CreatorUserId=this.nfts[x].creatoruserid
-                card.SellingStatus=this.nfts[x].sellingstatus
-                card.CurrentOwnerPK=this.nfts[x].currentownerpk
-                this.List.push(card);
-                this.loading = false
-                });
-            }
-          }
-        });
+        this.getFilteredNFTs('trending');
+        this.intersectionFilterObserver('trending')
       }else  if(this.data!='Favourites' && this.data!='hotpicks' && this.data!= 'trending'){
       this.mint
         .getNFTByTag(this.data)
@@ -323,5 +262,82 @@ export class ShowNFTComponent implements OnInit {
         'User PK not connected or not endorsed'
       );
     }
+  }
+
+  ngAfterViewInit() {
+    this.theLastItem?.changes.subscribe((d) => {
+      if (d.last) this.observer.observe(d.last.nativeElement);
+    });
+  }
+
+  public getFilteredNFTs(filter: string) {
+    if(!this.loading) {
+      this.nextPageLoading = true;
+    }
+    this.service.getFilteredNFTs('ethereum', this.currentPage, filter, 12).subscribe((result: any) => {
+      this.nextPage = result.Response.PaginationInfo.nextpage;
+      result.Response.content.forEach((cont) => {
+        console.log(cont.nftname, cont.thumbnail)
+        this.service
+          .getSVGByHash(cont.imagebase64)
+          .subscribe((res: any) => {
+            this.Decryption = res.Response.Base64ImageSVG;
+            if(cont.attachmenttype == "image/jpeg" || cont.attachmenttype == "image/jpg" || cont.attachmenttype == "image/png"){
+              this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+            }else{
+              this.dec = btoa(this.Decryption);
+              var str2 = this.dec.toString();
+              var str1 = new String( "data:image/svg+xml;base64,");
+              var src = str1.concat(str2.toString());
+
+              this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              if(cont.thumbnail == "") {
+                cont.thumbnail = this.imageSrc;
+              }
+            }
+            console.log(this.thumbnailSRC)
+            let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
+            card.ImageBase64 = this.imageSrc;
+            card.thumbnail= cont.thumbnail;
+            card.Blockchain = cont.blockchain;
+            card.NFTIdentifier = cont.nftidentifier;
+            card.NFTName = cont.nftname;
+            card.Blockchain=cont.blockchain
+            card.CreatorUserId=cont.creatoruserid
+            card.SellingStatus=cont.sellingstatus
+            card.CurrentOwnerPK=cont.currentownerpk
+            this.List.push(card);
+            this.loading = false
+            this.nextPageLoading = false;
+          });
+      })
+    })
+  }
+
+  intersectionFilterObserver(filter:string) {
+    const option = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1,
+    };
+
+    this.observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        if(filter == 'hotpicks'){
+          if (this.nextPage !== 0) {
+            this.currentPage++;
+            this.getFilteredNFTs(filter);
+          }
+        }else if(filter == 'trending'){
+          if (this.nextPage !== 0) {
+            this.currentPage++;
+            this.getFilteredNFTs(filter);
+          }
+        }else{
+          alert("Invalid statement!")
+        }
+
+      }
+    }, option);
   }
 }

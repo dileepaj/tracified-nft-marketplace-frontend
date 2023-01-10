@@ -26,7 +26,7 @@ export class PopupMessageService {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
       panelClass: ['snackbar'],
-      duration: 3000,
+      duration: 5000,
     });
 
     ref.afterDismissed().subscribe(() => {

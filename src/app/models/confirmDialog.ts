@@ -1,13 +1,26 @@
 export interface ConfirmDialog{
-    title:string;
-    message:string;
-    confirmText:string;
-    cancelText:string;
+    title?:string;
+    message?:string;
+    confirmText?:string;
+    cancelText?:string;
     thumbnail?: string;
     nftName?: string;
     serviceFee? :number;
+    feeTypeName?:string
+    promtHeading?:string
     total?: number;
     blockchain? : string
+}
+
+export interface userAgreementPromt{
+    thumbnail?: string;
+    serviceFee? :number;
+    feeTypeName?:string
+    promtHeading?:string
+    total?: number;
+    blockchain? : string
+    nftName?: string;
+    buttonAction?:string;
 }
 
 export interface selectWalletDialog{
@@ -26,6 +39,7 @@ export interface PreviewImage{
 }
 
 export interface PendingDialog{
+    processTitle?:string
     message:string
     thumbnail? : string;
     nftName?: string;

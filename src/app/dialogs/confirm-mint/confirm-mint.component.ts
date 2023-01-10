@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialog } from 'src/app/models/confirmDialog';
+import { ConfirmDialog, userAgreementPromt } from 'src/app/models/confirmDialog';
 import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
@@ -17,16 +17,19 @@ export class ConfirmMintComponent implements OnInit {
   currency : string;
   public acceptEnabled: boolean = false;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: ConfirmDialog,
+    @Inject(MAT_DIALOG_DATA) public data: userAgreementPromt,
     private matDialogRef: MatDialogRef<ConfirmComponent>
   ) {}
 
   ngOnInit(): void {
     this.serviceFee = this.data.serviceFee?.toString()
-    this.total = this.data.serviceFee?.toString()
+    this.total = this.data.total?.toString()
     this.blockchain = this.data.blockchain?.toString()
-    if(this.blockchain === 'ethereum' || this.blockchain === 'polygon') {
+    if(this.blockchain === 'ethereum') {
       this.currency = 'ETH'
+    }
+    else if(this.blockchain == 'polygon'){
+      this.currency = 'MATIC'
     }
     else if(this.blockchain === 'stellar') {
       this.currency = 'XLM'

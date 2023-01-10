@@ -12,6 +12,7 @@ import {
   PendingDialog,
   PreviewImage,
   selectWalletDialog,
+  userAgreementPromt,
 } from 'src/app/models/confirmDialog';
 import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
 import { DisclaimerComponent } from 'src/app/dialogs/disclaimer/disclaimer.component';
@@ -39,7 +40,7 @@ export class DialogService {
       .afterClosed();
   }
 
-  confirmMintDialog(data: ConfirmDialog): Observable<boolean> {
+  confirmMintDialog(data: userAgreementPromt): Observable<boolean> {
     return this.dialog
       .open(ConfirmMintComponent, {
         data,

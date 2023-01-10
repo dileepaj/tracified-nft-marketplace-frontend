@@ -307,15 +307,14 @@ export class Mint2Component implements OnInit {
           this.pushTag();
           this.dialogService
             .confirmMintDialog({
-              title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-              message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-              confirmText: ConfirmDialogText.CONFIRM_BTN,
-              cancelText: ConfirmDialogText.CANCEL_BTN,
+              promtHeading:"You are Minting",
               nftName: this.mint.NFTName,
               thumbnail: this.mint.thumbnail,
-              serviceFee : 0.000501,
-              total : 0.000501,
-              blockchain: this.svg.blockchain
+              feeTypeName:"Service Fee",
+              serviceFee :  70.00000,
+              total :  70.00000,
+              blockchain: this.svg.blockchain,
+              buttonAction:"Mint Now"
             })
             .subscribe((res) => {
               if (res) {
@@ -350,6 +349,7 @@ export class Mint2Component implements OnInit {
                       })
                     }else {
                       const dialog = this.dialogService.mintingDialog({
+                        processTitle:"Minting",
                         message: PendingDialogText.MINTING_IN_PROGRESS,
                         nftName: this.mint.NFTName,
                          thumbnail: this.mint.thumbnail,
@@ -375,15 +375,14 @@ export class Mint2Component implements OnInit {
                 this.pushTag();
                 this.dialogService
                 .confirmMintDialog({
-                  title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-                  message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-                  confirmText: ConfirmDialogText.CONFIRM_BTN,
-                  cancelText: ConfirmDialogText.CANCEL_BTN,
+                  promtHeading:"You are Minting",
                   nftName: this.mint.NFTName,
                   thumbnail: this.mint.thumbnail,
-                  serviceFee : 0.000501,
-                  total : 0.000501,
-                  blockchain: this.svg.blockchain
+                  feeTypeName:"Service Fee",
+                  serviceFee : 70.00000,
+                  total : 70.00000,
+                  blockchain: this.svg.blockchain,
+                  buttonAction:"Mint Now"
                 })
                   .subscribe((res) => {
                     if (res) {
@@ -418,6 +417,7 @@ export class Mint2Component implements OnInit {
                             })
                           }else {
                             const dialog = this.dialogService.mintingDialog({
+                              processTitle:"Minting",
                               message: PendingDialogText.MINTING_IN_PROGRESS,
                               nftName: this.mint.NFTName,
                                thumbnail: this.mint.thumbnail,
@@ -455,15 +455,14 @@ export class Mint2Component implements OnInit {
       this.apiService.addSVG(this.svg).subscribe();
             this.dialogService
             .confirmMintDialog({
-              title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-              message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-              confirmText: ConfirmDialogText.CONFIRM_BTN,
-              cancelText: ConfirmDialogText.CANCEL_BTN,
+              promtHeading:"You are Minting",
               nftName: this.mint.NFTName,
               thumbnail: this.mint.thumbnail,
+              feeTypeName:"Service Fee",
               serviceFee : 0.000501,
               total : 0.000501,
-              blockchain: this.svg.blockchain
+              blockchain: this.svg.blockchain,
+              buttonAction:"Mint Now"
             })
             .subscribe((res) => {
               if(res){
@@ -496,6 +495,7 @@ export class Mint2Component implements OnInit {
                       })
                     }else{
                       const dialog = this.dialogService.mintingDialog({
+                        processTitle:"Minting",
                         message: PendingDialogText.MINTING_IN_PROGRESS,
                         nftName: this.mint.NFTName,
                          thumbnail: this.mint.thumbnail,
@@ -527,15 +527,14 @@ export class Mint2Component implements OnInit {
       this.apiService.addSVG(this.svg).subscribe();
       this.dialogService
       .confirmMintDialog({
-        title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-        message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-        confirmText: ConfirmDialogText.CONFIRM_BTN,
-        cancelText: ConfirmDialogText.CANCEL_BTN,
+        promtHeading:"You are Minting",
         nftName: this.mint.NFTName,
         thumbnail: this.mint.thumbnail,
-        serviceFee : 0.000501,
-        total : 0.000501,
-        blockchain: this.svg.blockchain
+        feeTypeName:"Service Fee",
+        serviceFee : 0.100801,
+        total : 0.100801,
+        blockchain: this.svg.blockchain,
+        buttonAction:"Mint Now"
       })
         .subscribe((res) => {
           if (res) {
@@ -570,6 +569,7 @@ export class Mint2Component implements OnInit {
                   })
                 } else {
                   const dialog = this.dialogService.mintingDialog({
+                    processTitle:"Minting",
                     message: PendingDialogText.MINTING_IN_PROGRESS,
                     nftName: this.mint.NFTName,
                      thumbnail: this.mint.thumbnail,
@@ -618,15 +618,14 @@ export class Mint2Component implements OnInit {
       this.apiService.addSVG(this.svg).subscribe();
             this.dialogService
             .confirmMintDialog({
-              title: ConfirmDialogText.MINT2_MINT_CONFIRM_TITLE,
-              message: ConfirmDialogText.MINT2_MINT_CONFIRM_MESSAGE,
-              confirmText: ConfirmDialogText.CONFIRM_BTN,
-              cancelText: ConfirmDialogText.CANCEL_BTN,
+              promtHeading:"You are Minting",
               nftName: this.mint.NFTName,
               thumbnail: this.mint.thumbnail,
+              feeTypeName:"Service Fee",
               serviceFee : 0.000501,
               total : 0.000501,
-              blockchain: this.svg.blockchain
+              blockchain: this.svg.blockchain,
+              buttonAction:"Mint Now"
             })
               .subscribe((res) => {
 
@@ -658,6 +657,7 @@ export class Mint2Component implements OnInit {
                         })
                       }else {
                         const dialog = this.dialogService.mintingDialog({
+                          processTitle:"Minting",
                           message: PendingDialogText.MINTING_IN_PROGRESS,
                           nftName: this.mint.NFTName,
                            thumbnail: this.mint.thumbnail,
@@ -1069,6 +1069,9 @@ export class Mint2Component implements OnInit {
 
   //create base64 image
   private _handleReaderLoaded(readerEvt: any) {
+    const svgChecker = this.dialogService.pendingDialog(
+      {message:'Validating NFT Content'}
+    )
     this.base64 = readerEvt.target.result;
     const unwantedText = 'data:image/svg+xml;base64,';
     this.base64 = this.base64.replace(unwantedText, '');
@@ -1085,6 +1088,7 @@ export class Mint2Component implements OnInit {
           "This SVG has already been used, please add another!"
          );
       }
+      svgChecker.close()
     })
 
 
@@ -1094,7 +1098,9 @@ export class Mint2Component implements OnInit {
     var binaryString = readerEvt.target.result;
     this.Encoded = binaryString;
     this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
+    
     this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
+
       console.log("----------result is ",resnft)
       if( resnft.Response.imagebase64==""){
         this.updateHTML();
@@ -1102,7 +1108,6 @@ export class Mint2Component implements OnInit {
         this.snackbar.openSnackBar(
           "This Image has already been used, please add another!"
          );
-
       }
     })
   }

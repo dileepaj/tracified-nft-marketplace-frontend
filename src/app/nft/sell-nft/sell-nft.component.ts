@@ -224,8 +224,11 @@ export class SellNftComponent implements OnInit {
             })
             .subscribe((res) => {
               if (res) {
-                const dialog = this.dialogService.pendingDialog({
-                  message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
+                const loadingAnimation = this.dialogService.mintingDialog({
+                  processTitle:"Selling",
+                  message: PendingDialogText.MINTING_IN_PROGRESS,
+                  nftName: this.NFTList.nftname,
+                   thumbnail: this.NFTList.thumbnail,
                 });
                 this.calculatePrice();
                 this.addDBBackend();
@@ -242,7 +245,7 @@ export class SellNftComponent implements OnInit {
                   .then((res: any) => {
                     this.selltxn = res.hash;
                     this.saveTXNs();
-                    dialog.close();
+                    loadingAnimation.close();
                     this.snackbarService.openSnackBar(
                       SnackBarText.SALE_SUCCESS_MESSAGE
                     );
@@ -280,8 +283,11 @@ export class SellNftComponent implements OnInit {
           })
           .subscribe((res) => {
             if (res) {
-              const dialog = this.dialogService.pendingDialog({
-                message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
+              const loadingAnimation = this.dialogService.mintingDialog({
+                processTitle:"Selling",
+                message: PendingDialogText.MINTING_IN_PROGRESS,
+                nftName: this.NFTList.nftname,
+                thumbnail: this.NFTList.thumbnail,
               });
               this.calculatePrice();
               this.addDBBackend();
@@ -298,7 +304,7 @@ export class SellNftComponent implements OnInit {
                 .then((res: any) => {
                   this.selltxn = res.tx_hash;
                   this.saveTXNs();
-                  dialog.close();
+                  loadingAnimation.close();
                   this.snackbarService.openSnackBar(
                     SnackBarText.SALE_SUCCESS_MESSAGE
                   );
@@ -345,8 +351,11 @@ export class SellNftComponent implements OnInit {
           })
           .subscribe((res) => {
             if (res) {
-              const dialog = this.dialogService.pendingDialog({
-                message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
+              const loadingAnimation = this.dialogService.mintingDialog({
+                processTitle:"Selling",
+                message: PendingDialogText.MINTING_IN_PROGRESS,
+                nftName: this.NFTList.nftname,
+                 thumbnail: this.NFTList.thumbnail,
               });
               this.middleman
                 .createATA(
@@ -369,7 +378,7 @@ export class SellNftComponent implements OnInit {
                   this.addDBBackend();
                   this.addDBGateway();
                   this.saveTXNs();
-                  dialog.close();
+                  loadingAnimation.close();
                   this.snackbarService.openSnackBar(
                     SnackBarText.SALE_SUCCESS_MESSAGE
                   );
@@ -405,8 +414,11 @@ export class SellNftComponent implements OnInit {
         })
         .subscribe((res) => {
           if (res) {
-            const dialog = this.dialogService.pendingDialog({
-              message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
+            const loadingAnimation = this.dialogService.mintingDialog({
+              processTitle:"Selling",
+              message: PendingDialogText.MINTING_IN_PROGRESS,
+              nftName: this.NFTList.nftname,
+               thumbnail: this.NFTList.thumbnail,
             });
             this.calculatePrice();
             if(this.NFTList.sellingstatus=='Minted'){
@@ -424,7 +436,7 @@ export class SellNftComponent implements OnInit {
                 this.saveTXNs();
                 this.addDBBackend();
                 this.addDBGateway();
-                dialog.close();
+                loadingAnimation.close();
                 this.snackbarService.openSnackBar(
                   SnackBarText.SALE_SUCCESS_MESSAGE
                 );
@@ -445,7 +457,7 @@ export class SellNftComponent implements OnInit {
                   this.saveTXNs();
                   this.addDBBackend();
                   this.addDBGateway();
-                  dialog.close();
+                  loadingAnimation.close();
                   this.snackbarService.openSnackBar(
                     SnackBarText.SALE_SUCCESS_MESSAGE
                   );
@@ -471,19 +483,27 @@ export class SellNftComponent implements OnInit {
         this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
         return
       }
+      this.calculatePrice();
       this.dialogService
-        .confirmDialog({
-          title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
-          message: ConfirmDialogText.SELL_VIEW_SELL_NFT_MESSAGE,
-          confirmText: ConfirmDialogText.CONFIRM_BTN,
-          cancelText: ConfirmDialogText.CANCEL_BTN,
+        .confirmMintDialog({
+          promtHeading:"You are Selling",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"Comission Fee ",
+          serviceFee :  this.royaltyCharge,
+          total :  this.sellingPrice,
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Sell Now"
         })
         .subscribe((res) => {
           if (res) {
-            const dialog = this.dialogService.pendingDialog({
-              message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
+            const loadingAnimation = this.dialogService.mintingDialog({
+              processTitle:"Selling",
+              message: PendingDialogText.MINTING_IN_PROGRESS,
+              nftName: this.NFTList.nftname,
+               thumbnail: this.NFTList.thumbnail,
             });
-            this.calculatePrice();
+            
             if(this.NFTList.sellingstatus=='Minted'){
               this.emarket
               .createSaleOffer(
@@ -498,7 +518,7 @@ export class SellNftComponent implements OnInit {
                 this.saveTXNs();
                 this.addDBBackend();
                 this.addDBGateway();
-                dialog.close();
+                loadingAnimation.close();
                 this.snackbarService.openSnackBar(
                   SnackBarText.SALE_SUCCESS_MESSAGE
                 );
@@ -519,7 +539,7 @@ export class SellNftComponent implements OnInit {
                   this.saveTXNs();
                   this.addDBBackend();
                   this.addDBGateway();
-                  dialog.close();
+                  loadingAnimation.close();
                   this.snackbarService.openSnackBar(
                     SnackBarText.SALE_SUCCESS_MESSAGE
                   );

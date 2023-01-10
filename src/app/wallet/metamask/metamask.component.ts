@@ -104,6 +104,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       const tx = await transaction.wait();
       return tx;
     } else if (blockchain == 'polygon') {
+      console.log("------------- ",royalty,listingPrice,price,itemId,seller,blockchain,nftcontract)
       const contract = await PolygonMarketServiceService.getContract(true);
       const transaction = await contract['createMarketSale'](
         nftcontract,

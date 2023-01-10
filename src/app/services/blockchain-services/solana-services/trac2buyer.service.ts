@@ -27,7 +27,7 @@ export class Trac2buyerService {
       let commissioncharge=(parseFloat(commission))*1000000000
       let totalprice = (price)* 1000000000
       let royalties = royalty * 1000000000
-   
+   console.log("prices : ",commissioncharge,totalprice,royalties)
       const tx = new Transaction()
             tx.add(
                 SystemProgram.transfer({

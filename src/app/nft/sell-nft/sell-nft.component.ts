@@ -139,12 +139,13 @@ export class SellNftComponent implements OnInit {
       this.royalty = parseFloat(this.formValue('Royalty'));
       this.royaltyamount=this.royalty
       this.firstPrice = parseFloat(this.formValue('Price'));
-      this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
-      this.sellingPrice = this.firstPrice + this.royaltyCharge;
+     this.royaltyCharge =this.firstPrice * (this.royalty / 100.0);
+      this.sellingPrice = this.firstPrice ;
       this.commissionforNonContracts =(parseFloat(this.formValue('Price')) * (5.00/100.00))
       this.commission = (parseFloat(this.formValue('Price')) * (5.00/100.00)).toString()
-      this.sellingPriceForNonContracts=this.firstPrice + this.royaltyCharge +this.commissionforNonContracts;
+      this.sellingPriceForNonContracts=this.firstPrice  +this.commissionforNonContracts;
       this.value = false
+      console.log("----------------",this.sellingPrice,this.firstPrice)
     }else{
       console.log("this is a resale 2%")
       this.royalty = parseFloat(this.Royalty)
@@ -184,15 +185,15 @@ export class SellNftComponent implements OnInit {
     this.saleBE.CurrentPrice = this.sellingPrice.toString();
     this.saleBE.Commission=this.commission.toString();
     }else if(this.NFTList.blockchain=='stellar'){
-      this.saleBE.CurrentPrice = this.sellingPriceForNonContracts.toString();
+      this.saleBE.CurrentPrice = this.sellingPrice.toString();
       this.saleBE.Commission=this.commissionforNonContracts.toString();
     }else{
-      this.saleBE.CurrentPrice = this.firstPrice.toString();
+      this.saleBE.CurrentPrice = this.sellingPrice.toString();
       this.saleBE.Commission=this.commissionforNonContracts.toString();
     }
     this.saleBE.Timestamp = '2022-4-20:17:28';
     this.saleBE.CurrentOwnerPK = this.NFTList.currentownerpk;
-    this.saleBE.Royalty = this.royaltyCharge.toString();
+    this.saleBE.Royalty = this.royalty.toString();
     this.service.updateNFTStatusBackend(this.saleBE).subscribe();
   }
 
@@ -278,9 +279,7 @@ export class SellNftComponent implements OnInit {
                     this.NFTList.nftissuerpk,
                     this.signerpK,
                     '1',
-                    this.sellingPriceForNonContracts,
-                    this.royaltyCharge,
-                    this.commissionforNonContracts
+                    this.sellingPrice,
                   )
                   .then((res: any) => {
                     this.selltxn = res.hash;
@@ -341,9 +340,7 @@ export class SellNftComponent implements OnInit {
                   this.NFTList.nftissuerpk,
                   this.signerpK,
                   '1',
-                  this.sellingPriceForNonContracts,
-                  this.royaltyCharge,
-                  this.commissionforNonContracts
+                  this.sellingPrice,
                 )
                 .then((res: any) => {
                   this.selltxn = res.tx_hash;
@@ -474,35 +471,13 @@ export class SellNftComponent implements OnInit {
               message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
             });
             this.calculatePrice();
-            // if(this.NFTList.sellingstatus=='Minted'){
-
-            //   this.pmarket
-            //   .createSaleOffer(
-            //     environment.contractAddressNFTPolygon,
-            //     this.tokenid,
-            //     this.sellingPrice,
-            //     this.commission
-            //   )
-            //   .then((res) => {
-            //     this.selltxn = res.transactionHash;
-            //     this.itemId = parseInt(res.logs[3].topics[1]);
-            //     this.saleBE.SellingType = this.itemId.toString();
-            //     this.saveTXNs();
-            //     this.addDBBackend();
-            //     this.addDBGateway();
-            //     dialog.close();
-            //     this.snackbarService.openSnackBar(
-            //       SnackBarText.SALE_SUCCESS_MESSAGE
-            //     );
-            //     this.showInProfile();
-            //   });
-            // }else{
+            
               this.pmint.approveContract(this.tokenid).then((res:any)=>{
                 this.pmarket
                 .createSaleOffer(
                   environment.contractAddressNFTPolygon,
                   this.tokenid,
-                  this.sellingPrice,
+                  this.sellingPrice + this.royaltyCharge,
                   this.commission
                 )
                 .then((res) => {
@@ -558,34 +533,13 @@ export class SellNftComponent implements OnInit {
               message: PendingDialogText.SELL_VIEW_CLICKED_SALE,
             });
             this.calculatePrice();
-            // if(this.NFTList.sellingstatus=='Minted'){
-            //   this.emarket
-            //   .createSaleOffer(
-            //     environment.contractAddressNFTEthereum,
-            //     this.tokenid,
-            //     this.sellingPrice,
-            //     this.commission
-            //   )
-            //   .then((res) => {
-            //     this.selltxn = res.transactionHash;
-            //     this.itemId = parseInt(res.logs[2].topics[1]);
-            //     this.saleBE.SellingType = this.itemId.toString();
-            //     this.saveTXNs();
-            //     this.addDBBackend();
-            //     this.addDBGateway();
-            //     dialog.close();
-            //     this.snackbarService.openSnackBar(
-            //       SnackBarText.SALE_SUCCESS_MESSAGE
-            //     );
-            //     this.showInProfile();
-            //   });
-           // }else{
+           
               this.emint.approveContract(this.tokenid).then((res:any)=>{
                 this.emarket
                 .createSaleOffer(
                   environment.contractAddressNFTEthereum,
                   this.tokenid,
-                  this.sellingPrice,
+                  this.sellingPrice ,
                   this.commission
                 )
                 .then((res) => {
@@ -653,20 +607,20 @@ export class SellNftComponent implements OnInit {
             this.Royalty = this.NFTList.royalty
             this.value = false
           }else{
-            console.log("this is a resale 2%")
-            console.log("list is ",this.NFTList)
-            this.number = parseFloat(this.NFTList.royalty);
-            this.price =parseFloat(this.NFTList.currentprice)
-            this.servicecommission =parseFloat(this.NFTList.commission)
-            console.log("sumsd--------------",this.number,this.price,this.servicecommission,this.NFTList.commission)
-            if(this.NFTList.blockchain=="ethereum" || this.NFTList.blockchain=="polygon"){
-              this.Royalty = ((this.number * 100)/(this.price-this.number))
-            }else if(this.NFTList.blockchain=="stellar"){
-              this.Royalty =((this.number * 100)/(this.price-(this.number+this.servicecommission)))
-            }else{
-              this.Royalty =((this.number * 100)/(this.price))
-            }
-          
+            // console.log("this is a resale 2%")
+            // console.log("list is ",this.NFTList)
+            // this.number = parseFloat(this.NFTList.royalty);
+            // this.price =parseFloat(this.NFTList.currentprice)
+            // this.servicecommission =parseFloat(this.NFTList.commission)
+            // console.log("sumsd--------------",this.number,this.price,this.servicecommission,this.NFTList.commission)
+            // if(this.NFTList.blockchain=="ethereum" || this.NFTList.blockchain=="polygon"){
+            //   this.Royalty = ((this.number * 100)/(this.price-this.number))
+            // }else if(this.NFTList.blockchain=="stellar"){
+            //   this.Royalty =((this.number * 100)/(this.price-(this.number+this.servicecommission)))
+            // }else{
+            //   this.Royalty =((this.number * 100)/(this.price))
+            // }
+          this.Royalty=this.NFTList.royalty
           
             this.value = true
           }

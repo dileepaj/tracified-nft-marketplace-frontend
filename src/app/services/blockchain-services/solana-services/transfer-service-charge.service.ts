@@ -24,7 +24,7 @@ export class TransferServiceChargeService {
                 SystemProgram.transfer({
                 fromPubkey: new PublicKey(to),
                 toPubkey: new PublicKey("FfEztWGUyS7FjdxS6SPenpNiFmABBc3jLpLSPvPq1QP7"),
-                lamports: 2, //service charge
+                lamports: 20000, //service charge
               }),
                )
                tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;

@@ -11,11 +11,11 @@ export class TrustByBuyerService {
   constructor() { }
 
   trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string,commission:string) {
-    let royalties=parseFloat(royalty)
-    let commissioncharge=parseFloat(commission)
-    let sellingprice=parseFloat(nftPrice)
-    let TotalPrice=(sellingprice-(royalties+commissioncharge)).toString();
-    
+    // let royalties=parseFloat(royalty)
+    // let commissioncharge=parseFloat(commission)
+    // let sellingprice=parseFloat(nftPrice)
+    // let TotalPrice=(sellingprice-(royalties+commissioncharge)).toString();
+    console.log("insdie ",nftPrice,royalty,commission)
         return new Promise((resolve, reject) => {
           //let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
           if (blockchainNetType === "live") {
@@ -64,7 +64,7 @@ export class TrustByBuyerService {
                     selling: sellingAsset,
                     buying: buyAsset,
                     buyAmount: '1',
-                    price: TotalPrice,
+                    price: nftPrice,
                     offerId: "0",
                   })
                 )

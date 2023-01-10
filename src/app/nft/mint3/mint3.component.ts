@@ -37,7 +37,7 @@ export class Mint3Component implements OnInit {
 
   showInProfile() {
     console.log("bc and user: ",this.blockchain,this.user)
-    this.router.navigate(['/user-dashboard'], {
+    this.router.navigate(['/user-dashboard/overview'], {
       queryParams: { user:this.user,blockchain: this.blockchain },
     });
   }
@@ -51,9 +51,4 @@ export class Mint3Component implements OnInit {
     this.alive = false;
   }
 
-  public goToProfile(): void {
-    this.router.navigate(['/user-dashboard/overview'], {
-      queryParams: { blockchain: this.blockchain },
-    });
-  }
 }

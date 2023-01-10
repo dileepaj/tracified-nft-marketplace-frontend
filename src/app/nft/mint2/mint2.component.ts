@@ -29,7 +29,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TrustlinesService } from 'src/app/services/blockchain-services/stellar-services/trustlines.service';
 import { Properties } from '../../shared/properties';
 import { PolygonMintService } from 'src/app/services/contract-services/polygon-mint.service';
-import { environment } from 'src/environments/environment';
+import { BlockchainConfig, environment } from 'src/environments/environment';
 import { EthereumMintService } from 'src/app/services/contract-services/ethereum-mint.service';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { UserWallet } from 'src/app/models/userwallet';
@@ -58,6 +58,8 @@ import { TrustByDistributorService } from 'src/app/services/blockchain-services/
 import { TransferNftService } from 'src/app/services/blockchain-services/solana-services/transfer-nft.service';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import albedo from '@albedo-link/intent';
+import { TransferServiceChargeService } from 'src/app/services/blockchain-services/solana-services/transfer-service-charge.service';
+import { clusterApiUrl, Connection ,Transaction as solanaTransaction } from '@solana/web3.js';
 
 @Component({
   selector: 'app-mint2',
@@ -139,6 +141,7 @@ export class Mint2Component implements OnInit {
   svgUpdate: UpdateSVG = new UpdateSVG('', '');
   svg: SVG = new SVG('', '', 'NA','','');
   Decryption: any;
+  readonly network :any =BlockchainConfig.solananetwork;
   dec: string;
   imageSrc: any;
   userPK: string;
@@ -174,6 +177,7 @@ export class Mint2Component implements OnInit {
   croppedImage: any = '';
   cropperStat: boolean=false;
   showthumbnailContainer: boolean=true;
+  transaction: any;
   constructor(
     private route: ActivatedRoute,
     private service: MintService,
@@ -190,7 +194,8 @@ export class Mint2Component implements OnInit {
     private serviceCol: CollectionService,
     public dialog: MatDialog,
     public transfer: TransferNftService,
-    private trust:TrustByDistributorService
+    private trust:TrustByDistributorService,
+    private servicecharge:TransferServiceChargeService
   ) {
     this.filteredtags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -219,6 +224,9 @@ export class Mint2Component implements OnInit {
     if (this.mint.CreatorUserId != null) {
       this.addSubscription = this.service.addNFTBE(this.mint).subscribe();
     }
+    
+
+    
     this.pushOwner(); //calling function
     this.pushTag(); //calling fnction
     this.proceed.emit({
@@ -358,6 +366,7 @@ export class Mint2Component implements OnInit {
             });
           }
           if(this.wallet=='albedo'){
+    
             await albedo.publicKey({
               require_existing: true
           })
@@ -407,6 +416,7 @@ export class Mint2Component implements OnInit {
                             const dialog = this.dialogService.pendingDialog({
                               message: PendingDialogText.MINTING_IN_PROGRESS,
                             });
+    
                             this.sendToMint3();
                             this.mintNFTOnAlbedo(this.userPK);
                              dialog.close();
@@ -479,9 +489,10 @@ export class Mint2Component implements OnInit {
                         message: PendingDialogText.MINTING_IN_PROGRESS,
                       });
                      this.sendToMint3();
-                          this.mintNftSolana(this.mint.NFTIssuerPK);
+                          this.mintNftSolana(this.mint.NFTIssuerPK)
                           dialog.close()
                           this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                    
                     }
                   });
               }
@@ -718,6 +729,7 @@ export class Mint2Component implements OnInit {
           this.mint.NFTTxnHash = data.NFTTxnHash;
           this.minter.NFTIssuerPK = this.mint.NFTIssuerPK;
           this.minter.NFTTxnHash = this.mint.NFTTxnHash;
+          this.mint.NFTIdentifier=data.NFTIdentifier;
           this.minter.NFTIdentifier = data.NFTIdentifier;
           this.distributor = data.CreatorUserID;
           this.transfer
@@ -928,7 +940,19 @@ export class Mint2Component implements OnInit {
   }
 
   mintNftSolana(ownerPK: string) {
+    const connection = new Connection(
+      clusterApiUrl(this.network),
+      'confirmed'
+    );
     return new Promise((resolve, reject) => {
+   this.servicecharge.transferServiceCharge(ownerPK).then(async (result:solanaTransaction) => {
+    try {
+      const { signature } = await (
+        window as any
+      ).solana.signAndSendTransaction(result);
+      await connection.confirmTransaction(signature);
+
+      
       this.service
         .minNFTSolana(
           ownerPK, //distributer Public key
@@ -955,6 +979,10 @@ export class Mint2Component implements OnInit {
             this.dissmissLoading();
           }
         });
+      } catch (err) {
+        alert(err);
+      }
+      })
     });
   }
 
@@ -1041,13 +1069,12 @@ export class Mint2Component implements OnInit {
 
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
     this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
-      console.log("----------result is ",resnft)
-      if(resnft!=null){
-        this.snackbar.openSnackBar(
-            "This SVG has already been used, please add another!"
-           );
-      }else{
+      if( resnft.Response.imagebase64=="" ){
         this.updateHTML();
+      }else{
+        this.snackbar.openSnackBar(
+          "This SVG has already been used, please add another!"
+         );
       }
     })
   
@@ -1059,13 +1086,12 @@ export class Mint2Component implements OnInit {
     this.Encoded = binaryString;
     this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
     this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
-      console.log("----------result is ",resnft)
-      if(resnft!=null){
-        this.snackbar.openSnackBar(
-            "This Image has already been used, please add another!"
-           );
-      }else{
+      if( resnft.Response.imagebase64==""){
         this.updateHTML();
+      }else{
+        this.snackbar.openSnackBar(
+          "This Image has already been used, please add another!"
+         );
       }
     })
   }

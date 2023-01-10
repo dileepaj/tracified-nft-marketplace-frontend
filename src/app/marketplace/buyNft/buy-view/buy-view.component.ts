@@ -85,11 +85,13 @@ export class BuyViewComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
-  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '', '', '');
+  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '', '', '','');
   buyGW: BuyNFTGW = new BuyNFTGW('', '', '', '');
   nftbe: GetNFT = new GetNFT(
+    '',
     '',
     '',
     '',
@@ -151,6 +153,21 @@ export class BuyViewComponent implements OnInit {
   isLoading : boolean = false;
   readonly network :any =BlockchainConfig.solananetwork;
   wallet: any;
+  total: number;
+  commission: string;
+  royalty: number;
+  serviceCharge: string;
+  services: number;
+  commissionForNonContracts: string;
+  royaltyCharge: number;
+  fullTotal: string;
+  contractTotal: number;
+  totals: number;
+  royaltyR: number;
+  royaltyCharges: number;
+  servicess: number;
+  commissions: string;
+  R: number;
   constructor(
     private service: NftServicesService,
     private trust: TrustLineByBuyerServiceService,
@@ -171,17 +188,37 @@ export class BuyViewComponent implements OnInit {
     this.updateBackend();
   }
 
+  calculateCommision(){
+    if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might
+      this.total = parseFloat(this.NFTList.currentprice);
+      this.royalty= parseFloat(this.NFTList.royalty);
+      this.royaltyCharge = this.total * (this.royalty/100.00);
+      this.services=parseFloat(this.NFTList.commission);
+      this.commission=((this.total) * (5.00/100.00)).toString()
+      this.contractTotal= (this.total + this.royaltyCharge)
+
+    }else{
+      this.total = parseFloat(this.NFTList.currentprice);
+      this.royalty= parseFloat(this.NFTList.royalty);
+      this.services=parseFloat(this.NFTList.commission);
+      this.royaltyCharge =this.total * (this.royalty/100.00)
+      this.commission = (this.total * (2.00/100.00)).toString()
+    }
+  }
+
   async updateBackend(): Promise<void> {
     this.saleBE.CurrentPrice = this.NFTList.currentprice;
     this.saleBE.Royalty = this.NFTList.royalty;
     this.saleBE.SellingStatus = 'NOTFORSALE';
     this.saleBE.Timestamp = '2022-04-21:13:41:00';
+    this.saleBE.Commission=this.NFTList.commission
 
     if (this.NFTList.blockchain == 'stellar') {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;
       this.saleBE.Blockchain = this.NFTList.blockchain;
+     
       this.dialogService
         .openDisclaimer()
         .subscribe((res) => {
@@ -197,6 +234,7 @@ export class BuyViewComponent implements OnInit {
         });
     }
     if (this.NFTList.blockchain == 'solana') {
+      this.calculateCommision()
       const connection = new Connection(clusterApiUrl(this.network), 'confirmed');
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
@@ -215,7 +253,7 @@ export class BuyViewComponent implements OnInit {
           this.transfer
             .createATA(
               environment.fromWalletSecret,
-              parseFloat(this.NFTList.currentprice),
+              this.total,
               phantomWallet.getWalletaddress(),
               this.NFTList.nftissuerpk,
               this.NFTList.nftidentifier
@@ -223,14 +261,12 @@ export class BuyViewComponent implements OnInit {
             .then(async (res: any) => {
               this.ata
                 .createATA(
-                  environment.fromWalletSecret,
-                  parseInt(this.NFTList.currentprice),
+                 this.total,
                   phantomWallet.getWalletaddress(),
-                  this.NFTList.nftissuerpk,
-                  this.NFTList.nftidentifier,
-                  parseFloat(this.NFTList.royalty),
+                  this.royaltyCharge,
                   this.NFTList.creatoruserid,
-                  this.NFTList.currentownerpk
+                  this.NFTList.currentownerpk,
+                  this.services.toString()
                 )
                 .then(async (result: solanaTransaction) => {
                   try {
@@ -260,6 +296,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
       this.saleBE.Blockchain = this.NFTList.blockchain;
+      this.calculateCommision()
       let walletMetamask = new UserWallet();
       walletMetamask = new MetamaskComponent(walletMetamask);
       await walletMetamask.initWallelt();
@@ -276,9 +313,10 @@ export class BuyViewComponent implements OnInit {
               .BuyNFT(
                 environment.contractAddressNFTPolygon,
                 parseInt(this.NFTList.sellingtype),
-                this.NFTList.currentprice,
-                this.NFTList.royalty,
-                this.NFTList.currentownerpk
+                (this.total + this.royaltyCharge).toString(),
+                this.royaltyCharge.toString(),
+                this.NFTList.creatoruserid,
+                this.commission,
               )
               .then((res) => {
                 this.buytxn = res.transactionHash;
@@ -297,6 +335,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
       this.saleBE.Blockchain = this.NFTList.blockchain;
+   this.calculateCommision()
       let walletMetamask = new UserWallet();
       walletMetamask = new MetamaskComponent(walletMetamask);
       await walletMetamask.initWallelt();
@@ -313,9 +352,10 @@ export class BuyViewComponent implements OnInit {
               .BuyNFT(
                 environment.contractAddressNFTEthereum,
                 parseInt(this.NFTList.sellingtype),
-                this.NFTList.currentprice,
-                this.NFTList.royalty,
-                this.NFTList.currentownerpk
+                (this.total+this.royaltyCharge).toString(),
+                this.royaltyCharge.toString(),
+                this.NFTList.creatoruserid,
+                this.commission
               )
               .then((res) => {
                 this.buytxn = res.transactionHash;
@@ -358,6 +398,7 @@ export class BuyViewComponent implements OnInit {
   }
 
   async buyNFTOnStellar(): Promise<void> {
+    this.calculateCommision()
     this.dialogService
     .selectWallet({
       title: SelectWalletText.WALLET_TITLE,
@@ -380,7 +421,8 @@ export class BuyViewComponent implements OnInit {
             this.userPK,
             this.NFTList.currentprice,
             this.NFTList.distributorpk,
-            this.NFTList.royalty
+            this.royaltyCharge.toString(),
+            this.commission
           )
           .then((transactionResult: any) => {
             if (transactionResult.successful) {
@@ -413,7 +455,8 @@ export class BuyViewComponent implements OnInit {
               this.userPK,
               this.NFTList.currentprice,
               this.NFTList.distributorpk,
-              this.NFTList.royalty
+              this.royaltyCharge.toString(),
+              this.commission
             )
             .then((transactionResult: any) => {
               
@@ -500,6 +543,23 @@ export class BuyViewComponent implements OnInit {
               this.ngOnInit();
             }
 
+            if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might
+             
+              this.totals = parseFloat(this.NFTList.currentprice);
+              this.royaltyR= parseFloat(this.NFTList.royalty);
+              this.royaltyCharges=this.totals * (this.royaltyR/100.00);
+              this.servicess=parseFloat(this.NFTList.commission);
+              this.commissions=((this.totals) * (5.00/100.00)).toString()
+              this.fullTotal = (this.totals+this.royaltyCharges+this.servicess).toString()
+            }else{
+            
+              this.totals = parseFloat(this.NFTList.currentprice);
+              this.royaltyR= parseFloat(this.NFTList.royalty);
+              this.servicess=parseFloat(this.NFTList.commission);
+              this.royaltyCharges =this.totals * (this.royaltyR/100.00)
+              this.commissions = (this.totals * (2.00/100.00)).toString()
+              this.fullTotal = (this.totals+this.royaltyCharges+this.servicess).toString()
+            }
             this.apiService
               .findWatchlistByBlockchainAndNFTIdentifier(
                 this.NFTList.blockchain,

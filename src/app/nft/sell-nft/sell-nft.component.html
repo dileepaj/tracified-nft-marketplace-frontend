@@ -205,6 +205,8 @@
                     formControlName="Royalty"
                     min=0
                     max=100
+                    placeholder="{{this.Royalty}}"
+                    [readonly]="this.value"
                   />
                   
                   <span matSuffix style="font-size:18px;">%</span>

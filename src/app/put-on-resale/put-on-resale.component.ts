@@ -51,9 +51,10 @@ export class PutOnResaleComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
-  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '','','');
+  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '','','','');
   saleGW: SalesGW = new SalesGW('', '', '', '');
   sale: Sales = new Sales('', '');
   royalty: any;

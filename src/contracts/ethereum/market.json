@@ -174,6 +174,11 @@
 				"internalType": "address",
 				"name": "distributor",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "listingPrice",
+				"type": "uint256"
 			}
 		],
 		"name": "createMarketSale",
@@ -414,19 +419,6 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getListingPrice",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -461,6 +453,11 @@
 				"internalType": "uint256",
 				"name": "newPrice",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "listingPrice",
+				"type": "uint256"
 			}
 		],
 		"name": "putItemToResell",
@@ -483,6 +480,11 @@
 			{
 				"internalType": "uint256",
 				"name": "price",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "listingPrice",
 				"type": "uint256"
 			}
 		],

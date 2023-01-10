@@ -42,6 +42,14 @@ export class TrustlinesService {
                 source: userPK,
               })
             )
+            .addOperation(
+              Operation.payment({
+                destination:'GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV',
+                asset:Asset.native(),
+                amount: '2',
+                source: userPK,   //service charge
+              })
+            )
             .setTimeout(60000)
             .build();
             let walletf = new UserWallet();

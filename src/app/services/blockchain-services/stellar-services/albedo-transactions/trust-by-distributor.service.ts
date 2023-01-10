@@ -10,6 +10,7 @@ export class TrustByDistributorService {
 
   constructor() { }
   changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string) {
+
     return new Promise((resolve, reject) => {
       if (blockchainNetType === "live") {
         Networks.TESTNET
@@ -28,6 +29,14 @@ export class TrustByDistributorService {
                 asset: asset,
                 limit: "1",
                 source: userPK,
+              })
+            )
+            .addOperation(
+              Operation.payment({
+                destination:'GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV',
+                asset:Asset.native(),
+                amount: '2',
+                source: userPK,   //service charge
               })
             )
             .setTimeout(60000)

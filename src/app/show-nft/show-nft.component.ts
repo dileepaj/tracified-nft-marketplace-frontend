@@ -58,6 +58,7 @@ export class ShowNFTComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
   imageSrc: any;

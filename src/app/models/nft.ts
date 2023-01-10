@@ -27,6 +27,7 @@ export class NFTMarket{
 	public PreviousOwnerNFTPK      :         string,
 	public CurrentOwnerNFTPK    :            string,
 	public thumbnail:string,
+	public Commission:string
     ){}
 }
 
@@ -59,6 +60,7 @@ export class GetNFT{
 	public SellingType:string,
 	public Status:string,
 	public thumbnail:string,
+	public Commission:string
    
     ){}
 }
@@ -74,6 +76,7 @@ export class SalesBE{
 		public CurrentOwnerPK :string,
 		public Royalty :string,
 		public Blockchain:string,
+		public Commission:string
 		
     ){}
 }

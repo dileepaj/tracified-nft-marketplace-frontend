@@ -66,9 +66,10 @@ export class SellNftComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
-  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '', '', '');
+  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '', '', '','');
   saleGW: SalesGW = new SalesGW('', '', '', '');
   sale: Sales = new Sales('', '');
   royalty: any;
@@ -104,6 +105,14 @@ export class SellNftComponent implements OnInit {
   readonly network :any =BlockchainConfig.solananetwork;
   wallet: any;
   signerpK: string;
+  commission: string;
+  Royalty: any;
+  value: boolean;
+  number: number;
+  price: number;
+  commissionforNonContracts: number;
+  sellingPriceForNonContracts: any;
+  servicecommission: number;
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -124,11 +133,28 @@ export class SellNftComponent implements OnInit {
   ) {}
 
   calculatePrice(): void {
-    this.royalty = parseFloat(this.formValue('Royalty'));
-    this.royaltyamount=this.royalty
-    this.firstPrice = parseFloat(this.formValue('Price'));
-    this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
-    this.sellingPrice = this.firstPrice + this.royaltyCharge;
+    if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
+      this.Royalty = this.NFTList.royalty
+      this.royalty = parseFloat(this.formValue('Royalty'));
+      this.royaltyamount=this.royalty
+      this.firstPrice = parseFloat(this.formValue('Price'));
+     this.royaltyCharge =this.firstPrice * (this.royalty / 100.0);
+      this.sellingPrice = this.firstPrice ;
+      this.commissionforNonContracts =(parseFloat(this.formValue('Price')) * (5.00/100.00))
+      this.commission = (parseFloat(this.formValue('Price')) * (5.00/100.00)).toString()
+      this.sellingPriceForNonContracts=this.firstPrice  +this.commissionforNonContracts;
+      this.value = false
+    }else{
+      this.royalty = parseFloat(this.Royalty)
+      this.firstPrice = parseFloat(this.formValue('Price'));
+      this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
+      this.sellingPrice=this.firstPrice 
+      this.commission = (parseFloat(this.formValue('Price')) * (2.00/100.00)).toString()
+      this.commissionforNonContracts =(parseFloat(this.formValue('Price')) * (2.00/100.00))
+      this.value = true
+      this.sellingPriceForNonContracts=this.firstPrice + this.royaltyCharge +this.commissionforNonContracts;
+
+    }
   }
 
   public openDialog() {
@@ -151,16 +177,29 @@ export class SellNftComponent implements OnInit {
 
   addDBBackend(): void {
     this.saleBE.SellingStatus = 'ON SALE';
+    if(this.NFTList.blockchain=='ethereum' || this.NFTList.blockchain=='polygon'){
     this.saleBE.CurrentPrice = this.sellingPrice.toString();
+    this.saleBE.Commission=this.commission.toString();
+    }else if(this.NFTList.blockchain=='stellar'){
+      this.saleBE.CurrentPrice = this.sellingPrice.toString();
+      this.saleBE.Commission=this.commissionforNonContracts.toString();
+    }else{
+      this.saleBE.CurrentPrice = this.sellingPrice.toString();
+      this.saleBE.Commission=this.commissionforNonContracts.toString();
+    }
     this.saleBE.Timestamp = '2022-4-20:17:28';
     this.saleBE.CurrentOwnerPK = this.NFTList.currentownerpk;
-    this.saleBE.Royalty = this.royaltyCharge.toString();
+    this.saleBE.Royalty = this.royalty.toString();
     this.service.updateNFTStatusBackend(this.saleBE).subscribe();
   }
 
   addDBGateway(): void {
     this.saleGW.Status = 'ON SALE';
-    this.saleGW.Price = this.sellingPrice.toString();
+    if(this.NFTList.blockchain=='ethereum' || this.NFTList.blockchain=='polygon'){
+      this.saleBE.CurrentPrice = this.sellingPrice.toString();
+      }else{
+        this.saleBE.CurrentPrice = this.sellingPriceForNonContracts.toString();
+      }
     this.saleGW.NFTTXNhash = this.NFTList.nfttxnhash;
     this.saleGW.Amount = '1';
     this.service
@@ -240,7 +279,6 @@ export class SellNftComponent implements OnInit {
                     this.signerpK,
                     '1',
                     this.sellingPrice,
-                    this.royaltyCharge
                   )
                   .then((res: any) => {
                     this.selltxn = res.hash;
@@ -265,14 +303,19 @@ export class SellNftComponent implements OnInit {
         this.saleBE.MarketContract = 'Not Applicable';
         this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
         this.saleBE.Blockchain = this.NFTList.blockchain;
-        this.royaltyamount = parseFloat(this.formValue('Royalty'));
-        if(isNaN(+this.royaltyamount)){
-          this.snackbarService.openSnackBar("Royality must be inputed as a number")
-          return
-        }
-        if(this.royaltyamount <0 || this.royaltyamount>100){
-          this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
-          return
+        if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
+        
+          this.royaltyamount = parseFloat(this.formValue('Royalty'));
+          if(isNaN(+this.royaltyamount)){
+            this.snackbarService.openSnackBar("Royality must be inputed as a number")
+            return
+          }
+          if(this.royaltyamount <0 || this.royaltyamount>100){
+            this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+            return
+          }
+        }else{
+          this.royaltyamount=this.Royalty
         }
         this.dialogService
           .confirmDialog({
@@ -299,7 +342,6 @@ export class SellNftComponent implements OnInit {
                   this.signerpK,
                   '1',
                   this.sellingPrice,
-                  this.royaltyCharge
                 )
                 .then((res: any) => {
                   this.selltxn = res.tx_hash;
@@ -325,7 +367,7 @@ export class SellNftComponent implements OnInit {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.saleBE.Blockchain = this.NFTList.blockchain;
-      this.calculatePrice();
+     
         const connection = new Connection(
           clusterApiUrl(this.network),
           'confirmed'
@@ -333,14 +375,19 @@ export class SellNftComponent implements OnInit {
         let phantomWallet = new UserWallet();
         phantomWallet = new PhantomComponent(phantomWallet);
         await phantomWallet.initWallelt();
-        this.royaltyamount = parseFloat(this.formValue('Royalty'));
-        if(isNaN(+this.royaltyamount)){
-          this.snackbarService.openSnackBar("Royality must be inputed as a number")
-          return
-        }
-        if(this.royaltyamount <0 || this.royaltyamount>100){
-          this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
-          return
+        if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
+        
+          this.royaltyamount = parseFloat(this.formValue('Royalty'));
+          if(isNaN(+this.royaltyamount)){
+            this.snackbarService.openSnackBar("Royality must be inputed as a number")
+            return
+          }
+          if(this.royaltyamount <0 || this.royaltyamount>100){
+            this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+            return
+          }
+        }else{
+          this.royaltyamount=this.Royalty
         }
         this.dialogService
           .confirmDialog({
@@ -357,6 +404,7 @@ export class SellNftComponent implements OnInit {
                 nftName: this.NFTList.nftname,
                  thumbnail: this.NFTList.thumbnail,
               });
+             
               this.middleman
                 .createATA(
                   phantomWallet.getWalletaddress(),
@@ -375,6 +423,7 @@ export class SellNftComponent implements OnInit {
 
                   alert('successfully sold!');
                   this.selltxn = signature;
+                  this.calculatePrice();
                   this.addDBBackend();
                   this.addDBGateway();
                   this.saveTXNs();
@@ -396,15 +445,20 @@ export class SellNftComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.tokenid = parseInt(this.NFTList.nftidentifier);
-      this.royaltyamount = parseFloat(this.formValue('Royalty'));
-      if(isNaN(+this.royaltyamount)){
-        this.snackbarService.openSnackBar("Royality must be inputed as a number")
-        return
+      if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
+        this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        if(isNaN(+this.royaltyamount)){
+          this.snackbarService.openSnackBar("Royality must be inputed as a number")
+          return
+        }
+        if(this.royaltyamount <0 || this.royaltyamount>100){
+          this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+          return
+        }
+      }else{
+        this.royaltyamount=this.Royalty
       }
-      if(this.royaltyamount <0 || this.royaltyamount>100){
-        this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
-        return
-      }
+    
       this.dialogService
         .confirmDialog({
           title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
@@ -421,34 +475,13 @@ export class SellNftComponent implements OnInit {
                thumbnail: this.NFTList.thumbnail,
             });
             this.calculatePrice();
-            if(this.NFTList.sellingstatus=='Minted'){
-
-              this.pmarket
-              .createSaleOffer(
-                environment.contractAddressNFTPolygon,
-                this.tokenid,
-                this.sellingPrice
-              )
-              .then((res) => {
-                this.selltxn = res.transactionHash;
-                this.itemId = parseInt(res.logs[3].topics[1]);
-                this.saleBE.SellingType = this.itemId.toString();
-                this.saveTXNs();
-                this.addDBBackend();
-                this.addDBGateway();
-                loadingAnimation.close();
-                this.snackbarService.openSnackBar(
-                  SnackBarText.SALE_SUCCESS_MESSAGE
-                );
-                this.showInProfile();
-              });
-            }else{
               this.pmint.approveContract(this.tokenid).then((res:any)=>{
                 this.pmarket
                 .createSaleOffer(
                   environment.contractAddressNFTPolygon,
                   this.tokenid,
-                  this.sellingPrice
+                  this.sellingPrice + this.royaltyCharge,
+                  this.commission
                 )
                 .then((res) => {
                   this.selltxn = res.transactionHash;
@@ -465,7 +498,7 @@ export class SellNftComponent implements OnInit {
                 });
               })
              
-            }
+         //   }
           }
         });
     }
@@ -474,16 +507,21 @@ export class SellNftComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.tokenid = parseInt(this.NFTList.nftidentifier);
-      this.royaltyamount = parseFloat(this.formValue('Royalty'));
-      if(isNaN(+this.royaltyamount)){
-        this.snackbarService.openSnackBar("Royality must be inputed as a number")
-        return
+      if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
+
+        this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        if(isNaN(+this.royaltyamount)){
+          this.snackbarService.openSnackBar("Royality must be inputed as a number")
+          return
+        }
+        if(this.royaltyamount <0 || this.royaltyamount>100){
+          this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+          return
+        }
+      }else{
+        this.royaltyamount=this.Royalty
       }
-      if(this.royaltyamount <0 || this.royaltyamount>100){
-        this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
-        return
-      }
-      this.calculatePrice();
+
       this.dialogService
         .confirmMintDialog({
           promtHeading:"You are Selling",
@@ -503,34 +541,16 @@ export class SellNftComponent implements OnInit {
               nftName: this.NFTList.nftname,
                thumbnail: this.NFTList.thumbnail,
             });
-            
-            if(this.NFTList.sellingstatus=='Minted'){
-              this.emarket
-              .createSaleOffer(
-                environment.contractAddressNFTEthereum,
-                this.tokenid,
-                this.sellingPrice
-              )
-              .then((res) => {
-                this.selltxn = res.transactionHash;
-                this.itemId = parseInt(res.logs[2].topics[1]);
-                this.saleBE.SellingType = this.itemId.toString();
-                this.saveTXNs();
-                this.addDBBackend();
-                this.addDBGateway();
-                loadingAnimation.close();
-                this.snackbarService.openSnackBar(
-                  SnackBarText.SALE_SUCCESS_MESSAGE
-                );
-                this.showInProfile();
-              });
-            }else{
+
+            this.calculatePrice();
+
               this.emint.approveContract(this.tokenid).then((res:any)=>{
                 this.emarket
                 .createSaleOffer(
                   environment.contractAddressNFTEthereum,
                   this.tokenid,
-                  this.sellingPrice
+                  this.sellingPrice ,
+                  this.commission
                 )
                 .then((res) => {
                   this.selltxn = res.transactionHash;
@@ -546,7 +566,7 @@ export class SellNftComponent implements OnInit {
                   this.showInProfile();
                 });
               })
-            }
+           // }
           }
         });
     }
@@ -590,6 +610,15 @@ export class SellNftComponent implements OnInit {
             this.prevOwner = 'None - Genesis';
           } else {
             this.prevOwner = this.NFTList.distributorpk;
+          }
+
+          if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
+            this.Royalty = this.NFTList.royalty
+            this.value = false
+          }else{
+          this.Royalty=this.NFTList.royalty
+          
+            this.value = true
           }
 
           this.api
@@ -702,6 +731,7 @@ export class SellNftComponent implements OnInit {
               this.NFTList.blockchain
             )
             .subscribe((txn: any) => {
+         
               for (let x = 0; x < txn.Response.length; x++) {
                 let card: Track = new Track('', '', '');
                 card.NFTName = txn.Response[x].NFTName;

@@ -10,8 +10,8 @@
 
       </div>
       <label class="normal-text" style="margin-bottom: 10px"  *ngIf="cropperStat">Crop Image <span class="required"></span></label>
-      <div *ngIf="cropperStat" id="img-cropper-window">
-        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+      <div *ngIf="cropperStat" id="img-cropper-window" style="width: 620px;"  ngStyle.lt-md="width:100%">
+        <image-cropper style="width: 620px; margin-bottom: 20px;" ngStyle.lt-md="width:100%" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
           format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
           (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" ></image-cropper>
           <button mat-flat-button class="btn-create" (click)="hideCropper()">Save image</button>
@@ -184,25 +184,25 @@
 
           <!--options-->
           <mat-option class="option" value="ethereum" [disabled]="this.ethereum">
-            <div class="bc-dropdown">
+            <div class="bc-dropdown" [class.dropdown-disabled]="this.ethereum">
               <img src="../../../assets/images/ethereum-dd.png" />
               <label>Ethereum</label>
             </div>
           </mat-option>
           <mat-option class="option" value="polygon" [disabled]="this.polygon">
-            <div class="bc-dropdown">
+            <div class="bc-dropdown" [class.dropdown-disabled]="this.polygon">
               <img src="../../../assets/images/polygon-dd.png" />
               <label>Polygon</label>
             </div>
           </mat-option>
           <mat-option class="option" value="stellar" [disabled]="this.stellar">
-            <div class="bc-dropdown">
+            <div class="bc-dropdown" [class.dropdown-disabled]="this.stellar">
               <img src="../../../assets/images/stellar-dd.png" />
               <label>Stellar</label>
             </div>
           </mat-option>
           <mat-option class="option" value="solana" [disabled]="this.solana">
-            <div class="bc-dropdown">
+            <div class="bc-dropdown" [class.dropdown-disabled]="this.solana">
               <img src="../../../assets/images/solana-dd.png" />
               <label>Solana</label>
             </div>

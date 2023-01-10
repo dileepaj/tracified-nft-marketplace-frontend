@@ -12,6 +12,7 @@ import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 })
 export class Mint3Component implements OnInit {
   @Input() blockchain: string;
+  @Input() user: string;
   @Output() proceed: EventEmitter<any> = new EventEmitter();
   @Output() mintagain: EventEmitter<any> = new EventEmitter();
   data: any;
@@ -35,24 +36,19 @@ export class Mint3Component implements OnInit {
   save(): void {}
 
   showInProfile() {
-    let data: any = this.data;
-    this.router.navigate(['/user-dashboard'], {
-      queryParams: { blockchain: this.data },
+    console.log("bc and user: ",this.blockchain,this.user)
+    this.router.navigate(['/user-dashboard/overview'], {
+      queryParams: { user:this.user,blockchain: this.blockchain },
     });
   }
 
   ngOnChanges(): void {
-    this.data = this.blockchain;
+    console.log("bc and user: ",this.blockchain,this.user)
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { console.log("bc and user: ",this.blockchain,this.user)}
   ngOnDestroy() {
     this.alive = false;
   }
 
-  public goToProfile(): void {
-    this.router.navigate(['/user-dashboard/overview'], {
-      queryParams: { blockchain: this.blockchain },
-    });
-  }
 }

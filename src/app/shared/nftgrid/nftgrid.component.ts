@@ -208,10 +208,10 @@ export class NftgridComponent implements OnInit {
     var src = str1.concat(str2.toString());
     this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
       }
-      if(res.Response.thumbnail==""){
+      if(response.thumbnail==""){
         this.thumbnailSRC=this.imageSrc
       }else{
-        this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(res.Response.thumbnail);
+        this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
       }
        let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
       card.ImageBase64 = this.imageSrc;

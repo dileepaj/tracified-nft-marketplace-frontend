@@ -12,6 +12,7 @@ import {
   PendingDialog,
   PreviewImage,
   selectWalletDialog,
+  userAgreementPromt,
 } from 'src/app/models/confirmDialog';
 import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
 import { DisclaimerComponent } from 'src/app/dialogs/disclaimer/disclaimer.component';
@@ -19,6 +20,9 @@ import { NftPreviewComponent } from 'src/app/dialogs/nft-preview/nft-preview.com
 import { CodeviewComponent } from 'src/app/nft/codeview/codeview.component';
 import { SelectWalletComponent } from 'src/app/dialogs/select-wallet/select-wallet.component';
 import { MintPopupComponent } from 'src/app/nft/mint-popup/mint-popup.component';
+import { ConfirmMintComponent } from 'src/app/dialogs/confirm-mint/confirm-mint.component';
+import { MintingComponent } from 'src/app/dialogs/minting/minting.component';
+import { SellNftConfirmationComponent } from 'src/app/dialogs/sell-nft-confirmation/sell-nft-confirmation.component';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +39,17 @@ export class DialogService {
       })
       .afterClosed();
   }
+
+  confirmMintDialog(data: userAgreementPromt): Observable<boolean> {
+    return this.dialog
+      .open(ConfirmMintComponent, {
+        data,
+        width: '500px',
+        disableClose: true,
+      })
+      .afterClosed();
+  }
+
   okDialog(data: OkDialog): Observable<boolean> {
     return this.dialog
       .open(OkmessageComponent, {
@@ -51,6 +66,24 @@ export class DialogService {
       width: '500px',
       disableClose: true,
     });
+  }
+
+  mintingDialog(data: PendingDialog): MatDialogRef<PendingComponent> {
+    return this.dialog.open(MintingComponent, {
+      data,
+      width: '500px',
+      disableClose: true,
+    });
+  }
+
+  sellNftConfirmation(data: any): Observable<boolean> {
+    return this.dialog
+      .open(SellNftConfirmationComponent, {
+        data,
+        width: '500px',
+        disableClose: true,
+      })
+      .afterClosed();
   }
 
   previewImage(data: PreviewImage): Observable<boolean> {

@@ -108,6 +108,12 @@
   /* background-color: #8484846b; */
 }
 
+#img-cropper-window {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
 .mint-form-group {
   position: relative;
   display: flex;
@@ -469,4 +475,16 @@ mat-hint.tags {
   /* identical to box height */
   line-height: 15px !important;
   color: #ffffff !important;
+}
+
+.dropdown-disabled {
+  cursor:not-allowed;
+}
+
+.dropdown-disabled label {
+  color: #595959 !important;
+}
+
+.dropdown-disabled img {
+  filter: grayscale(1);
 }

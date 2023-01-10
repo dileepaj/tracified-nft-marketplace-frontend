@@ -41,6 +41,7 @@ import {
 } from 'src/app/models/confirmDialog';
 import { interval, timer } from 'rxjs';
 import albedo from '@albedo-link/intent';
+import { Float } from '@solana/buffer-layout';
 
 @Component({
   selector: 'app-buy-view',
@@ -220,11 +221,23 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.Blockchain = this.NFTList.blockchain;
      
       this.dialogService
-        .openDisclaimer()
+        .confirmMintDialog({
+          promtHeading:"You are Buying",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"NFT Price",
+          serviceFee :  parseFloat(this.saleBE.CurrentPrice),
+          total :  parseFloat(this.saleBE.CurrentPrice),
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Buy Now"
+        })
         .subscribe((res) => {
           if (res) {
-            const loadingAnimation = this.dialogService.pendingDialog({
-              message: PendingDialogText.BUY_VIEW_CLICKED_BUY,
+            const loadingAnimation = this.dialogService.mintingDialog({
+              processTitle:"Buying",
+              message: PendingDialogText.MINTING_IN_PROGRESS,
+              nftName: this.NFTList.nftname,
+               thumbnail: this.NFTList.thumbnail,
             });
             this.buyNFTOnStellar().then(res=>{
               loadingAnimation.close();
@@ -245,10 +258,23 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
-      this.dialogService.openDisclaimer().subscribe((res) => {
+      this.dialogService
+        .confirmMintDialog({
+          promtHeading:"You are Buying",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"NFT Price",
+          serviceFee :  parseFloat(this.saleBE.CurrentPrice),
+          total :  parseFloat(this.saleBE.CurrentPrice),
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Buy Now"
+        }).subscribe((res) => {
         if (res) {
-          const loadingAnimation = this.dialogService.pendingDialog({
-            message: PendingDialogText.BUY_VIEW_CLICKED_BUY,
+          const loadingAnimation = this.dialogService.mintingDialog({
+            processTitle:"Buying",
+            message: PendingDialogText.MINTING_IN_PROGRESS,
+            nftName: this.NFTList.nftname,
+             thumbnail: this.NFTList.thumbnail,
           });
           this.transfer
             .createATA(
@@ -303,11 +329,23 @@ export class BuyViewComponent implements OnInit {
       this.userPK = await walletMetamask.getWalletaddress();
       this.saleBE.CurrentOwnerPK = this.userPK;
       this.dialogService
-        .openDisclaimer() 
+        .confirmMintDialog({
+          promtHeading:"You are Buying",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"NFT Price",
+          serviceFee :  parseFloat(this.saleBE.CurrentPrice),
+          total :  parseFloat(this.saleBE.CurrentPrice),
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Buy Now"
+        })
         .subscribe((res) => {
           if (res) {
-            const loadingAnimation = this.dialogService.pendingDialog({
-              message: PendingDialogText.BUY_VIEW_CLICKED_BUY,
+            const loadingAnimation = this.dialogService.mintingDialog({
+              processTitle:"Buying",
+              message: PendingDialogText.MINTING_IN_PROGRESS,
+              nftName: this.NFTList.nftname,
+               thumbnail: this.NFTList.thumbnail,
             });
             this.pmarket
               .BuyNFT(
@@ -342,11 +380,23 @@ export class BuyViewComponent implements OnInit {
       this.userPK = await walletMetamask.getWalletaddress();
       this.saleBE.CurrentOwnerPK = this.userPK;
       this.dialogService
-        .openDisclaimer() 
+        .confirmMintDialog({
+          promtHeading:"You are Buying",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"NFT Price",
+          serviceFee :  parseFloat(this.saleBE.CurrentPrice),
+          total :  parseFloat(this.saleBE.CurrentPrice),
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Buy Now"
+        }) 
         .subscribe((res) => {
           if (res) {
-            const loadingAnimation = this.dialogService.pendingDialog({
-              message: PendingDialogText.BUY_VIEW_CLICKED_BUY,
+            const loadingAnimation = this.dialogService.mintingDialog({
+              processTitle:"Buying",
+              message: PendingDialogText.MINTING_IN_PROGRESS,
+              nftName: this.NFTList.nftname,
+               thumbnail: this.NFTList.thumbnail,
             });
             this.emarket
               .BuyNFT(
@@ -503,9 +553,8 @@ export class BuyViewComponent implements OnInit {
   }
 
   showInProfile() {
-    let data: any = this.nftbe.Blockchain;
     this.router.navigate(['/user-dashboard'], {
-      queryParams: { blockchain: this.nftbe.Blockchain },
+      queryParams: { user:this.saleBE.CurrentOwnerPK,blockchain: this.nftbe.Blockchain },
     });
   }
 

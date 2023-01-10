@@ -1,0 +1,124 @@
+::ng-deep .mat-dialog-container {
+  border-radius: 16px !important;
+}
+
+.dialog-header {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.dialog-header label {
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  color: #2d2d2d;
+}
+
+.dialog-content {
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 32px;
+
+  color: #232323;
+
+  margin-bottom: 15px;
+}
+
+.dialog-actions {
+  column-gap: 20px;
+  margin-bottom: 7px !important;
+}
+
+.close-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: -10px -10px 0px 0px;
+}
+
+.close-div mat-icon {
+  cursor: pointer;
+  transform: scale(0.9);
+}
+
+.close-div mat-icon:hover {
+  color: black;
+}
+
+.dialog-header-cont {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialog-title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.nft-name {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.nft-thumb {
+  width: 90px;
+  height: 90px;
+}
+
+.bold-text {
+  font-weight: 600;
+}
+
+.fee-cont {
+  margin: 5px 0px 5px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid #DCDCDC;
+}
+
+.fee-cont:last-child {
+  border-bottom: none;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  max-height: 500px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 137.02%;
+  color: #000000;
+  margin: 35px 0px 10px 0px;
+}
+
+
+
+.checkbox-group input[type="checkbox"] {
+  transform: scale(1.4);
+  margin-right: 10px;
+  accent-color: #fff;
+  color : #000
+}
+
+
+.highlight {
+  color: rgba(26, 128, 9, 1);
+  text-decoration: none;
+}
+
+.highlight:hover {
+  text-decoration: underline;
+}

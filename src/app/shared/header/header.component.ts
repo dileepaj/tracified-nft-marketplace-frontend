@@ -8,9 +8,13 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { UserWallet } from 'src/app/models/userwallet';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
+import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
+import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
+import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { WalletComponent } from 'src/app/wallet/wallet.component';
 
 @Component({
@@ -28,6 +32,7 @@ export class HeaderComponent implements OnInit {
   resourcesExpanded: boolean = false;
   timedOutCloser;
   tx: any;
+  User: string;
 
   constructor(
     private dialogref: MatDialog,
@@ -149,17 +154,37 @@ export class HeaderComponent implements OnInit {
     this.accListExpanded = false;
           })
         
-  }else{     
+  }else{   
+    let freighterWallet = new UserWallet();
+        freighterWallet = new FreighterComponent(freighterWallet);
+        await freighterWallet.initWallelt();
+        this.User= await freighterWallet.getWalletaddress();
+          
     this.router.navigate(['/user-dashboard/overview'], {
-      queryParams: { user: "laptop",blockchain: blockchain },
+      queryParams: { user: this.User,blockchain: blockchain },
     });
     this.sideNavOpened = false;
     this.accListExpanded = false;
   }
-}else{
-    
+}else if(blockchain == 'solana'){
+  let phantomWallet = new UserWallet();
+  phantomWallet = new PhantomComponent(phantomWallet);
+  await phantomWallet.initWallelt();
+  this.User = await phantomWallet.getWalletaddress();
+  
   this.router.navigate(['/user-dashboard/overview'], {
-    queryParams: { user:"not stellar",blockchain: blockchain },
+    queryParams: { user:this.User,blockchain: blockchain },
+  });
+this.sideNavOpened = false;
+this.accListExpanded = false;
+}else if(blockchain == 'ethereum' || blockchain=='polygon'){
+  let metamaskwallet = new UserWallet();
+  metamaskwallet = new MetamaskComponent(metamaskwallet);
+  await metamaskwallet.initWallelt();
+  this.User = await metamaskwallet.getWalletaddress();
+  
+  this.router.navigate(['/user-dashboard/overview'], {
+    queryParams: { user:this.User,blockchain: blockchain },
   });
 this.sideNavOpened = false;
 this.accListExpanded = false;

@@ -57,7 +57,6 @@ export class NftServicesService {
 
 
   updateNFTStatusBackend(st: SalesBE): Observable<SalesBE> {
-    console.log("data been updated ",st)
     return this.http.put<SalesBE>(this.baseUrlUpdateStatusBE, st, {headers: this.headers});
   }
 

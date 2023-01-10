@@ -225,7 +225,7 @@ export class Mint2Component implements OnInit {
       this.addSubscription = this.service.addNFTBE(this.mint).subscribe();
     }
     
-    console.log("22-------------------------")
+
     
     this.pushOwner(); //calling function
     this.pushTag(); //calling fnction
@@ -366,8 +366,6 @@ export class Mint2Component implements OnInit {
             });
           }
           if(this.wallet=='albedo'){
-            
-    console.log("3333333333------------------------")
     
             await albedo.publicKey({
               require_existing: true
@@ -418,8 +416,6 @@ export class Mint2Component implements OnInit {
                             const dialog = this.dialogService.pendingDialog({
                               message: PendingDialogText.MINTING_IN_PROGRESS,
                             });
-                            
-    console.log("444444444444444444-------------------------")
     
                             this.sendToMint3();
                             this.mintNFTOnAlbedo(this.userPK);
@@ -828,7 +824,6 @@ export class Mint2Component implements OnInit {
 
   mintNFTOnAlbedo(userPK: string) {
     //minting nft using stellar
-    console.log("1-------------------------")
     if (this.mint.CreatorUserId != null) {
       //step 1. - change trust by distributor
       this.trust
@@ -949,7 +944,6 @@ export class Mint2Component implements OnInit {
       clusterApiUrl(this.network),
       'confirmed'
     );
-    console.log("owner : ",ownerPK)
     return new Promise((resolve, reject) => {
    this.servicecharge.transferServiceCharge(ownerPK).then(async (result:solanaTransaction) => {
     try {
@@ -1075,7 +1069,6 @@ export class Mint2Component implements OnInit {
 
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
     this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
-      console.log("----------result is ",resnft)
       if( resnft.Response.imagebase64=="" ){
         this.updateHTML();
       }else{
@@ -1093,7 +1086,6 @@ export class Mint2Component implements OnInit {
     this.Encoded = binaryString;
     this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
     this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
-      console.log("----------result is ",resnft)
       if( resnft.Response.imagebase64==""){
         this.updateHTML();
       }else{

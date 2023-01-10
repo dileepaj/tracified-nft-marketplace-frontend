@@ -190,30 +190,19 @@ export class BuyViewComponent implements OnInit {
 
   calculateCommision(){
     if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might
-      console.log("this is a sale 5%")
       this.total = parseFloat(this.NFTList.currentprice);
       this.royalty= parseFloat(this.NFTList.royalty);
       this.royaltyCharge = this.total * (this.royalty/100.00);
-      // this.R=(this.royaltyCharge);
       this.services=parseFloat(this.NFTList.commission);
       this.commission=((this.total) * (5.00/100.00)).toString()
-      console.log("total, royalty, this.commisiion  ",this.total,this.royalty,this.commission,(this.total+this.royaltyCharge),this.royaltyCharge )
-      // this.commissionForNonContracts=((this.total) * (5.00/100.00)).toString()
-    //  console.log("commssion for stellar and solana :",this.commissionForNonContracts)
-     // this.fullTotal = (this.total+this.royaltyCharge+this.commission)
       this.contractTotal= (this.total + this.royaltyCharge)
-      console.log("contract total: ",this.contractTotal)
+
     }else{
-      console.log("this is a resale 2%")
       this.total = parseFloat(this.NFTList.currentprice);
       this.royalty= parseFloat(this.NFTList.royalty);
       this.services=parseFloat(this.NFTList.commission);
       this.royaltyCharge =this.total * (this.royalty/100.00)
-      this.commission = (this.total * (5.00/100.00)).toString()
-      console.log("----------total royalty commissionnnn" ,this.total,this.royalty,this.commission)
-     // this.commissionForNonContracts=((this.total) * (5.00/100.00)).toString()
-     // console.log("commssion for stellar and solana :",this.commissionForNonContracts)
-     // this.fullTotal = (this.total+this.royaltyCharge+this.commission).toString()
+      this.commission = (this.total * (2.00/100.00)).toString()
     }
   }
 
@@ -555,7 +544,7 @@ export class BuyViewComponent implements OnInit {
             }
 
             if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might
-              console.log("this is a sale 5%")
+             
               this.totals = parseFloat(this.NFTList.currentprice);
               this.royaltyR= parseFloat(this.NFTList.royalty);
               this.royaltyCharges=this.totals * (this.royaltyR/100.00);
@@ -563,15 +552,12 @@ export class BuyViewComponent implements OnInit {
               this.commissions=((this.totals) * (5.00/100.00)).toString()
               this.fullTotal = (this.totals+this.royaltyCharges+this.servicess).toString()
             }else{
-              console.log("this is a resale 2%")
+            
               this.totals = parseFloat(this.NFTList.currentprice);
               this.royaltyR= parseFloat(this.NFTList.royalty);
               this.servicess=parseFloat(this.NFTList.commission);
               this.royaltyCharges =this.totals * (this.royaltyR/100.00)
-              this.commissions = (this.totals * (5.00/100.00)).toString()
-            
-             // this.commissionForNonContracts=((this.total) * (5.00/100.00)).toString()
-             
+              this.commissions = (this.totals * (2.00/100.00)).toString()
               this.fullTotal = (this.totals+this.royaltyCharges+this.servicess).toString()
             }
             this.apiService

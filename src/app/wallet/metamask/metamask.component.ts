@@ -36,8 +36,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
           return;
         });
     } else {
-      console.log("window.ethereum is null");
-      // window.location.href = 'https://metamask.io/';
+      // console.log("window.ethereum is null");
+       window.location.href = 'https://metamask.io/';
     }
   }
   public getWalletaddress(): string {
@@ -54,7 +54,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     listingPrice: string
   ): Promise<any> {
     if (blockchain == 'ethereum') {
-      console.log("price plus royalty, listing price ",price,listingPrice)
       const contract = await EthereumMarketServiceService.getContract(true);
       const transaction = await contract['sellNFT'](
         nftcontract,
@@ -104,7 +103,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       const tx = await transaction.wait();
       return tx;
     } else if (blockchain == 'polygon') {
-      console.log("------------- ",royalty,listingPrice,price,itemId,seller,blockchain,nftcontract)
       const contract = await PolygonMarketServiceService.getContract(true);
       const transaction = await contract['createMarketSale'](
         nftcontract,

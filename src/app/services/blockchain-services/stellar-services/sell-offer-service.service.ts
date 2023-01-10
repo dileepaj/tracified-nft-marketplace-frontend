@@ -37,7 +37,6 @@ export class SellOfferServiceService {
       }
       var asset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();
-      console.log("price.royalty,commission ",nftPrice)
       var opts = {
         fee: '100',
         timebounds: {

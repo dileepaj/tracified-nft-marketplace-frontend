@@ -164,8 +164,7 @@ export class MintComponent implements OnInit {
           });
 
        }else{
-         console.log("metamaskwallet.getWalletaddress is null");
-        // window.location.href = 'https://metamask.io/';
+         window.location.href = 'https://metamask.io/';
        }
     }
     if(wallet=="freighter"){

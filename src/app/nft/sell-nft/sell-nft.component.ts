@@ -134,7 +134,6 @@ export class SellNftComponent implements OnInit {
 
   calculatePrice(): void {
     if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
-      console.log("this is a sale 5%")
       this.Royalty = this.NFTList.royalty
       this.royalty = parseFloat(this.formValue('Royalty'));
       this.royaltyamount=this.royalty
@@ -145,20 +144,17 @@ export class SellNftComponent implements OnInit {
       this.commission = (parseFloat(this.formValue('Price')) * (5.00/100.00)).toString()
       this.sellingPriceForNonContracts=this.firstPrice  +this.commissionforNonContracts;
       this.value = false
-      console.log("----------------",this.sellingPrice,this.firstPrice)
     }else{
-      console.log("this is a resale 2%")
       this.royalty = parseFloat(this.Royalty)
       this.firstPrice = parseFloat(this.formValue('Price'));
       this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
       this.sellingPrice=this.firstPrice 
-      this.commission = (parseFloat(this.formValue('Price')) * (5.00/100.00)).toString()
-      this.commissionforNonContracts =(parseFloat(this.formValue('Price')) * (5.00/100.00))
+      this.commission = (parseFloat(this.formValue('Price')) * (2.00/100.00)).toString()
+      this.commissionforNonContracts =(parseFloat(this.formValue('Price')) * (2.00/100.00))
       this.value = true
       this.sellingPriceForNonContracts=this.firstPrice + this.royaltyCharge +this.commissionforNonContracts;
 
     }
-   
   }
 
   public openDialog() {
@@ -305,7 +301,7 @@ export class SellNftComponent implements OnInit {
         this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
         this.saleBE.Blockchain = this.NFTList.blockchain;
         if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
-          console.log("this is a sale 5%")
+        
           this.royaltyamount = parseFloat(this.formValue('Royalty'));
           if(isNaN(+this.royaltyamount)){
             this.snackbarService.openSnackBar("Royality must be inputed as a number")
@@ -316,7 +312,6 @@ export class SellNftComponent implements OnInit {
             return
           }
         }else{
-          console.log("this is a resale 2%")
           this.royaltyamount=this.Royalty
         }
         this.dialogService
@@ -375,7 +370,7 @@ export class SellNftComponent implements OnInit {
         phantomWallet = new PhantomComponent(phantomWallet);
         await phantomWallet.initWallelt();
         if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
-          console.log("this is a sale 5%")
+        
           this.royaltyamount = parseFloat(this.formValue('Royalty'));
           if(isNaN(+this.royaltyamount)){
             this.snackbarService.openSnackBar("Royality must be inputed as a number")
@@ -386,7 +381,6 @@ export class SellNftComponent implements OnInit {
             return
           }
         }else{
-          console.log("this is a resale 2%")
           this.royaltyamount=this.Royalty
         }
         this.dialogService
@@ -443,7 +437,6 @@ export class SellNftComponent implements OnInit {
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.tokenid = parseInt(this.NFTList.nftidentifier);
       if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
-        console.log("this is a sale 5%")
         this.royaltyamount = parseFloat(this.formValue('Royalty'));
         if(isNaN(+this.royaltyamount)){
           this.snackbarService.openSnackBar("Royality must be inputed as a number")
@@ -454,7 +447,6 @@ export class SellNftComponent implements OnInit {
           return
         }
       }else{
-        console.log("this is a resale 2%")
         this.royaltyamount=this.Royalty
       }
     
@@ -505,7 +497,7 @@ export class SellNftComponent implements OnInit {
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.tokenid = parseInt(this.NFTList.nftidentifier);
       if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
-        console.log("this is a sale 5%")
+
         this.royaltyamount = parseFloat(this.formValue('Royalty'));
         if(isNaN(+this.royaltyamount)){
           this.snackbarService.openSnackBar("Royality must be inputed as a number")
@@ -516,7 +508,6 @@ export class SellNftComponent implements OnInit {
           return
         }
       }else{
-        console.log("this is a resale 2%")
         this.royaltyamount=this.Royalty
       }
     
@@ -603,28 +594,14 @@ export class SellNftComponent implements OnInit {
           }
 
           if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
-            console.log("this is a sale 5%")
             this.Royalty = this.NFTList.royalty
             this.value = false
           }else{
-            // console.log("this is a resale 2%")
-            // console.log("list is ",this.NFTList)
-            // this.number = parseFloat(this.NFTList.royalty);
-            // this.price =parseFloat(this.NFTList.currentprice)
-            // this.servicecommission =parseFloat(this.NFTList.commission)
-            // console.log("sumsd--------------",this.number,this.price,this.servicecommission,this.NFTList.commission)
-            // if(this.NFTList.blockchain=="ethereum" || this.NFTList.blockchain=="polygon"){
-            //   this.Royalty = ((this.number * 100)/(this.price-this.number))
-            // }else if(this.NFTList.blockchain=="stellar"){
-            //   this.Royalty =((this.number * 100)/(this.price-(this.number+this.servicecommission)))
-            // }else{
-            //   this.Royalty =((this.number * 100)/(this.price))
-            // }
           this.Royalty=this.NFTList.royalty
           
             this.value = true
           }
-console.log("afterrrrrrrrrrrrrrrrrrrrrrrrrr")
+
           this.api
             .findWatchlistByBlockchainAndNFTIdentifier(
               this.NFTList.blockchain,
@@ -728,14 +705,14 @@ console.log("afterrrrrrrrrrrrrrrrrrrrrrrrrr")
             }
               }
             });
-console.log("before txn----------")
+
           this.service
             .getTXNByBlockchainandIdentifier(
               this.NFTList.nftidentifier,
               this.NFTList.blockchain
             )
             .subscribe((txn: any) => {
-              console.log("txn : ",txn)
+         
               for (let x = 0; x < txn.Response.length; x++) {
                 let card: Track = new Track('', '', '');
                 card.NFTName = txn.Response[x].NFTName;
@@ -756,7 +733,6 @@ console.log("before txn----------")
                     txn.Response[x].NFTTxnHash;
                 }
                 if (txn.Response[x].Blockchain == 'solana') {
-                  console.log("txns here ", txn.Response[x].NFTTxnHash)
                   card.NFTTxnHash =
                     'https://solscan.io/tx/' +
                     txn.Response[x].NFTTxnHash +

@@ -10,7 +10,7 @@ export class TrustByDistributorService {
 
   constructor() { }
   changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string) {
-    console.log("lets mint")
+
     return new Promise((resolve, reject) => {
       if (blockchainNetType === "live") {
         Networks.TESTNET

@@ -285,7 +285,7 @@ export class Mint2Component implements OnInit {
     this.mint.thumbnail=this.thumbnail
     this.svgUpdate.Id = this.hash;
 
-    if(!this.mint.Imagebase64 || !this.mint.thumbnail || this.mint.Blockchain === "" || this.mint.NFTName === "" || this.mint.Description === "" ||  this.formValue("Collection") === "" || this.formValue("ArtistName") === "") {
+    if(!this.mint.Imagebase64 || !this.mint.thumbnail || this.mint.Blockchain === "" || this.mint.NFTName === "" || this.mint.Description === "" ||  this.formValue("Collection") === "" || this.formValue("ArtistName") === ""|| this.tags[0]==null){
       this.snackbar.openSnackBar(
         SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING
       );
@@ -961,7 +961,8 @@ export class Mint2Component implements OnInit {
       Blockchain: new FormControl(this.mint.Blockchain, Validators.required),
       Categories: new FormControl(this.mint.Categories, Validators.required),
       Copies: new FormControl(this.mint.Copies, Validators.required),
-      Tags: this.tagCtrl,
+      Tags:  new FormControl(this.tagCtrl,Validators.required),
+      // Tags:  this.tagCtrl,
       NftContentURL: new FormControl(this.mint.NftContentURL),
       ArtistName: new FormControl(this.mint.ArtistName, Validators.required),
       ArtistProfileLink: new FormControl(this.mint.ArtistProfileLink),
@@ -1098,7 +1099,7 @@ export class Mint2Component implements OnInit {
   //create base64 image
   private _handleReaderLoaded(readerEvt: any) {
     const svgChecker = this.dialogService.pendingDialog(
-      {message:'Validating NFT Content'}
+      {message:'Validating SVG Content'}
     )
     this.base64 = readerEvt.target.result;
     const unwantedText = 'data:image/svg+xml;base64,';
@@ -1123,6 +1124,9 @@ export class Mint2Component implements OnInit {
   }
 
   private _handleReaderLoadedImage(readerEvt: any) {
+    const svgChecker = this.dialogService.pendingDialog(
+      {message:'Validating Image Content'}
+    )
     var binaryString = readerEvt.target.result;
     this.Encoded = binaryString;
     this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
@@ -1136,6 +1140,7 @@ export class Mint2Component implements OnInit {
           "This Image has already been used, please add another!"
          );
       }
+      svgChecker.close()
     })
   }
 

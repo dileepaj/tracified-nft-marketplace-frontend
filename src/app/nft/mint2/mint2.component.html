@@ -211,8 +211,8 @@
       </mat-form-field>
     </div>
     <div class="mint-form-group" style="margin-top: 15px" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Tags </label>
-      <label class="tooltip">Enter one to four tags that best describes your NFT.</label>
+      <label class="normal-text">Tags <span class="required">*</span></label>
+      <label class="tooltip">Enter one to four tags that best describes your NFT. Tags can be used to search for NFTs</label>
       <mat-form-field class="example-chip-list" appearance="outline">
         <mat-chip-list #chipList style="position: absolute; top: 15px; left: 10px; right: 10px">
           <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">

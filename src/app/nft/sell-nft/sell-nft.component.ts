@@ -249,13 +249,19 @@ export class SellNftComponent implements OnInit {
           this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
           this.saleBE.Blockchain = this.NFTList.blockchain;
           this.royaltyamount = parseFloat(this.formValue('Royalty'));
-          if(isNaN(+this.royaltyamount)){
-            this.snackbarService.openSnackBar("Royality must be inputed as a number")
-            return
-          }
-          if(this.royaltyamount <0 || this.royaltyamount>100){
-            this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
-            return
+          if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
+
+            this.royaltyamount = parseFloat(this.formValue('Royalty'));
+            if(isNaN(+this.royaltyamount)){
+              this.snackbarService.openSnackBar("Royality must be inputed as a number")
+              return
+            }
+            if(this.royaltyamount <0 || this.royaltyamount>100){
+              this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+              return
+            }
+          }else{
+            this.royaltyamount=this.Royalty
           }
           this.calculatePrice();
           this.dialogService
@@ -825,13 +831,13 @@ export class SellNftComponent implements OnInit {
   public convertToUSD(event: any, type : string) {
     if(type === 'selling') {
       fetch(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${'ethereum'}`
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${this.NFTList.blockchain}`
       )
         .then((res) => res.json())
         .then((res) => {
           const rate = res[0].current_price;
-          const eth = parseFloat(event.target.value);
-          this.sellingPriceUSD = (eth * rate);
+          const amount = parseFloat(event.target.value);
+          this.sellingPriceUSD = (amount * rate);
         })
         .catch(() => {
           this.sellingPriceUSD = 0;
@@ -840,13 +846,13 @@ export class SellNftComponent implements OnInit {
     else {
       this.calculatePrice();
       fetch(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${'ethereum'}`
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${this.NFTList.blockchain}`
       )
         .then((res) => res.json())
         .then((res) => {
           const rate = res[0].current_price;
-          const eth = this.royaltyCharge;
-          this.royaltyPriceUSD = (eth * rate);
+          const amount = this.royaltyCharge;
+          this.royaltyPriceUSD = (amount * rate);
         })
         .catch(() => {
           this.royaltyPriceUSD = 0;

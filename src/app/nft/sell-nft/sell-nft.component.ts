@@ -113,6 +113,9 @@ export class SellNftComponent implements OnInit {
   commissionforNonContracts: number;
   sellingPriceForNonContracts: any;
   servicecommission: number;
+  sellingPriceUSD: number = 0;
+  royaltyPriceUSD: number = 0;
+
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -148,7 +151,7 @@ export class SellNftComponent implements OnInit {
       this.royalty = parseFloat(this.Royalty)
       this.firstPrice = parseFloat(this.formValue('Price'));
       this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
-      this.sellingPrice=this.firstPrice 
+      this.sellingPrice=this.firstPrice
       this.commission = (parseFloat(this.formValue('Price')) * (2.00/100.00)).toString()
       this.commissionforNonContracts =(parseFloat(this.formValue('Price')) * (2.00/100.00))
       this.value = true
@@ -302,13 +305,13 @@ export class SellNftComponent implements OnInit {
         })
             .then((res:any) => {
               this.signerpK=res.pubkey
-            
+
               this.saleBE.SellingType = 'NFT';
         this.saleBE.MarketContract = 'Not Applicable';
         this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
         this.saleBE.Blockchain = this.NFTList.blockchain;
         if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
-        
+
           this.royaltyamount = parseFloat(this.formValue('Royalty'));
           if(isNaN(+this.royaltyamount)){
             this.snackbarService.openSnackBar("Royality must be inputed as a number")
@@ -363,19 +366,19 @@ export class SellNftComponent implements OnInit {
             }
           });})
         }
-      
+
 
       })
-     
-    
-    
+
+
+
     }
     if (this.NFTList.blockchain == 'solana') {
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.SellingType = 'NFT';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
       this.saleBE.Blockchain = this.NFTList.blockchain;
-     
+
         const connection = new Connection(
           clusterApiUrl(this.network),
           'confirmed'
@@ -384,7 +387,7 @@ export class SellNftComponent implements OnInit {
         phantomWallet = new PhantomComponent(phantomWallet);
         await phantomWallet.initWallelt();
         if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might be distributor
-        
+
           this.royaltyamount = parseFloat(this.formValue('Royalty'));
           if(isNaN(+this.royaltyamount)){
             this.snackbarService.openSnackBar("Royality must be inputed as a number")
@@ -417,7 +420,7 @@ export class SellNftComponent implements OnInit {
                 nftName: this.NFTList.nftname,
                  thumbnail: this.NFTList.thumbnail,
               });
-             
+
               this.middleman
                 .createATA(
                   phantomWallet.getWalletaddress(),
@@ -512,7 +515,7 @@ export class SellNftComponent implements OnInit {
                   this.showInProfile();
                 });
               })
-             
+
          //   }
           }
         });
@@ -629,7 +632,7 @@ export class SellNftComponent implements OnInit {
             this.value = false
           }else{
           this.Royalty=this.NFTList.royalty
-          
+
             this.value = true
           }
 
@@ -715,13 +718,13 @@ export class SellNftComponent implements OnInit {
               if(this.NFTList.attachmenttype == "image/jpeg" || this.NFTList.attachmenttype == "image/jpg" ||this.NFTList.attachmenttype == "image/png"){
                 if(this.NFTList.thumbnail==""){
                   this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
-                  this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())     
+                  this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
 
                 }else{
                   this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
-                  this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())     
+                  this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
                 }
-               
+
               }else{
                 this.dec = btoa(this.Decryption);
             var str2 = this.dec.toString();
@@ -729,10 +732,10 @@ export class SellNftComponent implements OnInit {
             var src = str1.concat(str2.toString());
             if(this.NFTList.thumbnail==""){
               this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(src)
-              
+
             }else{
               this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.thumbnail);
-              this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(src) 
+              this.maincontent=this._sanitizer.bypassSecurityTrustResourceUrl(src)
             }
               }
             });
@@ -743,7 +746,7 @@ export class SellNftComponent implements OnInit {
               this.NFTList.blockchain
             )
             .subscribe((txn: any) => {
-         
+
               for (let x = 0; x < txn.Response.length; x++) {
                 let card: Track = new Track('', '', '');
                 card.NFTName = txn.Response[x].NFTName;
@@ -817,5 +820,38 @@ export class SellNftComponent implements OnInit {
     iframe.contentWindow.document.write(data);
     iframe.contentWindow.document.close();
     this.loaded = false;
+  }
+
+  public convertToUSD(event: any, type : string) {
+    if(type === 'selling') {
+      fetch(
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${'ethereum'}`
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          const rate = res[0].current_price;
+          const eth = parseFloat(event.target.value);
+          this.sellingPriceUSD = (eth * rate);
+        })
+        .catch(() => {
+          this.sellingPriceUSD = 0;
+        });
+    }
+    else {
+      this.calculatePrice();
+      fetch(
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${'ethereum'}`
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          const rate = res[0].current_price;
+          const eth = this.royaltyCharge;
+          this.royaltyPriceUSD = (eth * rate);
+        })
+        .catch(() => {
+          this.royaltyPriceUSD = 0;
+        });
+    }
+
   }
 }

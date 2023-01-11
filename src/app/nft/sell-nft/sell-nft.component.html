@@ -165,53 +165,60 @@
               <label class="sell-label"
                 >Enter price and royalty information to proceed.</label
               >
-              <div
-                class="sell-input-grp"
-                ngStyle.lt-sm="width : 100%"
-                ngStyle.sm="width : 20%"
-                ngStyle.md="width : 20%"
-                ngStyle.lg="width : 20%"
-                ngStyle.xl="width : 20%"
-                ngStyle.gt-xl="width : 10%"
-              >
-                <label>Price</label>
-                <mat-form-field appearance="outline">
-                  <input
-                    type="text"
-                    class="input"
-                    matInput
-                    name="Price"
-                    formControlName="Price"
-                  />
-                  <span matSuffix>{{ this.currency }}</span>
-                </mat-form-field>
+              <div style="display: flex; flex-direction: row; align-items: center; column-gap: 10px; max-width: 90%; flex-wrap: wrap; row-gap: 20px">
+                  <div
+                  class="sell-input-grp"
+                  ngStyle.lt-sm="width : 100%"
+                  ngStyle.sm="width : 20%"
+                  ngStyle.md="width : 20%"
+                  ngStyle.lg="width : 20%"
+                  ngStyle.xl="width : 20%"
+                  ngStyle.gt-xl="width : 10%"
+                >
+                  <label>Price</label>
+                  <mat-form-field appearance="outline">
+                    <input
+                      type="text"
+                      class="input"
+                      matInput
+                      name="Price"
+                      formControlName="Price"
+                      (input)="convertToUSD($event, 'selling')"
+                    />
+                    <span matSuffix>{{ this.currency }}</span>
+                  </mat-form-field>
+                </div>
+                <label class="usd-label" ngStyle.lt-sm="margin-top: -20px">${{sellingPriceUSD.toFixed(2)}}</label>
+                <div
+                  class="sell-input-grp"
+                  ngStyle.lt-sm="width : 100%"
+                  ngStyle.sm="width : 20%"
+                  ngStyle.md="width : 20%"
+                  ngStyle.lg="width : 20%"
+                  ngStyle.xl="width : 20%"
+                  ngStyle.gt-xl="width : 10%"
+                >
+                  <label>Royalty</label>
+                  <mat-form-field appearance="outline">
+                    <input
+                      type="text"
+                      class="input"
+                      matInput
+                      name="Royalty"
+                      formControlName="Royalty"
+                      min=0
+                      max=100
+                      placeholder="{{this.Royalty}}"
+                      [readonly]="this.value"
+                      (input)="convertToUSD($event, 'royalty')"
+                    />
+
+                    <span matSuffix style="font-size:18px;">%</span>
+                  </mat-form-field>
+                </div>
+                <label class="usd-label" ngStyle.lt-sm="margin-top: -20px">${{royaltyPriceUSD.toFixed(2)}}</label>
               </div>
-              <div
-                class="sell-input-grp"
-                ngStyle.lt-sm="width : 100%"
-                ngStyle.sm="width : 20%"
-                ngStyle.md="width : 20%"
-                ngStyle.lg="width : 20%"
-                ngStyle.xl="width : 20%"
-                ngStyle.gt-xl="width : 10%"
-              >
-                <label>Royalty</label>
-                <mat-form-field appearance="outline">
-                  <input
-                    type="text"
-                    class="input"
-                    matInput
-                    name="Royalty"
-                    formControlName="Royalty"
-                    min=0
-                    max=100
-                    placeholder="{{this.Royalty}}"
-                    [readonly]="this.value"
-                  />
-                  
-                  <span matSuffix style="font-size:18px;">%</span>
-                </mat-form-field>
-              </div>
+
               <button
                 mat-flat-button
                 class="btn-primary btn-sell"

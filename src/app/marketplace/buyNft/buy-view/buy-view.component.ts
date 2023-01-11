@@ -219,15 +219,15 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;
       this.saleBE.Blockchain = this.NFTList.blockchain;
-     
+      this.calculateCommision()
       this.dialogService
         .confirmMintDialog({
           promtHeading:"You are Buying",
           nftName:  this.NFTList.nftname,
           thumbnail: this.NFTList.thumbnail,
           feeTypeName:"NFT Price",
-          serviceFee :  parseFloat(this.saleBE.CurrentPrice),
-          total :  parseFloat(this.saleBE.CurrentPrice),
+          serviceFee :  parseFloat(this.fullTotal),
+          total :  parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction:"Buy Now"
         })
@@ -264,8 +264,8 @@ export class BuyViewComponent implements OnInit {
           nftName:  this.NFTList.nftname,
           thumbnail: this.NFTList.thumbnail,
           feeTypeName:"NFT Price",
-          serviceFee :  parseFloat(this.saleBE.CurrentPrice),
-          total :  parseFloat(this.saleBE.CurrentPrice),
+          serviceFee :  parseFloat(this.fullTotal),
+          total :  parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction:"Buy Now"
         }).subscribe((res) => {
@@ -334,8 +334,8 @@ export class BuyViewComponent implements OnInit {
           nftName:  this.NFTList.nftname,
           thumbnail: this.NFTList.thumbnail,
           feeTypeName:"NFT Price",
-          serviceFee :  parseFloat(this.saleBE.CurrentPrice),
-          total :  parseFloat(this.saleBE.CurrentPrice),
+          serviceFee :  parseFloat(this.fullTotal),
+          total :  parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction:"Buy Now"
         })
@@ -373,7 +373,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
       this.saleBE.Blockchain = this.NFTList.blockchain;
-   this.calculateCommision()
+      this.calculateCommision()
       let walletMetamask = new UserWallet();
       walletMetamask = new MetamaskComponent(walletMetamask);
       await walletMetamask.initWallelt();
@@ -385,8 +385,8 @@ export class BuyViewComponent implements OnInit {
           nftName:  this.NFTList.nftname,
           thumbnail: this.NFTList.thumbnail,
           feeTypeName:"NFT Price",
-          serviceFee :  parseFloat(this.saleBE.CurrentPrice),
-          total :  parseFloat(this.saleBE.CurrentPrice),
+          serviceFee :  parseFloat(this.fullTotal),
+          total :  parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction:"Buy Now"
         }) 
@@ -448,7 +448,7 @@ export class BuyViewComponent implements OnInit {
   }
 
   async buyNFTOnStellar(): Promise<void> {
-    this.calculateCommision()
+  
     this.dialogService
     .selectWallet({
       title: SelectWalletText.WALLET_TITLE,

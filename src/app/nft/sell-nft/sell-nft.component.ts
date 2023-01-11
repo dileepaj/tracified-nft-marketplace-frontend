@@ -254,13 +254,18 @@ export class SellNftComponent implements OnInit {
             this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
             return
           }
+          this.calculatePrice();
           this.dialogService
-            .confirmDialog({
-              title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
-              message: ConfirmDialogText.SELL_VIEW_SELL_NFT_MESSAGE,
-              confirmText: ConfirmDialogText.CONFIRM_BTN,
-              cancelText: ConfirmDialogText.CANCEL_BTN,
-            })
+          .confirmMintDialog({
+            promtHeading:"You are Selling",
+            nftName:  this.NFTList.nftname,
+            thumbnail: this.NFTList.thumbnail,
+            feeTypeName:"Comission Fee ",
+            serviceFee :  parseFloat(this.commission),
+            total :  this.sellingPrice,
+            blockchain: this.NFTList.blockchain,
+            buttonAction:"Sell Now"
+          })
             .subscribe((res) => {
               if (res) {
                 const loadingAnimation = this.dialogService.mintingDialog({
@@ -269,7 +274,6 @@ export class SellNftComponent implements OnInit {
                   nftName: this.NFTList.nftname,
                    thumbnail: this.NFTList.thumbnail,
                 });
-                this.calculatePrice();
                 this.addDBBackend();
                 this.addDBGateway();
                 this.stellarService
@@ -317,13 +321,18 @@ export class SellNftComponent implements OnInit {
         }else{
           this.royaltyamount=this.Royalty
         }
+        this.calculatePrice();
         this.dialogService
-          .confirmDialog({
-            title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
-            message: ConfirmDialogText.SELL_VIEW_SELL_NFT_MESSAGE,
-            confirmText: ConfirmDialogText.CONFIRM_BTN,
-            cancelText: ConfirmDialogText.CANCEL_BTN,
-          })
+        .confirmMintDialog({
+          promtHeading:"You are Selling",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"Comission Fee ",
+          serviceFee :  parseFloat(this.commission),
+          total :  this.sellingPrice,
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Sell Now"
+        })
           .subscribe((res) => {
             if (res) {
               const loadingAnimation = this.dialogService.mintingDialog({
@@ -332,7 +341,6 @@ export class SellNftComponent implements OnInit {
                 nftName: this.NFTList.nftname,
                 thumbnail: this.NFTList.thumbnail,
               });
-              this.calculatePrice();
               this.addDBBackend();
               this.addDBGateway();
               this.albedosale
@@ -389,13 +397,18 @@ export class SellNftComponent implements OnInit {
         }else{
           this.royaltyamount=this.Royalty
         }
+        this.calculatePrice();
         this.dialogService
-          .confirmDialog({
-            title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
-            message: ConfirmDialogText.SELL_VIEW_SELL_NFT_MESSAGE,
-            confirmText: ConfirmDialogText.CONFIRM_BTN,
-            cancelText: ConfirmDialogText.CANCEL_BTN,
-          })
+        .confirmMintDialog({
+          promtHeading:"You are Selling",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"Comission Fee ",
+          serviceFee :  parseFloat(this.commission),
+          total :  this.sellingPrice,
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Sell Now"
+        })
           .subscribe((res) => {
             if (res) {
               const loadingAnimation = this.dialogService.mintingDialog({
@@ -423,7 +436,6 @@ export class SellNftComponent implements OnInit {
 
                   alert('successfully sold!');
                   this.selltxn = signature;
-                  this.calculatePrice();
                   this.addDBBackend();
                   this.addDBGateway();
                   this.saveTXNs();
@@ -458,13 +470,17 @@ export class SellNftComponent implements OnInit {
       }else{
         this.royaltyamount=this.Royalty
       }
-    
+      this.calculatePrice();
       this.dialogService
-        .confirmDialog({
-          title: ConfirmDialogText.SELL_VIEW_SELL_NFT_TITLE,
-          message: ConfirmDialogText.SELL_VIEW_SELL_NFT_MESSAGE,
-          confirmText: ConfirmDialogText.CONFIRM_BTN,
-          cancelText: ConfirmDialogText.CANCEL_BTN,
+        .confirmMintDialog({
+          promtHeading:"You are Selling",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"Comission Fee ",
+          serviceFee :  parseFloat(this.commission),
+          total :  this.sellingPrice,
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Sell Now"
         })
         .subscribe((res) => {
           if (res) {
@@ -474,7 +490,6 @@ export class SellNftComponent implements OnInit {
               nftName: this.NFTList.nftname,
                thumbnail: this.NFTList.thumbnail,
             });
-            this.calculatePrice();
               this.pmint.approveContract(this.tokenid).then((res:any)=>{
                 this.pmarket
                 .createSaleOffer(
@@ -521,14 +536,14 @@ export class SellNftComponent implements OnInit {
       }else{
         this.royaltyamount=this.Royalty
       }
-
+      this.calculatePrice();
       this.dialogService
         .confirmMintDialog({
           promtHeading:"You are Selling",
           nftName:  this.NFTList.nftname,
           thumbnail: this.NFTList.thumbnail,
           feeTypeName:"Comission Fee ",
-          serviceFee :  this.royaltyCharge,
+          serviceFee :  parseFloat(this.commission),
           total :  this.sellingPrice,
           blockchain: this.NFTList.blockchain,
           buttonAction:"Sell Now"
@@ -541,9 +556,6 @@ export class SellNftComponent implements OnInit {
               nftName: this.NFTList.nftname,
                thumbnail: this.NFTList.thumbnail,
             });
-
-            this.calculatePrice();
-
               this.emint.approveContract(this.tokenid).then((res:any)=>{
                 this.emarket
                 .createSaleOffer(

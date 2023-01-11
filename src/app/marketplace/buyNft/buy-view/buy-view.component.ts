@@ -13,7 +13,6 @@ import {
 } from 'src/app/models/nft';
 import { APIConfigENV, BlockchainConfig, environment } from 'src/environments/environment';
 import { TrustLineByBuyerServiceService } from 'src/app/services/blockchain-services/stellar-services/trust-line-by-buyer-service.service';
-import { BuyNftServiceService } from 'src/app/services/blockchain-services/stellar-services/buy-nft-service.service';
 import { Trac2buyerService } from 'src/app/services/blockchain-services/solana-services/trac2buyer.service';
 import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
@@ -33,14 +32,16 @@ import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CodeviewComponent } from 'src/app/nft/codeview/codeview.component';
-import { timeStamp } from 'console';
+import { TrustByBuyerService } from 'src/app/services/blockchain-services/stellar-services/albedo-transactions/trust-by-buyer.service';
 import {
   ConfirmDialogText,
   PendingDialogText,
+  SelectWalletText,
   SnackBarText,
 } from 'src/app/models/confirmDialog';
 import { interval, timer } from 'rxjs';
+import albedo from '@albedo-link/intent';
+import { Float } from '@solana/buffer-layout';
 
 @Component({
   selector: 'app-buy-view',
@@ -85,11 +86,13 @@ export class BuyViewComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
-  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '', '', '');
+  saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '', '', '','');
   buyGW: BuyNFTGW = new BuyNFTGW('', '', '', '');
   nftbe: GetNFT = new GetNFT(
+    '',
     '',
     '',
     '',
@@ -150,10 +153,26 @@ export class BuyViewComponent implements OnInit {
   maincontent: any;
   isLoading : boolean = false;
   readonly network :any =BlockchainConfig.solananetwork;
+  wallet: any;
+  total: number;
+  commission: string;
+  royalty: number;
+  serviceCharge: string;
+  services: number;
+  commissionForNonContracts: string;
+  royaltyCharge: number;
+  fullTotal: string;
+  contractTotal: number;
+  totals: number;
+  royaltyR: number;
+  royaltyCharges: number;
+  servicess: number;
+  commissions: string;
+  R: number;
   constructor(
     private service: NftServicesService,
     private trust: TrustLineByBuyerServiceService,
-    private buyNftService: BuyNftServiceService,
+    private trustalbedo:TrustByBuyerService,
     private ata: Trac2buyerService,
     private _sanitizer: DomSanitizer,
     private emarket: EthereumMarketServiceService,
@@ -170,30 +189,65 @@ export class BuyViewComponent implements OnInit {
     this.updateBackend();
   }
 
+  calculateCommision(){
+    if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might
+      this.total = parseFloat(this.NFTList.currentprice);
+      this.royalty= parseFloat(this.NFTList.royalty);
+      this.royaltyCharge = this.total * (this.royalty/100.00);
+      this.services=parseFloat(this.NFTList.commission);
+      this.commission=((this.total) * (5.00/100.00)).toString()
+      this.contractTotal= (this.total + this.royaltyCharge)
+
+    }else{
+      this.total = parseFloat(this.NFTList.currentprice);
+      this.royalty= parseFloat(this.NFTList.royalty);
+      this.services=parseFloat(this.NFTList.commission);
+      this.royaltyCharge =this.total * (this.royalty/100.00)
+      this.commission = (this.total * (2.00/100.00)).toString()
+    }
+  }
+
   async updateBackend(): Promise<void> {
     this.saleBE.CurrentPrice = this.NFTList.currentprice;
     this.saleBE.Royalty = this.NFTList.royalty;
     this.saleBE.SellingStatus = 'NOTFORSALE';
     this.saleBE.Timestamp = '2022-04-21:13:41:00';
+    this.saleBE.Commission=this.NFTList.commission
+
     if (this.NFTList.blockchain == 'stellar') {
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;
       this.saleBE.Blockchain = this.NFTList.blockchain;
+      this.calculateCommision()
       this.dialogService
-        .openDisclaimer()
+        .confirmMintDialog({
+          promtHeading:"You are Buying",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"NFT Price",
+          serviceFee :  parseFloat(this.fullTotal),
+          total :  parseFloat(this.fullTotal),
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Buy Now"
+        })
         .subscribe((res) => {
           if (res) {
-            const loadingAnimation = this.dialogService.pendingDialog({
-              message: PendingDialogText.BUY_VIEW_CLICKED_BUY,
+            const loadingAnimation = this.dialogService.mintingDialog({
+              processTitle:"Buying",
+              message: PendingDialogText.MINTING_IN_PROGRESS,
+              nftName: this.NFTList.nftname,
+               thumbnail: this.NFTList.thumbnail,
             });
-            this.buyNFTOnStellar();
-            loadingAnimation.close();
-            this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+            this.buyNFTOnStellar().then(res=>{
+              loadingAnimation.close();
+            });
+            
           }
         });
     }
     if (this.NFTList.blockchain == 'solana') {
+      this.calculateCommision()
       const connection = new Connection(clusterApiUrl(this.network), 'confirmed');
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
@@ -204,15 +258,28 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
-      this.dialogService.openDisclaimer().subscribe((res) => {
+      this.dialogService
+        .confirmMintDialog({
+          promtHeading:"You are Buying",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"NFT Price",
+          serviceFee :  parseFloat(this.fullTotal),
+          total :  parseFloat(this.fullTotal),
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Buy Now"
+        }).subscribe((res) => {
         if (res) {
-          const loadingAnimation = this.dialogService.pendingDialog({
-            message: PendingDialogText.BUY_VIEW_CLICKED_BUY,
+          const loadingAnimation = this.dialogService.mintingDialog({
+            processTitle:"Buying",
+            message: PendingDialogText.MINTING_IN_PROGRESS,
+            nftName: this.NFTList.nftname,
+             thumbnail: this.NFTList.thumbnail,
           });
           this.transfer
             .createATA(
               environment.fromWalletSecret,
-              parseFloat(this.NFTList.currentprice),
+              this.total,
               phantomWallet.getWalletaddress(),
               this.NFTList.nftissuerpk,
               this.NFTList.nftidentifier
@@ -220,14 +287,12 @@ export class BuyViewComponent implements OnInit {
             .then(async (res: any) => {
               this.ata
                 .createATA(
-                  environment.fromWalletSecret,
-                  parseInt(this.NFTList.currentprice),
+                 this.total,
                   phantomWallet.getWalletaddress(),
-                  this.NFTList.nftissuerpk,
-                  this.NFTList.nftidentifier,
-                  parseFloat(this.NFTList.royalty),
+                  this.royaltyCharge,
                   this.NFTList.creatoruserid,
-                  this.NFTList.currentownerpk
+                  this.NFTList.currentownerpk,
+                  this.services.toString()
                 )
                 .then(async (result: solanaTransaction) => {
                   try {
@@ -257,25 +322,39 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
       this.saleBE.Blockchain = this.NFTList.blockchain;
+      this.calculateCommision()
       let walletMetamask = new UserWallet();
       walletMetamask = new MetamaskComponent(walletMetamask);
       await walletMetamask.initWallelt();
       this.userPK = await walletMetamask.getWalletaddress();
       this.saleBE.CurrentOwnerPK = this.userPK;
       this.dialogService
-        .openDisclaimer() 
+        .confirmMintDialog({
+          promtHeading:"You are Buying",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"NFT Price",
+          serviceFee :  parseFloat(this.fullTotal),
+          total :  parseFloat(this.fullTotal),
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Buy Now"
+        })
         .subscribe((res) => {
           if (res) {
-            const loadingAnimation = this.dialogService.pendingDialog({
-              message: PendingDialogText.BUY_VIEW_CLICKED_BUY,
+            const loadingAnimation = this.dialogService.mintingDialog({
+              processTitle:"Buying",
+              message: PendingDialogText.MINTING_IN_PROGRESS,
+              nftName: this.NFTList.nftname,
+               thumbnail: this.NFTList.thumbnail,
             });
             this.pmarket
               .BuyNFT(
                 environment.contractAddressNFTPolygon,
                 parseInt(this.NFTList.sellingtype),
-                this.NFTList.currentprice,
-                this.NFTList.royalty,
-                this.NFTList.currentownerpk
+                (this.total + this.royaltyCharge).toString(),
+                this.royaltyCharge.toString(),
+                this.NFTList.creatoruserid,
+                this.commission,
               )
               .then((res) => {
                 this.buytxn = res.transactionHash;
@@ -294,25 +373,39 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
       this.saleBE.Blockchain = this.NFTList.blockchain;
+      this.calculateCommision()
       let walletMetamask = new UserWallet();
       walletMetamask = new MetamaskComponent(walletMetamask);
       await walletMetamask.initWallelt();
       this.userPK = await walletMetamask.getWalletaddress();
       this.saleBE.CurrentOwnerPK = this.userPK;
       this.dialogService
-        .openDisclaimer() 
+        .confirmMintDialog({
+          promtHeading:"You are Buying",
+          nftName:  this.NFTList.nftname,
+          thumbnail: this.NFTList.thumbnail,
+          feeTypeName:"NFT Price",
+          serviceFee :  parseFloat(this.fullTotal),
+          total :  parseFloat(this.fullTotal),
+          blockchain: this.NFTList.blockchain,
+          buttonAction:"Buy Now"
+        }) 
         .subscribe((res) => {
           if (res) {
-            const loadingAnimation = this.dialogService.pendingDialog({
-              message: PendingDialogText.BUY_VIEW_CLICKED_BUY,
+            const loadingAnimation = this.dialogService.mintingDialog({
+              processTitle:"Buying",
+              message: PendingDialogText.MINTING_IN_PROGRESS,
+              nftName: this.NFTList.nftname,
+               thumbnail: this.NFTList.thumbnail,
             });
             this.emarket
               .BuyNFT(
                 environment.contractAddressNFTEthereum,
                 parseInt(this.NFTList.sellingtype),
-                this.NFTList.currentprice,
-                this.NFTList.royalty,
-                this.NFTList.currentownerpk
+                (this.total+this.royaltyCharge).toString(),
+                this.royaltyCharge.toString(),
+                this.NFTList.creatoruserid,
+                this.commission
               )
               .then((res) => {
                 this.buytxn = res.transactionHash;
@@ -355,36 +448,82 @@ export class BuyViewComponent implements OnInit {
   }
 
   async buyNFTOnStellar(): Promise<void> {
-    let walletf = new UserWallet();
-    walletf = new FreighterComponent(walletf);
-    await walletf.initWallelt();
-    this.userPK = await walletf.getWalletaddress();
-    this.trust
-      .trustlineByBuyer(
-        this.NFTList.nftname,
-        this.NFTList.nftissuerpk,
-        this.userPK,
-        this.NFTList.currentprice,
-        this.NFTList.distributorpk,
-        this.NFTList.royalty
-      )
-      .then((transactionResult: any) => {
-        if (transactionResult.successful) {
-          if (this.isLoadingPresent) {
-            this.dissmissLoading();
-          }
-          this.buytxn = transactionResult.hash;
-          this.saveTXNs();
-          this.saleBE.CurrentOwnerPK = this.userPK;
-          this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-          this.snackbar.openSnackBar('NFT has successfully been bough');
-          this.showInProfile();
-        } else {
-          if (this.isLoadingPresent) {
-            this.dissmissLoading();
-          }
-        }
-      });
+  
+    this.dialogService
+    .selectWallet({
+      title: SelectWalletText.WALLET_TITLE,
+      message: SelectWalletText.WALLET_MESSAGE,
+      selectA: SelectWalletText.WALLET_ALBEDO,
+      selectF: SelectWalletText.WALLET_FREIGHTER,
+    })
+    .subscribe(async (res:any) => {
+      this.wallet=res
+
+      if(this.wallet=='freighter'){
+        let walletf = new UserWallet();
+        walletf = new FreighterComponent(walletf);
+        await walletf.initWallelt();
+        this.userPK = await walletf.getWalletaddress();
+        this.trust
+          .trustlineByBuyer(
+            this.NFTList.nftname,
+            this.NFTList.nftissuerpk,
+            this.userPK,
+            this.NFTList.currentprice,
+            this.NFTList.distributorpk,
+            this.royaltyCharge.toString(),
+            this.commission
+          )
+          .then((transactionResult: any) => {
+            if (transactionResult.successful) {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+              this.buytxn = transactionResult.hash;
+              this.saveTXNs();
+              this.saleBE.CurrentOwnerPK = this.userPK;
+              this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+              this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+              this.showInProfile();
+            } else {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+            }
+          });
+      }
+      if(this.wallet=='albedo'){
+        await albedo.publicKey({
+          require_existing: true
+      })
+          .then((res:any) => {
+            this.userPK=res.pubkey
+            this.trustalbedo
+            .trustlineByBuyer(
+              this.NFTList.nftname,
+              this.NFTList.nftissuerpk,
+              this.userPK,
+              this.NFTList.currentprice,
+              this.NFTList.distributorpk,
+              this.royaltyCharge.toString(),
+              this.commission
+            )
+            .then((transactionResult: any) => {
+              
+                this.buytxn = transactionResult.tx_hash;
+                this.saveTXNs();
+                this.saleBE.CurrentOwnerPK = this.userPK;
+                this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+                this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+                this.showInProfile();
+           
+            });
+          })
+        
+      }
+    })
+
+  
   }
 
   dissmissLoading() {
@@ -414,9 +553,8 @@ export class BuyViewComponent implements OnInit {
   }
 
   showInProfile() {
-    let data: any = this.nftbe.Blockchain;
     this.router.navigate(['/user-dashboard'], {
-      queryParams: { blockchain: this.nftbe.Blockchain },
+      queryParams: { user:this.saleBE.CurrentOwnerPK,blockchain: this.nftbe.Blockchain },
     });
   }
 
@@ -454,6 +592,23 @@ export class BuyViewComponent implements OnInit {
               this.ngOnInit();
             }
 
+            if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might
+             
+              this.totals = parseFloat(this.NFTList.currentprice);
+              this.royaltyR= parseFloat(this.NFTList.royalty);
+              this.royaltyCharges=this.totals * (this.royaltyR/100.00);
+              this.servicess=parseFloat(this.NFTList.commission);
+              this.commissions=((this.totals) * (5.00/100.00)).toString()
+              this.fullTotal = (this.totals+this.royaltyCharges+this.servicess).toString()
+            }else{
+            
+              this.totals = parseFloat(this.NFTList.currentprice);
+              this.royaltyR= parseFloat(this.NFTList.royalty);
+              this.servicess=parseFloat(this.NFTList.commission);
+              this.royaltyCharges =this.totals * (this.royaltyR/100.00)
+              this.commissions = (this.totals * (2.00/100.00)).toString()
+              this.fullTotal = (this.totals+this.royaltyCharges+this.servicess).toString()
+            }
             this.apiService
               .findWatchlistByBlockchainAndNFTIdentifier(
                 this.NFTList.blockchain,

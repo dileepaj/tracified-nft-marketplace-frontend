@@ -96,6 +96,7 @@
   font-size: 18px;
   line-height: 22px;
   color: rgba(132, 132, 132, 1);
+  margin-bottom: 20px;
 }
 
 #mintingForm {
@@ -107,13 +108,19 @@
   /* background-color: #8484846b; */
 }
 
+#img-cropper-window {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
 .mint-form-group {
   position: relative;
   display: flex;
   flex-direction: column;
   align-content: center;
-  row-gap: 7px;
   width: 620px;
+  row-gap: 7px;
 }
 
 ::placeholder {
@@ -137,7 +144,7 @@
   font-weight: 400;
   font-size: 18px;
 
-  color: #10ceac;
+
   row-gap: 14px;
 }
 
@@ -151,6 +158,36 @@
   width: 614px;
   height: 306px;
   border: 3px dashed #10ceac;
+}
+
+#thumb-dnd {
+  width : 230px;
+  height: 230px;
+  max-width: 100%;
+}
+
+.thumb-upload-menu {
+  width : 233px;
+}
+
+.dnd-text-top {
+  color: #10ceac;
+}
+
+.dnd-txt {
+  margin-top: 10px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #FFFFFF !important;
+  width: 190px;
+  word-wrap: break-word;
+}
+
+.thumb-dnd-outer {
+  width: 617px;
 }
 
 .composer {
@@ -241,8 +278,7 @@
 
 .add-btn {
   position: absolute;
-  top: 43px;
-  left: 635px;
+  right: -50px;
   width: 35px;
   height: 35px;
   cursor: pointer;
@@ -425,7 +461,30 @@ mat-hint.tags {
   height: 300px;
 }
 .tooltip{
-  font-size: small;
+  font-size: 14px;
   font-family: 'Open Sans', sans-serif;
   color: #848484;
+  margin-bottom: 8px;
+}
+
+.normal-text {
+  font-family: 'Open Sans', sans-serif !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 22px !important;
+  /* identical to box height */
+  line-height: 15px !important;
+  color: #ffffff !important;
+}
+
+.dropdown-disabled {
+  cursor:not-allowed;
+}
+
+.dropdown-disabled label {
+  color: #595959 !important;
+}
+
+.dropdown-disabled img {
+  filter: grayscale(1);
 }

@@ -1,3 +1,4 @@
+import albedo from '@albedo-link/intent';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,6 +32,7 @@ export class OverviewComponent implements OnInit {
   imageSrc: any;
   User: string;
   thumbnailSRC: any;
+  user: any;
 
 
   constructor(private route: ActivatedRoute,
@@ -39,58 +41,21 @@ export class OverviewComponent implements OnInit {
     private _sanitizer: DomSanitizer ) {}
 
 
-    async retrive(blockchain: string) {
-      if (blockchain == 'stellar') {
-        let freighterWallet = new UserWallet();
-        freighterWallet = new FreighterComponent(freighterWallet);
-        await freighterWallet.initWallelt();
-        this.User= await freighterWallet.getWalletaddress();
-
-      }
-
-      if (blockchain == 'solana') {
-        let phantomWallet = new UserWallet();
-        phantomWallet = new PhantomComponent(phantomWallet);
-        await phantomWallet.initWallelt();
-        this.User = await phantomWallet.getWalletaddress();
-
-      }
-
-      if (
-        blockchain == 'ethereum' ||
-        blockchain == 'polygon'
-      ) {
-        let metamaskwallet = new UserWallet();
-        metamaskwallet = new MetamaskComponent(metamaskwallet);
-        await metamaskwallet.initWallelt();
-        this.User = await metamaskwallet.getWalletaddress();
-
-      }
-
-    }
-
-    goToEdit(user){
-
-      this.router.navigate(['./user-dashboard/edit-profile'],{
-        queryParams:{data:JSON.stringify(user)}
-        });
-  }
-
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
-
-      this.router.navigate(['./user-dashboard'], {
-        queryParams: { blockchain: this.selectedBlockchain },
-      });
+      this.user = params['user']
+    
+      // this.router.navigate(['/user-dashboard'], {
+      //   queryParams: {  user:this.user,blockchain: this.selectedBlockchain },
+      // });
 
       this.ListBought.splice(0);
       this.ListHotpicks.splice(0);
       this.ListMinted.splice(0);
       this.ListTrends.splice(0);
       this.ListSales.splice(0);
-      this.retrive(this.selectedBlockchain).then(res=>{
-          this.nft.getNFTByBlockchainandUser(this.selectedBlockchain,this.User).subscribe(async (data) => {
+          this.nft.getNFTByBlockchainandUser(this.selectedBlockchain,this.user).subscribe(async (data) => {
         this.nfts = data;
         if(this.nft==null){
           this.ngOnInit()
@@ -119,11 +84,8 @@ export class OverviewComponent implements OnInit {
 
           }
         }
-      });})
-
+      });
     });
-
-
   }
 
   FilterByHotpicks(response:any){

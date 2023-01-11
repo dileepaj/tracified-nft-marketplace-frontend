@@ -20,7 +20,7 @@ export class UserCollectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=>{
-      this.key=(params['data']);
+      this.key=(params['user']);
       this.selectedblockchain=(params['blockchain'])
     })
 
@@ -39,7 +39,7 @@ export class UserCollectionsComponent implements OnInit {
 
 showNFT(collection){
   this.router.navigate(['./user-dashboard/mynfts'], {
-    queryParams: { collection: [collection,this.key],blockchain:this.selectedblockchain},//this.data
+    queryParams: { collection: collection,user:this.key,blockchain:this.selectedblockchain},//this.data
   });
 }
 

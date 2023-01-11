@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BuyNftServiceService } from './buy-nft-service.service';
+import { TrustByBuyerService } from './trust-by-buyer.service';
 
-describe('BuyNftServiceService', () => {
-  let service: BuyNftServiceService;
+describe('TrustByBuyerService', () => {
+  let service: TrustByBuyerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(BuyNftServiceService);
+    service = TestBed.inject(TrustByBuyerService);
   });
 
   it('should be created', () => {

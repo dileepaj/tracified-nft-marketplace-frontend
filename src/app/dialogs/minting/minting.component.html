@@ -1,0 +1,33 @@
+<div class="close-div"><mat-icon mat-dialog-close> close </mat-icon></div>
+<div class="dialog-header">
+  <div class="dialog-header-cont">
+    <label class="dialog-title">You are {{data?.processTitle}}</label>
+    <label class="nft-name">{{data?.nftName}} </label>
+  </div>
+  <div class="dialog-header-cont">
+    <img [src]="data?.thumbnail" class="nft-thumb" />
+  </div>
+
+</div>
+<mat-dialog-content>
+  <div class="dialog-content">
+    <label>Please authorize the payment through your connected wallet.</label>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="dialog-actions">
+<!--   <button
+    mat-dialog-close
+    class="dialog-btn-secondary"
+    (click)="cancel()"
+    matRipple
+  >
+    {{ data?.cancelText }}
+  </button> -->
+  <button
+    cdkFocusInitial
+    class="dialog-btn-primary"
+    matRipple
+  >
+    Waiting...
+  </button>
+</mat-dialog-actions>

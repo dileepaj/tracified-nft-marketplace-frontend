@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import CryptoJS from 'crypto-js';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SVG, Track } from 'src/app/models/minting';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 @Component({
   selector: 'app-view-nft-card',
   templateUrl: './view-nft-card.component.html',
@@ -41,6 +42,7 @@ export class ViewNftCardComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
   imageSrc: any;
@@ -50,7 +52,8 @@ export class ViewNftCardComponent implements OnInit {
     private service: NftServicesService,
     private router: Router,
     private _sanitizer: DomSanitizer,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private snackbar: SnackbarServiceService,
   ) {}
 
 
@@ -111,7 +114,9 @@ export class ViewNftCardComponent implements OnInit {
           });
         });
     } else {
-      console.log('User PK not connected or not endorsed');
+      this.snackbar.openSnackBar(
+        'User PK not connected or not endorsed'
+      );
     }
   }
 

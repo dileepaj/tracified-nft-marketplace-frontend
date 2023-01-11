@@ -1,3 +1,4 @@
+import albedo from '@albedo-link/intent';
 import {
   Component,
   HostListener,
@@ -7,9 +8,13 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { UserWallet } from 'src/app/models/userwallet';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
+import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
+import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
+import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { WalletComponent } from 'src/app/wallet/wallet.component';
 
 @Component({
@@ -26,6 +31,8 @@ export class HeaderComponent implements OnInit {
   bcListExpanded: boolean = false;
   resourcesExpanded: boolean = false;
   timedOutCloser;
+  tx: any;
+  User: string;
 
   constructor(
     private dialogref: MatDialog,
@@ -128,12 +135,60 @@ export class HeaderComponent implements OnInit {
     this.sideNavOpened = false;
   }
 
-  public goToOverview(blockchain: string) {
+  public async goToOverview(blockchain: string) {
+    if (blockchain == 'stellar') {
+      let details = navigator.userAgent;
+      
+      let regexp = /android|iphone|kindle|ipad/i;
+    
+      let isMobileDevice = await regexp.test(details);
+      
+      if(isMobileDevice) {
+          await albedo.publicKey({require_existing:true}).then( (re1s:any) => {
+            this.tx=re1s
+              this.router.navigate(['/user-dashboard/overview'], {
+                queryParams: { user: this.tx.pubkey , blockchain:blockchain},
+              });
+    
+    this.sideNavOpened = false;
+    this.accListExpanded = false;
+          })
+        
+  }else{   
+    let freighterWallet = new UserWallet();
+        freighterWallet = new FreighterComponent(freighterWallet);
+        await freighterWallet.initWallelt();
+        this.User= await freighterWallet.getWalletaddress();
+          
     this.router.navigate(['/user-dashboard/overview'], {
-      queryParams: { blockchain: blockchain },
+      queryParams: { user: this.User,blockchain: blockchain },
     });
     this.sideNavOpened = false;
     this.accListExpanded = false;
+  }
+}else if(blockchain == 'solana'){
+  let phantomWallet = new UserWallet();
+  phantomWallet = new PhantomComponent(phantomWallet);
+  await phantomWallet.initWallelt();
+  this.User = await phantomWallet.getWalletaddress();
+  
+  this.router.navigate(['/user-dashboard/overview'], {
+    queryParams: { user:this.User,blockchain: blockchain },
+  });
+this.sideNavOpened = false;
+this.accListExpanded = false;
+}else if(blockchain == 'ethereum' || blockchain=='polygon'){
+  let metamaskwallet = new UserWallet();
+  metamaskwallet = new MetamaskComponent(metamaskwallet);
+  await metamaskwallet.initWallelt();
+  this.User = await metamaskwallet.getWalletaddress();
+  
+  this.router.navigate(['/user-dashboard/overview'], {
+    queryParams: { user:this.User,blockchain: blockchain },
+  });
+this.sideNavOpened = false;
+this.accListExpanded = false;
+}
   }
 
   public goToHome() {

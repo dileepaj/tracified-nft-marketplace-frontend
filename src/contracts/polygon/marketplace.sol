@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: MIT OR Apache-2.0
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -13,7 +12,7 @@ contract NFTMarket is ReentrancyGuard {
   Counters.Counter private _itemsSold;
 
   address payable owner;
-  uint256 listingPrice = 0.25 ether;
+  //uint256 listingPrice = 0.25 ether;
 
   constructor() {
     owner = payable(msg.sender);
@@ -42,15 +41,16 @@ contract NFTMarket is ReentrancyGuard {
   );
 
   // Returns the listing price of the contract /
-  function getListingPrice() public view returns (uint256) {
-    return listingPrice;
-  }
+  // function getListingPrice() public view returns (uint256) {
+  //   return listingPrice;
+  // }
   
   // Places an item for sale on the marketplace /
   function createMarketItem(
     address nftContract,
     uint256 tokenId,
-    uint256 price
+    uint256 price,
+    uint256 listingPrice
   ) public payable nonReentrant {
     require(price > 0, "Price must be at least 1 wei");
     require(msg.value == listingPrice, "Price must be equal to listing price");
@@ -87,7 +87,8 @@ contract NFTMarket is ReentrancyGuard {
     address nftContract,
     uint256 itemId,
     uint256 royalty,
-    address distributor
+    address distributor,
+    uint256 listingPrice
     ) public payable nonReentrant {
       
     uint price = idToMarketItem[itemId].price;

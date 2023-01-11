@@ -13,7 +13,7 @@
             [src]="imagePath"
           />
           <!-- <h2 style="font-size: 20px; font-weight: 500">Hi</h2> -->
-          <label style="font-size: 25px; font-weight: 700">{{this.greeting}}, {{this.Name}}</label>
+          <label style="font-size: 25px; font-weight: 700">{{this.greeting}} {{this.Name}}</label>
         </div>
         <mat-nav-list id="navlist">
           <!-- <mat-list-item
@@ -24,13 +24,13 @@
           </mat-list-item> -->
           <mat-list-item
             class="nav-list-item"
-            (click)="goToEdit(this.User)"
+            (click)="goToEdit(this.pk)"
           >
             <label>Edit Profile</label>
           </mat-list-item>
           <mat-list-item
           class="nav-list-item"
-          (click)="myCollections(this.User)"
+          (click)="myCollections(this.pk)"
         >
           <label>My Collections</label>
         </mat-list-item>

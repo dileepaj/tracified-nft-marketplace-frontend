@@ -32,6 +32,7 @@ export class ViewDashboardComponent implements OnInit {
   smallScreen : boolean = false;
   imagePath: any;
   greeting : string = '';
+  pk: any;
 
   constructor(
     private api: ApiServicesService,
@@ -46,7 +47,7 @@ export class ViewDashboardComponent implements OnInit {
 
   goToOverview(){
     this.router.navigate(['./user-dashboard/overview'], {
-      queryParams: { blockchain: this.selectedBlockchain },
+      queryParams: { user:this.pk,blockchain: this.selectedBlockchain },
     });
     this.sideNavOpened = false;
     this.accListExpanded = false;
@@ -56,17 +57,24 @@ export class ViewDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
-})
-    this.retrive(this.selectedBlockchain);
-    this.setGreeting();
-    if (window.innerWidth < 1280) {
-      this.opened = false;
-      this.smallScreen = true;
-    } else {
-      this.opened = true;
-      this.smallScreen = false;
-    }
+      this.pk = params['user']
+    console.log("back here ",this.pk, this.selectedBlockchain)
+      this.retrive(this.selectedBlockchain,this.pk).then(res=>{
 
+        this.setGreeting();
+        if (window.innerWidth < 1280) {
+          this.opened = false;
+          this.smallScreen = true;
+        } else {
+          this.opened = true;
+          this.smallScreen = false;
+        }
+      })
+
+
+  
+  
+  })
   }
 
   @HostListener('window:resize', ['$event'])
@@ -95,35 +103,59 @@ export class ViewDashboardComponent implements OnInit {
   }
 
 
-  async retrive(blockchain: string) {
+  async retrive(blockchain: string,pk:string) {
+   
     if (blockchain == 'stellar') {
-      let freighterWallet = new UserWallet();
-      freighterWallet = new FreighterComponent(freighterWallet);
-      await freighterWallet.initWallelt();
-      this.User= await freighterWallet.getWalletaddress();
-      this.api.getEndorsement(this.User).subscribe((res:any)=>{
-        if(res.profilepic!=""){
-          this.imagePath = res.profilepic
+      let details = navigator.userAgent;
+     
+      let regexp = /android|iphone|kindle|ipad/i;
+     
+      let isMobileDevice = regexp.test(details);
+      
+      if(isMobileDevice) {
+            
+             this.api.getEndorsement(pk).subscribe((res: any) => {
+              if(res.Name != ""){
+            if (res.profilepic != '') {
+              this.imagePath = res.profilepic;
+            } else {
+              this.imagePath = "../../../assets/images/default_profile.png";
+            }
+            this.Name = res.Name;
+          }else{
+            this.Name="New User"
+          }
+          })
+           
         }else{
-          this.imagePath = "../../../assets/images/default_profile.png"
+      this.api.getEndorsement(pk).subscribe((res:any)=>{
+        console.log("resss-------------------- ",res)
+        if(res.Name != ""){
+          if (res.profilepic != "") {
+            this.imagePath = res.profilepic;
+          } else {
+            this.imagePath = "../../../assets/images/default_profile.png";
+          }
+          this.Name = res.Name;
+        }else{
+          this.Name="New User"
         }
-        this.Name=res.Name
       })
-
+    }
     }
 
     if (blockchain == 'solana') {
-      let phantomWallet = new UserWallet();
-      phantomWallet = new PhantomComponent(phantomWallet);
-      await phantomWallet.initWallelt();
-      this.User = await phantomWallet.getWalletaddress();
-      this.api.getEndorsement(this.User).subscribe((res:any)=>{
-        if(res.profilepic!=""){
-          this.imagePath = res.profilepic
+      this.api.getEndorsement(pk).subscribe((res:any)=>{
+        if(res.Name != ""){
+          if (res.profilepic != "") {
+            this.imagePath = res.profilepic;
+          } else {
+            this.imagePath = "../../../assets/images/default_profile.png";
+          }
+          this.Name = res.Name;
         }else{
-          this.imagePath = "../../../assets/images/default_profile.png"
+          this.Name="New User"
         }
-        this.Name=res.Name
       })
 
     }
@@ -133,17 +165,17 @@ export class ViewDashboardComponent implements OnInit {
       blockchain == 'polygon' ||
       blockchain=='ethereum or polygon'
     ) {
-      let metamaskwallet = new UserWallet();
-      metamaskwallet = new MetamaskComponent(metamaskwallet);
-      await metamaskwallet.initWallelt();
-      this.User = await metamaskwallet.getWalletaddress();
-      this.api.getEndorsement(this.User).subscribe((res:any)=>{
-        if(res.profilepic!=""){
-          this.imagePath = res.profilepic
+      this.api.getEndorsement(pk).subscribe((res:any)=>{
+        if(res.Name != ""){
+          if (res.profilepic != "") {
+            this.imagePath = res.profilepic;
+          } else {
+            this.imagePath = "../../../assets/images/default_profile.png";
+          }
+          this.Name = res.Name;
         }else{
-          this.imagePath = "../../../assets/images/default_profile.png"
+          this.Name="New User"
         }
-        this.Name=res.Name
       })
     }
 
@@ -151,8 +183,8 @@ export class ViewDashboardComponent implements OnInit {
 
   goToEdit(user:any){
 
-    this.router.navigate(['./user-dashboard/edit-profile'],{
-      queryParams:{data:JSON.stringify(user),blockchain:this.selectedBlockchain}
+    this.router.navigate(['/user-dashboard/edit-profile'],{
+      queryParams:{user:user,blockchain:this.selectedBlockchain}
       });
 
       this.closeSideNav();
@@ -168,7 +200,7 @@ export class ViewDashboardComponent implements OnInit {
 
   myCollections(id:any){
     this.router.navigate(['./user-dashboard/mycollections'],{
-      queryParams:{data:id,blockchain:this.selectedBlockchain}
+      queryParams:{user:id,blockchain:this.selectedBlockchain}
       })
       this.closeSideNav();
   }
@@ -180,7 +212,7 @@ export class ViewDashboardComponent implements OnInit {
   }
   backtoHome(){
     this.router.navigate(['/user-dashboard/overview'], {
-      queryParams: { blockchain: this.selectedBlockchain },
+      queryParams: { user:this.pk,blockchain: this.selectedBlockchain },
     });
   }
 }

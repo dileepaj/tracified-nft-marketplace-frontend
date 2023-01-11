@@ -20,10 +20,11 @@ export class TrustLineByBuyerServiceService {
   userSignedTransaction: any;
 
   constructor() { }
-  trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string) {
-let royalties=parseFloat(royalty)
-let sellingprice=parseFloat(nftPrice)
-let TotalPrice=(sellingprice-royalties).toString();
+  trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string,commission:string) {
+// let royalties=parseFloat(royalty)
+// let commissioncharge=parseFloat(commission)
+// let sellingprice=parseFloat(nftPrice)
+// let TotalPrice=(sellingprice-(royalties+commissioncharge)).toString();
 
     return new Promise((resolve, reject) => {
       //let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
@@ -61,11 +62,19 @@ let TotalPrice=(sellingprice-royalties).toString();
               })
             )
             .addOperation(
+              Operation.payment({
+                destination:"GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV",  //commission
+                asset:Asset.native(),
+                amount: commission,
+                source: senderPublickKey,
+              })
+            )
+            .addOperation(
               Operation.manageBuyOffer({
                 selling: sellingAsset,
                 buying: buyAsset,
                 buyAmount: '1',
-                price: TotalPrice,
+                price: nftPrice,
                 offerId: "0",
               })
             )

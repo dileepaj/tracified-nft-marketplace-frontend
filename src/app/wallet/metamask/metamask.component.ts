@@ -36,8 +36,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
           return;
         });
     } else {
-      console.log("window.ethereum is null");
-      // window.location.href = 'https://metamask.io/';
+      // console.log("window.ethereum is null");
+       window.location.href = 'https://metamask.io/';
     }
   }
   public getWalletaddress(): string {
@@ -59,8 +59,9 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         nftcontract,
         tokenId,
         ethers.utils.parseEther(price.toString()),
+        ethers.utils.parseEther(listingPrice.toString()),
         {
-          value: ethers.utils.parseEther('0.1'),
+          value: ethers.utils.parseEther(listingPrice),
         }
       );
       const tx = await transaction.wait();
@@ -72,7 +73,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         nftcontract,
         tokenId,
         ethers.utils.parseEther(price.toString()),
-        { value: ethers.utils.parseEther('0.25') }
+        ethers.utils.parseEther(listingPrice.toString()),
+        { value: ethers.utils.parseEther(listingPrice) }
       );
       const tx = await transaction.wait();
       return tx;
@@ -95,6 +97,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         itemId,
         ethers.utils.parseEther(royalty.toString()),
         seller,
+        ethers.utils.parseEther(listingPrice.toString()),
         { value: ethers.utils.parseEther(price.toString()) }
       );
       const tx = await transaction.wait();
@@ -106,6 +109,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         itemId,
         ethers.utils.parseEther(royalty.toString()),
         seller,
+        ethers.utils.parseEther(listingPrice.toString()),
         { value: ethers.utils.parseEther(price.toString()) }
       );
       const tx = await transaction.wait();

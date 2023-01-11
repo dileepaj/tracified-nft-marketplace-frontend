@@ -492,7 +492,7 @@ td {
   display: flex;
   flex-direction: column;
   row-gap: 4px;
-  width: 50%;
+  width: 100%;
 }
 
 .sell-input-grp label {
@@ -569,10 +569,31 @@ mat-hint {
 .input::-webkit-outer-spin-button,
 .input::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  width: 130px;
   margin: 0;
 }
 
 /* Firefox */
 .input[type=number] {
   -webkit-appearance: none;
+}
+
+.usd-label {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 26px;
+  /* identical to box height, or 132% */
+
+
+  color: #10CEAC !important;
+  margin-top: 20px;
+  margin-right: 20px;
+
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction:row;
+  column-gap: 20px;
 }

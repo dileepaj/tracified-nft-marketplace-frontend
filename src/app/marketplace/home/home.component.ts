@@ -167,7 +167,6 @@ export class HomeComponent implements OnInit {
     this.List2=[];
     this.nft.getFilteredNFTs('ethereum', 0, 'trending', 6).subscribe((result: any) => {
       result.Response.content.forEach((cont) => {
-        console.log(cont.nftname, cont.thumbnail)
         this.nft
           .getSVGByHash(cont.imagebase64)
           .subscribe((res: any) => {
@@ -185,7 +184,7 @@ export class HomeComponent implements OnInit {
                 cont.thumbnail = this.imageSrc;
               }
             }
-            console.log(this.thumbnailSRC)
+         
             let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
             card.thumbnail= cont.thumbnail;

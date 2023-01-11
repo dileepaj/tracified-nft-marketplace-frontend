@@ -42,6 +42,7 @@ export class ViewNftCardComponent implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
   imageSrc: any;

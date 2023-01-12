@@ -24,9 +24,9 @@ export class TrustlinesService {
   changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string) {
     return new Promise((resolve, reject) => {
       if (blockchainNetType === "live") {
-        Networks.TESTNET
-      } else {
         Networks.PUBLIC
+      } else {
+        Networks.TESTNET
       }
       var asset = new Asset(asset_code, asset_issuer);
       var opts = { fee: "100" ,networkPassphrase: Networks.TESTNET};

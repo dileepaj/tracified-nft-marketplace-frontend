@@ -15,9 +15,9 @@ export class TrustByBuyerService {
         return new Promise((resolve, reject) => {
           //let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
           if (blockchainNetType === "live") {
-            Networks.TESTNET
-          } else {
             Networks.PUBLIC
+          } else {
+            Networks.TESTNET
           }
     
           var buyAsset = new Asset(asset_code, asset_issuer);

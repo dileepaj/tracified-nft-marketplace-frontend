@@ -1,22 +1,21 @@
 export const environment = {
   production: false,
-  contractAddressNFTPolygon: "0xE6F59c4A3118C0C00155b00331dF07b40DD85569",
-  contractAddressMKPolygon: "0x86E328AD08b5e66B6AcBF7e03DAC74c7b723f5B7",
+  contractAddressNFTPolygon: "0xc89bac690365d942ba49bb020274440dae54ec11",
+  contractAddressMKPolygon: "0x7D591543D2A09ef03AaB1490083943fC69c352Ec",
   contractAddressNFTEthereum: "0x6f09Ecb9e29bF5B1d2C9c39d126FF32dc089F34C",
-  contractAddressMKEthereum: "0xB5EBb0028AB92F19A0a415c450F64b4ED768cbca",
-  fromWalletSecret: new Uint8Array([
-    196, 114, 86, 165, 59, 177, 63, 87, 43, 10, 176, 101, 225, 42, 129, 158, 167, 43, 81, 214, 254, 28, 196, 158, 159, 64, 55, 123, 48, 211, 78, 166, 127, 96, 107, 250, 152, 133, 208, 224, 73, 251, 113, 151, 128, 139, 86, 80, 101, 70, 138, 50, 141, 153, 218, 110, 56, 39, 122, 181, 120, 55, 86, 185]),
+  contractAddressMKEthereum: "0x7D591543D2A09ef03AaB1490083943fC69c352Ec",
+  fromWalletSecret: new Uint8Array([51, 110, 97, 90, 70, 57, 110, 84, 56, 88, 103, 103, 68, 66, 74, 83, 103, 99, 49, 111, 118, 97, 69, 115, 107, 117, 89, 85, 87, 82, 98, 80, 105, 122, 88, 106, 88, 81, 74, 80, 54, 57, 66, 71, 83, 70, 111, 114, 105, 118, 109, 118, 116, 53, 83, 86, 120, 57, 77, 112, 88, 88, 119, 105, 112, 88, 90, 53, 100, 121, 70, 109, 52, 80, 72, 101, 56, 121, 55, 113, 66, 90, 116, 66, 77, 118, 66, 102]),
 
 };
 export const ENV: any = {
   production: false,
-  mode: 'qa',
+  mode: 'staging',
   API_TRACIFIED_V1: 'https://api.tracified.com/api/v1',
   API_TRACIFIED: 'https://api.tracified.com/api/v2',
   GATEWAY: 'https://gateway.tracified.com',
   API_ADMIN: 'https://admin.api.tracified.com',
   APPCENTER_DEPLOYMENT_KEY: 'BcfHYi-Gexwau0ZS3Q0RmtoJqsTx2_Bln3Qkc',
-  BLOCKCHAIN_NETWORK: 'https://horizon-testnet.stellar.org',
+  BLOCKCHAIN_NETWORK: 'https://horizon.stellar.org',
   NETWORK_TYPE: 'live'
 };
 export const adminENV={
@@ -43,6 +42,6 @@ export const APIConfigENV = {
 export const BlockchainConfig = {
   production: false,
   mode: 'staging',
-  solananetwork: 'devnet',
-  solananetworkURL: 'https://api.devnet.solana.com'
+  solananetwork: 'mainnet-beta',
+  solananetworkURL: 'https://solscan.rpcpool.com'
 }

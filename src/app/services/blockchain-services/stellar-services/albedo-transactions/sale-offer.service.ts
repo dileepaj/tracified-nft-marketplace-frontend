@@ -20,9 +20,9 @@ export class SaleOfferService {
     return new Promise((resolve, reject) => {
       //let sourceKeypair = Keypair.fromSecret(signerSK); //because the distributor has the authority to sell
       if (blockchainNetType === "live") {
-        Networks.TESTNET
-      } else {
         Networks.PUBLIC
+      } else {
+        Networks.TESTNET
       }
       var asset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();

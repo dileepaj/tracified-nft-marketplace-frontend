@@ -33,7 +33,7 @@ export class SaleOfferService {
           minTime: '0',
           maxTime: '0',
         },
-        networkPassphrase: Networks.TESTNET,
+        networkPassphrase: Networks.PUBLIC,
       };
       let server = new Server(blockchainNet);
       server
@@ -55,7 +55,7 @@ export class SaleOfferService {
             let txn=  transaction.toEnvelope().toXDR().toString("base64");
             return albedo.tx({
               xdr: txn,
-              network: Networks.TESTNET,
+              network: Networks.PUBLIC,
               submit :true
            })
 

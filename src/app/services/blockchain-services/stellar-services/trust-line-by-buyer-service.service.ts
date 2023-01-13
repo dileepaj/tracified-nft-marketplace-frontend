@@ -21,10 +21,6 @@ export class TrustLineByBuyerServiceService {
 
   constructor() { }
   trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string,commission:string) {
-// let royalties=parseFloat(royalty)
-// let commissioncharge=parseFloat(commission)
-// let sellingprice=parseFloat(nftPrice)
-// let TotalPrice=(sellingprice-(royalties+commissioncharge)).toString();
 
     return new Promise((resolve, reject) => {
       //let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
@@ -44,7 +40,7 @@ export class TrustLineByBuyerServiceService {
       server
         .loadAccount(userPK)
         .then(async (account) => {
-          var transaction = new TransactionBuilder(account, { fee:'100', networkPassphrase: Networks.TESTNET,})
+          var transaction = new TransactionBuilder(account, { fee:'100', networkPassphrase: Networks.PUBLIC,})
             .addOperation(
               Operation.changeTrust({
                 asset: asset,
@@ -103,7 +99,7 @@ export class TrustLineByBuyerServiceService {
             this.userSignedTransaction = await walletf.signTransaction(transaction)
             const transactionToSubmit = TransactionBuilder.fromXDR(
               this.userSignedTransaction,
-              Networks.TESTNET
+              Networks.PUBLIC
             );
           return server.submitTransaction(transactionToSubmit);
         })

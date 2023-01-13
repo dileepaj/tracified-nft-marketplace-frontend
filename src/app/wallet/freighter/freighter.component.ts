@@ -58,7 +58,7 @@ export class FreighterComponent implements Wallet, OnInit {
   public signTransaction(
     transaction: Transaction<Memo<MemoType>, Operation[]>
   ): Promise<any> {
-    let signedTransaction = signTransaction(transaction.toXDR(), 'TESTNET');
+    let signedTransaction = signTransaction(transaction.toXDR(), 'PUBLIC');
     return signedTransaction;
   }
 

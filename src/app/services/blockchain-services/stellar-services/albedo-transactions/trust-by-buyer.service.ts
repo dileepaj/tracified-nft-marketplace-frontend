@@ -30,7 +30,7 @@ export class TrustByBuyerService {
           server
             .loadAccount(userPK)
             .then(async (account) => {
-              var transaction = new TransactionBuilder(account, { fee:'100', networkPassphrase: Networks.TESTNET,})
+              var transaction = new TransactionBuilder(account, { fee:'100', networkPassphrase: Networks.PUBLIC,})
                 .addOperation(
                   Operation.changeTrust({
                     asset: asset,
@@ -87,7 +87,7 @@ export class TrustByBuyerService {
                 let txn=  transaction.toEnvelope().toXDR().toString("base64");
                return albedo.tx({
                  xdr: txn,
-                 network: Networks.TESTNET,
+                 network: Networks.PUBLIC,
                  submit :true
              })
            

@@ -18,7 +18,7 @@ export class TrustByDistributorService {
         Networks.TESTNET
       }
       var asset = new Asset(asset_code, asset_issuer);
-      var opts = { fee: "100" ,networkPassphrase: Networks.TESTNET};
+      var opts = { fee: "100" ,networkPassphrase: Networks.PUBLIC};
       let server = new Server(blockchainNet);
       server
         .loadAccount(userPK)
@@ -45,7 +45,7 @@ export class TrustByDistributorService {
            let txn=  transaction.toEnvelope().toXDR().toString("base64");
           return await albedo.tx({
             xdr: txn,
-            network: Networks.TESTNET,
+            network: Networks.PUBLIC,
             submit :true
         })
            

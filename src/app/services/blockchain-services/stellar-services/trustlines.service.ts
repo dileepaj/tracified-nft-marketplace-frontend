@@ -29,7 +29,7 @@ export class TrustlinesService {
         Networks.TESTNET
       }
       var asset = new Asset(asset_code, asset_issuer);
-      var opts = { fee: "100" ,networkPassphrase: Networks.TESTNET};
+      var opts = { fee: "100" ,networkPassphrase: Networks.PUBLIC};
       let server = new Server(blockchainNet);
       server
         .loadAccount(userPK)
@@ -59,7 +59,7 @@ export class TrustlinesService {
 
             const transactionToSubmit = TransactionBuilder.fromXDR(
               this.userSignedTransaction,
-              Networks.TESTNET
+              Networks.PUBLIC
             );
 
           return server.submitTransaction(transactionToSubmit);

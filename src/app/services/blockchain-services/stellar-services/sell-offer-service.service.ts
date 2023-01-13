@@ -43,7 +43,7 @@ export class SellOfferServiceService {
           minTime: '0',
           maxTime: '0',
         },
-        networkPassphrase: Networks.TESTNET,
+        networkPassphrase: Networks.PUBLIC,
       };
       let server = new Server(blockchainNet);
       server
@@ -67,7 +67,7 @@ export class SellOfferServiceService {
           this.userSignedTransaction = await walletf.signTransaction(transaction)
           const transactionToSubmit = TransactionBuilder.fromXDR(
             this.userSignedTransaction,
-            Networks.TESTNET
+            Networks.PUBLIC
           );
           console.timeLog("transaction in sign")
           return server.submitTransaction(transactionToSubmit);

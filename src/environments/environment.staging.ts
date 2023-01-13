@@ -43,6 +43,6 @@ export const APIConfigENV = {
 export const BlockchainConfig = {
   production: false,
   mode: 'staging',
-  solananetwork: 'mainnet',
+  solananetwork: 'mainnet-beta',
   solananetworkURL: 'https://solscan.rpcpool.com'
 }

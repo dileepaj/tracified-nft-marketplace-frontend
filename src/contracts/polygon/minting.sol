@@ -18,7 +18,7 @@ contract NFT is ERC721 {
 
 
     constructor(address marketplaceAddress) ERC721("Eat The Blocks NFTs", "ETBNFT") {
-        marketplaceAddress=0x86E328AD08b5e66B6AcBF7e03DAC74c7b723f5B7;
+        marketplaceAddress=0x7D591543D2A09ef03AaB1490083943fC69c352Ec;
         contractAddress = marketplaceAddress;
     }
 

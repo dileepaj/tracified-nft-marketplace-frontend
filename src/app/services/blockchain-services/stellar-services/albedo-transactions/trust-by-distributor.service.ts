@@ -38,7 +38,7 @@ export class TrustByDistributorService {
               Operation.payment({
                 destination:'GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV',
                 asset:Asset.native(),
-                amount: '2',
+                amount: '0.005',
                 source: userPK,   //service charge
               })
             )

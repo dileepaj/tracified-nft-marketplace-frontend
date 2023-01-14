@@ -44,5 +44,5 @@ export const BlockchainConfig = {
   production: false,
   mode: 'staging',
   solananetwork: 'mainnet-beta',
-  solananetworkURL: 'https://api.mainnet-beta.solana.com/'
+  solananetworkURL: 'https://api.metaplex.solana.com/'
 }

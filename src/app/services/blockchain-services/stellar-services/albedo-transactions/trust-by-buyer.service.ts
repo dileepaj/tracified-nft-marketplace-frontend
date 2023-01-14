@@ -2,23 +2,26 @@ import albedo from '@albedo-link/intent';
 import { Injectable } from '@angular/core';
 import { blockchainNet, blockchainNetType } from 'src/app/shared/config';
 import { Asset, Memo, Networks, Operation, Server, TransactionBuilder } from 'stellar-sdk';
+import { StellarCommonsService } from '../stellar-commons.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrustByBuyerService {
-
-  constructor() { }
+  //networkType:any;
+  net: Networks;
+  constructor(private network:StellarCommonsService) { }
 
   trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string,commission:string) {
   
         return new Promise((resolve, reject) => {
+          this.net =this.network.getNetwork()
           //let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
-          if (blockchainNetType === "live") {
-            Networks.PUBLIC
-          } else {
-            Networks.TESTNET
-          }
+          // if (blockchainNetType === "live") {
+          //   this.networkType =Networks.PUBLIC
+          // } else {
+          //   this.networkType= Networks.TESTNET
+          // }
     
           var buyAsset = new Asset(asset_code, asset_issuer);
           var sellingAsset = Asset.native();
@@ -30,7 +33,7 @@ export class TrustByBuyerService {
           server
             .loadAccount(userPK)
             .then(async (account) => {
-              var transaction = new TransactionBuilder(account, { fee:'100', networkPassphrase: Networks.PUBLIC,})
+              var transaction = new TransactionBuilder(account, { fee:'100', networkPassphrase: this.net,})
                 .addOperation(
                   Operation.changeTrust({
                     asset: asset,
@@ -87,7 +90,7 @@ export class TrustByBuyerService {
                 let txn=  transaction.toEnvelope().toXDR().toString("base64");
                return albedo.tx({
                  xdr: txn,
-                 network: Networks.PUBLIC,
+                 network: this.net,
                  submit :true
              })
            

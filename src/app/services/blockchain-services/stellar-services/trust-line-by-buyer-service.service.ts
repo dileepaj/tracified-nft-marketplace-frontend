@@ -12,23 +12,26 @@ import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { UserWallet } from 'src/app/models/userwallet';
+import { StellarCommonsService } from './stellar-commons.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrustLineByBuyerServiceService {
   userSignedTransaction: any;
-
-  constructor() { }
+//networkType:any;
+  net: Networks;
+  constructor(private network:StellarCommonsService) { }
   trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string,commission:string) {
 
     return new Promise((resolve, reject) => {
+      this.net =this.network.getNetwork()
       //let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
-      if (blockchainNetType === "live") {
-        Networks.PUBLIC
-      } else {
-        Networks.TESTNET
-      }
+      // if (blockchainNetType === "live") {
+      //   this.networkType= Networks.PUBLIC
+      // } else {
+      //   this.networkType= Networks.TESTNET
+      // }
 
       var buyAsset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();
@@ -40,7 +43,7 @@ export class TrustLineByBuyerServiceService {
       server
         .loadAccount(userPK)
         .then(async (account) => {
-          var transaction = new TransactionBuilder(account, { fee:'100', networkPassphrase: Networks.PUBLIC,})
+          var transaction = new TransactionBuilder(account, { fee:'100', networkPassphrase: this.net,})
             .addOperation(
               Operation.changeTrust({
                 asset: asset,
@@ -99,7 +102,7 @@ export class TrustLineByBuyerServiceService {
             this.userSignedTransaction = await walletf.signTransaction(transaction)
             const transactionToSubmit = TransactionBuilder.fromXDR(
               this.userSignedTransaction,
-              Networks.PUBLIC
+              this.net
             );
           return server.submitTransaction(transactionToSubmit);
         })

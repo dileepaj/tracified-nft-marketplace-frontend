@@ -5,6 +5,7 @@ import { walletOptions } from 'src/app/models/walletoptions';
 import { Memo, MemoType, Operation, Transaction, Server } from 'stellar-sdk';
 import { signTransaction } from '@stellar/freighter-api';
 import { base64 } from 'ethers/lib/utils';
+import { ENV } from 'src/environments/environment.staging';
 @Component({
   selector: 'app-freighter',
   templateUrl: './freighter.component.html',
@@ -58,7 +59,8 @@ export class FreighterComponent implements Wallet, OnInit {
   public signTransaction(
     transaction: Transaction<Memo<MemoType>, Operation[]>
   ): Promise<any> {
-    let signedTransaction = signTransaction(transaction.toXDR(), 'PUBLIC');
+    const network :any =ENV.NETWORK;
+    let signedTransaction = signTransaction(transaction.toXDR(), network);
     return signedTransaction;
   }
 

@@ -2,14 +2,16 @@ import albedo from '@albedo-link/intent';
 import { Injectable } from '@angular/core';
 import { blockchainNet, blockchainNetType } from 'src/app/shared/config';
 import { Asset, Networks, Operation, Server, TransactionBuilder } from 'stellar-sdk';
+import { StellarCommonsService } from '../stellar-commons.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SaleOfferService {
   res: string;
-
-  constructor() { }
+//networkType:any;
+  net: any;
+  constructor(private network:StellarCommonsService) { }
   sellNft(
     asset_code: string,
     asset_issuer: string,
@@ -17,13 +19,14 @@ export class SaleOfferService {
     nftAmmount: string,
     nftPrice: number,
   ) {
+
     return new Promise((resolve, reject) => {
-      //let sourceKeypair = Keypair.fromSecret(signerSK); //because the distributor has the authority to sell
-      if (blockchainNetType === "live") {
-        Networks.PUBLIC
-      } else {
-        Networks.TESTNET
-      }
+      this.net =this.network.getNetwork()
+      // if (blockchainNetType === "live") {
+      //  this.networkType= Networks.PUBLIC
+      // } else {
+      //   this.networkType=  Networks.TESTNET
+      // }
       var asset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();
       // var totalsaleprice = nftPrice-(royalty+commission)
@@ -33,7 +36,7 @@ export class SaleOfferService {
           minTime: '0',
           maxTime: '0',
         },
-        networkPassphrase: Networks.TESTNET,
+        networkPassphrase: this.net,
       };
       let server = new Server(blockchainNet);
       server
@@ -55,7 +58,7 @@ export class SaleOfferService {
             let txn=  transaction.toEnvelope().toXDR().toString("base64");
             return albedo.tx({
               xdr: txn,
-              network: Networks.TESTNET,
+              network: this.net,
               submit :true
            })
 

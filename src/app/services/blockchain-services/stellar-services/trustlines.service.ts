@@ -12,24 +12,29 @@ import { blockchainNetType } from 'src/app/shared/config';
 import { UserWallet } from 'src/app/models/userwallet';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import albedo from '@albedo-link/intent'
+import { StellarCommonsService } from './stellar-commons.service';
 @Injectable({
   providedIn: 'root'
 })
 export class TrustlinesService {
   userSignedTransaction: string;
+  //networkType:any;
+  net: Networks;
   constructor(
-    public http: HttpClient
+    public http: HttpClient,
+    private network:StellarCommonsService
   ) { }
 
   changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string) {
     return new Promise((resolve, reject) => {
-      if (blockchainNetType === "live") {
-        Networks.PUBLIC
-      } else {
-        Networks.TESTNET
-      }
+      this.net =this.network.getNetwork()
+      // if (blockchainNetType === "live") {
+      //   this.networkType=Networks.PUBLIC
+      // } else {
+      //   this.networkType=Networks.TESTNET
+      // }
       var asset = new Asset(asset_code, asset_issuer);
-      var opts = { fee: "100" ,networkPassphrase: Networks.TESTNET};
+      var opts = { fee: "100" ,networkPassphrase: this.net};
       let server = new Server(blockchainNet);
       server
         .loadAccount(userPK)
@@ -59,7 +64,7 @@ export class TrustlinesService {
 
             const transactionToSubmit = TransactionBuilder.fromXDR(
               this.userSignedTransaction,
-              Networks.TESTNET
+              this.net
             );
 
           return server.submitTransaction(transactionToSubmit);

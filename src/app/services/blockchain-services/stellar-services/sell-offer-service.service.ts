@@ -12,14 +12,16 @@ import {
 import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
 import { UserWallet } from 'src/app/models/userwallet';
+import { StellarCommonsService } from './stellar-commons.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SellOfferServiceService {
   userSignedTransaction: string;
-
-  constructor() { }
+ // networkType:any;
+  net: Networks;
+  constructor(private network:StellarCommonsService) { }
   sellNft(
     asset_code: string,
     asset_issuer: string,
@@ -30,11 +32,12 @@ export class SellOfferServiceService {
   ) {
     return new Promise((resolve, reject) => {
       //let sourceKeypair = Keypair.fromSecret(signerSK); //because the distributor has the authority to sell
-      if (blockchainNetType === "live") {
-        Networks.PUBLIC
-      } else {
-        Networks.TESTNET
-      }
+      this.net =this.network.getNetwork()
+      // if (blockchainNetType === "live") {
+      //   this.networkType= Networks.PUBLIC
+      // } else {
+      //   this.networkType= Networks.TESTNET
+      // }
       var asset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();
       var opts = {
@@ -43,7 +46,7 @@ export class SellOfferServiceService {
           minTime: '0',
           maxTime: '0',
         },
-        networkPassphrase: Networks.TESTNET,
+        networkPassphrase:this.net,
       };
       let server = new Server(blockchainNet);
       server
@@ -67,7 +70,7 @@ export class SellOfferServiceService {
           this.userSignedTransaction = await walletf.signTransaction(transaction)
           const transactionToSubmit = TransactionBuilder.fromXDR(
             this.userSignedTransaction,
-            Networks.TESTNET
+            this.net
           );
           console.timeLog("transaction in sign")
           return server.submitTransaction(transactionToSubmit);

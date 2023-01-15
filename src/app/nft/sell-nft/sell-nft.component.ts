@@ -141,18 +141,18 @@ export class SellNftComponent implements OnInit {
       this.royalty = parseFloat(this.formValue('Royalty'));
       this.royaltyamount=this.royalty
       this.firstPrice = parseFloat(this.formValue('Price'));
-     this.royaltyCharge =this.firstPrice * (this.royalty / 100.0);
+     this.royaltyCharge =(this.firstPrice * (this.royalty / 100.0)).toFixed(7);
       this.sellingPrice = this.firstPrice ;
       this.commissionforNonContracts =(parseFloat(this.formValue('Price')) * (5.00/100.00))
-      this.commission = (parseFloat(this.formValue('Price')) * (5.00/100.00)).toString()
+      this.commission = ((this.firstPrice * (5.00/100.00)).toFixed(7)).toString()
       this.sellingPriceForNonContracts=this.firstPrice  +this.commissionforNonContracts;
       this.value = false
     }else{
       this.royalty = parseFloat(this.Royalty)
       this.firstPrice = parseFloat(this.formValue('Price'));
-      this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
+      this.royaltyCharge = (this.firstPrice * (this.royalty / 100.0)).toFixed(7);
       this.sellingPrice=this.firstPrice
-      this.commission = (parseFloat(this.formValue('Price')) * (2.00/100.00)).toString()
+      this.commission = ((this.firstPrice * (2.00/100.00)).toFixed(7)).toString()
       this.commissionforNonContracts =(parseFloat(this.formValue('Price')) * (2.00/100.00))
       this.value = true
       this.sellingPriceForNonContracts=this.firstPrice + this.royaltyCharge +this.commissionforNonContracts;

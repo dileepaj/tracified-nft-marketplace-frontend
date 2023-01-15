@@ -180,16 +180,8 @@ export class SellNftComponent implements OnInit {
 
   addDBBackend(): void {
     this.saleBE.SellingStatus = 'ON SALE';
-    if(this.NFTList.blockchain=='ethereum' || this.NFTList.blockchain=='polygon'){
     this.saleBE.CurrentPrice = this.sellingPrice.toString();
     this.saleBE.Commission=this.commission.toString();
-    }else if(this.NFTList.blockchain=='stellar'){
-      this.saleBE.CurrentPrice = this.sellingPrice.toString();
-      this.saleBE.Commission=this.commissionforNonContracts.toString();
-    }else{
-      this.saleBE.CurrentPrice = this.sellingPrice.toString();
-      this.saleBE.Commission=this.commissionforNonContracts.toString();
-    }
     this.saleBE.Timestamp = '2022-4-20:17:28';
     this.saleBE.CurrentOwnerPK = this.NFTList.currentownerpk;
     this.saleBE.Royalty = this.royalty.toString();

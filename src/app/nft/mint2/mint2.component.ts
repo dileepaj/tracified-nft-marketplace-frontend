@@ -319,8 +319,8 @@ export class Mint2Component implements OnInit {
               nftName: this.mint.NFTName,
               thumbnail: this.mint.thumbnail,
               feeTypeName:"Service Fee",
-              serviceFee :  2,
-              total :  2,
+              serviceFee :  0.005,
+              total :  0.005,
               blockchain: this.svg.blockchain,
               buttonAction:"Mint Now"
             })
@@ -388,8 +388,8 @@ export class Mint2Component implements OnInit {
                   nftName: this.mint.NFTName,
                   thumbnail: this.mint.thumbnail,
                   feeTypeName:"Service Fee",
-                  serviceFee : 2,
-                  total : 2,
+                  serviceFee : 0.005,
+                  total : 0.005,
                   blockchain: this.svg.blockchain,
                   buttonAction:"Mint Now"
                 })

@@ -43,7 +43,7 @@ export const APIConfigENV = {
 export const BlockchainConfig = {
   production: false,
   mode: 'staging',
-  solananetwork: 'mainnet',
+  solananetwork: 'mainnet-beta',
   solananetworkURL: 'https://solana-mainnet.g.alchemy.com/v2/rSR0X9jq8qltHn8Tnb16oDa0eovOZf1Y'
 }
 

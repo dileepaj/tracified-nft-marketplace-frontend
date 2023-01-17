@@ -193,9 +193,9 @@ export class BuyViewComponent implements OnInit {
     if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might
       this.total = parseFloat(this.NFTList.currentprice);
       this.royalty= parseFloat(this.NFTList.royalty);
-      this.royaltyCharge = this.total * (this.royalty/100.00);
+      this.royaltyCharge = (this.total * (this.royalty/100.00));
       this.services=parseFloat(this.NFTList.commission);
-      this.commission=((this.total) * (5.00/100.00)).toString()
+      this.commission=(((this.total) * (5.00/100.00)).toFixed(7)).toString()
       this.contractTotal= (this.total + this.royaltyCharge)
 
     }else{
@@ -203,7 +203,7 @@ export class BuyViewComponent implements OnInit {
       this.royalty= parseFloat(this.NFTList.royalty);
       this.services=parseFloat(this.NFTList.commission);
       this.royaltyCharge =this.total * (this.royalty/100.00)
-      this.commission = (this.total * (2.00/100.00)).toString()
+      this.commission = ((this.total * (2.00/100.00)).toFixed(7)).toString()
     }
   }
 
@@ -598,16 +598,17 @@ export class BuyViewComponent implements OnInit {
               this.royaltyR= parseFloat(this.NFTList.royalty);
               this.royaltyCharges=this.totals * (this.royaltyR/100.00);
               this.servicess=parseFloat(this.NFTList.commission);
-              this.commissions=((this.totals) * (5.00/100.00)).toString()
-              this.fullTotal = (this.totals+this.royaltyCharges+this.servicess).toString()
+              this.commissions=(((this.totals) * (5.00/100.00)).toFixed(7)).toString()
+              console.log
+              this.fullTotal = ((this.totals+this.royaltyCharges+this.servicess).toFixed(7)).toString()
             }else{
             
               this.totals = parseFloat(this.NFTList.currentprice);
               this.royaltyR= parseFloat(this.NFTList.royalty);
               this.servicess=parseFloat(this.NFTList.commission);
               this.royaltyCharges =this.totals * (this.royaltyR/100.00)
-              this.commissions = (this.totals * (2.00/100.00)).toString()
-              this.fullTotal = (this.totals+this.royaltyCharges+this.servicess).toString()
+              this.commissions = ((this.totals * (2.00/100.00)).toFixed(7)).toString()
+              this.fullTotal = ((this.totals+this.royaltyCharges+this.servicess).toFixed(7)).toString()
             }
             this.apiService
               .findWatchlistByBlockchainAndNFTIdentifier(

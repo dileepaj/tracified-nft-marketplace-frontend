@@ -160,7 +160,7 @@ export class BuyViewComponent implements OnInit {
   serviceCharge: string;
   services: number;
   commissionForNonContracts: string;
-  royaltyCharge: number;
+  royaltyCharge: any;
   fullTotal: string;
   contractTotal: number;
   totals: number;
@@ -193,17 +193,17 @@ export class BuyViewComponent implements OnInit {
     if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might
       this.total = parseFloat(this.NFTList.currentprice);
       this.royalty= parseFloat(this.NFTList.royalty);
-      this.royaltyCharge = (this.total * (this.royalty/100.00));
+      this.royaltyCharge = ((this.total * (this.royalty/100.00)).toPrecision(6));
       this.services=parseFloat(this.NFTList.commission);
-      this.commission=(((this.total) * (5.00/100.00)).toFixed(7)).toString()
+      this.commission=this.services.toString()//(((this.total) * (5.00/100.00))).toString()
       this.contractTotal= (this.total + this.royaltyCharge)
 
     }else{
       this.total = parseFloat(this.NFTList.currentprice);
       this.royalty= parseFloat(this.NFTList.royalty);
       this.services=parseFloat(this.NFTList.commission);
-      this.royaltyCharge =this.total * (this.royalty/100.00)
-      this.commission = ((this.total * (2.00/100.00)).toFixed(7)).toString()
+      this.royaltyCharge =(this.total * (this.royalty/100.00)).toPrecision(6);
+      this.commission = this.services.toString()//((this.total * (2.00/100.00))).toString()
     }
   }
 

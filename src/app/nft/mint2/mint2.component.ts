@@ -41,7 +41,7 @@ import { NftServicesService } from 'src/app/services/api-services/nft-services/n
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER, P } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Description } from '@ethersproject/properties';
@@ -60,6 +60,7 @@ import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import albedo from '@albedo-link/intent';
 import { TransferServiceChargeService } from 'src/app/services/blockchain-services/solana-services/transfer-service-charge.service';
 import { clusterApiUrl, Connection ,Transaction as solanaTransaction } from '@solana/web3.js';
+import { Collection } from 'src/app/models/collection';
 
 @Component({
   selector: 'app-mint2',
@@ -157,7 +158,7 @@ export class Mint2Component implements OnInit {
   Encoded: string;
   hash: any;
   onHover: boolean = false;
-  CollectionList: any;
+  CollectionList: Collection[] = [];
   ethereum: boolean;
   stellar: boolean;
   polygon: boolean;
@@ -224,9 +225,9 @@ export class Mint2Component implements OnInit {
     if (this.mint.CreatorUserId != null) {
       this.addSubscription = this.service.addNFTBE(this.mint).subscribe();
     }
-    
 
-    
+
+
     this.pushOwner(); //calling function
     this.pushTag(); //calling fnction
     this.proceed.emit({
@@ -374,7 +375,7 @@ export class Mint2Component implements OnInit {
             });
           }
           if(this.wallet=='albedo'){
-    
+
             await albedo.publicKey({
               require_existing: true
           })
@@ -431,7 +432,7 @@ export class Mint2Component implements OnInit {
                               nftName: this.mint.NFTName,
                                thumbnail: this.mint.thumbnail,
                             });
-    
+
                             this.sendToMint3();
                             this.mintNFTOnAlbedo(this.userPK);
                              dialog.close();
@@ -514,7 +515,7 @@ export class Mint2Component implements OnInit {
                           this.mintNftSolana(this.mint.NFTIssuerPK)
                           dialog.close()
                           this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
-                    
+
                     }
                   });
               }
@@ -945,7 +946,12 @@ export class Mint2Component implements OnInit {
     }
     if (this.email != null) {
       this.serviceCol.getCollectionName(this.email).subscribe((data: any) => {
-        this.CollectionList = data;
+        if(data != null) {
+          this.CollectionList = data;
+        }
+        else {
+          this.CollectionList = []
+        };
       });
     }
 
@@ -989,7 +995,7 @@ export class Mint2Component implements OnInit {
       ).solana.signAndSendTransaction(result);
       await connection.confirmTransaction(signature);
 
-      
+
       this.service
         .minNFTSolana(
           ownerPK, //distributer Public key
@@ -1130,7 +1136,7 @@ export class Mint2Component implements OnInit {
     var binaryString = readerEvt.target.result;
     this.Encoded = binaryString;
     this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
-    
+
     this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
 
       if( resnft.Response.imagebase64==""){
@@ -1171,7 +1177,11 @@ export class Mint2Component implements OnInit {
       .createCollection(this.email, this.key)
       .afterClosed()
       .subscribe((data: any) => {
-        this.CollectionList.push({ CollectionName: data.collectionName });
+        this.CollectionList.push({
+          CollectionName: data.CollectionName,
+          UserId: data.UserId,
+          OrganizationName: data.OrganizationName
+        });
       });
   }
 

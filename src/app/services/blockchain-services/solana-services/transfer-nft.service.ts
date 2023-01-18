@@ -7,7 +7,7 @@ import { BlockchainConfig } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class TransferNftService {
-  readonly network :any =BlockchainConfig.solananetwork;
+  readonly network :any =BlockchainConfig.solananetworkURL;
   constructor() { }
 
   toTokenAccount;

@@ -16,7 +16,9 @@ export class TransferServiceChargeService {
     return (async () => {
       // Connect to cluster
       const network :any =BlockchainConfig.solananetwork;
-      const connection = new Connection(clusterApiUrl(network), "confirmed");
+    const networkURL :any =BlockchainConfig.solananetworkURL;
+      console.log("this the service nw: ",network)
+      const connection = new Connection(networkURL);
    
       const tx = new Transaction()
             tx.add(

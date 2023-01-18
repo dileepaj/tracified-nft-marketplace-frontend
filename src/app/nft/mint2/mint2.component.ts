@@ -172,6 +172,7 @@ export class Mint2Component implements OnInit {
   thumbType : string;
   thumbEncoded: string;
   thumbHash: any;
+  pendingDialog : any;
 
 
   imageChangedEvent: any = '';
@@ -286,6 +287,7 @@ export class Mint2Component implements OnInit {
     this.mint.thumbnail=this.thumbnail
     this.svgUpdate.Id = this.hash;
 
+
     if(!this.mint.Imagebase64 || !this.mint.thumbnail || this.mint.Blockchain === "" || this.mint.NFTName === "" || this.mint.Description === "" ||  this.formValue("Collection") === "" || this.formValue("ArtistName") === ""|| this.tags[0]==null){
       this.snackbar.openSnackBar(
         SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING
@@ -357,18 +359,20 @@ export class Mint2Component implements OnInit {
                         confirmText: ConfirmDialogText.CONFIRM_BTN,
                       })
                     }else {
-                      const dialog = this.dialogService.mintingDialog({
+                      this.pendingDialog = this.dialogService.mintingDialog({
                         processTitle:"Minting",
                         message: PendingDialogText.MINTING_IN_PROGRESS,
                         nftName: this.mint.NFTName,
                          thumbnail: this.mint.thumbnail,
+                      })
+                      this.pendingDialog.afterClosed().subscribe((success) => {
+                        if(success) {
+                          this.sendToMint3();
+                          this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                        }
+
                       });
-                      this.sendToMint3();
                       this.mintNFT(this.userPK);
-                      dialog.close();
-                      this.snackbar.openSnackBar(
-                        SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-                      );
                     }
                   });
               }
@@ -426,19 +430,21 @@ export class Mint2Component implements OnInit {
                               confirmText: ConfirmDialogText.CONFIRM_BTN,
                             })
                           }else {
-                            const dialog = this.dialogService.mintingDialog({
+                            this.pendingDialog = this.dialogService.mintingDialog({
                               processTitle:"Minting",
                               message: PendingDialogText.MINTING_IN_PROGRESS,
                               nftName: this.mint.NFTName,
                                thumbnail: this.mint.thumbnail,
+                            })
+                            this.pendingDialog.afterClosed().subscribe((success) => {
+                              if(success) {
+                                this.sendToMint3();
+                                this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                              }
+
                             });
 
-                            this.sendToMint3();
                             this.mintNFTOnAlbedo(this.userPK);
-                             dialog.close();
-                            // this.snackbar.openSnackBar(
-                            //   SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-                            // );
                           }
                         });
                     }
@@ -505,16 +511,20 @@ export class Mint2Component implements OnInit {
                         confirmText: ConfirmDialogText.CONFIRM_BTN,
                       })
                     }else{
-                      const dialog = this.dialogService.mintingDialog({
+                      this.pendingDialog = this.dialogService.mintingDialog({
                         processTitle:"Minting",
                         message: PendingDialogText.MINTING_IN_PROGRESS,
                         nftName: this.mint.NFTName,
                          thumbnail: this.mint.thumbnail,
-                      });
-                     this.sendToMint3();
-                          this.mintNftSolana(this.mint.NFTIssuerPK)
-                          dialog.close()
+                      })
+                      this.pendingDialog.afterClosed().subscribe((success) => {
+                        if(success) {
+                          this.sendToMint3();
                           this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                        }
+
+                      });
+                      this.mintNftSolana(this.mint.NFTIssuerPK);
 
                     }
                   });
@@ -844,16 +854,19 @@ export class Mint2Component implements OnInit {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
+                this.pendingDialog(true);
               })
               .catch((error) => {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
+                this.pendingDialog(false);
               });
           } else {
             if (this.isLoadingPresent) {
               this.dissmissLoading();
             }
+            this.pendingDialog(false);
           }
         });
     } else {
@@ -900,17 +913,20 @@ export class Mint2Component implements OnInit {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
+                this.pendingDialog.close(true);
               })
               .catch((error) => {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
+                this.pendingDialog.close(false);
               });
         });
     } else {
       this.snackbar.openSnackBar(
         'User PK not connected or not endorsed'
       );
+      this.pendingDialog.close(false);
     }
   }
 
@@ -950,7 +966,7 @@ export class Mint2Component implements OnInit {
           this.CollectionList = data;
         }
         else {
-          this.CollectionList = []
+          this.CollectionList = [];
         };
       });
     }
@@ -1016,14 +1032,17 @@ export class Mint2Component implements OnInit {
             this.dissmissLoading();
           }
           this.Minter();
+          this.pendingDialog.close(true);
         })
         .catch((error) => {
           if (this.isLoadingPresent) {
             this.dissmissLoading();
           }
+          this.pendingDialog.close(false);
         });
-      } catch (err) {
-        alert(err);
+      } catch (err:any) {
+        this.snackbar.openSnackBar(err.message);
+        this.pendingDialog.close(false);
       }
       })
     });

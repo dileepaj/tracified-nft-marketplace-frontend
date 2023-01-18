@@ -102,7 +102,7 @@ export class SellNftComponent implements OnInit {
   royaltyamount = 0;
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
   maincontent: any;
-  readonly network :any =BlockchainConfig.solananetwork;
+  readonly network :any =BlockchainConfig.solananetworkURL;
   wallet: any;
   signerpK: string;
   commission: string;

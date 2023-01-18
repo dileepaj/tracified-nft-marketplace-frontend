@@ -152,7 +152,7 @@ export class BuyViewComponent implements OnInit {
   hasStory : boolean = true;
   maincontent: any;
   isLoading : boolean = false;
-  readonly network :any =BlockchainConfig.solananetwork;
+  readonly network :any =BlockchainConfig.solananetworkURL;
   wallet: any;
   total: number;
   commission: string;

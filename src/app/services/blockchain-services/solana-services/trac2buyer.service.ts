@@ -21,7 +21,7 @@ export class Trac2buyerService {
     commission:string,): Promise<Transaction>{
     return (async () => {
       // Connect to cluster
-      const network :any =BlockchainConfig.solananetwork;
+      const network :any =BlockchainConfig.solananetworkURL;
       const connection = new Connection(clusterApiUrl(network), "confirmed");
      
       let commissioncharge=(parseFloat(commission))*1000000000

@@ -7,7 +7,8 @@ import { BlockchainConfig } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class TransferNftService {
-  readonly network :any =BlockchainConfig.solananetworkURL;
+
+ 
   constructor() { }
 
   toTokenAccount;
@@ -20,10 +21,12 @@ export class TransferNftService {
     ata:PublicKey): Promise<any>{
     return (async () => {
       // Connect to cluster
-      const connection = new Connection(this.network);
+      const networklink:any=BlockchainConfig.solananetworkURL
+     const connection = new Connection(networklink)
     
+ 
       let fromKeypair = Keypair.fromSecretKey(from);
-    
+ 
 
       const toTokenAccount = await getOrCreateAssociatedTokenAccount(
         connection,
@@ -31,12 +34,12 @@ export class TransferNftService {
         new PublicKey(mintPubkey),
         new PublicKey(to)
       );
-
+    
       const ata = await getAssociatedTokenAddress(
         new PublicKey(mintPubkey),
         fromKeypair.publicKey
       )
-     
+   
       const tx1 = new Transaction()
             tx1.add(
               createTransferCheckedInstruction(
@@ -49,9 +52,11 @@ export class TransferNftService {
                 []
               ),
             )
-            
+    
        
        tx1.feePayer = fromKeypair.publicKey;
+       tx1.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+     
         var signature = await sendAndConfirmTransaction(
           connection,
           tx1,

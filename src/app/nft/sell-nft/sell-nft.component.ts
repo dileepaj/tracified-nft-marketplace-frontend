@@ -378,8 +378,7 @@ export class SellNftComponent implements OnInit {
       this.saleBE.Blockchain = this.NFTList.blockchain;
 
         const connection = new Connection(
-          clusterApiUrl(this.network),
-          'confirmed'
+         this.network
         );
         let phantomWallet = new UserWallet();
         phantomWallet = new PhantomComponent(phantomWallet);

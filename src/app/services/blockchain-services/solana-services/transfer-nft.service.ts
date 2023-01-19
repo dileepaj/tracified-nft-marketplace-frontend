@@ -20,7 +20,7 @@ export class TransferNftService {
     ata:PublicKey): Promise<any>{
     return (async () => {
       // Connect to cluster
-      const connection = new Connection(clusterApiUrl(this.network), "confirmed");
+      const connection = new Connection(this.network);
     
       let fromKeypair = Keypair.fromSecretKey(from);
     

@@ -21,8 +21,8 @@ export class Seller2tracService {
     ): Promise<Transaction>{
     return (async () => {
       // Connect to cluster
-      const network :any =BlockchainConfig.solananetwork;
-      const connection = new Connection(clusterApiUrl(network), "confirmed");
+      const network :any =BlockchainConfig.solananetworkURL;
+      const connection = new Connection(network);
      
       let toKeypair = Keypair.fromSecretKey(to);
     

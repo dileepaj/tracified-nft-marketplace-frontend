@@ -2,23 +2,22 @@ import albedo from '@albedo-link/intent';
 import { Injectable } from '@angular/core';
 import { blockchainNet, blockchainNetType } from 'src/app/shared/config';
 import { Asset, Networks, Operation, Server, TransactionBuilder } from 'stellar-sdk';
+import { StellarCommonsService } from '../stellar-commons.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrustByDistributorService {
-
-  constructor() { }
+ //networkType:any;
+  net: Networks;
+  constructor(private network:StellarCommonsService) { }
   changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string) {
 
     return new Promise((resolve, reject) => {
-      if (blockchainNetType === "live") {
-        Networks.TESTNET
-      } else {
-        Networks.PUBLIC
-      }
+      this.net =this.network.getNetwork()
+      
       var asset = new Asset(asset_code, asset_issuer);
-      var opts = { fee: "100" ,networkPassphrase: Networks.TESTNET};
+      var opts = { fee: "100" ,networkPassphrase: this.net};
       let server = new Server(blockchainNet);
       server
         .loadAccount(userPK)
@@ -35,7 +34,7 @@ export class TrustByDistributorService {
               Operation.payment({
                 destination:'GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV',
                 asset:Asset.native(),
-                amount: '2',
+                amount: '0.005',
                 source: userPK,   //service charge
               })
             )
@@ -45,7 +44,7 @@ export class TrustByDistributorService {
            let txn=  transaction.toEnvelope().toXDR().toString("base64");
           return await albedo.tx({
             xdr: txn,
-            network: Networks.TESTNET,
+            network: this.net,
             submit :true
         })
            

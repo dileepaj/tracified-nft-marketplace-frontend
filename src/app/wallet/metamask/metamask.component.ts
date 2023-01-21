@@ -41,8 +41,16 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     }
   }
   public getWalletaddress(): string {
+
     return this.walletAddress;
   }
+
+  public override getNetwork() : number {
+    //get connected network from metamask wallet using window.ethereum
+    const network = (window as any).ethereum.networkVersion;
+    return network;
+  }
+
   public disconenctWallet(): void {
     throw new Error('Method not implemented.');
   }

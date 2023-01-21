@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { getPublicKey } from '@stellar/freighter-api';
+import { getPublicKey, getNetwork } from '@stellar/freighter-api';
 import { Wallet } from 'src/app/models/wallet';
 import { walletOptions } from 'src/app/models/walletoptions';
 import { Memo, MemoType, Operation, Transaction, Server } from 'stellar-sdk';
@@ -16,6 +16,12 @@ export class FreighterComponent implements Wallet, OnInit {
   decoratorWallet: Wallet;
   constructor(wallet: Wallet) {
     this.decoratorWallet = wallet;
+  }
+  getNetwork() {
+    getNetwork().then(networkType => {
+      console.log(`The connected network type is ${networkType}`);
+      return networkType;
+  });
   }
   signTransactionPhantom(userPK: string, tracifiedAta: string): void {
     throw new Error('Method not implemented.');
@@ -43,6 +49,7 @@ export class FreighterComponent implements Wallet, OnInit {
 
   initWallelt() {
     if ((window as any).freighterApi.isConnected()) {
+
       return;
     } else {
       window.location.href = 'https://www.freighter.app/';
@@ -86,6 +93,7 @@ export class FreighterComponent implements Wallet, OnInit {
     this.address = address;
   }
   getaddress() {
+    // get network connected network type using freighter api
     return this.address;
   }
 
@@ -105,4 +113,6 @@ export class FreighterComponent implements Wallet, OnInit {
         _callback(0);
       });
   }
+
+
 }

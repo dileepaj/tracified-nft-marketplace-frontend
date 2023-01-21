@@ -29,4 +29,5 @@ export abstract class Wallet {
   ) {}
   signTransactionPhantom(userPK: string, tracifiedAta: string) {}
   getBalance(publicKey : string, _callback : any) {}
+  getNetwork() {}
 }

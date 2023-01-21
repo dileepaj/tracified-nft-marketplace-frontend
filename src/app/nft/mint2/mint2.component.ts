@@ -59,8 +59,9 @@ import { TransferNftService } from 'src/app/services/blockchain-services/solana-
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import albedo from '@albedo-link/intent';
 import { TransferServiceChargeService } from 'src/app/services/blockchain-services/solana-services/transfer-service-charge.service';
-import { clusterApiUrl, Connection ,Transaction as solanaTransaction } from '@solana/web3.js';
+import { clusterApiUrl, Connection, Transaction as solanaTransaction } from '@solana/web3.js';
 import { Collection } from 'src/app/models/collection';
+import { ENV } from 'src/environments/environment';
 
 @Component({
   selector: 'app-mint2',
@@ -140,9 +141,9 @@ export class Mint2Component implements OnInit {
   tokenId: number;
   txn: TXN = new TXN('', '', '', '', '', '');
   svgUpdate: UpdateSVG = new UpdateSVG('', '');
-  svg: SVG = new SVG('', '', 'NA','','');
+  svg: SVG = new SVG('', '', 'NA', '', '');
   Decryption: any;
-  readonly network :any =BlockchainConfig.solananetwork;
+  readonly network: any = BlockchainConfig.solananetwork;
   dec: string;
   imageSrc: any;
   userPK: string;
@@ -166,19 +167,19 @@ export class Mint2Component implements OnInit {
   name: string;
   base64textString: string;
   type: string;
-  thumbSrc : any;
-  thumbFile : File;
-  thumbnail : any;
-  thumbType : string;
+  thumbSrc: any;
+  thumbFile: File;
+  thumbnail: any;
+  thumbType: string;
   thumbEncoded: string;
   thumbHash: any;
-  pendingDialog : any;
+  pendingDialog: any;
 
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
-  cropperStat: boolean=false;
-  showthumbnailContainer: boolean=true;
+  cropperStat: boolean = false;
+  showthumbnailContainer: boolean = true;
   transaction: any;
   constructor(
     private route: ActivatedRoute,
@@ -196,8 +197,8 @@ export class Mint2Component implements OnInit {
     private serviceCol: CollectionService,
     public dialog: MatDialog,
     public transfer: TransferNftService,
-    private trust:TrustByDistributorService,
-    private servicecharge:TransferServiceChargeService
+    private trust: TrustByDistributorService,
+    private servicecharge: TransferServiceChargeService
   ) {
     this.filteredtags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -232,7 +233,7 @@ export class Mint2Component implements OnInit {
     this.pushOwner(); //calling function
     this.pushTag(); //calling fnction
     this.proceed.emit({
-      email : this.email,
+      email: this.email,
       blockchain: this.mint.Blockchain,
       user: this.mint.CreatorUserId,
     })
@@ -250,9 +251,9 @@ export class Mint2Component implements OnInit {
   }
 
   public openDialog() {
-    if(this.file.type == "image/jpeg" ||this.file.type == "image/jpg" || this.file.type == "image/png"){
-      this.dialogService.openNftPreview({image : this.imageSrc})
-    }else{
+    if (this.file.type == "image/jpeg" || this.file.type == "image/jpg" || this.file.type == "image/png") {
+      this.dialogService.openNftPreview({ image: this.imageSrc })
+    } else {
       this.dialogService.openCodeView(this.Encoded);
     }
   }
@@ -282,13 +283,13 @@ export class Mint2Component implements OnInit {
     this.mint.NFTName = this.formValue('NFTName');
     this.mint.NftContentURL = this.formValue('NftContentURL');
     this.mint.Imagebase64 = this.hash;
-    this.mint.AttachmentType=this.type;
+    this.mint.AttachmentType = this.type;
     this.mint.Description = this.formValue('Description');
-    this.mint.thumbnail=this.thumbnail
+    this.mint.thumbnail = this.thumbnail
     this.svgUpdate.Id = this.hash;
 
 
-    if(!this.mint.Imagebase64 || !this.mint.thumbnail || this.mint.Blockchain === "" || this.mint.NFTName === "" || this.mint.Description === "" ||  this.formValue("Collection") === "" || this.formValue("ArtistName") === ""|| this.tags[0]==null){
+    if (!this.mint.Imagebase64 || !this.mint.thumbnail || this.mint.Blockchain === "" || this.mint.NFTName === "" || this.mint.Description === "" || this.formValue("Collection") === "" || this.formValue("ArtistName") === "" || this.tags[0] == null) {
       this.snackbar.openSnackBar(
         SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING
       );
@@ -304,100 +305,110 @@ export class Mint2Component implements OnInit {
         this.svg.blockchain = 'stellar';
         this.svg.Hash = this.hash;
         this.svg.Base64ImageSVG = this.Encoded;
-        this.svg.AttachmentType=this.type
+        this.svg.AttachmentType = this.type
         // this.svg.thumbnail=this.thumbnail
         this.apiService.addSVG(this.svg).subscribe();
 
         if (this.mint.NFTIssuerPK != null) {
-          if(this.wallet=='freighter'){
+          if (this.wallet == 'freighter') {
             let freighter = new UserWallet();
-          freighter = new FreighterComponent(freighter);
-          await freighter.initWallelt();
-          this.userPK = await freighter.getWalletaddress();
-          this.mint.CreatorUserId = this.userPK;
-          this.pushTag();
-          this.dialogService
-            .confirmMintDialog({
-              promtHeading:"You are Minting",
-              nftName: this.mint.NFTName,
-              thumbnail: this.mint.thumbnail,
-              feeTypeName:"Service Fee",
-              serviceFee :  2,
-              total :  2,
-              blockchain: this.svg.blockchain,
-              buttonAction:"Mint Now"
-            })
-            .subscribe((res) => {
-              if (res) {
+            freighter = new FreighterComponent(freighter);
+            await freighter.initWallelt();
 
-                this.apiService
-                  .getEndorsement(this.userPK)
-                  .subscribe((result: any) => {
+            const walletNetwork: any = freighter.getNetwork();
+            if (ENV.NETWORK === 'PUBLIC' && walletNetwork === 'PUBLIC') {
+              this.snackbar.openSnackBar(SnackBarText.CONNECT_TO_STELLAR_MAIN_NET);
+            }
+            else if (ENV.NETWORK === 'TEST' && walletNetwork !== 'TESTNET') {
+              this.snackbar.openSnackBar(SnackBarText.CONNECT_TO_TESTNET);
+            } else {
+              this.userPK = await freighter.getWalletaddress();
+              this.mint.CreatorUserId = this.userPK;
+              this.pushTag();
+              this.dialogService
+                .confirmMintDialog({
+                  promtHeading: "You are Minting",
+                  nftName: this.mint.NFTName,
+                  thumbnail: this.mint.thumbnail,
+                  feeTypeName: "Service Fee",
+                  serviceFee: 2,
+                  total: 2,
+                  blockchain: this.svg.blockchain,
+                  buttonAction: "Mint Now"
+                })
+                .subscribe((res) => {
+                  if (res) {
 
-                      if (result.Status == '' || result.Status == 'Declined' || result.Status == null) {
-                      this.dialogService
-                        .confirmDialog({
-                          title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                          message:
-                            ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                        confirmText: ConfirmDialogText.CONFIRM_BTN,
-                        cancelText: ConfirmDialogText.CANCEL_BTN,
-                      })
-                        .subscribe((res) => {
-                          if (res) {
-                            let arr: any = [this.mint.Blockchain, this.email,this.wallet];
-                            this.router.navigate(['./signUp'], {
-                              queryParams: { data: JSON.stringify(arr) },
+                    this.apiService
+                      .getEndorsement(this.userPK)
+                      .subscribe((result: any) => {
+
+                        if (result.Status == '' || result.Status == 'Declined' || result.Status == null) {
+                          this.dialogService
+                            .confirmDialog({
+                              title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                              message:
+                                ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                              confirmText: ConfirmDialogText.CONFIRM_BTN,
+                              cancelText: ConfirmDialogText.CANCEL_BTN,
+                            })
+                            .subscribe((res) => {
+                              if (res) {
+                                let arr: any = [this.mint.Blockchain, this.email, this.wallet];
+                                this.router.navigate(['./signUp'], {
+                                  queryParams: { data: JSON.stringify(arr) },
+                                });
+                              }
                             });
-                          }
-                        });
-                    }else if(result.Status == 'Pending'){
-                      this.dialogService
-                      .okDialog({
-                        title: "Endorsement in Pending",
-                        message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
-                        confirmText: ConfirmDialogText.CONFIRM_BTN,
-                      })
-                    }else {
-                      this.pendingDialog = this.dialogService.mintingDialog({
-                        processTitle:"Minting",
-                        message: PendingDialogText.MINTING_IN_PROGRESS,
-                        nftName: this.mint.NFTName,
-                         thumbnail: this.mint.thumbnail,
-                      })
-                      this.pendingDialog.afterClosed().subscribe((success) => {
-                        if(success) {
-                          this.sendToMint3();
-                          this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
-                        }
+                        } else if (result.Status == 'Pending') {
+                          this.dialogService
+                            .okDialog({
+                              title: "Endorsement in Pending",
+                              message: "Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                              confirmText: ConfirmDialogText.CONFIRM_BTN,
+                            })
+                        } else {
+                          this.pendingDialog = this.dialogService.mintingDialog({
+                            processTitle: "Minting",
+                            message: PendingDialogText.MINTING_IN_PROGRESS,
+                            nftName: this.mint.NFTName,
+                            thumbnail: this.mint.thumbnail,
+                          })
+                          this.pendingDialog.afterClosed().subscribe((success) => {
+                            if (success) {
+                              this.sendToMint3();
+                              this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                            }
 
+                          });
+                          this.mintNFT(this.userPK);
+                        }
                       });
-                      this.mintNFT(this.userPK);
-                    }
-                  });
-              }
-            });
+                  }
+                });
+            }
+
           }
-          if(this.wallet=='albedo'){
+          if (this.wallet == 'albedo') {
 
             await albedo.publicKey({
               require_existing: true
-          })
-              .then((res:any) => {
-                this.userPK=res.pubkey
+            })
+              .then((res: any) => {
+                this.userPK = res.pubkey
                 this.mint.CreatorUserId = this.userPK;
                 this.pushTag();
                 this.dialogService
-                .confirmMintDialog({
-                  promtHeading:"You are Minting",
-                  nftName: this.mint.NFTName,
-                  thumbnail: this.mint.thumbnail,
-                  feeTypeName:"Service Fee",
-                  serviceFee : 2,
-                  total : 2,
-                  blockchain: this.svg.blockchain,
-                  buttonAction:"Mint Now"
-                })
+                  .confirmMintDialog({
+                    promtHeading: "You are Minting",
+                    nftName: this.mint.NFTName,
+                    thumbnail: this.mint.thumbnail,
+                    feeTypeName: "Service Fee",
+                    serviceFee: 2,
+                    total: 2,
+                    blockchain: this.svg.blockchain,
+                    buttonAction: "Mint Now"
+                  })
                   .subscribe((res) => {
                     if (res) {
 
@@ -405,39 +416,39 @@ export class Mint2Component implements OnInit {
                       this.apiService
                         .getEndorsement(this.userPK)
                         .subscribe((result: any) => {
-                            if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+                          if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
                             this.dialogService
                               .confirmDialog({
                                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
                                 message:
                                   ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                              confirmText: ConfirmDialogText.CONFIRM_BTN,
-                              cancelText: ConfirmDialogText.CANCEL_BTN,
-                            })
+                                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                                cancelText: ConfirmDialogText.CANCEL_BTN,
+                              })
                               .subscribe((res) => {
                                 if (res) {
-                                  let arr: any = [this.mint.Blockchain, this.email,this.wallet];
+                                  let arr: any = [this.mint.Blockchain, this.email, this.wallet];
                                   this.router.navigate(['./signUp'], {
                                     queryParams: { data: JSON.stringify(arr) },
                                   });
                                 }
                               });
-                          }else if(result.Status == 'Pending'){
+                          } else if (result.Status == 'Pending') {
                             this.dialogService
-                            .okDialog({
-                              title: "Endorsement in Pending",
-                              message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
-                              confirmText: ConfirmDialogText.CONFIRM_BTN,
-                            })
-                          }else {
+                              .okDialog({
+                                title: "Endorsement in Pending",
+                                message: "Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                              })
+                          } else {
                             this.pendingDialog = this.dialogService.mintingDialog({
-                              processTitle:"Minting",
+                              processTitle: "Minting",
                               message: PendingDialogText.MINTING_IN_PROGRESS,
                               nftName: this.mint.NFTName,
-                               thumbnail: this.mint.thumbnail,
+                              thumbnail: this.mint.thumbnail,
                             })
                             this.pendingDialog.afterClosed().subscribe((success) => {
-                              if(success) {
+                              if (success) {
                                 this.sendToMint3();
                                 this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                               }
@@ -448,7 +459,8 @@ export class Mint2Component implements OnInit {
                           }
                         });
                     }
-                  });})
+                  });
+              })
 
           }
 
@@ -461,165 +473,182 @@ export class Mint2Component implements OnInit {
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();
+
+      //console.log(phantomWallet.getNetwork())
+
       this.mint.NFTIssuerPK = phantomWallet.getWalletaddress();
       this.mint.NFTIdentifier = this.mint.NFTIssuerPK;
       this.mint.CreatorUserId = this.mint.NFTIssuerPK;
-      this.mint.thumbnail=this.thumbnail
+      this.mint.thumbnail = this.thumbnail
       this.svg.blockchain = 'solana';
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
-      this.svg.AttachmentType=this.type
+      this.svg.AttachmentType = this.type
       this.apiService.addSVG(this.svg).subscribe();
-            this.dialogService
-            .confirmMintDialog({
-              promtHeading:"You are Minting",
-              nftName: this.mint.NFTName,
-              thumbnail: this.mint.thumbnail,
-              feeTypeName:"Service Fee",
-              serviceFee : 0.00002,
-              total : 0.00002,
-              blockchain: this.svg.blockchain,
-              buttonAction:"Mint Now"
-            })
-            .subscribe((res) => {
-              if(res){
+      this.dialogService
+        .confirmMintDialog({
+          promtHeading: "You are Minting",
+          nftName: this.mint.NFTName,
+          thumbnail: this.mint.thumbnail,
+          feeTypeName: "Service Fee",
+          serviceFee: 0.00002,
+          total: 0.00002,
+          blockchain: this.svg.blockchain,
+          buttonAction: "Mint Now"
+        })
+        .subscribe((res) => {
+          if (res) {
 
-                this.apiService.getEndorsement(this.mint.NFTIssuerPK)
-                .subscribe((result: any) => {
-                  if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
-                    this.dialogService
-                      .confirmDialog({
-                          title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                          message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+            this.apiService.getEndorsement(this.mint.NFTIssuerPK)
+              .subscribe((result: any) => {
+                if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+                  this.dialogService
+                    .confirmDialog({
+                      title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                      message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
                       confirmText: ConfirmDialogText.CONFIRM_BTN,
                       cancelText: ConfirmDialogText.CANCEL_BTN,
                     })
-                      .subscribe((res) => {
-                        if (res) {
-                          //alert("You are not endorsed. Get endorsed now")
-                          let arr:any=[this.mint.Blockchain,this.email,this.wallet]
-                          this.router.navigate(['./signUp'], {
-                            queryParams: { data: JSON.stringify(arr) },
-                          });
-                        }
-                      });
-                    }else if(result.Status == 'Pending'){
-                      this.dialogService
-                      .okDialog({
-                        title: "Endorsement in Pending",
-                        message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
-                        confirmText: ConfirmDialogText.CONFIRM_BTN,
-                      })
-                    }else{
-                      this.pendingDialog = this.dialogService.mintingDialog({
-                        processTitle:"Minting",
-                        message: PendingDialogText.MINTING_IN_PROGRESS,
-                        nftName: this.mint.NFTName,
-                         thumbnail: this.mint.thumbnail,
-                      })
-                      this.pendingDialog.afterClosed().subscribe((success) => {
-                        if(success) {
-                          this.sendToMint3();
-                          this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
-                        }
-
-                      });
-                      this.mintNftSolana(this.mint.NFTIssuerPK);
-
+                    .subscribe((res) => {
+                      if (res) {
+                        //alert("You are not endorsed. Get endorsed now")
+                        let arr: any = [this.mint.Blockchain, this.email, this.wallet]
+                        this.router.navigate(['./signUp'], {
+                          queryParams: { data: JSON.stringify(arr) },
+                        });
+                      }
+                    });
+                } else if (result.Status == 'Pending') {
+                  this.dialogService
+                    .okDialog({
+                      title: "Endorsement in Pending",
+                      message: "Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                      confirmText: ConfirmDialogText.CONFIRM_BTN,
+                    })
+                } else {
+                  this.pendingDialog = this.dialogService.mintingDialog({
+                    processTitle: "Minting",
+                    message: PendingDialogText.MINTING_IN_PROGRESS,
+                    nftName: this.mint.NFTName,
+                    thumbnail: this.mint.thumbnail,
+                  })
+                  this.pendingDialog.afterClosed().subscribe((success) => {
+                    if (success) {
+                      this.sendToMint3();
+                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                     }
+
                   });
-              }
-            })
+                  this.mintNftSolana(this.mint.NFTIssuerPK);
+
+                }
+              });
+          }
+        })
     }
 
     if (this.mint.Blockchain == 'ethereum') {
       let metamask = new UserWallet();
       metamask = new MetamaskComponent(metamask);
       await metamask.initWallelt();
-      this.mint.NFTIssuerPK = metamask.getWalletaddress();
-      this.mint.DistributorPK = metamask.getWalletaddress();
-      this.mint.MintedContract = environment.contractAddressNFTEthereum;
-      this.mint.MarketContract = environment.contractAddressMKEthereum;
-      this.mint.CreatorUserId = this.mint.DistributorPK;
-      this.mint.thumbnail=this.thumbnail
-      this.svg.Hash = this.hash;
-      this.svg.Base64ImageSVG = this.Encoded;
-      this.svg.blockchain = 'ethereum';
-      this.svg.AttachmentType=this.type
-      this.apiService.addSVG(this.svg).subscribe();
-      this.dialogService
-      .confirmMintDialog({
-        promtHeading:"You are Minting",
-        nftName: this.mint.NFTName,
-        thumbnail: this.mint.thumbnail,
-        feeTypeName:"Service Fee",
-        serviceFee : 0,
-        total : 0,
-        blockchain: this.svg.blockchain,
-        buttonAction:"Mint Now"
-      })
-        .subscribe((res) => {
-          if (res) {
 
-            this.apiService
-              .getEndorsement(this.mint.DistributorPK)
-              .subscribe((result: any) => {
-                if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+      const walletNetwork: any = metamask.getNetwork();
+      if (walletNetwork == 137) {
+        this.snackbar.openSnackBar(SnackBarText.CONNECT_TO_ETHEREUM_MAIN_NET);
+      }
+      else if (ENV.NETWORK === 'PUBLIC' && walletNetwork != 1) {
+        this.snackbar.openSnackBar(SnackBarText.CONNECT_TO_ETHEREUM_MAIN_NET);
+      }
+      else if (ENV.NETWORK === 'TEST' && walletNetwork == 1) {
+        this.snackbar.openSnackBar(SnackBarText.CONNECT_TO_TESTNET);
+      }
+      else {
+        this.mint.NFTIssuerPK = metamask.getWalletaddress();
+        this.mint.DistributorPK = metamask.getWalletaddress();
+        this.mint.MintedContract = environment.contractAddressNFTEthereum;
+        this.mint.MarketContract = environment.contractAddressMKEthereum;
+        this.mint.CreatorUserId = this.mint.DistributorPK;
+        this.mint.thumbnail = this.thumbnail
+        this.svg.Hash = this.hash;
+        this.svg.Base64ImageSVG = this.Encoded;
+        this.svg.blockchain = 'ethereum';
+        this.svg.AttachmentType = this.type
+        this.apiService.addSVG(this.svg).subscribe();
+        this.dialogService
+          .confirmMintDialog({
+            promtHeading: "You are Minting",
+            nftName: this.mint.NFTName,
+            thumbnail: this.mint.thumbnail,
+            feeTypeName: "Service Fee",
+            serviceFee: 0,
+            total: 0,
+            blockchain: this.svg.blockchain,
+            buttonAction: "Mint Now"
+          })
+          .subscribe((res) => {
+            if (res) {
 
-                  this.dialogService
-                    .confirmDialog({
-                      title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                      message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                    confirmText: ConfirmDialogText.CONFIRM_BTN,
-                    cancelText: ConfirmDialogText.CANCEL_BTN,
-                  })
-                    .subscribe((res) => {
-                      if (res) {
-                        //alert("You are not endorsed. Get endorsed now")
-                        let arr: any = [this.mint.Blockchain, this.email,this.wallet];
-                        this.router.navigate(['./signUp'], {
-                          queryParams: { data: JSON.stringify(arr) },
-                        });
-                      }
+              this.apiService
+                .getEndorsement(this.mint.DistributorPK)
+                .subscribe((result: any) => {
+                  if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+
+                    this.dialogService
+                      .confirmDialog({
+                        title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                        message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                        confirmText: ConfirmDialogText.CONFIRM_BTN,
+                        cancelText: ConfirmDialogText.CANCEL_BTN,
+                      })
+                      .subscribe((res) => {
+                        if (res) {
+                          //alert("You are not endorsed. Get endorsed now")
+                          let arr: any = [this.mint.Blockchain, this.email, this.wallet];
+                          this.router.navigate(['./signUp'], {
+                            queryParams: { data: JSON.stringify(arr) },
+                          });
+                        }
+                      });
+                  } else if (result.Status == 'Pending') {
+                    this.dialogService
+                      .okDialog({
+                        title: "Endorsement in Pending",
+                        message: "Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                        confirmText: ConfirmDialogText.CONFIRM_BTN,
+                      })
+                  } else {
+                    const dialog = this.dialogService.mintingDialog({
+                      processTitle: "Minting",
+                      message: PendingDialogText.MINTING_IN_PROGRESS,
+                      nftName: this.mint.NFTName,
+                      thumbnail: this.mint.thumbnail,
                     });
-                }else if(result.Status == 'Pending'){
-                  this.dialogService
-                  .okDialog({
-                    title: "Endorsement in Pending",
-                    message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
-                    confirmText: ConfirmDialogText.CONFIRM_BTN,
-                  })
-                } else {
-                  const dialog = this.dialogService.mintingDialog({
-                    processTitle:"Minting",
-                    message: PendingDialogText.MINTING_IN_PROGRESS,
-                    nftName: this.mint.NFTName,
-                     thumbnail: this.mint.thumbnail,
-                  });
-                  this.emint
-                    .mintInEthereum(
-                      this.mint.NFTIssuerPK,
-                      this.mint.NFTName,
-                      this.mint.Description,
-                      this.mint.NftContentURL,
-                      this.mint.Imagebase64
-                    )
-                    .then(async (res) => {
-                      this.mint.NFTTxnHash = res.transactionHash;
-                      this.tokenId = parseInt(res.logs[0].topics[3]);
-                      this.mint.NFTIdentifier = this.tokenId.toString();
-                      this.sendToMint3();
-                      this.saveContractInGateway();
-                      this.saveTXNs();
-                      dialog.close();
-                      this.snackbar.openSnackBar(
-                        SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-                      );
-                    });
-                }
-              });
-          }
-        });
+                    this.emint
+                      .mintInEthereum(
+                        this.mint.NFTIssuerPK,
+                        this.mint.NFTName,
+                        this.mint.Description,
+                        this.mint.NftContentURL,
+                        this.mint.Imagebase64
+                      )
+                      .then(async (res) => {
+                        this.mint.NFTTxnHash = res.transactionHash;
+                        this.tokenId = parseInt(res.logs[0].topics[3]);
+                        this.mint.NFTIdentifier = this.tokenId.toString();
+                        this.sendToMint3();
+                        this.saveContractInGateway();
+                        this.saveTXNs();
+                        dialog.close();
+                        this.snackbar.openSnackBar(
+                          SnackBarText.MINTING_SUCCESSFUL_MESSAGE
+                        );
+                      });
+                  }
+                });
+            }
+          });
+      }
+
     }
 
     if (this.mint.Blockchain == 'polygon') {
@@ -627,83 +656,98 @@ export class Mint2Component implements OnInit {
       let metamask = new UserWallet();
       metamask = new MetamaskComponent(metamask);
       await metamask.initWallelt();
-      this.mint.NFTIssuerPK = metamask.getWalletaddress();
-      this.mint.DistributorPK = metamask.getWalletaddress();
-      this.mint.MintedContract = environment.contractAddressNFTPolygon;
-      this.mint.MarketContract = environment.contractAddressMKPolygon;
-      this.mint.CreatorUserId = this.mint.DistributorPK;
-      this.mint.thumbnail=this.thumbnail
-      this.svg.Hash = this.hash;
-      this.svg.Base64ImageSVG = this.Encoded;
-      this.svg.blockchain = 'polygon';
-      this.svg.AttachmentType=this.type
-      this.apiService.addSVG(this.svg).subscribe();
-            this.dialogService
-            .confirmMintDialog({
-              promtHeading:"You are Minting",
-              nftName: this.mint.NFTName,
-              thumbnail: this.mint.thumbnail,
-              feeTypeName:"Service Fee",
-              serviceFee : 0,
-              total : 0,
-              blockchain: this.svg.blockchain,
-              buttonAction:"Mint Now"
-            })
-              .subscribe((res) => {
 
-                if (res) {
-                  this.apiService.getEndorsement(this.mint.DistributorPK)
-                  .subscribe((result: any) => {
-                    if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
-                      this.dialogService
-                        .confirmDialog({
-                            title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                            message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+      const walletNetwork: any = metamask.getNetwork();
+
+      if (walletNetwork == 1) {
+        this.snackbar.openSnackBar(SnackBarText.CONNECT_TO_POLYGON_MAIN_NET);
+      }
+      else if (ENV.NETWORK === 'PUBLIC' && walletNetwork != 137) {
+        this.snackbar.openSnackBar(SnackBarText.CONNECT_TO_POLYGON_MAIN_NET);
+      }
+      else if (ENV.NETWORK === 'TEST' && walletNetwork == 137) {
+        this.snackbar.openSnackBar(SnackBarText.CONNECT_TO_TESTNET);
+      }
+      else {
+        this.mint.NFTIssuerPK = metamask.getWalletaddress();
+        this.mint.DistributorPK = metamask.getWalletaddress();
+        this.mint.MintedContract = environment.contractAddressNFTPolygon;
+        this.mint.MarketContract = environment.contractAddressMKPolygon;
+        this.mint.CreatorUserId = this.mint.DistributorPK;
+        this.mint.thumbnail = this.thumbnail
+        this.svg.Hash = this.hash;
+        this.svg.Base64ImageSVG = this.Encoded;
+        this.svg.blockchain = 'polygon';
+        this.svg.AttachmentType = this.type
+        this.apiService.addSVG(this.svg).subscribe();
+        this.dialogService
+          .confirmMintDialog({
+            promtHeading: "You are Minting",
+            nftName: this.mint.NFTName,
+            thumbnail: this.mint.thumbnail,
+            feeTypeName: "Service Fee",
+            serviceFee: 0,
+            total: 0,
+            blockchain: this.svg.blockchain,
+            buttonAction: "Mint Now"
+          })
+          .subscribe((res) => {
+
+            if (res) {
+              this.apiService.getEndorsement(this.mint.DistributorPK)
+                .subscribe((result: any) => {
+                  if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+                    this.dialogService
+                      .confirmDialog({
+                        title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                        message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
                         confirmText: ConfirmDialogText.CONFIRM_BTN,
                         cancelText: ConfirmDialogText.CANCEL_BTN,
                       })
-                        .subscribe((res) => {
-                          if (res) {
-                            let arr:any=[this.mint.Blockchain,this.email,this.wallet]
-                            this.router.navigate(['./signUp'], {
-                              queryParams: { data: JSON.stringify(arr) },
-                            });
-                          }
-                        });
-                      }else if(result.Status == 'Pending'){
-                        this.dialogService
-                        .okDialog({
-                          title: "Endorsement in Pending",
-                          message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
-                          confirmText: ConfirmDialogText.CONFIRM_BTN,
-                        })
-                      }else {
-                        const dialog = this.dialogService.mintingDialog({
-                          processTitle:"Minting",
-                          message: PendingDialogText.MINTING_IN_PROGRESS,
-                          nftName: this.mint.NFTName,
-                           thumbnail: this.mint.thumbnail,
-                        });
-                        this.pmint
-                          .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
-                          .then((res) => {
-                            this.mint.NFTTxnHash = res.transactionHash;
-                            this.tokenId = parseInt(res.logs[0].topics[3]);
-                            this.mint.NFTIdentifier = this.tokenId.toString();
-                            this.sendToMint3();
-                            this.saveContractInGateway();
-                            this.saveTXNs();
-                            dialog.close();
-                            this.snackbar.openSnackBar(
-                              SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-                            );
-                            this.loaderService.isLoading.next(false);
+                      .subscribe((res) => {
+                        if (res) {
+                          let arr: any = [this.mint.Blockchain, this.email, this.wallet]
+                          this.router.navigate(['./signUp'], {
+                            queryParams: { data: JSON.stringify(arr) },
                           });
-                      }
+                        }
+                      });
+                  } else if (result.Status == 'Pending') {
+                    this.dialogService
+                      .okDialog({
+                        title: "Endorsement in Pending",
+                        message: "Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+                        confirmText: ConfirmDialogText.CONFIRM_BTN,
+                      })
+                  } else {
+                    const dialog = this.dialogService.mintingDialog({
+                      processTitle: "Minting",
+                      message: PendingDialogText.MINTING_IN_PROGRESS,
+                      nftName: this.mint.NFTName,
+                      thumbnail: this.mint.thumbnail,
                     });
-                }
-              });
-          }
+                    this.pmint
+                      .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
+                      .then((res) => {
+                        this.mint.NFTTxnHash = res.transactionHash;
+                        this.tokenId = parseInt(res.logs[0].topics[3]);
+                        this.mint.NFTIdentifier = this.tokenId.toString();
+                        this.sendToMint3();
+                        this.saveContractInGateway();
+                        this.saveTXNs();
+                        dialog.close();
+                        this.snackbar.openSnackBar(
+                          SnackBarText.MINTING_SUCCESSFUL_MESSAGE
+                        );
+                        this.loaderService.isLoading.next(false);
+                      });
+                  }
+                });
+            }
+          });
+      }
+
+    }
   }
 
   saveContractInGateway() {
@@ -724,10 +768,10 @@ export class Mint2Component implements OnInit {
     this.contract.Tags = this.tags;
     this.contract.Identifier = this.mint.NFTIdentifier;
     this.service.addNFTGW(this.contract).subscribe((res) => {
-      console.log("data is here: ",this.mint.CreatorUserId)
+      console.log("data is here: ", this.mint.CreatorUserId)
       this.proceed.emit({
         blockchain: this.mint.Blockchain,
-        user:  this.mint.CreatorUserId,
+        user: this.mint.CreatorUserId,
       });
     });
   }
@@ -741,7 +785,7 @@ export class Mint2Component implements OnInit {
         this.saveTXNs();
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
-          user :  this.mint.CreatorUserId,
+          user: this.mint.CreatorUserId,
         });
       });
     } else {
@@ -758,7 +802,7 @@ export class Mint2Component implements OnInit {
         this.saveTXNs();
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
-          user : this.mint.CreatorUserId,
+          user: this.mint.CreatorUserId,
         });
       });
     } else {
@@ -780,7 +824,7 @@ export class Mint2Component implements OnInit {
           this.mint.NFTTxnHash = data.NFTTxnHash;
           this.minter.NFTIssuerPK = this.mint.NFTIssuerPK;
           this.minter.NFTTxnHash = this.mint.NFTTxnHash;
-          this.mint.NFTIdentifier=data.NFTIdentifier;
+          this.mint.NFTIdentifier = data.NFTIdentifier;
           this.minter.NFTIdentifier = data.NFTIdentifier;
           this.distributor = data.CreatorUserID;
           this.transfer
@@ -887,40 +931,40 @@ export class Mint2Component implements OnInit {
           userPK
         )
         .then((transactionResult: any) => {
-            this.service
-              .minNFTStellar(
-                //step 2. - mint
-                true,
-                this.mint.NFTIssuerPK,
-                userPK,
-                this.mint.NFTName,
-                this.mint.Imagebase64,
-                this.mint.Description,
-                this.mint.Collection,
-                this.mint.Blockchain,
-                this.mint.Tags,
-                this.mint.Categories,
-                this.mint.Copies,
-                this.mint.NftContentURL,
-                Date().toString(),
-                this.mint.ArtistName,
-                this.mint.ArtistProfileLink
-              )
-              .then((res) => {
-                this.TXNStellar();
-              })
-              .then((nft) => {
-                if (this.isLoadingPresent) {
-                  this.dissmissLoading();
-                }
-                this.pendingDialog.close(true);
-              })
-              .catch((error) => {
-                if (this.isLoadingPresent) {
-                  this.dissmissLoading();
-                }
-                this.pendingDialog.close(false);
-              });
+          this.service
+            .minNFTStellar(
+              //step 2. - mint
+              true,
+              this.mint.NFTIssuerPK,
+              userPK,
+              this.mint.NFTName,
+              this.mint.Imagebase64,
+              this.mint.Description,
+              this.mint.Collection,
+              this.mint.Blockchain,
+              this.mint.Tags,
+              this.mint.Categories,
+              this.mint.Copies,
+              this.mint.NftContentURL,
+              Date().toString(),
+              this.mint.ArtistName,
+              this.mint.ArtistProfileLink
+            )
+            .then((res) => {
+              this.TXNStellar();
+            })
+            .then((nft) => {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+              this.pendingDialog.close(true);
+            })
+            .catch((error) => {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+              this.pendingDialog.close(false);
+            });
         });
     } else {
       this.snackbar.openSnackBar(
@@ -934,7 +978,7 @@ export class Mint2Component implements OnInit {
     this.isLoadingPresent = false;
     this.loading.dismiss();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void { }
   ngOnChanges(): void {
     if (this.wallet == 'metamask') {
       this.polygon = false;
@@ -962,7 +1006,7 @@ export class Mint2Component implements OnInit {
     }
     if (this.email != null) {
       this.serviceCol.getCollectionName(this.email).subscribe((data: any) => {
-        if(data != null) {
+        if (data != null) {
           this.CollectionList = data;
         }
         else {
@@ -983,7 +1027,7 @@ export class Mint2Component implements OnInit {
       Blockchain: new FormControl(this.mint.Blockchain, Validators.required),
       Categories: new FormControl(this.mint.Categories, Validators.required),
       Copies: new FormControl(this.mint.Copies, Validators.required),
-      Tags:  new FormControl(this.tagCtrl,Validators.required),
+      Tags: new FormControl(this.tagCtrl, Validators.required),
       // Tags:  this.tagCtrl,
       NftContentURL: new FormControl(this.mint.NftContentURL),
       ArtistName: new FormControl(this.mint.ArtistName, Validators.required),
@@ -1004,46 +1048,46 @@ export class Mint2Component implements OnInit {
       'confirmed'
     );
     return new Promise((resolve, reject) => {
-   this.servicecharge.transferServiceCharge(ownerPK).then(async (result:solanaTransaction) => {
-    try {
-      const { signature } = await (
-        window as any
-      ).solana.signAndSendTransaction(result);
-      await connection.confirmTransaction(signature);
+      this.servicecharge.transferServiceCharge(ownerPK).then(async (result: solanaTransaction) => {
+        try {
+          const { signature } = await (
+            window as any
+          ).solana.signAndSendTransaction(result);
+          await connection.confirmTransaction(signature);
 
 
-      this.service
-        .minNFTSolana(
-          ownerPK, //distributer Public key
-          this.mint.NFTName,
-          this.mint.Imagebase64,
-          this.mint.Description,
-          this.mint.Collection,
-          this.mint.Blockchain,
-          this.mint.Tags,
-          this.mint.Categories,
-          this.mint.Copies,
-          this.mint.NftContentURL,
-          this.mint.ArtistName,
-          this.mint.ArtistProfileLink
-        )
-        .then((nft) => {
-          if (this.isLoadingPresent) {
-            this.dissmissLoading();
-          }
-          this.Minter();
-          this.pendingDialog.close(true);
-        })
-        .catch((error) => {
-          if (this.isLoadingPresent) {
-            this.dissmissLoading();
-          }
+          this.service
+            .minNFTSolana(
+              ownerPK, //distributer Public key
+              this.mint.NFTName,
+              this.mint.Imagebase64,
+              this.mint.Description,
+              this.mint.Collection,
+              this.mint.Blockchain,
+              this.mint.Tags,
+              this.mint.Categories,
+              this.mint.Copies,
+              this.mint.NftContentURL,
+              this.mint.ArtistName,
+              this.mint.ArtistProfileLink
+            )
+            .then((nft) => {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+              this.Minter();
+              this.pendingDialog.close(true);
+            })
+            .catch((error) => {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+              this.pendingDialog.close(false);
+            });
+        } catch (err: any) {
+          this.snackbar.openSnackBar(err.message);
           this.pendingDialog.close(false);
-        });
-      } catch (err:any) {
-        this.snackbar.openSnackBar(err.message);
-        this.pendingDialog.close(false);
-      }
+        }
       })
     });
   }
@@ -1099,15 +1143,15 @@ export class Mint2Component implements OnInit {
   public onChange(event: any) {
     this.file = event.target.files[0];
     if (this.file.type.toLowerCase().includes('svg')) {
-      this.type= this.file.type
+      this.type = this.file.type
       this.uploadImage(true);
     }
-    else if (this.file.type.toLowerCase().includes('png')||this.file.type.toLowerCase().includes('jpg')
-    || this.file.type.toLowerCase().includes('jpeg')){
-      this.type=this.file.type
+    else if (this.file.type.toLowerCase().includes('png') || this.file.type.toLowerCase().includes('jpg')
+      || this.file.type.toLowerCase().includes('jpeg')) {
+      this.type = this.file.type
       var reader = new FileReader();
       reader.readAsDataURL(this.file);
-      reader.onload =this._handleReaderLoadedImage.bind(this);
+      reader.onload = this._handleReaderLoadedImage.bind(this);
       reader.readAsBinaryString(this.file);
       this.updateHTML();
     }
@@ -1124,7 +1168,7 @@ export class Mint2Component implements OnInit {
   //create base64 image
   private _handleReaderLoaded(readerEvt: any) {
     const svgChecker = this.dialogService.pendingDialog(
-      {message:'Validating SVG Content'}
+      { message: 'Validating SVG Content' }
     )
     this.base64 = readerEvt.target.result;
     const unwantedText = 'data:image/svg+xml;base64,';
@@ -1133,14 +1177,14 @@ export class Mint2Component implements OnInit {
     this.Encoded = encoded;
 
     this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
-    this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
+    this.apiService.getImagebase64(this.hash).subscribe((resnft: any) => {
 
-      if( resnft.Response.imagebase64=="" ){
+      if (resnft.Response.imagebase64 == "") {
         this.updateHTML();
-      }else{
+      } else {
         this.snackbar.openSnackBar(
           "This SVG has already been used, please add another!"
-         );
+        );
       }
       svgChecker.close()
     })
@@ -1150,20 +1194,20 @@ export class Mint2Component implements OnInit {
 
   private _handleReaderLoadedImage(readerEvt: any) {
     const svgChecker = this.dialogService.pendingDialog(
-      {message:'Validating Image Content'}
+      { message: 'Validating Image Content' }
     )
     var binaryString = readerEvt.target.result;
     this.Encoded = binaryString;
     this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
 
-    this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
+    this.apiService.getImagebase64(this.hash).subscribe((resnft: any) => {
 
-      if( resnft.Response.imagebase64==""){
+      if (resnft.Response.imagebase64 == "") {
         this.updateHTML();
-      }else{
+      } else {
         this.snackbar.openSnackBar(
           "This Image has already been used, please add another!"
-         );
+        );
       }
       svgChecker.close()
     })
@@ -1206,18 +1250,18 @@ export class Mint2Component implements OnInit {
 
   public onThumbnailChange(event: any) {
     this.thumbFile = event.target.files[0];
-    if (this.thumbFile.type.toLowerCase().includes('png')||this.thumbFile.type.toLowerCase().includes('jpg')
-      || this.thumbFile.type.toLowerCase().includes('jpeg')){
-        this.thumbType = this.thumbFile.type
-        var reader = new FileReader();
-        reader.readAsDataURL(this.thumbFile);
-        reader.onload =this._handleReaderLoadedThumbnail.bind(this);
-        reader.readAsBinaryString(this.thumbFile);
-        this.updateThumbnailHTML();
+    if (this.thumbFile.type.toLowerCase().includes('png') || this.thumbFile.type.toLowerCase().includes('jpg')
+      || this.thumbFile.type.toLowerCase().includes('jpeg')) {
+      this.thumbType = this.thumbFile.type
+      var reader = new FileReader();
+      reader.readAsDataURL(this.thumbFile);
+      reader.onload = this._handleReaderLoadedThumbnail.bind(this);
+      reader.readAsBinaryString(this.thumbFile);
+      this.updateThumbnailHTML();
     }
   }
 
-  public updateThumbnailHTML () {
+  public updateThumbnailHTML() {
     const reader = new FileReader();
     reader.readAsDataURL(this.thumbFile);
     reader.onload = (_event) => {
@@ -1264,27 +1308,27 @@ export class Mint2Component implements OnInit {
   }
 
 
-fileChangeEvent(event: any): void {
+  fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
-    this.cropperStat=true
-    this.showthumbnailContainer=false
-}
-imageCropped(event: ImageCroppedEvent) {
+    this.cropperStat = true
+    this.showthumbnailContainer = false
+  }
+  imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
-    this.thumbSrc=this.croppedImage
+    this.thumbSrc = this.croppedImage
     //this.updateThumbnailHTML()
-    this.thumbnail=this.croppedImage
-}
-hideCropper(){
-  this.cropperStat=false
-  this.showthumbnailContainer=true;
-}
-imageLoaded(image?: LoadedImage) {
-}
-cropperReady() {
+    this.thumbnail = this.croppedImage
+  }
+  hideCropper() {
+    this.cropperStat = false
+    this.showthumbnailContainer = true;
+  }
+  imageLoaded(image?: LoadedImage) {
+  }
+  cropperReady() {
     // cropper ready
-}
-loadImageFailed() {
+  }
+  loadImageFailed() {
     // show message
-}
+  }
 }

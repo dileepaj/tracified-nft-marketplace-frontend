@@ -20,7 +20,7 @@ import { BlockchainConfig } from 'src/environments/environment';
   styleUrls: ['./phantom.component.css'],
 })
 export class PhantomComponent extends walletOptions implements OnInit {
-  readonly networkURL :any =BlockchainConfig.solananetworkURL;
+  readonly networkURL: any = BlockchainConfig.solananetworkURL;
   public signTransaction() {
     throw new Error('Method not implemented.');
   }
@@ -52,7 +52,7 @@ export class PhantomComponent extends walletOptions implements OnInit {
     this.decoratorWallet = wallet;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   override async initWallelt(_callback?: any): Promise<void> {
     try {
@@ -91,5 +91,10 @@ export class PhantomComponent extends walletOptions implements OnInit {
   public override async signTransactionPhantom(
     userPK: string,
     tracifiedAta: string
-  ): Promise<void> {}
+  ): Promise<void> { }
+
+  public getNetwork() {
+    //check if phantom is connected to solana test network.
+    return (window as any).solana;
+  }
 }

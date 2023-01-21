@@ -18,7 +18,8 @@ export const ENV: any = {
   API_ADMIN: 'https://admin.api.tracified.com',
   APPCENTER_DEPLOYMENT_KEY: 'BcfHYi-Gexwau0ZS3Q0RmtoJqsTx2_Bln3Qkc',
   BLOCKCHAIN_NETWORK: 'https://horizon-testnet.stellar.org',
-  NETWORK_TYPE: 'live'
+  NETWORK_TYPE: 'live',
+  NETWORK: 'TEST'
 };
 
 export const adminENV = {
@@ -36,7 +37,7 @@ export const APIConfigENV = {
   mode: 'qa',
   gatewayBaseURL: 'https://qa.gateway.tracified.com/',
   nftbackendBaseURL: 'https://qa.api.nft.tracified.com/',
-  marketplaceBaseURL:"https://qa.marketplace.nft.tracified.com/",
+  marketplaceBaseURL: "https://qa.marketplace.nft.tracified.com/",
   APIIntervalTimer: 60000,  // 30 seconds
   APIStartDelay: 6000, // 3 seconds
   homepageIntervalTimer: 600000 //10 minutes 600000

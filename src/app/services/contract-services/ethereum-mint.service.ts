@@ -40,6 +40,9 @@ export class EthereumMintService {
       tdpData,
       tokenURI,
     )
+    .catch(error=>{
+      alert("Something went wrong : "+error.message)
+    })
     const tx = await transaction.wait()
     return tx
   }
@@ -51,6 +54,9 @@ export class EthereumMintService {
       marketcontract,
       tokenId
     )
+    .catch(error=>{
+      alert("Something went wrong : "+error.message)
+    })
     const tx = await transaction.wait()
     return tx
   }

@@ -58,7 +58,6 @@ export class ViewDashboardComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
       this.pk = params['user']
-    console.log("back here ",this.pk, this.selectedBlockchain)
       this.retrive(this.selectedBlockchain,this.pk).then(res=>{
 
         this.setGreeting();
@@ -129,7 +128,6 @@ export class ViewDashboardComponent implements OnInit {
            
         }else{
       this.api.getEndorsement(pk).subscribe((res:any)=>{
-        console.log("resss-------------------- ",res)
         if(res.Name != ""){
           if (res.profilepic != "") {
             this.imagePath = res.profilepic;

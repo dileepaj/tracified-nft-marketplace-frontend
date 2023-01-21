@@ -64,6 +64,7 @@ export class SaleOfferService {
           resolve(transactionToSubmit);
         })
         .catch((err) => {
+          alert("Something went wrong, please try again! More information: "+err);
           reject(err);
         });
     });

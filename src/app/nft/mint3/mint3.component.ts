@@ -36,17 +36,15 @@ export class Mint3Component implements OnInit {
   save(): void {}
 
   showInProfile() {
-    console.log("bc and user: ",this.blockchain,this.user)
     this.router.navigate(['/user-dashboard/overview'], {
       queryParams: { user:this.user,blockchain: this.blockchain },
     });
   }
 
   ngOnChanges(): void {
-    console.log("bc and user: ",this.blockchain,this.user)
   }
 
-  ngOnInit(): void { console.log("bc and user: ",this.blockchain,this.user)}
+  ngOnInit(): void { }
   ngOnDestroy() {
     this.alive = false;
   }

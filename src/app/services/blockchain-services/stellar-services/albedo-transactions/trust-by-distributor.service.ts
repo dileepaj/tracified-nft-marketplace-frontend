@@ -55,6 +55,7 @@ export class TrustByDistributorService {
           resolve(transactionResult);
         })
         .catch((err) => {
+          alert("Something went wrong, please try again! More information: "+err);
           reject(err);
         });
     });

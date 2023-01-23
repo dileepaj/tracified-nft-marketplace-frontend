@@ -73,7 +73,7 @@ export class EditProfileComponent implements OnInit {
       if(res.Status=='Accepted'){
         this.service.updateEndorsement(this.endorse).subscribe(res => {
           this.snackbarSrevice.openSnackBar("Profile has been updated successfully")
-          this.router.navigate(['./home']);
+          this.router.navigate(['./']);
         })
       }else if(res.Status == null || res.Status == 'Declined' || res.Status == '') {
         this.dialogService
@@ -97,7 +97,7 @@ export class EditProfileComponent implements OnInit {
           })
         }
     })
-   
+
   }
 
   public onChange(event: any) {

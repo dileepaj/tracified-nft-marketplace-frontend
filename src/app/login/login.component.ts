@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   private password: string = '';
   constructor(
     private router:Router,
-    private _adminAuthService : AdminAuthService, 
+    private _adminAuthService : AdminAuthService,
     private jwt:JwtServiceService,
     private snackBar : PopupMessageService,
     private mediaObserver: MediaObserver,
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     //reponsive UI
     mediaSub : Subscription;
     deviceXs:boolean;
-    
+
   ngOnInit(): void {
     this.jwt.destroyToken();
     //for create responsive Ui

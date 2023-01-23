@@ -102,7 +102,7 @@ export class SellNftComponent implements OnInit {
   royaltyamount = 0;
   @ViewChild('iframe', { static: false }) iframe: ElementRef;
   maincontent: any;
-  readonly network :any =BlockchainConfig.solananetwork;
+  readonly network :any =BlockchainConfig.solananetworkURL;
   wallet: any;
   signerpK: string;
   commission: string;
@@ -141,18 +141,18 @@ export class SellNftComponent implements OnInit {
       this.royalty = parseFloat(this.formValue('Royalty'));
       this.royaltyamount=this.royalty
       this.firstPrice = parseFloat(this.formValue('Price'));
-     this.royaltyCharge =this.firstPrice * (this.royalty / 100.0);
+     this.royaltyCharge =(this.firstPrice * (this.royalty / 100.0)).toPrecision(6);
       this.sellingPrice = this.firstPrice ;
       this.commissionforNonContracts =(parseFloat(this.formValue('Price')) * (5.00/100.00))
-      this.commission = (parseFloat(this.formValue('Price')) * (5.00/100.00)).toString()
+      this.commission = ((this.firstPrice * (5.00/100.00)).toPrecision(6)).toString()
       this.sellingPriceForNonContracts=this.firstPrice  +this.commissionforNonContracts;
       this.value = false
     }else{
       this.royalty = parseFloat(this.Royalty)
       this.firstPrice = parseFloat(this.formValue('Price'));
-      this.royaltyCharge = this.firstPrice * (this.royalty / 100.0);
+      this.royaltyCharge = (this.firstPrice * (this.royalty / 100.0)).toPrecision(6);
       this.sellingPrice=this.firstPrice
-      this.commission = (parseFloat(this.formValue('Price')) * (2.00/100.00)).toString()
+      this.commission = ((this.firstPrice * (2.00/100.00)).toPrecision(6)).toString()
       this.commissionforNonContracts =(parseFloat(this.formValue('Price')) * (2.00/100.00))
       this.value = true
       this.sellingPriceForNonContracts=this.firstPrice + this.royaltyCharge +this.commissionforNonContracts;
@@ -180,16 +180,8 @@ export class SellNftComponent implements OnInit {
 
   addDBBackend(): void {
     this.saleBE.SellingStatus = 'ON SALE';
-    if(this.NFTList.blockchain=='ethereum' || this.NFTList.blockchain=='polygon'){
     this.saleBE.CurrentPrice = this.sellingPrice.toString();
     this.saleBE.Commission=this.commission.toString();
-    }else if(this.NFTList.blockchain=='stellar'){
-      this.saleBE.CurrentPrice = this.sellingPrice.toString();
-      this.saleBE.Commission=this.commissionforNonContracts.toString();
-    }else{
-      this.saleBE.CurrentPrice = this.sellingPrice.toString();
-      this.saleBE.Commission=this.commissionforNonContracts.toString();
-    }
     this.saleBE.Timestamp = '2022-4-20:17:28';
     this.saleBE.CurrentOwnerPK = this.NFTList.currentownerpk;
     this.saleBE.Royalty = this.royalty.toString();
@@ -398,8 +390,7 @@ export class SellNftComponent implements OnInit {
       this.saleBE.Blockchain = this.NFTList.blockchain;
 
         const connection = new Connection(
-          clusterApiUrl(this.network),
-          'confirmed'
+         this.network
         );
         let phantomWallet = new UserWallet();
         phantomWallet = new PhantomComponent(phantomWallet);

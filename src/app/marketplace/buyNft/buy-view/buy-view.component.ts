@@ -152,7 +152,7 @@ export class BuyViewComponent implements OnInit {
   hasStory : boolean = true;
   maincontent: any;
   isLoading : boolean = false;
-  readonly network :any =BlockchainConfig.solananetwork;
+  readonly network :any =BlockchainConfig.solananetworkURL;
   wallet: any;
   total: number;
   commission: string;
@@ -160,7 +160,7 @@ export class BuyViewComponent implements OnInit {
   serviceCharge: string;
   services: number;
   commissionForNonContracts: string;
-  royaltyCharge: number;
+  royaltyCharge: any;
   fullTotal: string;
   contractTotal: number;
   totals: number;
@@ -193,17 +193,17 @@ export class BuyViewComponent implements OnInit {
     if(this.NFTList.creatoruserid==this.NFTList.currentownerpk){//might
       this.total = parseFloat(this.NFTList.currentprice);
       this.royalty= parseFloat(this.NFTList.royalty);
-      this.royaltyCharge = this.total * (this.royalty/100.00);
+      this.royaltyCharge = ((this.total * (this.royalty/100.00)).toPrecision(6));
       this.services=parseFloat(this.NFTList.commission);
-      this.commission=((this.total) * (5.00/100.00)).toString()
+      this.commission=this.services.toString()//(((this.total) * (5.00/100.00))).toString()
       this.contractTotal= (this.total + this.royaltyCharge)
 
     }else{
       this.total = parseFloat(this.NFTList.currentprice);
       this.royalty= parseFloat(this.NFTList.royalty);
       this.services=parseFloat(this.NFTList.commission);
-      this.royaltyCharge =this.total * (this.royalty/100.00)
-      this.commission = (this.total * (2.00/100.00)).toString()
+      this.royaltyCharge =(this.total * (this.royalty/100.00)).toPrecision(6);
+      this.commission = this.services.toString()//((this.total * (2.00/100.00))).toString()
     }
   }
 
@@ -248,7 +248,7 @@ export class BuyViewComponent implements OnInit {
     }
     if (this.NFTList.blockchain == 'solana') {
       this.calculateCommision()
-      const connection = new Connection(clusterApiUrl(this.network), 'confirmed');
+      const connection = new Connection(this.network);
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();
@@ -622,16 +622,17 @@ export class BuyViewComponent implements OnInit {
               this.royaltyR= parseFloat(this.NFTList.royalty);
               this.royaltyCharges=this.totals * (this.royaltyR/100.00);
               this.servicess=parseFloat(this.NFTList.commission);
-              this.commissions=((this.totals) * (5.00/100.00)).toString()
-              this.fullTotal = (this.totals+this.royaltyCharges+this.servicess).toString()
+              this.commissions=(((this.totals) * (5.00/100.00)).toFixed(7)).toString()
+              console.log
+              this.fullTotal = ((this.totals+this.royaltyCharges+this.servicess).toFixed(7)).toString()
             }else{
             
               this.totals = parseFloat(this.NFTList.currentprice);
               this.royaltyR= parseFloat(this.NFTList.royalty);
               this.servicess=parseFloat(this.NFTList.commission);
               this.royaltyCharges =this.totals * (this.royaltyR/100.00)
-              this.commissions = (this.totals * (2.00/100.00)).toString()
-              this.fullTotal = (this.totals+this.royaltyCharges+this.servicess).toString()
+              this.commissions = ((this.totals * (2.00/100.00)).toFixed(7)).toString()
+              this.fullTotal = ((this.totals+this.royaltyCharges+this.servicess).toFixed(7)).toString()
             }
             this.apiService
               .findWatchlistByBlockchainAndNFTIdentifier(

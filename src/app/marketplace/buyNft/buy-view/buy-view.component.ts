@@ -276,15 +276,8 @@ export class BuyViewComponent implements OnInit {
             nftName: this.NFTList.nftname,
              thumbnail: this.NFTList.thumbnail,
           });
-          this.transfer
-            .createATA(
-              environment.fromWalletSecret,
-              this.total,
-              phantomWallet.getWalletaddress(),
-              this.NFTList.nftissuerpk,
-              this.NFTList.nftidentifier
-            )
-            .then(async (res: any) => {
+         
+           
               this.ata
                 .createATA(
                  this.total,
@@ -300,20 +293,35 @@ export class BuyViewComponent implements OnInit {
                       window as any
                     ).solana.signAndSendTransaction(result);
                     await connection.confirmTransaction(signature);
-                  } catch (err) {
-                    alert(err);
-                  }
-                  loadingAnimation.close();
-                  this.buytxn = res;
-                  this.saveTXNs();
-                  this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-                  this.updateGateway();
-                  this.snackbar.openSnackBar(
-                    SnackBarText.BOUGHT_SUCCESS_MESSAGE
-                  );
-                  this.showInProfile();
-                });
+                    this.transfer
+                    .createATA(
+                      environment.fromWalletSecret,
+                      this.total,
+                      phantomWallet.getWalletaddress(),
+                      this.NFTList.nftissuerpk,
+                      this.NFTList.nftidentifier
+                    )
+                     .then(async (res: any) => {
+              try{
+                    loadingAnimation.close();
+                    this.buytxn = res;
+                    this.saveTXNs();
+                    this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+                    this.updateGateway();
+                    this.snackbar.openSnackBar(
+                      SnackBarText.BOUGHT_SUCCESS_MESSAGE
+                    );
+                    this.showInProfile();
+                        }catch (err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
             });
+                  }catch (err) {
+                    alert("Something went wrong, please try again! More information: "+err);
+                  }
+             
+                });
+          
         }
       });
     }
@@ -357,6 +365,7 @@ export class BuyViewComponent implements OnInit {
                 this.commission,
               )
               .then((res) => {
+                try{
                 this.buytxn = res.transactionHash;
                 this.saveTXNs();
                 this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -364,6 +373,9 @@ export class BuyViewComponent implements OnInit {
                 loadingAnimation.close();
                 this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
                 this.showInProfile();
+              }catch (err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
               });
           }
         });
@@ -408,6 +420,7 @@ export class BuyViewComponent implements OnInit {
                 this.commission
               )
               .then((res) => {
+                try{
                 this.buytxn = res.transactionHash;
                 this.saveTXNs();
                 this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -415,6 +428,9 @@ export class BuyViewComponent implements OnInit {
                 loadingAnimation.close();
                 this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
                 this.showInProfile();
+              }catch (err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
               });
           }
         });
@@ -475,7 +491,9 @@ export class BuyViewComponent implements OnInit {
             this.commission
           )
           .then((transactionResult: any) => {
+
             if (transactionResult.successful) {
+        try{
               if (this.isLoadingPresent) {
                 this.dissmissLoading();
               }
@@ -485,11 +503,15 @@ export class BuyViewComponent implements OnInit {
               this.service.updateNFTStatusBackend(this.saleBE).subscribe();
               this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
               this.showInProfile();
+            }catch (err) {
+              alert("Something went wrong, please try again! More information: "+err);
+            }
             } else {
               if (this.isLoadingPresent) {
                 this.dissmissLoading();
               }
             }
+        
           });
       }
       if(this.wallet=='albedo'){
@@ -509,14 +531,16 @@ export class BuyViewComponent implements OnInit {
               this.commission
             )
             .then((transactionResult: any) => {
-              
+              try{
                 this.buytxn = transactionResult.tx_hash;
                 this.saveTXNs();
                 this.saleBE.CurrentOwnerPK = this.userPK;
                 this.service.updateNFTStatusBackend(this.saleBE).subscribe();
                 this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
                 this.showInProfile();
-           
+              }catch (err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
             });
           })
         

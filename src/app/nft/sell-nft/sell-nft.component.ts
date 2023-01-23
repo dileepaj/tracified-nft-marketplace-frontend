@@ -275,8 +275,7 @@ export class SellNftComponent implements OnInit {
                   nftName: this.NFTList.nftname,
                    thumbnail: this.NFTList.thumbnail,
                 });
-                this.addDBBackend();
-                this.addDBGateway();
+              
                 this.stellarService
                   .sellNft(
                     this.NFTList.nftname,
@@ -286,14 +285,21 @@ export class SellNftComponent implements OnInit {
                     this.sellingPrice,
                   )
                   .then((res: any) => {
+                    try{
                     this.selltxn = res.hash;
                     this.saveTXNs();
+                    this.addDBBackend();
+                    this.addDBGateway();
                     loadingAnimation.close();
                     this.snackbarService.openSnackBar(
                       SnackBarText.SALE_SUCCESS_MESSAGE
                     );
                     this.showInProfile();
+                  }catch (err) {
+                    alert("Something went wrong, please try again! More information: "+err);
+                  }
                   });
+               
               }
             });
         }
@@ -342,8 +348,7 @@ export class SellNftComponent implements OnInit {
                 nftName: this.NFTList.nftname,
                 thumbnail: this.NFTList.thumbnail,
               });
-              this.addDBBackend();
-              this.addDBGateway();
+          
               this.albedosale
                 .sellNft(
                   this.NFTList.nftname,
@@ -353,14 +358,21 @@ export class SellNftComponent implements OnInit {
                   this.sellingPrice,
                 )
                 .then((res: any) => {
+                  try{
                   this.selltxn = res.tx_hash;
                   this.saveTXNs();
+                  this.addDBBackend();
+                  this.addDBGateway();
                   loadingAnimation.close();
                   this.snackbarService.openSnackBar(
                     SnackBarText.SALE_SUCCESS_MESSAGE
                   );
                   this.showInProfile();
+                }catch (err) {
+                  alert("Something went wrong, please try again! More information: "+err);
+                }
                 });
+           
             }
           });})
         }
@@ -434,7 +446,6 @@ export class SellNftComponent implements OnInit {
                     this.transaction
                   );
 
-                  alert('successfully sold!');
                   this.selltxn = signature;
                   this.addDBBackend();
                   this.addDBGateway();
@@ -445,7 +456,7 @@ export class SellNftComponent implements OnInit {
                   );
                   this.showInProfile();
                 } catch (err) {
-                  alert(err);
+                  alert("Something went wrong, please try again! More information: "+err);
                 }
               });
           }
@@ -490,7 +501,9 @@ export class SellNftComponent implements OnInit {
               nftName: this.NFTList.nftname,
                thumbnail: this.NFTList.thumbnail,
             });
+            
               this.pmint.approveContract(this.tokenid).then((res:any)=>{
+                try{
                 this.pmarket
                 .createSaleOffer(
                   environment.contractAddressNFTPolygon,
@@ -499,6 +512,7 @@ export class SellNftComponent implements OnInit {
                   this.commission
                 )
                 .then((res) => {
+                  try{
                   this.selltxn = res.transactionHash;
                   this.itemId = parseInt(res.logs[3].topics[1]);
                   this.saleBE.SellingType = this.itemId.toString();
@@ -510,10 +524,16 @@ export class SellNftComponent implements OnInit {
                     SnackBarText.SALE_SUCCESS_MESSAGE
                   );
                   this.showInProfile();
+                }catch (err) {
+                  alert("Something went wrong, please try again! More information: "+err);
+                }
                 });
+              }catch(err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
               })
 
-         //   }
+           
           }
         });
     }
@@ -556,7 +576,9 @@ export class SellNftComponent implements OnInit {
               nftName: this.NFTList.nftname,
                thumbnail: this.NFTList.thumbnail,
             });
+           
               this.emint.approveContract(this.tokenid).then((res:any)=>{
+                try{
                 this.emarket
                 .createSaleOffer(
                   environment.contractAddressNFTEthereum,
@@ -565,6 +587,7 @@ export class SellNftComponent implements OnInit {
                   this.commission
                 )
                 .then((res) => {
+                  try{
                   this.selltxn = res.transactionHash;
                   this.itemId = parseInt(res.logs[2].topics[1]);
                   this.saleBE.SellingType = this.itemId.toString();
@@ -576,9 +599,15 @@ export class SellNftComponent implements OnInit {
                     SnackBarText.SALE_SUCCESS_MESSAGE
                   );
                   this.showInProfile();
+                }catch (err) {
+                  alert("Something went wrong, please try again! More information: "+err);
+                }
                 });
+              } catch(err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
               })
-           // }
+           
           }
         });
     }

@@ -133,7 +133,7 @@ export class MintService {
             resolve(response);
           },
           (error) => {
-            console.log(error);
+           alert(error);
             reject(error);
           }
         );

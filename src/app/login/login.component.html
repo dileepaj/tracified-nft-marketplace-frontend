@@ -1,7 +1,7 @@
 <div class="main-div">
   <div class="cont-wrapper">
 
-    <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form id="loginForm" [formGroup]="loginForm" >
       <div fxLayout="row" style="width:100%; height:fit-content; margin-bottom: 20px;">
         <mat-icon
 
@@ -48,7 +48,7 @@
           </button>
         </mat-form-field>
       </div>
-      <button mat-flat-button type="submit" class="btn-login" [disabled]="loading">
+      <button mat-flat-button type="submit" class="btn-login" [disabled]="loading" (click)="onSubmit()">
         <span [class.spinner]="loading"> </span>
         Log In
       </button>

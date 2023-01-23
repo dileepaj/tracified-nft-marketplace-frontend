@@ -77,18 +77,15 @@ export class TransferNftService {
 
   createServiceATAforTransfer(
     from:string,
-    price:any,
     to:string,
     mintPubkey: PublicKey,
-    ata:PublicKey
   ):Observable<string>{
 
     const atamodel = {
       from:from,
-      price:price,
       to:to,
       mintPubkey:mintPubkey,
-      ata:ata
+
     }
     return this.http.post(this.createATAforTranfer, atamodel, {headers: this.headers});
   }

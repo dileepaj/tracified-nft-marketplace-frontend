@@ -296,10 +296,8 @@ export class BuyViewComponent implements OnInit {
                     this.transfer
                     .createServiceATAforTransfer(
                       environment.fromWallet,
-                      this.total,
                       phantomWallet.getWalletaddress(),
                       this.NFTList.nftissuerpk,
-                      this.NFTList.nftidentifier
                     )
                      .subscribe(async (res: any) => {
               try{

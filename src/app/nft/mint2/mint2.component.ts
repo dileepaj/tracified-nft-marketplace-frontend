@@ -792,10 +792,8 @@ export class Mint2Component implements OnInit {
           this.transfer
             .createServiceATAforTransfer(
               environment.fromWallet,
-              'none',
               this.mint.CreatorUserId,
               data.NFTIssuerPK,
-              data.NFTIdentifier
             )
             .subscribe((res: any) => {
               try{

@@ -1085,7 +1085,6 @@ export class Mint2Component implements OnInit {
           }
           this.pendingDialog.close(false);
         });
-
       } catch (err:any) {
         this.snackbar.openSnackBar(err.message);
         this.pendingDialog.close(false);

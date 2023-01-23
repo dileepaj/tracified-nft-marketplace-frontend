@@ -142,7 +142,7 @@ export class Mint2Component implements OnInit {
   svgUpdate: UpdateSVG = new UpdateSVG('', '');
   svg: SVG = new SVG('', '', 'NA','','');
   Decryption: any;
-  readonly network :any =BlockchainConfig.solananetwork;
+  readonly network :any =BlockchainConfig.solananetworkURL;
   dec: string;
   imageSrc: any;
   userPK: string;
@@ -322,8 +322,8 @@ export class Mint2Component implements OnInit {
               nftName: this.mint.NFTName,
               thumbnail: this.mint.thumbnail,
               feeTypeName:"Service Fee",
-              serviceFee :  2,
-              total :  2,
+              serviceFee :  0.005,
+              total :  0.005,
               blockchain: this.svg.blockchain,
               buttonAction:"Mint Now"
             })
@@ -393,8 +393,8 @@ export class Mint2Component implements OnInit {
                   nftName: this.mint.NFTName,
                   thumbnail: this.mint.thumbnail,
                   feeTypeName:"Service Fee",
-                  serviceFee : 2,
-                  total : 2,
+                  serviceFee : 0.005,
+                  total : 0.005,
                   blockchain: this.svg.blockchain,
                   buttonAction:"Mint Now"
                 })
@@ -776,6 +776,7 @@ export class Mint2Component implements OnInit {
           if (data == null) {
             this.Minter();
           }
+          console.log("data retrieved : ",data)
           this.mint.NFTIssuerPK = data.NFTIssuerPK;
           this.mint.NFTTxnHash = data.NFTTxnHash;
           this.minter.NFTIssuerPK = this.mint.NFTIssuerPK;
@@ -999,18 +1000,21 @@ export class Mint2Component implements OnInit {
   }
 
   mintNftSolana(ownerPK: string) {
+    console.log("network is ",this.network)
+    const networkURL :any =BlockchainConfig.solananetworkURL;
+    //console.log("this the service nw: ",network)
+    //const connection = new Connection(networkURL);
     const connection = new Connection(
-      clusterApiUrl(this.network),
-      'confirmed'
+      networkURL
     );
     return new Promise((resolve, reject) => {
    this.servicecharge.transferServiceCharge(ownerPK).then(async (result:solanaTransaction) => {
     try {
+      console.log("txn :",solanaTransaction)
       const { signature } = await (
         window as any
       ).solana.signAndSendTransaction(result);
       await connection.confirmTransaction(signature);
-
 
       this.service
         .minNFTSolana(

@@ -41,7 +41,7 @@ import { NftServicesService } from 'src/app/services/api-services/nft-services/n
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER, P } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Description } from '@ethersproject/properties';
@@ -60,6 +60,7 @@ import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import albedo from '@albedo-link/intent';
 import { TransferServiceChargeService } from 'src/app/services/blockchain-services/solana-services/transfer-service-charge.service';
 import { clusterApiUrl, Connection ,Transaction as solanaTransaction } from '@solana/web3.js';
+import { Collection } from 'src/app/models/collection';
 
 @Component({
   selector: 'app-mint2',
@@ -141,7 +142,7 @@ export class Mint2Component implements OnInit {
   svgUpdate: UpdateSVG = new UpdateSVG('', '');
   svg: SVG = new SVG('', '', 'NA','','');
   Decryption: any;
-  readonly network :any =BlockchainConfig.solananetwork;
+  readonly network :any =BlockchainConfig.solananetworkURL;
   dec: string;
   imageSrc: any;
   userPK: string;
@@ -157,7 +158,7 @@ export class Mint2Component implements OnInit {
   Encoded: string;
   hash: any;
   onHover: boolean = false;
-  CollectionList: any;
+  CollectionList: Collection[] = [];
   ethereum: boolean;
   stellar: boolean;
   polygon: boolean;
@@ -171,6 +172,7 @@ export class Mint2Component implements OnInit {
   thumbType : string;
   thumbEncoded: string;
   thumbHash: any;
+  pendingDialog : any;
 
 
   imageChangedEvent: any = '';
@@ -224,9 +226,9 @@ export class Mint2Component implements OnInit {
     if (this.mint.CreatorUserId != null) {
       this.addSubscription = this.service.addNFTBE(this.mint).subscribe();
     }
-    
 
-    
+
+
     this.pushOwner(); //calling function
     this.pushTag(); //calling fnction
     this.proceed.emit({
@@ -285,6 +287,7 @@ export class Mint2Component implements OnInit {
     this.mint.thumbnail=this.thumbnail
     this.svgUpdate.Id = this.hash;
 
+
     if(!this.mint.Imagebase64 || !this.mint.thumbnail || this.mint.Blockchain === "" || this.mint.NFTName === "" || this.mint.Description === "" ||  this.formValue("Collection") === "" || this.formValue("ArtistName") === ""|| this.tags[0]==null){
       this.snackbar.openSnackBar(
         SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING
@@ -319,8 +322,8 @@ export class Mint2Component implements OnInit {
               nftName: this.mint.NFTName,
               thumbnail: this.mint.thumbnail,
               feeTypeName:"Service Fee",
-              serviceFee :  2,
-              total :  2,
+              serviceFee :  0.005,
+              total :  0.005,
               blockchain: this.svg.blockchain,
               buttonAction:"Mint Now"
             })
@@ -356,25 +359,27 @@ export class Mint2Component implements OnInit {
                         confirmText: ConfirmDialogText.CONFIRM_BTN,
                       })
                     }else {
-                      const dialog = this.dialogService.mintingDialog({
+                      this.pendingDialog = this.dialogService.mintingDialog({
                         processTitle:"Minting",
                         message: PendingDialogText.MINTING_IN_PROGRESS,
                         nftName: this.mint.NFTName,
                          thumbnail: this.mint.thumbnail,
+                      })
+                      this.pendingDialog.afterClosed().subscribe((success) => {
+                        if(success) {
+                          this.sendToMint3();
+                          this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                        }
+
                       });
-                      this.sendToMint3();
                       this.mintNFT(this.userPK);
-                      dialog.close();
-                      this.snackbar.openSnackBar(
-                        SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-                      );
                     }
                   });
               }
             });
           }
           if(this.wallet=='albedo'){
-    
+
             await albedo.publicKey({
               require_existing: true
           })
@@ -388,8 +393,8 @@ export class Mint2Component implements OnInit {
                   nftName: this.mint.NFTName,
                   thumbnail: this.mint.thumbnail,
                   feeTypeName:"Service Fee",
-                  serviceFee : 2,
-                  total : 2,
+                  serviceFee : 0.005,
+                  total : 0.005,
                   blockchain: this.svg.blockchain,
                   buttonAction:"Mint Now"
                 })
@@ -425,19 +430,21 @@ export class Mint2Component implements OnInit {
                               confirmText: ConfirmDialogText.CONFIRM_BTN,
                             })
                           }else {
-                            const dialog = this.dialogService.mintingDialog({
+                            this.pendingDialog = this.dialogService.mintingDialog({
                               processTitle:"Minting",
                               message: PendingDialogText.MINTING_IN_PROGRESS,
                               nftName: this.mint.NFTName,
                                thumbnail: this.mint.thumbnail,
+                            })
+                            this.pendingDialog.afterClosed().subscribe((success) => {
+                              if(success) {
+                                this.sendToMint3();
+                                this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                              }
+
                             });
-    
-                            this.sendToMint3();
+
                             this.mintNFTOnAlbedo(this.userPK);
-                             dialog.close();
-                            // this.snackbar.openSnackBar(
-                            //   SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-                            // );
                           }
                         });
                     }
@@ -504,17 +511,21 @@ export class Mint2Component implements OnInit {
                         confirmText: ConfirmDialogText.CONFIRM_BTN,
                       })
                     }else{
-                      const dialog = this.dialogService.mintingDialog({
+                      this.pendingDialog = this.dialogService.mintingDialog({
                         processTitle:"Minting",
                         message: PendingDialogText.MINTING_IN_PROGRESS,
                         nftName: this.mint.NFTName,
                          thumbnail: this.mint.thumbnail,
-                      });
-                     this.sendToMint3();
-                          this.mintNftSolana(this.mint.NFTIssuerPK)
-                          dialog.close()
+                      })
+                      this.pendingDialog.afterClosed().subscribe((success) => {
+                        if(success) {
+                          this.sendToMint3();
                           this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
-                    
+                        }
+
+                      });
+                      this.mintNftSolana(this.mint.NFTIssuerPK);
+
                     }
                   });
               }
@@ -765,6 +776,7 @@ export class Mint2Component implements OnInit {
           if (data == null) {
             this.Minter();
           }
+          console.log("data retrieved : ",data)
           this.mint.NFTIssuerPK = data.NFTIssuerPK;
           this.mint.NFTTxnHash = data.NFTTxnHash;
           this.minter.NFTIssuerPK = this.mint.NFTIssuerPK;
@@ -843,16 +855,19 @@ export class Mint2Component implements OnInit {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
+                this.pendingDialog(true);
               })
               .catch((error) => {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
+                this.pendingDialog(false);
               });
           } else {
             if (this.isLoadingPresent) {
               this.dissmissLoading();
             }
+            this.pendingDialog(false);
           }
         });
     } else {
@@ -899,17 +914,20 @@ export class Mint2Component implements OnInit {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
+                this.pendingDialog.close(true);
               })
               .catch((error) => {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
+                this.pendingDialog.close(false);
               });
         });
     } else {
       this.snackbar.openSnackBar(
         'User PK not connected or not endorsed'
       );
+      this.pendingDialog.close(false);
     }
   }
 
@@ -945,7 +963,12 @@ export class Mint2Component implements OnInit {
     }
     if (this.email != null) {
       this.serviceCol.getCollectionName(this.email).subscribe((data: any) => {
-        this.CollectionList = data;
+        if(data != null) {
+          this.CollectionList = data;
+        }
+        else {
+          this.CollectionList = [];
+        };
       });
     }
 
@@ -977,19 +1000,22 @@ export class Mint2Component implements OnInit {
   }
 
   mintNftSolana(ownerPK: string) {
+    console.log("network is ",this.network)
+    const networkURL :any =BlockchainConfig.solananetworkURL;
+    //console.log("this the service nw: ",network)
+    //const connection = new Connection(networkURL);
     const connection = new Connection(
-      clusterApiUrl(this.network),
-      'confirmed'
+      networkURL
     );
     return new Promise((resolve, reject) => {
    this.servicecharge.transferServiceCharge(ownerPK).then(async (result:solanaTransaction) => {
     try {
+      console.log("txn :",solanaTransaction)
       const { signature } = await (
         window as any
       ).solana.signAndSendTransaction(result);
       await connection.confirmTransaction(signature);
 
-      
       this.service
         .minNFTSolana(
           ownerPK, //distributer Public key
@@ -1010,14 +1036,17 @@ export class Mint2Component implements OnInit {
             this.dissmissLoading();
           }
           this.Minter();
+          this.pendingDialog.close(true);
         })
         .catch((error) => {
           if (this.isLoadingPresent) {
             this.dissmissLoading();
           }
+          this.pendingDialog.close(false);
         });
-      } catch (err) {
-        alert(err);
+      } catch (err:any) {
+        this.snackbar.openSnackBar(err.message);
+        this.pendingDialog.close(false);
       }
       })
     });
@@ -1130,7 +1159,7 @@ export class Mint2Component implements OnInit {
     var binaryString = readerEvt.target.result;
     this.Encoded = binaryString;
     this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
-    
+
     this.apiService.getImagebase64(this.hash).subscribe((resnft:any)=>{
 
       if( resnft.Response.imagebase64==""){
@@ -1171,7 +1200,11 @@ export class Mint2Component implements OnInit {
       .createCollection(this.email, this.key)
       .afterClosed()
       .subscribe((data: any) => {
-        this.CollectionList.push({ CollectionName: data.collectionName });
+        this.CollectionList.push({
+          CollectionName: data.CollectionName,
+          UserId: data.UserId,
+          OrganizationName: data.OrganizationName
+        });
       });
   }
 

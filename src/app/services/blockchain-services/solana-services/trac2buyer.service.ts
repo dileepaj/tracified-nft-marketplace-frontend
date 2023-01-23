@@ -11,7 +11,7 @@ export class Trac2buyerService {
   constructor() { }
   toTokenAccount;
   signers
-  async createATA(
+  async createATAforBuyer(
     price:any,
     to:string,
   

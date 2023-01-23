@@ -279,7 +279,7 @@ export class BuyViewComponent implements OnInit {
          
            
               this.ata
-                .createATA(
+                .createATAforBuyer(
                  this.total,
                   phantomWallet.getWalletaddress(),
                   this.royaltyCharge,
@@ -294,14 +294,14 @@ export class BuyViewComponent implements OnInit {
                     ).solana.signAndSendTransaction(result);
                     await connection.confirmTransaction(signature);
                     this.transfer
-                    .createATA(
-                      environment.fromWalletSecret,
+                    .createServiceATAforTransfer(
+                      environment.fromWallet,
                       this.total,
                       phantomWallet.getWalletaddress(),
                       this.NFTList.nftissuerpk,
                       this.NFTList.nftidentifier
                     )
-                     .then(async (res: any) => {
+                     .subscribe(async (res: any) => {
               try{
                     loadingAnimation.close();
                     this.buytxn = res;

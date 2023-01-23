@@ -431,9 +431,9 @@ export class SellNftComponent implements OnInit {
               });
 
               this.middleman
-                .createATA(
+                .createATAforSellar(
                   phantomWallet.getWalletaddress(),
-                  environment.fromWalletSecret,
+                  environment.fromWallet,
                   this.NFTList.nftissuerpk
                 )
                 .then(async (result) => {

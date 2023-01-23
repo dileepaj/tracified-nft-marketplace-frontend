@@ -1,19 +1,26 @@
 import { Injectable } from '@angular/core';
 import { clusterApiUrl, Connection, Keypair ,PublicKey, Transaction, sendAndConfirmTransaction} from  "@solana/web3.js";
 import { createTransferCheckedInstruction, getAssociatedTokenAddress, getOrCreateAssociatedTokenAccount } from  "@solana/spl-token";
-import { BlockchainConfig } from 'src/environments/environment';
+import { APIConfigENV, BlockchainConfig } from 'src/environments/environment';
+import { HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { NFT } from 'src/app/models/minting';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransferNftService {
-
+  private readonly gateWayBaseURL = APIConfigENV.gatewayBaseURL
+  readonly headers = new HttpHeaders()
+    .set('Content-Type', 'application/json');
  
+  urlATAforTransfer = this.gateWayBaseURL+'atatransfer'
+  http: any;
   constructor() { }
 
   toTokenAccount;
   signers
-  async createATA(
+  async createATAforTranfer(
     from:Uint8Array,
     price:any,
     to:string,
@@ -67,4 +74,24 @@ export class TransferNftService {
       return signature;
     })();
   }
+
+  createServiceATAforTransfer(
+    from:string,
+    price:any,
+    to:string,
+    mintPubkey: PublicKey,
+    ata:PublicKey
+  ):Observable<string>{
+
+    const atamodel = {
+      from:from,
+      price:price,
+      to:to,
+      mintPubkey:mintPubkey,
+      ata:ata
+    }
+    return this.http.post(this.createATAforTranfer, atamodel, {headers: this.headers});
+  }
 }
+
+

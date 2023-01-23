@@ -790,14 +790,14 @@ export class Mint2Component implements OnInit {
           this.minter.NFTIdentifier = data.NFTIdentifier;
           this.distributor = data.CreatorUserID;
           this.transfer
-            .createATA(
-              environment.fromWalletSecret,
+            .createServiceATAforTransfer(
+              environment.fromWallet,
               'none',
               this.mint.CreatorUserId,
               data.NFTIssuerPK,
               data.NFTIdentifier
             )
-            .then((res: any) => {
+            .subscribe((res: any) => {
               try{
                 this.sendToMint3();
                 this.saveTXNs();

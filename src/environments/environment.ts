@@ -4,7 +4,7 @@ export const environment = {
   contractAddressMKPolygon: "0x7D591543D2A09ef03AaB1490083943fC69c352Ec",
   contractAddressNFTEthereum: "0x6f09Ecb9e29bF5B1d2C9c39d126FF32dc089F34C",
   contractAddressMKEthereum: "0x7D591543D2A09ef03AaB1490083943fC69c352Ec",
-  fromWalletSecret: new Uint8Array([139, 86, 214, 96, 136, 74, 51, 203, 92, 137, 107, 209, 15, 133, 204, 61, 225, 147, 117, 65, 33, 88, 156, 140, 76, 255, 220, 127, 23, 99, 246, 45, 58, 163, 54, 242, 243, 126, 54, 44, 31, 10, 32, 81, 171, 163, 3, 25, 67, 125, 32, 81, 58, 47, 111, 98, 158, 38, 68, 61, 99, 171, 124, 126]),
+  fromWallet: "4wtzfvaCWvYxzmdh4ajQoj8ep5AuJtUeV8rW3D5biCT7"
 
 };
 export const ENV: any = {

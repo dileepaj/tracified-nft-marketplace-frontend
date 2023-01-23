@@ -46,14 +46,14 @@ export class CreateCollectionComponent implements OnInit {
   async save(): Promise<void> {
     //getting form data and sending it to the collection service to post
     //getting form data and equalling it to to model variables
-    this.collection.collectionName = this.formValue('collectionName');
-    this.collection.organizationName = this.formValue('organizationName');
-    this.collection.blockchain = "any";
-    this.collection.userId=this.mail;
-    this.collection.publickey=this.key;
+    this.collection.CollectionName = this.formValue('collectionName');
+    this.collection.OrganizationName = this.formValue('organizationName');
+    this.collection.Blockchain = "any";
+    this.collection.UserId=this.mail;
+    this.collection.Publickey=this.key;
     this.dialogService.confirmDialog({
       title:ConfirmDialogText.CREATE_COLLECTION_TITLE,
-      message:ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P1 +this.collection.collectionName+ ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P2,
+      message:ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P1 +this.collection.CollectionName+ ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P2,
       confirmText:ConfirmDialogText.CONFIRM_BTN,
       cancelText:ConfirmDialogText.CANCEL_BTN
     }).subscribe(result=>{
@@ -61,9 +61,9 @@ export class CreateCollectionComponent implements OnInit {
               //sending data to the service
         this.addSubscription = this.service.add(this.collection).subscribe(res=>{
           if(res != null || res!=""){
-            this.snackbarService.openSnackBar(this.collection.collectionName+SnackBarText.CREATE_COLLECTION_SUCCESS_MESSAGE)
-            this.selectVal = this.collection.collectionName;
-            this.dialogRef.close({collectionName : this.collection.collectionName});
+            this.snackbarService.openSnackBar(this.collection.CollectionName+SnackBarText.CREATE_COLLECTION_SUCCESS_MESSAGE)
+            this.selectVal = this.collection.CollectionName;
+            this.dialogRef.close({UserId: this.collection.UserId, OrganizationName : this.collection.OrganizationName, CollectionName : this.collection.CollectionName});
           }else{
             this.snackbarService.openSnackBar(SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE)
           }
@@ -75,7 +75,7 @@ export class CreateCollectionComponent implements OnInit {
 
   done(){
     this.router.navigate(['./mint'],{
-      queryParams:{data:JSON.stringify(this.collection.userId)}
+      queryParams:{data:JSON.stringify(this.collection.UserId)}
       });
   }
 
@@ -83,13 +83,13 @@ export class CreateCollectionComponent implements OnInit {
     this.mail=this.data.email
     this.key=this.data.key
     this.controlGroup = new FormGroup({
-      userId: new FormControl(this.collection.userId, Validators.required),
+      userId: new FormControl(this.collection.UserId, Validators.required),
       collectionName: new FormControl(
-        this.collection.collectionName,
+        this.collection.CollectionName,
         Validators.required
       ),
       organizationName: new FormControl(
-        this.collection.organizationName,
+        this.collection.OrganizationName,
         Validators.required
       ),
 

@@ -1,10 +1,10 @@
 export class Collection {
   constructor(
-    public userId: string,
-    public collectionName: string,
-    public organizationName: string,
-    public blockchain?: string,
-    public publickey?: string,
+    public UserId: string,
+    public CollectionName: string,
+    public OrganizationName: string,
+    public Blockchain?: string,
+    public Publickey?: string,
   ) {}
 }
 

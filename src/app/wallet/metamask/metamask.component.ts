@@ -63,7 +63,10 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         {
           value: ethers.utils.parseEther(listingPrice),
         }
-      );
+      )
+      .catch(error=>{
+        alert("Something went wrong : "+error.message)
+      })
       const tx = await transaction.wait();
       return tx;
     }
@@ -75,7 +78,10 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         ethers.utils.parseEther(price.toString()),
         ethers.utils.parseEther(listingPrice.toString()),
         { value: ethers.utils.parseEther(listingPrice) }
-      );
+      )
+      .catch(error=>{
+        alert("Something went wrong : "+error.message)
+      })
       const tx = await transaction.wait();
       return tx;
     }
@@ -99,7 +105,10 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         seller,
         ethers.utils.parseEther(listingPrice.toString()),
         { value: ethers.utils.parseEther(price.toString()) }
-      );
+      )
+      .catch(error=>{
+        alert("Something went wrong : "+error.message)
+      })
       const tx = await transaction.wait();
       return tx;
     } else if (blockchain == 'polygon') {
@@ -111,7 +120,10 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         seller,
         ethers.utils.parseEther(listingPrice.toString()),
         { value: ethers.utils.parseEther(price.toString()) }
-      );
+      )
+      .catch(error=>{
+        alert("Something went wrong : "+error.message)
+      })
       const tx = await transaction.wait();
       return tx;
     }

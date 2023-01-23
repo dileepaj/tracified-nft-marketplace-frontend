@@ -27,7 +27,6 @@ export class PolygonMintService {
 
     const provider = await PolygonMintService.getWebProvider()
     const signer = provider.getSigner()
-
     return new ethers.Contract(
       environment.contractAddressNFTPolygon,
       NFT,
@@ -40,6 +39,9 @@ export class PolygonMintService {
       reciever,
       tokenURI
     )
+.catch(error=>{
+  alert("Something went wrong : "+error.message)
+})
     const tx = await transaction.wait()
     return tx
   }
@@ -51,6 +53,9 @@ export class PolygonMintService {
       marketcontract,
       tokenId
     )
+    .catch(error=>{
+      alert("Something went wrong : "+error.message)
+    })
     const tx = await transaction.wait()
     return tx
   }

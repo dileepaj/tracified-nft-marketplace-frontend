@@ -278,7 +278,6 @@ export class ShowNFTComponent implements OnInit {
     this.service.getFilteredNFTs('ethereum', this.currentPage, filter, 12).subscribe((result: any) => {
       this.nextPage = result.Response.PaginationInfo.nextpage;
       result.Response.content.forEach((cont) => {
-        console.log(cont.nftname, cont.thumbnail)
         this.service
           .getSVGByHash(cont.imagebase64)
           .subscribe((res: any) => {
@@ -296,7 +295,6 @@ export class ShowNFTComponent implements OnInit {
                 cont.thumbnail = this.imageSrc;
               }
             }
-            console.log(this.thumbnailSRC)
             let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
             card.thumbnail= cont.thumbnail;

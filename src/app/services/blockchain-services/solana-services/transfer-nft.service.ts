@@ -64,7 +64,6 @@ export class TransferNftService {
           {skipPreflight:true}
         );
        
-        alert("SUCCESS!");
       return signature;
     })();
   }

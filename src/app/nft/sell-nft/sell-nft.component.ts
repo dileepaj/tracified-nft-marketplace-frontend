@@ -501,14 +501,14 @@ export class SellNftComponent implements OnInit {
               nftName: this.NFTList.nftname,
                thumbnail: this.NFTList.thumbnail,
             });
-            
+            console.log("selling and roaylty ", this.sellingPrice,this.royaltyCharge)
               this.pmint.approveContract(this.tokenid).then((res:any)=>{
                 try{
                 this.pmarket
                 .createSaleOffer(
                   environment.contractAddressNFTPolygon,
                   this.tokenid,
-                  this.sellingPrice + this.royaltyCharge,
+                  this.sellingPrice + parseFloat(this.royaltyCharge),
                   this.commission
                 )
                 .then((res) => {

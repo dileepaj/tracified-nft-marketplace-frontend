@@ -359,7 +359,7 @@ export class BuyViewComponent implements OnInit {
               .BuyNFT(
                 environment.contractAddressNFTPolygon,
                 parseInt(this.NFTList.sellingtype),
-                (this.total + this.royaltyCharge).toString(),
+                (this.total + parseFloat(this.royaltyCharge)).toString(),
                 this.royaltyCharge.toString(),
                 this.NFTList.creatoruserid,
                 this.commission,
@@ -414,7 +414,7 @@ export class BuyViewComponent implements OnInit {
               .BuyNFT(
                 environment.contractAddressNFTEthereum,
                 parseInt(this.NFTList.sellingtype),
-                (this.total+this.royaltyCharge).toString(),
+                (this.total+parseFloat(this.royaltyCharge)).toString(),
                 this.royaltyCharge.toString(),
                 this.NFTList.creatoruserid,
                 this.commission

@@ -204,7 +204,7 @@
   column-gap: 10px;
   color: white;
   font-weight: 600;
-  font-size: 25px;
+  font-size: 20px;
   border-bottom: 5px solid #00c820;
   padding-bottom: 10px;
   margin-bottom: 10px;
@@ -231,7 +231,7 @@
   color: #bbbbbb;
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 19px;
   border-radius: 10px;
   padding: 5px 20px 5px 20px;
@@ -388,7 +388,7 @@
   font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 25px;
+  font-size: 20px;
   line-height: 41px;
   text-transform: capitalize;
   margin-right: 40px;
@@ -400,13 +400,13 @@
   font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 25px;
+  font-size: 20px;
   line-height: 41px;
   text-transform: capitalize;
   margin-right: 40px;
   border-bottom: 5px solid #00c820;
   color: #ffffff;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   margin-bottom: 10px;
 }
 
@@ -414,7 +414,7 @@
   font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 25px;
+  font-size: 20px;
   line-height: 33px;
   /* or 33px */
   color: #ffffff;

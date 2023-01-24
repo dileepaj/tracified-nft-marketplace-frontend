@@ -779,24 +779,23 @@ export class SellNftComponent implements OnInit {
                 card.Status = txn.Response[x].Status;
                 if (txn.Response[x].Blockchain == 'ethereum') {
                   card.NFTTxnHash =
-                    'https://goerli.etherscan.io/tx/' +
+                    'https://etherscan.io/tx/' +
                     txn.Response[x].NFTTxnHash;
                 }
                 if (txn.Response[x].Blockchain == 'polygon') {
                   card.NFTTxnHash =
-                    'https://mumbai.polygonscan.com/tx/' +
+                    'https://polygonscan.com/tx/' +
                     txn.Response[x].NFTTxnHash;
                 }
                 if (txn.Response[x].Blockchain == 'stellar') {
                   card.NFTTxnHash =
-                    'https://stellar.expert/explorer/testnet/tx/' +
+                    'https://stellar.expert/explorer/public/tx/' +
                     txn.Response[x].NFTTxnHash;
                 }
                 if (txn.Response[x].Blockchain == 'solana') {
                   card.NFTTxnHash =
                     'https://solscan.io/tx/' +
-                    txn.Response[x].NFTTxnHash +
-                    '?cluster=testnet';
+                    txn.Response[x].NFTTxnHash;
                 }
 
                 this.List.push(card);

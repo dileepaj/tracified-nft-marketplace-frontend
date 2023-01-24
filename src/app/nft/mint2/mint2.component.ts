@@ -367,7 +367,6 @@ export class Mint2Component implements OnInit {
                       })
                       this.pendingDialog.afterClosed().subscribe((success) => {
                         if(success) {
-                          this.sendToMint3();
                           this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                         }
 
@@ -438,7 +437,6 @@ export class Mint2Component implements OnInit {
                             })
                             this.pendingDialog.afterClosed().subscribe((success) => {
                               if(success) {
-                                this.sendToMint3();
                                 this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                               }
 
@@ -519,7 +517,6 @@ export class Mint2Component implements OnInit {
                       })
                       this.pendingDialog.afterClosed().subscribe((success) => {
                         if(success) {
-                          this.sendToMint3();
                           this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                         }
 
@@ -605,6 +602,7 @@ export class Mint2Component implements OnInit {
                       this.mint.Imagebase64
                     )
                     .then(async (res) => {
+                      try{
                       this.mint.NFTTxnHash = res.transactionHash;
                       this.tokenId = parseInt(res.logs[0].topics[3]);
                       this.mint.NFTIdentifier = this.tokenId.toString();
@@ -615,6 +613,9 @@ export class Mint2Component implements OnInit {
                       this.snackbar.openSnackBar(
                         SnackBarText.MINTING_SUCCESSFUL_MESSAGE
                       );
+                    }catch (err) {
+                      alert("Something went wrong, please try again! More information: "+err);
+                    }
                     });
                 }
               });
@@ -684,9 +685,11 @@ export class Mint2Component implements OnInit {
                           nftName: this.mint.NFTName,
                            thumbnail: this.mint.thumbnail,
                         });
+                        try{
                         this.pmint
                           .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
                           .then((res) => {
+                            try{
                             this.mint.NFTTxnHash = res.transactionHash;
                             this.tokenId = parseInt(res.logs[0].topics[3]);
                             this.mint.NFTIdentifier = this.tokenId.toString();
@@ -698,7 +701,14 @@ export class Mint2Component implements OnInit {
                               SnackBarText.MINTING_SUCCESSFUL_MESSAGE
                             );
                             this.loaderService.isLoading.next(false);
+                          }catch (err) {
+                            alert("Something went wrong, please try again! More information: "+err);
+                          }
                           });
+                        }catch (err) {
+                          dialog.close();
+                          alert("Something went wrong, please try again! More information: "+err);
+                        }
                       }
                     });
                 }
@@ -724,7 +734,6 @@ export class Mint2Component implements OnInit {
     this.contract.Tags = this.tags;
     this.contract.Identifier = this.mint.NFTIdentifier;
     this.service.addNFTGW(this.contract).subscribe((res) => {
-      console.log("data is here: ",this.mint.CreatorUserId)
       this.proceed.emit({
         blockchain: this.mint.Blockchain,
         user:  this.mint.CreatorUserId,
@@ -735,10 +744,7 @@ export class Mint2Component implements OnInit {
   updateMinter(): void {
     if (this.minter.NFTIssuerPK != null) {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
-        this.snackbar.openSnackBar(
-          SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-        );
-        this.saveTXNs();
+        this.pendingDialog.close(true);
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
           user :  this.mint.CreatorUserId,
@@ -752,10 +758,8 @@ export class Mint2Component implements OnInit {
   updateStellarTXN(): void {
     if (this.stxn.NFTTxnHash != null) {
       this.service.updateTXNStellar(this.stxn).subscribe((res) => {
-        this.snackbar.openSnackBar(
-          SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-        );
-        this.saveTXNs();
+        this.pendingDialog.close(true);
+       
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
           user : this.mint.CreatorUserId,
@@ -776,7 +780,6 @@ export class Mint2Component implements OnInit {
           if (data == null) {
             this.Minter();
           }
-          console.log("data retrieved : ",data)
           this.mint.NFTIssuerPK = data.NFTIssuerPK;
           this.mint.NFTTxnHash = data.NFTTxnHash;
           this.minter.NFTIssuerPK = this.mint.NFTIssuerPK;
@@ -785,15 +788,19 @@ export class Mint2Component implements OnInit {
           this.minter.NFTIdentifier = data.NFTIdentifier;
           this.distributor = data.CreatorUserID;
           this.transfer
-            .createATA(
-              environment.fromWalletSecret,
-              'none',
+            .createServiceATAforTransfer(
+              environment.fromWallet,
               this.mint.CreatorUserId,
               data.NFTIssuerPK,
-              data.NFTIdentifier
             )
-            .then((res: any) => {
+            .subscribe((res: any) => {
+              try{
+                this.sendToMint3();
+                this.saveTXNs();
               this.updateMinter();
+            }catch (err) {
+              alert("Something went wrong, please try again! More information: "+err);
+            }
             });
         });
     }
@@ -811,6 +818,7 @@ export class Mint2Component implements OnInit {
           }
           this.mint.NFTTxnHash = txn.NFTTxnHash;
           this.stxn.NFTTxnHash = this.mint.NFTTxnHash;
+          this.saveTXNs();
           this.updateStellarTXN();
         });
     }
@@ -828,6 +836,8 @@ export class Mint2Component implements OnInit {
           userPK
         )
         .then((transactionResult: any) => {
+          this.sendToMint3();
+          try{
           if (transactionResult.successful) {
             this.service
               .minNFTStellar(
@@ -849,13 +859,18 @@ export class Mint2Component implements OnInit {
                 this.mint.ArtistProfileLink
               )
               .then((res) => {
+                try{
+                 
                 this.TXNStellar();
+              }catch (err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
               })
               .then((nft) => {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
-                this.pendingDialog(true);
+               // this.pendingDialog(true);
               })
               .catch((error) => {
                 if (this.isLoadingPresent) {
@@ -869,7 +884,11 @@ export class Mint2Component implements OnInit {
             }
             this.pendingDialog(false);
           }
+        }catch (err) {
+          alert("Something went wrong, please try again! More information: "+err);
+        }
         });
+     
     } else {
       this.snackbar.openSnackBar(
         'User PK not connected or not endorsed'
@@ -888,6 +907,8 @@ export class Mint2Component implements OnInit {
           userPK
         )
         .then((transactionResult: any) => {
+          this.sendToMint3()
+          try{
             this.service
               .minNFTStellar(
                 //step 2. - mint
@@ -908,13 +929,19 @@ export class Mint2Component implements OnInit {
                 this.mint.ArtistProfileLink
               )
               .then((res) => {
+               
+                try{
+               
                 this.TXNStellar();
+              }catch (err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
               })
               .then((nft) => {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
-                this.pendingDialog.close(true);
+               // this.pendingDialog.close(true);
               })
               .catch((error) => {
                 if (this.isLoadingPresent) {
@@ -922,6 +949,9 @@ export class Mint2Component implements OnInit {
                 }
                 this.pendingDialog.close(false);
               });
+            }catch (err) {
+              alert("Something went wrong, please try again! More information: "+err);
+            }
         });
     } else {
       this.snackbar.openSnackBar(
@@ -1000,22 +1030,17 @@ export class Mint2Component implements OnInit {
   }
 
   mintNftSolana(ownerPK: string) {
-    console.log("network is ",this.network)
     const networkURL :any =BlockchainConfig.solananetworkURL;
-    //console.log("this the service nw: ",network)
-    //const connection = new Connection(networkURL);
     const connection = new Connection(
       networkURL
     );
     return new Promise((resolve, reject) => {
    this.servicecharge.transferServiceCharge(ownerPK).then(async (result:solanaTransaction) => {
     try {
-      console.log("txn :",solanaTransaction)
       const { signature } = await (
         window as any
       ).solana.signAndSendTransaction(result);
       await connection.confirmTransaction(signature);
-
       this.service
         .minNFTSolana(
           ownerPK, //distributer Public key
@@ -1035,8 +1060,12 @@ export class Mint2Component implements OnInit {
           if (this.isLoadingPresent) {
             this.dissmissLoading();
           }
+          try{
           this.Minter();
-          this.pendingDialog.close(true);
+        
+        }catch (err) {
+          alert("Something went wrong, please try again! More information: "+err);
+        }
         })
         .catch((error) => {
           if (this.isLoadingPresent) {

@@ -276,17 +276,10 @@ export class BuyViewComponent implements OnInit {
             nftName: this.NFTList.nftname,
              thumbnail: this.NFTList.thumbnail,
           });
-          this.transfer
-            .createATA(
-              environment.fromWalletSecret,
-              this.total,
-              phantomWallet.getWalletaddress(),
-              this.NFTList.nftissuerpk,
-              this.NFTList.nftidentifier
-            )
-            .then(async (res: any) => {
+         
+           
               this.ata
-                .createATA(
+                .createATAforBuyer(
                  this.total,
                   phantomWallet.getWalletaddress(),
                   this.royaltyCharge,
@@ -300,20 +293,33 @@ export class BuyViewComponent implements OnInit {
                       window as any
                     ).solana.signAndSendTransaction(result);
                     await connection.confirmTransaction(signature);
-                  } catch (err) {
-                    alert(err);
-                  }
-                  loadingAnimation.close();
-                  this.buytxn = res;
-                  this.saveTXNs();
-                  this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-                  this.updateGateway();
-                  this.snackbar.openSnackBar(
-                    SnackBarText.BOUGHT_SUCCESS_MESSAGE
-                  );
-                  this.showInProfile();
-                });
+                    this.transfer
+                    .createServiceATAforTransfer(
+                      environment.fromWallet,
+                      phantomWallet.getWalletaddress(),
+                      this.NFTList.nftissuerpk,
+                    )
+                     .subscribe(async (res: any) => {
+              try{
+                    loadingAnimation.close();
+                    this.buytxn = res;
+                    this.saveTXNs();
+                    this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+                    this.updateGateway();
+                    this.snackbar.openSnackBar(
+                      SnackBarText.BOUGHT_SUCCESS_MESSAGE
+                    );
+                    this.showInProfile();
+                        }catch (err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
             });
+                  }catch (err) {
+                    alert("Something went wrong, please try again! More information: "+err);
+                  }
+             
+                });
+          
         }
       });
     }
@@ -351,12 +357,13 @@ export class BuyViewComponent implements OnInit {
               .BuyNFT(
                 environment.contractAddressNFTPolygon,
                 parseInt(this.NFTList.sellingtype),
-                (this.total + this.royaltyCharge).toString(),
+                (this.total + parseFloat(this.royaltyCharge)).toString(),
                 this.royaltyCharge.toString(),
                 this.NFTList.creatoruserid,
                 this.commission,
               )
               .then((res) => {
+                try{
                 this.buytxn = res.transactionHash;
                 this.saveTXNs();
                 this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -364,6 +371,9 @@ export class BuyViewComponent implements OnInit {
                 loadingAnimation.close();
                 this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
                 this.showInProfile();
+              }catch (err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
               });
           }
         });
@@ -402,12 +412,13 @@ export class BuyViewComponent implements OnInit {
               .BuyNFT(
                 environment.contractAddressNFTEthereum,
                 parseInt(this.NFTList.sellingtype),
-                (this.total+this.royaltyCharge).toString(),
+                (this.total+parseFloat(this.royaltyCharge)).toString(),
                 this.royaltyCharge.toString(),
                 this.NFTList.creatoruserid,
                 this.commission
               )
               .then((res) => {
+                try{
                 this.buytxn = res.transactionHash;
                 this.saveTXNs();
                 this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -415,6 +426,9 @@ export class BuyViewComponent implements OnInit {
                 loadingAnimation.close();
                 this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
                 this.showInProfile();
+              }catch (err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
               });
           }
         });
@@ -475,7 +489,9 @@ export class BuyViewComponent implements OnInit {
             this.commission
           )
           .then((transactionResult: any) => {
+
             if (transactionResult.successful) {
+        try{
               if (this.isLoadingPresent) {
                 this.dissmissLoading();
               }
@@ -485,11 +501,15 @@ export class BuyViewComponent implements OnInit {
               this.service.updateNFTStatusBackend(this.saleBE).subscribe();
               this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
               this.showInProfile();
+            }catch (err) {
+              alert("Something went wrong, please try again! More information: "+err);
+            }
             } else {
               if (this.isLoadingPresent) {
                 this.dissmissLoading();
               }
             }
+        
           });
       }
       if(this.wallet=='albedo'){
@@ -509,14 +529,16 @@ export class BuyViewComponent implements OnInit {
               this.commission
             )
             .then((transactionResult: any) => {
-              
+              try{
                 this.buytxn = transactionResult.tx_hash;
                 this.saveTXNs();
                 this.saleBE.CurrentOwnerPK = this.userPK;
                 this.service.updateNFTStatusBackend(this.saleBE).subscribe();
                 this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
                 this.showInProfile();
-           
+              }catch (err) {
+                alert("Something went wrong, please try again! More information: "+err);
+              }
             });
           })
         
@@ -599,7 +621,6 @@ export class BuyViewComponent implements OnInit {
               this.royaltyCharges=this.totals * (this.royaltyR/100.00);
               this.servicess=parseFloat(this.NFTList.commission);
               this.commissions=(((this.totals) * (5.00/100.00)).toFixed(7)).toString()
-              console.log
               this.fullTotal = ((this.totals+this.royaltyCharges+this.servicess).toFixed(7)).toString()
             }else{
             
@@ -725,24 +746,23 @@ export class BuyViewComponent implements OnInit {
                     card.Status = txn.Response[x].Status;
                     if (txn.Response[x].Blockchain == 'ethereum') {
                       card.NFTTxnHash =
-                        'https://goerli.etherscan.io/tx/' +
+                        'https://etherscan.io/tx/' +
                         txn.Response[x].NFTTxnHash;
                     }
                     if (txn.Response[x].Blockchain == 'polygon') {
                       card.NFTTxnHash =
-                        'https://mumbai.polygonscan.com/tx/' +
+                        'https://polygonscan.com/tx/' +
                         txn.Response[x].NFTTxnHash;
                     }
                     if (txn.Response[x].Blockchain == 'stellar') {
                       card.NFTTxnHash =
-                        'https://stellar.expert/explorer/testnet/tx/' +
+                        'https://stellar.expert/explorer/public/tx/' +
                         txn.Response[x].NFTTxnHash;
                     }
                     if (txn.Response[x].Blockchain == 'solana') {
                       card.NFTTxnHash =
                         'https://solscan.io/tx/' +
-                        txn.Response[x].NFTTxnHash +
-                        '?cluster=testnet';
+                        txn.Response[x].NFTTxnHash;
                     }
                     this.List.push(card);
                   }

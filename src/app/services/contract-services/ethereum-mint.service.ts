@@ -39,7 +39,11 @@ export class EthereumMintService {
       proofBotData,
       tdpData,
       tokenURI,
+      { gasLimit: 3000000 }
     )
+    .catch(error=>{
+      alert("Something went wrong : "+error.message)
+    })
     const tx = await transaction.wait()
     return tx
   }
@@ -49,8 +53,12 @@ export class EthereumMintService {
     const contract = await EthereumMintService.getContract(true)
     const transaction = await contract['approve'](
       marketcontract,
-      tokenId
+      tokenId,
+      { gasLimit: 3000000 }
     )
+    .catch(error=>{
+      alert("Something went wrong : "+error.message)
+    })
     const tx = await transaction.wait()
     return tx
   }

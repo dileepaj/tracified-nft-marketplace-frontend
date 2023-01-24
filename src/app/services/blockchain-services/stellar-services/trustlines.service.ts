@@ -13,6 +13,7 @@ import { UserWallet } from 'src/app/models/userwallet';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import albedo from '@albedo-link/intent'
 import { StellarCommonsService } from './stellar-commons.service';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -49,7 +50,7 @@ export class TrustlinesService {
             )
             .addOperation(
               Operation.payment({
-                destination:'GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV',
+                destination:environment.tracifiedStellarPK,
                 asset:Asset.native(),
                 amount: '0.005',
                 source: userPK,   //service charge

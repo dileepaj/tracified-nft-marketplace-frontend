@@ -621,7 +621,6 @@ export class BuyViewComponent implements OnInit {
               this.royaltyCharges=this.totals * (this.royaltyR/100.00);
               this.servicess=parseFloat(this.NFTList.commission);
               this.commissions=(((this.totals) * (5.00/100.00)).toFixed(7)).toString()
-              console.log
               this.fullTotal = ((this.totals+this.royaltyCharges+this.servicess).toFixed(7)).toString()
             }else{
             

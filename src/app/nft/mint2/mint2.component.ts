@@ -689,7 +689,6 @@ export class Mint2Component implements OnInit {
                         this.pmint
                           .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
                           .then((res) => {
-                            console.log("error result : ", res)
                             try{
                             this.mint.NFTTxnHash = res.transactionHash;
                             this.tokenId = parseInt(res.logs[0].topics[3]);
@@ -781,7 +780,6 @@ export class Mint2Component implements OnInit {
           if (data == null) {
             this.Minter();
           }
-          console.log("data retrieved : ",data)
           this.mint.NFTIssuerPK = data.NFTIssuerPK;
           this.mint.NFTTxnHash = data.NFTTxnHash;
           this.minter.NFTIssuerPK = this.mint.NFTIssuerPK;
@@ -1032,7 +1030,6 @@ export class Mint2Component implements OnInit {
   }
 
   mintNftSolana(ownerPK: string) {
-    console.log("network is ",this.network)
     const networkURL :any =BlockchainConfig.solananetworkURL;
     const connection = new Connection(
       networkURL
@@ -1040,7 +1037,6 @@ export class Mint2Component implements OnInit {
     return new Promise((resolve, reject) => {
    this.servicecharge.transferServiceCharge(ownerPK).then(async (result:solanaTransaction) => {
     try {
-      console.log("txn :",solanaTransaction)
       const { signature } = await (
         window as any
       ).solana.signAndSendTransaction(result);

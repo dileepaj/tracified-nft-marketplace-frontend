@@ -37,12 +37,16 @@ export class PolygonMintService {
     const contract = await PolygonMintService.getContract(true)
     const transaction = await contract['mintNFT'](
       reciever,
-      tokenURI
+      tokenURI,
+      { gasLimit: 3000000 }
     )
 .catch(error=>{
   alert("Something went wrong : "+error.message)
 })
     const tx = await transaction.wait()
+    .catch(error1=>{
+      alert("Something went wrong : "+error1.message)
+    })
     return tx
   }
 
@@ -51,7 +55,8 @@ export class PolygonMintService {
     const contract = await PolygonMintService.getContract(true)
     const transaction = await contract['approve'](
       marketcontract,
-      tokenId
+      tokenId,
+      { gasLimit: 3000000 }
     )
     .catch(error=>{
       alert("Something went wrong : "+error.message)

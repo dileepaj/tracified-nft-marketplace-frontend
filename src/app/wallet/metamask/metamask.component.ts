@@ -77,7 +77,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         tokenId,
         ethers.utils.parseEther(price.toString()),
         ethers.utils.parseEther(listingPrice.toString()),
-        { value: ethers.utils.parseEther(listingPrice) }
+        { value: ethers.utils.parseEther(listingPrice)
+           }
       )
       .catch(error=>{
         alert("Something went wrong : "+error.message)
@@ -104,7 +105,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         ethers.utils.parseEther(royalty.toString()),
         seller,
         ethers.utils.parseEther(listingPrice.toString()),
-        { value: ethers.utils.parseEther(price.toString()) }
+        { value: ethers.utils.parseEther(price.toString()),
+        }
       )
       .catch(error=>{
         alert("Something went wrong : "+error.message)
@@ -119,7 +121,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         ethers.utils.parseEther(royalty.toString()),
         seller,
         ethers.utils.parseEther(listingPrice.toString()),
-        { value: ethers.utils.parseEther(price.toString()) }
+        { value: ethers.utils.parseEther(price.toString()),
+         }
       )
       .catch(error=>{
         alert("Something went wrong : "+error.message)

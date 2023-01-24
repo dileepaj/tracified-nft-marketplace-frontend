@@ -279,7 +279,7 @@ export class BuyViewComponent implements OnInit {
          
            
               this.ata
-                .createATA(
+                .createATAforBuyer(
                  this.total,
                   phantomWallet.getWalletaddress(),
                   this.royaltyCharge,
@@ -294,14 +294,12 @@ export class BuyViewComponent implements OnInit {
                     ).solana.signAndSendTransaction(result);
                     await connection.confirmTransaction(signature);
                     this.transfer
-                    .createATA(
-                      environment.fromWalletSecret,
-                      this.total,
+                    .createServiceATAforTransfer(
+                      environment.fromWallet,
                       phantomWallet.getWalletaddress(),
                       this.NFTList.nftissuerpk,
-                      this.NFTList.nftidentifier
                     )
-                     .then(async (res: any) => {
+                     .subscribe(async (res: any) => {
               try{
                     loadingAnimation.close();
                     this.buytxn = res;
@@ -359,7 +357,7 @@ export class BuyViewComponent implements OnInit {
               .BuyNFT(
                 environment.contractAddressNFTPolygon,
                 parseInt(this.NFTList.sellingtype),
-                (this.total + this.royaltyCharge).toString(),
+                (this.total + parseFloat(this.royaltyCharge)).toString(),
                 this.royaltyCharge.toString(),
                 this.NFTList.creatoruserid,
                 this.commission,
@@ -414,7 +412,7 @@ export class BuyViewComponent implements OnInit {
               .BuyNFT(
                 environment.contractAddressNFTEthereum,
                 parseInt(this.NFTList.sellingtype),
-                (this.total+this.royaltyCharge).toString(),
+                (this.total+parseFloat(this.royaltyCharge)).toString(),
                 this.royaltyCharge.toString(),
                 this.NFTList.creatoruserid,
                 this.commission
@@ -623,7 +621,6 @@ export class BuyViewComponent implements OnInit {
               this.royaltyCharges=this.totals * (this.royaltyR/100.00);
               this.servicess=parseFloat(this.NFTList.commission);
               this.commissions=(((this.totals) * (5.00/100.00)).toFixed(7)).toString()
-              console.log
               this.fullTotal = ((this.totals+this.royaltyCharges+this.servicess).toFixed(7)).toString()
             }else{
             
@@ -749,24 +746,23 @@ export class BuyViewComponent implements OnInit {
                     card.Status = txn.Response[x].Status;
                     if (txn.Response[x].Blockchain == 'ethereum') {
                       card.NFTTxnHash =
-                        'https://goerli.etherscan.io/tx/' +
+                        'https://etherscan.io/tx/' +
                         txn.Response[x].NFTTxnHash;
                     }
                     if (txn.Response[x].Blockchain == 'polygon') {
                       card.NFTTxnHash =
-                        'https://mumbai.polygonscan.com/tx/' +
+                        'https://polygonscan.com/tx/' +
                         txn.Response[x].NFTTxnHash;
                     }
                     if (txn.Response[x].Blockchain == 'stellar') {
                       card.NFTTxnHash =
-                        'https://stellar.expert/explorer/testnet/tx/' +
+                        'https://stellar.expert/explorer/public/tx/' +
                         txn.Response[x].NFTTxnHash;
                     }
                     if (txn.Response[x].Blockchain == 'solana') {
                       card.NFTTxnHash =
                         'https://solscan.io/tx/' +
-                        txn.Response[x].NFTTxnHash +
-                        '?cluster=testnet';
+                        txn.Response[x].NFTTxnHash;
                     }
                     this.List.push(card);
                   }

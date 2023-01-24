@@ -14,9 +14,9 @@ export class Seller2tracService {
   constructor() { }
   toTokenAccount;
   signers
-  async createATA(
+  async createATAforSellar(
     from:string, //* User PK
-    to:Uint8Array,
+    to:string,
     mintPubkey: PublicKey,
     ): Promise<Transaction>{
     return (async () => {
@@ -24,7 +24,7 @@ export class Seller2tracService {
       const network :any =BlockchainConfig.solananetworkURL;
       const connection = new Connection(network);
      
-      let toKeypair = Keypair.fromSecretKey(to);
+      // let toKeypair = Keypair.fromSecretKey(to);
     
       const atafrom = await getAssociatedTokenAddress(
         new PublicKey(mintPubkey),
@@ -33,7 +33,7 @@ export class Seller2tracService {
 
       const atato = await getAssociatedTokenAddress(
         new PublicKey(mintPubkey),
-        toKeypair.publicKey
+        new PublicKey(to)
       )
 
       const tx = new Transaction()

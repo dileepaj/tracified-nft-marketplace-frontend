@@ -517,7 +517,6 @@ export class Mint2Component implements OnInit {
                       })
                       this.pendingDialog.afterClosed().subscribe((success) => {
                         if(success) {
-                          this.sendToMint3();
                           this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                         }
 
@@ -745,9 +744,7 @@ export class Mint2Component implements OnInit {
   updateMinter(): void {
     if (this.minter.NFTIssuerPK != null) {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
-        this.snackbar.openSnackBar(
-          SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-        );
+        this.pendingDialog.close(true);
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
           user :  this.mint.CreatorUserId,
@@ -761,9 +758,7 @@ export class Mint2Component implements OnInit {
   updateStellarTXN(): void {
     if (this.stxn.NFTTxnHash != null) {
       this.service.updateTXNStellar(this.stxn).subscribe((res) => {
-        this.snackbar.openSnackBar(
-          SnackBarText.MINTING_SUCCESSFUL_MESSAGE
-        );
+        this.pendingDialog.close(true);
        
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
@@ -785,7 +780,6 @@ export class Mint2Component implements OnInit {
           if (data == null) {
             this.Minter();
           }
-          console.log("data retrieved : ",data)
           this.mint.NFTIssuerPK = data.NFTIssuerPK;
           this.mint.NFTTxnHash = data.NFTTxnHash;
           this.minter.NFTIssuerPK = this.mint.NFTIssuerPK;
@@ -794,14 +788,12 @@ export class Mint2Component implements OnInit {
           this.minter.NFTIdentifier = data.NFTIdentifier;
           this.distributor = data.CreatorUserID;
           this.transfer
-            .createATA(
-              environment.fromWalletSecret,
-              'none',
+            .createServiceATAforTransfer(
+              environment.fromWallet,
               this.mint.CreatorUserId,
               data.NFTIssuerPK,
-              data.NFTIdentifier
             )
-            .then((res: any) => {
+            .subscribe((res: any) => {
               try{
                 this.sendToMint3();
                 this.saveTXNs();
@@ -878,7 +870,7 @@ export class Mint2Component implements OnInit {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
-                this.pendingDialog(true);
+               // this.pendingDialog(true);
               })
               .catch((error) => {
                 if (this.isLoadingPresent) {
@@ -949,7 +941,7 @@ export class Mint2Component implements OnInit {
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
-                this.pendingDialog.close(true);
+               // this.pendingDialog.close(true);
               })
               .catch((error) => {
                 if (this.isLoadingPresent) {
@@ -1038,17 +1030,13 @@ export class Mint2Component implements OnInit {
   }
 
   mintNftSolana(ownerPK: string) {
-    console.log("network is ",this.network)
     const networkURL :any =BlockchainConfig.solananetworkURL;
-    //console.log("this the service nw: ",network)
-    //const connection = new Connection(networkURL);
     const connection = new Connection(
       networkURL
     );
     return new Promise((resolve, reject) => {
    this.servicecharge.transferServiceCharge(ownerPK).then(async (result:solanaTransaction) => {
     try {
-      console.log("txn :",solanaTransaction)
       const { signature } = await (
         window as any
       ).solana.signAndSendTransaction(result);
@@ -1074,7 +1062,7 @@ export class Mint2Component implements OnInit {
           }
           try{
           this.Minter();
-          this.pendingDialog.close(true);
+        
         }catch (err) {
           alert("Something went wrong, please try again! More information: "+err);
         }

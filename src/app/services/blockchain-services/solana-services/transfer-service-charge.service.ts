@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { clusterApiUrl, Connection, Keypair ,PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL} from  "@solana/web3.js";
-import { BlockchainConfig } from 'src/environments/environment';
+import { BlockchainConfig, environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +17,13 @@ export class TransferServiceChargeService {
       // Connect to cluster
       const network :any =BlockchainConfig.solananetwork;
     const networkURL :any =BlockchainConfig.solananetworkURL;
-      console.log("this the service nw: ",network)
       const connection = new Connection(networkURL);
    
       const tx = new Transaction()
             tx.add(
                 SystemProgram.transfer({
                 fromPubkey: new PublicKey(to),
-                toPubkey: new PublicKey("FfEztWGUyS7FjdxS6SPenpNiFmABBc3jLpLSPvPq1QP7"),
+                toPubkey: new PublicKey(environment.tracifiedSolanaPK),
                 lamports: 20000, //service charge
               }),
                )

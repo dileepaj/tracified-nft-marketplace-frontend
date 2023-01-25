@@ -90,6 +90,7 @@
 }
 
 .hint {
+  align-self: flex-end;
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -167,6 +168,7 @@
 }
 
 .thumb-upload-menu {
+  align-self: flex-end;
   width : 233px;
 }
 
@@ -187,6 +189,10 @@
 }
 
 .thumb-dnd-outer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 20px;
   width: 617px;
 }
 
@@ -427,6 +433,7 @@ mat-hint.tags {
   max-width: 100%;
   overflow: auto;
   height: 300px;
+  object-fit: contain;
 }
 
 .dropdown-options-content {
@@ -488,3 +495,9 @@ mat-hint.tags {
 .dropdown-disabled img {
   filter: grayscale(1);
 }
+
+.input-hint {
+  margin-left: -10px;
+}
+
+

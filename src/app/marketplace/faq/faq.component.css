@@ -188,3 +188,16 @@
   flex-direction: column;
   align-items: center;
 }
+
+::ng-deep .ans-content p {
+  line-height: 28.72px;
+}
+
+::ng-deep .ans-content a {
+  color: #00c820;
+  text-decoration: none;
+}
+
+::ng-deep .ans-content a:hover {
+  text-decoration: underline;
+}

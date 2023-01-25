@@ -32,12 +32,12 @@ export class SignUpComponent implements OnInit {
   constructor(
     private service: ApiServicesService,
     private _location: Location,
-    private route:ActivatedRoute,
-    private dialogService:DialogService,
-    private snackbarSrevice:SnackbarServiceService,
-  ) {}
+    private route: ActivatedRoute,
+    private dialogService: DialogService,
+    private snackbarSrevice: SnackbarServiceService,
+  ) { }
 
-  
+
 
   async save(): Promise<void> {
     //getting form data and sending it to the collection service to post
@@ -51,22 +51,23 @@ export class SignUpComponent implements OnInit {
     this.endorse.Status = 'Pending';
 
     if (this.endorse.Blockchain == 'stellar') {
-      if(this.wallet=="freighter"){
+      if (this.wallet == "freighter") {
         let freighterWallet = new UserWallet();
         freighterWallet = new FreighterComponent(freighterWallet);
         await freighterWallet.initWallelt();
         this.signerPK = await freighterWallet.getWalletaddress();
         this.endorse.PublicKey = this.signerPK;
       }
-      if(this.wallet=="albedo"){
+      if (this.wallet == "albedo") {
         await albedo.publicKey({
           require_existing: true
-      })
-  .then((res:any) => {
-          this.albedopk=res.pubkey
-          this.endorse.PublicKey = this.albedopk;})
+        })
+          .then((res: any) => {
+            this.albedopk = res.pubkey
+            this.endorse.PublicKey = this.albedopk;
+          })
       }
-     
+
     }
 
     if (this.endorse.Blockchain == 'solana') {
@@ -90,38 +91,38 @@ export class SignUpComponent implements OnInit {
     if (this.endorse.PublicKey != null) {
       //sending data to the service
       this.dialogService.confirmDialog({
-        title : ConfirmDialogText.ENDORSMENT_SIGN_UP_TITLE,
-        message : ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-        confirmText : ConfirmDialogText.CONFIRM_BTN,
-        cancelText : ConfirmDialogText.CANCEL_BTN
-      }).subscribe(result=>{
-        if(result){
-          this.service.endorse(this.endorse).subscribe(res=>{
-            if(res!=null || res!=""){
+        title: ConfirmDialogText.ENDORSMENT_SIGN_UP_TITLE,
+        message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+        confirmText: ConfirmDialogText.CONFIRM_BTN,
+        cancelText: ConfirmDialogText.CANCEL_BTN
+      }).subscribe(result => {
+        if (result) {
+          this.service.endorse(this.endorse).subscribe(res => {
+            if (res != null || res != "") {
               this.dialogService.okDialog({
-                title : OkDialogText.ENDORSMENT_SENT_TITLE,
-                message : OkDialogText.ENDORSMENT_SENT_MESSAGE,
-                confirmText : OkDialogText.OKAY_BTN
-              }).subscribe(res=>{
-                 this.back()
+                title: OkDialogText.ENDORSMENT_SENT_TITLE,
+                message: OkDialogText.ENDORSMENT_SENT_MESSAGE,
+                confirmText: OkDialogText.OKAY_BTN
+              }).subscribe(res => {
+                this.back()
               })
             }
           });
 
         }
       })
-      
+
     } else {
       this.snackbarSrevice.openSnackBar(SnackBarText.ERROR_MESSAGE)
     }
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params)=>{
-      this.data=JSON.parse(params['data']);
-this.mail=this.data[1]
-this.blockchain=this.data[0]
-this.wallet=this.data[2]
+    this.route.queryParams.subscribe((params) => {
+      this.data = JSON.parse(params['data']);
+      this.mail = this.data[1]
+      this.blockchain = this.data[0]
+      this.wallet = this.data[2]
     })
     //validating form data
     this.controlGroup = new FormGroup({
@@ -134,16 +135,12 @@ this.wallet=this.data[2]
       ),
     });
     //calling the save function
-   // this.save();
+    // this.save();
   }
 
   //initializing input in html to formValue function
   private formValue(controlName: string): any {
     return this.controlGroup.get(controlName)!.value;
-  }
-
-  public resetValues() {
-    this.controlGroup.reset();
   }
 
   public back() {

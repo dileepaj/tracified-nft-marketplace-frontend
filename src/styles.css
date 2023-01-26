@@ -372,3 +372,6 @@ input:-webkit-autofill{
   -webkit-text-fill-color: white !important;
 }
 
+.side-menu-icon {
+  transform: scale(1.5);
+}

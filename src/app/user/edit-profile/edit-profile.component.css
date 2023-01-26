@@ -39,21 +39,23 @@
 
 .form-field-div {
   column-gap: 50px;
-  row-gap: 30px;
+  row-gap: 10px;
+  align-items: center;
 }
 
 .form-field-label {
   width: 112px;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
+  font-size: 20px;
+  line-height: 24px;
+  align-self: flex-end;
 }
 
 #ep-header-title {
   color: white;
   font-weight: 700;
   font-size: 24px;
-
+  line-height: 34px;
   padding-bottom: 10px;
   margin-bottom: 55px;
 }
@@ -109,7 +111,7 @@
 .example-form {
   display: flex;
   flex-direction: column;
-  row-gap: 30px;
+  row-gap: 50px;
 }
 
 ::placeholder {

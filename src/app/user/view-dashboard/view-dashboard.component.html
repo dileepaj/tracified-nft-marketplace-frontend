@@ -2,7 +2,7 @@
   <mat-drawer-container class="sidenav-container">
     <mat-drawer  [mode]="smallScreen? 'over' : 'side'" class="dsb-drawer" [opened]="opened">
       <button mat-icon-button id="btn-sidenav-toggle">
-        <mat-icon class="material-symbols-outlined" (click)="toggleSidenav()">
+        <mat-icon class="material-symbols-outlined side-menu-icon" (click)="toggleSidenav()">
           menu_open
         </mat-icon>
       </button>
@@ -13,7 +13,7 @@
             [src]="imagePath"
           />
           <!-- <h2 style="font-size: 20px; font-weight: 500">Hi</h2> -->
-          <label style="font-size: 25px; font-weight: 700">{{this.greeting}} {{this.Name}}</label>
+          <label style="font-size: 25px; font-weight: 700; text-align: center; line-height: 28px;">{{this.greeting}} {{this.Name}}</label>
         </div>
         <mat-nav-list id="navlist">
           <!-- <mat-list-item
@@ -73,7 +73,7 @@
         "
         *ngIf="!opened"
       >
-        <mat-icon class="material-symbols-outlined" (click)="toggleSidenav()">
+        <mat-icon class="material-symbols-outlined side-menu-icon" (click)="toggleSidenav()">
           menu_open
         </mat-icon>
       </button>

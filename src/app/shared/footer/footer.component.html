@@ -1,18 +1,24 @@
 <div class="footer-wrapper">
-  <div class="footer-top " *ngIf="isHome()">
+  <div class="footer-top" *ngIf="isHome()">
     <div class="footer-top-inner cont-wrapper">
       <label class="title" ngStyle.lt-md="width: 100%">
-        Subscribe to stay tuned for new web design and latest updates.
+        Subscribe to stay tuned for latest updates.
       </label>
       <div class="subscribe-wrapper">
         <label>Let's do it! — </label>
 
         <div class="subscribe-input-group">
           <form [formGroup]="controlGroup">
-          <input type="text" placeholder="joe@gmail.com" formControlName="Mail"/>
-        </form>
+            <input
+              type="text"
+              placeholder="joe@gmail.com"
+              formControlName="Mail"
+            />
+          </form>
         </div>
-        <button mat-flat-button class="btn-subscribe" (click)="subscribeNow()">Subscribe</button>
+        <button mat-flat-button class="btn-subscribe" (click)="subscribeNow()">
+          Subscribe
+        </button>
       </div>
     </div>
   </div>
@@ -27,28 +33,41 @@
           class="marketplace-logo"
         />
         <p>
-          Tracified NFT Marketplace is a platform that enables users to create, sell, and purchase traceability-related/collectible non-fungible tokens (NFTs) on various public blockchains.
+          Tracified NFT Marketplace is a platform that enables users to create,
+          sell, and purchase traceability-related/collectible non-fungible
+          tokens (NFTs) on various public blockchains.
         </p>
-        <label> © 2022-2023 All Rights Reserved </label>
       </div>
       <div class="footer-section-2">
         <div class="links-section">
           <label class="title">Explore</label>
-          <a href="{{this.mkETHURL}}" class="footer-normal-text">Ethereum NFTs</a>
-          <a href="{{this.mkPolygon}}" class="footer-normal-text">Polygon NFTs</a>
-          <a href="{{this.mkStellar}}" class="footer-normal-text">Stellar NFTs</a>
-          <a href="{{this.mkSolana}}" class="footer-normal-text">Solana NFTs</a>
+          <a href="{{ this.mkETHURL }}" class="footer-normal-text"
+            >Ethereum NFTs</a
+          >
+          <a href="{{ this.mkPolygon }}" class="footer-normal-text"
+            >Polygon NFTs</a
+          >
+          <a href="{{ this.mkStellar }}" class="footer-normal-text"
+            >Stellar NFTs</a
+          >
+          <a href="{{ this.mkSolana }}" class="footer-normal-text"
+            >Solana NFTs</a
+          >
         </div>
         <div class="links-section">
           <label class="title">Resources</label>
-          <a href="{{this.mkFaq}}" class="footer-normal-text">FAQs</a>
-          <a href="{{this.mkDocs}}" class="footer-normal-text">Documentation</a>
+          <a href="{{ this.mkFaq }}" class="footer-normal-text">FAQs</a>
+          <a href="{{ this.mkDocs }}" class="footer-normal-text"
+            >Documentation</a
+          >
         </div>
         <div class="links-section">
           <label class="title">Tracified</label>
           <a href="#" class="footer-normal-text">About Us</a>
-          <a href="{{this.mkBlog}}" class="footer-normal-text">Blog</a>
-          <a href="{{this.mkContact_us}}" class="footer-normal-text">Contact Us</a>
+          <a href="{{ this.mkBlog }}" class="footer-normal-text">Blog</a>
+          <a href="{{ this.mkContact_us }}" class="footer-normal-text"
+            >Contact Us</a
+          >
         </div>
         <div class="contact">
           <label class="title">Contact Us</label>
@@ -59,8 +78,7 @@
               height="24px"
             />
             <label class="footer-normal-text"
-              >3-28-18 Yushima, Bunkyo-ku,
-              Tokyo 113-0034, Japan</label
+              >3-28-18 Yushima, Bunkyo-ku, Tokyo 113-0034, Japan</label
             >
           </div>
           <div fxLayout="row" style="column-gap: 10px">
@@ -69,21 +87,33 @@
               width="24px"
               height="24px"
             />
-            <label class="footer-normal-text"><a href="mailto:info@tracified.com"  class="footer-normal-text">info@tracified.com</a></label>
+            <label class="footer-normal-text"
+              ><a href="mailto:info@tracified.com" class="footer-normal-text"
+                >info@tracified.com</a
+              ></label
+            >
           </div>
           <div style="margin-top: 15px">
             <label class="title">Follow Us</label>
             <div class="social">
-              <a href="https://www.facebook.com/tracifiednftmarketplace/" target="_blank"><img src="../../../assets/images/social/Facebook.png" /></a>
-              <a href="https://twitter.com/TracifiedNFT" target="_blank"><img
-                src="../../../assets/images/social/Twitter.png"
-                class="social-icon"
+              <a
+                href="https://www.facebook.com/tracifiednftmarketplace/"
+                target="_blank"
+                ><img src="../../../assets/images/social/Facebook.png"
               /></a>
-              <a href="https://www.instagram.com/tracifiednftmarketplace/" target="_blank">
-              <img
-                src="../../../assets/images/social/Instagram.png"
-                class="social-icon"
-              />
+              <a href="https://twitter.com/TracifiedNFT" target="_blank"
+                ><img
+                  src="../../../assets/images/social/Twitter.png"
+                  class="social-icon"
+              /></a>
+              <a
+                href="https://www.instagram.com/tracifiednftmarketplace/"
+                target="_blank"
+              >
+                <img
+                  src="../../../assets/images/social/Instagram.png"
+                  class="social-icon"
+                />
               </a>
               <img
                 src="../../../assets/images/social/YouTube.png"
@@ -92,6 +122,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="footer-section-3">
+        <label> © 2022-2023 All Rights Reserved. </label>
       </div>
     </div>
   </div>

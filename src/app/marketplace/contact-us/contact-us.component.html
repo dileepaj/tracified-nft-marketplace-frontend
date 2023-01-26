@@ -33,16 +33,6 @@
           <label> 03 6215 8715 (Japan) </label>
         </div>
         <div class="map-wrapper">
-          <div class="map-tabs">
-            <div
-              class="map-tab-header"
-              matRipple
-              [class.selected-tab]="selectedTab === 1"
-              (click)="changeTab(1)"
-            >
-              Japan
-            </div>
-          </div>
           <div class="map-tab" *ngIf="selectedTab === 1">
             <iframe
               class="map"
@@ -195,7 +185,10 @@
               hidden
             />
           </div>
-          <label class="file-name">{{ name }}</label>
+          <div class="file-name-div" *ngIf="name !== ''">
+            <label class="file-name">{{ name }}</label>
+            <mat-icon class="delete-icon" matTooltip="Remove File" (click)="removeFile()">delete_forever</mat-icon>
+          </div>
         </div>
         <div
           class="contact-form-group"

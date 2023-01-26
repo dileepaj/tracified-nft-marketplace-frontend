@@ -2,7 +2,7 @@
   <div class="cont-wrapper">
     <div class="registration-header">
       <mat-icon class="back" matTooltip="Back" (click)="back()">arrow_back</mat-icon>
-      <label class="reg-heading">Get Endorsed Now!</label>
+      <label class="reg-heading">Get Endorsed Now</label>
       <!-- <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
         >arrow_back</mat-icon
       >
@@ -29,13 +29,13 @@
 
           />
         </mat-form-field> -->
-        <mat-label>Your email is : {{ this.mail }}</mat-label>
+        <mat-label class="email-label">Your email is : {{ this.mail }}</mat-label>
       </div>
       <div class="form-input-group">
         <mat-form-field class="example-full-width" appearance="outline">
           <input
             matInput
-            placeholder="Enter the Name"
+            placeholder="Your Name"
             formControlName="Name"
             class="input"
           />
@@ -46,7 +46,7 @@
         <mat-form-field class="example-full-width" appearance="outline">
           <input
             matInput
-            placeholder="Enter the Contact "
+            placeholder="Your Contact Number"
             formControlName="Contact"
             class="input"
           />
@@ -56,7 +56,7 @@
         <mat-form-field class="example-full-width" appearance="outline">
           <input
             matInput
-            placeholder="Enter the Description "
+            placeholder="Description About Yourself/ Your Company"
             formControlName="Description"
             class="input"
           />
@@ -70,23 +70,11 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: center;
       "
     >
-      <mat-icon
-        style="
-          float: right;
-          margin-right: 10px;
-          color: #d94d4d;
-          cursor: pointer;
-          transform: scaleX(-1);
-        "
-        matTooltip="Reset"
-        (click)="resetValues()"
-        >refresh</mat-icon
-      >
       <button mat-flat-button class="btn-create-col" (click)="save()">
-        Get Endorsed Now!
+        Get Endorsed Now
       </button>
     </div>
   </div>

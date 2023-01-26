@@ -296,6 +296,10 @@ p.normal-text {
   transition: border-color 0.6s linear;
 }
 
+.input-field-wrapper mat-icon {
+  z-index: 2;
+}
+
 .input-field-wrapper input:focus + span::before {
   content: "";
   position: absolute;

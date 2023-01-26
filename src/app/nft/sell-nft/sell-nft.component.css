@@ -129,6 +129,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  margin-bottom: 30px;
 }
 
 .nft-details {
@@ -262,7 +263,7 @@
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 32px;
   /* identical to box height, or 178% */
 
@@ -315,15 +316,27 @@
 }
 
 .owner-l {
-  font-weight: 400;
-  font-size: 24px;
+  font-weight: 700;
+  font-size: 20px;
   width: 100%;
   word-break: break-all;
 }
 
 .owner-s {
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.nft-sum .owner-l {
+  font-weight: 400;
+  font-size: 20px;
+  width: 100%;
+  word-break: break-all;
+}
+
+.nft-sum .owner-s {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .user-story {
@@ -333,6 +346,7 @@
 }
 
 .desc {
+  position: relative;
   display: flex;
   flex-direction: row;
   background: #2d2d2d;
@@ -352,7 +366,7 @@
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 143.52%;
   /* identical to box height, or 26px */
 
@@ -367,6 +381,7 @@
   border-collapse: separate;
   text-align: center;
   vertical-align: middle;
+  font-size: 18px;
 }
 
 .txn-table thead {
@@ -374,7 +389,7 @@
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 143.52%;
 
   color: #060b08;
@@ -534,6 +549,7 @@ td {
   width: 80%;
   height: 80%;
   border-radius: 20px;
+  object-fit: cover;
 }
 
 .sum-text {
@@ -547,7 +563,8 @@ td {
 
 .btn-story {
   width: fit-content;
-  padding: 5px 20px 5px 20px;
+  padding: 5px 15px 5px 15px;
+  font-size: 20px;
 }
 
 .user-story-iframe {
@@ -574,8 +591,9 @@ mat-hint {
 }
 
 /* Firefox */
-.input[type=number] {
+.input[type=text] {
   -webkit-appearance: none;
+  margin-top: 2px;
 }
 
 .usd-label {
@@ -583,11 +601,12 @@ mat-hint {
   font-weight: 400;
   font-size: 20px;
   line-height: 26px;
+  margin-top: 36px;
   /* identical to box height, or 132% */
 
 
   color: #10CEAC !important;
-  margin-top: 20px;
+
   margin-right: 20px;
 
 }
@@ -596,4 +615,42 @@ mat-hint {
   display: flex;
   flex-direction:row;
   column-gap: 20px;
+}
+
+.sell-view-input-wrapper {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.sell-view-input-wrapper input:focus + span::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid rgba(16, 206, 172, 1);
+  border-radius: 10px;
+}
+
+.sell-view-input-wrapper .prefix {
+  color: #919191;
+  font-size:18px;
+}
+
+.no-story-div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  min-height: 150px;
+  max-height: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  row-gap: 10px;
 }

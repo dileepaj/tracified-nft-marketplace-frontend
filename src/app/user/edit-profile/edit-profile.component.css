@@ -38,7 +38,7 @@
 }
 
 .form-field-div {
-  column-gap: 50px;
+  column-gap: 40px;
   row-gap: 10px;
   align-items: center;
 }
@@ -116,6 +116,10 @@
 
 ::placeholder {
   color: #6d6d6d;
+}
+
+.back-icon-ep {
+
 }
 
 @media screen and (max-width: 1279px) {

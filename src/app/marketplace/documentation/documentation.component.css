@@ -220,3 +220,12 @@
 .rotate-icon {
   transform: rotate(270deg);
 }
+
+::ng-deep .p-doc a {
+  color: #00c820;
+  text-decoration: none;
+}
+
+::ng-deep .p-doc a:hover {
+  text-decoration: underline;
+}

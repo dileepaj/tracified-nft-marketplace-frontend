@@ -1,7 +1,7 @@
 <div class="ep-main-div" fxLayout="row wrap">
   <div class="ep-main-wrapper">
     <div style="display:flex; flex-direction:column; row-gap: 20px">
-      <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
+      <mat-icon class="back-icon-ep" matTooltip="Back" (click)="back()"
       >arrow_back</mat-icon>
       <div id="ep-header-title" fxFlex="100%"><label>Edit Profile of {{displayName}}</label></div>
     </div>
@@ -15,13 +15,13 @@
     *ngIf="!loading"
   >
     <div class="form-field-div" fxLayout="row wrap" fxFlex="100%">
-      <label class="form-field-label" style="align-self: center" fxFlex.lg="30%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
+      <label class="form-field-label" style="align-self: center" fxFlex.lg="20%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
         >Change Profile Picture</label
       >
       <div
         id="img-section"
         (click)="triggerClick()"
-        fxFlex.lg="50%"
+        fxFlex.lg="40%"
         fxFlex.lt-lg="98%"
       >
         <div id="img-upload-area" matTooltip="Upload Image" matRipple>
@@ -47,10 +47,10 @@
       fxLayout="row wrap"
       fxFlex="100%"
     >
-      <label class="form-field-label" fxFlex.lg="30%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
+      <label class="form-field-label" fxFlex.lg="20%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
         >Edit Name</label
       >
-      <div class="ep-input-group" fxFlex.lg="58%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
+      <div class="ep-input-group" fxFlex.lg="48%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
         <div class="input-field-wrapper">
           <input type="text" matInput formControlName="name" [(ngModel)]="EndorseList.Name" placeholder="Your Name" />
           <span></span>
@@ -63,10 +63,10 @@
     fxLayout="row wrap"
     fxFlex="100%"
   >
-    <label class="form-field-label" fxFlex.lg="30%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
+    <label class="form-field-label" fxFlex.lg="20%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
       >Edit Contact</label
     >
-    <div class="ep-input-group" fxFlex.lg="58%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
+    <div class="ep-input-group" fxFlex.lg="48%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
       <div class="input-field-wrapper">
         <input type="text" matInput formControlName="contact" [(ngModel)]="EndorseList.Contact" placeholder="Your Contact" />
         <span></span>
@@ -79,10 +79,10 @@
   fxLayout="row wrap"
   fxFlex="100%"
 >
-  <label class="form-field-label" fxFlex.lg="30%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
+  <label class="form-field-label" fxFlex.lg="20%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
     >Edit Email</label
   >
-  <div class="ep-input-group" fxFlex.lg="58%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
+  <div class="ep-input-group" fxFlex.lg="48%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
     <div class="input-field-wrapper">
       <input type="text" matInput formControlName="mail" [(ngModel)]="EndorseList.Email" placeholder="Your Email" />
       <span></span>
@@ -98,7 +98,7 @@
     <label class="form-field-label" fxFlex.lg="30%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
       ></label
     >
-    <div class="ep-input-group" style="align-items: flex-end; justify-content: flex-end" ngStyle.lt-md="width:100%; display: flex; flex-direction : row;justify-content:center" fxFlex.lg="58%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
+    <div class="ep-input-group" style="align-items: flex-end; justify-content: flex-end" ngStyle.lt-md="width:100%; display: flex; flex-direction : row;justify-content:center" fxFlex.lg="38%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
       <button mat-flat-button class="btn-save" (click)="saveProfile()">
         Save Changes
       </button>

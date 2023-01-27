@@ -278,7 +278,7 @@ p.normal-text {
   color: #ffffff;
   width: 100%;
   font-size: 18px;
-  height: 120px !important;
+  height: 120px;
   background-color: transparent;
 }
 
@@ -373,5 +373,5 @@ input:-webkit-autofill{
 }
 
 .side-menu-icon {
-  transform: scale(1.5);
+  transform: scale(1.3);
 }

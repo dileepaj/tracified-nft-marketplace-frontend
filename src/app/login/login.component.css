@@ -69,8 +69,13 @@
 
 .login-title{
   font-weight: 400;
-  font-size: 60px;
+  font-size: 36px;
 
+}
+
+.login-input-wrapper {
+  padding-top: 16.57px;
+  padding-bottom: 16.57px;
 }
 
 @media screen and (max-width: 396px) {

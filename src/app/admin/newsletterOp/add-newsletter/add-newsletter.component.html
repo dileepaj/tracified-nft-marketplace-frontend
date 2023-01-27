@@ -43,16 +43,10 @@
           class="form-label"
           >Topic</label
         >
-        <mat-form-field
-          class="example-full-width"
-          appearance="outline"
-          fxFlex.xl="60%"
-          fxFlex.lg="60%"
-          fxFlex.md="60%"
-          fxFlex.lt-md="100%"
-        >
+        <div class="input-field-wrapper" fxFlex.xl="60%" fxFlex.lg="60%" fxFlex.md="60%" fxFlex.lt-md="100%">
           <input matInput formControlName="topic" />
-        </mat-form-field>
+          <span></span>
+        </div>
       </div>
       <div class="input-group" fxLayout="row wrap">
         <label
@@ -63,16 +57,10 @@
           class="form-label"
           >Author</label
         >
-        <mat-form-field
-          class="example-full-width"
-          appearance="outline"
-          fxFlex.xl="60%"
-          fxFlex.lg="60%"
-          fxFlex.md="60%"
-          fxFlex.lt-md="100%"
-        >
+        <div class="input-field-wrapper" fxFlex.xl="60%" fxFlex.lg="60%" fxFlex.md="60%" fxFlex.lt-md="100%">
           <input matInput formControlName="author" />
-        </mat-form-field>
+          <span></span>
+        </div>
       </div>
       <div class="input-group" fxLayout="row wrap">
         <label
@@ -83,16 +71,10 @@
           class="form-label"
           >Date</label
         >
-        <mat-form-field
-          class="example-full-width"
-          appearance="outline"
-          fxFlex.xl="60%"
-          fxFlex.lg="60%"
-          fxFlex.md="60%"
-          fxFlex.lt-md="100%"
-        >
+        <div class="input-field-wrapper" fxFlex.xl="60%" fxFlex.lg="60%" fxFlex.md="60%" fxFlex.lt-md="100%">
           <input matInput formControlName="date" />
-        </mat-form-field>
+          <span></span>
+        </div>
       </div>
       <div class="input-group" fxLayout="row wrap">
         <label
@@ -103,16 +85,10 @@
           class="form-label"
           >Publisher</label
         >
-        <mat-form-field
-          class="example-full-width"
-          appearance="outline"
-          fxFlex.xl="60%"
-          fxFlex.lg="60%"
-          fxFlex.md="60%"
-          fxFlex.lt-md="100%"
-        >
+        <div class="input-field-wrapper" fxFlex.xl="60%" fxFlex.lg="60%" fxFlex.md="60%" fxFlex.lt-md="100%">
           <input matInput formControlName="publisher" />
-        </mat-form-field>
+          <span></span>
+        </div>
       </div>
       <div class="input-group" fxLayout="row wrap">
         <label
@@ -123,28 +99,19 @@
           class="form-label"
           >Web Link</label
         >
-        <mat-form-field
-          class="example-full-width"
-          appearance="outline"
-          fxFlex.xl="60%"
-          fxFlex.lg="60%"
-          fxFlex.md="60%"
-          fxFlex.lt-md="100%"
-        >
+        <div class="input-field-wrapper" fxFlex.xl="60%" fxFlex.lg="60%" fxFlex.md="60%" fxFlex.lt-md="100%">
           <input matInput formControlName="webLink" />
-        </mat-form-field>
+          <span></span>
+        </div>
       </div>
     </div>
     <div id="hl" fxFlex="100%"></div>
     <div fxFlex="100%" fxLayout="row wrap">
       <label fxFlex="100%" class="form-label">Add a description</label>
-      <mat-form-field
-        class="example-full-width"
-        appearance="outline"
-        fxFlex="100%"
-      >
+      <div class="input-field-wrapper" fxFlex="100%">
         <textarea matInput formControlName="description"></textarea>
-      </mat-form-field>
+        <span></span>
+      </div>
     </div>
     <button mat-flat-button class="btn-post" (click)="save()">Post</button>
   </form>

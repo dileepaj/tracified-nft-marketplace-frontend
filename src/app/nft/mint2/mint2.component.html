@@ -89,27 +89,42 @@
       </div>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Name <span class="required">*</span> </label>
-      <mat-form-field appearance="outline">
-        <input type="text" class="input" matInput name="name" formControlName="NFTName"
-          placeholder="Enter a name for your NFT." maxlength="12" />
-        <mat-hint class="input-hint">Maximum characters 12</mat-hint>
-      </mat-form-field>
+      <label class="normal-text title-margin">Name <span class="required">*</span> </label>
+      <div class="input-field-wrapper">
+        <input
+          type="text"
+          class="input"
+          matInput
+          name="name"
+          formControlName="NFTName"
+          placeholder="Enter a name for your NFT."
+          maxlength="12"
+        />
+        <span></span>
+
+      </div>
+      <mat-hint class="input-hint">Maximum characters 12</mat-hint>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text">Description <span class="required">*</span></label>
       <label class="tooltip">This will be displayed in the NFT details page along with the image.</label>
-      <mat-form-field appearance="outline" class="description">
-        <textarea class="textarea" matInput formControlName="Description" maxlength="80"
-          placeholder="Provide a detailed description of your NFT."></textarea>
-      </mat-form-field>
+      <div class="input-field-wrapper">
+        <textarea
+          class="textarea"
+          matInput
+          formControlName="Description"
+          maxlength="80"
+          placeholder="Provide a detailed description of your NFT."
+        ></textarea>
+        <span></span>
+      </div>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%; margin-bottom: 35px">
       <label class="normal-text">Collection <span class="required">*</span></label>
       <label class="tooltip">Your NFT must be part of a collection. You can create any number of NFTs per collection.</label>
       <div style="position: relative; display: flex; flex-direction: row; align-items: center;">
-        <mat-form-field appearance="outline" fxHide.md="false" fxHide.gt-md="false" fxShow.lt-md="false" style="width: 100%">
-          <mat-select formControlName="Collection" class="select-bc" placeholder="Select Collection" (click)="onClickCollectionDropDown()">
+        <mat-form-field appearance="outline" fxHide.md="false" fxHide.gt-md="false" fxShow.lt-md="false" style="width: 100%" class="mint-form-field">
+          <mat-select formControlName="Collection" class="select-bc" placeholder="Select Collection" (click)="onClickCollectionDropDown()" disableOptionCentering panelClass="dropdown-panel-class">
             <mat-select-trigger>
               <label class="collection-dropdown-selected">{{
                 controlGroup.controls["Collection"].value
@@ -137,8 +152,8 @@
           justify-content: space-between;
           column-gap: 10px;
         " fxHide.md="true" fxHide.gt-md="true" fxShow.lt-md="true">
-        <mat-form-field appearance="outline" style="flex-grow: 1" >
-          <mat-select formControlName="Collection" class="select-bc" (click)="onClickCollectionDropDown()">
+        <mat-form-field appearance="outline" style="flex-grow: 1" class="mint-form-field">
+          <mat-select formControlName="Collection" class="select-bc" (click)="onClickCollectionDropDown()" disableOptionCentering panelClass="dropdown-panel-class">
             <mat-select-trigger>
               <label class="collection-dropdown-selected">{{
                 controlGroup.controls["Collection"].value
@@ -157,8 +172,8 @@
     <div class="mint-form-group" style="margin-top: 15px" ngStyle.lt-md="width:100%">
       <label class="normal-text">Choose your Blockchain <span class="required">*</span></label>
       <label class="tooltip">Your NFT will be created in the selected blockchain. Transaction fees may vary.</label>
-      <mat-form-field appearance="outline">
-        <mat-select formControlName="Blockchain" disableOptionCentering class="select-bc" d>
+      <mat-form-field appearance="outline" class="mint-form-field">
+        <mat-select formControlName="Blockchain" disableOptionCentering class="select-bc" panelClass="dropdown-panel-class">
           <mat-select-trigger *ngIf="controlGroup.controls['Blockchain'].value === 'ethereum'">
             <div class="bc-dropdown-selected">
               <img src="../../../assets/images/ethereum-dd.png" />
@@ -215,7 +230,7 @@
     <div class="mint-form-group" style="margin-top: 15px" ngStyle.lt-md="width:100%">
       <label class="normal-text">Tags <span class="required">*</span></label>
       <label class="tooltip">Enter one to four tags that best describes your NFT. Tags can be used to search for NFTs.</label>
-      <mat-form-field class="example-chip-list" appearance="outline">
+      <mat-form-field class="example-chip-list mint-form-field" appearance="outline">
         <mat-chip-list #chipList style="position: absolute; top: 15px; left: 10px; right: 10px">
           <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">
             {{ tag }}
@@ -233,26 +248,47 @@
     <div class="mint-form-group margin" ngStyle.lt-md="width:100%">
       <label class="normal-text">External Link </label>
       <label class="tooltip">Include an external link to a page further describing your NFT.</label>
-      <mat-form-field appearance="outline">
-        <input type="text" class="input" matInput name="codeforprofile" formControlName="NftContentURL"
-          placeholder="https://" />
-      </mat-form-field>
+      <div class="input-field-wrapper">
+        <input
+          type="text"
+          class="input"
+          matInput
+          name="codeforprofile"
+          formControlName="NftContentURL"
+          placeholder="https://"
+        />
+        <span></span>
+      </div>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text">Creator Name <span class="required">*</span></label>
       <label class="tooltip">Enter name of the NFT creator.</label>
-      <mat-form-field appearance="outline">
-        <input type="text" class="input" matInput name="creatorname" formControlName="ArtistName"
-          placeholder="Enter name of the creator." />
-      </mat-form-field>
+      <div class="input-field-wrapper">
+        <input
+          type="text"
+          class="input"
+          matInput
+          name="creatorname"
+          formControlName="ArtistName"
+          placeholder="Enter name of the creator."
+        />
+        <span></span>
+      </div>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text">Creator Profile Link </label>
       <label class="tooltip">Include a link to more information about the creator (Social Media, Personal Website, etc.).</label>
-      <mat-form-field appearance="outline">
-        <input type="text" class="input" matInput name="profilelink" formControlName="ArtistProfileLink"
-          placeholder="Enter profile URL of the creator." />
-      </mat-form-field>
+      <div class="input-field-wrapper">
+        <input
+          type="text"
+          class="input"
+          matInput
+          name="profilelink"
+          formControlName="ArtistProfileLink"
+          placeholder="Enter profile URL of the creator."
+        />
+        <span></span>
+      </div>
     </div>
     <!-- <div class="mint-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text">Issuer:</label>

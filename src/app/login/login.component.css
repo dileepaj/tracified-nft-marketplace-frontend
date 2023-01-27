@@ -8,22 +8,6 @@
   color: white;
 }
 
-/* default and hover color */
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: transparent;
-  background-color: #2d2d2d;
-  border-radius: 16px;
-}
-
-/* focused color */
-::ng-deep
-  .mat-form-field-appearance-outline.mat-focused
-  .mat-form-field-outline-thick {
-  color: transparent;
-  background-color: #2d2d2d;
-  border-radius: 16px;
-}
-
 #loginForm {
   display: flex;
   flex-direction: column;
@@ -63,6 +47,10 @@
   font-weight: 700;
   font-size: 20px;
   border-radius: 20px;
+}
+
+.btn-login:disabled {
+  background-color: #4d4d4d;
 }
 
 .back-icon {

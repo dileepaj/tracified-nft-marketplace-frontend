@@ -57,6 +57,13 @@
   margin-top: 1%;
 }
 
+.endrs-input-wrapper {
+  height: 250%;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
 .mint1Button {
   height: 40px;
   width: 15%;
@@ -166,5 +173,6 @@
 }
 
 .email-label {
+  text-align: center;
   font-size: 20px;
 }

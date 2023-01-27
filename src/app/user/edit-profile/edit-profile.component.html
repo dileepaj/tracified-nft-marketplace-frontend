@@ -3,20 +3,19 @@
     <div style="display:flex; flex-direction:column; row-gap: 20px">
       <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
       >arrow_back</mat-icon>
-      <div id="ep-header-title" fxFlex="100%"><label>Edit Profile of {{EndorseList.Name}}</label></div>
+      <div id="ep-header-title" fxFlex="100%"><label>Edit Profile of {{displayName}}</label></div>
     </div>
 <div>
-
-
   <form
     [formGroup]="controlGroupProfile"
     class="example-form"
     fxFlex.lg="100%"
     fxFlex.lt-lg="100%"
     fxLayout="row wrap"
+    *ngIf="!loading"
   >
     <div class="form-field-div" fxLayout="row wrap" fxFlex="100%">
-      <label class="form-field-label" fxFlex.lg="30%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
+      <label class="form-field-label" style="align-self: center" fxFlex.lg="30%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
         >Change Profile Picture</label
       >
       <div
@@ -52,9 +51,10 @@
         >Edit Name</label
       >
       <div class="ep-input-group" fxFlex.lg="58%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
-        <mat-form-field appearance="outline">
-          <input type="text" matInput formControlName="name" placeholder="{{EndorseList.Name}}" />
-        </mat-form-field>
+        <div class="input-field-wrapper">
+          <input type="text" matInput formControlName="name" [(ngModel)]="EndorseList.Name" placeholder="Your Name" />
+          <span></span>
+        </div>
       </div>
     </div>
     <div
@@ -67,9 +67,10 @@
       >Edit Contact</label
     >
     <div class="ep-input-group" fxFlex.lg="58%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
-      <mat-form-field appearance="outline">
-        <input type="text" matInput formControlName="contact" placeholder="{{EndorseList.Contact}}"/>
-      </mat-form-field>
+      <div class="input-field-wrapper">
+        <input type="text" matInput formControlName="contact" [(ngModel)]="EndorseList.Contact" placeholder="Your Contact" />
+        <span></span>
+      </div>
     </div>
   </div>
   <div
@@ -82,9 +83,10 @@
     >Edit Email</label
   >
   <div class="ep-input-group" fxFlex.lg="58%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
-    <mat-form-field appearance="outline">
-      <input type="text" matInput formControlName="mail" placeholder="{{EndorseList.Email}}"/>
-    </mat-form-field>
+    <div class="input-field-wrapper">
+      <input type="text" matInput formControlName="mail" [(ngModel)]="EndorseList.Email" placeholder="Your Email" />
+      <span></span>
+    </div>
   </div>
 </div>
 <div
@@ -96,7 +98,7 @@
     <label class="form-field-label" fxFlex.lg="30%" fxFlex.gt-lg="10%" fxFlex.lt-lg="98%"
       ></label
     >
-    <div class="ep-input-group" style="align-items: flex-end; justify-content: flex-end" fxFlex.lg="58%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
+    <div class="ep-input-group" style="align-items: flex-end; justify-content: flex-end" ngStyle.lt-md="width:100%; display: flex; flex-direction : row;justify-content:center" fxFlex.lg="58%" fxFlex.gt-lg="40%" fxFlex.lt-lg="98%">
       <button mat-flat-button class="btn-save" (click)="saveProfile()">
         Save Changes
       </button>

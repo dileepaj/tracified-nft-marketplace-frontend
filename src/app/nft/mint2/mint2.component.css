@@ -105,7 +105,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  row-gap: 48px;
+  row-gap: 70px;
   /* background-color: #8484846b; */
 }
 
@@ -175,6 +175,8 @@
 .dnd-text-top {
   color: #10ceac;
 }
+
+
 
 .dnd-txt {
   margin-top: 10px;
@@ -278,12 +280,14 @@
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 16px !important;
-
+  margin-left: 10px;
+  margin-right: 10px;
   color: #848484 !important;
 }
 
 .add-btn {
   position: absolute;
+  margin-top: 15px;
   right: -50px;
   width: 35px;
   height: 35px;
@@ -291,6 +295,7 @@
 }
 
 .add-btn-sm {
+  margin-top: 15px;
   width: 35px;
   height: 35px;
   cursor: pointer;
@@ -325,6 +330,8 @@
   color: #fff;
   font-size: 18px;
   column-gap: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .collection-dropdown {
@@ -335,6 +342,8 @@
 .collection-dropdown-selected {
   color: #fff;
   font-size: 18px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .bc-dropdown img {
@@ -352,8 +361,13 @@
   flex-direction: row;
 }
 
+mat-form-field{
+  margin-top: 0em;
+  margin-bottom: -1.25em;
+}
+
 .margin {
-  margin-top: 55px;
+  margin-top: 57px;
 }
 
 .btn-create {
@@ -452,6 +466,10 @@ mat-hint.tags {
   color: #2d2d2d;
 }
 
+::ng-deep .dropdown-panel-class{
+  margin-top: 40px !important;
+}
+
 .upload-options:hover .dropdown-options-content {
   display: block;
 }
@@ -497,7 +515,34 @@ mat-hint.tags {
 }
 
 .input-hint {
-  margin-left: -10px;
+  margin-left: 0px;
+}
+
+::ng-deep
+  .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid
+  .mat-form-field-outline-thick {
+  color: transparent !important;
+  opacity: 0.8 !important;
+}
+
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: rgba(16, 206, 172, 1) !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+  border-radius: 16px 0px 0px 16px !important;
+  width: 16px !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-radius: 0px 16px 16px 0px !important;
+  width: 16px !important;
+}
+
+.title-margin {
+  margin-bottom: 10px;
 }
 
 

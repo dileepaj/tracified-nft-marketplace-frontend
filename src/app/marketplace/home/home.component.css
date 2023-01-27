@@ -62,7 +62,7 @@
   margin-top: 64px;
 }
 
-.btn-create {
+.btn-create-home {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -79,12 +79,12 @@
   background: transparent;
 }
 
-.btn-create:hover {
+.btn-create-home:hover {
   background: #00c853;
   color: white;
 }
 
-.btn-create label {
+.btn-create-home label {
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -305,7 +305,7 @@
 }
 
 .card-wrapper:hover > div {
-  background-color: #626262;
+  background-color: #414141;
 }
 
 .intro-header {
@@ -458,7 +458,7 @@
     font-family: "Open Sans", sans-serif;
     font-style: normal;
     font-weight: 700;
-    font-size: 34px;
+    font-size: 20px;
     line-height: 41px;
     text-transform: capitalize;
     margin-right: 0px;
@@ -470,7 +470,7 @@
     font-family: "Open Sans", sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 22px;
+    font-size: 20px;
     line-height: 149.02%;
     /* or 33px */
     color: #ffffff;

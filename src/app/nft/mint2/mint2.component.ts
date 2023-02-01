@@ -744,6 +744,7 @@ export class Mint2Component implements OnInit {
   updateMinter(): void {
     if (this.minter.NFTIssuerPK != null) {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
+        this.saveTXNs();
         this.pendingDialog.close(true);
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
@@ -758,6 +759,7 @@ export class Mint2Component implements OnInit {
   updateStellarTXN(): void {
     if (this.stxn.NFTTxnHash != null) {
       this.service.updateTXNStellar(this.stxn).subscribe((res) => {
+        this.saveTXNs();
         this.pendingDialog.close(true);
        
         this.proceed.emit({
@@ -796,7 +798,6 @@ export class Mint2Component implements OnInit {
             .subscribe((res: any) => {
               try{
                 this.sendToMint3();
-                this.saveTXNs();
               this.updateMinter();
             }catch (err) {
               alert("Something went wrong, please try again! More information: "+err);
@@ -818,7 +819,6 @@ export class Mint2Component implements OnInit {
           }
           this.mint.NFTTxnHash = txn.NFTTxnHash;
           this.stxn.NFTTxnHash = this.mint.NFTTxnHash;
-          this.saveTXNs();
           this.updateStellarTXN();
         });
     }

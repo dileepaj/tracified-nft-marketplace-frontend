@@ -44,7 +44,7 @@ export class ContactUsComponent implements OnInit {
     private dialogService: DialogService,
     private snackbarService: SnackbarServiceService,
     private _location: Location
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.controlGroup = new FormGroup({
@@ -154,5 +154,11 @@ export class ContactUsComponent implements OnInit {
 
   public changeTab(index: number) {
     this.selectedTab = index;
+  }
+
+  public removeFile() {
+    //this.file = new File();
+    this.name = "";
+    this.base64textString = "";
   }
 }

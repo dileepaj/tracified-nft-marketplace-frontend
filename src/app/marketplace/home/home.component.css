@@ -62,7 +62,7 @@
   margin-top: 64px;
 }
 
-.btn-create {
+.btn-create-home {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -79,12 +79,12 @@
   background: transparent;
 }
 
-.btn-create:hover {
+.btn-create-home:hover {
   background: #00c853;
   color: white;
 }
 
-.btn-create label {
+.btn-create-home label {
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -198,12 +198,20 @@
 }
 
 .hot-picks-header-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 10px;
   color: white;
   font-weight: 600;
-  font-size: 25px;
+  font-size: 20px;
   border-bottom: 5px solid #00c820;
   padding-bottom: 10px;
   margin-bottom: 10px;
+}
+
+.hot-picks-header-title img {
+  margin-top: 4px;
 }
 
 .hot-picks-header-actions {
@@ -223,7 +231,7 @@
   color: #bbbbbb;
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 19px;
   border-radius: 10px;
   padding: 5px 20px 5px 20px;
@@ -269,7 +277,8 @@
 }
 
 .card-wrapper {
-  width: 345px;
+  cursor: pointer;
+  width: 400px;
   max-width: 100%;
   height: fit-content;
   display: flex;
@@ -285,6 +294,18 @@
   height: 320px;
   background: #2d2d2d;
   border-radius: 20px;
+}
+
+.card-wrapper > div {
+  -webkit-transition: background-color 200ms linear;
+  -moz-transition: background-color 200ms linear;
+  -o-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
+}
+
+.card-wrapper:hover > div {
+  background-color: #414141;
 }
 
 .intro-header {
@@ -309,11 +330,13 @@
 
 .intro-body {
   margin-top: 25px;
+  margin-left: 10px;
+  margin-right: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   row-gap: 25px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -324,8 +347,9 @@
 }
 
 .intro-body .title {
+  cursor: pointer;
   margin-top: 80px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 40px;
@@ -336,6 +360,7 @@
 }
 
 .content-text {
+  cursor: pointer;
   margin: 0px 10px 0px 10px;
 }
 
@@ -360,10 +385,10 @@
 }
 
 .news-topic h2 {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 25px;
+  font-size: 20px;
   line-height: 41px;
   text-transform: capitalize;
   margin-right: 40px;
@@ -371,25 +396,25 @@
   color: #ffffff;
 }
 
-.news-header-title{
-  font-family: 'Open Sans', sans-serif;
+.news-header-title {
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 34px;
+  font-size: 20px;
   line-height: 41px;
   text-transform: capitalize;
   margin-right: 40px;
   border-bottom: 5px solid #00c820;
   color: #ffffff;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   margin-bottom: 10px;
 }
 
 .normal-text {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 33px;
   /* or 33px */
   color: #ffffff;
@@ -401,10 +426,9 @@
   margin-top: 50px;
   width: 144px;
   margin-right: 40px;
-  
 }
 
-@media only screen and (max-width: 1217px) {
+@media only screen and (max-width: 1400px) {
   .home-section {
     justify-content: space-evenly;
     align-items: center;
@@ -431,10 +455,10 @@
   }
 
   .news-topic h2 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-style: normal;
     font-weight: 700;
-    font-size: 34px;
+    font-size: 20px;
     line-height: 41px;
     text-transform: capitalize;
     margin-right: 0px;
@@ -443,10 +467,10 @@
   }
 
   .normal-text {
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 22px;
+    font-size: 20px;
     line-height: 149.02%;
     /* or 33px */
     color: #ffffff;

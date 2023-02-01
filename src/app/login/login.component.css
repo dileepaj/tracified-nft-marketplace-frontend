@@ -8,22 +8,6 @@
   color: white;
 }
 
-/* default and hover color */
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: transparent;
-  background-color: #2d2d2d;
-  border-radius: 16px;
-}
-
-/* focused color */
-::ng-deep
-  .mat-form-field-appearance-outline.mat-focused
-  .mat-form-field-outline-thick {
-  color: transparent;
-  background-color: #2d2d2d;
-  border-radius: 16px;
-}
-
 #loginForm {
   display: flex;
   flex-direction: column;
@@ -65,6 +49,10 @@
   border-radius: 20px;
 }
 
+.btn-login:disabled {
+  background-color: #4d4d4d;
+}
+
 .back-icon {
   transform: scale(1.6);
   position: relative;
@@ -81,8 +69,13 @@
 
 .login-title{
   font-weight: 400;
-  font-size: 60px;
+  font-size: 36px;
 
+}
+
+.login-input-wrapper {
+  padding-top: 16.57px;
+  padding-bottom: 16.57px;
 }
 
 @media screen and (max-width: 396px) {

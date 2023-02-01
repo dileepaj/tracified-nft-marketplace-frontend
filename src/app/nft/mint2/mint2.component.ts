@@ -240,7 +240,7 @@ export class Mint2Component implements OnInit {
   pushOwner(): void {
     //posting owner data via service to backend
     this.own.NFTIdentifier = this.mint.NFTIdentifier;
-    this.own.CurentOwnerPK = this.mint.CurrentOwnerPK;
+    this.own.CurentOwnerPK = this.mint.CreatorUserId;
     this.own.PreviousOwnerPK = 'none';
     this.own.Status = this.mint.Status;
     this.own.OwnerRevisionID = 1;
@@ -794,6 +794,7 @@ export class Mint2Component implements OnInit {
               environment.fromWallet,
               this.mint.CreatorUserId,
               data.NFTIssuerPK,
+              "0"
             )
             .subscribe((res: any) => {
               try{

@@ -17,7 +17,7 @@ import { Trac2buyerService } from 'src/app/services/blockchain-services/solana-s
 import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SVG, Track, TXN } from 'src/app/models/minting';
+import { Ownership, SVG, Track, TXN } from 'src/app/models/minting';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import {
   clusterApiUrl,
@@ -42,6 +42,8 @@ import {
 import { interval, timer } from 'rxjs';
 import albedo from '@albedo-link/intent';
 import { Float } from '@solana/buffer-layout';
+import { MintService } from 'src/app/services/blockchain-services/mint.service';
+import { Seller2tracService } from 'src/app/services/blockchain-services/solana-services/seller2trac.service';
 
 @Component({
   selector: 'app-buy-view',
@@ -91,6 +93,7 @@ export class BuyViewComponent implements OnInit {
   );
   saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '', '', '','');
   buyGW: BuyNFTGW = new BuyNFTGW('', '', '', '');
+  own: Ownership = new Ownership('', '', '', '', 1);
   nftbe: GetNFT = new GetNFT(
     '',
     '',
@@ -169,6 +172,8 @@ export class BuyViewComponent implements OnInit {
   servicess: number;
   commissions: string;
   R: number;
+  addSubscription: any;
+  atastatus: string;
   constructor(
     private service: NftServicesService,
     private trust: TrustLineByBuyerServiceService,
@@ -183,7 +188,9 @@ export class BuyViewComponent implements OnInit {
     private router: Router,
     private dialogService: DialogService,
     private snackbar: SnackbarServiceService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private servicemint:MintService,
+    private servicesell:Seller2tracService
   ) {}
   buyNFT(): void {
     this.updateBackend();
@@ -276,7 +283,18 @@ export class BuyViewComponent implements OnInit {
             nftName: this.NFTList.nftname,
              thumbnail: this.NFTList.thumbnail,
           });
-         
+        //  this.apiService.getSimilarOwner(phantomWallet.getWalletaddress(),this.NFTList.nftissuerpk).subscribe((res:any)=>{
+        //   console.log("response is : ",res)
+        
+        //  })
+        this.servicesell.findATA(phantomWallet.getWalletaddress(),this.NFTList.nftissuerpk).then((res:any)=>{
+          console.log("result of fiding ata: ", res)
+          if(res==null){
+            this.atastatus='0'
+          }else{
+            this.atastatus='1'
+          }
+        }).then(res=>{
            
               this.ata
                 .createATAforBuyer(
@@ -298,6 +316,7 @@ export class BuyViewComponent implements OnInit {
                       environment.fromWallet,
                       phantomWallet.getWalletaddress(),
                       this.NFTList.nftissuerpk,
+                      this.atastatus
                     )
                      .subscribe(async (res: any) => {
               try{
@@ -319,7 +338,7 @@ export class BuyViewComponent implements OnInit {
                   }
              
                 });
-          
+              })
         }
       });
     }
@@ -440,6 +459,7 @@ export class BuyViewComponent implements OnInit {
     this.buyGW.PreviousOwnerNFTPK = this.NFTList.distributorpk;
     this.buyGW.SellingStatus = 'NOT FOR SALE';
     this.buyGW.NFTTXNhash = this.NFTList.nfttxnhash;
+    this.pushOwner()
     this.service
       .updateNFTBuyStatusGateway(
         this.buyGW.SellingStatus,
@@ -448,6 +468,18 @@ export class BuyViewComponent implements OnInit {
         this.buyGW.NFTTXNhash
       )
       .subscribe();
+  }
+
+  pushOwner(): void {
+    //posting owner data via service to backend
+    this.own.NFTIdentifier = this.NFTList.nftidentifier;
+    this.own.CurentOwnerPK = this.userPK;
+    this.own.PreviousOwnerPK = this.NFTList.distributorpk;
+    this.own.Status = 'BOUGHT';
+    this.own.OwnerRevisionID = 3;
+    if (this.NFTList.distributorpk != null) {
+      this.addSubscription = this.servicemint.addOwner(this.own).subscribe();
+    }
   }
 
   saveTXNs(): void {

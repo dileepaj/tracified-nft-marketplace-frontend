@@ -10,7 +10,7 @@ import { SellOfferServiceService } from 'src/app/services/blockchain-services/st
 import { Seller2tracService } from 'src/app/services/blockchain-services/solana-services/seller2trac.service';
 import { EthereumMarketServiceService } from 'src/app/services/contract-services/marketplace-services/ethereum-market-service.service';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
-import { SVG, Track, TXN } from 'src/app/models/minting';
+import { Ownership, SVG, Track, TXN } from 'src/app/models/minting';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { clusterApiUrl, Connection, Keypair } from '@solana/web3.js';
@@ -31,6 +31,7 @@ import { BlockchainConfig } from 'src/environments/environment';
 import { id } from 'ethers/lib/utils';
 import albedo from '@albedo-link/intent';
 import { SaleOfferService } from 'src/app/services/blockchain-services/stellar-services/albedo-transactions/sale-offer.service';
+import { MintService } from 'src/app/services/blockchain-services/mint.service';
 
 @Component({
   selector: 'app-sell-nft',
@@ -72,6 +73,7 @@ export class SellNftComponent implements OnInit {
   saleBE: SalesBE = new SalesBE('', '', '', '', '', '', '', '', '','');
   saleGW: SalesGW = new SalesGW('', '', '', '');
   sale: Sales = new Sales('', '');
+  own: Ownership = new Ownership('', '', '', '', 1);
   royalty: any;
   firstPrice: any;
   royaltyCharge: any;
@@ -115,6 +117,7 @@ export class SellNftComponent implements OnInit {
   servicecommission: number;
   sellingPriceUSD: number = 0;
   royaltyPriceUSD: number = 0;
+  addSubscription: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -132,7 +135,8 @@ export class SellNftComponent implements OnInit {
     public dialog: MatDialog,
     public emint:EthereumMintService,
     public pmint:PolygonMintService,
-    private albedosale:SaleOfferService
+    private albedosale:SaleOfferService,
+    private servicemint:MintService
   ) {}
 
   calculatePrice(): void {
@@ -186,6 +190,19 @@ export class SellNftComponent implements OnInit {
     this.saleBE.CurrentOwnerPK = this.NFTList.currentownerpk;
     this.saleBE.Royalty = this.royalty.toString();
     this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+    this.pushOwner()
+  }
+
+  pushOwner(): void {
+    //posting owner data via service to backend
+    this.own.NFTIdentifier = this.NFTList.nftidentifier;
+    this.own.CurentOwnerPK = this.NFTList.currentownerpk;
+    this.own.PreviousOwnerPK = this.NFTList.distributorpk;
+    this.own.Status = "ON SALE";
+    this.own.OwnerRevisionID = 2;
+    if (this.NFTList.distributorpk != null) {
+      this.addSubscription = this.servicemint.addOwner(this.own).subscribe();
+    }
   }
 
   addDBGateway(): void {

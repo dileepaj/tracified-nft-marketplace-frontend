@@ -120,6 +120,11 @@ export class ApiServicesService {
     return this.http.get<NFT>(`${this.baseUrlNFT}/${imgb64}`);
   }
 
+  getSimilarOwner(publickey:string,issuer:string): Observable<NFT> {
+    //request to get owner
+    return this.http.get<NFT>(`${this.baseUrlNFT}/${publickey}/${issuer}`);
+  }
+
   getEndorsement(userId:string): Observable<Endorse[]> {
     //request to get collection name according to user public key
     return this.http.get<Endorse[]>(`${this.baseUrlUpdateEndorse}/${userId}`);

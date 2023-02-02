@@ -283,10 +283,7 @@ export class BuyViewComponent implements OnInit {
             nftName: this.NFTList.nftname,
              thumbnail: this.NFTList.thumbnail,
           });
-        //  this.apiService.getSimilarOwner(phantomWallet.getWalletaddress(),this.NFTList.nftissuerpk).subscribe((res:any)=>{
-        //   console.log("response is : ",res)
         
-        //  })
         this.servicesell.findATA(phantomWallet.getWalletaddress(),this.NFTList.nftissuerpk).then((res:any)=>{
           console.log("result of fiding ata: ", res)
           if(res==null){
@@ -311,14 +308,17 @@ export class BuyViewComponent implements OnInit {
                       window as any
                     ).solana.signAndSendTransaction(result);
                     await connection.confirmTransaction(signature);
+                  
                     this.transfer
                     .createServiceATAforTransfer(
                       environment.fromWallet,
                       phantomWallet.getWalletaddress(),
-                      this.NFTList.nftissuerpk,
-                      this.atastatus
+                      this.NFTList.nftissuerpk
                     )
+                  
                      .subscribe(async (res: any) => {
+                      console.log("result: ",res)
+                    
               try{
                     loadingAnimation.close();
                     this.buytxn = res;
@@ -332,7 +332,9 @@ export class BuyViewComponent implements OnInit {
                         }catch (err) {
                 alert("Something went wrong, please try again! More information: "+err);
               }
-            });
+            })
+          
+            
                   }catch (err) {
                     alert("Something went wrong, please try again! More information: "+err);
                   }

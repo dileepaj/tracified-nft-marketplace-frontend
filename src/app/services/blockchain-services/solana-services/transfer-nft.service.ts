@@ -25,7 +25,6 @@ export class TransferNftService {
     from:string,
     to:string,
     mintPubkey: string,
-    status:string
   ){
     this.reqOpts = {
       observe: "response",
@@ -38,9 +37,11 @@ export class TransferNftService {
       Source:from,
       Destination:to,
       MintPubKey:mintPubkey,
-      Status:status
     }
-    return this.http.post(this.urlATAforTransfer, atamodel,{headers: this.headers});
+    
+    return this.http.post(this.urlATAforTransfer, atamodel,{headers: this.headers})
+   
+    
   }
 
 

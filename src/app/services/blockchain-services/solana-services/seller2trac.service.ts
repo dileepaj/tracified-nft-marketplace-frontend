@@ -62,8 +62,7 @@ export class Seller2tracService {
       new PublicKey(mint),
       new PublicKey(to)
     )
-
-    console.log("Account is ",atato)
-    //return atato
+  
+    return atato.toString()
   }
 }

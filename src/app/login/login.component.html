@@ -19,34 +19,31 @@
       </div>
       <div class="login-input-group">
         <label>Email Address</label>
-        <mat-form-field appearance="outline">
+        <div class="input-field-wrapper login-input-wrapper">
           <mat-icon matPrefix class="material-symbols-outlined">
             alternate_email
           </mat-icon>
-          <input type="email" matInput name="email" formControlName="username" />
-        </mat-form-field>
+          <input type="email" matInput name="email" formControlName="username"/>
+          <span></span>
+        </div>
       </div>
       <div class="login-input-group">
         <label>Password</label>
-        <mat-form-field appearance="outline">
-          <mat-icon matPrefix> lock </mat-icon>
+        <div class="input-field-wrapper login-input-wrapper">
+          <mat-icon> lock </mat-icon>
           <input
             name="password"
             [type]="showPassword ? 'text' : 'password'"
             matInput
             formControlName="password"
           />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="togglePwdVisibility()"
-            [matTooltip]="showPassword ? 'Hide Password' : 'Show Password'"
-          >
-            <mat-icon class="material-symbols-outlined" style="color: whitesmoke">
-              {{ !showPassword ? "visibility_off" : "visibility" }}
-            </mat-icon>
-          </button>
-        </mat-form-field>
+          <span></span>
+          <mat-icon class="material-symbols-outlined" style="color: whitesmoke; cursor: pointer;" (click)="togglePwdVisibility()">
+            {{ !showPassword ? "visibility_off" : "visibility" }}
+          </mat-icon>
+
+        </div>
+
       </div>
       <button mat-flat-button type="submit" class="btn-login" [disabled]="loading" (click)="onSubmit()">
         <span [class.spinner]="loading"> </span>
@@ -57,7 +54,7 @@
           <a
             href="https://qa.admin.tracified.com/reset-password"
             style="color: rgba(0, 200, 83, 1)"
-            >Get help</a
+            >Get support</a
           ></label
         >
       </form>

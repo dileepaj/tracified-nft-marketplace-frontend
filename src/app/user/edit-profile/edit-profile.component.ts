@@ -26,19 +26,23 @@ export class EditProfileComponent implements OnInit {
   image: string;
   currentImage: string;
   EndorseList: any;
-  constructor(private router: Router,private dialogService: DialogService, private _location: Location, private route: ActivatedRoute, private service: ApiServicesService, private snackbarSrevice: SnackbarServiceService) { }
+  displayName: string;
+  loading: boolean = false;
+  constructor(private router: Router, private dialogService: DialogService, private _location: Location, private route: ActivatedRoute, private service: ApiServicesService, private snackbarSrevice: SnackbarServiceService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = params['user'];
-
+      this.loading = true;
       this.service.getEndorsement(this.data).subscribe((res: any) => {
         this.EndorseList = res
         this.currentImage = res.profilepic
-        this.image=""
+        this.image = ""
         this.endorse.Name = res.Name;
+        this.displayName = res.Name;
         this.endorse.Contact = res.Contact
         this.endorse.Email = res.Email
+        this.loading = false;
       })
     })
     this.controlGroupProfile = new FormGroup({
@@ -53,33 +57,33 @@ export class EditProfileComponent implements OnInit {
   }
 
   public saveProfile() {
-    if (this.controlGroupProfile.get('name')!.value!=""){
+    if (this.controlGroupProfile.get('name')!.value != "") {
       this.endorse.Name = this.controlGroupProfile.get('name')!.value;
     }
-    if(this.controlGroupProfile.get('contact')!.value!=""){
+    if (this.controlGroupProfile.get('contact')!.value != "") {
       this.endorse.Contact = this.controlGroupProfile.get('contact')!.value;
     }
-    if(this.controlGroupProfile.get('mail')!.value!=""){
+    if (this.controlGroupProfile.get('mail')!.value != "") {
       this.endorse.Email = this.controlGroupProfile.get('mail')!.value;
     }
     this.endorse.PublicKey = this.data
-    if(this.image!=""){
+    if (this.image != "") {
       this.endorse.profilepic = this.image
-    }else{
+    } else {
       this.endorse.profilepic = this.currentImage
     }
 
     this.service.getEndorsement(this.endorse.PublicKey).subscribe((res: any) => {
-      if(res.Status=='Accepted'){
+      if (res.Status == 'Accepted') {
         this.service.updateEndorsement(this.endorse).subscribe(res => {
           this.snackbarSrevice.openSnackBar("Profile has been updated successfully")
           this.router.navigate(['./']);
         })
-      }else if(res.Status == null || res.Status == 'Declined' || res.Status == '') {
+      } else if (res.Status == null || res.Status == 'Declined' || res.Status == '') {
         this.dialogService
           .confirmDialog({
             title: ConfirmDialogText.PROFILE_ENDORSMENT_TITLE,
-            message:ConfirmDialogText.PROFILE_ENDORSMENT_MESSAGE,
+            message: ConfirmDialogText.PROFILE_ENDORSMENT_MESSAGE,
             confirmText: ConfirmDialogText.CONFIRM_BTN,
             cancelText: ConfirmDialogText.CANCEL_BTN,
           })
@@ -88,14 +92,14 @@ export class EditProfileComponent implements OnInit {
               this.router.navigate(['./mint']);
             }
           });
-        }else if(res.Status == 'Pending'){
-          this.dialogService
+      } else if (res.Status == 'Pending') {
+        this.dialogService
           .okDialog({
             title: "Endorsement in Pending",
-            message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+            message: "Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
             confirmText: ConfirmDialogText.CONFIRM_BTN,
           })
-        }
+      }
     })
 
   }

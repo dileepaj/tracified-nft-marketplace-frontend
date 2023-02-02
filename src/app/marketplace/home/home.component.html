@@ -11,7 +11,7 @@
             >Trace your NFTs for better value. Create yours now!</label
           >
         </div>
-        <button class="btn-create" [routerLink]="'/mint'">
+        <button class="btn-create-home" [routerLink]="'/mint'">
           <label>CREATE >></label>
         </button>
       </div>
@@ -48,7 +48,7 @@
           </div>
         </div>
       </div>
-      <div class="card-wrapper"  (click)="routeTo('/explore')">
+      <div class="card-wrapper" (click)="routeTo('/explore')">
         <div class="intro-header">
           <img src="../../../assets/images/intro_explore.png" />
         </div>
@@ -73,10 +73,13 @@
           fxLayoutAlign="space-between center"
         >
           <div class="hot-picks-header-title" fxFlex.lt-sm="100%">
-            Best NFT Picks Right Now
+            <img src="../../../assets/images/hotpicks.svg" />
+            <label> Best NFT Picks Right Now </label>
           </div>
           <div class="hot-picks-header-actions">
-            <button class="hot-picks-header-btn" (click)="viewHotPicks()">View All</button>
+            <button class="hot-picks-header-btn" (click)="viewHotPicks()">
+              View All
+            </button>
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollLeft('hot-picks-content')"
@@ -100,7 +103,14 @@
         </div>
         <div class="hot-picks-content" id="hot-picks-content">
           <div *ngFor="let item of List; index as i">
-            <app-nft-card  [item]="item" [itemId]="i.toString()" [blockchain]="item.Blockchain" [creatoruserid]="item.CreatorUserId"   [sellingstatus]="item.SellingStatus"  [currentownerpk]="item.CurrentOwnerPK"></app-nft-card>
+            <app-nft-card
+              [item]="item"
+              [itemId]="i.toString()"
+              [blockchain]="item.Blockchain"
+              [creatoruserid]="item.CreatorUserId"
+              [sellingstatus]="item.SellingStatus"
+              [currentownerpk]="item.CurrentOwnerPK"
+            ></app-nft-card>
           </div>
         </div>
       </div>
@@ -115,10 +125,13 @@
           fxLayoutAlign="space-between center"
         >
           <div class="hot-picks-header-title" fxFlex.lt-sm="100%">
-            Check what's Trending
+            <img src="../../../assets/images/trending.svg" />
+            <label>Trending NFTs</label>
           </div>
           <div class="hot-picks-header-actions">
-            <button class="hot-picks-header-btn" (click)="viewTrending()">View All</button>
+            <button class="hot-picks-header-btn" (click)="viewTrending()">
+              View All
+            </button>
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollLeft('category-content')"
@@ -142,7 +155,14 @@
         </div>
         <div class="hot-picks-content" id="hot-picks-content">
           <div *ngFor="let item2 of List2; index as i">
-            <app-nft-card  [item]="item2" [itemId]="'trndng'+i.toString()" [blockchain]="item2.Blockchain" [creatoruserid]="item2.CreatorUserId"   [sellingstatus]="item2.SellingStatus"  [currentownerpk]="item2.CurrentOwnerPK"></app-nft-card>
+            <app-nft-card
+              [item]="item2"
+              [itemId]="'trndng' + i.toString()"
+              [blockchain]="item2.Blockchain"
+              [creatoruserid]="item2.CreatorUserId"
+              [sellingstatus]="item2.SellingStatus"
+              [currentownerpk]="item2.CurrentOwnerPK"
+            ></app-nft-card>
           </div>
         </div>
       </div>
@@ -156,22 +176,24 @@
           fxLayout="row wrap"
           fxLayoutAlign="space-between center"
         >
-          <div class="news-header-title" fxFlex.lt-sm="100%">
-            Latest News
-          </div>
+          <div class="news-header-title" fxFlex.lt-sm="100%">Latest News</div>
         </div>
         <div class="news-container">
           <div class="news-topic" (click)="routeTo('/blogs')">
             <h2>About Tracified</h2>
             <label class="normal-text">
-              Tracified powered by Blockchain technology facilitates a tamper proof platform that streamlines the data flow within a supply chain, using a crypto-economic model.
+              Tracified powered by Blockchain technology facilitates a tamper
+              proof platform that streamlines the data flow within a supply
+              chain, using a crypto-economic model.
             </label>
             <button mat-flat-button class="btn-sm">Read More</button>
           </div>
           <div class="news-topic" (click)="routeTo('/docs')">
             <h2>Check out our Documentation</h2>
             <label class="normal-text">
-              What's Tracified? How does our minting work? How do you buy an NFT? Our Documentation offers a clear look into some fundamentals of the Tracified marketplace
+              What's Tracified? How does our minting work? How do you buy an
+              NFT? Our Documentation offers a clear look into some fundamentals
+              of the Tracified marketplace
             </label>
             <button mat-flat-button class="btn-sm">Read More</button>
           </div>

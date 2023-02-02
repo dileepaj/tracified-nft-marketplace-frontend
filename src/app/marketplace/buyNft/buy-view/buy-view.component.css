@@ -92,6 +92,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  margin-bottom: 30px;
 }
 
 .nft-name {
@@ -198,7 +199,7 @@
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 32px;
   /* identical to box height, or 178% */
 
@@ -251,15 +252,27 @@
 }
 
 .owner-l {
-  font-weight: 400;
-  font-size: 24px;
+  font-weight: 700;
+  font-size: 20px;
   width: 100%;
   word-break: break-all;
 }
 
 .owner-s {
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.nft-sum .owner-l {
+  font-weight: 400;
+  font-size: 20px;
+  width: 100%;
+  word-break: break-all;
+}
+
+.nft-sum .owner-s {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .user-story {
@@ -269,6 +282,7 @@
 }
 
 .desc {
+  position: relative;
   background: #2d2d2d;
   border-radius: 10px;
   overflow-y: auto;
@@ -289,7 +303,7 @@
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 143.52%;
   /* identical to box height, or 26px */
 
@@ -304,6 +318,7 @@
   border-collapse: separate;
   text-align: center;
   vertical-align: middle;
+  font-size: 18px;
 }
 
 .txn-table thead {
@@ -311,7 +326,7 @@
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 143.52%;
 
   color: #060b08;
@@ -436,7 +451,7 @@ td {
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 32px;
   /* identical to box height, or 178% */
 
@@ -471,6 +486,7 @@ td {
   width: 80%;
   height: 80%;
   border-radius: 20px;
+  object-fit: cover;
 }
 
 .sum-text {
@@ -493,7 +509,7 @@ td {
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 26px;
   /* identical to box height, or 110% */
 
@@ -535,7 +551,7 @@ td {
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 143.52%;
   /* identical to box height, or 26px */
 
@@ -555,7 +571,7 @@ td {
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 17px;
   /* identical to box height */
 
@@ -611,7 +627,7 @@ td {
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 22px;
   max-width: 100%;
   color: #ffffff;
@@ -772,6 +788,27 @@ td {
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 17px;
+}
+
+.no-story-div {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  min-height: 150px;
+  max-height: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  row-gap: 10px;
+}
+
+.comment {
+  align-self: flex-start;
 }

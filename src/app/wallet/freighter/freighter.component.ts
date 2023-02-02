@@ -46,8 +46,10 @@ export class FreighterComponent implements Wallet, OnInit {
     if ((window as any).freighterApi.isConnected()) {
       return;
     } else {
-      window.location.href = 'https://www.freighter.app/';
-    }
+        if (typeof (window as any).freighterApi != 'undefined'){
+          window.location.href = 'https://www.freighter.app/';
+        }
+      }
   }
   getWalletaddress(): string {
     if ((window as any).freighterApi.isConnected()) {

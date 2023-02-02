@@ -33,16 +33,6 @@
           <label> 03 6215 8715 (Japan) </label>
         </div>
         <div class="map-wrapper">
-          <div class="map-tabs">
-            <div
-              class="map-tab-header"
-              matRipple
-              [class.selected-tab]="selectedTab === 1"
-              (click)="changeTab(1)"
-            >
-              Japan
-            </div>
-          </div>
           <div class="map-tab" *ngIf="selectedTab === 1">
             <iframe
               class="map"
@@ -59,10 +49,10 @@
     <div class="content-2">
       <form class="contact-form" [formGroup]="controlGroup">
         <div class="contact-form-group" ngStyle.lt-md="width:100%">
-          <label class="normal-text"
+          <label class="normal-text contact-form-title"
             >Email Address <span class="required">*</span>
           </label>
-          <mat-form-field appearance="outline">
+          <div class="input-field-wrapper">
             <input
               type="email"
               class="input"
@@ -70,14 +60,16 @@
               name="Email"
               formControlName="Email"
               placeholder="Enter your email address here."
+
             />
-          </mat-form-field>
+            <span></span>
+          </div>
         </div>
         <div
           class="contact-form-group"
           ngStyle.lt-md="width:100%; margin-bottom: 35px"
         >
-          <label class="normal-text"
+          <label class="normal-text contact-form-title"
             >Category <span class="required">*</span></label
           >
           <mat-form-field appearance="outline">
@@ -87,6 +79,7 @@
               value="Minting"
               placeholder="Select category"
               disableOptionCentering
+              panelClass="dropdown-panel-class"
             >
               <mat-select-trigger
                 *ngIf="controlGroup.controls['Category'].value === 'Minting'"
@@ -147,13 +140,13 @@
         </div>
         <div
           class="contact-form-group"
-          style="margin-top: 8px"
-          ngStyle.lt-md="width:100%; margin-top: -17px"
+          style="margin-top: 14px"
+          ngStyle.lt-md="width:100%; margin-top: -19px"
         >
-          <label class="normal-text"
+          <label class="normal-text contact-form-title"
             >Subject <span class="required">*</span>
           </label>
-          <mat-form-field appearance="outline">
+          <div class="input-field-wrapper">
             <input
               type="text"
               class="input"
@@ -162,13 +155,14 @@
               formControlName="Subject"
               placeholder="Enter subject here."
             />
-          </mat-form-field>
+            <span></span>
+          </div>
         </div>
         <div class="contact-form-group" ngStyle.lt-md="width:100%">
-          <label class="normal-text"
+          <label class="normal-text contact-form-title"
             >Description <span class="required">*</span></label
           >
-          <mat-form-field appearance="outline" class="description">
+          <div class="input-field-wrapper">
             <textarea
               class="textarea"
               matInput
@@ -176,7 +170,8 @@
               maxlength="80"
               placeholder="Describe your issue by entering as many details as you can."
             ></textarea>
-          </mat-form-field>
+            <span></span>
+          </div>
         </div>
 
         <div class="contact-form-group" ngStyle.lt-md="width:100%">
@@ -195,7 +190,10 @@
               hidden
             />
           </div>
-          <label class="file-name">{{ name }}</label>
+          <div class="file-name-div" *ngIf="name !== ''">
+            <label class="file-name">{{ name }}</label>
+            <mat-icon class="delete-icon" matTooltip="Remove File" (click)="removeFile()">delete_forever</mat-icon>
+          </div>
         </div>
         <div
           class="contact-form-group"

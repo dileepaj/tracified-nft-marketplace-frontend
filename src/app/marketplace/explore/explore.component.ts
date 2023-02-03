@@ -252,8 +252,9 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     card.CurrentOwnerPK=arr[x].currentownerpk
     card.Hotpicks=arr[x].hotpicks
     card.Trending=arr[x].trending
-   
-    this.List.push(card)
+    if(card.Blockchain==this.selectedBlockchain){
+      this.List.push(card)
+     }
       })
     }
  
@@ -272,7 +273,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.Sale.splice(0)
     this.router.navigate(['/explore'], {
       queryParams: { blockchain: this.selectedBlockchain, filter },
-    });
+    }).then(res=>{window.location.reload();})
   }
 
   Filters(filter:string){

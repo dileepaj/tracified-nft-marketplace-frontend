@@ -106,7 +106,7 @@ export class HeaderComponent implements OnInit {
   public goToExplore(blockchain: string) {
     this.router.navigate(['/explore'], {
       queryParams: { blockchain: blockchain, filter: 'all' },
-    });
+    }).then(res=>{window.location.reload();})
     this.sideNavOpened = false;
     this.bcListExpanded = false;
   }

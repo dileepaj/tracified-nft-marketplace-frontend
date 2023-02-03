@@ -240,7 +240,7 @@ export class Mint2Component implements OnInit {
   pushOwner(): void {
     //posting owner data via service to backend
     this.own.NFTIdentifier = this.mint.NFTIdentifier;
-    this.own.CurentOwnerPK = this.mint.CurrentOwnerPK;
+    this.own.CurentOwnerPK = this.mint.CreatorUserId;
     this.own.PreviousOwnerPK = 'none';
     this.own.Status = this.mint.Status;
     this.own.OwnerRevisionID = 1;
@@ -745,7 +745,6 @@ export class Mint2Component implements OnInit {
   updateMinter(): void {
     if (this.minter.NFTIssuerPK != null) {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
-        this.saveTXNs();
         this.pendingDialog.close(true);
         this.proceed.emit({
           blockchain: this.mint.Blockchain,
@@ -760,7 +759,6 @@ export class Mint2Component implements OnInit {
   updateStellarTXN(): void {
     if (this.stxn.NFTTxnHash != null) {
       this.service.updateTXNStellar(this.stxn).subscribe((res) => {
-        this.saveTXNs();
         this.pendingDialog.close(true);
 
         this.proceed.emit({
@@ -797,7 +795,8 @@ export class Mint2Component implements OnInit {
               data.NFTIssuerPK,
             )
             .subscribe((res: any) => {
-              try {
+              try{
+                this.saveTXNs();
                 this.sendToMint3();
                 this.updateMinter();
               } catch (err) {
@@ -821,6 +820,7 @@ export class Mint2Component implements OnInit {
           this.mint.NFTTxnHash = txn.NFTTxnHash;
           this.stxn.NFTTxnHash = this.mint.NFTTxnHash;
           this.updateStellarTXN();
+          this.saveTXNs();
         });
     }
   }

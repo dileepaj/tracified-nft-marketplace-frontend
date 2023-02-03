@@ -56,4 +56,13 @@ export class Seller2tracService {
       return tx;
     })();
   }
+
+  async findATA(to:string,mint:string){
+    const atato = await getAssociatedTokenAddress(
+      new PublicKey(mint),
+      new PublicKey(to)
+    )
+  
+    return atato.toString()
+  }
 }

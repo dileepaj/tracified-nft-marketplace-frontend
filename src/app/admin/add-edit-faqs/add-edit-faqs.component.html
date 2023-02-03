@@ -4,32 +4,32 @@
       >User Question</label
     >
     <div fxLayout="row wrap" fxFlex="100%">
-      <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%">Email</label
+      <label class="label-title" fxFlex="10%" fxFlex.lt-sm="80%">Email</label
       ><label fxFlex="20%" fxFlex.lt-sm="80%" class="label-data">{{
         this.data.usermail
       }}</label>
     </div>
     <div fxLayout="row wrap" fxFlex="100%">
-      <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%">Category</label
+      <label class="label-title" fxFlex="10%" fxFlex.lt-sm="80%">Category</label
       ><label fxFlex="20%" fxFlex.lt-sm="80%" class="label-data">{{
         this.data.category
       }}</label>
     </div>
     <div fxLayout="row wrap" fxFlex="100%">
-      <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%">Subject</label
+      <label class="label-title" fxFlex="10%" fxFlex.lt-sm="80%">Subject</label
       ><label fxFlex="20%" fxFlex.lt-sm="80%" class="label-data">{{
         this.data.subject
       }}</label>
     </div>
     <div fxLayout="row wrap" fxFlex="100%">
-      <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+      <label class="label-title" fxFlex="10%" fxFlex.lt-sm="80%"
         >Description</label
       ><label fxFlex="20%" fxFlex.lt-sm="80%" class="label-data">{{
         this.data.desc
       }}</label>
     </div>
     <div fxLayout="row wrap" fxFlex="100%">
-      <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+      <label class="label-title" fxFlex="10%" fxFlex.lt-sm="80%"
         >Question ID</label
       >
       <label
@@ -44,7 +44,7 @@
       >
     </div>
     <div fxLayout="row wrap" fxFlex="100%">
-      <label *ngIf="imagepresent" class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+      <label *ngIf="imagepresent" class="label-title" fxFlex="10%" fxFlex.lt-sm="80%"
         >Attachment</label
       >
       <img
@@ -63,13 +63,10 @@
         style="display: flex; flex-direction: column; row-gap: 20px"
       >
         <label class="label-title">Type Your answer.</label>
-        <mat-form-field
-          class="example-full-width"
-          appearance="outline"
-          fxFlex="100%"
-        >
-          <textarea matInput formControlName="answer" name="answer"></textarea>
-        </mat-form-field>
+        <div class="input-field-wrapper answer-input-wrapper">
+          <textarea matInput formControlName="answer" name="answer" class="answer-textarea"></textarea>
+          <span></span>
+        </div>
       </div>
       <div>
         <button

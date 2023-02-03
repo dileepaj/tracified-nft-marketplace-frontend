@@ -38,7 +38,10 @@ export class TransferNftService {
       Destination:to,
       MintPubKey:mintPubkey,
     }
-    return this.http.post(this.urlATAforTransfer, atamodel,{headers: this.headers});
+    
+    return this.http.post(this.urlATAforTransfer, atamodel,{headers: this.headers})
+   
+    
   }
 
 

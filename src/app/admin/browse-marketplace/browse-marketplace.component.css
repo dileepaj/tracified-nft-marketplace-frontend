@@ -54,7 +54,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   height: calc(100vh - 63px);
-  background: #232323;
+  background: transparent;
 }
 
 .header-cont {
@@ -97,11 +97,11 @@
 }
 
 .hover-item:hover {
-  background-color: #6d6d6d;
+  background-color: #4141413c;
 }
 
 .active-inbx-itm {
-  background-color: #6d6d6d;
+  background-color: #4141413c;
 }
 
 .notification-card {
@@ -249,7 +249,7 @@ table td{
 }
 
 #inbox-tabs-wrapper {
-  background: #232323;
+  background: transparent;
   height: calc(100vh - 61px);
 }
 
@@ -276,7 +276,7 @@ table td{
 }
 
 .tabs-header .tab:first-child {
-  border-right: 1px solid #6d6d6d;
+  /* border-right: 1px solid #6d6d6d; */
 }
 
 .tabs-header img {
@@ -284,7 +284,7 @@ table td{
 }
 
 .active-tab {
-  background-color: #6d6d6d;
+  background-color: #4141413c;
 }
 
 .tab-content {

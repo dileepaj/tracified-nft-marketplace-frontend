@@ -39,9 +39,17 @@
           />
         </button>
       </div>
-      <p class="p-text sum-text" ngStyle.lt-lg="width : 100%">
-        {{ this.NFTList.description }}
-      </p>
+      <div class="prev-o" style="align-self: flex-start">
+        <label class="owner-s">Creator Name</label>
+        <label class="owner-l">{{ this.NFTList.artistname }}</label>
+      </div>
+      <div class="prev-o" style="margin-top:30px; align-self: flex-start">
+        <label class="owner-s">Description</label>
+        <label class="p-text sum-text" ngStyle.lt-lg="width : 100%">
+          {{ this.NFTList.description }}
+        </label>
+      </div>
+
     </div>
     <div
       class="nft-sell"
@@ -83,10 +91,6 @@
           <div class="sell-cont">
             <div class="owners">
               <div class="prev-o">
-                <label class="owner-s">Creator Name</label>
-                <label class="owner-l">{{ this.NFTList.artistname }}</label>
-              </div>
-              <div class="prev-o">
                 <label class="owner-s">Previous Owner</label>
                 <label class="owner-l">{{ this.prevOwner }}</label>
               </div>
@@ -99,14 +103,7 @@
                 <label class="owner-l">{{ this.NFTList.nftissuerpk }}</label>
               </div>
             </div>
-            <button
-              class="btn-primary btn-story"
-              mat-button
-              *ngIf="html == null"
-              (click)="createStory()"
-            >
-              Create NFT Story
-            </button>
+
             <div class="user-story" *ngIf="!loaded">
               <label class="heading-s">NFT Story</label>
               <div class="desc">
@@ -114,8 +111,19 @@
                   id="iframe"
                   class="user-story-iframe"
                   #iframe
-                  [hidden]="loaded"
+                  [hidden]="loaded && storyAvailable"
                 ></iframe>
+                <div class="no-story-div" *ngIf="!storyAvailable">
+                  <label>No Story Available.</label>
+                  <button
+                    class="btn-primary btn-story"
+                    mat-button
+                    *ngIf="html == null"
+                    (click)="createStory()"
+                  >
+                    Create NFT Story
+                  </button>
+                </div>
               </div>
             </div>
             <div class="txn-cont">
@@ -176,7 +184,8 @@
                   ngStyle.gt-xl="width : 10%"
                 >
                   <label>Price</label>
-                  <mat-form-field appearance="outline">
+                  <div class="input-field-wrapper sell-view-input-wrapper">
+                    <label class="prefix">{{ this.currency }}</label>
                     <input
                       type="text"
                       class="input"
@@ -185,8 +194,8 @@
                       formControlName="Price"
                       (input)="convertToUSD($event, 'selling')"
                     />
-                    <span matSuffix>{{ this.currency }}</span>
-                  </mat-form-field>
+                    <span></span>
+                  </div>
                 </div>
                 <label class="usd-label" ngStyle.lt-sm="margin-top: -20px">${{sellingPriceUSD.toFixed(2)}}</label>
                 <div
@@ -199,7 +208,7 @@
                   ngStyle.gt-xl="width : 10%"
                 >
                   <label>Royalty</label>
-                  <mat-form-field appearance="outline">
+                  <div class="input-field-wrapper sell-view-input-wrapper">
                     <input
                       type="text"
                       class="input"
@@ -212,9 +221,9 @@
                       [readonly]="this.value"
                       (input)="convertToUSD($event, 'royalty')"
                     />
-
-                    <span matSuffix style="font-size:18px;">%</span>
-                  </mat-form-field>
+                    <span></span>
+                    <label class="prefix">%</label>
+                  </div>
                 </div>
                 <label class="usd-label" ngStyle.lt-sm="margin-top: -20px">${{royaltyPriceUSD.toFixed(2)}}</label>
               </div>
@@ -234,127 +243,3 @@
   </div>
 </div>
 
-<!--
-  <div class="main-div" fxLayout="row wrap">
-  <div class="nft-view-header" fxFlex="100%">
-    <div
-      style="
-        width: 80%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-      "
-    >
-      <div class="breadcrumb-div">
-        <a (click)="goToExplore()" class="breadcrumb-link">Explore</a>
-        <mat-icon
-          class="material-symbols-outlined"
-          style="vertical-align: middle"
-        >
-          navigate_next
-        </mat-icon>
-        <a [routerLink]="'/sell'" class="breadcrumb-link">Sell NFT</a>
-        <mat-icon
-          class="material-symbols-outlined"
-          style="vertical-align: middle"
-        >
-          navigate_next
-        </mat-icon>
-        <a style="color: #00c853">TOMATOE - T0001</a>
-      </div>
-      <div>
-        <h1 style="font-size: 40px" fxHide.lt-md="true">Sell NFT</h1>
-      </div>
-    </div>
-  </div>
-  <div class="nft-div" fxFlex="100%" fxLayout="row wrap">
-    <div
-      class="nft-img-div"
-      fxFlex.lg="25%"
-      fxFlex.xl="20%"
-      fxFlex.md="30%"
-      fxFlex.sm="80%"
-      fxFlex.xs="80%"
-    >
-      <img [src]="imageSrc" *ngIf="imageSrc" class="b-nft-img" />
-      <div class="nft-name"><label>{{data.NftContentName}}</label></div>
-    </div>
-    <div
-      fxFlex.lg="55%"
-      fxFlex.xl="60%"
-      fxFlex.md="50%"
-      fxFlex.sm="80%"
-      fxFlex.xs="80%"
-    >
-      <div class="nft-details">
-        <div class="navbar" fxLayout="row wrap">
-          <button class="viewnftnavbtn" mat-button [routerLink]="'/getNft'">
-            Overview
-          </button>
-          <button
-            class="viewnftnavbtn"
-            mat-button
-            [routerLink]="'/create-account'"
-          >
-            User Story
-          </button>
-          <button
-            class="viewnftnavbtn"
-            mat-button
-            [routerLink]="'/create-account'"
-          >
-            Endorsement
-          </button>
-          <button
-            class="viewnftnavbtn viewnftnavbtn-active"
-            mat-button
-            [routerLink]="'/sell'"
-          >
-            Sell
-          </button>
-        </div>
-        <div class="nft-details-cont">
-          <form class="example-form" [formGroup]="controlGroupSell">
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Price</mat-label>
-              <input matInput formControlName="Price" />
-            </mat-form-field>
-            <mat-form-field class="example-full-width" appearance="outline">
-              <mat-label>Royalty</mat-label>
-              <input matInput formControlName="Royalty" />
-            </mat-form-field>
-          </form>
-          <div style="width: 90%">
-            <label class="info-title"
-              ><strong>CREATOR - </strong>{{ data.OriginPK }}
-            </label>
-          </div>
-          <div
-            style="
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              align-items: center;
-              margin-top: 20px;
-              margin-bottom: 20px;
-              width: 90%;
-            "
-          >
-            <button mat-flat-button class="btn-buy" (click)="Sell()">
-              Sell Now
-            </button>
-          </div>
-        </div>
-      </div>
-      <div style="margin-top: 20px">
-        <button mat-flat-button class="btn-create-col" (click)="showInProfile()">
-          Done
-        </button>
-        <br />
-        <a href="#" class="link" style="color: white">View On Stellar.Expert</a>
-      </div>
-    </div>
-  </div>
-</div>
-
- -->

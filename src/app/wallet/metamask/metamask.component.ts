@@ -22,7 +22,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
 
   ngOnInit(): void {}
   async initWallelt(_callback?: any): Promise<void> {
-    if (typeof (window as any).ethereum !== 'undefined') {
+    if (typeof (window as any).ethereum != 'undefined') {
       await (window as any).ethereum
         .request({ method: 'eth_requestAccounts' })
         .then((addresses: any) => {
@@ -31,12 +31,10 @@ export class MetamaskComponent extends walletOptions implements OnInit {
             _callback(addresses[0]);
           }
         })
-        .catch((e: { message: any }) => {
-          console.error(e.message);
+        .catch((e: { code:any,message: any }) => {
           return;
         });
     } else {
-      // console.log("window.ethereum is null");
        window.location.href = 'https://metamask.io/';
     }
   }

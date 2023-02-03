@@ -13,10 +13,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(90.81deg, #046F02 -10.8%, #38B56C 93.63%);
-
-
-  ;
+  background: linear-gradient(90.81deg, #046f02 -10.8%, #38b56c 93.63%);
 }
 
 .footer-top-inner {
@@ -27,14 +24,14 @@
   flex-wrap: wrap;
   justify-content: space-between;
   column-gap: 20px;
+  row-gap: 20px;
 }
 
 .footer-top .title {
-
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 17px;
+  font-size: 20px;
   line-height: 25px;
   color: #ffffff;
 }
@@ -50,11 +47,13 @@
 }
 
 .footer-bottom-inner {
+  position: relative;
   width: 90%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   column-gap: 100px;
+  padding-bottom: 50px;
 }
 
 .marketplace-logo {
@@ -78,6 +77,15 @@
   flex-wrap: wrap;
 }
 
+.footer-section-3 {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .links-section {
   display: flex;
   flex-direction: column;
@@ -86,7 +94,7 @@
 }
 
 .title {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
@@ -103,7 +111,7 @@
 }
 
 .footer-section-1 p {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -112,11 +120,10 @@
   align-items: center;
   color: #ffffff;
   margin-top: 8px;
-
 }
 
 .footer-section-1 label {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -139,10 +146,10 @@
 }
 
 .subscribe-wrapper label {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 22px;
   color: #ffffff;
   margin-bottom: -15px;
@@ -160,8 +167,7 @@
   box-sizing: border-box;
   padding: 10px;
   font-size: 14px;
-  float: right;
-  width: 95%;
+  width: 100%;
   height: 40px;
   background: transparent;
   border: none;
@@ -173,13 +179,13 @@
 }
 
 .btn-subscribe {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
   line-height: 22px;
   /* identical to box height */
-margin-bottom: -15px;
+  margin-bottom: -15px;
   display: flex;
   align-items: center;
 

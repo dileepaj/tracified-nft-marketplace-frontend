@@ -28,7 +28,7 @@ import { SellNftConfirmationComponent } from 'src/app/dialogs/sell-nft-confirmat
   providedIn: 'root',
 })
 export class DialogService {
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog) { }
 
   confirmDialog(data: ConfirmDialog): Observable<boolean> {
     return this.dialog
@@ -36,6 +36,7 @@ export class DialogService {
         data,
         width: '500px',
         disableClose: true,
+        backdropClass: 'back-drop'
       })
       .afterClosed();
   }
@@ -46,6 +47,7 @@ export class DialogService {
         data,
         width: '500px',
         disableClose: true,
+        backdropClass: 'back-drop'
       })
       .afterClosed();
   }
@@ -56,6 +58,7 @@ export class DialogService {
         data,
         width: '500px',
         disableClose: true,
+        backdropClass: 'back-drop'
       })
       .afterClosed();
   }
@@ -65,6 +68,7 @@ export class DialogService {
       data,
       width: '500px',
       disableClose: true,
+      backdropClass: 'back-drop'
     });
   }
 
@@ -73,6 +77,7 @@ export class DialogService {
       data,
       width: '500px',
       disableClose: true,
+      backdropClass: 'back-drop'
     });
   }
 
@@ -82,6 +87,7 @@ export class DialogService {
         data,
         width: '500px',
         disableClose: true,
+        backdropClass: 'back-drop'
       })
       .afterClosed();
   }
@@ -92,6 +98,7 @@ export class DialogService {
         data,
         width: '100%',
         disableClose: true,
+        backdropClass: 'back-drop'
       })
       .afterClosed();
   }
@@ -107,15 +114,17 @@ export class DialogService {
         email: email,
         key: key,
       },
+      backdropClass: 'back-drop'
     });
   }
 
-  selectWallet(data:selectWalletDialog)
-  : Observable<string> {
+  selectWallet(data: selectWalletDialog)
+    : Observable<string> {
     return this.dialog.open(SelectWalletComponent, {
       width: '500px',
       disableClose: true,
       data,
+      backdropClass: 'back-drop'
     }).afterClosed();
   }
 
@@ -124,6 +133,7 @@ export class DialogService {
       .open(DisclaimerComponent, {
         width: '800px',
         disableClose: true,
+        backdropClass: 'back-drop'
       })
       .afterClosed();
   }
@@ -137,6 +147,7 @@ export class DialogService {
         height: '80vh',
         maxHeight: '650px',
         disableClose: true,
+        backdropClass: 'back-drop'
       })
       .afterClosed();
   }
@@ -150,12 +161,15 @@ export class DialogService {
       maxWidth: '1000px',
       height: '80vh',
       maxHeight: '650px',
+      backdropClass: 'back-drop'
     });
   }
 
-  openMintAgain() : Observable<boolean> {
+  openMintAgain(): Observable<boolean> {
     return this.dialog
-      .open(MintPopupComponent)
+      .open(MintPopupComponent, {
+        backdropClass: 'back-drop'
+      })
       .afterClosed();
   }
 

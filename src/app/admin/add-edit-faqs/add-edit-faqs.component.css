@@ -27,13 +27,14 @@
 .label-title {
   color: #10ceac;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 20px;
 
   margin-right: 60px;
 }
 
 .label-data {
   max-width: 50px;
+  font-size: 20px;
 }
 
 .attachment-img {
@@ -93,13 +94,22 @@
   outline: none;
 }
 
-.example-full-width textarea {
+.answer-input-wrapper textarea {
   height: 175px;
 }
 
 ::placeholder {
   color: #686868;
   opacity: 1;
+}
+
+.answer-input-wrapper {
+  max-height: fit-content !important;
+  margin-bottom: 30px;
+}
+
+.answer-textarea {
+  height: 300px;
 }
 
 @media screen and (max-width: 600px) {

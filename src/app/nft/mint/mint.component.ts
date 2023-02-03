@@ -163,8 +163,6 @@ export class MintComponent implements OnInit {
             }
           });
 
-       }else{
-         window.location.href = 'https://metamask.io/';
        }
     }
     if(wallet=="freighter"){
@@ -209,8 +207,6 @@ export class MintComponent implements OnInit {
             }
           });
 
-       }else{
-        window.location.href = 'https://www.freighter.app/';
        }
     }
 
@@ -304,8 +300,6 @@ export class MintComponent implements OnInit {
           }
         });
 
-     }else{
-      window.location.href = 'https://phantom.app/';
      }
     }
   }

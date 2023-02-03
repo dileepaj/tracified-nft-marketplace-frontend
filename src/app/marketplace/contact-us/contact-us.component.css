@@ -142,6 +142,8 @@
 .collection-dropdown-selected {
   color: #fff;
   font-size: 18px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .contact-form-group textarea {
@@ -155,7 +157,7 @@
   flex-direction: column;
   align-items: flex-end;
   width: 100%;
-  row-gap: 40px;
+  row-gap: 50px;
 }
 
 ::ng-deep mat-form-field span.mat-form-field-label-wrapper label {
@@ -182,8 +184,13 @@
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 16px !important;
-
+  margin-left: 10px;
+  margin-right: 10px;
   color: #848484 !important;
+}
+
+mat-form-field{
+  margin-bottom: -1.25em;
 }
 
 .file-dnd-area {
@@ -209,17 +216,7 @@
   color: #10ceac;
 }
 
-.file-name {
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
 
-  color: #10ceac;
-  max-width: 100%;
-  text-overflow: ellipsis;
-}
 
 .btn-submit {
   width: 146px;
@@ -296,7 +293,6 @@
   width: 100%;
   margin-top: 50px;
   overflow: hidden;
-  border-radius: 10px 10px 0px 0px;
   background-color: #2d2d2d;
   display: flex;
   flex-direction: column;
@@ -337,6 +333,66 @@
   width: 100%;
 }
 
+.file-name-div {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.file-name {
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #10ceac;
+  max-width: 90%;
+  word-break: break-all;
+
+  text-overflow: ellipsis;
+}
+
+.delete-icon {
+  cursor: pointer;
+  margin-top: 5px;
+  transform: scale(0.9);
+  color: rgba(215, 85, 85, 1);
+}
+
+::ng-deep
+  .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid
+  .mat-form-field-outline-thick {
+  color: transparent !important;
+  opacity: 0.8 !important;
+}
+
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: rgba(16, 206, 172, 1) !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+  border-radius: 16px 0px 0px 16px !important;
+  width: 16px !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-radius: 0px 16px 16px 0px !important;
+  width: 16px !important;
+}
+
+.contact-form-title {
+  margin-bottom: 10px;
+}
+
+::ng-deep .dropdown-panel-class {
+  margin-top: 40px !important;
+}
+
 @media screen and (max-width: 959px) {
   .contact-us-content .content-1 {
     width: 100%;
@@ -361,6 +417,6 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    row-gap: 40px;
+    row-gap: 50px;
   }
 }

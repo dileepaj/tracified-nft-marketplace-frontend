@@ -22,15 +22,15 @@ export class EndorsementsComponent implements OnInit {
   addSubscription: Subscription;
   rating: string;
   description: string;
-  review : string
+  review: string
   data: any;
-  public PKval : any
+  public PKval: any
   constructor(private route: ActivatedRoute,
-    private service:ApiServicesService,
-    private router:Router,
-    private dialogService : DialogService,
-    private snackbar : SnackbarServiceService
-    ) {}
+    private service: ApiServicesService,
+    private router: Router,
+    private dialogService: DialogService,
+    private snackbar: SnackbarServiceService
+  ) { }
 
   //Fuction will retreive data from the .html file and initiate the service call to save a user reivew
   save(): void {
@@ -38,14 +38,14 @@ export class EndorsementsComponent implements OnInit {
       `${this.formValue('rating')} stars, "${this.formValue('description')}"`
     );
   }
-  details= new FormGroup({
+  details = new FormGroup({
 
   })
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
-      this.PKval =this.data.PublicKey
+      this.PKval = this.data.PublicKey
     })
     /**
      * Adds the requeired validator for rating and validation. when the user tries to submit empty data Visual feedback
@@ -58,67 +58,68 @@ export class EndorsementsComponent implements OnInit {
   }
 
   //Triggered when user clicks on accpet endorstment button. "status" in DB is updated as accpeted along with the review and rating
-  public acceptEndorsment(){
-    this.rating=this.formValue('rating')
-    this.description=this.formValue('description')
-    if (this.rating!=null && this.description!=null){
-      var updateEndorstment =new UpdateStatus("Accepted",this.data.PublicKey,this.description,this.rating,this.data.Email);
+  public acceptEndorsment() {
+    this.rating = this.formValue('rating')
+    this.description = this.formValue('description')
+    console.log(this.description);
+    if (this.rating != null && this.description != null) {
+      var updateEndorstment = new UpdateStatus("Accepted", this.data.PublicKey, this.description, this.rating, this.data.Email);
       //opens to a confirmation dialog to get users approval before sending the update
       this.dialogService.confirmDialog({
-        title:ConfirmDialogText.ADMIN_ENDORSE_USER_ACCEPT_TITLE,
-        message:ConfirmDialogText.ADMIN_ENDORSE_USER_ACCEPT_MESSAGE,
-        confirmText:ConfirmDialogText.ACCEPT_ENDORSMENT_BTN,
-        cancelText:ConfirmDialogText.CANCEL_BTN
-      }).subscribe(result=>{
-        if (result){
-          this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateResult:any)=>{
+        title: ConfirmDialogText.ADMIN_ENDORSE_USER_ACCEPT_TITLE,
+        message: ConfirmDialogText.ADMIN_ENDORSE_USER_ACCEPT_MESSAGE,
+        confirmText: ConfirmDialogText.ACCEPT_ENDORSMENT_BTN,
+        cancelText: ConfirmDialogText.CANCEL_BTN
+      }).subscribe(result => {
+        if (result) {
+          this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateResult: any) => {
             //if the updation is scuccesfull the user will get routed back to the admin dashboard
-            if(updateResult!="" || updateResult != null){
+            if (updateResult != "" || updateResult != null) {
               this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSEMENT_ACCEPTED_SUCCESS)
               this.router.navigate(['/admin-dashboard'])
-            }else{
+            } else {
               this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSMENT_ACCEPTED_ERROR)
             }
-             
-         })
+
+          })
         }
       })
-    }else{
+    } else {
       this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSE_BLANK_INPUT_WARNING)
     }
-    
+
   }
 
   //Triggered when user clicks on decline endorstment button. "status" in the DB is updated as declined along with the review and rating
-  public declineEndorsment(){
-    this.rating=this.formValue('rating')
-    this.description=this.formValue('description')
-    if (this.rating!=null && this.description!=null){
-      var updateEndorstment = new UpdateStatus("Declined",this.data.PublicKey,this.description,this.rating,this.data.Email)
+  public declineEndorsment() {
+    this.rating = this.formValue('rating')
+    this.description = this.formValue('description')
+    if (this.rating != null && this.description != null) {
+      var updateEndorstment = new UpdateStatus("Declined", this.data.PublicKey, this.description, this.rating, this.data.Email)
       //opens to a confirmation dialog to get users approval before sending the update
       this.dialogService.confirmDialog({
-        title:ConfirmDialogText.ADMIN_ENDORSE_USER_DECLINE_TITLE,
-        message:ConfirmDialogText.ADMIN_ENDORSE_USER_DECLINE_MESSAGE,
-        cancelText:ConfirmDialogText.CANCEL_BTN,
-        confirmText:ConfirmDialogText.DECLINE_ENDORSMENT_BTN
-      }).subscribe(result=>{
-        if(result){
-          this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateEndorstment:any)=>{
+        title: ConfirmDialogText.ADMIN_ENDORSE_USER_DECLINE_TITLE,
+        message: ConfirmDialogText.ADMIN_ENDORSE_USER_DECLINE_MESSAGE,
+        cancelText: ConfirmDialogText.CANCEL_BTN,
+        confirmText: ConfirmDialogText.DECLINE_ENDORSMENT_BTN
+      }).subscribe(result => {
+        if (result) {
+          this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateEndorstment: any) => {
             //if the updation is scuccesfull the user will get routed back to the admin dashboard
-            if(updateEndorstment){
+            if (updateEndorstment) {
               this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSMENT_DECLINED_SUCCESS)
               this.router.navigate(['/admin-dashboard'])
             }
-            
+
           })
         }
-        
+
       })
-    }else{
+    } else {
       this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSE_BLANK_INPUT_WARNING)
     }
-    
-    
+
+
   }
   private formValue(controlName: string): any {
     return this.controlGroup.get(controlName)!.value;

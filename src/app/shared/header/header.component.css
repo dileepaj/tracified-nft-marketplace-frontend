@@ -244,6 +244,7 @@ button.mat-menu-item:hover {
 }
 
 .dropdown-content button {
+  font-family: "Open Sans", sans-serif;
   border-bottom: 2px solid #000;
 }
 

@@ -58,6 +58,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   sales: any;
   creators: any;
   thumbnailSRC: any;
+  showNoNftError: boolean = false;
 
   constructor(
     private api: ApiServicesService,
@@ -183,8 +184,16 @@ export class ExploreComponent implements OnInit, AfterViewInit {
        
         });
       interval(APIConfigENV.APIStartDelay).subscribe(data=>{
-        this.loading = false;
+        if(this.List.length === 0) {
+          this.loading = false;
+          this.showNoNftError = true;
+        }
+        else {
+          this.showNoNftError = false;
+        }
+        
       })
+      
 
     })
 
@@ -257,6 +266,10 @@ export class ExploreComponent implements OnInit, AfterViewInit {
      }
       })
     }
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000)
  
   }
 

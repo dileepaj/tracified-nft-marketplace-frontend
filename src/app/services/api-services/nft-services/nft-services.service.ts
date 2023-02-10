@@ -30,7 +30,7 @@ export class NftServicesService {
   baseUrlOnSale:string =this.nftBackendBaseURL+'onsale';
   reqOpts: any;
 
-  pageSize : number = 6;
+  pageSize : number = 8;
 
   constructor(private http: HttpClient) { }
 

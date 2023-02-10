@@ -99,6 +99,7 @@ import { SelectWalletComponent } from './dialogs/select-wallet/select-wallet.com
 import { ConfirmMintComponent } from './dialogs/confirm-mint/confirm-mint.component';
 import { MintingComponent } from './dialogs/minting/minting.component';
 import { SellNftConfirmationComponent } from './dialogs/sell-nft-confirmation/sell-nft-confirmation.component';
+import { NftCardSkeletonComponent } from './nft/nft-card-skeleton/nft-card-skeleton.component';
 
 const appRoutes: Routes = [
   {
@@ -346,6 +347,7 @@ const appRoutes: Routes = [
     ConfirmMintComponent,
     MintingComponent,
     SellNftConfirmationComponent,
+    NftCardSkeletonComponent,
   ],
   imports: [
     BrowserModule,

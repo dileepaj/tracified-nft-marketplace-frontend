@@ -18,6 +18,7 @@ import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { ConfirmDialogText, SnackBarText } from 'src/app/models/confirmDialog';
 import albedo from '@albedo-link/intent';
+import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
 
 @Component({
   selector: 'app-mint',
@@ -60,6 +61,7 @@ export class MintComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private dialogService: DialogService,
+    private firebaseanalytics:FirebaseAnalyticsService
   ) {}
 
   sendToMint2(): void {
@@ -74,7 +76,7 @@ export class MintComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    this.firebaseanalytics.logEvent("page_load",{page_name:"wallet_selectionpage"})
     //validation of form data
     this.controlGroupMint = new FormGroup({
       Email: new FormControl(this.email, Validators.required),
@@ -128,10 +130,25 @@ export class MintComponent implements OnInit {
       var key=  metamaskwallet.getWalletaddress()
       this.blockchain="ethereum or polygon"
        if(key!=null){
+        this.firebaseanalytics.logEvent(
+          "wallet_activated:",
+          {
+            wallet_name:wallet,
+          })
+          this.firebaseanalytics.setUserProperties({UserWallet:wallet})
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
           if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+            this.firebaseanalytics.logEvent(
+              "user_account_status",
+              {
+                status_response:result.Status,
+                account_status:'account not endorsed or is Declined',
+                action:"Triggered pop up window",
+                blockchain_name:"Etheruem or Polygon"
+              }
+            )
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -140,8 +157,30 @@ export class MintComponent implements OnInit {
                 cancelText: ConfirmDialogText.CANCEL_BTN,
               })
               .subscribe((res) => {
+                this.firebaseanalytics.logEvent(
+                  'popUp-Triggered',
+                  {
+                    popup_name:"Endorsment Confirmation popup",
+                    Triggered_for : "Etheruem/Polygon",
+                    reason:"User public key not endrosed"
+                  }
+                )
                 if (res) {
+                  this.firebaseanalytics.logEvent(
+                    "popup_response",
+                    {
+                      btn_clicked:"yes",
+                      Triggered_for : "Etheruem/Polygon",
+                    }
+                  )
                   let arr:any=[this.blockchain,this.email,wallet]
+                  this.firebaseanalytics.logEvent(
+                    "page_change",
+                    {
+                      current_page:"mint1 screen",
+                      page_directed_to:"Endorsment signup page"
+                    }
+                  )
                   this.router.navigate(['./signUp'], {
                     queryParams: { data: JSON.stringify(arr) },
                   });
@@ -172,10 +211,25 @@ export class MintComponent implements OnInit {
           var key =await freighter.getWalletaddress()
           this.blockchain="stellar"
        if(key!=null){
+        this.firebaseanalytics.logEvent(
+          "wallet_activated:",
+          {
+            wallet_name:wallet,
+          })
+          this.firebaseanalytics.setUserProperties({UserWallet:wallet})
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
           if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+            this.firebaseanalytics.logEvent(
+              "user_account_status",
+              {
+                status_response:result.Status,
+                account_status:'account not endorsed or is Declined',
+                action:"Triggered pop up window",
+                blockchain_name:"Stellar-Freighter"
+              }
+            )
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -184,8 +238,30 @@ export class MintComponent implements OnInit {
                 cancelText: ConfirmDialogText.CANCEL_BTN,
               })
               .subscribe((res) => {
+                this.firebaseanalytics.logEvent(
+                  'popUp-Triggered',
+                  {
+                    popup_name:"Endorsment Confirmation popup",
+                    Triggered_for : "Stellar-Freighter",
+                    reason:"User public key not endrosed"
+                  }
+                )
                 if (res) {
+                  this.firebaseanalytics.logEvent(
+                    "popup_response",
+                    {
+                      btn_clicked:"yes",
+                      Triggered_for : "Stellar-Freighter",
+                    }
+                  )
                    let arr:any=[this.blockchain,this.email,wallet]
+                   this.firebaseanalytics.logEvent(
+                    "page_change",
+                    {
+                      current_page:"mint1 screen",
+                      page_directed_to:"Endorsment signup page"
+                    }
+                  )
                   this.router.navigate(['./signUp'], {
                     queryParams: { data: JSON.stringify(arr) },
                   });
@@ -219,10 +295,25 @@ export class MintComponent implements OnInit {
           var key =this.albedopk
           this.blockchain="stellar"
        if(key!=null){
+        this.firebaseanalytics.logEvent(
+          "wallet_activated:",
+          {
+            wallet_name:wallet, 
+          })
+        this.firebaseanalytics.setUserProperties({UserWallet:wallet})
         this.apiService
         .getEndorsement(key)
         .subscribe((result: any) => {
           if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+            this.firebaseanalytics.logEvent(
+              "user_account_status",
+              {
+                status_response:result.Status,
+                account_status:'account not endorsed or is Declined',
+                action:"Triggered pop up window",
+                blockchain_name:"Stellar-Albedo"
+              }
+            )
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -231,8 +322,30 @@ export class MintComponent implements OnInit {
                 cancelText: ConfirmDialogText.CANCEL_BTN,
               })
               .subscribe((res) => {
+                this.firebaseanalytics.logEvent(
+                  'popUp-Triggered',
+                  {
+                    popup_name:"Endorsment Confirmation popup",
+                    Triggered_for : "Setellar-Albedo",
+                    reason:"User public key not endrosed"
+                  }
+                )
                 if (res) {
+                  this.firebaseanalytics.logEvent(
+                    "popup_response",
+                    {
+                      btn_clicked:"yes",
+                      Triggered_for : "Stellar-Freighter",
+                    }
+                  )
                    let arr:any=[this.blockchain,this.email,wallet]
+                   this.firebaseanalytics.logEvent(
+                    "page_change",
+                    {
+                      current_page:"mint1 screen",
+                      page_directed_to:"Endorsment signup page"
+                    }
+                  )
                   this.router.navigate(['./signUp'], {
                     queryParams: { data: JSON.stringify(arr) },
                   });
@@ -265,10 +378,25 @@ export class MintComponent implements OnInit {
      this.blockchain="solana"
      var key=await phantomWallet.getWalletaddress()
     if(key!=null){
+      this.firebaseanalytics.logEvent(
+        "wallet_activated:",
+        {
+          wallet_name:wallet,
+        })
+        this.firebaseanalytics.setUserProperties({UserWallet:wallet})
       this.apiService
       .getEndorsement(key)
       .subscribe((result: any) => {
         if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
+          this.firebaseanalytics.logEvent(
+            "user_account_status",
+            {
+              status_response:result.Status,
+              account_status:'account not endorsed or is Declined',
+              action:"Triggered pop up window",
+              blockchain_name:"Solana"
+            }
+          )
           this.dialogService
             .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
@@ -277,8 +405,30 @@ export class MintComponent implements OnInit {
                 cancelText: ConfirmDialogText.CANCEL_BTN,
             })
             .subscribe((res) => {
+              this.firebaseanalytics.logEvent(
+                'popUp-Triggered',
+                {
+                  popup_name:"Endorsment Confirmation popup",
+                  Triggered_for : "Solana",
+                  reason:"User public key not endrosed"
+                }
+              )
               if (res) {
+                this.firebaseanalytics.logEvent(
+                  "popup_response",
+                  {
+                    btn_clicked:"yes",
+                    Triggered_for : "Solana",
+                  }
+                )
                 let arr:any=[this.blockchain,this.email,wallet]
+                this.firebaseanalytics.logEvent(
+                  "page_change",
+                  {
+                    current_page:"mint1 screen",
+                    page_directed_to:"Endorsment signup page"
+                  }
+                )
                 this.router.navigate(['./signUp'], {
                   queryParams: { data: JSON.stringify(arr) },
                 });

@@ -32,6 +32,7 @@ import { id } from 'ethers/lib/utils';
 import albedo from '@albedo-link/intent';
 import { SaleOfferService } from 'src/app/services/blockchain-services/stellar-services/albedo-transactions/sale-offer.service';
 import { MintService } from 'src/app/services/blockchain-services/mint.service';
+import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
 
 @Component({
   selector: 'app-sell-nft',
@@ -138,7 +139,8 @@ export class SellNftComponent implements OnInit {
     public emint:EthereumMintService,
     public pmint:PolygonMintService,
     private albedosale:SaleOfferService,
-    private servicemint:MintService
+    private servicemint:MintService,
+    private firebaseanalytics:FirebaseAnalyticsService
   ) {}
 
   calculatePrice(): void {
@@ -238,6 +240,11 @@ export class SellNftComponent implements OnInit {
   }
 
   async Sell(): Promise<void> {
+    this.firebaseanalytics.logEvent(
+      "button_clicked",{
+        button_name:"sell now"
+      }
+    )
     if (this.NFTList.blockchain == 'stellar') {
       await this.dialogService
         .selectWallet({
@@ -315,6 +322,14 @@ export class SellNftComponent implements OnInit {
                         );
                         this.showInProfile();
                       } catch (err) {
+                        this.firebaseanalytics.logEvent(
+                          "error",
+                          {
+                            reason:"Failed to put NFT on sale",
+                            wallet:this.wallet,
+                            trigger_at:"sell screen"
+                          }
+                        )
                         alert("Something went wrong, please try again! More information: " + err);
                       }
                     });
@@ -388,6 +403,14 @@ export class SellNftComponent implements OnInit {
                             );
                             this.showInProfile();
                           } catch (err) {
+                            this.firebaseanalytics.logEvent(
+                              "error",
+                              {
+                                reason:"Failed to put NFT on sale",
+                                wallet:this.wallet,
+                                trigger_at:"sell screen"
+                              }
+                            )
                             alert("Something went wrong, please try again! More information: " + err);
                           }
                         });
@@ -476,6 +499,14 @@ export class SellNftComponent implements OnInit {
                   );
                   this.showInProfile();
                 } catch (err) {
+                  this.firebaseanalytics.logEvent(
+                    "error",
+                    {
+                      reason:"Failed to put NFT on sale",
+                      wallet:this.wallet,
+                      trigger_at:"sell screen"
+                    }
+                  )
                   alert("Something went wrong, please try again! More information: " + err);
                 }
               });
@@ -491,10 +522,28 @@ export class SellNftComponent implements OnInit {
       if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {//might be distributor
         this.royaltyamount = parseFloat(this.formValue('Royalty'));
         if (isNaN(+this.royaltyamount)) {
+          this.firebaseanalytics.logEvent(
+            "error",
+            {
+              reason:"Invalid data typed entered for royalty",
+              data_entered:this.royaltyamount,
+              wallet:this.wallet,
+              trigger_at:"sell screen"
+            }
+          )
           this.snackbarService.openSnackBar("Royality must be inputed as a number")
           return
         }
         if (this.royaltyamount < 0 || this.royaltyamount > 100) {
+          this.firebaseanalytics.logEvent(
+            "error",
+            {
+              reason:"Invalid range entered for royalty",
+              data_entered:this.royaltyamount,
+              wallet:this.wallet,
+              trigger_at:"sell screen",
+            }
+          )
           this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
           return
         }
@@ -544,10 +593,26 @@ export class SellNftComponent implements OnInit {
                       );
                       this.showInProfile();
                     } catch (err) {
+                      this.firebaseanalytics.logEvent(
+                        "error",
+                        {
+                          reason:"Failed to put NFT on sale",
+                          wallet:this.wallet,
+                          trigger_at:"sell screen"
+                        }
+                      )
                       alert("Something went wrong, please try again! More information: " + err);
                     }
                   });
               } catch (err) {
+                this.firebaseanalytics.logEvent(
+                  "error",
+                  {
+                    reason:"Failed to put NFT on sale",
+                    wallet:this.wallet,
+                    trigger_at:"sell screen"
+                  }
+                )
                 alert("Something went wrong, please try again! More information: " + err);
               }
             })
@@ -565,10 +630,26 @@ export class SellNftComponent implements OnInit {
 
         this.royaltyamount = parseFloat(this.formValue('Royalty'));
         if (isNaN(+this.royaltyamount)) {
+          this.firebaseanalytics.logEvent(
+            "error",
+            {
+              reason:"Invalid data type entered for royalty",
+              wallet:this.wallet,
+              trigger_at:"sell screen"
+            }
+          )
           this.snackbarService.openSnackBar("Royality must be inputed as a number")
           return
         }
         if (this.royaltyamount < 0 || this.royaltyamount > 100) {
+          this.firebaseanalytics.logEvent(
+            "error",
+            {
+              reason:"Invalid royalty entered",
+              wallet:this.wallet,
+              trigger_at:"sell screen"
+            }
+          )
           this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
           return
         }
@@ -619,10 +700,26 @@ export class SellNftComponent implements OnInit {
                       );
                       this.showInProfile();
                     } catch (err) {
+                      this.firebaseanalytics.logEvent(
+                        "error",
+                        {
+                          reason:"Failed to put NFT on sale",
+                          wallet:this.wallet,
+                          trigger_at:"sell screen"
+                        }
+                      )
                       alert("Something went wrong, please try again! More information: " + err);
                     }
                   });
               } catch (err) {
+                this.firebaseanalytics.logEvent(
+                  "error",
+                  {
+                    reason:"Failed to put NFT on sale",
+                    wallet:this.wallet,
+                    trigger_at:"sell screen"
+                  }
+                )
                 alert("Something went wrong, please try again! More information: " + err);
               }
             })
@@ -633,6 +730,11 @@ export class SellNftComponent implements OnInit {
   }
 
   showInProfile() {
+    this.firebaseanalytics.logEvent(
+      "put_on_sale_success",{
+        operation_result:"success"
+      }
+    )
     let data: any = this.NFTList.blockchain;
     this.router.navigate(['/user-dashboard'], {
       queryParams: { user: this.NFTList.currentownerpk, blockchain: data },
@@ -658,6 +760,9 @@ export class SellNftComponent implements OnInit {
     });
     this.isLoading = true;
     if (this.data != null) {
+      this.firebaseanalytics.logEvent(
+        "page_load",{page_name:"put_NFT_on_Sale"}
+      )
       this.service
         // 1:nft identifer , 2:blockchain, 0:selling status
         .getNFTDetails(this.data[1], this.data[0], this.data[2])
@@ -744,7 +849,13 @@ export class SellNftComponent implements OnInit {
               }
 
             });
-
+          this.firebaseanalytics.logEvent(
+            "NFT_details_tobeputonsale",
+            {
+              blockchain:this.NFTList.blockchain,
+              attachment_type:this.NFTList.attachmenttype
+            }
+          )
           if (this.NFTList.blockchain == 'ethereum') {
             this.image = '../../../assets/images/blockchain-icons/ethereum.png';
           }
@@ -825,6 +936,13 @@ export class SellNftComponent implements OnInit {
           this.isLoading = false;
         });
     } else {
+      this.firebaseanalytics.logEvent(
+        "error",
+        {
+          reason:"account not endorserd",
+          trigger_location:"sell screen"
+        }      
+      )
       this.snackbarService.openSnackBar(
         'User PK not connected or not endorsed'
       );

@@ -61,6 +61,7 @@ import albedo from '@albedo-link/intent';
 import { TransferServiceChargeService } from 'src/app/services/blockchain-services/solana-services/transfer-service-charge.service';
 import { clusterApiUrl, Connection, Transaction as solanaTransaction } from '@solana/web3.js';
 import { Collection } from 'src/app/models/collection';
+import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
 
 @Component({
   selector: 'app-mint2',
@@ -197,7 +198,8 @@ export class Mint2Component implements OnInit {
     public dialog: MatDialog,
     public transfer: TransferNftService,
     private trust: TrustByDistributorService,
-    private servicecharge: TransferServiceChargeService
+    private servicecharge: TransferServiceChargeService,
+    private firebaseanalytics:FirebaseAnalyticsService
   ) {
     this.filteredtags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
@@ -278,6 +280,8 @@ export class Mint2Component implements OnInit {
 
   async getIssuer(): Promise<void> {
     //minting according to blockchain
+    this.firebaseanalytics.logEvent("button_click",{name:"Create"})
+    this.firebaseanalytics.logEvent("Start_mint",{blockchain:this.mint.Blockchain})
     this.mint.Blockchain = this.formValue('Blockchain');
     this.mint.NFTName = this.formValue('NFTName');
     this.mint.NftContentURL = this.formValue('NftContentURL');
@@ -367,6 +371,10 @@ export class Mint2Component implements OnInit {
                         })
                         this.pendingDialog.afterClosed().subscribe((success) => {
                           if (success) {
+                            this.firebaseanalytics.logEvent("minting_status",{
+                              blockchain:this.mint.Blockchain,
+                              result:"Success"
+                            })
                             this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                           }
 
@@ -437,6 +445,10 @@ export class Mint2Component implements OnInit {
                             })
                             this.pendingDialog.afterClosed().subscribe((success) => {
                               if (success) {
+                                this.firebaseanalytics.logEvent("minting_status",{
+                                  blockchain:this.mint.Blockchain,
+                                  result:"Success"
+                                })
                                 this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                               }
 
@@ -518,6 +530,10 @@ export class Mint2Component implements OnInit {
                   })
                   this.pendingDialog.afterClosed().subscribe((success) => {
                     if (success) {
+                      this.firebaseanalytics.logEvent("minting_status",{
+                        blockchain:this.mint.Blockchain,
+                        result:"Success"
+                      })
                       this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
                     }
 
@@ -966,7 +982,9 @@ export class Mint2Component implements OnInit {
     this.isLoadingPresent = false;
     this.loading.dismiss();
   }
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.firebaseanalytics.logEvent("page_load",{page_name:"minting_page"})
+  }
   ngOnChanges(): void {
     if (this.wallet == 'metamask') {
       this.polygon = false;

@@ -17,9 +17,9 @@ export const ENV: any = {
   GATEWAY: 'https://gateway.tracified.com',
   API_ADMIN: 'https://admin.api.tracified.com',
   APPCENTER_DEPLOYMENT_KEY: 'BcfHYi-Gexwau0ZS3Q0RmtoJqsTx2_Bln3Qkc',
-  BLOCKCHAIN_NETWORK: 'https://horizon.stellar.org',
-  NETWORK_TYPE: 'live' ,
-  NETWORK: 'PUBLIC'
+  BLOCKCHAIN_NETWORK: 'https://horizon-testnet.stellar.org',
+  NETWORK_TYPE: 'testnet' ,
+  NETWORK: 'TESTNET'
 };
 export const adminENV={
   production: false,
@@ -33,9 +33,9 @@ export const adminENV={
 export const APIConfigENV = {
   production: false,
   mode: 'staging',
-  gatewayBaseURL: 'https://staging.gateway.tracified.com/',
-  nftbackendBaseURL: 'https://staging.api.nft.tracified.com/',
-  marketplaceBaseURL:"https://staging.marketplace.nft.tracified.com/",
+  gatewayBaseURL: 'https://qa.gateway.tracified.com/',
+  nftbackendBaseURL: 'https://qa.api.nft.tracified.com/',
+  marketplaceBaseURL:"https://qa.marketplace.nft.tracified.com/",
   APIIntervalTimer: 60000,  // 30 seconds
   APIStartDelay: 60000, // 30 seconds
   homepageIntervalTimer: 600000 //10 minutes 600000
@@ -47,5 +47,25 @@ export const BlockchainConfig = {
   mode: 'staging',
   solananetwork: 'mainnet-beta',
   solananetworkURL: 'https://solana-mainnet.g.alchemy.com/v2/rSR0X9jq8qltHn8Tnb16oDa0eovOZf1Y'
+}
+
+export const FirebaseConfig = {
+  firebaseConfig: {
+
+    apiKey: "AIzaSyBY9TcEIKgfeuqVzJzE_1zmhX4CxPZnZJU",
+
+    authDomain: "tracified-mithila-8f54a.firebaseapp.com",
+
+    projectId: "tracified-mithila-8f54a",
+
+    storageBucket: "tracified-mithila-8f54a.appspot.com",
+
+    messagingSenderId: "536618682711",
+
+    appId: "1:536618682711:web:93d5e4e2cc9cc30753d612",
+
+    measurementId: "G-QK75KDSFNQ"
+  }
+
 }
 

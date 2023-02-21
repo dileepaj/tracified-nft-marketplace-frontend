@@ -40,17 +40,17 @@ export class PolygonMarketServiceService {
 
   
   
-  public async createSaleOffer(nftcontract: string,tokenId:number,price:string,commission:string): Promise<any> {
+  public async createSaleOffer(nftcontract: string,tokenId:number,price:string,commission:string, _callback? :any): Promise<any> {
     let metamaskWallet = new UserWallet();
     metamaskWallet = new MetamaskComponent(metamaskWallet);
-    const tx=metamaskWallet.createSaleOffer('polygon', nftcontract, tokenId, price, commission);
+    const tx=metamaskWallet.createSaleOffer('polygon', nftcontract, tokenId, price, commission, _callback);
     return tx;
   }
 
-  public async BuyNFT(nftContract: string,itemId:number,price:string,royalty:string,seller:string,commission:string): Promise<any> {
+  public async BuyNFT(nftContract: string,itemId:number,price:string,royalty:string,seller:string,commission:string,  _callback? :any): Promise<any> {
     let metamaskWallet = new UserWallet();
     metamaskWallet = new MetamaskComponent(metamaskWallet);
-    const tx=metamaskWallet.buynft('polygon', nftContract, itemId, price, commission,royalty,seller);
+    const tx=metamaskWallet.buynft('polygon', nftContract, itemId, price, commission,royalty,seller, _callback);
     return tx;
   }
 

@@ -16,7 +16,8 @@ export abstract class Wallet {
     nftcontract: string,
     tokenId: number,
     price: string,
-    listingPrice: string
+    listingPrice: string,
+    _callback? : any
   ) {}
   buynft(
     blockchain: string,
@@ -25,7 +26,8 @@ export abstract class Wallet {
     price: string,
     listingPrice: string,
     royalty:string,
-    seller:string
+    seller:string,
+    _callback? : any
   ) {}
   signTransactionPhantom(userPK: string, tracifiedAta: string) {}
   getBalance(publicKey : string, _callback : any) {}

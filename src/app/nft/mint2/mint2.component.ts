@@ -1333,9 +1333,15 @@ export class Mint2Component implements OnInit {
 
 
   fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
-    this.cropperStat = true
-    this.showthumbnailContainer = false
+    if (event.target.files[0].size <= 2 * 1024 * 1024) {
+      this.imageChangedEvent = event;
+      this.cropperStat = true
+      this.showthumbnailContainer = false
+    }
+    else {
+      this.snackbar.openSnackBar("Maximum file size for thumbnail is 2 MB");
+    }
+
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;

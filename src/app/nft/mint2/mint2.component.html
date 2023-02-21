@@ -3,53 +3,127 @@
   <div class="seperator"></div>
   <form id="mintingForm" [formGroup]="controlGroup">
     <div class="dnd-outer-div" ngStyle.lt-md="width:100%">
-      <label class="hint" ><span
-          class="required">*</span>Required fields</label>
+      <label class="hint"><span class="required">*</span>Required fields</label>
       <div fxLayoutAlign="space-between center">
-        <label class="normal-text" style="margin-bottom: 10px" *ngIf="showthumbnailContainer">Upload Thumbnail <span class="required">*</span></label>
-
+        <label
+          class="normal-text"
+          style="margin-bottom: 10px"
+          *ngIf="showthumbnailContainer"
+          >Upload Thumbnail <span class="required">*</span></label
+        >
       </div>
-      <label class="normal-text" style="margin-bottom: 10px"  *ngIf="cropperStat">Crop Image <span class="required"></span></label>
-      <div *ngIf="cropperStat" id="img-cropper-window" style="width: 620px;"  ngStyle.lt-md="width:100%">
-        <image-cropper style="width: 620px; margin-bottom: 20px;" ngStyle.lt-md="width:100%" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
-          format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
-          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" ></image-cropper>
-          <button mat-flat-button class="btn-create" (click)="hideCropper()">Crop</button>
+      <label class="normal-text" style="margin-bottom: 10px" *ngIf="cropperStat"
+        >Crop Image <span class="required"></span
+      ></label>
+      <div
+        *ngIf="cropperStat"
+        id="img-cropper-window"
+        style="width: 620px"
+        ngStyle.lt-md="width:100%"
+      >
+        <image-cropper
+          style="width: 620px; margin-bottom: 20px"
+          ngStyle.lt-md="width:100%"
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="1 / 1"
+          format="png"
+          (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()"
+          (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+        <button mat-flat-button class="btn-create" (click)="hideCropper()">
+          Crop
+        </button>
       </div>
 
       <div class="thumb-dnd-outer" ngStyle.lt-md="width:100%">
-        <div class="dnd-area" id="thumb-dnd" ngStyle.lt-md="width: calc(100% - 6px)"
-        (click)="triggerThumbnailUpload()" *ngIf="showthumbnailContainer" >
-        <div id="thumb-dnd-ph" class="img-div" *ngIf="!croppedImage">
-          <object id="thumb-dnd-img" data="../../../assets/images/thumbnail-mint2.png" style="width: 100px; height: 85px"
-            *ngIf="!thumbSrc"></object>
-            <label class="dnd-txt" *ngIf="!croppedImage">Drag and Drop or Browse</label>
+        <div
+          class="dnd-area"
+          id="thumb-dnd"
+          ngStyle.lt-md="width: calc(100% - 6px)"
+          (click)="triggerThumbnailUpload()"
+          *ngIf="showthumbnailContainer"
+        >
+          <div id="thumb-dnd-ph" class="img-div" *ngIf="!croppedImage">
+            <object
+              id="thumb-dnd-img"
+              data="../../../assets/images/thumbnail-mint2.png"
+              style="width: 100px; height: 85px"
+              *ngIf="!thumbSrc"
+            ></object>
+            <label class="dnd-txt" *ngIf="!croppedImage"
+              >Drag and Drop or Browse</label
+            >
+          </div>
+
+          <img
+            id="thumb-dnd-u-img"
+            [src]="croppedImage"
+            *ngIf="croppedImage"
+            id="img"
+            class="uploaded-img"
+          />
+
+          <input
+            type="file"
+            accept="image/png, image/jpeg"
+            #thumbUpload
+            (change)="fileChangeEvent($event)"
+            hidden
+          />
         </div>
-
-        <img id="thumb-dnd-u-img" [src]="croppedImage" *ngIf="croppedImage" id="img" class="uploaded-img">
-
-        <input type="file" accept="image/png, image/jpeg" #thumbUpload (change)="fileChangeEvent($event)" hidden />
-
+        <div
+          class="thumb-upload-menu"
+          fxHide.lt-md="true"
+          fxShow.md="true"
+          fxShow.gt-md="true"
+          *ngIf="showthumbnailContainer"
+        >
+          <button
+            mat-icon-button
+            id="upload-options"
+            class="upload-options"
+            *ngIf="thumbSrc"
+            (click)="triggerThumbnailUpload()"
+          >
+            <mat-icon class="material-symbols-outlined"> edit </mat-icon>
+          </button>
+        </div>
       </div>
-      <div class="thumb-upload-menu" fxHide.lt-md="true" fxShow.md="true" fxShow.gt-md="true" *ngIf="showthumbnailContainer">
-        <button mat-icon-button id="upload-options" class="upload-options" *ngIf="thumbSrc"  (click)="triggerThumbnailUpload()" >
+      <div
+        class="thumb-upload-menu"
+        ngStyle.lt-md="width: 100%"
+        fxShow.lt-md="true"
+        fxHide.md="true"
+        fxHide.gt-md="true"
+        fxLayoutAlign="flex-end"
+        *ngIf="showthumbnailContainer"
+      >
+        <button
+          mat-icon-button
+          id="upload-options"
+          class="upload-options"
+          *ngIf="thumbSrc"
+          (click)="triggerThumbnailUpload()"
+        >
           <mat-icon class="material-symbols-outlined"> edit </mat-icon>
         </button>
       </div>
-      </div>
-      <div class="thumb-upload-menu" ngStyle.lt-md="width: 100%" fxShow.lt-md="true" fxHide.md="true" fxHide.gt-md="true" fxLayoutAlign="flex-end"  *ngIf="showthumbnailContainer">
-        <button mat-icon-button id="upload-options" class="upload-options" *ngIf="thumbSrc"  (click)="triggerThumbnailUpload()" >
-          <mat-icon class="material-symbols-outlined"> edit </mat-icon>
-        </button>
-      </div>
-
     </div>
     <div class="dnd-outer-div" ngStyle.lt-md="width:100%">
       <div fxLayoutAlign="space-between center">
-        <label class="normal-text" style="margin-bottom: 10px">Upload SVG <span class="required">*</span></label>
+        <label class="normal-text" style="margin-bottom: 10px"
+          >Upload SVG <span class="required">*</span></label
+        >
       </div>
-      <div class="dnd-area" id="nft-dnd" ngStyle.lt-md="width: calc(100% - 6px)"
-        (click)="triggerClick()">
+      <div
+        class="dnd-area"
+        id="nft-dnd"
+        ngStyle.lt-md="width: calc(100% - 6px)"
+        (click)="triggerClick()"
+      >
         <div id="nft-dnd-ph" class="img-div" *ngIf="!imageSrc">
           <object
             id="nft-dnd-img"
@@ -57,21 +131,44 @@
             style="width: 100px; height: 85px"
             *ngIf="!imageSrc"
           ></object>
-          <label class="dnd-txt" style="width: 300px" *ngIf="!imageSrc">Drag and Drop or Browse</label>
+          <label class="dnd-txt" style="width: 300px" *ngIf="!imageSrc"
+            >Drag and Drop or Browse</label
+          >
         </div>
 
-        <embed id="nft-dnd-u-img" [src]="imageSrc" *ngIf="imageSrc" id="img" class="uploaded-img">
+        <embed
+          id="nft-dnd-u-img"
+          [src]="imageSrc"
+          *ngIf="imageSrc"
+          id="img"
+          class="uploaded-img"
+        />
 
-        <input type="file" accept="image/*" #fileUpload (change)="onChange($event)" hidden />
+        <input
+          type="file"
+          accept="image/*"
+          #fileUpload
+          (change)="onChange($event)"
+          hidden
+        />
       </div>
       <div fxLayout="row wrap" fxLayoutAlign="space-between">
         <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
-          <img src="../../../assets/icons/code-icon.png" style="flex-basis: 40%" />
+          <img
+            src="../../../assets/icons/code-icon.png"
+            style="flex-basis: 40%"
+          />
         </button>
-        <button mat-icon-button id="upload-options" class="upload-options" *ngIf="imageSrc" (click)="triggerClick()" >
+        <button
+          mat-icon-button
+          id="upload-options"
+          class="upload-options"
+          *ngIf="imageSrc"
+          (click)="triggerClick()"
+        >
           <mat-icon class="material-symbols-outlined"> edit </mat-icon>
         </button>
-<!--         <button mat-icon-button id="upload-options" class="upload-options" *ngIf="imageSrc">
+        <!--         <button mat-icon-button id="upload-options" class="upload-options" *ngIf="imageSrc">
           <mat-icon class="material-symbols-outlined"> more_vert </mat-icon>
           <div class="dropdown-options-content">
             <button mat-menu-item fxLayout="row" fxLayoutAlign="center center">
@@ -83,13 +180,17 @@
 
       <label>or Create SVG with Tracified</label>
       <div class="composer" matRipple ngStyle.lt-sm="width:100%">
-        <a href="https://qa.nftcomposer.tracified.com/" target="_blank">Tracified Composer</a>
+        <a href="https://qa.nftcomposer.tracified.com/" target="_blank"
+          >Tracified Composer</a
+        >
 
         <mat-icon class="material-symbols-outlined"> open_in_new </mat-icon>
       </div>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text title-margin">Name <span class="required">*</span> </label>
+      <label class="normal-text title-margin"
+        >Name <span class="required">*</span>
+      </label>
       <div class="input-field-wrapper">
         <input
           type="text"
@@ -98,101 +199,198 @@
           name="name"
           formControlName="NFTName"
           placeholder="Enter a name for your NFT."
-          maxlength="12"
+          [maxlength]="nftNameLimit"
+          (input)="countRemainingCharactersInNftName($event)"
         />
         <span></span>
-
       </div>
-      <mat-hint class="input-hint">Maximum characters 12</mat-hint>
+      <mat-hint class="input-hint"
+        >{{ nftNameRemainingChars }} characters remaining
+      </mat-hint>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Description <span class="required">*</span></label>
-      <label class="tooltip">This will be displayed in the NFT details page along with the image.</label>
+      <label class="normal-text"
+        >Description <span class="required">*</span></label
+      >
+      <label class="tooltip"
+        >This will be displayed in the NFT details page along with the
+        image.</label
+      >
       <div class="input-field-wrapper">
         <textarea
           class="textarea"
           matInput
           formControlName="Description"
-          maxlength="80"
+          [maxlength]="descriptionLimit"
           placeholder="Provide a detailed description of your NFT."
+          (input)="countRemainingCharactersInDesc($event)"
         ></textarea>
         <span></span>
       </div>
+      <mat-hint class="input-hint"
+        >{{ descriptionRemainingChars }} characters remaining</mat-hint
+      >
     </div>
-    <div class="mint-form-group" ngStyle.lt-md="width:100%; margin-bottom: 35px">
-      <label class="normal-text">Collection <span class="required">*</span></label>
-      <label class="tooltip">Your NFT must be part of a collection. You can create any number of NFTs per collection.</label>
-      <div style="position: relative; display: flex; flex-direction: row; align-items: center;">
-        <mat-form-field appearance="outline" fxHide.md="false" fxHide.gt-md="false" fxShow.lt-md="false" style="width: 100%" class="mint-form-field">
-          <mat-select formControlName="Collection" class="select-bc" placeholder="Select Collection" (click)="onClickCollectionDropDown()" disableOptionCentering panelClass="dropdown-panel-class">
+    <div
+      class="mint-form-group"
+      ngStyle.lt-md="width:100%; margin-bottom: 35px"
+    >
+      <label class="normal-text"
+        >Collection <span class="required">*</span></label
+      >
+      <label class="tooltip"
+        >Your NFT must be part of a collection. You can create any number of
+        NFTs per collection.</label
+      >
+      <div
+        style="
+          position: relative;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        "
+      >
+        <mat-form-field
+          appearance="outline"
+          fxHide.md="false"
+          fxHide.gt-md="false"
+          fxShow.lt-md="false"
+          style="width: 100%"
+          class="mint-form-field"
+        >
+          <mat-select
+            formControlName="Collection"
+            class="select-bc"
+            placeholder="Select Collection"
+            (click)="onClickCollectionDropDown()"
+            disableOptionCentering
+            panelClass="dropdown-panel-class"
+          >
             <mat-select-trigger>
               <label class="collection-dropdown-selected">{{
                 controlGroup.controls["Collection"].value
-                }}</label>
+              }}</label>
             </mat-select-trigger>
-            <mat-option *ngFor="let collection of CollectionList" [value]="collection.CollectionName"><label
-                class="collection-dropdown">{{
+            <mat-option
+              *ngFor="let collection of CollectionList"
+              [value]="collection.CollectionName"
+              ><label class="collection-dropdown">{{
                 collection.CollectionName
-                }}</label></mat-option>
+              }}</label></mat-option
+            >
           </mat-select>
         </mat-form-field>
-        <img fxHide.md="false" fxHide.gt-md="false" fxShow.lt-md="false" ngStyle.lt-md="position: absolute;
+        <img
+          fxHide.md="false"
+          fxHide.gt-md="false"
+          fxShow.lt-md="false"
+          ngStyle.lt-md="position: absolute;
         top: 90px;
         left: 0px;
         width: 35px;
-        height: 35px;" src="../../../assets/images/add.png" class="add-btn" matRipple (click)="openCreateCollection()"
-        matTooltip="Create collection" />
+        height: 35px;"
+          src="../../../assets/images/add.png"
+          class="add-btn"
+          matRipple
+          (click)="openCreateCollection()"
+          matTooltip="Create collection"
+        />
       </div>
 
       <!--for mobile views-->
-      <div style="
+      <div
+        style="
           display: flex;
           flex-direction: row;
           align-items: center;
           justify-content: space-between;
           column-gap: 10px;
-        " fxHide.md="true" fxHide.gt-md="true" fxShow.lt-md="true">
-        <mat-form-field appearance="outline" style="flex-grow: 1" class="mint-form-field">
-          <mat-select formControlName="Collection" class="select-bc" (click)="onClickCollectionDropDown()" disableOptionCentering panelClass="dropdown-panel-class">
+        "
+        fxHide.md="true"
+        fxHide.gt-md="true"
+        fxShow.lt-md="true"
+      >
+        <mat-form-field
+          appearance="outline"
+          style="flex-grow: 1"
+          class="mint-form-field"
+        >
+          <mat-select
+            formControlName="Collection"
+            class="select-bc"
+            (click)="onClickCollectionDropDown()"
+            disableOptionCentering
+            panelClass="dropdown-panel-class"
+          >
             <mat-select-trigger>
               <label class="collection-dropdown-selected">{{
                 controlGroup.controls["Collection"].value
-                }}</label>
+              }}</label>
             </mat-select-trigger>
-            <mat-option *ngFor="let collection of CollectionList" [value]="collection.CollectionName"><label
-                class="collection-dropdown">{{
+            <mat-option
+              *ngFor="let collection of CollectionList"
+              [value]="collection.CollectionName"
+              ><label class="collection-dropdown">{{
                 collection.CollectionName
-                }}</label></mat-option>
+              }}</label></mat-option
+            >
           </mat-select>
         </mat-form-field>
-        <img src="../../../assets/images/add.png" class="add-btn-sm" matRipple (click)="openCreateCollection()"
-          matTooltip="Create collection" />
+        <img
+          src="../../../assets/images/add.png"
+          class="add-btn-sm"
+          matRipple
+          (click)="openCreateCollection()"
+          matTooltip="Create collection"
+        />
       </div>
     </div>
-    <div class="mint-form-group" style="margin-top: 15px" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Choose your Blockchain <span class="required">*</span></label>
-      <label class="tooltip">Your NFT will be created in the selected blockchain. Transaction fees may vary.</label>
+    <div
+      class="mint-form-group"
+      style="margin-top: 15px"
+      ngStyle.lt-md="width:100%"
+    >
+      <label class="normal-text"
+        >Choose your Blockchain <span class="required">*</span></label
+      >
+      <label class="tooltip"
+        >Your NFT will be created in the selected blockchain. Transaction fees
+        may vary.</label
+      >
       <mat-form-field appearance="outline" class="mint-form-field">
-        <mat-select formControlName="Blockchain" disableOptionCentering class="select-bc" panelClass="dropdown-panel-class">
-          <mat-select-trigger *ngIf="controlGroup.controls['Blockchain'].value === 'ethereum'">
+        <mat-select
+          formControlName="Blockchain"
+          disableOptionCentering
+          class="select-bc"
+          panelClass="dropdown-panel-class"
+        >
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Blockchain'].value === 'ethereum'"
+          >
             <div class="bc-dropdown-selected">
               <img src="../../../assets/images/ethereum-dd.png" />
               <label>Ethereum</label>
             </div>
           </mat-select-trigger>
-          <mat-select-trigger *ngIf="controlGroup.controls['Blockchain'].value === 'polygon'">
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Blockchain'].value === 'polygon'"
+          >
             <div class="bc-dropdown-selected">
               <img src="../../../assets/images/polygon-dd.png" />
               <label>Polygon</label>
             </div>
           </mat-select-trigger>
-          <mat-select-trigger *ngIf="controlGroup.controls['Blockchain'].value === 'stellar'">
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Blockchain'].value === 'stellar'"
+          >
             <div class="bc-dropdown-selected">
               <img src="../../../assets/images/stellar-dd.png" />
               <label>Stellar</label>
             </div>
           </mat-select-trigger>
-          <mat-select-trigger *ngIf="controlGroup.controls['Blockchain'].value === 'solana'">
+          <mat-select-trigger
+            *ngIf="controlGroup.controls['Blockchain'].value === 'solana'"
+          >
             <div class="bc-dropdown-selected">
               <img src="../../../assets/images/solana-dd.png" />
               <label>Solana</label>
@@ -200,7 +398,11 @@
           </mat-select-trigger>
 
           <!--options-->
-          <mat-option class="option" value="ethereum" [disabled]="this.ethereum">
+          <mat-option
+            class="option"
+            value="ethereum"
+            [disabled]="this.ethereum"
+          >
             <div class="bc-dropdown" [class.dropdown-disabled]="this.ethereum">
               <img src="../../../assets/images/ethereum-dd.png" />
               <label>Ethereum</label>
@@ -227,27 +429,49 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="mint-form-group" style="margin-top: 15px" ngStyle.lt-md="width:100%">
+    <div
+      class="mint-form-group"
+      style="margin-top: 15px"
+      ngStyle.lt-md="width:100%"
+    >
       <label class="normal-text">Tags <span class="required">*</span></label>
-      <label class="tooltip">Enter one to four tags that best describes your NFT. Tags can be used to search for NFTs.</label>
-      <mat-form-field class="example-chip-list mint-form-field" appearance="outline">
-        <mat-chip-list #chipList style="position: absolute; top: 15px; left: 10px; right: 10px">
+      <label class="tooltip"
+        >Enter one to four tags that best describes your NFT. Tags can be used
+        to search for NFTs.</label
+      >
+      <mat-form-field
+        class="example-chip-list mint-form-field"
+        appearance="outline"
+      >
+        <mat-chip-list
+          #chipList
+          style="position: absolute; top: 15px; left: 10px; right: 10px"
+        >
           <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">
             {{ tag }}
             <button matChipRemove>
               <mat-icon>close</mat-icon>
             </button>
           </mat-chip>
-          <input placeholder="Type here..." #tagsInput class="input" maxlength="10" [formControl]="tagCtrl"
-            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)" />
+          <input
+            placeholder="Type here..."
+            #tagsInput
+            class="input"
+            maxlength="10"
+            [formControl]="tagCtrl"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)"
+          />
         </mat-chip-list>
         <!-- <mat-hint class="tags">Maximum tags allowed is 4</mat-hint> -->
       </mat-form-field>
     </div>
     <div class="mint-form-group margin" ngStyle.lt-md="width:100%">
       <label class="normal-text">External Link </label>
-      <label class="tooltip">Include an external link to a page further describing your NFT.</label>
+      <label class="tooltip"
+        >Include an external link to a page further describing your NFT.</label
+      >
       <div class="input-field-wrapper">
         <input
           type="text"
@@ -261,7 +485,9 @@
       </div>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Creator Name <span class="required">*</span></label>
+      <label class="normal-text"
+        >Creator Name <span class="required">*</span></label
+      >
       <label class="tooltip">Enter name of the NFT creator.</label>
       <div class="input-field-wrapper">
         <input
@@ -277,7 +503,10 @@
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text">Creator Profile Link </label>
-      <label class="tooltip">Include a link to more information about the creator (Social Media, Personal Website, etc.).</label>
+      <label class="tooltip"
+        >Include a link to more information about the creator (Social Media,
+        Personal Website, etc.).</label
+      >
       <div class="input-field-wrapper">
         <input
           type="text"
@@ -303,7 +532,10 @@
         />
       </mat-form-field>
     </div> -->
-    <div class="mint-form-group" ngStyle.lt-md="width:100%; display: flex; flex-direction : row;justify-content:center">
+    <div
+      class="mint-form-group"
+      ngStyle.lt-md="width:100%; display: flex; flex-direction : row;justify-content:center"
+    >
       <button mat-flat-button class="btn-create" (click)="getIssuer()">
         Create
       </button>

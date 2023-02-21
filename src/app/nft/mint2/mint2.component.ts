@@ -181,6 +181,12 @@ export class Mint2Component implements OnInit {
   cropperStat: boolean = false;
   showthumbnailContainer: boolean = true;
   transaction: any;
+
+  nftNameLimit : number = 12;
+  nftNameRemainingChars : number = 12;
+  descriptionLimit : number = 500;
+  descriptionRemainingChars : number = 500;
+
   constructor(
     private route: ActivatedRoute,
     private service: MintService,
@@ -1315,6 +1321,14 @@ export class Mint2Component implements OnInit {
       this.file = valid_files[0];
       this.uploadImage(evt);
     }
+  }
+
+  public countRemainingCharactersInDesc(e : any) {
+    this.descriptionRemainingChars =  this.descriptionLimit - e.target.value.length;
+  }
+
+  public countRemainingCharactersInNftName(e : any) {
+    this.nftNameRemainingChars =  this.nftNameLimit - e.target.value.length;
   }
 
 

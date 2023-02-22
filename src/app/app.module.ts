@@ -1,5 +1,5 @@
 import { AuthGuard } from './guards/auth.guard';
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -100,6 +100,10 @@ import { ConfirmMintComponent } from './dialogs/confirm-mint/confirm-mint.compon
 import { MintingComponent } from './dialogs/minting/minting.component';
 import { SellNftConfirmationComponent } from './dialogs/sell-nft-confirmation/sell-nft-confirmation.component';
 import { NftCardSkeletonComponent } from './nft/nft-card-skeleton/nft-card-skeleton.component';
+import * as firebase from 'firebase/app'
+import { FirebaseConfig } from 'src/environments/environment';
+import * as fireAnalytics from 'firebase/analytics';
+firebase.initializeApp(FirebaseConfig.firebaseConfig);
 
 const appRoutes: Routes = [
   {
@@ -396,4 +400,14 @@ const appRoutes: Routes = [
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule implements OnInit{
+  analytics: any;
+  constructor(){
+    this.analytics = fireAnalytics.getAnalytics();
+  }
+  ngOnInit(): void {
+    firebase.initializeApp(FirebaseConfig.firebaseConfig);
+    fireAnalytics.logEvent(this.analytics,'initialized', { logged: true, name: 'Marketplace firebase Analytics' })
+  }
+  
+}

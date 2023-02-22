@@ -27,6 +27,19 @@ import { interval, timer } from 'rxjs';
 import { APIConfigENV } from 'src/environments/environment';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { NFT } from 'src/app/models/minting';
+import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
+import {
+  Operation,
+  Keypair,
+  TransactionBuilder,
+  Server,
+  Asset,
+  Networks,
+  Memo
+} from "stellar-sdk";
+import { StellarCommonsService } from 'src/app/services/blockchain-services/stellar-services/stellar-commons.service';
+import { blockchainNet } from 'src/app/shared/config';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-home',
@@ -48,6 +61,7 @@ export class HomeComponent implements OnInit {
   backTopVisible: boolean = false;
   newitemflag: boolean = true;
   thumbnailSRC: any;
+  net: Networks;
   constructor(
     private dialogref: MatDialog,
     private nft: NftServicesService,
@@ -55,7 +69,9 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private api: ApiServicesService,
     private snackbarService: SnackbarServiceService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private firebaseanalytics:FirebaseAnalyticsService,
+    private network:StellarCommonsService
   ) {
     document.body.className = 'home-body';
   }
@@ -83,6 +99,7 @@ export class HomeComponent implements OnInit {
       queryParams: { data: status},
     });
   }
+
 
   async retrive(blockchain: string) {
     if (blockchain == 'stellar') {
@@ -163,6 +180,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() : void {
+    this.firebaseanalytics.logEvent("page_load","MK_devtest")
     this.List = [];
     this.List2=[];
     this.nft.getFilteredNFTs('ethereum', 0, 'trending', 6).subscribe((result: any) => {

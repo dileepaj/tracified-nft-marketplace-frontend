@@ -4,12 +4,15 @@
   <form id="mintingForm" [formGroup]="controlGroup">
     <div class="dnd-outer-div" ngStyle.lt-md="width:100%">
       <label class="hint"><span class="required">*</span>Required fields</label>
-      <div fxLayoutAlign="space-between center">
+      <div style="display: flex; flex-direction: column">
         <label
           class="normal-text"
           style="margin-bottom: 10px"
           *ngIf="showthumbnailContainer"
           >Upload Thumbnail <span class="required">*</span></label
+        >
+        <label class="hint-text" *ngIf="showthumbnailContainer"
+          >(File types supported: JPG or PNG. Max size: 400x400px, 2 MB)</label
         >
       </div>
       <label class="normal-text" style="margin-bottom: 10px" *ngIf="cropperStat"
@@ -111,18 +114,13 @@
           <mat-icon class="material-symbols-outlined"> edit </mat-icon>
         </button>
       </div>
-      <label
-        class="dnd-text"
-        style="margin-top: 5px; color: #10ceac"
-        *ngIf="showthumbnailContainer"
-        >The Maximum file size is 2 MB.</label
-      >
     </div>
     <div class="dnd-outer-div" ngStyle.lt-md="width:100%">
-      <div fxLayoutAlign="space-between center">
+      <div style="display: flex; flex-direction: column">
         <label class="normal-text" style="margin-bottom: 10px"
           >Upload SVG <span class="required">*</span></label
         >
+        <label class="hint-text">(File types supported: SVG, JPG or PNG)</label>
       </div>
       <div
         class="dnd-area"
@@ -184,7 +182,15 @@
         </button> -->
       </div>
 
-      <label>or Create SVG with Tracified</label>
+      <label
+        style="
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 22px;
+          color: #10ceac;
+        "
+        >or Create SVG with Tracified</label
+      >
       <div class="composer" matRipple ngStyle.lt-sm="width:100%">
         <a href="https://qa.nftcomposer.tracified.com/" target="_blank"
           >Tracified Composer</a

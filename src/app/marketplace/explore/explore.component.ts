@@ -59,6 +59,9 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   creators: any;
   thumbnailSRC: any;
   showNoNftError: boolean = false;
+  paginationflag:boolean=false;
+  svgflag:boolean=false;
+  thumbnailflag:boolean=false;
 
   constructor(
     private api: ApiServicesService,
@@ -150,11 +153,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-   // window.location.reload();
     this.List.splice(0)
-   /*  const loadingAnimation = this.dialogService.pendingDialog({
-      message:"Loading NFTs.."
-    }) */
     const timer$ = timer(0,APIConfigENV.homepageIntervalTimer)
     timer$.subscribe(data=>{
       this.Trend.splice(0)
@@ -199,40 +198,14 @@ export class ExploreComponent implements OnInit, AfterViewInit {
 
   }
 
-  public async fillCard(filter:string){
-    for( let x=0; x<(this.nftItems.length); x++){
-   await this.nft.getSVGByHash(this.nftItems[x].imagebase64).subscribe(async(res:any)=>{
-        this.Decryption = res.Response.Base64ImageSVG
-        if(this.nftItems[x].attachmenttype == "image/jpeg" || this.nftItems[x].attachmenttype == "image/jpg" || this.nftItems[x].attachmenttype == "image/png"){
-          this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
-        }else{
-          this.dec = btoa(this.Decryption);
-      var str2 = this.dec.toString();
-      var str1 = new String( "data:image/svg+xml;base64,");
-      var src = str1.concat(str2.toString());
-      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-        }
-        let card:NFTCard= new NFTCard('','','','','','','','',false,false);
-        card.ImageBase64=this.imageSrc
-        card.NFTIdentifier=this.nftItems[x].nftidentifier
-        card.NFTName=this.nftItems[x].nftname
-        card.Blockchain=this.nftItems[x].blockchain
-        card.CreatorUserId=this.nftItems[x].creatoruserid
-        card.SellingStatus=this.nftItems[x].sellingstatus
-        card.CurrentOwnerPK=this.nftItems[x].currentownerpk
-        card.Hotpicks=this.nftItems[x].hotpicks
-        card.Trending=this.nftItems[x].trending
-        this.List.push(card);
-      })
-    }
-  }
-
-
-
+  
 
   public filterAndShowCard(arr:any[],filter:string){
+    console.log("arr",arr)
+    let count=0;
     for(let x=0; x<(arr.length);x++){
       this.thumbnailSRC=""
+      this.paginationflag=true
       this.nft.getSVGByHash(arr[x].imagebase64).subscribe(async(res:any)=>{
         this.Decryption = res.Response.Base64ImageSVG
         if(arr[x].attachmenttype == "image/jpeg" || arr[x].attachmenttype == "image/jpg" || arr[x].attachmenttype == "image/png"){
@@ -243,32 +216,44 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       var str1 = new String( "data:image/svg+xml;base64,");
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-      
         }
-     let card:NFTCard= new NFTCard('','','','','','','','',false,false);
-    card.ImageBase64=this.imageSrc
-    if(arr[x].thumbnail==""){
-       this.thumbnailSRC=this.imageSrc
-    }else{
-      this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(arr[x].thumbnail);
-    }
+        let card:NFTCard= new NFTCard('','','','','','','','',false,false);
+        card.ImageBase64=this.imageSrc
+           
+    this.nft.getThumbnailId(arr[x].Id).subscribe(async(thumbnail:any)=>{
+      this.paginationflag=true
+          if(thumbnail==""){
+                 this.thumbnailSRC=this.imageSrc
+              }else{
+                this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
+              }
     card.thumbnail=this.thumbnailSRC
-    card.NFTIdentifier=arr[x].nftidentifier
-    card.NFTName=arr[x].nftname
-    card.Blockchain=arr[x].blockchain
-    card.CreatorUserId=arr[x].creatoruserid
-    card.SellingStatus=arr[x].sellingstatus
-    card.CurrentOwnerPK=arr[x].currentownerpk
-    card.Hotpicks=arr[x].hotpicks
-    card.Trending=arr[x].trending
-    if(card.Blockchain==this.selectedBlockchain){
-      this.List.push(card)
-     }
-      })
+    if(count>=7){
+      console.log("-----------hhhh-----pag1")
+      this.paginationflag=false
     }
-
+  count++
+      })
+    
+      card.NFTIdentifier=arr[x].nftidentifier
+      card.NFTName=arr[x].nftname
+      card.Blockchain=arr[x].blockchain
+      card.CreatorUserId=arr[x].creatoruserid
+      card.SellingStatus=arr[x].sellingstatus
+      card.CurrentOwnerPK=arr[x].currentownerpk
+      card.Hotpicks=arr[x].hotpicks
+      card.Trending=arr[x].trending
+  if(card.Blockchain==this.selectedBlockchain ){
+    this.List.push(card)
+   }
+    })
+    // if((x+1)==arr.length){
+    //   this.paginationflag=false
+    // }
+    }
     setTimeout(() => {
       this.loading = false;
+      //this.paginationflag=false;
     }, 2000)
  
   }
@@ -421,23 +406,24 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     if(!this.loading) {
       this.nextPageLoading = true;
     }
-    this.nft.getNFTpaginated(this.selectedBlockchain, this.currentPage).subscribe(async(data:any) => {
-      if(data.Response.content==null){
-        window.location.reload();
-      }else{
-          this.nfts = data;
-          this.nftItems.splice(0)
-           for(let a=0; a<this.nfts.Response.content.length; a++){
-              if(this.nfts.Response.content[a].sellingstatus === 'Minted' || this.nfts.Response.content[a].sellingstatus === 'ON SALE' || this.nfts.Response.content[a].sellingstatus === 'NOTFORSALE') {
-                this.nftItems.push(this.nfts.Response.content[a]);
-              }
-
-
+      this.nft.getNFTpaginated(this.selectedBlockchain, this.currentPage).subscribe(async(data:any) => {
+        console.log("data ",data)
+        if(data.Response.content==null){
+          window.location.reload();
+        }else{
+            this.nfts = data;
+            this.nftItems.splice(0)
+             for(let a=0; a<this.nfts.Response.content.length; a++){
+                if(this.nfts.Response.content[a].sellingstatus === 'Minted' || this.nfts.Response.content[a].sellingstatus === 'ON SALE' || this.nfts.Response.content[a].sellingstatus === 'NOTFORSALE') {
+                  this.nftItems.push(this.nfts.Response.content[a]);
+                }
+            }
+            this.nextPageLoading = false;
+            console.log("jjjjjjjjjj",this.nftItems)
+                  this.filterAndShowCard(this.nftItems,filter);
           }
-          this.nextPageLoading = false;
-                this.filterAndShowCard(this.nftItems,filter);
-        }
-    });
+      });
+  // }
   }
 
   intersectionObserver(filter:string) {
@@ -449,7 +435,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
 
     this.observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        if (this.nfts.Response.PaginationInfo.nextpage !== 0) {
+        console.log("pagination ",this.paginationflag)
+        if (this.nfts.Response.PaginationInfo.nextpage !== 0 && this.paginationflag==false) {
           this.currentPage++;
           this.getAllNFTs(filter);
         }
@@ -467,27 +454,27 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         if(filter == 'onsale'){
-          if (this.sales.Response.PaginationInfo.nextpage !== 0) {
+          if (this.sales.Response.PaginationInfo.nextpage !== 0 && this.paginationflag==false) {
             this.currentPage++;
             this.Filters(filter);
           }
         }else if(filter == 'hotpicks'){
-          if (this.hotpicks.Response.PaginationInfo.nextpage !== 0) {
+          if (this.hotpicks.Response.PaginationInfo.nextpage !== 0 && this.paginationflag==false) {
             this.currentPage++;
             this.Filters(filter);
           }
         }else if(filter == 'trending'){
-          if (this.trends.Response.PaginationInfo.nextpage !== 0) {
+          if (this.trends.Response.PaginationInfo.nextpage !== 0 && this.paginationflag==false) {
             this.currentPage++;
             this.Filters(filter);
           }
         }else if(filter == 'uptodate'){
-          if (this.uptodates.Response.PaginationInfo.nextpage !== 0) {
+          if (this.uptodates.Response.PaginationInfo.nextpage !== 0 && this.paginationflag==false) {
             this.currentPage++;
             this.Filters(filter);
           }
         }else if(filter == 'bestcreators'){
-          if (this.creators.Response.PaginationInfo.nextpage !== 0) {
+          if (this.creators.Response.PaginationInfo.nextpage !== 0 && this.paginationflag==false) {
             this.currentPage++;
             this.Filters(filter);
           }

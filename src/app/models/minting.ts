@@ -96,6 +96,14 @@ export class UpdateStellarTXN{
     ){}
 }
 
+export class Thumbnail{
+    constructor(
+        public Id:string,
+        public Thumbnail:string
+       
+    ){}
+}
+
 export class StellarTXN{
     constructor(
        

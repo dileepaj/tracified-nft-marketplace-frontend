@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { environment } from 'src/environments/environment';
 import detectEthereumProvider from "@metamask/detect-provider";
 import NFT from "src/contracts/polygon/mint.json";
+import { SnackbarServiceService } from '../snackbar-service/snackbar-service.service';
 
 
 @Injectable({
@@ -10,7 +11,7 @@ import NFT from "src/contracts/polygon/mint.json";
 })
 export class PolygonMintService {
 
-  constructor() { }
+  constructor(private snackbarService: SnackbarServiceService) { }
 
   
   private static async getWebProvider(requestAccounts = true) {
@@ -33,7 +34,7 @@ export class PolygonMintService {
       bySigner ? signer : provider,
     )
   }
-  public async mintInPolygon(reciever: string, tokenURI: string): Promise<any> {
+  public async mintInPolygon(reciever: string, tokenURI: string, _callback? : any): Promise<any> {
     const contract = await PolygonMintService.getContract(true)
     const transaction = await contract['mintNFT'](
       reciever,
@@ -41,16 +42,18 @@ export class PolygonMintService {
       { gasLimit: 3000000 }
     )
 .catch(error=>{
-  alert("Something went wrong : "+error.message)
+  _callback()!
+  this.snackbarService.openSnackBar("Something went wrong : "+error.message)
 })
     const tx = await transaction.wait()
     .catch(error1=>{
-      alert("Something went wrong : "+error1.message)
+      _callback()!
+      this.snackbarService.openSnackBar("Something went wrong : "+error1.message)
     })
     return tx
   }
 
-  public async approveContract(tokenId:number):Promise<any>{
+  public async approveContract(tokenId:number, _callback? : any):Promise<any>{
     var marketcontract=environment.contractAddressMKPolygon
     const contract = await PolygonMintService.getContract(true)
     const transaction = await contract['approve'](
@@ -59,7 +62,8 @@ export class PolygonMintService {
       { gasLimit: 3000000 }
     )
     .catch(error=>{
-      alert("Something went wrong : "+error.message)
+      _callback()!
+      this.snackbarService.openSnackBar("Something went wrong : "+error.message)
     })
     const tx = await transaction.wait()
     return tx

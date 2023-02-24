@@ -627,6 +627,7 @@ export class BuyViewComponent implements OnInit {
         operation_result:"success"
       }
     )
+    sessionStorage.setItem('refreshProfile', "1");
     this.router.navigate(['/user-dashboard'], {
       queryParams: { user: this.saleBE.CurrentOwnerPK, blockchain: this.nftbe.Blockchain },
     });

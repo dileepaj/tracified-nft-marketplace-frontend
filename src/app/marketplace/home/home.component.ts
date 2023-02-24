@@ -62,6 +62,7 @@ export class HomeComponent implements OnInit {
   newitemflag: boolean = true;
   thumbnailSRC: any;
   net: Networks;
+  paginationflag: boolean=false;
   constructor(
     private dialogref: MatDialog,
     private nft: NftServicesService,
@@ -183,11 +184,13 @@ export class HomeComponent implements OnInit {
     this.firebaseanalytics.logEvent("page_load","MK_devtest")
     this.List = [];
     this.List2=[];
-    this.nft.getFilteredNFTs('ethereum', 0, 'trending', 6).subscribe((result: any) => {
+    this.nft.getFilteredNFTs('stellar', 0, 'trending', 6).subscribe((result: any) => {
       result.Response.content.forEach((cont) => {
+        if(this.paginationflag==false){
         this.nft
           .getSVGByHash(cont.imagebase64)
           .subscribe((res: any) => {
+            this.paginationflag=true
             this.Decryption = res.Response.Base64ImageSVG;
             if(cont.attachmenttype == "image/jpeg" || cont.attachmenttype == "image/jpg" || cont.attachmenttype == "image/png"){
               this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
@@ -198,14 +201,28 @@ export class HomeComponent implements OnInit {
               var src = str1.concat(str2.toString());
 
               this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-              if(cont.thumbnail == "") {
-                cont.thumbnail = this.imageSrc;
-              }
+              // if(cont.thumbnail == "") {
+              //   cont.thumbnail = this.imageSrc;
+              // }
             }
+            this.nft.getThumbnailId(cont.Id).subscribe(async(thumbnail:any)=>{
+     
+              this.paginationflag=true
+                  if(thumbnail==""){
+                         this.thumbnailSRC=this.imageSrc
+                      }else{
+                        this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
+                      }
+            card.thumbnail=this.thumbnailSRC
+            if(card.thumbnail!=""){
+              this.paginationflag=false
+            }
+              })
+      
          
             let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
-            card.thumbnail= cont.thumbnail;
+            //card.thumbnail= cont.thumbnail;
             card.Blockchain = cont.blockchain;
             card.NFTIdentifier = cont.nftidentifier;
             card.NFTName = cont.nftname;
@@ -222,14 +239,17 @@ export class HomeComponent implements OnInit {
               this.List2.push(card);
             }
           });
+        }
       })
     })
 
-    this.nft.getFilteredNFTs('ethereum', 0, 'hotpicks', 6).subscribe((result: any) => {
+    this.nft.getFilteredNFTs('stellar', 0, 'hotpicks', 6).subscribe((result: any) => {
       result.Response.content.forEach((cont) => {
+        if(this.paginationflag==false){
         this.nft
           .getSVGByHash(cont.imagebase64)
           .subscribe((res: any) => {
+            this.paginationflag=true
             this.Decryption = res.Response.Base64ImageSVG;
             if(cont.attachmenttype == "image/jpeg" || cont.attachmenttype == "image/jpg" || cont.attachmenttype == "image/png"){
               this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
@@ -239,13 +259,27 @@ export class HomeComponent implements OnInit {
               var str1 = new String( "data:image/svg+xml;base64,");
               var src = str1.concat(str2.toString());
               this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-              if(cont.thumbnail == "") {
-                cont.thumbnail = this.imageSrc;
-              }
+              // if(cont.thumbnail == "") {
+              //   cont.thumbnail = this.imageSrc;
+              // }
             }
+            this.nft.getThumbnailId(cont.Id).subscribe(async(thumbnail:any)=>{
+     
+              this.paginationflag=true
+                  if(thumbnail==""){
+                         this.thumbnailSRC=this.imageSrc
+                      }else{
+                        this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
+                      }
+            card.thumbnail=this.thumbnailSRC
+            if(card.thumbnail!=""){
+              this.paginationflag=false
+            }
+              })
+            
             let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
-            card.thumbnail=cont.thumbnail;
+           // card.thumbnail=cont.thumbnail;
             card.Blockchain = cont.blockchain;
             card.NFTIdentifier = cont.nftidentifier;
             card.NFTName = cont.nftname;
@@ -262,6 +296,7 @@ export class HomeComponent implements OnInit {
               this.List.push(card);
             }
           });
+        }
       })
     })
 

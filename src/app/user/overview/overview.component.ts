@@ -33,7 +33,7 @@ export class OverviewComponent implements OnInit {
   User: string;
   thumbnailSRC: any;
   user: any;
-
+  paginationflag: boolean=false;
 
   constructor(private route: ActivatedRoute,
      private router: Router,
@@ -62,23 +62,23 @@ export class OverviewComponent implements OnInit {
         }else{
           for( let x=0; x<(this.nfts.Response.length); x++){
 
-            if(this.nfts.Response[x].sellingstatus=="ON SALE"){
+            if(this.nfts.Response[x].sellingstatus=="ON SALE" && this.paginationflag==false){
               this.FilterByONSALE(this.nfts.Response[x])
             }
 
-            if(this.nfts.Response[x].sellingstatus=="NOTFORSALE"){
+            if(this.nfts.Response[x].sellingstatus=="NOTFORSALE" && this.paginationflag==false){
               this.FilterByBoughtNFT(this.nfts.Response[x])
             }
 
-            if(this.nfts.Response[x].sellingstatus=="Minted"){
+            if(this.nfts.Response[x].sellingstatus=="Minted" && this.paginationflag==false){
               this.FilterByMinted(this.nfts.Response[x])
             }
 
-            if(this.nfts.Response[x].trending==true){
+            if(this.nfts.Response[x].trending==true && this.paginationflag==false){
               this.FilterByTrending(this.nfts.Response[x])
             }
 
-            if(this.nfts.Response[x].hotpicks==true){
+            if(this.nfts.Response[x].hotpicks==true && this.paginationflag==false){
               this.FilterByHotpicks(this.nfts.Response[x])
             }
 
@@ -100,14 +100,22 @@ export class OverviewComponent implements OnInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
       }
-      if(response.thumbnail==""){
-        this.thumbnailSRC=this.imageSrc
-      }else{
-        this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
-      }    
+      this.nft.getThumbnailId(response.id).subscribe(async(thumbnail:any)=>{
+     
+        this.paginationflag=true
+            if(thumbnail==""){
+                   this.thumbnailSRC=this.imageSrc
+                }else{
+                  this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
+                }
+      card.thumbnail=this.thumbnailSRC
+      if(card.thumbnail!=""){
+        this.paginationflag=false
+      }
+        })
     let card:NFTCard= new NFTCard('','','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
-    card.thumbnail=this.thumbnailSRC
+   // card.thumbnail=this.thumbnailSRC
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
     card.Blockchain=response.blockchain
@@ -130,15 +138,22 @@ export class OverviewComponent implements OnInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
-      if(response.thumbnail==""){
-        this.thumbnailSRC=this.imageSrc
-      }
-      else{
-        this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
-      }  
+        this.nft.getThumbnailId(response.id).subscribe(async(thumbnail:any)=>{
+     
+          this.paginationflag=true
+              if(thumbnail==""){
+                     this.thumbnailSRC=this.imageSrc
+                  }else{
+                    this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
+                  }
+        card.thumbnail=this.thumbnailSRC
+        if(card.thumbnail!=""){
+          this.paginationflag=false
+        }
+          })
       let card:NFTCard= new NFTCard('','','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
-    card.thumbnail=this.thumbnailSRC
+  //  card.thumbnail=this.thumbnailSRC
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
     card.Blockchain=response.blockchain
@@ -161,15 +176,22 @@ export class OverviewComponent implements OnInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
-        if(response.thumbnail==""){
-          this.thumbnailSRC=this.imageSrc
+        this.nft.getThumbnailId(response.id).subscribe(async(thumbnail:any)=>{
+     
+          this.paginationflag=true
+              if(thumbnail==""){
+                     this.thumbnailSRC=this.imageSrc
+                  }else{
+                    this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
+                  }
+        card.thumbnail=this.thumbnailSRC
+        if(card.thumbnail!=""){
+          this.paginationflag=false
         }
-        else{
-          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
-        }
+          })
       let card:NFTCard= new NFTCard('','','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
-    card.thumbnail=this.thumbnailSRC
+   // card.thumbnail=this.thumbnailSRC
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
     card.Blockchain=response.blockchain
@@ -192,15 +214,22 @@ export class OverviewComponent implements OnInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
-        if(response.thumbnail==""){
-          this.thumbnailSRC=this.imageSrc
+        this.nft.getThumbnailId(response.id).subscribe(async(thumbnail:any)=>{
+     
+          this.paginationflag=true
+              if(thumbnail==""){
+                     this.thumbnailSRC=this.imageSrc
+                  }else{
+                    this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
+                  }
+        card.thumbnail=this.thumbnailSRC
+        if(card.thumbnail!=""){
+          this.paginationflag=false
         }
-        else{
-          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
-        }
+          })
       let card:NFTCard= new NFTCard('','','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
-    card.thumbnail=this.thumbnailSRC
+   // card.thumbnail=this.thumbnailSRC
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
     card.Blockchain=response.blockchain
@@ -223,15 +252,22 @@ export class OverviewComponent implements OnInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
-        if(response.thumbnail==""){
-          this.thumbnailSRC=this.imageSrc
+        this.nft.getThumbnailId(response.id).subscribe(async(thumbnail:any)=>{
+     
+          this.paginationflag=true
+              if(thumbnail==""){
+                     this.thumbnailSRC=this.imageSrc
+                  }else{
+                    this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
+                  }
+        card.thumbnail=this.thumbnailSRC
+        if(card.thumbnail!=""){
+          this.paginationflag=false
         }
-        else{
-          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
-        }
+          })
       let card:NFTCard= new NFTCard('','','','','','','','',false,false);
     card.ImageBase64=this.imageSrc
-    card.thumbnail=this.thumbnailSRC
+  //  card.thumbnail=this.thumbnailSRC
     card.NFTIdentifier=response.nftidentifier
     card.NFTName=response.nftname
     card.Blockchain=response.blockchain

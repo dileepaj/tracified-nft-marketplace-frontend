@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BuyNFTGW, GetNFT, NFTMarket, SalesBE, SalesGW } from 'src/app/models/nft';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import { NFT, SVG, Thumbnail, TXN } from 'src/app/models/minting';
+import { NFT, SVG, TXN } from 'src/app/models/minting';
 import { APIConfigENV } from 'src/environments/environment';
 
 @Injectable({
@@ -18,7 +18,6 @@ export class NftServicesService {
   baseUrlUpdateStatusBE:string=this.nftBackendBaseURL+'nft/sale';
   baseUrlUpdateStatusGW:string=this.gateWayBaseURL;
   baseUrlSVG:string=this.nftBackendBaseURL+'svg';
-  baseUrlThumbnail:string=this.nftBackendBaseURL+'explore/thumbnail';
   baseUrlGetAllNFT:string=this.nftBackendBaseURL+'marketplace';
   baseUrlGetOnSaleNFT:string=this.nftBackendBaseURL+'nft';
   baseUrlGetMyNFTByStatus:string=this.nftBackendBaseURL+'selling'
@@ -45,10 +44,6 @@ export class NftServicesService {
     return this.http.get<SVG[]>(`${this.baseUrlSVG}/${Hash}`);
   }
 
-  getThumbnailId(Id:string): Observable<Thumbnail[]> {
-    //request to get collection name according to user public key
-    return this.http.get<Thumbnail[]>(`${this.baseUrlThumbnail}/${Id}`);
-  }
 
   getNFTDetails(NFTIdentifier:string,SellingStatus:string,Blockchain:string): Observable<GetNFT[]> {
     //request to get collection name according to user public key

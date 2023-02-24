@@ -64,7 +64,6 @@ export class NftgridComponent implements OnInit {
   nfts: any;
   loading: boolean = false;
   thumbnailSRC: any;
-  paginationflag: boolean = false;
   constructor(
     private api: ApiServicesService,
     private service: NftServicesService,
@@ -161,31 +160,31 @@ export class NftgridComponent implements OnInit {
             } else {
               for (let x = 0; x < this.nfts.Response.length; x++) {
                 if (this.status == 'Sale') {
-                  if (this.nfts.Response[x].sellingstatus == 'ON SALE' && this.paginationflag==false) {
+                  if (this.nfts.Response[x].sellingstatus == 'ON SALE') {
                     this.Filter(this.nfts.Response[x]);
                   }
                 }
 
                 if (this.status == 'Bought') {
-                  if (this.nfts.Response[x].sellingstatus == 'NOTFORSALE' && this.paginationflag==false) {
+                  if (this.nfts.Response[x].sellingstatus == 'NOTFORSALE') {
                     this.Filter(this.nfts.Response[x]);
                   }
                 }
 
                 if (this.status == 'Mints') {
-                  if (this.nfts.Response[x].sellingstatus == 'Minted' && this.paginationflag==false) {
+                  if (this.nfts.Response[x].sellingstatus == 'Minted') {
                     this.Filter(this.nfts.Response[x]);
                   }
                 }
 
                 if (this.status == 'Favourites') {
-                  if (this.nfts.Response[x].trending == true && this.paginationflag==false) {
+                  if (this.nfts.Response[x].trending == true) {
                     this.Filter(this.nfts.Response[x]);
                   }
                 }
 
                 if (this.status == 'Hotpicks') {
-                  if (this.nfts.Response[x].hotpicks == true && this.paginationflag==false) {
+                  if (this.nfts.Response[x].hotpicks == true) {
                     this.Filter(this.nfts.Response[x]);
                   }
                 }
@@ -209,23 +208,14 @@ export class NftgridComponent implements OnInit {
     var src = str1.concat(str2.toString());
     this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
       }
-    
-      this.service.getThumbnailId(response.id).subscribe(async(thumbnail:any)=>{
-     
-        this.paginationflag=true
-            if(thumbnail==""){
-                   this.thumbnailSRC=this.imageSrc
-                }else{
-                  this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
-                }
-      card.thumbnail=this.thumbnailSRC
-      if(card.thumbnail!=""){
-        this.paginationflag=false
+      if(response.thumbnail==""){
+        this.thumbnailSRC=this.imageSrc
+      }else{
+        this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(response.thumbnail);
       }
-        })
-       
        let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
       card.ImageBase64 = this.imageSrc;
+      card.thumbnail=this.thumbnailSRC
       card.NFTIdentifier = response.nftidentifier;
       card.NFTName = response.nftname;
       card.Blockchain = response.blockchain;

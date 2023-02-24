@@ -72,7 +72,6 @@ export class ShowNFTComponent implements OnInit {
   currentPage : number = 0;
   nextPage: number = 1;
   nextPageLoading : boolean = false;
-  paginationflag: boolean=false;
 
 
   constructor(
@@ -165,7 +164,7 @@ export class ShowNFTComponent implements OnInit {
         this.service.getNFTOnSale('ON SALE').subscribe((result: any) => {
           this.nfts = result.Response;
           for (let x = 0; x < this.nfts.length; x++) {
-            if (this.nfts[x].trending == true && this.paginationflag==false) {
+            if (this.nfts[x].trending == true) {
               this.service
                 .getSVGByHash(this.nfts[x].imagebase64)
                 .subscribe((res: any) => {
@@ -180,22 +179,15 @@ export class ShowNFTComponent implements OnInit {
                 var src = str1.concat(str2.toString());
                 this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
                   }
-                  
-      this.service.getThumbnailId(this.nfts[x].id).subscribe(async(thumbnail:any)=>{
-     
-        this.paginationflag=true
-            if(thumbnail==""){
-                   this.thumbnailSRC=this.imageSrc
-                }else{
-                  this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
-                }
-      card.thumbnail=this.thumbnailSRC
-      if(card.thumbnail!=""){
-        this.paginationflag=false
-      }
-        })
+                  if(this.NFTList.Response[x].thumbnail==""){
+                    this.thumbnailSRC=this.imageSrc
+                  }
+                  else{
+                    this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.Response[x].thumbnail);
+                  }
                    let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
                   card.ImageBase64 = this.imageSrc;
+                  card.thumbnail=this.thumbnailSRC
                   card.NFTIdentifier = this.nfts[x].nftidentifier;
                   card.NFTName = this.nfts[x].nftname;
                   card.Blockchain = this.nfts[x].blockchain;
@@ -225,7 +217,7 @@ export class ShowNFTComponent implements OnInit {
             this.ngOnInit();
           }
           for (let x = 0; x < this.NFTList.Response.length; x++) {
-            if (this.NFTList.Response[x].sellingstatus == 'ON SALE' && this.paginationflag==false) {
+            if (this.NFTList.Response[x].sellingstatus == 'ON SALE') {
               this.service
                 .getSVGByHash(this.NFTList.Response[x].imagebase64)
                 .subscribe((res: any) => {
@@ -240,23 +232,15 @@ export class ShowNFTComponent implements OnInit {
                 var src = str1.concat(str2.toString());
                 this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
                   }
-   
-      this.service.getThumbnailId(this.NFTList.Response[x].id).subscribe(async(thumbnail:any)=>{
-     
-        this.paginationflag=true
-            if(thumbnail==""){
-                   this.thumbnailSRC=this.imageSrc
-                }else{
-                  this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
-                }
-      card.thumbnail=this.thumbnailSRC
-      if(card.thumbnail!=""){
-        this.paginationflag=false
-      }
-
-        })
+                  if(this.NFTList.Response[x].thumbnail==""){
+                    this.thumbnailSRC=this.imageSrc
+                  }
+                  else{
+                    this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(this.NFTList.Response[x].thumbnail);
+                  }
                 let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
                   card.ImageBase64 = this.imageSrc;
+                  card.thumbnail=this.thumbnailSRC
                   card.NFTIdentifier = this.NFTList.Response[x].nftidentifier;
                   card.NFTName = this.NFTList.Response[x].nftname;
                   card.Blockchain = this.NFTList.Response[x].blockchain;
@@ -294,7 +278,6 @@ export class ShowNFTComponent implements OnInit {
     this.service.getFilteredNFTs('ethereum', this.currentPage, filter, 12).subscribe((result: any) => {
       this.nextPage = result.Response.PaginationInfo.nextpage;
       result.Response.content.forEach((cont) => {
-        if(this.paginationflag==false){
         this.service
           .getSVGByHash(cont.imagebase64)
           .subscribe((res: any) => {
@@ -308,23 +291,13 @@ export class ShowNFTComponent implements OnInit {
               var src = str1.concat(str2.toString());
 
               this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+              if(cont.thumbnail == "") {
+                cont.thumbnail = this.imageSrc;
+              }
             }
-                                   
-      this.service.getThumbnailId(cont.Id).subscribe(async(thumbnail:any)=>{
-     
-        this.paginationflag=true
-            if(thumbnail==""){
-                   this.thumbnailSRC=this.imageSrc
-                }else{
-                  this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
-                }
-      card.thumbnail=this.thumbnailSRC
-      if(card.thumbnail!=""){
-        this.paginationflag=false
-      }
-        })
             let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
             card.ImageBase64 = this.imageSrc;
+            card.thumbnail= cont.thumbnail;
             card.Blockchain = cont.blockchain;
             card.NFTIdentifier = cont.nftidentifier;
             card.NFTName = cont.nftname;
@@ -336,7 +309,6 @@ export class ShowNFTComponent implements OnInit {
             this.loading = false
             this.nextPageLoading = false;
           });
-        }
       })
     })
   }

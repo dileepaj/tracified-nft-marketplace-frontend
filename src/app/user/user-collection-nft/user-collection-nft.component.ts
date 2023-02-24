@@ -26,7 +26,6 @@ export class UserCollectionNFTComponent implements OnInit {
   loading: boolean = false;
   thumbnailSRC: any;
   pk: any;
-  paginationflag: boolean=false;
 
   constructor(
     private router: Router,
@@ -73,7 +72,6 @@ export class UserCollectionNFTComponent implements OnInit {
   showNFT(arr: any[]) {
     this.List.splice(0);
     for (let a = 0; a < arr.length; a++) {
-      if(this.paginationflag==false){
       this.nft.getSVGByHash(arr[a].imagebase64).subscribe((res: any) => {
         this.Decryption = res.Response.Base64ImageSVG;
         if(arr[a].attachmenttype == "image/jpeg" || arr[a].attachmenttype == "image/jpg" ||arr[a].attachmenttype == "image/png"){
@@ -85,28 +83,21 @@ export class UserCollectionNFTComponent implements OnInit {
       var src = str1.concat(str2.toString());
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
         }
-        this.nft.getThumbnailId(arr[a].id).subscribe(async(thumbnail:any)=>{
-     
-          this.paginationflag=true
-              if(thumbnail==""){
-                     this.thumbnailSRC=this.imageSrc
-                  }else{
-                    this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
-                  }
-        card.thumbnail=this.thumbnailSRC
-        if(card.thumbnail!=""){
-          this.paginationflag=false
+        if(arr[a].thumbnail==""){
+          this.thumbnailSRC=this.imageSrc
         }
-          })
+        else{
+          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(arr[a].thumbnail);
+        }
         let card: MyNFTCard = new MyNFTCard('', '', '', '', '','');
         card.ImageBase64 = this.imageSrc;
+        card.thumbnail=this.thumbnailSRC
         card.NFTIdentifier = arr[a].nftidentifier;
         card.NFTName = arr[a].nftname;
         card.Blockchain = arr[a].blockchain;
         card.SellingStatus = arr[a].sellingstatus;
         this.List.push(card);
       });
-    }
     }
   }
 

@@ -42,6 +42,10 @@ export class OverviewComponent implements OnInit {
 
 
   ngOnInit(): void {
+    if(Boolean(sessionStorage.getItem("refreshProfile")) && parseInt(sessionStorage.getItem("refreshProfile")!) === 1) {
+      window.location.reload()
+      sessionStorage.setItem('refreshProfile', "0");
+    }
     this.route.queryParams.subscribe((params) => {
       this.selectedBlockchain = params['blockchain']
       this.user = params['user']

@@ -28,6 +28,7 @@ export class SellOfferServiceService {
     signerPK: string,
     nftAmmount: string,
     nftPrice: number,
+    _callback? : any
 
   ) {
     return new Promise((resolve, reject) => {
@@ -79,6 +80,7 @@ export class SellOfferServiceService {
           resolve(transactionResult);
         })
         .catch((err) => {
+          _callback()!
           alert("Something went wrong, please try again! More information: "+err);
           reject(err);
         });

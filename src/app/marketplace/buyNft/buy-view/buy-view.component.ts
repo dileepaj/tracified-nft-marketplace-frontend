@@ -257,9 +257,7 @@ export class BuyViewComponent implements OnInit {
               nftName: this.NFTList.nftname,
               thumbnail: this.NFTList.thumbnail,
             });
-            this.buyNFTOnStellar().then(res => {
-              loadingAnimation.close();
-            });
+            this.buyNFTOnStellar(() => {loadingAnimation.close()})
 
           }
         });
@@ -393,6 +391,7 @@ export class BuyViewComponent implements OnInit {
                 this.royaltyCharge.toString(),
                 this.NFTList.creatoruserid,
                 this.commission,
+                () => {loadingAnimation.close()}
               )
               .then((res) => {
                 try {
@@ -447,7 +446,8 @@ export class BuyViewComponent implements OnInit {
                 (this.total + parseFloat(this.royaltyCharge)).toString(),
                 this.royaltyCharge.toString(),
                 this.NFTList.creatoruserid,
-                this.commission
+                this.commission,
+                () => {loadingAnimation.close()}
               )
               .then((res) => {
                 try {
@@ -506,7 +506,7 @@ export class BuyViewComponent implements OnInit {
     this.apiService.addTXN(this.txn).subscribe();
   }
 
-  async buyNFTOnStellar(): Promise<void> {
+  async buyNFTOnStellar(_callback? : any): Promise<void> {
 
     this.dialogService
       .selectWallet({
@@ -547,6 +547,7 @@ export class BuyViewComponent implements OnInit {
                   this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
                   this.showInProfile();
                 } catch (err) {
+                  _callback()!
                   alert("Something went wrong, please try again! More information: " + err);
                 }
               } else {
@@ -582,6 +583,7 @@ export class BuyViewComponent implements OnInit {
                     this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
                     this.showInProfile();
                   } catch (err) {
+                    _callback()!
                     alert("Something went wrong, please try again! More information: " + err);
                   }
                 });
@@ -625,6 +627,7 @@ export class BuyViewComponent implements OnInit {
         operation_result:"success"
       }
     )
+    sessionStorage.setItem('refreshProfile', "1");
     this.router.navigate(['/user-dashboard'], {
       queryParams: { user: this.saleBE.CurrentOwnerPK, blockchain: this.nftbe.Blockchain },
     });

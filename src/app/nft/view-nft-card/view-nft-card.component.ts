@@ -115,7 +115,8 @@ export class ViewNftCardComponent implements OnInit {
         });
     } else {
       this.snackbar.openSnackBar(
-        'User PK not connected or not endorsed'
+        'User PK not connected or not endorsed',
+        'info'
       );
     }
   }

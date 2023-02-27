@@ -82,7 +82,8 @@ export class ShowNFTComponent implements OnInit {
     private route: ActivatedRoute,
     private snackbarService: SnackbarServiceService,
     private mint: MintService,
-    private _location: Location
+    private _location: Location,
+    private snackbar : SnackbarServiceService
   ) {}
 
   async retrive(blockchain: string) {
@@ -113,7 +114,7 @@ export class ShowNFTComponent implements OnInit {
     this.watchlistModel.NFTIdentifier = id;
     this.retrive(this.watchlistModel.Blockchain).then((res) => {
       this.api.addToWatchList(this.watchlistModel).subscribe((res) => {
-        this.snackbarService.openSnackBar('Added to watchlists');
+        this.snackbarService.openSnackBar('Added to watchlists', 'success');
         this.api
           .getWatchlistByBlockchainAndNFTIdentifier(
             this.watchlistModel.Blockchain,
@@ -129,7 +130,7 @@ export class ShowNFTComponent implements OnInit {
     this.favouritesModel.NFTIdentifier = id;
     this.retrive(this.favouritesModel.Blockchain).then((res) => {
       this.api.addToFavourites(this.favouritesModel).subscribe((res) => {
-        this.snackbarService.openSnackBar('Added to favourites');
+        this.snackbarService.openSnackBar('Added to favourites', 'success');
         this.api
           .getFavouritesByBlockchainAndNFTIdentifier(
             this.favouritesModel.Blockchain,
@@ -252,7 +253,8 @@ export class ShowNFTComponent implements OnInit {
                 });
             } else {
               this.snackbarService.openSnackBar(
-                'NOT ON SALE'
+                'NOT ON SALE',
+                'info'
               );
             }
           }
@@ -260,7 +262,8 @@ export class ShowNFTComponent implements OnInit {
       }
     } else {
       this.snackbarService.openSnackBar(
-        'User PK not connected or not endorsed'
+        'User PK not connected or not endorsed',
+        'info'
       );
     }
   }
@@ -333,7 +336,7 @@ export class ShowNFTComponent implements OnInit {
             this.getFilteredNFTs(filter);
           }
         }else{
-          alert("Invalid statement!")
+          this.snackbar.openSnackBar("Invalid statement!")
         }
 
       }

@@ -44,9 +44,9 @@ export class NftReviewsComponent implements OnInit {
       if(result){
         this.service.addReviews(this.reviews).subscribe(res=>{
           if(res!=null){
-            this.snackbar.openSnackBar("Your review has been Successfully submitted")
+            this.snackbar.openSnackBar("Your review has been Successfully submitted", 'success')
           }else{
-            this.snackbar.openSnackBar("Failed to submit review please try again.")
+            this.snackbar.openSnackBar("Failed to submit review please try again.", 'error')
           }
         })
       }

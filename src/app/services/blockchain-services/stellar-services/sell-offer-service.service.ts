@@ -13,6 +13,7 @@ import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
 import { UserWallet } from 'src/app/models/userwallet';
 import { StellarCommonsService } from './stellar-commons.service';
+import { SnackbarServiceService } from '../../snackbar-service/snackbar-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class SellOfferServiceService {
   userSignedTransaction: string;
  // networkType:any;
   net: Networks;
-  constructor(private network:StellarCommonsService) { }
+  constructor(private network:StellarCommonsService, private snackbar : SnackbarServiceService) { }
   sellNft(
     asset_code: string,
     asset_issuer: string,
@@ -81,7 +82,7 @@ export class SellOfferServiceService {
         })
         .catch((err) => {
           _callback()!
-          alert("Something went wrong, please try again! More information: "+err);
+          this.snackbar.openSnackBar("Something went wrong, please try again! More information: "+err, 'error');
           reject(err);
         });
     });

@@ -113,7 +113,7 @@ export class SignUpComponent implements OnInit {
       })
 
     } else {
-      this.snackbarSrevice.openSnackBar(SnackBarText.ERROR_MESSAGE)
+      this.snackbarSrevice.openSnackBar(SnackBarText.ERROR_MESSAGE, 'error')
     }
   }
 

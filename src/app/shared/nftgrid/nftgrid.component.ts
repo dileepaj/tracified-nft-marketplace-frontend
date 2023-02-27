@@ -103,7 +103,7 @@ export class NftgridComponent implements OnInit {
     this.watchlistModel.NFTIdentifier = id;
     this.retrive(this.watchlistModel.Blockchain).then((res) => {
       this.api.addToWatchList(this.watchlistModel).subscribe((res) => {
-        this.snackbarService.openSnackBar('Added to watchlists');
+        this.snackbarService.openSnackBar('Added to watchlists', 'success');
         this.api
           .getWatchlistByBlockchainAndNFTIdentifier(
             this.watchlistModel.Blockchain,
@@ -119,7 +119,7 @@ export class NftgridComponent implements OnInit {
     this.favouritesModel.NFTIdentifier = id;
     this.retrive(this.favouritesModel.Blockchain).then((res) => {
       this.api.addToFavourites(this.favouritesModel).subscribe((res) => {
-        this.snackbarService.openSnackBar('Added to favourites');
+        this.snackbarService.openSnackBar('Added to favourites', 'success');
         this.api
           .getFavouritesByBlockchainAndNFTIdentifier(
             this.favouritesModel.Blockchain,

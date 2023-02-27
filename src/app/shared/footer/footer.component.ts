@@ -48,10 +48,10 @@ export class FooterComponent implements OnInit {
     this.service.checkifSubscribed(this.subscribe.mail).subscribe((subresponse:any)=>{
         if(subresponse =="not subscribed"){
           this.service.addSubscription(this.subscribe).subscribe(res=>{
-          this.snackbarService.openSnackBar("Request to subscribe sent")
+          this.snackbarService.openSnackBar("Request to subscribe sent", 'success')
           })
         }else if(subresponse == "subscribed"){
-          this.snackbarService.openSnackBar("This email is subscribed to the newsletter")
+          this.snackbarService.openSnackBar("This email is subscribed to the newsletter", 'info')
         }
     })
   }

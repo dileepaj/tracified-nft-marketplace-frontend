@@ -184,9 +184,10 @@ export class HomeComponent implements OnInit {
     this.firebaseanalytics.logEvent("page_load","MK_devtest")
     this.List = [];
     this.List2=[];
-    this.nft.getFilteredNFTs('stellar', 0, 'trending', 6).subscribe((result: any) => {
-      result.Response.content.forEach((cont) => {
-        if(this.paginationflag==false){
+    this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
+      console.log("results : ",result)
+      result.Response.forEach((cont) => {
+        if(cont.hotpicks==true && this.paginationflag==false){
         this.nft
           .getSVGByHash(cont.imagebase64)
           .subscribe((res: any) => {
@@ -205,7 +206,7 @@ export class HomeComponent implements OnInit {
               //   cont.thumbnail = this.imageSrc;
               // }
             }
-            this.nft.getThumbnailId(cont.Id).subscribe(async(thumbnail:any)=>{
+            this.nft.getThumbnailId(cont.id).subscribe(async(thumbnail:any)=>{
      
               this.paginationflag=true
                   if(thumbnail==""){
@@ -243,9 +244,9 @@ export class HomeComponent implements OnInit {
       })
     })
 
-    this.nft.getFilteredNFTs('stellar', 0, 'hotpicks', 6).subscribe((result: any) => {
-      result.Response.content.forEach((cont) => {
-        if(this.paginationflag==false){
+    this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
+      result.Response.forEach((cont) => {
+        if(cont.trending==true && this.paginationflag==false){
         this.nft
           .getSVGByHash(cont.imagebase64)
           .subscribe((res: any) => {
@@ -263,7 +264,7 @@ export class HomeComponent implements OnInit {
               //   cont.thumbnail = this.imageSrc;
               // }
             }
-            this.nft.getThumbnailId(cont.Id).subscribe(async(thumbnail:any)=>{
+            this.nft.getThumbnailId(cont.id).subscribe(async(thumbnail:any)=>{
      
               this.paginationflag=true
                   if(thumbnail==""){

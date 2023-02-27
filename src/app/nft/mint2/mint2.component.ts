@@ -235,8 +235,6 @@ export class Mint2Component implements OnInit {
       this.addSubscription = this.service.addNFTBE(this.mint).subscribe();
     }
 
-
-
     this.pushOwner(); //calling function
     this.pushTag(); //calling fnction
     this.proceed.emit({

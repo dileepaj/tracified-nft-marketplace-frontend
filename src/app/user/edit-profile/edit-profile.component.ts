@@ -46,9 +46,9 @@ export class EditProfileComponent implements OnInit {
       })
     })
     this.controlGroupProfile = new FormGroup({
-      name: new FormControl(this.endorse.Name),
-      contact: new FormControl(this.endorse.Contact),
-      mail: new FormControl(this.endorse.Email, Validators.email),
+      name: new FormControl(this.endorse.Name, [Validators.required]),
+      contact: new FormControl(this.endorse.Contact, [Validators.required]),
+      mail: new FormControl(this.endorse.Email, [Validators.required, Validators.email]),
     });
   }
 

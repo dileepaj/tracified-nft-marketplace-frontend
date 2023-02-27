@@ -4,6 +4,7 @@
     fxFlex="100%"
     fxLayout="row wrap"
     [formGroup]="controlGroup"
+    #nlForm="ngForm"
   >
     <div
       id="img-section"
@@ -43,9 +44,20 @@
           class="form-label"
           >Topic</label
         >
-        <div class="input-field-wrapper" fxFlex.xl="60%" fxFlex.lg="60%" fxFlex.md="60%" fxFlex.lt-md="100%">
+        <div
+          class="input-field-wrapper"
+          fxFlex.xl="60%"
+          fxFlex.lg="60%"
+          fxFlex.md="60%"
+          fxFlex.lt-md="100%"
+        >
           <input matInput formControlName="topic" />
-          <span></span>
+          <span
+            [class.invalid-border]="
+              (controlGroup.get('topic')!.touched || nlForm.submitted) &&
+              controlGroup.get('topic')?.hasError('required')
+            "
+          ></span>
         </div>
       </div>
       <div class="input-group" fxLayout="row wrap">
@@ -57,9 +69,20 @@
           class="form-label"
           >Author</label
         >
-        <div class="input-field-wrapper" fxFlex.xl="60%" fxFlex.lg="60%" fxFlex.md="60%" fxFlex.lt-md="100%">
+        <div
+          class="input-field-wrapper"
+          fxFlex.xl="60%"
+          fxFlex.lg="60%"
+          fxFlex.md="60%"
+          fxFlex.lt-md="100%"
+        >
           <input matInput formControlName="author" />
-          <span></span>
+          <span
+            [class.invalid-border]="
+              (controlGroup.get('author')!.touched || nlForm.submitted) &&
+              controlGroup.get('author')?.hasError('required')
+            "
+          ></span>
         </div>
       </div>
       <div class="input-group" fxLayout="row wrap">
@@ -71,9 +94,20 @@
           class="form-label"
           >Date</label
         >
-        <div class="input-field-wrapper" fxFlex.xl="60%" fxFlex.lg="60%" fxFlex.md="60%" fxFlex.lt-md="100%">
+        <div
+          class="input-field-wrapper"
+          fxFlex.xl="60%"
+          fxFlex.lg="60%"
+          fxFlex.md="60%"
+          fxFlex.lt-md="100%"
+        >
           <input matInput formControlName="date" />
-          <span></span>
+          <span
+            [class.invalid-border]="
+              (controlGroup.get('date')!.touched || nlForm.submitted) &&
+              controlGroup.get('date')?.hasError('required')
+            "
+          ></span>
         </div>
       </div>
       <div class="input-group" fxLayout="row wrap">
@@ -85,9 +119,20 @@
           class="form-label"
           >Publisher</label
         >
-        <div class="input-field-wrapper" fxFlex.xl="60%" fxFlex.lg="60%" fxFlex.md="60%" fxFlex.lt-md="100%">
+        <div
+          class="input-field-wrapper"
+          fxFlex.xl="60%"
+          fxFlex.lg="60%"
+          fxFlex.md="60%"
+          fxFlex.lt-md="100%"
+        >
           <input matInput formControlName="publisher" />
-          <span></span>
+          <span
+            [class.invalid-border]="
+              (controlGroup.get('publisher')!.touched || nlForm.submitted) &&
+              controlGroup.get('publisher')?.hasError('required')
+            "
+          ></span>
         </div>
       </div>
       <div class="input-group" fxLayout="row wrap">
@@ -99,9 +144,20 @@
           class="form-label"
           >Web Link</label
         >
-        <div class="input-field-wrapper" fxFlex.xl="60%" fxFlex.lg="60%" fxFlex.md="60%" fxFlex.lt-md="100%">
+        <div
+          class="input-field-wrapper"
+          fxFlex.xl="60%"
+          fxFlex.lg="60%"
+          fxFlex.md="60%"
+          fxFlex.lt-md="100%"
+        >
           <input matInput formControlName="webLink" />
-          <span></span>
+          <span
+            [class.invalid-border]="
+              (controlGroup.get('webLink')!.touched || nlForm.submitted) &&
+              controlGroup.get('webLink')?.hasError('required')
+            "
+          ></span>
         </div>
       </div>
     </div>
@@ -110,7 +166,12 @@
       <label fxFlex="100%" class="form-label">Add a description</label>
       <div class="input-field-wrapper" fxFlex="100%">
         <textarea matInput formControlName="description"></textarea>
-        <span></span>
+        <span
+          [class.invalid-border]="
+            (controlGroup.get('description')!.touched || nlForm.submitted) &&
+            controlGroup.get('description')?.hasError('required')
+          "
+        ></span>
       </div>
     </div>
     <button mat-flat-button class="btn-post" (click)="save()">Post</button>

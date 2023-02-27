@@ -1,6 +1,6 @@
 <div class="step-main-div">
   <label class="heading">Get Started!</label>
-  <form id="mintEmail" [formGroup]="controlGroupMint">
+  <form id="mintEmail" [formGroup]="controlGroupMint" #mint1Form="ngForm">
     <label class="normal-text center"
       >Enter your email address to get started</label
     >
@@ -15,7 +15,12 @@
           formControlName="Email"
           placeholder="jane@example.com"
         />
-        <span></span>
+        <span
+          [class.invalid-border]="
+            (controlGroupMint.get('Email')!.touched || mint1Form.submitted) &&
+            controlGroupMint.get('Email')?.errors
+          "
+        ></span>
       </div>
     </div>
   </form>

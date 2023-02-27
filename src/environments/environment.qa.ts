@@ -53,6 +53,27 @@ export const BlockchainConfig = {
   solananetworkURL: 'https://api.devnet.solana.com'
 }
 
+export const FirebaseConfig = {
+  firebaseConfig: {
+
+    apiKey: "AIzaSyBY9TcEIKgfeuqVzJzE_1zmhX4CxPZnZJU",
+
+    authDomain: "tracified-mithila-8f54a.firebaseapp.com",
+  
+    projectId: "tracified-mithila-8f54a",
+  
+    storageBucket: "tracified-mithila-8f54a.appspot.com",
+  
+    messagingSenderId: "536618682711",
+  
+    appId: "1:536618682711:web:71408c69e0dac9fb53d612",
+  
+    measurementId: "G-HLHP3146ZQ"
+  
+
+  }
+
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

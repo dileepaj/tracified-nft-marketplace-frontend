@@ -44,6 +44,7 @@ import albedo from '@albedo-link/intent';
 import { Float } from '@solana/buffer-layout';
 import { MintService } from 'src/app/services/blockchain-services/mint.service';
 import { Seller2tracService } from 'src/app/services/blockchain-services/solana-services/seller2trac.service';
+import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
 
 @Component({
   selector: 'app-buy-view',
@@ -192,10 +193,17 @@ export class BuyViewComponent implements OnInit {
     private snackbar: SnackbarServiceService,
     public dialog: MatDialog,
     private servicemint:MintService,
-    private servicesell:Seller2tracService
+    private servicesell:Seller2tracService,
+    private firebaseanalytics:FirebaseAnalyticsService
   ) {}
 
   buyNFT(): void {
+    this.firebaseanalytics.logEvent(
+      "button clicked",
+      {
+        button_name : "buy now"
+      }
+    )
     this.updateBackend();
   }
 
@@ -612,6 +620,11 @@ export class BuyViewComponent implements OnInit {
   }
 
   showInProfile() {
+    this.firebaseanalytics.logEvent(
+      "buy_success",{
+        operation_result:"success"
+      }
+    )
     this.router.navigate(['/user-dashboard'], {
       queryParams: { user: this.saleBE.CurrentOwnerPK, blockchain: this.nftbe.Blockchain },
     });
@@ -627,6 +640,7 @@ export class BuyViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.firebaseanalytics.logEvent("page_load",{page_name:"Buy_NFT_Screen"})
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
       this.nftbe.Blockchain = this.data[1];
@@ -746,6 +760,13 @@ export class BuyViewComponent implements OnInit {
                 }
 
               });
+              this.firebaseanalytics.logEvent(
+                "NFT_details_buy",
+                {
+                  blockchain:this.NFTList.blockchain,
+                  attachment_type:this.NFTList.attachmenttype
+                }
+              )
             if (this.NFTList.blockchain == 'ethereum') {
               this.image =
                 '../../../assets/images/blockchain-icons/ethereum.png';
@@ -862,6 +883,13 @@ export class BuyViewComponent implements OnInit {
             this.isLoading = false;
           });
       } else {
+        this.firebaseanalytics.logEvent(
+          "error",
+          {
+            reason:"account not endorserd",
+            trigger_location:"buy screen"
+          }      
+        )
         this.snackbar.openSnackBar('User PK not connected or not endorsed');
       }
     });

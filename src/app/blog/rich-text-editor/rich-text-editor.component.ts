@@ -41,11 +41,11 @@ story:NFTStory=new NFTStory('','','')
             if(res){
               this.service.addStory(this.story).subscribe(storyres=>{
                 if(storyres!= null || storyres>0){
-                  this.snackbarService.openSnackBar("Successfully addded NFT story to NFT")
+                  this.snackbarService.openSnackBar("Successfully addded NFT story to NFT", 'success')
                   this._location.back();
                 }
                 else{
-                  this.snackbarService.openSnackBar("Failed to add NFT story.Please try again")
+                  this.snackbarService.openSnackBar("Failed to add NFT story.Please try again", 'error')
                 }
               })  
             }

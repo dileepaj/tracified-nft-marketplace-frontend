@@ -300,7 +300,8 @@ export class Mint2Component implements OnInit {
 
     if (!this.mint.Imagebase64 || !this.mint.thumbnail || this.mint.Blockchain === "" || this.mint.NFTName === "" || this.mint.Description === "" || this.formValue("Collection") === "" || this.formValue("ArtistName") === "" || this.tags[0] == null) {
       this.snackbar.openSnackBar(
-        SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING
+        SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING,
+        'info'
       );
       return
     }
@@ -381,7 +382,7 @@ export class Mint2Component implements OnInit {
                               blockchain:this.mint.Blockchain,
                               result:"Success"
                             })
-                            this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                            this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE, 'success');
                           }
 
                         });
@@ -455,7 +456,7 @@ export class Mint2Component implements OnInit {
                                   blockchain:this.mint.Blockchain,
                                   result:"Success"
                                 })
-                                this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                                this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE, 'success');
                               }
 
                             });
@@ -542,7 +543,7 @@ export class Mint2Component implements OnInit {
                         blockchain:this.mint.Blockchain,
                         result:"Success"
                       })
-                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE);
+                      this.snackbar.openSnackBar(SnackBarText.MINTING_SUCCESSFUL_MESSAGE, 'success');
                     }
 
                   });
@@ -637,10 +638,11 @@ export class Mint2Component implements OnInit {
                         this.saveTXNs();
                         dialog.close();
                         this.snackbar.openSnackBar(
-                          SnackBarText.MINTING_SUCCESSFUL_MESSAGE
+                          SnackBarText.MINTING_SUCCESSFUL_MESSAGE,
+                          'success'
                         );
                       } catch (err) {
-                        alert("Something went wrong, please try again! More information: " + err);
+                        this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                       }
                     });
                 }
@@ -724,16 +726,16 @@ export class Mint2Component implements OnInit {
                           this.saveTXNs();
                           dialog.close();
                           this.snackbar.openSnackBar(
-                            SnackBarText.MINTING_SUCCESSFUL_MESSAGE
+                            SnackBarText.MINTING_SUCCESSFUL_MESSAGE, 'success'
                           );
                           this.loaderService.isLoading.next(false);
                         } catch (err) {
-                          alert("Something went wrong, please try again! More information: " + err);
+                          this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                         }
                       });
                   } catch (err) {
                     dialog.close();
-                    alert("Something went wrong, please try again! More information: " + err);
+                    this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                   }
                 }
               });
@@ -825,7 +827,7 @@ export class Mint2Component implements OnInit {
                 this.sendToMint3();
                 this.updateMinter();
               } catch (err) {
-                alert("Something went wrong, please try again! More information: " + err);
+                this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
               }
             });
         });
@@ -890,7 +892,7 @@ export class Mint2Component implements OnInit {
                     this.TXNStellar();
                   } catch (err) {
                     _callback();
-                    this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err);
+                    this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                   }
                 })
                 .then((nft) => {
@@ -912,13 +914,14 @@ export class Mint2Component implements OnInit {
               this.pendingDialog(false);
             }
           } catch (err) {
-            alert("Something went wrong, please try again! More information: " + err);
+            this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
           }
         });
 
     } else {
       this.snackbar.openSnackBar(
-        'User PK not connected or not endorsed'
+        'User PK not connected or not endorsed',
+        'info'
       );
     }
   }
@@ -962,7 +965,7 @@ export class Mint2Component implements OnInit {
                   this.TXNStellar();
                 } catch (err) {
                   _callback();
-                  this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err);
+                  this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                 }
               })
               .then((nft) => {
@@ -978,12 +981,13 @@ export class Mint2Component implements OnInit {
                 this.pendingDialog.close(false);
               });
           } catch (err) {
-            alert("Something went wrong, please try again! More information: " + err);
+            this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
           }
         });
     } else {
       this.snackbar.openSnackBar(
-        'User PK not connected or not endorsed'
+        'User PK not connected or not endorsed',
+        'info'
       );
       this.pendingDialog.close(false);
     }
@@ -1095,7 +1099,7 @@ export class Mint2Component implements OnInit {
 
               } catch (err) {
                 _callback()
-                this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err);
+                this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
               }
             })
             .catch((error) => {
@@ -1105,7 +1109,7 @@ export class Mint2Component implements OnInit {
               this.pendingDialog.close(false);
             });
         } catch (err: any) {
-          this.snackbar.openSnackBar(err.message);
+          this.snackbar.openSnackBar(err.message, 'error');
           this.pendingDialog.close(false);
         }
       })
@@ -1203,7 +1207,8 @@ export class Mint2Component implements OnInit {
         this.updateHTML();
       } else {
         this.snackbar.openSnackBar(
-          "This SVG has already been used, please add another!"
+          "This SVG has already been used, please add another!",
+          'error'
         );
       }
       svgChecker.close()
@@ -1226,7 +1231,8 @@ export class Mint2Component implements OnInit {
         this.updateHTML();
       } else {
         this.snackbar.openSnackBar(
-          "This Image has already been used, please add another!"
+          "This Image has already been used, please add another!",
+          'error'
         );
       }
       svgChecker.close()
@@ -1345,7 +1351,7 @@ export class Mint2Component implements OnInit {
       this.showthumbnailContainer = false
     }
     else {
-      this.snackbar.openSnackBar("Maximum file size for thumbnail is 2 MB");
+      this.snackbar.openSnackBar("Maximum file size for thumbnail is 2 MB", 'error');
     }
 
   }

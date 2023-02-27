@@ -271,11 +271,11 @@ export class SellNftComponent implements OnInit {
 
               this.royaltyamount = parseFloat(this.formValue('Royalty'));
               if (isNaN(+this.royaltyamount)) {
-                this.snackbarService.openSnackBar("Royality must be inputed as a number")
+                this.snackbarService.openSnackBar("Royality must be inputed as a number", 'info')
                 return
               }
               if (this.royaltyamount < 0 || this.royaltyamount > 100) {
-                this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+                this.snackbarService.openSnackBar("Royalty must be between 1 to 100%", 'info')
                 return
               }
             } else {
@@ -319,7 +319,8 @@ export class SellNftComponent implements OnInit {
                         this.addDBGateway();
                         loadingAnimation.close();
                         this.snackbarService.openSnackBar(
-                          SnackBarText.SALE_SUCCESS_MESSAGE
+                          SnackBarText.SALE_SUCCESS_MESSAGE,
+                          'success'
                         );
                         this.showInProfile();
                       } catch (err) {
@@ -332,7 +333,7 @@ export class SellNftComponent implements OnInit {
                           }
                         )
                         loadingAnimation.close();
-                        this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
+                        this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                       }
                     });
 
@@ -354,11 +355,11 @@ export class SellNftComponent implements OnInit {
 
                   this.royaltyamount = parseFloat(this.formValue('Royalty'));
                   if (isNaN(+this.royaltyamount)) {
-                    this.snackbarService.openSnackBar("Royality must be inputed as a number")
+                    this.snackbarService.openSnackBar("Royality must be inputed as a number", 'info')
                     return
                   }
                   if (this.royaltyamount < 0 || this.royaltyamount > 100) {
-                    this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+                    this.snackbarService.openSnackBar("Royalty must be between 1 to 100%", 'info')
                     return
                   }
                 } else {
@@ -401,7 +402,8 @@ export class SellNftComponent implements OnInit {
                             this.addDBGateway();
                             loadingAnimation.close();
                             this.snackbarService.openSnackBar(
-                              SnackBarText.SALE_SUCCESS_MESSAGE
+                              SnackBarText.SALE_SUCCESS_MESSAGE,
+                              'success'
                             );
                             this.showInProfile();
                           } catch (err) {
@@ -414,7 +416,7 @@ export class SellNftComponent implements OnInit {
                               }
                             )
                             loadingAnimation.close();
-                            this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
+                            this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                           }
                         });
 
@@ -445,11 +447,11 @@ export class SellNftComponent implements OnInit {
 
         this.royaltyamount = parseFloat(this.formValue('Royalty'));
         if (isNaN(+this.royaltyamount)) {
-          this.snackbarService.openSnackBar("Royality must be inputed as a number")
+          this.snackbarService.openSnackBar("Royality must be inputed as a number", 'info')
           return
         }
         if (this.royaltyamount < 0 || this.royaltyamount > 100) {
-          this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+          this.snackbarService.openSnackBar("Royalty must be between 1 to 100%", 'info')
           return
         }
       } else {
@@ -498,7 +500,8 @@ export class SellNftComponent implements OnInit {
                   this.saveTXNs();
                   loadingAnimation.close();
                   this.snackbarService.openSnackBar(
-                    SnackBarText.SALE_SUCCESS_MESSAGE
+                    SnackBarText.SALE_SUCCESS_MESSAGE,
+                    'success'
                   );
                   this.showInProfile();
                 } catch (err) {
@@ -511,7 +514,7 @@ export class SellNftComponent implements OnInit {
                     }
                   )
                   loadingAnimation.close();
-                  this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
+                  this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                 }
               });
           }
@@ -535,7 +538,7 @@ export class SellNftComponent implements OnInit {
               trigger_at:"sell screen"
             }
           )
-          this.snackbarService.openSnackBar("Royality must be inputed as a number")
+          this.snackbarService.openSnackBar("Royality must be inputed as a number", 'info')
           return
         }
         if (this.royaltyamount < 0 || this.royaltyamount > 100) {
@@ -548,7 +551,7 @@ export class SellNftComponent implements OnInit {
               trigger_at:"sell screen",
             }
           )
-          this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+          this.snackbarService.openSnackBar("Royalty must be between 1 to 100%", 'info')
           return
         }
       } else {
@@ -594,7 +597,8 @@ export class SellNftComponent implements OnInit {
                       this.addDBGateway();
                       loadingAnimation.close();
                       this.snackbarService.openSnackBar(
-                        SnackBarText.SALE_SUCCESS_MESSAGE
+                        SnackBarText.SALE_SUCCESS_MESSAGE,
+                        'success'
                       );
                       this.showInProfile();
                     } catch (err) {
@@ -607,7 +611,7 @@ export class SellNftComponent implements OnInit {
                         }
                       )
                       loadingAnimation.close();
-                      this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
+                      this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                     }
                   });
               } catch (err) {
@@ -620,7 +624,7 @@ export class SellNftComponent implements OnInit {
                   }
                 )
                 loadingAnimation.close();
-                this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
+                this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
               }
             })
 
@@ -645,7 +649,7 @@ export class SellNftComponent implements OnInit {
               trigger_at:"sell screen"
             }
           )
-          this.snackbarService.openSnackBar("Royality must be inputed as a number")
+          this.snackbarService.openSnackBar("Royality must be inputed as a number", 'info')
           return
         }
         if (this.royaltyamount < 0 || this.royaltyamount > 100) {
@@ -657,7 +661,7 @@ export class SellNftComponent implements OnInit {
               trigger_at:"sell screen"
             }
           )
-          this.snackbarService.openSnackBar("Royalty must be between 1 to 100%")
+          this.snackbarService.openSnackBar("Royalty must be between 1 to 100%", 'info')
           return
         }
       } else {
@@ -704,7 +708,8 @@ export class SellNftComponent implements OnInit {
                       this.addDBGateway();
                       loadingAnimation.close();
                       this.snackbarService.openSnackBar(
-                        SnackBarText.SALE_SUCCESS_MESSAGE
+                        SnackBarText.SALE_SUCCESS_MESSAGE,
+                        'success'
                       );
                       this.showInProfile();
                     } catch (err) {
@@ -717,7 +722,7 @@ export class SellNftComponent implements OnInit {
                         }
                       )
                       loadingAnimation.close();
-                      this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
+                      this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                     }
                   });
               } catch (err) {
@@ -730,7 +735,7 @@ export class SellNftComponent implements OnInit {
                   }
                 )
                 loadingAnimation.close();
-                this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
+                this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
               }
             })
 
@@ -955,7 +960,8 @@ export class SellNftComponent implements OnInit {
         }      
       )
       this.snackbarService.openSnackBar(
-        'User PK not connected or not endorsed'
+        'User PK not connected or not endorsed',
+        'info'
       );
     }
 

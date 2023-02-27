@@ -1,5 +1,6 @@
 import albedo from '@albedo-link/intent';
 import { Injectable } from '@angular/core';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { blockchainNet, blockchainNetType } from 'src/app/shared/config';
 import { Asset, Memo, Networks, Operation, Server, TransactionBuilder } from 'stellar-sdk';
 import { StellarCommonsService } from '../stellar-commons.service';
@@ -10,7 +11,7 @@ import { StellarCommonsService } from '../stellar-commons.service';
 export class TrustByBuyerService {
   //networkType:any;
   net: Networks;
-  constructor(private network:StellarCommonsService) { }
+  constructor(private network:StellarCommonsService, private snackbar : SnackbarServiceService) { }
 
   trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string,commission:string) {
   
@@ -99,7 +100,7 @@ export class TrustByBuyerService {
               resolve(transactionResult);
             })
             .catch((err) => {
-              alert("Something went wrong, please try again! More information: "+err);
+              this.snackbar.openSnackBar("Something went wrong, please try again! More information: "+err, 'error');
               reject(err);
             });
         });

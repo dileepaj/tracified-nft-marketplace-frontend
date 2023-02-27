@@ -84,7 +84,8 @@ export class ContactUsComponent implements OnInit {
       this.userFAQ.desc == ''
     ) {
       this.snackbarService.openSnackBar(
-        SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING
+        SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING, 
+        'info'
       );
     } else {
       this.dialogService

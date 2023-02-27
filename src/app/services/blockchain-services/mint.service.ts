@@ -4,6 +4,7 @@ import {Observable,Subject} from "rxjs";
 import { Collection } from 'src/app/models/collection';
 import { Issuer, Ownership ,NFT,tags, Minter,StellarTXN,Contracts} from 'src/app/models/minting';
 import { APIConfigENV } from 'src/environments/environment';
+import { SnackbarServiceService } from '../snackbar-service/snackbar-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,7 @@ export class MintService {
 
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private snackbar : SnackbarServiceService) {}
    
   addOwner(st:Ownership):Observable<Ownership>{
     return this.http.post<Ownership>(this.baseUrlOwner, st, {headers: this.headers});
@@ -133,7 +134,7 @@ export class MintService {
             resolve(response);
           },
           (error) => {
-           alert(error);
+            this.snackbar.openSnackBar(error, 'error');
             reject(error);
           }
         );

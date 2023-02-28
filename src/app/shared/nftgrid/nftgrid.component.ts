@@ -163,30 +163,40 @@ export class NftgridComponent implements OnInit {
                 if (this.status == 'Sale') {
                   if (this.nfts.Response[x].sellingstatus == 'ON SALE'  && this.paginationflag==false) {
                     this.Filter(this.nfts.Response[x]);
+                  }else{
+                    this.loading = false;
                   }
                 }
 
                 if (this.status == 'Bought') {
                   if (this.nfts.Response[x].sellingstatus == 'NOTFORSALE'  && this.paginationflag==false) {
                     this.Filter(this.nfts.Response[x]);
+                  }else{
+                    this.loading = false;
                   }
                 }
 
                 if (this.status == 'Mints') {
                   if (this.nfts.Response[x].sellingstatus == 'Minted'  && this.paginationflag==false) {
                     this.Filter(this.nfts.Response[x]);
+                  }else{
+                    this.loading = false;
                   }
                 }
 
                 if (this.status == 'Favourites') {
                   if (this.nfts.Response[x].trending == true  && this.paginationflag==false) {
                     this.Filter(this.nfts.Response[x]);
+                  }else{
+                    this.loading = false;
                   }
                 }
 
                 if (this.status == 'Hotpicks') {
                   if (this.nfts.Response[x].hotpicks == true  && this.paginationflag==false) {
                     this.Filter(this.nfts.Response[x]);
+                  }else{
+                    this.loading = false;
                   }
                 }
               }

@@ -60,8 +60,8 @@ export class Issuer{
 
 export class Minter{
     constructor(
-        public NFTIssuerPK:string,
         public ImageBase64:string,
+        public NFTIssuerPK:string,
         public NFTIdentifier: string,
         public NFTTxnHash:string,
         public Blockchain:string,

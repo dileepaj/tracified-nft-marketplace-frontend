@@ -24,6 +24,19 @@
       }}</label>
     </div>
     <div class="filters cont-wrapper">
+        <div
+        class="filter"
+        [class.active-filter]="selectedFilter === 'all'"
+        (click)="setFilter('all')"
+        matRipple
+      >
+        <img
+          class="filter-icon"
+          [class.filter-icon-active]="selectedFilter === 'all'"
+          src="../../../assets/images/up_to_date.png"
+        />
+        All
+      </div>
       <div
         class="filter"
         [class.active-filter]="selectedFilter === 'onsale'"
@@ -37,19 +50,6 @@
         />
         On Sale
       </div>
-      <!-- <div
-        class="filter"
-        [class.active-filter]="selectedFilter === 'all'"
-        (click)="setFilter('all')"
-        matRipple
-      >
-        <img
-          class="filter-icon"
-          [class.filter-icon-active]="selectedFilter === 'all'"
-          src="../../../assets/images/up_to_date.png"
-        />
-        All
-      </div> -->
       <div
         class="filter"
         [class.active-filter]="selectedFilter === 'uptodate'"

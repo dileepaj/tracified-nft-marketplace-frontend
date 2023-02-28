@@ -142,7 +142,7 @@
 }
 
 .nft-name {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 36px;
@@ -240,7 +240,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -260,7 +260,7 @@
 }
 
 .nft-cat {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -296,7 +296,7 @@
 .prev-o {
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   line-height: 32px;
   /* or 178% */
@@ -307,7 +307,7 @@
 .curr-o {
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   line-height: 32px;
   /* or 178% */
@@ -363,7 +363,7 @@
 .heading-s {
   margin-top: 45px;
   margin-bottom: 15px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -386,7 +386,7 @@
 
 .txn-table thead {
   background-color: #fff;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
@@ -472,7 +472,7 @@ td {
 }
 
 .sell-label {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -511,7 +511,7 @@ td {
 }
 
 .sell-input-grp label {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -591,7 +591,7 @@ mat-hint {
 }
 
 /* Firefox */
-.input[type=text] {
+.input[type="text"] {
   -webkit-appearance: none;
   margin-top: 2px;
 }
@@ -604,16 +604,14 @@ mat-hint {
   margin-top: 36px;
   /* identical to box height, or 132% */
 
-
-  color: #10CEAC !important;
+  color: #10ceac !important;
 
   margin-right: 20px;
-
 }
 
 .input-wrapper {
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   column-gap: 20px;
 }
 
@@ -633,9 +631,53 @@ mat-hint {
   border-radius: 10px;
 }
 
+.input-field-wrapper input:focus + .invalid-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid rgb(206, 16, 16);
+  border-radius: 10px;
+}
+
+.input-field-wrapper textarea:focus + .invalid-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid rgb(206, 16, 16);
+  border-radius: 10px;
+}
+
+.input-field-wrapper input + .invalid-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid rgb(206, 16, 16);
+  border-radius: 10px;
+}
+
+.input-field-wrapper textarea + .invalid-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid rgb(206, 16, 16);
+  border-radius: 10px;
+}
+
 .sell-view-input-wrapper .prefix {
   color: #919191;
-  font-size:18px;
+  font-size: 18px;
 }
 
 .no-story-div {

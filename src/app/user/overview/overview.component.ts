@@ -34,6 +34,11 @@ export class OverviewComponent implements OnInit {
   thumbnailSRC: any;
   user: any;
   paginationflag: boolean=false;
+  hotPicksLoading : boolean = false;
+  mintedLoading: boolean = false;
+  favLoading : boolean = false;
+  boughtLoading : boolean = false;
+  onSaleLoading : boolean = false;
 
   constructor(private route: ActivatedRoute,
      private router: Router,
@@ -59,6 +64,11 @@ export class OverviewComponent implements OnInit {
       this.ListMinted.splice(0);
       this.ListTrends.splice(0);
       this.ListSales.splice(0);
+      this.hotPicksLoading  = true;
+      this.mintedLoading = true;
+      this.favLoading  = true;
+      this.boughtLoading  = true;
+      this.onSaleLoading  = true;
           this.nft.getNFTByBlockchainandUser(this.selectedBlockchain,this.user).subscribe(async (data) => {
         this.nfts = data;
         if(this.nft==null){
@@ -87,6 +97,11 @@ export class OverviewComponent implements OnInit {
             }
 
           }
+          this.hotPicksLoading  = false;
+          this.mintedLoading = false;
+          this.favLoading  = false;
+          this.boughtLoading  = false;
+          this.onSaleLoading  = false;
         }
       });
     });

@@ -63,6 +63,8 @@ export class HomeComponent implements OnInit {
   thumbnailSRC: any;
   net: Networks;
   paginationflag: boolean=false;
+  bestPicksLoading : boolean = false;
+  trendingLoading: boolean = false;
   constructor(
     private dialogref: MatDialog,
     private nft: NftServicesService,
@@ -184,6 +186,8 @@ export class HomeComponent implements OnInit {
     this.firebaseanalytics.logEvent("page_load","MK_devtest")
     this.List = [];
     this.List2=[];
+    this.bestPicksLoading = true;
+    this.trendingLoading = true;
     this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
       console.log("results : ",result)
       result.Response.forEach((cont) => {
@@ -242,6 +246,7 @@ export class HomeComponent implements OnInit {
           });
         }
       })
+      this.bestPicksLoading = false;
     })
 
     this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
@@ -299,6 +304,7 @@ export class HomeComponent implements OnInit {
           });
         }
       })
+      this.trendingLoading = false;
     })
 
     window.addEventListener('scroll', () => {

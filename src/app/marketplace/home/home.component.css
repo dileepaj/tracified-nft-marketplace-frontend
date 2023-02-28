@@ -190,9 +190,8 @@
   min-height: 250px;
   display: flex;
   flex-direction: row;
-  width: 100%;
   column-gap: 20px;
-  padding: 20px 10px 20px 10px;
+  padding: 20px 10px 20px 0px;
   overflow-x: auto;
   scroll-behavior: smooth;
 }

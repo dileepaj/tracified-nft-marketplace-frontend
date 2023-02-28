@@ -263,9 +263,6 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     }
 
     //this.checkIfNftLoaded();
-     setTimeout(() => {
-      this.loading = false;
-    }, 2000)
  
   }
 

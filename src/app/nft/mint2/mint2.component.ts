@@ -41,7 +41,7 @@ import { NftServicesService } from 'src/app/services/api-services/nft-services/n
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
-import { COMMA, ENTER, P } from '@angular/cdk/keycodes';
+import { COMMA, TAB } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Description } from '@ethersproject/properties';
@@ -148,7 +148,7 @@ export class Mint2Component implements OnInit {
   imageSrc: any;
   userPK: string;
   distributor: any;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  separatorKeysCodes: number[] = [TAB, COMMA];
   tagCtrl: FormControl = new FormControl('');
   filteredtags: Observable<string[]>;
   tags: string[] = [];
@@ -232,11 +232,12 @@ export class Mint2Component implements OnInit {
     (this.mint.Trending = false), (this.mint.HotPicks = false);
     //posting of mint data to backend via service
     if (this.mint.CreatorUserId != null) {
-      this.addSubscription = this.service.addNFTBE(this.mint).subscribe();
+      this.addSubscription = this.service.addNFTBE(this.mint).subscribe(res=>{
+        this.pushOwner(); //calling function
+        this.pushTag(); //calling fnction
+      });
     }
 
-    this.pushOwner(); //calling function
-    this.pushTag(); //calling fnction
     this.proceed.emit({
       email: this.email,
       blockchain: this.mint.Blockchain,
@@ -315,7 +316,7 @@ export class Mint2Component implements OnInit {
         this.svg.Base64ImageSVG = this.Encoded;
         this.svg.AttachmentType = this.type
         // this.svg.thumbnail=this.thumbnail
-        this.apiService.addSVG(this.svg).subscribe();
+      //  this.apiService.addSVG(this.svg).subscribe();
 
         if (this.mint.NFTIssuerPK != null) {
           if (this.wallet == 'freighter') {
@@ -487,7 +488,7 @@ export class Mint2Component implements OnInit {
       this.svg.Hash = this.hash;
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.AttachmentType = this.type
-      this.apiService.addSVG(this.svg).subscribe();
+     // this.apiService.addSVG(this.svg).subscribe();
       this.dialogService
         .confirmMintDialog({
           promtHeading: "You are Minting",
@@ -567,7 +568,7 @@ export class Mint2Component implements OnInit {
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'ethereum';
       this.svg.AttachmentType = this.type
-      this.apiService.addSVG(this.svg).subscribe();
+    //  this.apiService.addSVG(this.svg).subscribe();
       this.dialogService
         .confirmMintDialog({
           promtHeading: "You are Minting",
@@ -634,6 +635,7 @@ export class Mint2Component implements OnInit {
                         this.sendToMint3();
                         this.saveContractInGateway();
                         this.saveTXNs();
+                        this.apiService.addSVG(this.svg).subscribe();
                         dialog.close();
                         this.snackbar.openSnackBar(
                           SnackBarText.MINTING_SUCCESSFUL_MESSAGE,
@@ -664,7 +666,7 @@ export class Mint2Component implements OnInit {
       this.svg.Base64ImageSVG = this.Encoded;
       this.svg.blockchain = 'polygon';
       this.svg.AttachmentType = this.type
-      this.apiService.addSVG(this.svg).subscribe();
+     // this.apiService.addSVG(this.svg).subscribe();
       this.dialogService
         .confirmMintDialog({
           promtHeading: "You are Minting",
@@ -722,6 +724,7 @@ export class Mint2Component implements OnInit {
                           this.sendToMint3();
                           this.saveContractInGateway();
                           this.saveTXNs();
+                          this.apiService.addSVG(this.svg).subscribe();
                           dialog.close();
                           this.snackbar.openSnackBar(
                             SnackBarText.MINTING_SUCCESSFUL_MESSAGE, 'success'
@@ -822,6 +825,7 @@ export class Mint2Component implements OnInit {
             .subscribe((res: any) => {
               try{
                 this.saveTXNs();
+                this.apiService.addSVG(this.svg).subscribe();
                 this.sendToMint3();
                 this.updateMinter();
               } catch (err) {
@@ -863,6 +867,7 @@ export class Mint2Component implements OnInit {
         )
         .then((transactionResult: any) => {
           this.sendToMint3();
+          this.apiService.addSVG(this.svg).subscribe();
           try {
             if (transactionResult.successful) {
               this.service
@@ -936,6 +941,7 @@ export class Mint2Component implements OnInit {
         )
         .then((transactionResult: any) => {
           this.sendToMint3()
+          this.apiService.addSVG(this.svg).subscribe();
           try {
             this.service
               .minNFTStellar(
@@ -1376,5 +1382,9 @@ export class Mint2Component implements OnInit {
     if (this.CollectionList.length == 0) {
       this.openCreateCollection();
     }
+  }
+
+  public isChipListValid(): boolean {
+    return this.tags.length > 0;
   }
 }

@@ -322,6 +322,50 @@ p.normal-text {
   border-radius: 16px;
 }
 
+.input-field-wrapper input:focus + .invalid-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid rgb(206, 16, 16);
+  border-radius: 16px;
+}
+
+.input-field-wrapper textarea:focus + .invalid-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid rgb(206, 16, 16);
+  border-radius: 16px;
+}
+
+.input-field-wrapper input + .invalid-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid rgb(206, 16, 16);
+  border-radius: 16px;
+}
+
+.input-field-wrapper textarea + .invalid-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 2px solid rgb(206, 16, 16);
+  border-radius: 16px;
+}
+
 .chip-list {
   align-items: center;
   flex-wrap: wrap;

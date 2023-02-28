@@ -47,7 +47,11 @@
       </div>
     </div>
     <div class="content-2">
-      <form class="contact-form" [formGroup]="controlGroup">
+      <form
+        class="contact-form"
+        [formGroup]="controlGroup"
+        #contactForm="ngForm"
+      >
         <div class="contact-form-group" ngStyle.lt-md="width:100%">
           <label class="normal-text contact-form-title"
             >Email Address <span class="required">*</span>
@@ -60,9 +64,13 @@
               name="Email"
               formControlName="Email"
               placeholder="Enter your email address here."
-
             />
-            <span></span>
+            <span
+              [class.invalid-border]="
+                (controlGroup.get('Email')!.touched || contactForm.submitted) &&
+                controlGroup.get('Email')?.errors
+              "
+            ></span>
           </div>
         </div>
         <div
@@ -155,7 +163,13 @@
               formControlName="Subject"
               placeholder="Enter subject here."
             />
-            <span></span>
+            <span
+              [class.invalid-border]="
+                (controlGroup.get('Subject')!.touched ||
+                  contactForm.submitted) &&
+                controlGroup.get('Subject')?.errors
+              "
+            ></span>
           </div>
         </div>
         <div class="contact-form-group" ngStyle.lt-md="width:100%">
@@ -170,7 +184,13 @@
               maxlength="80"
               placeholder="Describe your issue by entering as many details as you can."
             ></textarea>
-            <span></span>
+            <span
+              [class.invalid-border]="
+                (controlGroup.get('Description')!.touched ||
+                  contactForm.submitted) &&
+                controlGroup.get('Description')?.errors
+              "
+            ></span>
           </div>
         </div>
 
@@ -192,7 +212,12 @@
           </div>
           <div class="file-name-div" *ngIf="name !== ''">
             <label class="file-name">{{ name }}</label>
-            <mat-icon class="delete-icon" matTooltip="Remove File" (click)="removeFile()">delete_forever</mat-icon>
+            <mat-icon
+              class="delete-icon"
+              matTooltip="Remove File"
+              (click)="removeFile()"
+              >delete_forever</mat-icon
+            >
           </div>
         </div>
         <div

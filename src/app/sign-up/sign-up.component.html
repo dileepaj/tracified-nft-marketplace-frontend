@@ -1,7 +1,9 @@
 <div class="main-div">
   <div class="cont-wrapper">
     <div class="registration-header">
-      <mat-icon class="back" matTooltip="Back" (click)="back()">arrow_back</mat-icon>
+      <mat-icon class="back" matTooltip="Back" (click)="back()"
+        >arrow_back</mat-icon
+      >
       <label class="reg-heading">Get Endorsed Now</label>
       <!-- <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
         >arrow_back</mat-icon
@@ -11,7 +13,7 @@
   </div>
 
   <div class="registration-content">
-    <form class="example-form" [formGroup]="controlGroup">
+    <form class="example-form" [formGroup]="controlGroup" #regForm="ngForm">
       <!-- <div>
         <mat-form-field class="example-full-width" appearance="outline">
           <input
@@ -29,40 +31,57 @@
 
           />
         </mat-form-field> -->
-        <mat-label class="email-label">Your email is : {{ this.mail }}</mat-label>
+        <mat-label class="email-label"
+          >Your email is : {{ this.mail }}</mat-label
+        >
       </div>
       <div class="form-input-group">
         <div class="input-field-wrapper endrs-input-wrapper">
           <input
-          matInput
-          placeholder="Your Name"
-          formControlName="Name"
-          class="input"
+            matInput
+            placeholder="Your Name"
+            formControlName="Name"
+            class="input"
           />
-          <span></span>
+          <span
+            [class.invalid-border]="
+              (controlGroup.get('Name')!.touched || regForm.submitted) &&
+              controlGroup.get('Name')?.errors
+            "
+          ></span>
         </div>
       </div>
 
       <div class="form-input-group">
         <div class="input-field-wrapper endrs-input-wrapper">
           <input
-          matInput
-          placeholder="Your Contact Number"
-          formControlName="Contact"
-          class="input"
+            matInput
+            placeholder="Your Contact Number"
+            formControlName="Contact"
+            class="input"
           />
-          <span></span>
+          <span
+            [class.invalid-border]="
+              (controlGroup.get('Contact')!.touched || regForm.submitted) &&
+              controlGroup.get('Contact')?.errors
+            "
+          ></span>
         </div>
       </div>
       <div class="form-input-group">
         <div class="input-field-wrapper endrs-input-wrapper">
           <input
-          matInput
-          placeholder="Description About Yourself/ Your Company"
-          formControlName="Description"
-          class="input"
+            matInput
+            placeholder="Description About Yourself/ Your Company"
+            formControlName="Description"
+            class="input"
           />
-          <span></span>
+          <span
+            [class.invalid-border]="
+              (controlGroup.get('Description')!.touched || regForm.submitted) &&
+              controlGroup.get('Description')?.errors
+            "
+          ></span>
         </div>
       </div>
     </form>

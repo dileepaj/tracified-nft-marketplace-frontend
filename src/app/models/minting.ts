@@ -151,6 +151,14 @@ export class UpdateSVG{
     ){}
 }
 
+export class Thumbnail{
+    constructor(
+        public Id:string,
+        public Thumbnail:string
+       
+    ){}
+}
+
 export class TXN{
     constructor(
        

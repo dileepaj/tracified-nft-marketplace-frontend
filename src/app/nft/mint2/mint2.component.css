@@ -190,6 +190,15 @@
   word-wrap: break-word;
 }
 
+.hint-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 27px;
+align-self: flex-start;
+  color: #9F9F9F;
+}
+
 .thumb-dnd-outer {
   display: flex;
   flex-direction: row;

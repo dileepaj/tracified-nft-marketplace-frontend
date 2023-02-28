@@ -181,6 +181,12 @@ export class Mint2Component implements OnInit {
   cropperStat: boolean = false;
   showthumbnailContainer: boolean = true;
   transaction: any;
+
+  nftNameLimit : number = 12;
+  nftNameRemainingChars : number = 12;
+  descriptionLimit : number = 500;
+  descriptionRemainingChars : number = 500;
+
   constructor(
     private route: ActivatedRoute,
     private service: MintService,
@@ -1323,11 +1329,25 @@ export class Mint2Component implements OnInit {
     }
   }
 
+  public countRemainingCharactersInDesc(e : any) {
+    this.descriptionRemainingChars =  this.descriptionLimit - e.target.value.length;
+  }
+
+  public countRemainingCharactersInNftName(e : any) {
+    this.nftNameRemainingChars =  this.nftNameLimit - e.target.value.length;
+  }
+
 
   fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
-    this.cropperStat = true
-    this.showthumbnailContainer = false
+    if (event.target.files[0].size <= 2 * 1024 * 1024) {
+      this.imageChangedEvent = event;
+      this.cropperStat = true
+      this.showthumbnailContainer = false
+    }
+    else {
+      this.snackbar.openSnackBar("Maximum file size for thumbnail is 2 MB");
+    }
+
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;

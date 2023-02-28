@@ -47,7 +47,7 @@ export class NftCardComponent implements OnInit {
     }else if(this.sellingstatus=='NOTFORSALE'){
       this.tip="PUT ON SALE"
     }else{
-      alert("Something went wrong!")
+      this.snackbarService.openSnackBar("Something went wrong!", 'error')
     }
   }
 
@@ -103,14 +103,14 @@ export class NftCardComponent implements OnInit {
       this.api.getFavouritebyBlockchainandUserPK(this.favouritesModel.Blockchain,this.user,this.favouritesModel.NFTIdentifier).subscribe((favouriteresponse:any)=>{
         if(favouriteresponse.user=="Add to favourite"){
             this.api.addToFavourites(this.favouritesModel).subscribe(res=>{
-              this.snackbarService.openSnackBar("Added to favourites")
+              this.snackbarService.openSnackBar("Added to favourites", 'success')
               this.api.getFavouritesByBlockchainAndNFTIdentifier(this.favouritesModel.Blockchain,this.favouritesModel.NFTIdentifier).subscribe(res=>{
               });
             })
           
         }else{
           this.api.removeuserfromFavourite(favouriteresponse.id).subscribe(removerst=>{
-            this.snackbarService.openSnackBar("Removed from favourites")
+            this.snackbarService.openSnackBar("Removed from favourites", 'success')
           })
         }
       })
@@ -130,7 +130,7 @@ export class NftCardComponent implements OnInit {
       this.api.getWatchlistbyBlockchainandUserPK(this.watchlistModel.Blockchain,this.user,this.watchlistModel.NFTIdentifier).subscribe((watchlistresponse:any)=>{
         if(watchlistresponse.user=="Add to watch"){
           this.api.addToWatchList(this.watchlistModel).subscribe(res=>{
-            this.snackbarService.openSnackBar("Added to watchlists")
+            this.snackbarService.openSnackBar("Added to watchlists", 'success')
             this.api.getWatchlistByBlockchainAndNFTIdentifier(this.watchlistModel.Blockchain,this.watchlistModel.NFTIdentifier).subscribe(res=>{
             });
           })
@@ -143,7 +143,7 @@ export class NftCardComponent implements OnInit {
           }).subscribe(respoonse=>{
             if(respoonse){
               this.api.removeuserfromWatchList(watchlistresponse.id).subscribe(delresponse=>{
-                this.snackbarService.openSnackBar("Removed from Watchlist")
+                this.snackbarService.openSnackBar("Removed from Watchlist", 'success')
               })
             }
           })
@@ -182,7 +182,7 @@ export class NftCardComponent implements OnInit {
           queryParams:{data:JSON.stringify(data)}
         });
       }else{
-        this.snackbarService.openSnackBar("NFT is yet to be put on sale")
+        this.snackbarService.openSnackBar("NFT is yet to be put on sale", 'info')
         this.command=true
       }})
     }else if(this.sellingstatus=="ON SALE"){
@@ -200,12 +200,12 @@ export class NftCardComponent implements OnInit {
             queryParams:{data:JSON.stringify(data)}
           });
         }else{
-        this.snackbarService.openSnackBar("NFT is yet to be put on sale")
+        this.snackbarService.openSnackBar("NFT is yet to be put on sale", 'info')
         this.command=true
         }
       })
     }else{
-      this.snackbarService.openSnackBar("Invalid Command!")
+      this.snackbarService.openSnackBar("Invalid Command!", 'error')
       this.command=true
     }
    

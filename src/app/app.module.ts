@@ -103,6 +103,7 @@ import { NftCardSkeletonComponent } from './nft/nft-card-skeleton/nft-card-skele
 import * as firebase from 'firebase/app'
 import { FirebaseConfig } from 'src/environments/environment';
 import * as fireAnalytics from 'firebase/analytics';
+import { CustomSnackbarComponent } from './dialogs/custom-snackbar/custom-snackbar.component';
 firebase.initializeApp(FirebaseConfig.firebaseConfig);
 
 const appRoutes: Routes = [
@@ -352,6 +353,7 @@ const appRoutes: Routes = [
     MintingComponent,
     SellNftConfirmationComponent,
     NftCardSkeletonComponent,
+    CustomSnackbarComponent,
   ],
   imports: [
     BrowserModule,

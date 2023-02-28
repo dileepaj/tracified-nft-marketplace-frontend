@@ -61,11 +61,11 @@ export class CreateCollectionComponent implements OnInit {
               //sending data to the service
         this.addSubscription = this.service.add(this.collection).subscribe(res=>{
           if(res != null || res!=""){
-            this.snackbarService.openSnackBar(this.collection.CollectionName+SnackBarText.CREATE_COLLECTION_SUCCESS_MESSAGE)
+            this.snackbarService.openSnackBar(this.collection.CollectionName+SnackBarText.CREATE_COLLECTION_SUCCESS_MESSAGE, 'success')
             this.selectVal = this.collection.CollectionName;
             this.dialogRef.close({UserId: this.collection.UserId, OrganizationName : this.collection.OrganizationName, CollectionName : this.collection.CollectionName});
           }else{
-            this.snackbarService.openSnackBar(SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE)
+            this.snackbarService.openSnackBar(SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE, 'error')
           }
         });
       }

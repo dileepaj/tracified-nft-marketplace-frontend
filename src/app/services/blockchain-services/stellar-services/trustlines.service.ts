@@ -14,6 +14,7 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 import albedo from '@albedo-link/intent'
 import { StellarCommonsService } from './stellar-commons.service';
 import { environment } from 'src/environments/environment';
+import { SnackbarServiceService } from '../../snackbar-service/snackbar-service.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,7 +24,8 @@ export class TrustlinesService {
   net: Networks;
   constructor(
     public http: HttpClient,
-    private network:StellarCommonsService
+    private network:StellarCommonsService,
+    private snackbar : SnackbarServiceService
   ) { }
 
   changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string) {
@@ -74,7 +76,7 @@ export class TrustlinesService {
           resolve(transactionResult);
         })
         .catch((err) => {
-          alert("Something went wrong, please try again! More information: "+err);
+          this.snackbar.openSnackBar("Something went wrong, please try again! More information: "+err, 'error');
           reject(err);
         });
     });

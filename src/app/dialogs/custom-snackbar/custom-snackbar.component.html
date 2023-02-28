@@ -1,0 +1,7 @@
+<div class="snackbar-cont">
+  <div class="snackbar-cont-1">
+    <span *ngIf="typeExists()" [className]="data.type + '-icon'"></span>
+    <label>{{ data.msg }}</label>
+  </div>
+  <mat-icon class="close" (click)="data.close()" matRipple>close</mat-icon>
+</div>

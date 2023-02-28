@@ -335,17 +335,18 @@ export class BuyViewComponent implements OnInit {
                     this.service.updateNFTStatusBackend(this.saleBE).subscribe();
                     this.updateGateway();
                     this.snackbar.openSnackBar(
-                      SnackBarText.BOUGHT_SUCCESS_MESSAGE
+                      SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                      'success'
                     );
                     this.showInProfile();
                         }catch (err) {
-                alert("Something went wrong, please try again! More information: "+err);
+                          this.snackbar.openSnackBar("Something went wrong, please try again! More information: "+err, 'error' );
               }
             })
           
             
                   }catch (err) {
-                    alert("Something went wrong, please try again! More information: "+err);
+                    this.snackbar.openSnackBar("Something went wrong, please try again! More information: "+err, 'error');
                   }
              
                 });
@@ -400,10 +401,10 @@ export class BuyViewComponent implements OnInit {
                   this.service.updateNFTStatusBackend(this.saleBE).subscribe();
                   this.updateGateway();
                   loadingAnimation.close();
-                  this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+                  this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE, 'success');
                   this.showInProfile();
                 } catch (err) {
-                  alert("Something went wrong, please try again! More information: " + err);
+                  this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                 }
               });
           }
@@ -456,10 +457,10 @@ export class BuyViewComponent implements OnInit {
                   this.service.updateNFTStatusBackend(this.saleBE).subscribe();
                   this.updateGateway();
                   loadingAnimation.close();
-                  this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+                  this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE, 'success');
                   this.showInProfile();
                 } catch (err) {
-                  alert("Something went wrong, please try again! More information: " + err);
+                  this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                 }
               });
           }
@@ -544,11 +545,11 @@ export class BuyViewComponent implements OnInit {
                   this.saveTXNs();
                   this.saleBE.CurrentOwnerPK = this.userPK;
                   this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-                  this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+                  this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE, 'success');
                   this.showInProfile();
                 } catch (err) {
                   _callback()!
-                  alert("Something went wrong, please try again! More information: " + err);
+                  this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                 }
               } else {
                 if (this.isLoadingPresent) {
@@ -580,11 +581,11 @@ export class BuyViewComponent implements OnInit {
                     this.saveTXNs();
                     this.saleBE.CurrentOwnerPK = this.userPK;
                     this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-                    this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE);
+                    this.snackbar.openSnackBar(SnackBarText.BOUGHT_SUCCESS_MESSAGE, 'success');
                     this.showInProfile();
                   } catch (err) {
                     _callback()!
-                    alert("Something went wrong, please try again! More information: " + err);
+                    this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                   }
                 });
             })
@@ -893,7 +894,7 @@ export class BuyViewComponent implements OnInit {
             trigger_location:"buy screen"
           }      
         )
-        this.snackbar.openSnackBar('User PK not connected or not endorsed');
+        this.snackbar.openSnackBar('User PK not connected or not endorsed', 'info');
       }
     });
   }
@@ -976,11 +977,12 @@ export class BuyViewComponent implements OnInit {
           this.apiService.addReviews(this.reviews).subscribe((res) => {
             if (res != null) {
               this.snackbar.openSnackBar(
-                'Your review has been Successfully submitted'
+                'Your review has been Successfully submitted',
+                'success'
               );
             } else {
               this.snackbar.openSnackBar(
-                'Failed to submit review please try again.'
+                'Failed to submit review please try again.', 'error'
               );
             }
           });

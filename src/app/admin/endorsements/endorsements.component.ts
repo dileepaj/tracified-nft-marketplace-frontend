@@ -75,17 +75,17 @@ export class EndorsementsComponent implements OnInit {
           this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateResult: any) => {
             //if the updation is scuccesfull the user will get routed back to the admin dashboard
             if (updateResult != "" || updateResult != null) {
-              this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSEMENT_ACCEPTED_SUCCESS)
+              this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSEMENT_ACCEPTED_SUCCESS, 'success')
               this.router.navigate(['/admin-dashboard'])
             } else {
-              this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSMENT_ACCEPTED_ERROR)
+              this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSMENT_ACCEPTED_ERROR, 'error')
             }
 
           })
         }
       })
     } else {
-      this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSE_BLANK_INPUT_WARNING)
+      this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSE_BLANK_INPUT_WARNING, 'info')
     }
 
   }
@@ -107,7 +107,7 @@ export class EndorsementsComponent implements OnInit {
           this.service.updateEndorsementStatus(updateEndorstment).subscribe((updateEndorstment: any) => {
             //if the updation is scuccesfull the user will get routed back to the admin dashboard
             if (updateEndorstment) {
-              this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSMENT_DECLINED_SUCCESS)
+              this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSMENT_DECLINED_SUCCESS, 'success')
               this.router.navigate(['/admin-dashboard'])
             }
 
@@ -116,7 +116,7 @@ export class EndorsementsComponent implements OnInit {
 
       })
     } else {
-      this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSE_BLANK_INPUT_WARNING)
+      this.snackbar.openSnackBar(SnackBarText.ADMIN_ENDORSE_BLANK_INPUT_WARNING, 'info')
     }
 
 

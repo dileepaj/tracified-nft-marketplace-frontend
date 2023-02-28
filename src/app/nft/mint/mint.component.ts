@@ -100,13 +100,13 @@ export class MintComponent implements OnInit {
    */
   onClickSubmit() {
     if (!this.image) {
-      this.snackBar.openSnackBar(SnackBarText.MINT1_UPLOAD_SVG_WARNING);
+      this.snackBar.openSnackBar(SnackBarText.MINT1_UPLOAD_SVG_WARNING, 'info');
     } else if (this.formValue('Collection') == '') {
-      this.snackBar.openSnackBar(SnackBarText.MINT1_COLLECTION_SELECTION_WARNING);
+      this.snackBar.openSnackBar(SnackBarText.MINT1_COLLECTION_SELECTION_WARNING, 'info');
     } else if (this.formValue('NFTName') == '') {
-      this.snackBar.openSnackBar(SnackBarText.MINT1_NFT_NAME_WARNING);
+      this.snackBar.openSnackBar(SnackBarText.MINT1_NFT_NAME_WARNING, 'info');
     } else if (this.formValue('Description') == '') {
-      this.snackBar.openSnackBar(SnackBarText.MINT1_NFT_DESCRIPTION_WARNING);
+      this.snackBar.openSnackBar(SnackBarText.MINT1_NFT_DESCRIPTION_WARNING, 'info');
     } else {
       this.sendToMint2();
     }

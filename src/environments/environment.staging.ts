@@ -37,6 +37,7 @@ export const APIConfigENV = {
   gatewayBaseURL: 'https://staging.gateway.tracified.com/',
   nftbackendBaseURL: 'https://staging.api.nft.tracified.com/',
   marketplaceBaseURL:"https://staging.marketplace.nft.tracified.com/",
+  tracifiedhelpDocsbaseURL:"https://staging.help.tracified.com/",
   APIIntervalTimer: 60000,  // 30 seconds
   APIStartDelay: 60000, // 30 seconds
   homepageIntervalTimer: 600000 //10 minutes 600000

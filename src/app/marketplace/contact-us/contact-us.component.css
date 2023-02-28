@@ -9,7 +9,7 @@
 }
 
 .contact-heading {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -109,7 +109,7 @@
 }
 
 ::placeholder {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -161,7 +161,7 @@
 }
 
 ::ng-deep mat-form-field span.mat-form-field-label-wrapper label {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-weight: 400;
   font-size: 16px;
   margin-top: -7px !important;
@@ -180,7 +180,7 @@
 }
 
 ::ng-deep .mat-select-placeholder {
-  font-family: 'Open Sans', sans-serif !important;
+  font-family: "Open Sans", sans-serif !important;
   font-style: normal !important;
   font-weight: 400 !important;
   font-size: 16px !important;
@@ -189,7 +189,7 @@
   color: #848484 !important;
 }
 
-mat-form-field{
+mat-form-field {
   margin-bottom: -1.25em;
 }
 
@@ -207,7 +207,7 @@ mat-form-field{
 
 .file-dnd-area label {
   cursor: pointer;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -216,14 +216,12 @@ mat-form-field{
   color: #10ceac;
 }
 
-
-
 .btn-submit {
   width: 146px;
   height: 35px;
   background: #10ceac;
   border-radius: 20px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -267,7 +265,7 @@ mat-form-field{
   border-right: 1px solid #6b6b6b;
   display: flex;
   flex-direction: column;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -308,7 +306,7 @@ mat-form-field{
   width: 100%;
   padding: 10px 0px 10px;
   text-align: center;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -342,7 +340,7 @@ mat-form-field{
 }
 
 .file-name {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -365,8 +363,8 @@ mat-form-field{
 ::ng-deep
   .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid
   .mat-form-field-outline-thick {
-  color: transparent !important;
-  opacity: 0.8 !important;
+  color: rgb(206, 16, 16) !important;
+  opacity: 1 !important;
 }
 
 ::ng-deep

@@ -44,7 +44,11 @@
       >
     </div>
     <div fxLayout="row wrap" fxFlex="100%">
-      <label *ngIf="imagepresent" class="label-title" fxFlex="10%" fxFlex.lt-sm="80%"
+      <label
+        *ngIf="imagepresent"
+        class="label-title"
+        fxFlex="10%"
+        fxFlex.lt-sm="80%"
         >Attachment</label
       >
       <img
@@ -56,7 +60,12 @@
         [src]="imagePath"
       />
     </div>
-    <form fxFlex="100%" [formGroup]="controlGroup" fxLayout="row wrap">
+    <form
+      fxFlex="100%"
+      [formGroup]="controlGroup"
+      fxLayout="row wrap"
+      #faqResForm="ngForm"
+    >
       <div
         fxFlex="100%"
         fxFlex.lt-sm="100%"
@@ -64,8 +73,18 @@
       >
         <label class="label-title">Type Your answer.</label>
         <div class="input-field-wrapper answer-input-wrapper">
-          <textarea matInput formControlName="answer" name="answer" class="answer-textarea"></textarea>
-          <span></span>
+          <textarea
+            matInput
+            formControlName="answer"
+            name="answer"
+            class="answer-textarea"
+          ></textarea>
+          <span
+            [class.invalid-border]="
+              (controlGroup.get('answer')!.touched || faqResForm.submitted) &&
+              controlGroup.get('answer')?.hasError('required')
+            "
+          ></span>
         </div>
       </div>
       <div>

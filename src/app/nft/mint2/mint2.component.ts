@@ -1379,4 +1379,8 @@ export class Mint2Component implements OnInit {
       this.openCreateCollection();
     }
   }
+
+  public isChipListValid(): boolean {
+    return this.tags.length > 0;
+  }
 }

@@ -41,7 +41,7 @@ import { NftServicesService } from 'src/app/services/api-services/nft-services/n
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
-import { COMMA, ENTER, P } from '@angular/cdk/keycodes';
+import { COMMA, TAB } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Description } from '@ethersproject/properties';
@@ -148,7 +148,7 @@ export class Mint2Component implements OnInit {
   imageSrc: any;
   userPK: string;
   distributor: any;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  separatorKeysCodes: number[] = [TAB, COMMA];
   tagCtrl: FormControl = new FormControl('');
   filteredtags: Observable<string[]>;
   tags: string[] = [];

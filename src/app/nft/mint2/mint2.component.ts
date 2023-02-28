@@ -379,7 +379,7 @@ export class Mint2Component implements OnInit {
                           }
 
                         });
-                        this.mintNFT(this.userPK);
+                        this.mintNFT(this.userPK, () => (this.pendingDialog.close(false)));
                       }
                     });
                 }
@@ -454,7 +454,9 @@ export class Mint2Component implements OnInit {
 
                             });
 
-                            this.mintNFTOnAlbedo(this.userPK);
+                            this.mintNFTOnAlbedo(this.userPK, () => {
+                              this.pendingDialog.close(false)
+                            });
                           }
                         });
                     }
@@ -538,7 +540,7 @@ export class Mint2Component implements OnInit {
                     }
 
                   });
-                  this.mintNftSolana(this.mint.NFTIssuerPK);
+                  this.mintNftSolana(this.mint.NFTIssuerPK, () => {this.pendingDialog.close(false)});
 
                 }
               });
@@ -616,7 +618,8 @@ export class Mint2Component implements OnInit {
                       this.mint.NFTName,
                       this.mint.Description,
                       this.mint.NftContentURL,
-                      this.mint.Imagebase64
+                      this.mint.Imagebase64,
+                      () => {dialog.close()}
                     )
                     .then(async (res) => {
                       try {
@@ -704,7 +707,7 @@ export class Mint2Component implements OnInit {
                   });
                   try {
                     this.pmint
-                      .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
+                      .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64, () => {dialog.close()})
                       .then((res) => {
                         try {
                           this.mint.NFTTxnHash = res.transactionHash;
@@ -841,7 +844,7 @@ export class Mint2Component implements OnInit {
     }
   }
 
-  mintNFT(userPK: string) {
+  mintNFT(userPK: string, _callback? : any) {
 
     //minting nft using stellar
     if (this.mint.CreatorUserId != null) {
@@ -880,7 +883,8 @@ export class Mint2Component implements OnInit {
 
                     this.TXNStellar();
                   } catch (err) {
-                    alert("Something went wrong, please try again! More information: " + err);
+                    _callback();
+                    this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err);
                   }
                 })
                 .then((nft) => {
@@ -913,7 +917,7 @@ export class Mint2Component implements OnInit {
     }
   }
 
-  mintNFTOnAlbedo(userPK: string) {
+  mintNFTOnAlbedo(userPK: string, _callback? : any) {
     //minting nft using stellar
     if (this.mint.CreatorUserId != null) {
       //step 1. - change trust by distributor
@@ -951,7 +955,8 @@ export class Mint2Component implements OnInit {
 
                   this.TXNStellar();
                 } catch (err) {
-                  alert("Something went wrong, please try again! More information: " + err);
+                  _callback();
+                  this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err);
                 }
               })
               .then((nft) => {
@@ -1048,7 +1053,7 @@ export class Mint2Component implements OnInit {
     return this.controlGroup.get(controlName)!.value;
   }
 
-  mintNftSolana(ownerPK: string) {
+  mintNftSolana(ownerPK: string, _callback? : any) {
     const networkURL: any = BlockchainConfig.solananetworkURL;
     const connection = new Connection(
       networkURL
@@ -1083,7 +1088,8 @@ export class Mint2Component implements OnInit {
                 this.Minter();
 
               } catch (err) {
-                alert("Something went wrong, please try again! More information: " + err);
+                _callback()
+                this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err);
               }
             })
             .catch((error) => {

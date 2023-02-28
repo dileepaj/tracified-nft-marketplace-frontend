@@ -309,6 +309,7 @@ export class SellNftComponent implements OnInit {
                       this.signerpK,
                       '1',
                       this.sellingPrice,
+                      () => {loadingAnimation.close()}
                     )
                     .then((res: any) => {
                       try {
@@ -330,7 +331,8 @@ export class SellNftComponent implements OnInit {
                             trigger_at:"sell screen"
                           }
                         )
-                        alert("Something went wrong, please try again! More information: " + err);
+                        loadingAnimation.close();
+                        this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
                       }
                     });
 
@@ -411,7 +413,8 @@ export class SellNftComponent implements OnInit {
                                 trigger_at:"sell screen"
                               }
                             )
-                            alert("Something went wrong, please try again! More information: " + err);
+                            loadingAnimation.close();
+                            this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
                           }
                         });
 
@@ -507,7 +510,8 @@ export class SellNftComponent implements OnInit {
                       trigger_at:"sell screen"
                     }
                   )
-                  alert("Something went wrong, please try again! More information: " + err);
+                  loadingAnimation.close();
+                  this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
                 }
               });
           }
@@ -570,14 +574,15 @@ export class SellNftComponent implements OnInit {
               nftName: this.NFTList.nftname,
               thumbnail: this.NFTList.thumbnail,
             });
-            this.pmint.approveContract(this.tokenid).then((res: any) => {
+            this.pmint.approveContract(this.tokenid, () => {loadingAnimation.close()}).then((res: any) => {
               try {
                 this.pmarket
                   .createSaleOffer(
                     environment.contractAddressNFTPolygon,
                     this.tokenid,
                     this.sellingPrice + parseFloat(this.royaltyCharge),
-                    this.commission
+                    this.commission,
+                    () => {loadingAnimation.close()}
                   )
                   .then((res) => {
                     try {
@@ -601,7 +606,8 @@ export class SellNftComponent implements OnInit {
                           trigger_at:"sell screen"
                         }
                       )
-                      alert("Something went wrong, please try again! More information: " + err);
+                      loadingAnimation.close();
+                      this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
                     }
                   });
               } catch (err) {
@@ -613,7 +619,8 @@ export class SellNftComponent implements OnInit {
                     trigger_at:"sell screen"
                   }
                 )
-                alert("Something went wrong, please try again! More information: " + err);
+                loadingAnimation.close();
+                this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
               }
             })
 
@@ -677,14 +684,15 @@ export class SellNftComponent implements OnInit {
               thumbnail: this.NFTList.thumbnail,
             });
 
-            this.emint.approveContract(this.tokenid).then((res: any) => {
+            this.emint.approveContract(this.tokenid, () => {loadingAnimation.close()}).then((res: any) => {
               try {
                 this.emarket
                   .createSaleOffer(
                     environment.contractAddressNFTEthereum,
                     this.tokenid,
                     this.sellingPrice,
-                    this.commission
+                    this.commission,
+                    () => {loadingAnimation.close()}
                   )
                   .then((res) => {
                     try {
@@ -708,7 +716,8 @@ export class SellNftComponent implements OnInit {
                           trigger_at:"sell screen"
                         }
                       )
-                      alert("Something went wrong, please try again! More information: " + err);
+                      loadingAnimation.close();
+                      this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
                     }
                   });
               } catch (err) {
@@ -720,7 +729,8 @@ export class SellNftComponent implements OnInit {
                     trigger_at:"sell screen"
                   }
                 )
-                alert("Something went wrong, please try again! More information: " + err);
+                loadingAnimation.close();
+                this.snackbarService.openSnackBar("Something went wrong, please try again! More information: " + err);
               }
             })
 

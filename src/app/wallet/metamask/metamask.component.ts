@@ -6,6 +6,7 @@ import { EthereumMarketServiceService } from 'src/app/services/contract-services
 import { ethers } from 'ethers';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
 import { EthereumMintService } from 'src/app/services/contract-services/ethereum-mint.service';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 @Component({
   selector: 'app-metamask',
   templateUrl: './metamask.component.html',
@@ -49,7 +50,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     nftcontract: string,
     tokenId: number,
     price: string,
-    listingPrice: string
+    listingPrice: string,
+    _callback? : any
   ): Promise<any> {
     if (blockchain == 'ethereum') {
       const contract = await EthereumMarketServiceService.getContract(true);
@@ -63,6 +65,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         }
       )
       .catch(error=>{
+        _callback()!
         alert("Something went wrong : "+error.message)
       })
       const tx = await transaction.wait();
@@ -79,6 +82,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
            }
       )
       .catch(error=>{
+        _callback()!
         alert("Something went wrong : "+error.message)
       })
       const tx = await transaction.wait();
@@ -92,7 +96,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     price: string,
     listingPrice: string,
     royalty:string,
-    seller:string
+    seller:string,
+    _callback? : any
   ): Promise<any> {
     if (blockchain == 'ethereum') {
       const contract = await EthereumMarketServiceService.getContract(true);
@@ -107,6 +112,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
         }
       )
       .catch(error=>{
+        _callback()!
         alert("Something went wrong : "+error.message)
       })
       const tx = await transaction.wait();
@@ -123,6 +129,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
          }
       )
       .catch(error=>{
+        _callback()!
         alert("Something went wrong : "+error.message)
       })
       const tx = await transaction.wait();

@@ -237,6 +237,7 @@ export class Mint2Component implements OnInit {
         this.pushTag(); //calling fnction
       });
     }
+
     this.proceed.emit({
       email: this.email,
       blockchain: this.mint.Blockchain,

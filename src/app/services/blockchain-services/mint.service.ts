@@ -22,8 +22,8 @@ export class MintService {
   baseUrlMintStellar=this.gateWayBaseURL+'nft/mintStellar';
   baseUrlMintSolana = this.gateWayBaseURL+'nft/mintSolana';
   baseUrlMinter=this.gateWayBaseURL+'nft/minter';
-  baseUrlUpdate=this.nftBackendBaseURL+"marketplace/nft";
-  baseUrlStellarUpdate=this.nftBackendBaseURL+"marketplace/txn";
+  baseUrlUpdate=this.nftBackendBaseURL+'marketplace/nft';
+  baseUrlStellarUpdate=this.nftBackendBaseURL+'marketplace/txn';
   baseUrlGetStellarTXN=this.gateWayBaseURL+'nft/gettxn';
   mint:NFT
   tag:tags

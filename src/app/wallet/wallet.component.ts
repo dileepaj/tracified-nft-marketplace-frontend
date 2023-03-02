@@ -33,6 +33,17 @@ export class WalletComponent implements OnInit {
   ngOnInit(): void {
     //check whether the wallet is already connected
     this.isMetaMask();
+    this.walletService.getConnectedWallet().subscribe((wallet) => {
+      if (wallet === 'metamask') {
+        this.metmask();
+      } else if (wallet === 'phantom') {
+        this.phantom();
+      } else if (wallet === 'freighter') {
+        this.freighter();
+      } else if (wallet === 'albedo') {
+        this.albedo();
+      }
+    });
   }
 
   async metmask() {
@@ -41,7 +52,7 @@ export class WalletComponent implements OnInit {
     this.loading = true;
     metmaskWallet.initWallelt((address: string) => {
       this.address = address;
-      this.walletName = 'MetaMask';
+      this.walletName = 'Metamask';
 
       if (this.address !== '' && this.address !== undefined) {
         this.getBalance();
@@ -67,7 +78,7 @@ export class WalletComponent implements OnInit {
     let phantomWallet = new UserWallet();
     phantomWallet = new PhantomComponent(phantomWallet);
     this.loading = true;
-    phantomWallet.initWallelt((key : string) => {
+    phantomWallet.initWallelt((key: string) => {
       this.address = key;
       if (this.address !== '' && this.address !== undefined) {
         this.walletName = 'Phantom';
@@ -76,22 +87,26 @@ export class WalletComponent implements OnInit {
       }
     });
     this.userPK = await phantomWallet.getWalletaddress();
-
   }
 
   async albedo() {
-      await albedo.publicKey({
-        require_existing: true
-    })
-.then((res:any) => {
-          this.User=res.pubkey})
+    await albedo
+      .publicKey({
+        require_existing: true,
+      })
+      .then((res: any) => {
+        this.User = res.pubkey;
+        this.walletName = 'Albedo';
+        //this.getPhantomBalance(phantomWallet);
+        this.walletConnected = true;
+      });
   }
 
-   //get wallet balance
-  private getFreighterBalance(wallet : UserWallet) {
-    wallet.getBalance(this.address, (balance : any) => {
+  //get wallet balance
+  private getFreighterBalance(wallet: UserWallet) {
+    wallet.getBalance(this.address, (balance: any) => {
       this.balance = balance;
-      this.convertToUSD('stellar')
+      this.convertToUSD('stellar');
     });
   }
 
@@ -113,7 +128,7 @@ export class WalletComponent implements OnInit {
   }
 
   //convert balance to usd
-  private convertToUSD(blockchain : string) {
+  private convertToUSD(blockchain: string) {
     fetch(
       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${blockchain}`
     )
@@ -134,12 +149,12 @@ export class WalletComponent implements OnInit {
     this.walletService.close();
   }
 
-   //get wallet balance
-  private getPhantomBalance(wallet : UserWallet) {
-    wallet.getBalance(this.address, (b : any) => {
+  //get wallet balance
+  private getPhantomBalance(wallet: UserWallet) {
+    wallet.getBalance(this.address, (b: any) => {
       this.balance = b.toFixed(2);
       this.convertToUSD('solana');
-    })
+    });
   }
 
   private isMetaMask() {
@@ -158,5 +173,4 @@ export class WalletComponent implements OnInit {
       });
     }
   }
-
 }

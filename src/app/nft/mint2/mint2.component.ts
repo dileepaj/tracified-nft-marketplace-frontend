@@ -824,10 +824,11 @@ export class Mint2Component implements OnInit {
             )
             .subscribe((res: any) => {
               try{
+                this.sendToMint3()
                 this.saveTXNs();
-                this.apiService.addSVG(this.svg).subscribe();
-                this.sendToMint3();
-                this.updateMinter();
+                this.apiService.addSVG(this.svg).subscribe(res=>{
+                  this.updateMinter();
+                });
               } catch (err) {
                 this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
               }
@@ -848,7 +849,9 @@ export class Mint2Component implements OnInit {
           }
           this.mint.NFTTxnHash = txn.NFTTxnHash;
           this.stxn.NFTTxnHash = this.mint.NFTTxnHash;
-          this.updateStellarTXN();
+          this.apiService.addSVG(this.svg).subscribe(res=>{
+            this.updateStellarTXN();
+          });
           this.saveTXNs();
         });
     }
@@ -867,7 +870,6 @@ export class Mint2Component implements OnInit {
         )
         .then((transactionResult: any) => {
           this.sendToMint3();
-          this.apiService.addSVG(this.svg).subscribe();
           try {
             if (transactionResult.successful) {
               this.service
@@ -941,7 +943,6 @@ export class Mint2Component implements OnInit {
         )
         .then((transactionResult: any) => {
           this.sendToMint3()
-          this.apiService.addSVG(this.svg).subscribe();
           try {
             this.service
               .minNFTStellar(

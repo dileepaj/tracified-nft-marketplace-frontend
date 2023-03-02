@@ -58,6 +58,7 @@
   flex-direction: row;
   justify-content: center;
   gap: 30px;
+  margin-top: 50px;
 }
 
 .nft-item {
@@ -75,7 +76,7 @@
 .nft-img {
   width: 295px;
   height: 405px;
- /*  background-color: #fff; */
+  /*  background-color: #fff; */
 }
 
 .nft-img-overlay {
@@ -91,13 +92,13 @@
   justify-content: center;
   align-items: center;
   row-gap: 15px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .nft-img-overlay .overlay-text {
@@ -118,7 +119,7 @@
   opacity: 1;
 }
 
-.nft-img-overlay img{
+.nft-img-overlay img {
   cursor: pointer;
   width: 82px;
   height: 81px;
@@ -158,7 +159,7 @@
 }
 
 .explore-heading {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -194,7 +195,6 @@
   width: 100%;
   min-height: calc(100vh - 350px);
   justify-content: center;
-  align-items: center;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(295px, 295px));
   row-gap: 30px;
@@ -211,13 +211,13 @@
 }
 
 .explore-no-content {
-  height: calc(100vh - 350px);
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   row-gap: 20px;
+  height: calc(100vh - 400px);
 }
 
 .explore-no-content label {
@@ -238,5 +238,3 @@
     align-items: center;
   }
 }
-
-

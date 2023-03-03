@@ -181,6 +181,12 @@ export class Mint2Component implements OnInit {
   cropperStat: boolean = false;
   showthumbnailContainer: boolean = true;
   transaction: any;
+
+  nftNameLimit : number = 12;
+  nftNameRemainingChars : number = 12;
+  descriptionLimit : number = 500;
+  descriptionRemainingChars : number = 500;
+
   constructor(
     private route: ActivatedRoute,
     private service: MintService,
@@ -379,7 +385,7 @@ export class Mint2Component implements OnInit {
                           }
 
                         });
-                        this.mintNFT(this.userPK);
+                        this.mintNFT(this.userPK, () => (this.pendingDialog.close(false)));
                       }
                     });
                 }
@@ -454,7 +460,9 @@ export class Mint2Component implements OnInit {
 
                             });
 
-                            this.mintNFTOnAlbedo(this.userPK);
+                            this.mintNFTOnAlbedo(this.userPK, () => {
+                              this.pendingDialog.close(false)
+                            });
                           }
                         });
                     }
@@ -538,7 +546,7 @@ export class Mint2Component implements OnInit {
                     }
 
                   });
-                  this.mintNftSolana(this.mint.NFTIssuerPK);
+                  this.mintNftSolana(this.mint.NFTIssuerPK, () => {this.pendingDialog.close(false)});
 
                 }
               });
@@ -616,7 +624,8 @@ export class Mint2Component implements OnInit {
                       this.mint.NFTName,
                       this.mint.Description,
                       this.mint.NftContentURL,
-                      this.mint.Imagebase64
+                      this.mint.Imagebase64,
+                      () => {dialog.close()}
                     )
                     .then(async (res) => {
                       try {
@@ -704,7 +713,7 @@ export class Mint2Component implements OnInit {
                   });
                   try {
                     this.pmint
-                      .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64)
+                      .mintInPolygon(this.mint.NFTIssuerPK, this.mint.Imagebase64, () => {dialog.close()})
                       .then((res) => {
                         try {
                           this.mint.NFTTxnHash = res.transactionHash;
@@ -841,7 +850,7 @@ export class Mint2Component implements OnInit {
     }
   }
 
-  mintNFT(userPK: string) {
+  mintNFT(userPK: string, _callback? : any) {
 
     //minting nft using stellar
     if (this.mint.CreatorUserId != null) {
@@ -880,7 +889,8 @@ export class Mint2Component implements OnInit {
 
                     this.TXNStellar();
                   } catch (err) {
-                    alert("Something went wrong, please try again! More information: " + err);
+                    _callback();
+                    this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err);
                   }
                 })
                 .then((nft) => {
@@ -913,7 +923,7 @@ export class Mint2Component implements OnInit {
     }
   }
 
-  mintNFTOnAlbedo(userPK: string) {
+  mintNFTOnAlbedo(userPK: string, _callback? : any) {
     //minting nft using stellar
     if (this.mint.CreatorUserId != null) {
       //step 1. - change trust by distributor
@@ -951,7 +961,8 @@ export class Mint2Component implements OnInit {
 
                   this.TXNStellar();
                 } catch (err) {
-                  alert("Something went wrong, please try again! More information: " + err);
+                  _callback();
+                  this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err);
                 }
               })
               .then((nft) => {
@@ -1048,7 +1059,7 @@ export class Mint2Component implements OnInit {
     return this.controlGroup.get(controlName)!.value;
   }
 
-  mintNftSolana(ownerPK: string) {
+  mintNftSolana(ownerPK: string, _callback? : any) {
     const networkURL: any = BlockchainConfig.solananetworkURL;
     const connection = new Connection(
       networkURL
@@ -1083,7 +1094,8 @@ export class Mint2Component implements OnInit {
                 this.Minter();
 
               } catch (err) {
-                alert("Something went wrong, please try again! More information: " + err);
+                _callback()
+                this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err);
               }
             })
             .catch((error) => {
@@ -1317,11 +1329,25 @@ export class Mint2Component implements OnInit {
     }
   }
 
+  public countRemainingCharactersInDesc(e : any) {
+    this.descriptionRemainingChars =  this.descriptionLimit - e.target.value.length;
+  }
+
+  public countRemainingCharactersInNftName(e : any) {
+    this.nftNameRemainingChars =  this.nftNameLimit - e.target.value.length;
+  }
+
 
   fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
-    this.cropperStat = true
-    this.showthumbnailContainer = false
+    if (event.target.files[0].size <= 2 * 1024 * 1024) {
+      this.imageChangedEvent = event;
+      this.cropperStat = true
+      this.showthumbnailContainer = false
+    }
+    else {
+      this.snackbar.openSnackBar("Maximum file size for thumbnail is 2 MB");
+    }
+
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;

@@ -3,6 +3,7 @@ import { ethers} from "ethers";
 import { environment } from 'src/environments/environment';
 import detectEthereumProvider from "@metamask/detect-provider";
 import NFT from "src/contracts/ethereum/mint.json";
+import { SnackbarServiceService } from '../snackbar-service/snackbar-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import NFT from "src/contracts/ethereum/mint.json";
 export class EthereumMintService {
  gasPrice:any
   static gasPrice: ethers.BigNumber;
-  constructor() { }
+  constructor(private snackbarService : SnackbarServiceService) { }
   private static async getWebProvider(requestAccounts = true) {
     const provider: any = await detectEthereumProvider()
   
@@ -31,7 +32,7 @@ export class EthereumMintService {
   }
 
   
-  public async mintInEthereum(reciever: string,name:string,proofBotData:string,tdpData:string, tokenURI: string): Promise<any> {
+  public async mintInEthereum(reciever: string,name:string,proofBotData:string,tdpData:string, tokenURI: string, _callback? : any): Promise<any> {
     const contract = await EthereumMintService.getContract(true)
     const transaction = await contract['mintNFT'](
       reciever,
@@ -42,13 +43,14 @@ export class EthereumMintService {
       { gasLimit: 3000000 }
     )
     .catch(error=>{
-      alert("Something went wrong : "+error.message)
+      _callback()!
+      this.snackbarService.openSnackBar("Something went wrong : "+error.message)
     })
     const tx = await transaction.wait()
     return tx
   }
 
-  public async approveContract(tokenId:number):Promise<any>{
+  public async approveContract(tokenId:number, _callback? :any):Promise<any>{
     var marketcontract=environment.contractAddressMKEthereum
     const contract = await EthereumMintService.getContract(true)
     const transaction = await contract['approve'](
@@ -57,7 +59,8 @@ export class EthereumMintService {
       { gasLimit: 3000000 }
     )
     .catch(error=>{
-      alert("Something went wrong : "+error.message)
+      _callback()!
+      this.snackbarService.openSnackBar("Something went wrong : "+error.message)
     })
     const tx = await transaction.wait()
     return tx

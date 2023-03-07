@@ -1,8 +1,10 @@
 import albedo from '@albedo-link/intent';
 import {
   Component,
+  ElementRef,
   HostListener,
   OnInit,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -23,11 +25,13 @@ import { WalletComponent } from 'src/app/wallet/wallet.component';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
+  @ViewChild('sidenav', { read: ElementRef, static: false }) sideBarContainer: ElementRef
   private rect: any;
   sideNavOpened: boolean = false;
   accListExpanded: boolean = false;
   tag: any;
   controlGroup: FormGroup;
+  sideBarControlGroup: FormGroup;
   bcListExpanded: boolean = false;
   resourcesExpanded: boolean = false;
   timedOutCloser;
@@ -40,13 +44,16 @@ export class HeaderComponent implements OnInit {
     public loaderService: LoaderService,
     private walletService: WalletSidenavService,
     private dialogService: DialogService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     //this.openDialogTest();
     this.controlGroup = new FormGroup({
       //validation
       Tag: new FormControl(this.tag, Validators.required),
+    });
+    this.sideBarControlGroup = new FormGroup({
+      SideBarTag: new FormControl(this.tag, Validators.required),
     });
   }
 
@@ -106,7 +113,7 @@ export class HeaderComponent implements OnInit {
   public goToExplore(blockchain: string) {
     this.router.navigate(['/explore'], {
       queryParams: { blockchain: blockchain, filter: 'all' },
-    }).then(res=>{window.location.reload();})
+    }).then(res => { window.location.reload(); })
     this.sideNavOpened = false;
     this.bcListExpanded = false;
   }
@@ -114,6 +121,19 @@ export class HeaderComponent implements OnInit {
   public search() {
     const tag = this.formValue('Tag');
     if (tag !== '') {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/shownft'], {
+          queryParams: { data: tag },
+        });
+      });
+    }
+  }
+
+  public searchSideBar() {
+    const tag = this.sideBarControlGroup.get('SideBarTag')!.value;
+    console.log(tag)
+    if (tag !== '') {
+      this.closeSideNav();
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/shownft'], {
           queryParams: { data: tag },
@@ -138,57 +158,57 @@ export class HeaderComponent implements OnInit {
   public async goToOverview(blockchain: string) {
     if (blockchain == 'stellar') {
       let details = navigator.userAgent;
-      
+
       let regexp = /android|iphone|kindle|ipad/i;
-    
+
       let isMobileDevice = await regexp.test(details);
-      
-      if(isMobileDevice) {
-          await albedo.publicKey({require_existing:true}).then( (re1s:any) => {
-            this.tx=re1s
-              this.router.navigate(['/user-dashboard/overview'], {
-                queryParams: { user: this.tx.pubkey , blockchain:blockchain},
-              });
-    
-    this.sideNavOpened = false;
-    this.accListExpanded = false;
-          })
-        
-  }else{   
-    let freighterWallet = new UserWallet();
+
+      if (isMobileDevice) {
+        await albedo.publicKey({ require_existing: true }).then((re1s: any) => {
+          this.tx = re1s
+          this.router.navigate(['/user-dashboard/overview'], {
+            queryParams: { user: this.tx.pubkey, blockchain: blockchain },
+          });
+
+          this.sideNavOpened = false;
+          this.accListExpanded = false;
+        })
+
+      } else {
+        let freighterWallet = new UserWallet();
         freighterWallet = new FreighterComponent(freighterWallet);
         await freighterWallet.initWallelt();
-        this.User= await freighterWallet.getWalletaddress();
-          
-    this.router.navigate(['/user-dashboard/overview'], {
-      queryParams: { user: this.User,blockchain: blockchain },
-    });
-    this.sideNavOpened = false;
-    this.accListExpanded = false;
-  }
-}else if(blockchain == 'solana'){
-  let phantomWallet = new UserWallet();
-  phantomWallet = new PhantomComponent(phantomWallet);
-  await phantomWallet.initWallelt();
-  this.User = await phantomWallet.getWalletaddress();
-  
-  this.router.navigate(['/user-dashboard/overview'], {
-    queryParams: { user:this.User,blockchain: blockchain },
-  });
-this.sideNavOpened = false;
-this.accListExpanded = false;
-}else if(blockchain == 'ethereum' || blockchain=='polygon'){
-  let metamaskwallet = new UserWallet();
-  metamaskwallet = new MetamaskComponent(metamaskwallet);
-  await metamaskwallet.initWallelt();
-  this.User = await metamaskwallet.getWalletaddress();
-  
-  this.router.navigate(['/user-dashboard/overview'], {
-    queryParams: { user:this.User,blockchain: blockchain },
-  });
-this.sideNavOpened = false;
-this.accListExpanded = false;
-}
+        this.User = await freighterWallet.getWalletaddress();
+
+        this.router.navigate(['/user-dashboard/overview'], {
+          queryParams: { user: this.User, blockchain: blockchain },
+        });
+        this.sideNavOpened = false;
+        this.accListExpanded = false;
+      }
+    } else if (blockchain == 'solana') {
+      let phantomWallet = new UserWallet();
+      phantomWallet = new PhantomComponent(phantomWallet);
+      await phantomWallet.initWallelt();
+      this.User = await phantomWallet.getWalletaddress();
+
+      this.router.navigate(['/user-dashboard/overview'], {
+        queryParams: { user: this.User, blockchain: blockchain },
+      });
+      this.sideNavOpened = false;
+      this.accListExpanded = false;
+    } else if (blockchain == 'ethereum' || blockchain == 'polygon') {
+      let metamaskwallet = new UserWallet();
+      metamaskwallet = new MetamaskComponent(metamaskwallet);
+      await metamaskwallet.initWallelt();
+      this.User = await metamaskwallet.getWalletaddress();
+
+      this.router.navigate(['/user-dashboard/overview'], {
+        queryParams: { user: this.User, blockchain: blockchain },
+      });
+      this.sideNavOpened = false;
+      this.accListExpanded = false;
+    }
   }
 
   public goToHome() {
@@ -227,5 +247,20 @@ this.accListExpanded = false;
     this.timedOutCloser = setTimeout(() => {
       trigger.closeMenu();
     }, 50);
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    try {
+      if (this.sideNavOpened) {
+        if (!this.sideBarContainer.nativeElement.contains(event.target) && event.target.id !== "menu-icon") {
+          this.closeSideNav()
+        }
+      }
+    }
+    catch (e) {
+      //do something
+    }
+
   }
 }

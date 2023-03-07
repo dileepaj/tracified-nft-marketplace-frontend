@@ -28,11 +28,11 @@ export class WalletComponent implements OnInit {
   constructor(
     private walletService: WalletSidenavService,
     private ref: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     //check whether the wallet is already connected
-    this.isMetaMask();
+    //this.isMetaMask();
     this.walletService.getConnectedWallet().subscribe((wallet) => {
       if (wallet === 'metamask') {
         this.metmask();

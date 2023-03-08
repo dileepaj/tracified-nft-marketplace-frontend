@@ -186,6 +186,7 @@ export class Mint2Component implements OnInit {
   nftNameRemainingChars : number = 12;
   descriptionLimit : number = 500;
   descriptionRemainingChars : number = 500;
+  flag: boolean=false;
 
   constructor(
     private route: ActivatedRoute,
@@ -284,6 +285,8 @@ export class Mint2Component implements OnInit {
   }
 
   async getIssuer(): Promise<void> {
+    if(this.flag == false){
+    this.flag=true;
     //minting according to blockchain
     this.firebaseanalytics.logEvent("button_click",{name:"Create"})
     this.firebaseanalytics.logEvent("Start_mint",{blockchain:this.mint.Blockchain})
@@ -385,7 +388,8 @@ export class Mint2Component implements OnInit {
                           }
 
                         });
-                        this.mintNFT(this.userPK, () => (this.pendingDialog.close(false)));
+                        this.mintNFT(this.userPK, () => {this.pendingDialog.close(false)
+                        this.flag=false});
                       }
                     });
                 }
@@ -462,6 +466,7 @@ export class Mint2Component implements OnInit {
 
                             this.mintNFTOnAlbedo(this.userPK, () => {
                               this.pendingDialog.close(false)
+                              this.flag=false
                             });
                           }
                         });
@@ -546,7 +551,8 @@ export class Mint2Component implements OnInit {
                     }
 
                   });
-                  this.mintNftSolana(this.mint.NFTIssuerPK, () => {this.pendingDialog.close(false)});
+                  this.mintNftSolana(this.mint.NFTIssuerPK, () => {this.pendingDialog.close(false)
+                  this.flag=false});
 
                 }
               });
@@ -641,6 +647,7 @@ export class Mint2Component implements OnInit {
                           SnackBarText.MINTING_SUCCESSFUL_MESSAGE,
                           'success'
                         );
+                        this.flag=false
                       } catch (err) {
                         this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
                       }
@@ -729,6 +736,7 @@ export class Mint2Component implements OnInit {
                           this.snackbar.openSnackBar(
                             SnackBarText.MINTING_SUCCESSFUL_MESSAGE, 'success'
                           );
+                          this.flag=false
                           this.loaderService.isLoading.next(false);
                         } catch (err) {
                           this.snackbar.openSnackBar("Something went wrong, please try again! More information: " + err, 'error');
@@ -743,6 +751,7 @@ export class Mint2Component implements OnInit {
           }
         });
     }
+  }
   }
 
   saveContractInGateway() {

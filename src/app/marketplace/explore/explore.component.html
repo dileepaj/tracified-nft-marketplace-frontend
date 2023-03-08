@@ -24,7 +24,7 @@
       }}</label>
     </div>
     <div class="filters cont-wrapper">
-        <div
+      <div
         class="filter"
         [class.active-filter]="selectedFilter === 'all'"
         (click)="setFilter('all')"
@@ -33,7 +33,7 @@
         <img
           class="filter-icon"
           [class.filter-icon-active]="selectedFilter === 'all'"
-          src="../../../assets/images/up_to_date.png"
+          src="../../../assets/images/all-icon.svg"
         />
         All
       </div>
@@ -106,36 +106,40 @@
     </div>
     <div class="explore-content cont-wrapper" fxLayout="row wrap">
       <div class="cont-inner" *ngIf="!loading && List.length > 0">
-          <div *ngFor="let item of List; index as i">
-            <app-nft-card
-              *ngIf="i !== List.length - 1"
-              [item]="item"
-              [itemId]="i.toString()"
-              [blockchain]="item.Blockchain"
-              [creatoruserid]="item.CreatorUserId"
-              [sellingstatus]="item.SellingStatus"
-              [currentownerpk]="item.CurrentOwnerPK"
-            ></app-nft-card>
+        <div *ngFor="let item of List; index as i">
+          <app-nft-card
+            *ngIf="i !== List.length - 1"
+            [item]="item"
+            [itemId]="i.toString()"
+            [blockchain]="item.Blockchain"
+            [creatoruserid]="item.CreatorUserId"
+            [sellingstatus]="item.SellingStatus"
+            [currentownerpk]="item.CurrentOwnerPK"
+          ></app-nft-card>
 
-            <!--last item-->
-            <app-nft-card
-              *ngIf="i === List.length - 1"
-              [item]="item"
-              [itemId]="i.toString()"
-              [blockchain]="item.Blockchain"
-              [creatoruserid]="item.CreatorUserId"
-              [sellingstatus]="item.SellingStatus"
-              [currentownerpk]="item.CurrentOwnerPK"
-              #theLastItem
-            ></app-nft-card>
-          </div>
+          <!--last item-->
+          <app-nft-card
+            *ngIf="i === List.length - 1"
+            [item]="item"
+            [itemId]="i.toString()"
+            [blockchain]="item.Blockchain"
+            [creatoruserid]="item.CreatorUserId"
+            [sellingstatus]="item.SellingStatus"
+            [currentownerpk]="item.CurrentOwnerPK"
+            #theLastItem
+          ></app-nft-card>
         </div>
+      </div>
       <div class="cont-inner" *ngIf="loading || nextPageLoading">
-        <app-nft-card-skeleton *ngFor="let i of [0,1,2,3,4,5,6,7]"></app-nft-card-skeleton>
+        <app-nft-card-skeleton
+          *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7]"
+        ></app-nft-card-skeleton>
       </div>
       <div
         class="explore-no-content"
-        *ngIf="!loading && !nextPageLoading && List.length === 0 && showNoNftError"
+        *ngIf="
+          !loading && !nextPageLoading && List.length === 0 && showNoNftError
+        "
       >
         <img src="../../../assets/images/no-content.png" />
         <label>No NFTs Found</label>

@@ -7,7 +7,6 @@
   padding-top: 20px;
   margin-bottom: 20px;
   color: white;
-
 }
 
 .overview-main-wrapper {
@@ -22,7 +21,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -31,7 +30,6 @@
 
   color: #777777;
 }
-
 
 .overview-picks-header-title {
   color: white;
@@ -128,6 +126,44 @@
   column-gap: 50px;
   overflow: auto;
   scroll-behavior: smooth;
+}
+
+.selected-bc {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  background: #2d2d2d;
+  border-radius: 5px;
+  width: fit-content;
+  padding: 10px;
+}
+
+.selected-bc label {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+
+  color: #ffffff;
+}
+
+.connected-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+
+  background: #10ceac;
+}
+
+.alert-txt {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+
+  color: #f17272;
 }
 
 @media screen and (max-width: 1279px) {

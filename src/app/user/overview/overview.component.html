@@ -1,18 +1,65 @@
 <div class="overview-main-div">
   <div class="overview-main-wrapper">
     <div>
-      <img
+      <div
         style="
-          vertical-align: middle;
-          margin-right: 10px;
-          transform: scale(1.1);
+          display: flex;
+          flex-direction: row;
+          column-gap: 15px;
+          row-gap: 15px;
+          align-items: center;
+          margin-bottom: 15px;
+          flex-wrap: wrap;
         "
-        [src]="'../../../assets/images/' + selectedBlockchain + '.png'"
-      />
-      {{
-        selectedBlockchain[0].toUpperCase() +
-          selectedBlockchain.substring(1, selectedBlockchain.length)
-      }}
+      >
+        <div class="selected-bc">
+          <img
+            style="height: 21px"
+            [ngStyle]="{
+              width: selectedBlockchain === 'stellar' ? '24px' : '21px'
+            }"
+            [src]="'../../../assets/images/' + selectedBlockchain + '.png'"
+          />
+          <label>
+            {{
+              selectedBlockchain[0].toUpperCase() +
+                selectedBlockchain.substring(1, selectedBlockchain.length)
+            }}
+          </label>
+        </div>
+        <div
+          class="selected-bc"
+          style="cursor: pointer"
+          *ngIf="connectedWallet !== ''"
+          (click)="openWalletSideBar()"
+          matRipple
+        >
+          <img
+            style="width: 21px; height: 21px; cursor: pointer"
+            [src]="
+              '../../../assets/images/' + connectedWallet.toLowerCase() + '.png'
+            "
+          />
+          <label style="cursor: pointer">
+            {{ connectedWallet }} Connected
+          </label>
+          <span class="connected-dot" style="cursor: pointer"></span>
+        </div>
+        <mat-icon
+          class="material-symbols-outlined"
+          style="cursor: pointer"
+          (click)="toggleToolTip()"
+          *ngIf="connectedWallet === 'Freighter'"
+        >
+          help
+        </mat-icon>
+      </div>
+      <label
+        class="alert-txt"
+        *ngIf="isToolTipVisible && connectedWallet === 'Freighter'"
+      >
+        Please import your Albedo account to Freighter wallet to view NFTs.
+      </label>
     </div>
 
     <div

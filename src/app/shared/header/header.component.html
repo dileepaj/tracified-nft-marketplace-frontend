@@ -265,6 +265,7 @@
       fxShow.md
       fxShow.sm
       fxShow.xs
+      id="menu-icon"
       (click)="openSideNav()"
     >
       menu
@@ -272,6 +273,7 @@
   </div>
 </mat-toolbar>
 <mat-drawer-container
+  id="side-nav-container"
   class="side-nav-container"
   *ngIf="sideNavOpened"
   fxHide.xl
@@ -290,8 +292,16 @@
     <br />
 
     <div class="side-nav-search-input-group">
-      <input type="text" placeholder="Search here" />
+      <form [formGroup]="sideBarControlGroup">
+        <input
+        type="text"
+        placeholder="Search here"
+        formControlName="SideBarTag"
+        (keyup.enter)="searchSideBar()"
+      />
       <mat-icon class="material-symbols-outlined">search</mat-icon>
+      </form>
+
     </div>
 
     <br />
@@ -299,8 +309,10 @@
       <a
         class="sidenav-text"
         mat-button
+        [routerLinkActiveOptions]="{ exact: true }"
         [routerLink]="'/'"
         [routerLinkActive]="['active-link']"
+        (click)="closeSideNav()"
       >
         Home
       </a>
@@ -419,12 +431,10 @@
         mat-button
         [routerLink]="'/mint'"
         [routerLinkActive]="['active-link']"
+        (click)="closeSideNav()"
       >
         Create
       </a>
-    </div>
-    <div class="side-nav-link">
-      <a class="sidenav-text" mat-button> Notifications </a>
     </div>
     <div class="side-nav-link">
       <a class="sidenav-text" mat-button (click)="openDialog(true)">

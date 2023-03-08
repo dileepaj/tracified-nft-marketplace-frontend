@@ -551,19 +551,6 @@
         <span></span>
       </div>
     </div>
-    <!-- <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Issuer:</label>
-      <mat-form-field appearance="outline">
-        <input
-          type="text"
-          class="input"
-          matInput
-          name="issuer"
-          formControlName="Issuer"
-          placeholder="Enter issuer."
-        />
-      </mat-form-field>
-    </div> -->
     <div
       class="mint-form-group"
       ngStyle.lt-md="width:100%; display: flex; flex-direction : row;justify-content:center"
@@ -573,6 +560,7 @@
         class="btn-create"
         style="width: 146px"
         (click)="getIssuer()"
+        disabled="{{this.flag}}"
       >
         Create
       </button>

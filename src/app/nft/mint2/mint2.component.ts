@@ -184,11 +184,11 @@ export class Mint2Component implements OnInit {
   cropperStat: boolean = false;
   showthumbnailContainer: boolean = true;
   transaction: any;
-
-  nftNameLimit: number = 12;
-  nftNameRemainingChars: number = 12;
-  descriptionLimit: number = 500;
-  descriptionRemainingChars: number = 500;
+  nftNameLimit : number = 12;
+  nftNameRemainingChars : number = 12;
+  descriptionLimit : number = 500;
+  descriptionRemainingChars : number = 500;
+  flag: boolean=false;
 
   constructor(
     private route: ActivatedRoute,
@@ -293,6 +293,8 @@ export class Mint2Component implements OnInit {
   }
 
   async getIssuer(): Promise<void> {
+    if(this.flag == false){
+    this.flag=true;
     //minting according to blockchain
     this.firebaseanalytics.logEvent('button_click', { name: 'Create' });
     this.firebaseanalytics.logEvent('Start_mint', {
@@ -417,9 +419,8 @@ export class Mint2Component implements OnInit {
                               );
                             }
                           });
-                        this.mintNFT(this.userPK, () =>
-                          this.pendingDialog.close(false)
-                        );
+                        this.mintNFT(this.userPK, () => {this.pendingDialog.close(false)
+                        this.flag=false});
                       }
                     });
                 }
@@ -510,7 +511,8 @@ export class Mint2Component implements OnInit {
                               });
 
                             this.mintNFTOnAlbedo(this.userPK, () => {
-                              this.pendingDialog.close(false);
+                              this.pendingDialog.close(false)
+                              this.flag=false
                             });
                           }
                         });
@@ -603,9 +605,8 @@ export class Mint2Component implements OnInit {
                       );
                     }
                   });
-                  this.mintNftSolana(this.mint.NFTIssuerPK, () => {
-                    this.pendingDialog.close(false);
-                  });
+                  this.mintNftSolana(this.mint.NFTIssuerPK, () => {this.pendingDialog.close(false)
+                  this.flag=false});
                 }
               });
           }
@@ -707,6 +708,7 @@ export class Mint2Component implements OnInit {
                           SnackBarText.MINTING_SUCCESSFUL_MESSAGE,
                           'success'
                         );
+                        this.flag=false
                       } catch (err) {
                         this.snackbar.openSnackBar(
                           'Something went wrong, please try again! More information: ' +
@@ -814,6 +816,7 @@ export class Mint2Component implements OnInit {
                             SnackBarText.MINTING_SUCCESSFUL_MESSAGE,
                             'success'
                           );
+                          this.flag=false
                           this.loaderService.isLoading.next(false);
                         } catch (err) {
                           this.snackbar.openSnackBar(
@@ -836,6 +839,7 @@ export class Mint2Component implements OnInit {
           }
         });
     }
+  }
   }
 
   saveContractInGateway() {
@@ -916,11 +920,12 @@ export class Mint2Component implements OnInit {
               data.NFTIssuerPK
             )
             .subscribe((res: any) => {
-              try {
+              try{
+                this.sendToMint3()
                 this.saveTXNs();
-                this.apiService.addSVG(this.svg).subscribe();
-                this.sendToMint3();
-                this.updateMinter();
+                this.apiService.addSVG(this.svg).subscribe(res=>{
+                  this.updateMinter();
+                });
               } catch (err) {
                 this.snackbar.openSnackBar(
                   'Something went wrong, please try again! More information: ' +
@@ -945,7 +950,9 @@ export class Mint2Component implements OnInit {
           }
           this.mint.NFTTxnHash = txn.NFTTxnHash;
           this.stxn.NFTTxnHash = this.mint.NFTTxnHash;
-          this.updateStellarTXN();
+          this.apiService.addSVG(this.svg).subscribe(res=>{
+            this.updateStellarTXN();
+          });
           this.saveTXNs();
         });
     }
@@ -963,7 +970,6 @@ export class Mint2Component implements OnInit {
         )
         .then((transactionResult: any) => {
           this.sendToMint3();
-          this.apiService.addSVG(this.svg).subscribe();
           try {
             if (transactionResult.successful) {
               this.service
@@ -1042,8 +1048,7 @@ export class Mint2Component implements OnInit {
           userPK
         )
         .then((transactionResult: any) => {
-          this.sendToMint3();
-          this.apiService.addSVG(this.svg).subscribe();
+          this.sendToMint3()
           try {
             this.service
               .minNFTStellar(

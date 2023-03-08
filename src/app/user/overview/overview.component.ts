@@ -41,11 +41,17 @@ export class OverviewComponent implements OnInit {
   paginationflag: boolean = false;
   hotPicksLoading: boolean = false;
   mintedLoading: boolean = false;
-  favLoading: boolean = false;
-  boughtLoading: boolean = false;
-  onSaleLoading: boolean = false;
-  isToolTipVisible: boolean = false;
+  favLoading : boolean = false;
+  boughtLoading : boolean = false;
+  onSaleLoading : boolean = false;
+   isToolTipVisible: boolean = false;
   connectedWallet: string = '';
+  status: boolean=false;
+ countA:number=0
+ countB:number=0
+ countC:number=0
+ countD:number=0
+ countE:number=0
 
   constructor(
     private route: ActivatedRoute,
@@ -80,79 +86,85 @@ export class OverviewComponent implements OnInit {
       this.ListSales.splice(0);
       this.hotPicksLoading = true;
       this.mintedLoading = true;
-      this.favLoading = true;
-      this.boughtLoading = true;
-      this.onSaleLoading = true;
-      this.nft
-        .getNFTByBlockchainandUser(this.selectedBlockchain, this.user)
-        .subscribe(async (data) => {
-          this.nfts = data;
-          if (this.nft == null) {
-            this.ngOnInit();
-          } else {
-            for (let x = 0; x < this.nfts.Response.length; x++) {
-              if (
-                this.nfts.Response[x].sellingstatus == 'ON SALE' &&
-                this.paginationflag == false
-              ) {
-                this.FilterByONSALE(this.nfts.Response[x]);
-              }
-
-              if (
-                this.nfts.Response[x].sellingstatus == 'NOTFORSALE' &&
-                this.paginationflag == false
-              ) {
-                this.FilterByBoughtNFT(this.nfts.Response[x]);
-              }
-
-              if (
-                this.nfts.Response[x].sellingstatus == 'Minted' &&
-                this.paginationflag == false
-              ) {
-                this.FilterByMinted(this.nfts.Response[x]);
-              }
-
-              if (
-                this.nfts.Response[x].trending == true &&
-                this.paginationflag == false
-              ) {
-                this.FilterByTrending(this.nfts.Response[x]);
-              }
-
-              if (
-                this.nfts.Response[x].hotpicks == true &&
-                this.paginationflag == false
-              ) {
-                this.FilterByHotpicks(this.nfts.Response[x]);
-              }
+      this.favLoading  = true;
+      this.boughtLoading  = true;
+      this.onSaleLoading  = true;
+          this.nft.getNFTByBlockchainandUser(this.selectedBlockchain,this.user).subscribe(async (data:any) => {
+        this.nfts = data;
+        if(this.nft==null){
+         this.ngOnInit()
+        }else{
+          
+          for( let x=0; x<(this.nfts.Response.length); x++){
+           
+            if(this.nfts.Response[x].sellingstatus=="ON SALE" && this.paginationflag==false){
+              this.FilterByONSALE(this.nfts.Response[x])
+              this.countA++
+              this.status=true
             }
-            this.hotPicksLoading = false;
-            this.mintedLoading = false;
-            this.favLoading = false;
-            this.boughtLoading = false;
-            this.onSaleLoading = false;
+
+            if(this.nfts.Response[x].sellingstatus=="NOTFORSALE" && this.paginationflag==false){
+              this.FilterByBoughtNFT(this.nfts.Response[x])
+             this.countB++
+              this.status=true
+            }
+            if(this.nfts.Response[x].sellingstatus=="Minted" && this.paginationflag==false){
+             this.FilterByMinted(this.nfts.Response[x])
+             this.countC++
+             this.status=true
+            }
+           
+            if(this.nfts.Response[x].trending==true && this.paginationflag==false){
+              this.FilterByTrending(this.nfts.Response[x])
+             this.countD++
+              this.status=true
+            }
+            if(this.nfts.Response[x].hotpicks==true && this.paginationflag==false){
+              this.FilterByHotpicks(this.nfts.Response[x])
+              this.countE++
+              this.status=true
+            }
           }
-        });
+   
+          this.hotPicksLoading  = false;
+          this.mintedLoading = false;
+          this.favLoading  = false;
+          this.boughtLoading  = false;
+          this.onSaleLoading  = false;
+        }
+      },(error) => {
+        if(error.error.status==400){
+          this.countA=0
+          this.countB=0
+          this.countC=0
+          this.countD=0
+          this.countE=0
+          this.status=true
+          this.hotPicksLoading  = false;
+          this.mintedLoading = false;
+          this.favLoading  = false;
+          this.boughtLoading  = false;
+          this.onSaleLoading  = false;
+        }
+    }
+      )
+      
     });
   }
 
-  FilterByHotpicks(response: any) {
-    this.nft.getSVGByHash(response.imagebase64).subscribe((res: any) => {
-      this.Decryption = res.Response.Base64ImageSVG;
-      if (
-        response.attachmenttype == 'image/jpeg' ||
-        response.attachmenttype == 'image/jpg' ||
-        response.attachmenttype == 'image/png'
-      ) {
-        this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(
-          this.Decryption.toString()
-        );
-      } else {
-        this.dec = btoa(this.Decryption);
-        var str2 = this.dec.toString();
-        var str1 = new String('data:image/svg+xml;base64,');
-        var src = str1.concat(str2.toString());
-        this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+  
+
+  FilterByHotpicks(response:any){
+      this.nft.getSVGByHash(response.imagebase64).subscribe((res:any)=>{
+        this.Decryption = res.Response.Base64ImageSVG
+        if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" || response.attachmenttype == "image/png"){
+          this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
+        }else{
+          this.dec = btoa(this.Decryption);
+      var str2 = this.dec.toString();
+      var str1 = new String( "data:image/svg+xml;base64,");
+      var src = str1.concat(str2.toString());
+      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
       }
       this.nft.getThumbnailId(response.id).subscribe(async (thumbnail: any) => {
         this.paginationflag = true;

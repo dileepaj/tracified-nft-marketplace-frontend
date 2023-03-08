@@ -1478,7 +1478,6 @@ export class Mint2Component implements OnInit {
     this.thumbSrc = this.croppedImage;
     //this.updateThumbnailHTML()
     this.thumbnail = this.croppedImage;
-    console.log('cropped');
   }
   hideCropper() {
     this.cropperStat = false;
@@ -1513,26 +1512,20 @@ export class Mint2Component implements OnInit {
     const img = new Image();
     img.src = URL.createObjectURL(blob);
 
-    console.log('before', blob);
-
     img.onload = async () => {
       this.resize(img, 'jpeg').then((blob) => {
-        console.log(blob);
         var reader = new FileReader();
         reader.readAsDataURL(blob);
+
         reader.onloadend = () => {
           var base64data = reader.result;
-          console.log(base64data);
+
           this.croppedImage = base64data;
           this.thumbSrc = this.croppedImage;
-          //this.updateThumbnailHTML()
           this.thumbnail = this.croppedImage;
-          console.log('final result', this.thumbnail);
         };
       });
     };
-
-    console.log(img);
   }
 
   //Used for converting base6 images to blob
@@ -1588,9 +1581,7 @@ export class Mint2Component implements OnInit {
     }
     canvas.width = width;
     canvas.height = height;
-    console.log(
-      'Scaling image down to max 1280x720 while keeping aspect ratio'
-    );
+
     ctx!.drawImage(img, 0, 0, width, height);
 
     accepted = blob = await new Promise((rs) =>
@@ -1598,14 +1589,7 @@ export class Mint2Component implements OnInit {
     );
 
     if (blob.size < MAX_SIZE) {
-      console.log('No quality change needed');
       return blob;
-    } else {
-      console.log(`Image size after scaling ${blob.size} bytes`);
-      console.log(
-        'Image sample after resizeing with losseless compression:',
-        URL.createObjectURL(blob)
-      );
     }
 
     // Binary search for the right size
@@ -1614,9 +1598,7 @@ export class Mint2Component implements OnInit {
       if (mid === last) break;
       last = mid;
       blob = await new Promise((rs) => canvas.toBlob(rs, 'image/' + type, mid));
-      console.log(
-        `Quality set to ${mid} gave a Blob size of ${blob.size} bytes`
-      );
+
       if (blob.size > MAX_SIZE) {
         end = mid;
       }

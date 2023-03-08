@@ -48,6 +48,9 @@
         </button>
       </div>
     </div>
+    <div class="cont-inner" *ngIf="this.status == true ">
+      You have {{this.countE}} NFTS.
+    </div>
     <div
       class="overview-nft-content"
       id="hotPicksContent"
@@ -106,6 +109,9 @@
         </button>
       </div>
     </div>
+    <div class="cont-inner" *ngIf="this.status == true ">
+      You have {{this.countC}} NFTS.
+    </div>
     <div
       class="overview-nft-content"
       id="hotPicksContent"
@@ -159,6 +165,9 @@
           </mat-icon>
         </button>
       </div>
+    </div>
+    <div class="cont-inner" *ngIf="this.status == true ">
+      You have {{this.countB}} NFTS.
     </div>
     <div
       class="overview-nft-content"
@@ -221,6 +230,9 @@
         </button>
       </div>
     </div>
+    <div class="cont-inner" *ngIf="this.status == true">
+      You have {{this.countD}} NFTS.
+    </div>
     <div class="overview-nft-content" id="hotPicksContent" *ngIf="favLoading">
       <div *ngFor="let item of [0, 1, 2, 3, 4, 5]; index as i">
         <app-nft-card-skeleton></app-nft-card-skeleton>
@@ -270,6 +282,9 @@
           </mat-icon>
         </button>
       </div>
+    </div>
+    <div class="cont-inner" *ngIf="this.status == true ">
+      You have {{this.countA}} NFTS.
     </div>
     <div
       class="overview-nft-content"

@@ -20,7 +20,7 @@ export class NftServicesService {
   baseUrlSVG:string=this.nftBackendBaseURL+'svg';
   baseUrlThumbnail:string=this.nftBackendBaseURL+'explore/thumbnail';
   baseUrlGetAllNFT:string=this.nftBackendBaseURL+'marketplace';
-  baseUrlGetOnSaleNFT:string=this.nftBackendBaseURL+'nft';
+  baseUrlGetOnSaleNFT:string=this.nftBackendBaseURL+'nft/sale';
   baseUrlGetMyNFTByStatus:string=this.nftBackendBaseURL+'selling'
   baseUrlGetMyNFT:string=this.nftBackendBaseURL+'userid'
   baseUrlfilter:string=this.nftBackendBaseURL+'blockchain'

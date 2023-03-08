@@ -75,13 +75,13 @@ export class MintService {
   }
   
   updateNFTSolana(st: Minter): Observable<Minter> {
-    const updateMinterResult: Observable<Minter>= this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
-    return updateMinterResult
+    return this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
+    //return updateMinterResult
   }
 
   updateTXNStellar(st: StellarTXN): Observable<StellarTXN> {
-    const stellarTxnUpdateResponse= this.http.put<StellarTXN>(this.baseUrlStellarUpdate, st, {headers: this.headers});
-    return stellarTxnUpdateResponse
+   return this.http.put<StellarTXN>(this.baseUrlStellarUpdate, st, {headers: this.headers});
+   // return stellarTxnUpdateResponse
   }
 
   minNFTStellar(

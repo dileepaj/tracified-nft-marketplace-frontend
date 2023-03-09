@@ -39,11 +39,19 @@
           />
         </button>
       </div>
-      <div class="prev-o" style="align-self: flex-start">
+      <div
+        class="prev-o"
+        style="align-self: flex-start; max-width: 100%"
+        ngStyle.gt-md="max-width: 90%"
+      >
         <label class="owner-s">Creator Name</label>
-        <label class="owner-l">{{ this.NFTList.artistname }}</label>
+        <label class="owner-l">{{ this.NFTList.artistname }} </label>
       </div>
-      <div class="prev-o" style="margin-top: 30px; align-self: flex-start">
+      <div
+        class="prev-o"
+        style="margin-top: 30px; align-self: flex-start; max-width: 100%"
+        ngStyle.gt-md="max-width: 90%"
+      >
         <label class="owner-s">Description</label>
         <label class="p-text sum-text" ngStyle.lt-lg="width : 100%">
           {{ this.NFTList.description }}

@@ -6,6 +6,8 @@ import { Subject, Observable } from 'rxjs';
 })
 export class WalletSidenavService {
   private opened: boolean = false;
+  private connectedWallet : string = '';
+  walletSubject  = new Subject<string>();
   subject = new Subject<any>();
   constructor() {}
 
@@ -22,6 +24,15 @@ export class WalletSidenavService {
   public open() {
     this.opened = true;
     this.subject.next(this.opened);
+  }
+
+  public setWallet(wallet: string) {
+    this.connectedWallet = wallet;
+    this.walletSubject.next(this.connectedWallet);
+  }
+
+  public getConnectedWallet() : Observable<string> {
+    return this.walletSubject.asObservable();
   }
 
   public getStatus(): Observable<any> {

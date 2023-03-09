@@ -11,9 +11,17 @@
 }
 
 .nft-img {
+  /* background-image: url("../../../assets/images/thumb-placeholder.svg");
+  background-repeat: no-repeat; */
   width: 295px;
   height: 295px;
- /*  background-color: #fff; */
+  /*  background-color: #fff; */
+}
+
+.nft-img-placeholder {
+  width: 295px;
+  height: 295px;
+  /* object-fit: scale-down; */
 }
 
 .nft-img-overlay {
@@ -30,29 +38,27 @@
   justify-content: center;
   align-items: center;
   row-gap: 15px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
-
-.nft-img-overlay .overlay-text{
+.nft-img-overlay .overlay-text {
   opacity: 0;
   cursor: pointer;
   transition: opacity 0.2s ease-in-out;
 }
-.nft-img-overlay:hover .overlay-text{
+.nft-img-overlay:hover .overlay-text {
   opacity: 1;
 }
 .nft-img-overlay:hover {
   background: rgba(2, 2, 2, 0.5);
   opacity: 1;
 }
-
 
 .overlay-hide {
   display: none;
@@ -62,7 +68,7 @@
   opacity: 1;
 }
 
-.nft-img-overlay img{
+.nft-img-overlay img {
   cursor: pointer;
   width: 82px;
   height: 81px;

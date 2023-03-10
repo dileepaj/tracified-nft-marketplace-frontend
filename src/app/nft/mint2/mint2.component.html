@@ -44,6 +44,7 @@
         <div
           class="dnd-area"
           id="thumb-dnd"
+          #thumbDnd
           ngStyle.lt-md="width: calc(100% - 6px)"
           (click)="triggerThumbnailUpload()"
           *ngIf="showthumbnailContainer"
@@ -560,7 +561,7 @@
         class="btn-create"
         style="width: 146px"
         (click)="getIssuer()"
-        disabled="{{this.flag}}"
+        disabled="{{ this.flag }}"
       >
         Create
       </button>

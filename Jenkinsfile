@@ -2,9 +2,6 @@ pipeline {
   agent any
   tools { nodejs 'nodejs-16' }
 
-  environment {
-    BUCKET_NAME = ''
-  }
   stages {
     stage('Build') {
       steps {

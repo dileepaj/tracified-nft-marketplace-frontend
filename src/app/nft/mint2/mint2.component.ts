@@ -294,38 +294,38 @@ export class Mint2Component implements OnInit {
   }
 
   async getIssuer(): Promise<void> {
-    if (this.flag == false) {
-      this.flag = true;
-      //minting according to blockchain
-      this.firebaseanalytics.logEvent('button_click', { name: 'Create' });
-      this.firebaseanalytics.logEvent('Start_mint', {
-        blockchain: this.mint.Blockchain,
-      });
-      this.mint.Blockchain = this.formValue('Blockchain');
-      this.mint.NFTName = this.formValue('NFTName');
-      this.mint.NftContentURL = this.formValue('NftContentURL');
-      this.mint.Imagebase64 = this.hash;
-      this.mint.AttachmentType = this.type;
-      this.mint.Description = this.formValue('Description');
-      this.mint.thumbnail = this.thumbnail;
-      this.svgUpdate.Id = this.hash;
+    if(this.flag == false){
+    
+    //minting according to blockchain
+    this.firebaseanalytics.logEvent('button_click', { name: 'Create' });
+    this.firebaseanalytics.logEvent('Start_mint', {
+      blockchain: this.mint.Blockchain,
+    });
+    this.mint.Blockchain = this.formValue('Blockchain');
+    this.mint.NFTName = this.formValue('NFTName');
+    this.mint.NftContentURL = this.formValue('NftContentURL');
+    this.mint.Imagebase64 = this.hash;
+    this.mint.AttachmentType = this.type;
+    this.mint.Description = this.formValue('Description');
+    this.mint.thumbnail = this.thumbnail;
+    this.svgUpdate.Id = this.hash;
 
-      if (
-        !this.mint.Imagebase64 ||
-        !this.mint.thumbnail ||
-        this.mint.Blockchain === '' ||
-        this.mint.NFTName === '' ||
-        this.mint.Description === '' ||
-        this.formValue('Collection') === '' ||
-        this.formValue('ArtistName') === '' ||
-        this.tags[0] == null
-      ) {
-        this.snackbar.openSnackBar(
-          SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING,
-          'info'
-        );
-        return;
-      }
+    if (
+      !this.mint.Imagebase64 ||
+      !this.mint.thumbnail ||
+      this.mint.Blockchain === '' ||
+      this.mint.NFTName === '' ||
+      this.mint.Description === '' ||
+      this.formValue('Collection') === '' ||
+      this.formValue('ArtistName') === '' ||
+      this.tags[0] == null
+    ) {
+      this.snackbar.openSnackBar(
+        SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING,
+        'info'
+      );
+      return;
+    }else{this.flag=true;}
 
       if (this.mint.Blockchain == 'stellar') {
         //minting if blockchain == stellar
@@ -725,7 +725,7 @@ export class Mint2Component implements OnInit {
                             'Something went wrong, please try again! More information: ' +
                               err,
                             'error'
-                          );
+                          ); this.flag=false;
                         }
                       });
                   }
@@ -1012,6 +1012,7 @@ export class Mint2Component implements OnInit {
                         err,
                       'error'
                     );
+                    this.flag=false;
                   }
                 })
                 .then((nft) => {
@@ -1038,6 +1039,7 @@ export class Mint2Component implements OnInit {
                 err,
               'error'
             );
+            this.flag=false;
           }
         });
     } else {
@@ -1090,6 +1092,7 @@ export class Mint2Component implements OnInit {
                       err,
                     'error'
                   );
+                  this.flag=false;
                 }
               })
               .then((nft) => {
@@ -1110,6 +1113,7 @@ export class Mint2Component implements OnInit {
                 err,
               'error'
             );
+            this.flag=false;
           }
         });
     } else {
@@ -1230,6 +1234,7 @@ export class Mint2Component implements OnInit {
                       err,
                     'error'
                   );
+                  this.flag=false;
                 }
               })
               .catch((error) => {
@@ -1241,6 +1246,7 @@ export class Mint2Component implements OnInit {
           } catch (err: any) {
             this.snackbar.openSnackBar(err.message, 'error');
             this.pendingDialog.close(false);
+            this.flag=false;
           }
         });
     });

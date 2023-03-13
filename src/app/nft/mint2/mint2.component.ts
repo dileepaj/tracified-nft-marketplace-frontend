@@ -294,7 +294,7 @@ export class Mint2Component implements OnInit {
 
   async getIssuer(): Promise<void> {
     if(this.flag == false){
-    this.flag=true;
+    
     //minting according to blockchain
     this.firebaseanalytics.logEvent('button_click', { name: 'Create' });
     this.firebaseanalytics.logEvent('Start_mint', {
@@ -324,7 +324,7 @@ export class Mint2Component implements OnInit {
         'info'
       );
       return;
-    }
+    }else{this.flag=true;}
 
     if (this.mint.Blockchain == 'stellar') {
       //minting if blockchain == stellar
@@ -714,7 +714,7 @@ export class Mint2Component implements OnInit {
                           'Something went wrong, please try again! More information: ' +
                             err,
                           'error'
-                        );
+                        ); this.flag=false;
                       }
                     });
                 }
@@ -823,7 +823,7 @@ export class Mint2Component implements OnInit {
                             'Something went wrong, please try again! More information: ' +
                               err,
                             'error'
-                          );
+                          ); this.flag=false;
                         }
                       });
                   } catch (err) {
@@ -1001,6 +1001,7 @@ export class Mint2Component implements OnInit {
                         err,
                       'error'
                     );
+                    this.flag=false;
                   }
                 })
                 .then((nft) => {
@@ -1027,6 +1028,7 @@ export class Mint2Component implements OnInit {
                 err,
               'error'
             );
+            this.flag=false;
           }
         });
     } else {
@@ -1079,6 +1081,7 @@ export class Mint2Component implements OnInit {
                       err,
                     'error'
                   );
+                  this.flag=false;
                 }
               })
               .then((nft) => {
@@ -1099,6 +1102,7 @@ export class Mint2Component implements OnInit {
                 err,
               'error'
             );
+            this.flag=false;
           }
         });
     } else {
@@ -1219,6 +1223,7 @@ export class Mint2Component implements OnInit {
                       err,
                     'error'
                   );
+                  this.flag=false;
                 }
               })
               .catch((error) => {
@@ -1230,6 +1235,7 @@ export class Mint2Component implements OnInit {
           } catch (err: any) {
             this.snackbar.openSnackBar(err.message, 'error');
             this.pendingDialog.close(false);
+            this.flag=false;
           }
         });
     });

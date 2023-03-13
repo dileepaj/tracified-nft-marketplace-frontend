@@ -20,7 +20,8 @@ export class NftServicesService {
   baseUrlSVG:string=this.nftBackendBaseURL+'svg';
   baseUrlThumbnail:string=this.nftBackendBaseURL+'explore/thumbnail';
   baseUrlGetAllNFT:string=this.nftBackendBaseURL+'marketplace';
-  baseUrlGetOnSaleNFT:string=this.nftBackendBaseURL+'nft';
+  baseUrlGetOnSaleNFT:string=this.nftBackendBaseURL+'nft/sales';
+  baseUrlGetYourNFT:string=this.nftBackendBaseURL+'nft';
   baseUrlGetMyNFTByStatus:string=this.nftBackendBaseURL+'selling'
   baseUrlGetMyNFT:string=this.nftBackendBaseURL+'userid'
   baseUrlfilter:string=this.nftBackendBaseURL+'blockchain'
@@ -101,7 +102,7 @@ getMyNFTStatus(sellingstatus,userId):Observable<NFT[]>{
 
  getNFTByBlockchainandUser(blockchain,userId):Observable<NFT[]>{
   //request to get collection name according to user public key
-  return this.http.get<NFT[]>(`${this.baseUrlGetOnSaleNFT}/${userId}/${blockchain}`).pipe(
+  return this.http.get<NFT[]>(`${this.baseUrlGetYourNFT}/${userId}/${blockchain}`).pipe(
     catchError(this.handleError)
   )
  }

@@ -52,7 +52,6 @@ export class Seller2tracService {
        tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
     
        tx.feePayer = new PublicKey(from);
-  
       return tx;
     })();
   }

@@ -33,9 +33,9 @@ export const adminENV={
 export const APIConfigENV = {
   production: false,
   mode: 'staging',
-  gatewayBaseURL: 'https://qa.gateway.tracified.com/',
+  gatewayBaseURL: 'http://localhost:8000/',
   nftbackendBaseURL: 'http://localhost:6081/',
-  marketplaceBaseURL:"https://qa.marketplace.nft.tracified.com/",
+  marketplaceBaseURL:"http://localhost:4200/",
   tracifiedhelpDocsbaseURL:"http://localhost:3000/",
   APIIntervalTimer: 60000,  // 30 seconds
   APIStartDelay: 60000, // 30 seconds
@@ -45,9 +45,9 @@ export const APIConfigENV = {
 
 export const BlockchainConfig = {
   production: false,
-  mode: 'staging',
-  solananetwork: 'mainnet-beta',
-  solananetworkURL: 'https://solana-mainnet.g.alchemy.com/v2/rSR0X9jq8qltHn8Tnb16oDa0eovOZf1Y'
+  mode: 'qa',
+  solananetwork: 'devnet',
+  solananetworkURL:'https://api.devnet.solana.com'
 }
 
 export const FirebaseConfig = {

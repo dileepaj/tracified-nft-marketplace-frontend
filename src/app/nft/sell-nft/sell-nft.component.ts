@@ -530,7 +530,6 @@ export class SellNftComponent implements OnInit {
                   const signature = await connection.sendRawTransaction(
                     this.transaction
                   );
-
                   this.selltxn = signature;
                   this.addDBBackend();
                   this.addDBGateway();

@@ -186,7 +186,7 @@ export class HomeComponent implements OnInit {
     this.List2 = [];
     this.bestPicksLoading = true;
     this.trendingLoading = true;
-    this.nft.getNFTOnSale('ON SALE').subscribe((result: any) => {
+    this.nft.getNFTOnSale("ON SALE").subscribe((result: any) => {
       console.log('results : ', result);
       try {
         result.Response.forEach((cont) => {

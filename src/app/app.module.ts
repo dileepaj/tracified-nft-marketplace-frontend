@@ -39,7 +39,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatFileUploadModule } from 'angular-material-fileupload';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HeaderComponent } from './shared/header/header.component';
@@ -371,7 +370,6 @@ const appRoutes: Routes = [
     MatSelectModule,
     HttpClientModule,
     MatStepperModule,
-    MatFileUploadModule,
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,

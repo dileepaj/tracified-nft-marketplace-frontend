@@ -45,7 +45,7 @@ import { COMMA, TAB } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Description } from '@ethersproject/properties';
-import CryptoJS from 'crypto-js';
+import { SHA256, enc } from 'crypto-js';
 import { CollectionService } from 'src/app/services/api-services/collection.service';
 import { CodeviewComponent } from '../codeview/codeview.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -1331,7 +1331,7 @@ export class Mint2Component implements OnInit {
     let encoded: string = atob(this.base64);
     this.Encoded = encoded;
 
-    this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
+    this.hash = SHA256(encoded).toString(enc.Hex);
     this.apiService.getImagebase64(this.hash).subscribe((resnft: any) => {
       if (resnft.Response.imagebase64 == '') {
         this.updateHTML();
@@ -1351,7 +1351,7 @@ export class Mint2Component implements OnInit {
     });
     var binaryString = readerEvt.target.result;
     this.Encoded = binaryString;
-    this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
+    this.hash = SHA256(this.Encoded).toString(enc.Hex);
 
     this.apiService.getImagebase64(this.hash).subscribe((resnft: any) => {
       if (resnft.Response.imagebase64 == '') {
@@ -1434,7 +1434,7 @@ export class Mint2Component implements OnInit {
   private _handleReaderLoadedThumbnail(readerEvt: any) {
     var binaryString = readerEvt.target.result;
     this.thumbEncoded = binaryString;
-    this.thumbHash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
+    this.thumbHash = SHA256(this.Encoded).toString(enc.Hex);
     this.updateThumbnailHTML();
   }
 

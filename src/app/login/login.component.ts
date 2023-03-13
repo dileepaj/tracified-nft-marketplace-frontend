@@ -1,6 +1,5 @@
 import  jwt_decode  from 'jwt-decode';
 import { AES } from 'crypto-js';
-import { MarketPlaceAdminUser } from './../models/user';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';

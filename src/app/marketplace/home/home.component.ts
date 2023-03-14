@@ -176,7 +176,7 @@ export class HomeComponent implements OnInit {
     } else if (filter == '/docs') {
       this.router.navigate([filter]);
     } else {
-      alert('Invalid page!');
+      this.snackbarService.openSnackBar("Invalid page!","error")
     }
   }
 

@@ -629,6 +629,7 @@ export class SellNftComponent implements OnInit {
                       this.sellingPrice + parseFloat(this.royaltyCharge),
                       this.commission,
                       () => {
+                        this.snackbarService.openSnackBar("Something went wrong ","error")
                         loadingAnimation.close();
                       }
                     )
@@ -747,6 +748,7 @@ export class SellNftComponent implements OnInit {
                       this.sellingPrice,
                       this.commission,
                       () => {
+                        this.snackbarService.openSnackBar("Something went wrong ","error")
                         loadingAnimation.close();
                       }
                     )

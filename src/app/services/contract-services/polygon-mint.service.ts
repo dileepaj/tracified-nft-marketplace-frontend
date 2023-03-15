@@ -43,12 +43,12 @@ export class PolygonMintService {
     )
 .catch(error=>{
   _callback()!
-  this.snackbarService.openSnackBar("Something went wrong : "+error.message, 'error')
+  this.snackbarService.openSnackBar("Something went wrong : "+"Transaction failed", 'error')
 })
     const tx = await transaction.wait()
     .catch(error1=>{
       _callback()!
-      this.snackbarService.openSnackBar("Something went wrong : "+error1.message, 'error')
+      this.snackbarService.openSnackBar("Something went wrong : "+ "Transaction failed", 'error')
     })
     return tx
   }

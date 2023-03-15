@@ -424,6 +424,9 @@ export class Mint2Component implements OnInit {
                       }
                     });
                 }
+                else{
+                  this.flag=false;
+                }
               });
           }
           if (this.wallet == 'albedo') {
@@ -517,6 +520,9 @@ export class Mint2Component implements OnInit {
                           }
                         });
                     }
+                    else{
+                      this.flag=false;
+                    }
                   });
               });
           }
@@ -609,6 +615,9 @@ export class Mint2Component implements OnInit {
                   this.flag=false});
                 }
               });
+          }
+          else{
+            this.flag=false;
           }
         });
     }
@@ -720,6 +729,9 @@ export class Mint2Component implements OnInit {
                 }
               });
           }
+          else{
+            this.flag=false;
+          }
         });
     }
 
@@ -800,6 +812,7 @@ export class Mint2Component implements OnInit {
                         this.mint.Imagebase64,
                         () => {
                           dialog.close();
+                          this.flag=false;
                         }
                       )
                       .then((res) => {
@@ -836,6 +849,8 @@ export class Mint2Component implements OnInit {
                   }
                 }
               });
+          }else{
+            this.flag=false;
           }
         });
     }

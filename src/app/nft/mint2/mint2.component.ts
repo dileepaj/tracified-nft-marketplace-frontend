@@ -45,7 +45,7 @@ import { COMMA, TAB } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Description } from '@ethersproject/properties';
-import CryptoJS from 'crypto-js';
+import { SHA256, enc } from 'crypto-js';
 import { CollectionService } from 'src/app/services/api-services/collection.service';
 import { CodeviewComponent } from '../codeview/codeview.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -294,38 +294,38 @@ export class Mint2Component implements OnInit {
   }
 
   async getIssuer(): Promise<void> {
-    if (this.flag == false) {
-      this.flag = true;
-      //minting according to blockchain
-      this.firebaseanalytics.logEvent('button_click', { name: 'Create' });
-      this.firebaseanalytics.logEvent('Start_mint', {
-        blockchain: this.mint.Blockchain,
-      });
-      this.mint.Blockchain = this.formValue('Blockchain');
-      this.mint.NFTName = this.formValue('NFTName');
-      this.mint.NftContentURL = this.formValue('NftContentURL');
-      this.mint.Imagebase64 = this.hash;
-      this.mint.AttachmentType = this.type;
-      this.mint.Description = this.formValue('Description');
-      this.mint.thumbnail = this.thumbnail;
-      this.svgUpdate.Id = this.hash;
+    if(this.flag == false){
+    
+    //minting according to blockchain
+    this.firebaseanalytics.logEvent('button_click', { name: 'Create' });
+    this.firebaseanalytics.logEvent('Start_mint', {
+      blockchain: this.mint.Blockchain,
+    });
+    this.mint.Blockchain = this.formValue('Blockchain');
+    this.mint.NFTName = this.formValue('NFTName');
+    this.mint.NftContentURL = this.formValue('NftContentURL');
+    this.mint.Imagebase64 = this.hash;
+    this.mint.AttachmentType = this.type;
+    this.mint.Description = this.formValue('Description');
+    this.mint.thumbnail = this.thumbnail;
+    this.svgUpdate.Id = this.hash;
 
-      if (
-        !this.mint.Imagebase64 ||
-        !this.mint.thumbnail ||
-        this.mint.Blockchain === '' ||
-        this.mint.NFTName === '' ||
-        this.mint.Description === '' ||
-        this.formValue('Collection') === '' ||
-        this.formValue('ArtistName') === '' ||
-        this.tags[0] == null
-      ) {
-        this.snackbar.openSnackBar(
-          SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING,
-          'info'
-        );
-        return;
-      }
+    if (
+      !this.mint.Imagebase64 ||
+      !this.mint.thumbnail ||
+      this.mint.Blockchain === '' ||
+      this.mint.NFTName === '' ||
+      this.mint.Description === '' ||
+      this.formValue('Collection') === '' ||
+      this.formValue('ArtistName') === '' ||
+      this.tags[0] == null
+    ) {
+      this.snackbar.openSnackBar(
+        SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING,
+        'info'
+      );
+      return;
+    }else{this.flag=true;}
 
       if (this.mint.Blockchain == 'stellar') {
         //minting if blockchain == stellar
@@ -430,12 +430,18 @@ export class Mint2Component implements OnInit {
                         }
                       });
                   }
+                  else{
+                    this.flag=false;
+                  }
                 });
             }
             if (this.wallet == 'albedo') {
               await albedo
                 .publicKey({
                   require_existing: true,
+                }).catch(err=>{
+                  this.flag=false;
+                  this.snackbar.openSnackBar("User closed transaction","error");
                 })
                 .then((res: any) => {
                   this.userPK = res.pubkey;
@@ -525,6 +531,9 @@ export class Mint2Component implements OnInit {
                               });
                             }
                           });
+                      }
+                      else{
+                        this.flag=false;
                       }
                     });
                 });
@@ -620,6 +629,9 @@ export class Mint2Component implements OnInit {
                   }
                 });
             }
+            else{
+              this.flag=false;
+            }
           });
       }
 
@@ -701,6 +713,7 @@ export class Mint2Component implements OnInit {
                         this.mint.Imagebase64,
                         () => {
                           dialog.close();
+                          this.flag=false;
                         }
                       )
                       .then(async (res) => {
@@ -723,11 +736,14 @@ export class Mint2Component implements OnInit {
                             'Something went wrong, please try again! More information: ' +
                               err,
                             'error'
-                          );
+                          ); this.flag=false;
                         }
                       });
                   }
                 });
+            }
+            else{
+              this.flag=false;
             }
           });
       }
@@ -809,6 +825,7 @@ export class Mint2Component implements OnInit {
                           this.mint.Imagebase64,
                           () => {
                             dialog.close();
+                            this.flag=false;
                           }
                         )
                         .then((res) => {
@@ -842,9 +859,12 @@ export class Mint2Component implements OnInit {
                           err,
                         'error'
                       );
+                      this.flag =false
                     }
                   }
                 });
+            }else{
+              this.flag=false;
             }
           });
       }
@@ -941,6 +961,7 @@ export class Mint2Component implements OnInit {
                     err,
                   'error'
                 );
+                this.flag=false;
               }
             });
         });
@@ -1010,6 +1031,7 @@ export class Mint2Component implements OnInit {
                         err,
                       'error'
                     );
+                    this.flag=false;
                   }
                 })
                 .then((nft) => {
@@ -1036,6 +1058,7 @@ export class Mint2Component implements OnInit {
                 err,
               'error'
             );
+            this.flag=false;
           }
         });
     } else {
@@ -1088,6 +1111,7 @@ export class Mint2Component implements OnInit {
                       err,
                     'error'
                   );
+                  this.flag=false;
                 }
               })
               .then((nft) => {
@@ -1108,6 +1132,7 @@ export class Mint2Component implements OnInit {
                 err,
               'error'
             );
+            this.flag=false;
           }
         });
     } else {
@@ -1228,6 +1253,7 @@ export class Mint2Component implements OnInit {
                       err,
                     'error'
                   );
+                  this.flag=false;
                 }
               })
               .catch((error) => {
@@ -1239,6 +1265,7 @@ export class Mint2Component implements OnInit {
           } catch (err: any) {
             this.snackbar.openSnackBar(err.message, 'error');
             this.pendingDialog.close(false);
+            this.flag=false;
           }
         });
     });
@@ -1334,7 +1361,7 @@ export class Mint2Component implements OnInit {
     let encoded: string = atob(this.base64);
     this.Encoded = encoded;
 
-    this.hash = CryptoJS.SHA256(encoded).toString(CryptoJS.enc.Hex);
+    this.hash = SHA256(encoded).toString(enc.Hex);
     this.apiService.getImagebase64(this.hash).subscribe((resnft: any) => {
       if (resnft.Response.imagebase64 == '') {
         this.updateHTML();
@@ -1354,7 +1381,7 @@ export class Mint2Component implements OnInit {
     });
     var binaryString = readerEvt.target.result;
     this.Encoded = binaryString;
-    this.hash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
+    this.hash = SHA256(this.Encoded).toString(enc.Hex);
 
     this.apiService.getImagebase64(this.hash).subscribe((resnft: any) => {
       if (resnft.Response.imagebase64 == '') {
@@ -1437,7 +1464,7 @@ export class Mint2Component implements OnInit {
   private _handleReaderLoadedThumbnail(readerEvt: any) {
     var binaryString = readerEvt.target.result;
     this.thumbEncoded = binaryString;
-    this.thumbHash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
+    this.thumbHash = SHA256(this.Encoded).toString(enc.Hex);
     this.updateThumbnailHTML();
   }
 

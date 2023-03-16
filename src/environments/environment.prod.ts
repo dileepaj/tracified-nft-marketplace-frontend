@@ -21,7 +21,7 @@ export const ENV: any = {
   APPCENTER_DEPLOYMENT_KEY: 'BcfHYi-Gexwau0ZS3Q0RmtoJqsTx2_Bln3Qkc',
   BLOCKCHAIN_NETWORK: 'https://horizon-testnet.stellar.org',
   NETWORK_TYPE: 'live' ,
-  NETWORK: 'TEST'
+  NETWORK: 'PUBLIC'
 };
 
 export const adminENV={

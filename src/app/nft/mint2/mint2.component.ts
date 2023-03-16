@@ -295,7 +295,6 @@ export class Mint2Component implements OnInit {
 
   async getIssuer(): Promise<void> {
     if (this.flag == false) {
-      this.flag = true;
       //minting according to blockchain
       this.firebaseanalytics.logEvent('button_click', { name: 'Create' });
       this.firebaseanalytics.logEvent('Start_mint', {
@@ -325,6 +324,8 @@ export class Mint2Component implements OnInit {
           'info'
         );
         return;
+      } else {
+        this.flag = true;
       }
 
       if (this.mint.Blockchain == 'stellar') {
@@ -724,6 +725,7 @@ export class Mint2Component implements OnInit {
                               err,
                             'error'
                           );
+                          this.flag = false;
                         }
                       });
                   }
@@ -1010,6 +1012,7 @@ export class Mint2Component implements OnInit {
                         err,
                       'error'
                     );
+                    this.flag = false;
                   }
                 })
                 .then((nft) => {
@@ -1036,6 +1039,7 @@ export class Mint2Component implements OnInit {
                 err,
               'error'
             );
+            this.flag = false;
           }
         });
     } else {
@@ -1088,6 +1092,7 @@ export class Mint2Component implements OnInit {
                       err,
                     'error'
                   );
+                  this.flag = false;
                 }
               })
               .then((nft) => {
@@ -1108,6 +1113,7 @@ export class Mint2Component implements OnInit {
                 err,
               'error'
             );
+            this.flag = false;
           }
         });
     } else {
@@ -1228,6 +1234,7 @@ export class Mint2Component implements OnInit {
                       err,
                     'error'
                   );
+                  this.flag = false;
                 }
               })
               .catch((error) => {
@@ -1239,6 +1246,7 @@ export class Mint2Component implements OnInit {
           } catch (err: any) {
             this.snackbar.openSnackBar(err.message, 'error');
             this.pendingDialog.close(false);
+            this.flag = false;
           }
         });
     });
@@ -1439,6 +1447,12 @@ export class Mint2Component implements OnInit {
     this.thumbEncoded = binaryString;
     this.thumbHash = CryptoJS.SHA256(this.Encoded).toString(CryptoJS.enc.Hex);
     this.updateThumbnailHTML();
+  }
+
+  @HostListener('keydown', ['$event']) public onKeyDown(evt) {
+    if (evt.keyCode == 13) {
+      evt.preventDefault();
+    }
   }
 
   @HostListener('dragover', ['$event']) public onDragOver(evt) {

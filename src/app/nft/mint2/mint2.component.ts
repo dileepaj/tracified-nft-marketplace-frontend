@@ -439,6 +439,9 @@ export class Mint2Component implements OnInit {
               await albedo
                 .publicKey({
                   require_existing: true,
+                }).catch(err=>{
+                  this.flag=false;
+                  this.snackbar.openSnackBar("User closed transaction","error");
                 })
                 .then((res: any) => {
                   this.userPK = res.pubkey;
@@ -858,6 +861,7 @@ export class Mint2Component implements OnInit {
                           err,
                         'error'
                       );
+                      this.flag =false
                     }
                   }
                 });
@@ -959,6 +963,7 @@ export class Mint2Component implements OnInit {
                     err,
                   'error'
                 );
+                this.flag=false;
               }
             });
         });

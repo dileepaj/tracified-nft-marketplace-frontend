@@ -586,7 +586,6 @@ export class Mint2Component implements OnInit {
                       })
                       .subscribe((res) => {
                         if (res) {
-                          //alert("You are not endorsed. Get endorsed now")
                           let arr: any = [
                             this.mint.Blockchain,
                             this.email,
@@ -681,7 +680,6 @@ export class Mint2Component implements OnInit {
                       })
                       .subscribe((res) => {
                         if (res) {
-                          //alert("You are not endorsed. Get endorsed now")
                           let arr: any = [
                             this.mint.Blockchain,
                             this.email,

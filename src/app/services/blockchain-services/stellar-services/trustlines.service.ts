@@ -28,14 +28,9 @@ export class TrustlinesService {
     private snackbar : SnackbarServiceService
   ) { }
 
-  changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string) {
+  changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string,_callback?:any) {
     return new Promise((resolve, reject) => {
       this.net =this.network.getNetwork()
-      // if (blockchainNetType === "live") {
-      //   this.networkType=Networks.PUBLIC
-      // } else {
-      //   this.networkType=Networks.TESTNET
-      // }
       var asset = new Asset(asset_code, asset_issuer);
       var opts = { fee: "100" ,networkPassphrase: this.net};
       let server = new Server(blockchainNet);
@@ -76,6 +71,7 @@ export class TrustlinesService {
           resolve(transactionResult);
         })
         .catch((err) => {
+          _callback()
           this.snackbar.openSnackBar("Something went wrong, please try again! More information: "+err, 'error');
           reject(err);
         });

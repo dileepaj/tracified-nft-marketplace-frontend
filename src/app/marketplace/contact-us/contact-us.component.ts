@@ -26,7 +26,7 @@ import {
   styleUrls: ['./contact-us.component.css'],
 })
 export class ContactUsComponent implements OnInit {
-  @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
+  @ViewChild('fileUpload') fileUpload: ElementRef<HTMLInputElement>;
   public controlGroup: FormGroup;
   file: File;
   name: string = '';
@@ -37,14 +37,14 @@ export class ContactUsComponent implements OnInit {
   Encoded: string;
   hash: any;
   binaryString: any;
-  base64textString: string;
+  base64textString: string | any;
   selectedTab: number = 1;
   constructor(
     private apiService: UserFAQService,
     private dialogService: DialogService,
     private snackbarService: SnackbarServiceService,
     private _location: Location
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.controlGroup = new FormGroup({
@@ -84,7 +84,7 @@ export class ContactUsComponent implements OnInit {
       this.userFAQ.desc == ''
     ) {
       this.snackbarService.openSnackBar(
-        SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING, 
+        SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING,
         'info'
       );
     } else {
@@ -100,8 +100,7 @@ export class ContactUsComponent implements OnInit {
             const dialog = this.dialogService.pendingDialog({
               message: PendingDialogText.CONTACT_US_SUBMITTING,
             });
-            this.apiService.addUserFAQ(this.userFAQ).subscribe((res) => {
-            });
+            this.apiService.addUserFAQ(this.userFAQ).subscribe((res) => {});
             dialog.close();
             this.dialogService
               .okDialog({
@@ -132,9 +131,9 @@ export class ContactUsComponent implements OnInit {
     evt.stopPropagation();
     if (evt.target.id === 'cntct-dnd' || evt.target.id === 'cntct-dnd-label') {
       let files = evt.dataTransfer.files;
-      let valid_files: Array<File> = files;
-      this.file = valid_files[0];
-      this.name = this.file.name;
+      const el = this.fileUpload.nativeElement;
+      el.files = files;
+      el.dispatchEvent(new Event('change'));
     }
   }
   private formValue(controlName: string): any {
@@ -144,13 +143,7 @@ export class ContactUsComponent implements OnInit {
   public onChange(event: any) {
     this.file = event.target.files[0];
     this.name = this.file.name;
-    var reader = new FileReader();
-    reader.onload = this._handleReaderLoaded.bind(this);
-    reader.readAsBinaryString(this.file);
-  }
-  private _handleReaderLoaded(readerEvt: any) {
-    var binaryString = readerEvt.target.result;
-    this.base64textString = btoa(binaryString);
+    this.compressImage();
   }
 
   public changeTab(index: number) {
@@ -159,7 +152,84 @@ export class ContactUsComponent implements OnInit {
 
   public removeFile() {
     //this.file = new File();
-    this.name = "";
-    this.base64textString = "";
+    this.name = '';
+    this.base64textString = '';
+  }
+
+  private compressImage() {
+    const img = new Image();
+    img.src = URL.createObjectURL(this.file);
+
+    img.onload = async () => {
+      this.resize(img, 'jpeg').then((blob) => {
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+
+        reader.onloadend = () => {
+          var base64data = reader.result;
+          this.base64textString = base64data;
+        };
+      });
+    };
+  }
+
+  //Used for compressing images
+  private async resize(img, type = 'jpeg') {
+    const MAX_WIDTH = 500;
+    const MAX_HEIGHT = 500;
+    const MAX_SIZE = 73000;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    ctx!.drawImage(img, 0, 0);
+
+    let width = img.width;
+    let height = img.height;
+    let start = 0;
+    let end = 1;
+    let last, accepted, blob;
+
+    // keep portration
+    if (width > height) {
+      if (width > MAX_WIDTH) {
+        height *= MAX_WIDTH / width;
+        width = MAX_WIDTH;
+      }
+    } else {
+      if (height > MAX_HEIGHT) {
+        width *= MAX_HEIGHT / height;
+        height = MAX_HEIGHT;
+      }
+    }
+    canvas.width = width;
+    canvas.height = height;
+
+    ctx!.drawImage(img, 0, 0, width, height);
+
+    accepted = blob = await new Promise((rs) =>
+      canvas.toBlob(rs, 'image/' + type, 1)
+    );
+
+    if (blob.size < MAX_SIZE) {
+      return blob;
+    }
+
+    // Binary search for the right size
+    while (true) {
+      const mid = Math.round(((start + end) / 2) * 100) / 100;
+      if (mid === last) break;
+      last = mid;
+      blob = await new Promise((rs) => canvas.toBlob(rs, 'image/' + type, mid));
+
+      if (blob.size > MAX_SIZE) {
+        end = mid;
+      }
+      if (blob.size < MAX_SIZE) {
+        start = mid;
+        accepted = blob;
+      }
+    }
+
+    return accepted;
   }
 }

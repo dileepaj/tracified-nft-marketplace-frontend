@@ -6,7 +6,7 @@ import { EthereumMarketServiceService } from 'src/app/services/contract-services
 import { ethers } from 'ethers';
 import { PolygonMarketServiceService } from 'src/app/services/contract-services/marketplace-services/polygon-market-service.service';
 import { EthereumMintService } from 'src/app/services/contract-services/ethereum-mint.service';
-import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-metamask',
   templateUrl: './metamask.component.html',
@@ -64,9 +64,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
           value: ethers.utils.parseEther(listingPrice),
         }
       )
-      .catch(error=>{
+      .catch(error=>{       
         _callback()!
-        alert("Something went wrong : "+error.message)
       })
       const tx = await transaction.wait();
       return tx;
@@ -83,7 +82,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       )
       .catch(error=>{
         _callback()!
-        alert("Something went wrong : "+error.message)
       })
       const tx = await transaction.wait();
       return tx;
@@ -113,7 +111,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       )
       .catch(error=>{
         _callback()!
-        alert("Something went wrong : "+error.message)
       })
       const tx = await transaction.wait();
       return tx;
@@ -130,7 +127,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       )
       .catch(error=>{
         _callback()!
-        alert("Something went wrong : "+error.message)
       })
       const tx = await transaction.wait();
       return tx;

@@ -60,7 +60,7 @@ export class EthereumMintService {
     )
     .catch(error=>{
       _callback()!
-      this.snackbarService.openSnackBar("Something went wrong : "+error.message, 'error')
+      this.snackbarService.openSnackBar("Something went wrong : "+"Transcation failed", 'error')
     })
     const tx = await transaction.wait()
     return tx

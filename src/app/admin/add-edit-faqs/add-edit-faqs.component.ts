@@ -67,7 +67,7 @@ export class AddEditFaqsComponent implements OnInit {
       if (res){
         this.faqApiService.updateFAQ(this.userFAQResponse).subscribe((res:any)=>{
           if(res!=null){
-            this.snackbarService.openSnackBar(SnackBarText.FAQ_SUBMISSION_SUCCESS)
+            this.snackbarService.openSnackBar(SnackBarText.FAQ_SUBMISSION_SUCCESS, 'success')
             this.router.navigate(['/admin-dashboard'])
           }
         })

@@ -1,20 +1,19 @@
 <div class="main-div">
   <div class="cont-wrapper">
-
-    <form id="loginForm" [formGroup]="loginForm" >
-      <div fxLayout="row" style="width:100%; height:fit-content; margin-bottom: 20px;">
+    <form id="loginForm" [formGroup]="loginForm" #loginform="ngForm">
+      <div
+        fxLayout="row"
+        style="width: 100%; height: fit-content; margin-bottom: 20px"
+      >
         <mat-icon
-
           class="material-symbols-outlined back-icon"
           (click)="back()"
           matRipple
         >
-            arrow_back
+          arrow_back
         </mat-icon>
-        <div style="flex-grow:1;" fxLayout="row" fxLayoutAlign="center center">
-          <label class="login-title" >
-            Admin Login
-          </label>
+        <div style="flex-grow: 1" fxLayout="row" fxLayoutAlign="center center">
+          <label class="login-title"> Admin Login </label>
         </div>
       </div>
       <div class="login-input-group">
@@ -23,8 +22,18 @@
           <mat-icon matPrefix class="material-symbols-outlined">
             alternate_email
           </mat-icon>
-          <input type="email" matInput name="email" formControlName="username"/>
-          <span></span>
+          <input
+            type="email"
+            matInput
+            name="email"
+            formControlName="username"
+          />
+          <span
+            [class.invalid-border]="
+              (loginForm.get('username')!.touched || loginform.submitted) &&
+              loginForm.get('username')?.errors
+            "
+          ></span>
         </div>
       </div>
       <div class="login-input-group">
@@ -37,27 +46,39 @@
             matInput
             formControlName="password"
           />
-          <span></span>
-          <mat-icon class="material-symbols-outlined" style="color: whitesmoke; cursor: pointer;" (click)="togglePwdVisibility()">
+          <span
+            [class.invalid-border]="
+              (loginForm.get('password')!.touched || loginform.submitted) &&
+              loginForm.get('password')?.hasError('required')
+            "
+          ></span>
+          <mat-icon
+            class="material-symbols-outlined"
+            style="color: whitesmoke; cursor: pointer"
+            (click)="togglePwdVisibility()"
+          >
             {{ !showPassword ? "visibility_off" : "visibility" }}
           </mat-icon>
-
         </div>
-
       </div>
-      <button mat-flat-button type="submit" class="btn-login" [disabled]="loading" (click)="onSubmit()">
+      <button
+        mat-flat-button
+        type="submit"
+        class="btn-login"
+        [disabled]="loading"
+        (click)="onSubmit()"
+      >
         <span [class.spinner]="loading"> </span>
         Log In
       </button>
-        <label style="font-weight: 400; font-size: 20px"
-          >Forgot your credentials?
-          <a
-            href="https://qa.admin.tracified.com/reset-password"
-            style="color: rgba(0, 200, 83, 1)"
-            >Get support</a
-          ></label
-        >
-      </form>
-    </div>
-
+      <label style="font-weight: 400; font-size: 20px"
+        >Forgot your credentials?
+        <a
+          href="https://qa.admin.tracified.com/reset-password"
+          style="color: rgba(0, 200, 83, 1)"
+          >Get support</a
+        ></label
+      >
+    </form>
+  </div>
 </div>

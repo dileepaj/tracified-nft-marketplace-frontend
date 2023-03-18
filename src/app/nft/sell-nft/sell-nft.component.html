@@ -39,17 +39,24 @@
           />
         </button>
       </div>
-      <div class="prev-o" style="align-self: flex-start">
+      <div
+        class="prev-o"
+        style="align-self: flex-start; max-width: 100%"
+        ngStyle.gt-md="max-width: 90%"
+      >
         <label class="owner-s">Creator Name</label>
-        <label class="owner-l">{{ this.NFTList.artistname }}</label>
+        <label class="owner-l">{{ this.NFTList.artistname }} </label>
       </div>
-      <div class="prev-o" style="margin-top:30px; align-self: flex-start">
+      <div
+        class="prev-o"
+        style="margin-top: 30px; align-self: flex-start; max-width: 100%"
+        ngStyle.gt-md="max-width: 90%"
+      >
         <label class="owner-s">Description</label>
         <label class="p-text sum-text" ngStyle.lt-lg="width : 100%">
           {{ this.NFTList.description }}
         </label>
       </div>
-
     </div>
     <div
       class="nft-sell"
@@ -149,8 +156,9 @@
                             href="{{ item.NFTTxnHash }}"
                             target="_blank"
                             class="txn-link"
-                            ><img src="https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/external-link.png"></a
-                          >
+                            ><img
+                              src="https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/external-link.png"
+                          /></a>
                         </mat-icon>
                       </td>
                     </tr>
@@ -169,12 +177,26 @@
             </button>
           </div>
           <div>
-            <form class="sell-form" [formGroup]="controlGroupSell">
+            <form
+              class="sell-form"
+              [formGroup]="controlGroupSell"
+              #sellForm="ngForm"
+            >
               <label class="sell-label"
                 >Enter price and royalty information to proceed.</label
               >
-              <div style="display: flex; flex-direction: row; align-items: center; column-gap: 10px; max-width: 90%; flex-wrap: wrap; row-gap: 20px">
-                  <div
+              <div
+                style="
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  column-gap: 10px;
+                  max-width: 90%;
+                  flex-wrap: wrap;
+                  row-gap: 20px;
+                "
+              >
+                <div
                   class="sell-input-grp"
                   ngStyle.lt-sm="width : 100%"
                   ngStyle.sm="width : 20%"
@@ -194,10 +216,18 @@
                       formControlName="Price"
                       (input)="convertToUSD($event, 'selling')"
                     />
-                    <span></span>
+                    <span
+                      [class.invalid-border]="
+                        (controlGroupSell.get('Price')!.touched ||
+                          sellForm.submitted) &&
+                        controlGroupSell.get('Price')?.errors
+                      "
+                    ></span>
                   </div>
                 </div>
-                <label class="usd-label" ngStyle.lt-sm="margin-top: -20px">${{sellingPriceUSD.toFixed(2)}}</label>
+                <label class="usd-label" ngStyle.lt-sm="margin-top: -20px"
+                  >${{ sellingPriceUSD.toFixed(2) }}</label
+                >
                 <div
                   class="sell-input-grp"
                   ngStyle.lt-sm="width : 100%"
@@ -215,17 +245,25 @@
                       matInput
                       name="Royalty"
                       formControlName="Royalty"
-                      min=0
-                      max=100
-                      placeholder="{{this.Royalty}}"
+                      min="0"
+                      max="100"
+                      placeholder="{{ this.Royalty }}"
                       [readonly]="this.value"
                       (input)="convertToUSD($event, 'royalty')"
                     />
-                    <span></span>
+                    <span
+                      [class.invalid-border]="
+                        (controlGroupSell.get('Royalty')!.touched ||
+                          sellForm.submitted) &&
+                        controlGroupSell.get('Royalty')?.errors
+                      "
+                    ></span>
                     <label class="prefix">%</label>
                   </div>
                 </div>
-                <label class="usd-label" ngStyle.lt-sm="margin-top: -20px">${{royaltyPriceUSD.toFixed(2)}}</label>
+                <label class="usd-label" ngStyle.lt-sm="margin-top: -20px"
+                  >${{ royaltyPriceUSD.toFixed(2) }}</label
+                >
               </div>
 
               <button
@@ -242,4 +280,3 @@
     </div>
   </div>
 </div>
-

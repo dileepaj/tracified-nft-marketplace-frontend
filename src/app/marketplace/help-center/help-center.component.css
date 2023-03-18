@@ -9,7 +9,7 @@
 }
 
 .contact-heading {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -49,7 +49,6 @@
   color: #686868;
 }
 
-
 .required {
   color: rgba(215, 85, 85, 1);
 }
@@ -61,7 +60,7 @@
 }
 
 ::placeholder {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -82,7 +81,7 @@
 .btn-search {
   background: #10ceac;
   border-radius: 20px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -113,8 +112,6 @@
   align-items: center;
 }
 
-
-
 .navigate {
   display: flex;
   flex-direction: row;
@@ -127,14 +124,12 @@
 }
 
 .highlighted-text {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
   line-height: 29px;
   /* identical to box height */
-
-  text-align: center;
 
   color: #10ceac;
 }
@@ -144,7 +139,7 @@
   width: 261px;
   height: 60px;
   border-radius: 16px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -208,5 +203,3 @@
     width: 65%;
   }
 }
-
-

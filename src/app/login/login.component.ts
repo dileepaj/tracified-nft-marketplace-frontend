@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { PopupMessageService } from '../services/snackbar-service/popup-message.service';
 import { AdminUserLogin } from '../entity/AdminUser';
 import { Store } from '@ngrx/store';
+import { SnackbarServiceService } from '../services/snackbar-service/snackbar-service.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -34,7 +35,7 @@ export class LoginComponent implements OnInit {
     private router:Router,
     private _adminAuthService : AdminAuthService,
     private jwt:JwtServiceService,
-    private snackBar : PopupMessageService,
+    private snackBar : SnackbarServiceService,
     private mediaObserver: MediaObserver,
     private _location: Location,
     //private store: Store<AppState>,
@@ -102,12 +103,12 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           this.loading = false;
-          this.snackBar.openSnackBar('Valid username and password required');
+          this.snackBar.openSnackBar('Valid username and password required', 'error');
         },
       });
     }else{
       this.loading = false;
-      this.snackBar.openSnackBar('Valid username and password required');
+      this.snackBar.openSnackBar('Valid username and password required', 'error');
     }
   }
 

@@ -1,9 +1,8 @@
 <div class="step-main-div">
   <p class="heading">Create a new NFT</p>
   <div class="seperator"></div>
-  <form id="mintingForm" [formGroup]="controlGroup">
+  <form id="mintingForm" [formGroup]="controlGroup" #mintForm="ngForm">
     <div class="dnd-outer-div" ngStyle.lt-md="width:100%">
-      <label class="hint"><span class="required">*</span>Required fields</label>
       <div style="display: flex; flex-direction: column">
         <label
           class="normal-text"
@@ -37,7 +36,7 @@
           (loadImageFailed)="loadImageFailed()"
         ></image-cropper>
         <button mat-flat-button class="btn-create" (click)="hideCropper()">
-          Crop
+          Crop and Save
         </button>
       </div>
 
@@ -45,6 +44,7 @@
         <div
           class="dnd-area"
           id="thumb-dnd"
+          #thumbDnd
           ngStyle.lt-md="width: calc(100% - 6px)"
           (click)="triggerThumbnailUpload()"
           *ngIf="showthumbnailContainer"
@@ -120,7 +120,9 @@
         <label class="normal-text" style="margin-bottom: 10px"
           >Upload SVG <span class="required">*</span></label
         >
-        <label class="hint-text">(File types supported: SVG, JPG or PNG)</label>
+        <label class="hint-text"
+          >(File types supported: SVG, JPG or PNG. Max size: 10 MB)</label
+        >
       </div>
       <div
         class="dnd-area"
@@ -214,7 +216,12 @@
           [maxlength]="nftNameLimit"
           (input)="countRemainingCharactersInNftName($event)"
         />
-        <span></span>
+        <span
+          [class.invalid-border]="
+            (controlGroup.get('NFTName')!.touched || mintForm.submitted) &&
+            controlGroup.get('NFTName')?.hasError('required')
+          "
+        ></span>
       </div>
       <mat-hint class="input-hint"
         >{{ nftNameRemainingChars }} characters remaining
@@ -237,7 +244,12 @@
           placeholder="Provide a detailed description of your NFT."
           (input)="countRemainingCharactersInDesc($event)"
         ></textarea>
-        <span></span>
+        <span
+          [class.invalid-border]="
+            (controlGroup.get('Description')!.touched || mintForm.submitted) &&
+            controlGroup.get('Description')?.hasError('required')
+          "
+        ></span>
       </div>
       <mat-hint class="input-hint"
         >{{ descriptionRemainingChars }} characters remaining</mat-hint
@@ -453,10 +465,14 @@
       >
       <mat-form-field
         class="example-chip-list mint-form-field"
+        [class.invalid-chip-list]="
+          (tagCtrl.touched || mintForm.submitted) && !isChipListValid()
+        "
         appearance="outline"
       >
         <mat-chip-list
           #chipList
+          formArrayName="Tags"
           style="position: absolute; top: 15px; left: 10px; right: 10px"
         >
           <mat-chip *ngFor="let tag of tags" (removed)="remove(tag)">
@@ -510,7 +526,12 @@
           formControlName="ArtistName"
           placeholder="Enter name of the creator."
         />
-        <span></span>
+        <span
+          [class.invalid-border]="
+            (controlGroup.get('ArtistName')!.touched || mintForm.submitted) &&
+            controlGroup.get('ArtistName')?.hasError('required')
+          "
+        ></span>
       </div>
     </div>
     <div class="mint-form-group" ngStyle.lt-md="width:100%">
@@ -531,24 +552,17 @@
         <span></span>
       </div>
     </div>
-    <!-- <div class="mint-form-group" ngStyle.lt-md="width:100%">
-      <label class="normal-text">Issuer:</label>
-      <mat-form-field appearance="outline">
-        <input
-          type="text"
-          class="input"
-          matInput
-          name="issuer"
-          formControlName="Issuer"
-          placeholder="Enter issuer."
-        />
-      </mat-form-field>
-    </div> -->
     <div
       class="mint-form-group"
       ngStyle.lt-md="width:100%; display: flex; flex-direction : row;justify-content:center"
     >
-      <button mat-flat-button class="btn-create" (click)="getIssuer()">
+      <button
+        mat-flat-button
+        class="btn-create"
+        style="width: 146px"
+        (click)="getIssuer()"
+        disabled="{{ this.flag }}"
+      >
         Create
       </button>
     </div>

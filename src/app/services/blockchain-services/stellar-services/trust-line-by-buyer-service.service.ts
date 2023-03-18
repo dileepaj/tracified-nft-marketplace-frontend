@@ -13,6 +13,7 @@ import { blockchainNetType } from 'src/app/shared/config';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { UserWallet } from 'src/app/models/userwallet';
 import { StellarCommonsService } from './stellar-commons.service';
+import { SnackbarServiceService } from '../../snackbar-service/snackbar-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class TrustLineByBuyerServiceService {
   userSignedTransaction: any;
 //networkType:any;
   net: Networks;
-  constructor(private network:StellarCommonsService) { }
+  constructor(private network:StellarCommonsService, private snackbar : SnackbarServiceService) { }
   trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string,commission:string) {
 
     return new Promise((resolve, reject) => {
@@ -110,7 +111,7 @@ export class TrustLineByBuyerServiceService {
           resolve(transactionResult);
         })
         .catch((err) => {
-          alert("Something went wrong, please try again! More information: "+err);
+          this.snackbar.openSnackBar("Something went wrong, please try again! More information: "+err, 'error');
           reject(err);
         });
     });

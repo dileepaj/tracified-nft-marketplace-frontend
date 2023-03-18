@@ -39,7 +39,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatFileUploadModule } from 'angular-material-fileupload';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HeaderComponent } from './shared/header/header.component';
@@ -103,6 +102,8 @@ import { NftCardSkeletonComponent } from './nft/nft-card-skeleton/nft-card-skele
 import * as firebase from 'firebase/app'
 import { FirebaseConfig } from 'src/environments/environment';
 import * as fireAnalytics from 'firebase/analytics';
+import { CustomSnackbarComponent } from './dialogs/custom-snackbar/custom-snackbar.component';
+import { AboutUsComponent } from './marketplace/about-us/about-us.component';
 firebase.initializeApp(FirebaseConfig.firebaseConfig);
 
 const appRoutes: Routes = [
@@ -258,6 +259,10 @@ const appRoutes: Routes = [
     component: ContactUsComponent,
   },
   {
+    path: 'about-us',
+    component: AboutUsComponent
+  },
+  {
     path: 'help-center',
     component: HelpCenterComponent,
   },
@@ -352,6 +357,8 @@ const appRoutes: Routes = [
     MintingComponent,
     SellNftConfirmationComponent,
     NftCardSkeletonComponent,
+    CustomSnackbarComponent,
+    AboutUsComponent,
   ],
   imports: [
     BrowserModule,
@@ -369,7 +376,6 @@ const appRoutes: Routes = [
     MatSelectModule,
     HttpClientModule,
     MatStepperModule,
-    MatFileUploadModule,
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
@@ -400,14 +406,14 @@ const appRoutes: Routes = [
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule implements OnInit{
+export class AppModule implements OnInit {
   analytics: any;
-  constructor(){
+  constructor() {
     this.analytics = fireAnalytics.getAnalytics();
   }
   ngOnInit(): void {
     firebase.initializeApp(FirebaseConfig.firebaseConfig);
-    fireAnalytics.logEvent(this.analytics,'initialized', { logged: true, name: 'Marketplace firebase Analytics' })
+    fireAnalytics.logEvent(this.analytics, 'initialized', { logged: true, name: 'Marketplace firebase Analytics' })
   }
-  
+
 }

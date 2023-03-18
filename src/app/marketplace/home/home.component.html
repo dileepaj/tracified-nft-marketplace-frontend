@@ -65,7 +65,7 @@
     </div>
 
     <!--nft block one-->
-    <div class="home-section cont-wrapper">
+    <div class="home-section cont-wrapper" style="margin-bottom: 60px">
       <div class="hot-picks" id="sales">
         <div
           class="hot-picks-header"
@@ -101,7 +101,20 @@
             </button>
           </div>
         </div>
-        <div class="hot-picks-content" id="hot-picks-content">
+        <div
+          class="hot-picks-content"
+          id="hot-picks-content"
+          *ngIf="bestPicksLoading"
+        >
+          <div *ngFor="let item of [0, 1, 2, 3, 4, 5]">
+            <app-nft-card-skeleton></app-nft-card-skeleton>
+          </div>
+        </div>
+        <div
+          class="hot-picks-content"
+          id="hot-picks-content"
+          *ngIf="!bestPicksLoading"
+        >
           <div *ngFor="let item of List; index as i">
             <app-nft-card
               [item]="item"
@@ -153,7 +166,20 @@
             </button>
           </div>
         </div>
-        <div class="hot-picks-content" id="hot-picks-content">
+        <div
+          class="hot-picks-content"
+          id="hot-picks-content"
+          *ngIf="trendingLoading"
+        >
+          <div *ngFor="let item of [0, 1, 2, 3, 4, 5]">
+            <app-nft-card-skeleton></app-nft-card-skeleton>
+          </div>
+        </div>
+        <div
+          class="hot-picks-content"
+          id="hot-picks-content"
+          *ngIf="!trendingLoading"
+        >
           <div *ngFor="let item2 of List2; index as i">
             <app-nft-card
               [item]="item2"

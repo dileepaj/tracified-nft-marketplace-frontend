@@ -4,6 +4,7 @@ import {Observable,Subject} from "rxjs";
 import { Collection } from 'src/app/models/collection';
 import { Issuer, Ownership ,NFT,tags, Minter,StellarTXN,Contracts} from 'src/app/models/minting';
 import { APIConfigENV } from 'src/environments/environment';
+import { SnackbarServiceService } from '../snackbar-service/snackbar-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,8 @@ export class MintService {
   baseUrlMintStellar=this.gateWayBaseURL+'nft/mintStellar';
   baseUrlMintSolana = this.gateWayBaseURL+'nft/mintSolana';
   baseUrlMinter=this.gateWayBaseURL+'nft/minter';
-  baseUrlUpdate=this.nftBackendBaseURL+"marketplace/nft";
-  baseUrlStellarUpdate=this.nftBackendBaseURL+"marketplace/txn";
+  baseUrlUpdate=this.nftBackendBaseURL+'marketplace/nft';
+  baseUrlStellarUpdate=this.nftBackendBaseURL+'marketplace/txn';
   baseUrlGetStellarTXN=this.gateWayBaseURL+'nft/gettxn';
   mint:NFT
   tag:tags
@@ -32,7 +33,7 @@ export class MintService {
 
   readonly headers = new HttpHeaders()
     .set('Content-Type', 'application/json');
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private snackbar : SnackbarServiceService) {}
    
   addOwner(st:Ownership):Observable<Ownership>{
     return this.http.post<Ownership>(this.baseUrlOwner, st, {headers: this.headers});
@@ -74,13 +75,13 @@ export class MintService {
   }
   
   updateNFTSolana(st: Minter): Observable<Minter> {
-    const updateMinterResult: Observable<Minter>= this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
-    return updateMinterResult
+    return this.http.put<Minter>(this.baseUrlUpdate, st, {headers: this.headers});
+    //return updateMinterResult
   }
 
   updateTXNStellar(st: StellarTXN): Observable<StellarTXN> {
-    const stellarTxnUpdateResponse= this.http.put<StellarTXN>(this.baseUrlStellarUpdate, st, {headers: this.headers});
-    return stellarTxnUpdateResponse
+   return this.http.put<StellarTXN>(this.baseUrlStellarUpdate, st, {headers: this.headers});
+   // return stellarTxnUpdateResponse
   }
 
   minNFTStellar(
@@ -133,7 +134,7 @@ export class MintService {
             resolve(response);
           },
           (error) => {
-           alert(error);
+            this.snackbar.openSnackBar(error, 'error');
             reject(error);
           }
         );

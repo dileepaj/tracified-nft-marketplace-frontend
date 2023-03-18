@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  contractAddressNFTPolygon: "0xc89bac690365d942ba49bb020274440dae54ec11",
-  contractAddressMKPolygon: "0x7D591543D2A09ef03AaB1490083943fC69c352Ec",
+  contractAddressNFTPolygon: "0xE6F59c4A3118C0C00155b00331dF07b40DD85569",
+  contractAddressMKPolygon: "0x86E328AD08b5e66B6AcBF7e03DAC74c7b723f5B7",
   contractAddressNFTEthereum: "0x6f09Ecb9e29bF5B1d2C9c39d126FF32dc089F34C",
   contractAddressMKEthereum: "0x7D591543D2A09ef03AaB1490083943fC69c352Ec",
   fromWallet: "4wtzfvaCWvYxzmdh4ajQoj8ep5AuJtUeV8rW3D5biCT7",
@@ -33,9 +33,10 @@ export const adminENV={
 export const APIConfigENV = {
   production: false,
   mode: 'staging',
-  gatewayBaseURL: 'https://qa.gateway.tracified.com/',
-  nftbackendBaseURL: 'https://staging.api.nft.tracified.com/',
-  marketplaceBaseURL:"https://qa.marketplace.nft.tracified.com/",
+  gatewayBaseURL: 'http://localhost:8000/',
+  nftbackendBaseURL: 'http://localhost:6081/',
+  marketplaceBaseURL:"http://localhost:4200/",
+  tracifiedhelpDocsbaseURL:"http://localhost:3000/",
   APIIntervalTimer: 60000,  // 30 seconds
   APIStartDelay: 60000, // 30 seconds
   homepageIntervalTimer: 600000 //10 minutes 600000
@@ -44,9 +45,9 @@ export const APIConfigENV = {
 
 export const BlockchainConfig = {
   production: false,
-  mode: 'staging',
-  solananetwork: 'mainnet-beta',
-  solananetworkURL: 'https://solana-mainnet.g.alchemy.com/v2/rSR0X9jq8qltHn8Tnb16oDa0eovOZf1Y'
+  mode: 'qa',
+  solananetwork: 'devnet',
+  solananetworkURL:'https://api.devnet.solana.com'
 }
 
 export const FirebaseConfig = {

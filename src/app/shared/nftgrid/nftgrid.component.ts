@@ -104,7 +104,7 @@ export class NftgridComponent implements OnInit {
     this.watchlistModel.NFTIdentifier = id;
     this.retrive(this.watchlistModel.Blockchain).then((res) => {
       this.api.addToWatchList(this.watchlistModel).subscribe((res) => {
-        this.snackbarService.openSnackBar('Added to watchlists');
+        this.snackbarService.openSnackBar('Added to watchlists', 'success');
         this.api
           .getWatchlistByBlockchainAndNFTIdentifier(
             this.watchlistModel.Blockchain,
@@ -120,7 +120,7 @@ export class NftgridComponent implements OnInit {
     this.favouritesModel.NFTIdentifier = id;
     this.retrive(this.favouritesModel.Blockchain).then((res) => {
       this.api.addToFavourites(this.favouritesModel).subscribe((res) => {
-        this.snackbarService.openSnackBar('Added to favourites');
+        this.snackbarService.openSnackBar('Added to favourites', 'success');
         this.api
           .getFavouritesByBlockchainAndNFTIdentifier(
             this.favouritesModel.Blockchain,
@@ -163,30 +163,40 @@ export class NftgridComponent implements OnInit {
                 if (this.status == 'Sale') {
                   if (this.nfts.Response[x].sellingstatus == 'ON SALE'  && this.paginationflag==false) {
                     this.Filter(this.nfts.Response[x]);
+                  }else{
+                    this.loading = false;
                   }
                 }
 
                 if (this.status == 'Bought') {
                   if (this.nfts.Response[x].sellingstatus == 'NOTFORSALE'  && this.paginationflag==false) {
                     this.Filter(this.nfts.Response[x]);
+                  }else{
+                    this.loading = false;
                   }
                 }
 
                 if (this.status == 'Mints') {
                   if (this.nfts.Response[x].sellingstatus == 'Minted'  && this.paginationflag==false) {
                     this.Filter(this.nfts.Response[x]);
+                  }else{
+                    this.loading = false;
                   }
                 }
 
                 if (this.status == 'Favourites') {
                   if (this.nfts.Response[x].trending == true  && this.paginationflag==false) {
                     this.Filter(this.nfts.Response[x]);
+                  }else{
+                    this.loading = false;
                   }
                 }
 
                 if (this.status == 'Hotpicks') {
                   if (this.nfts.Response[x].hotpicks == true  && this.paginationflag==false) {
                     this.Filter(this.nfts.Response[x]);
+                  }else{
+                    this.loading = false;
                   }
                 }
               }

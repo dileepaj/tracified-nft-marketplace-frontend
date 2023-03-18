@@ -1,6 +1,7 @@
 pipeline {
-  agent { label 'linux-slave' }
-  tools { nodejs 'nodejs-16.14.2' }
+  agent any
+  tools { nodejs 'nodejs-16' }
+
   stages {
     stage('Build') {
       steps {
@@ -30,25 +31,52 @@ pipeline {
         sh 'echo analysis-step'
       }
     }
-    stage('Deploy to Staging') {
-      when { branch 'staging' }
+    stage('Environment Setup') {
       steps {
-        s3Upload consoleLogLevel: 'INFO', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'staging.marketplace.nft.tracified.com', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: true, selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'dist/**', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'tracified-admin-frontend-jenkins-deployer', userMetadata: []
-
+        script {
+          if (env.BRANCH_NAME == "main") {
+            env.BUCKET_NAME = 'marketplace.nft.tracified.com'
+          } else if(env.BRANCH_NAME == "qa") {
+            env.BUCKET_NAME = 'qa.marketplace.nft.tracified.com'
+          } else if (env.BRANCH_NAME == "staging") {
+            env.BUCKET_NAME = 'staging.marketplace.nft.tracified.com'
+          }
+        }
       }
     }
-     stage('Deploy to QA') {
-      when { branch 'qa' }
-      steps {
-        s3Upload consoleLogLevel: 'INFO', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'qa.marketplace.nft.tracified.com', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: true, selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'dist/**', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'tracified-admin-frontend-jenkins-deployer', userMetadata: []
 
+    stage('Deploy') {
+      when {
+        anyOf {
+          branch 'staging'
+          branch 'qa'
+          branch 'main'
+        }
       }
-    }
-    stage('Deploy to Production') {
-      when { branch 'main' }
       steps {
-        s3Upload consoleLogLevel: 'INFO', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'marketplace.nft.tracified.com', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: true, selectedRegion: 'ap-south-1', showDirectlyInBrowser: false, sourceFile: 'dist/**', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 'tracified-admin-frontend-jenkins-deployer', userMetadata: []
-
+        s3Upload(
+          consoleLogLevel: 'INFO',
+          dontWaitForConcurrentBuildCompletion: false,
+          entries: [[
+            bucket: env.BUCKET_NAME,
+            excludedFile: '',
+            flatten: false,
+            gzipFiles: false,
+            keepForever: false,
+            managedArtifacts: false,
+            noUploadOnFailure: true,
+            selectedRegion: 'ap-south-1',
+            showDirectlyInBrowser: false,
+            sourceFile: 'dist/**',
+            storageClass: 'STANDARD',
+            uploadFromSlave: false,
+            useServerSideEncryption: false
+          ]],
+          pluginFailureResultConstraint: 'FAILURE',
+          profileName: 'tracified-admin-frontend-jenkins-deployer',
+          userMetadata: [],
+          dontSetBuildResultOnFailure: false
+        )
       }
     }
   }

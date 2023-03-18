@@ -31,7 +31,7 @@
         ngStyle.lt-lg="width : 400px; height: 400px"
         ngStyle.lt-sm="width : 100%; "
       >
-        <embed [src]="imageSrc" *ngIf="imageSrc" class="nft-img" >
+        <embed [src]="imageSrc" *ngIf="imageSrc" class="nft-img" />
         <button mat-icon-button class="code-behind-btn" (click)="openDialog()">
           <img
             src="../../../assets/icons/code-icon.png"
@@ -39,17 +39,25 @@
           />
         </button>
       </div>
-      <div class="prev-o" style="align-self: flex-start">
+      <div
+        class="prev-o"
+        style="align-self: flex-start; max-width: 100%"
+        ngStyle.gt-md="max-width: 90%"
+      >
         <label class="owner-s">Creator Name</label>
         <label class="owner-l">{{ this.NFTList.artistname }}</label>
       </div>
-      <div class="prev-o" style="margin-top: 30px; align-self: flex-start">
+      <div
+        class="prev-o"
+        style="margin-top: 30px; align-self: flex-start; max-width: 100%"
+        ngStyle.gt-md="max-width: 90%"
+      >
         <label class="owner-s">Description</label>
         <label class="p-text sum-text" ngStyle.lt-lg="width : 100%">
           {{ this.NFTList.description }}
         </label>
       </div>
-      </div>
+    </div>
 
     <div
       class="nft-sell"
@@ -146,9 +154,13 @@
                       <td width="25%">{{ item.Status }}</td>
                       <td width="25%">
                         <mat-icon class="material-symbols-outlined cursor-p">
-                          <a href="{{ item.NFTTxnHash }}" class="open-link"
-                            target="_blank"><img src="https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/external-link.png"></a
-                          >
+                          <a
+                            href="{{ item.NFTTxnHash }}"
+                            class="open-link"
+                            target="_blank"
+                            ><img
+                              src="https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/external-link.png"
+                          /></a>
                         </mat-icon>
                       </td>
                     </tr>
@@ -164,32 +176,32 @@
                   <span
                     class="review-filter"
                     [class.review-filter-active]="filter === 'latest'"
-                    (click)="setFilter('latest',this.NFTList.nftidentifier)"
+                    (click)="setFilter('latest', this.NFTList.nftidentifier)"
                     >Newest</span
                   >
                   <span
                     class="review-filter"
                     [class.review-filter-active]="filter === 'high'"
-                    (click)="setFilter('high',this.NFTList.nftidentifier)"
+                    (click)="setFilter('high', this.NFTList.nftidentifier)"
                     >Highest</span
                   >
                   <span
                     class="review-filter"
                     [class.review-filter-active]="filter === 'low'"
-                    (click)="setFilter('low',this.NFTList.nftidentifier)"
+                    (click)="setFilter('low', this.NFTList.nftidentifier)"
                     >Lowest</span
                   >
                 </div>
               </div>
               <div class="reviews-cont">
-                <div class="no-reviews-div"  *ngIf="ReviewList.length === 0">
-                    <label>No Reviews.</label>
+                <div class="no-reviews-div" *ngIf="ReviewList.length === 0">
+                  <label>No Reviews.</label>
                 </div>
                 <div *ngIf="ReviewList.length > 0">
                   <div
-                  class="review"
-                  fxLayout="row wrap"
-                  *ngFor="let items of ReviewList"
+                    class="review"
+                    fxLayout="row wrap"
+                    *ngFor="let items of ReviewList"
                   >
                     <div
                       class="user-rating"
@@ -233,16 +245,22 @@
                       fxFlex.md="80%"
                       fxFlex.lt-md="100%"
                     >
-                      <p class="p-text">
+                      <p
+                        class="p-text"
+                        style="max-width: 100%; word-wrap: break-word"
+                      >
                         {{ items.Description }}
-                        <br>
-                        <label class="date"><h5 style="color:aqua">{{ items.Timestamp }}</h5></label>
-                      </p>
 
+                        <br />
+                        <label class="date"
+                          ><h5 style="color: aqua">
+                            {{ items.Timestamp }}
+                          </h5></label
+                        >
+                      </p>
                     </div>
                   </div>
                 </div>
-
               </div>
               <button mat-flat-button class="btn-review" (click)="addReview()">
                 Add Review
@@ -259,8 +277,14 @@
             </button>
           </div>
           <div>
-            <form class="sell-form" [formGroup]="controlGroup">
-              <label class="review-label">Add Your Review</label>
+            <form
+              class="sell-form"
+              [formGroup]="controlGroup"
+              #reviewForm="ngForm"
+            >
+              <label id="reviewLabel" class="review-label"
+                >Add Your Review</label
+              >
               <div
                 style="
                   display: flex;
@@ -288,7 +312,13 @@
                       name="userid"
                       formControlName="userid"
                     />
-                    <span></span>
+                    <span
+                      [class.invalid-border]="
+                        (controlGroup.get('userid')!.touched ||
+                          reviewForm.submitted) &&
+                        controlGroup.get('userid')?.hasError('required')
+                      "
+                    ></span>
                   </div>
                 </div>
                 <div
@@ -431,7 +461,13 @@
                     name="Description"
                     formControlName="description"
                   ></textarea>
-                <span></span>
+                  <span
+                    [class.invalid-border]="
+                      (controlGroup.get('description')!.touched ||
+                        reviewForm.submitted) &&
+                      controlGroup.get('description')?.hasError('required')
+                    "
+                  ></span>
                 </div>
               </div>
               <button

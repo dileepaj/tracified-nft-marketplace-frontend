@@ -16,12 +16,16 @@
             [item]="item"
             [itemId]="i.toString()"
             [blockchain]="item.Blockchain"
-            [creatoruserid]="item.CreatorUserId"   [sellingstatus]="item.SellingStatus" [currentownerpk]="item.CurrentOwnerPK"
+            [creatoruserid]="item.CreatorUserId"
+            [sellingstatus]="item.SellingStatus"
+            [currentownerpk]="item.CurrentOwnerPK"
           ></app-nft-card>
         </div>
       </div>
-      <div class="explore-loading" *ngIf="loading">
-        <app-loader [displayText]="'Loading NFTs...'"></app-loader>
+      <div class="cont-inner" *ngIf="loading">
+        <app-nft-card-skeleton
+          *ngFor="let item of [0, 1, 2, 3]"
+        ></app-nft-card-skeleton>
       </div>
       <div class="explore-no-content" *ngIf="!loading && List.length === 0">
         <img src="../../../assets/images/no-content.png" />

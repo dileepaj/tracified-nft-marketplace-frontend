@@ -436,7 +436,7 @@ export class Mint2Component implements OnInit {
                   }
                 });
             }
-            if (this.wallet == 'albedo') {
+         if (this.wallet == 'albedo') {
               await albedo
                 .publicKey({
                   require_existing: true,
@@ -539,10 +539,11 @@ export class Mint2Component implements OnInit {
                     });
                 });
             }
-          }
-        });
-      }
+        }
+      });
+    }
 
+    
       if (this.mint.Blockchain == 'solana') {
         //minting if blockchain == solana
         let phantomWallet = new UserWallet();

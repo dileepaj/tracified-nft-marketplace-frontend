@@ -5,7 +5,7 @@ import { walletOptions } from 'src/app/models/walletoptions';
 import { Memo, MemoType, Operation, Transaction, Server } from 'stellar-sdk';
 import { signTransaction } from '@stellar/freighter-api';
 import { base64 } from 'ethers/lib/utils';
-import { ENV } from 'src/environments/environment.staging';
+import { ENV } from 'src/environments/environment';
 @Component({
   selector: 'app-freighter',
   templateUrl: './freighter.component.html',

@@ -852,6 +852,7 @@ export class Mint2Component implements OnInit {
                                 err,
                               'error'
                             );
+                            this.flag=false;
                           }
                         });
                     } catch (err) {
@@ -861,7 +862,7 @@ export class Mint2Component implements OnInit {
                           err,
                         'error'
                       );
-                      this.flag =false
+                      this.flag =false;
                     }
                   }
                 });
@@ -923,7 +924,11 @@ export class Mint2Component implements OnInit {
         });
       });
     } else {
-      this.TXNStellar();
+      try{
+        this.TXNStellar();
+      }catch(err){
+        this.flag=false;
+      }
     }
   }
 
@@ -994,11 +999,16 @@ export class Mint2Component implements OnInit {
     //minting nft using stellar
     if (this.mint.CreatorUserId != null) {
       //step 1. - change trust by distributor
-      this.trustService
+      try{
+        this.trustService
         .changeTrustByDistributor(
           this.mint.NFTName,
           this.mint.NFTIssuerPK,
-          userPK
+          userPK,
+          ()=>{
+            this.flag=false;
+            this.pendingDialog.close(false);
+          }
         )
         .then((transactionResult: any) => {
           this.sendToMint3();
@@ -1047,12 +1057,14 @@ export class Mint2Component implements OnInit {
                     this.dissmissLoading();
                   }
                   this.pendingDialog(false);
+                  this.flag=false;
                 });
             } else {
               if (this.isLoadingPresent) {
                 this.dissmissLoading();
               }
               this.pendingDialog(false);
+              this.flag=false;
             }
           } catch (err) {
             this.snackbar.openSnackBar(
@@ -1063,6 +1075,9 @@ export class Mint2Component implements OnInit {
             this.flag = false;
           }
         });
+      }catch(err){
+        this.flag=false;
+      }
     } else {
       this.snackbar.openSnackBar(
         'User PK not connected or not endorsed',

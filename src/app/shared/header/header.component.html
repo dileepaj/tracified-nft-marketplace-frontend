@@ -294,14 +294,13 @@
     <div class="side-nav-search-input-group">
       <form [formGroup]="sideBarControlGroup">
         <input
-        type="text"
-        placeholder="Search here"
-        formControlName="SideBarTag"
-        (keyup.enter)="searchSideBar()"
-      />
-      <mat-icon class="material-symbols-outlined">search</mat-icon>
+          type="text"
+          placeholder="Search here"
+          formControlName="SideBarTag"
+          (keyup.enter)="searchSideBar()"
+        />
+        <mat-icon class="material-symbols-outlined">search</mat-icon>
       </form>
-
     </div>
 
     <br />
@@ -496,6 +495,3 @@
     </div>
   </mat-drawer-content>
 </mat-drawer-container>
-<div *ngIf="loaderService.isLoading | async" class="load-container">
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-</div>

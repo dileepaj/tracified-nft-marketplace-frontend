@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { NFTMarket } from 'src/app/models/nft';
 import { ActivatedRoute, Router } from '@angular/router';
-import CryptoJS from 'crypto-js';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SVG, Track } from 'src/app/models/minting';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';

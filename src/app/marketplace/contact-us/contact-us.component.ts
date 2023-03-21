@@ -7,9 +7,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserFAQ } from 'src/app/models/userFAQ';
-import CryptoJS from 'crypto-js';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { UserFAQService } from 'src/app/services/userFAQService/user-faq.service';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';

@@ -6,7 +6,6 @@ import { Subscription } from 'rxjs';
 import { Mint2, Image, SVG } from 'src/app/models/minting';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-import CryptoJS from 'crypto-js';
 import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { MatDialog } from '@angular/material/dialog';

@@ -140,11 +140,12 @@ export class Mint2Component implements OnInit {
     '',
     false,
     false,
+    '',
     ''
   );
   minter: Minter = new Minter('', '', '', '', '');
   tokenId: number;
-  txn: TXN = new TXN('', '', '', '', '', '');
+  txn: TXN = new TXN('', '', '', '', '', '','');
   svgUpdate: UpdateSVG = new UpdateSVG('', '');
   svg: SVG = new SVG('', '', 'NA', '', '');
   Decryption: any;
@@ -221,7 +222,7 @@ export class Mint2Component implements OnInit {
 
   sendToMint3(): void {
     //getting form data to mint and post
-
+    this.mint.Timestamp=new Date().toString();
     this.mint.Collection = this.formValue('Collection');
     this.mint.Copies = '1';
     this.mint.Categories = 'NFT SVG';
@@ -289,6 +290,7 @@ export class Mint2Component implements OnInit {
     this.txn.NFTName = this.mint.NFTName;
     this.txn.NFTTxnHash = this.mint.NFTTxnHash;
     this.txn.Status = 'Minted';
+    this.txn.Time=new Date().toString();
 
     this.apiService.addTXN(this.txn).subscribe();
   }

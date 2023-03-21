@@ -46,7 +46,7 @@ export class MintComponent implements OnInit {
   loading: boolean;
   imgSrc: any;
   hash: any;
-  svg: SVG = new SVG('', '', 'NA','','');
+  svg: SVG = new SVG('', '', 'NA', '', '');
   mint: Mint2 = new Mint2('', '', '', '', '', this.svg); //declaring model to mint and post
   svgresult;
   email: string = '';
@@ -61,7 +61,7 @@ export class MintComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private dialogService: DialogService,
-    private firebaseanalytics:FirebaseAnalyticsService
+    private firebaseanalytics: FirebaseAnalyticsService
   ) {}
 
   sendToMint2(): void {
@@ -74,12 +74,16 @@ export class MintComponent implements OnInit {
     this.mint.svg = this.svg;
   }
 
-
   ngOnInit(): void {
-    this.firebaseanalytics.logEvent("page_load",{page_name:"wallet_selectionpage"})
+    this.firebaseanalytics.logEvent('page_load', {
+      page_name: 'wallet_selectionpage',
+    });
     //validation of form data
     this.controlGroupMint = new FormGroup({
-      Email: new FormControl(this.email, Validators.required),
+      Email: new FormControl(this.email, [
+        Validators.required,
+        Validators.email,
+      ]),
     });
   }
 
@@ -102,11 +106,17 @@ export class MintComponent implements OnInit {
     if (!this.image) {
       this.snackBar.openSnackBar(SnackBarText.MINT1_UPLOAD_SVG_WARNING, 'info');
     } else if (this.formValue('Collection') == '') {
-      this.snackBar.openSnackBar(SnackBarText.MINT1_COLLECTION_SELECTION_WARNING, 'info');
+      this.snackBar.openSnackBar(
+        SnackBarText.MINT1_COLLECTION_SELECTION_WARNING,
+        'info'
+      );
     } else if (this.formValue('NFTName') == '') {
       this.snackBar.openSnackBar(SnackBarText.MINT1_NFT_NAME_WARNING, 'info');
     } else if (this.formValue('Description') == '') {
-      this.snackBar.openSnackBar(SnackBarText.MINT1_NFT_DESCRIPTION_WARNING, 'info');
+      this.snackBar.openSnackBar(
+        SnackBarText.MINT1_NFT_DESCRIPTION_WARNING,
+        'info'
+      );
     } else {
       this.sendToMint2();
     }
@@ -122,339 +132,288 @@ export class MintComponent implements OnInit {
   }
 
   public async selectWallet(wallet: string) {
-
-    if(wallet=="metamask"){
+    if (this.controlGroupMint.get('Email')?.errors) {
+      this.snackBar.openSnackBar('Please enter a valid email address', 'info');
+      return;
+    }
+    if (wallet == 'metamask') {
       let metamaskwallet = new UserWallet();
       metamaskwallet = new MetamaskComponent(metamaskwallet);
-      await metamaskwallet.initWallelt()
-      var key=  metamaskwallet.getWalletaddress()
-      this.blockchain="ethereum or polygon"
-       if(key!=null){
-        this.firebaseanalytics.logEvent(
-          "wallet_activated:",
-          {
-            wallet_name:wallet,
-          })
-          this.firebaseanalytics.setUserProperties({UserWallet:wallet})
-        this.apiService
-        .getEndorsement(key)
-        .subscribe((result: any) => {
-          if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
-            this.firebaseanalytics.logEvent(
-              "user_account_status",
-              {
-                status_response:result.Status,
-                account_status:'account not endorsed or is Declined',
-                action:"Triggered pop up window",
-                blockchain_name:"Etheruem or Polygon"
-              }
-            )
-            this.dialogService
-              .confirmDialog({
-                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                confirmText: ConfirmDialogText.CONFIRM_BTN,
-                cancelText: ConfirmDialogText.CANCEL_BTN,
-              })
-              .subscribe((res) => {
-                this.firebaseanalytics.logEvent(
-                  'popUp-Triggered',
-                  {
-                    popup_name:"Endorsment Confirmation popup",
-                    Triggered_for : "Etheruem/Polygon",
-                    reason:"User public key not endrosed"
-                  }
-                )
-                if (res) {
-                  this.firebaseanalytics.logEvent(
-                    "popup_response",
-                    {
-                      btn_clicked:"yes",
-                      Triggered_for : "Etheruem/Polygon",
-                    }
-                  )
-                  let arr:any=[this.blockchain,this.email,wallet]
-                  this.firebaseanalytics.logEvent(
-                    "page_change",
-                    {
-                      current_page:"mint1 screen",
-                      page_directed_to:"Endorsment signup page"
-                    }
-                  )
-                  this.router.navigate(['./signUp'], {
-                    queryParams: { data: JSON.stringify(arr) },
-                  });
-                }
-              });
-            }else if(result.Status == 'Pending'){
-              this.dialogService
-              .okDialog({
-                title: "Endorsement in Pending",
-                message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
-                confirmText: ConfirmDialogText.CONFIRM_BTN,
-              })
-            }else{
-              this.proceed.emit({
-                email:this.email,
-                wallet,
-                key:key
-              });
-            }
-          });
-
-       }
-    }
-    if(wallet=="freighter"){
-      let freighter = new UserWallet();
-          freighter = new FreighterComponent(freighter);
-          await freighter.initWallelt();
-          var key =await freighter.getWalletaddress()
-          this.blockchain="stellar"
-       if(key!=null){
-        this.firebaseanalytics.logEvent(
-          "wallet_activated:",
-          {
-            wallet_name:wallet,
-          })
-          this.firebaseanalytics.setUserProperties({UserWallet:wallet})
-        this.apiService
-        .getEndorsement(key)
-        .subscribe((result: any) => {
-          if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
-            this.firebaseanalytics.logEvent(
-              "user_account_status",
-              {
-                status_response:result.Status,
-                account_status:'account not endorsed or is Declined',
-                action:"Triggered pop up window",
-                blockchain_name:"Stellar-Freighter"
-              }
-            )
-            this.dialogService
-              .confirmDialog({
-                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                confirmText: ConfirmDialogText.CONFIRM_BTN,
-                cancelText: ConfirmDialogText.CANCEL_BTN,
-              })
-              .subscribe((res) => {
-                this.firebaseanalytics.logEvent(
-                  'popUp-Triggered',
-                  {
-                    popup_name:"Endorsment Confirmation popup",
-                    Triggered_for : "Stellar-Freighter",
-                    reason:"User public key not endrosed"
-                  }
-                )
-                if (res) {
-                  this.firebaseanalytics.logEvent(
-                    "popup_response",
-                    {
-                      btn_clicked:"yes",
-                      Triggered_for : "Stellar-Freighter",
-                    }
-                  )
-                   let arr:any=[this.blockchain,this.email,wallet]
-                   this.firebaseanalytics.logEvent(
-                    "page_change",
-                    {
-                      current_page:"mint1 screen",
-                      page_directed_to:"Endorsment signup page"
-                    }
-                  )
-                  this.router.navigate(['./signUp'], {
-                    queryParams: { data: JSON.stringify(arr) },
-                  });
-                }
-              });
-            }else if(result.Status == 'Pending'){
-              this.dialogService
-              .okDialog({
-                title: "Endorsement in Pending",
-                message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
-                confirmText: ConfirmDialogText.CONFIRM_BTN,
-              })
-            }else{
-              this.proceed.emit({
-                email:this.email,
-                wallet,
-                key:key
-              });
-            }
-          });
-
-       }
-    }
-
-    if(wallet=="albedo"){
-      await albedo.publicKey({
-        require_existing: true
-    })
-.then((res:any) => {
-        this.albedopk=res.pubkey})
-          var key =this.albedopk
-          this.blockchain="stellar"
-       if(key!=null){
-        this.firebaseanalytics.logEvent(
-          "wallet_activated:",
-          {
-            wallet_name:wallet, 
-          })
-        this.firebaseanalytics.setUserProperties({UserWallet:wallet})
-        this.apiService
-        .getEndorsement(key)
-        .subscribe((result: any) => {
-          if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
-            this.firebaseanalytics.logEvent(
-              "user_account_status",
-              {
-                status_response:result.Status,
-                account_status:'account not endorsed or is Declined',
-                action:"Triggered pop up window",
-                blockchain_name:"Stellar-Albedo"
-              }
-            )
-            this.dialogService
-              .confirmDialog({
-                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                confirmText: ConfirmDialogText.CONFIRM_BTN,
-                cancelText: ConfirmDialogText.CANCEL_BTN,
-              })
-              .subscribe((res) => {
-                this.firebaseanalytics.logEvent(
-                  'popUp-Triggered',
-                  {
-                    popup_name:"Endorsment Confirmation popup",
-                    Triggered_for : "Setellar-Albedo",
-                    reason:"User public key not endrosed"
-                  }
-                )
-                if (res) {
-                  this.firebaseanalytics.logEvent(
-                    "popup_response",
-                    {
-                      btn_clicked:"yes",
-                      Triggered_for : "Stellar-Freighter",
-                    }
-                  )
-                   let arr:any=[this.blockchain,this.email,wallet]
-                   this.firebaseanalytics.logEvent(
-                    "page_change",
-                    {
-                      current_page:"mint1 screen",
-                      page_directed_to:"Endorsment signup page"
-                    }
-                  )
-                  this.router.navigate(['./signUp'], {
-                    queryParams: { data: JSON.stringify(arr) },
-                  });
-                }
-              });
-            }else if(result.Status == 'Pending'){
-              this.dialogService
-              .okDialog({
-                title: "Endorsement in Pending",
-                message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
-                confirmText: ConfirmDialogText.CONFIRM_BTN,
-              })
-            }else{
-              this.proceed.emit({
-                email:this.email,
-                wallet,
-                key:key
-              });
-            }
-          });
-      
-       }else{
-        window.location.href = 'https://albedo.link/';
-       }
-    }
-    if(wallet=="phantom"){
-      let phantomWallet = new UserWallet();
-      phantomWallet = new PhantomComponent(phantomWallet);
-     await phantomWallet.initWallelt()
-     this.blockchain="solana"
-     var key=await phantomWallet.getWalletaddress()
-    if(key!=null){
-      this.firebaseanalytics.logEvent(
-        "wallet_activated:",
-        {
-          wallet_name:wallet,
-        })
-        this.firebaseanalytics.setUserProperties({UserWallet:wallet})
-      this.apiService
-      .getEndorsement(key)
-      .subscribe((result: any) => {
-        if (result.Status == null || result.Status == 'Declined' || result.Status == '') {
-          this.firebaseanalytics.logEvent(
-            "user_account_status",
-            {
-              status_response:result.Status,
-              account_status:'account not endorsed or is Declined',
-              action:"Triggered pop up window",
-              blockchain_name:"Solana"
-            }
-          )
-          this.dialogService
-            .confirmDialog({
-                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                message:ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                confirmText: ConfirmDialogText.CONFIRM_BTN,
-                cancelText: ConfirmDialogText.CANCEL_BTN,
-            })
-            .subscribe((res) => {
-              this.firebaseanalytics.logEvent(
-                'popUp-Triggered',
-                {
-                  popup_name:"Endorsment Confirmation popup",
-                  Triggered_for : "Solana",
-                  reason:"User public key not endrosed"
-                }
-              )
-              if (res) {
-                this.firebaseanalytics.logEvent(
-                  "popup_response",
-                  {
-                    btn_clicked:"yes",
-                    Triggered_for : "Solana",
-                  }
-                )
-                let arr:any=[this.blockchain,this.email,wallet]
-                this.firebaseanalytics.logEvent(
-                  "page_change",
-                  {
-                    current_page:"mint1 screen",
-                    page_directed_to:"Endorsment signup page"
-                  }
-                )
-                this.router.navigate(['./signUp'], {
-                  queryParams: { data: JSON.stringify(arr) },
-                });
-              }
+      await metamaskwallet.initWallelt();
+      var key = metamaskwallet.getWalletaddress();
+      this.blockchain = 'ethereum or polygon';
+      if (key != null) {
+        this.firebaseanalytics.logEvent('wallet_activated:', {
+          wallet_name: wallet,
+        });
+        this.firebaseanalytics.setUserProperties({ UserWallet: wallet });
+        this.apiService.getEndorsement(key).subscribe((result: any) => {
+          if (
+            result.Status == null ||
+            result.Status == 'Declined' ||
+            result.Status == ''
+          ) {
+            this.firebaseanalytics.logEvent('user_account_status', {
+              status_response: result.Status,
+              account_status: 'account not endorsed or is Declined',
+              action: 'Triggered pop up window',
+              blockchain_name: 'Etheruem or Polygon',
             });
-          }else if(result.Status == 'Pending'){
             this.dialogService
-            .okDialog({
-              title: "Endorsement in Pending",
-              message:"Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission",
+              .confirmDialog({
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
+              })
+              .subscribe((res) => {
+                this.firebaseanalytics.logEvent('popUp-Triggered', {
+                  popup_name: 'Endorsment Confirmation popup',
+                  Triggered_for: 'Etheruem/Polygon',
+                  reason: 'User public key not endrosed',
+                });
+                if (res) {
+                  this.firebaseanalytics.logEvent('popup_response', {
+                    btn_clicked: 'yes',
+                    Triggered_for: 'Etheruem/Polygon',
+                  });
+                  let arr: any = [this.blockchain, this.email, wallet];
+                  this.firebaseanalytics.logEvent('page_change', {
+                    current_page: 'mint1 screen',
+                    page_directed_to: 'Endorsment signup page',
+                  });
+                  this.router.navigate(['./signUp'], {
+                    queryParams: { data: JSON.stringify(arr) },
+                  });
+                }
+              });
+          } else if (result.Status == 'Pending') {
+            this.dialogService.okDialog({
+              title: 'Endorsement in Pending',
+              message:
+                'Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission',
               confirmText: ConfirmDialogText.CONFIRM_BTN,
-            })
-          }else{
+            });
+          } else {
             this.proceed.emit({
-              email:this.email,
+              email: this.email,
               wallet,
-              key:key
+              key: key,
             });
           }
         });
+      }
+    }
+    if (wallet == 'freighter') {
+      let freighter = new UserWallet();
+      freighter = new FreighterComponent(freighter);
+      await freighter.initWallelt();
+      var key = await freighter.getWalletaddress();
+      this.blockchain = 'stellar';
+      if (key != null) {
+        this.firebaseanalytics.logEvent('wallet_activated:', {
+          wallet_name: wallet,
+        });
+        this.firebaseanalytics.setUserProperties({ UserWallet: wallet });
+        this.apiService.getEndorsement(key).subscribe((result: any) => {
+          if (
+            result.Status == null ||
+            result.Status == 'Declined' ||
+            result.Status == ''
+          ) {
+            this.firebaseanalytics.logEvent('user_account_status', {
+              status_response: result.Status,
+              account_status: 'account not endorsed or is Declined',
+              action: 'Triggered pop up window',
+              blockchain_name: 'Stellar-Freighter',
+            });
+            this.dialogService
+              .confirmDialog({
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
+              })
+              .subscribe((res) => {
+                this.firebaseanalytics.logEvent('popUp-Triggered', {
+                  popup_name: 'Endorsment Confirmation popup',
+                  Triggered_for: 'Stellar-Freighter',
+                  reason: 'User public key not endrosed',
+                });
+                if (res) {
+                  this.firebaseanalytics.logEvent('popup_response', {
+                    btn_clicked: 'yes',
+                    Triggered_for: 'Stellar-Freighter',
+                  });
+                  let arr: any = [this.blockchain, this.email, wallet];
+                  this.firebaseanalytics.logEvent('page_change', {
+                    current_page: 'mint1 screen',
+                    page_directed_to: 'Endorsment signup page',
+                  });
+                  this.router.navigate(['./signUp'], {
+                    queryParams: { data: JSON.stringify(arr) },
+                  });
+                }
+              });
+          } else if (result.Status == 'Pending') {
+            this.dialogService.okDialog({
+              title: 'Endorsement in Pending',
+              message:
+                'Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission',
+              confirmText: ConfirmDialogText.CONFIRM_BTN,
+            });
+          } else {
+            this.proceed.emit({
+              email: this.email,
+              wallet,
+              key: key,
+            });
+          }
+        });
+      }
+    }
 
-     }
+    if (wallet == 'albedo') {
+      await albedo
+        .publicKey({
+          require_existing: true,
+        })
+        .then((res: any) => {
+          this.albedopk = res.pubkey;
+        });
+      var key = this.albedopk;
+      this.blockchain = 'stellar';
+      if (key != null) {
+        this.firebaseanalytics.logEvent('wallet_activated:', {
+          wallet_name: wallet,
+        });
+        this.firebaseanalytics.setUserProperties({ UserWallet: wallet });
+        this.apiService.getEndorsement(key).subscribe((result: any) => {
+          if (
+            result.Status == null ||
+            result.Status == 'Declined' ||
+            result.Status == ''
+          ) {
+            this.firebaseanalytics.logEvent('user_account_status', {
+              status_response: result.Status,
+              account_status: 'account not endorsed or is Declined',
+              action: 'Triggered pop up window',
+              blockchain_name: 'Stellar-Albedo',
+            });
+            this.dialogService
+              .confirmDialog({
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
+              })
+              .subscribe((res) => {
+                this.firebaseanalytics.logEvent('popUp-Triggered', {
+                  popup_name: 'Endorsment Confirmation popup',
+                  Triggered_for: 'Setellar-Albedo',
+                  reason: 'User public key not endrosed',
+                });
+                if (res) {
+                  this.firebaseanalytics.logEvent('popup_response', {
+                    btn_clicked: 'yes',
+                    Triggered_for: 'Stellar-Freighter',
+                  });
+                  let arr: any = [this.blockchain, this.email, wallet];
+                  this.firebaseanalytics.logEvent('page_change', {
+                    current_page: 'mint1 screen',
+                    page_directed_to: 'Endorsment signup page',
+                  });
+                  this.router.navigate(['./signUp'], {
+                    queryParams: { data: JSON.stringify(arr) },
+                  });
+                }
+              });
+          } else if (result.Status == 'Pending') {
+            this.dialogService.okDialog({
+              title: 'Endorsement in Pending',
+              message:
+                'Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission',
+              confirmText: ConfirmDialogText.CONFIRM_BTN,
+            });
+          } else {
+            this.proceed.emit({
+              email: this.email,
+              wallet,
+              key: key,
+            });
+          }
+        });
+      } else {
+        window.location.href = 'https://albedo.link/';
+      }
+    }
+    if (wallet == 'phantom') {
+      let phantomWallet = new UserWallet();
+      phantomWallet = new PhantomComponent(phantomWallet);
+      await phantomWallet.initWallelt();
+      this.blockchain = 'solana';
+      var key = await phantomWallet.getWalletaddress();
+      if (key != null) {
+        this.firebaseanalytics.logEvent('wallet_activated:', {
+          wallet_name: wallet,
+        });
+        this.firebaseanalytics.setUserProperties({ UserWallet: wallet });
+        this.apiService.getEndorsement(key).subscribe((result: any) => {
+          if (
+            result.Status == null ||
+            result.Status == 'Declined' ||
+            result.Status == ''
+          ) {
+            this.firebaseanalytics.logEvent('user_account_status', {
+              status_response: result.Status,
+              account_status: 'account not endorsed or is Declined',
+              action: 'Triggered pop up window',
+              blockchain_name: 'Solana',
+            });
+            this.dialogService
+              .confirmDialog({
+                title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                cancelText: ConfirmDialogText.CANCEL_BTN,
+              })
+              .subscribe((res) => {
+                this.firebaseanalytics.logEvent('popUp-Triggered', {
+                  popup_name: 'Endorsment Confirmation popup',
+                  Triggered_for: 'Solana',
+                  reason: 'User public key not endrosed',
+                });
+                if (res) {
+                  this.firebaseanalytics.logEvent('popup_response', {
+                    btn_clicked: 'yes',
+                    Triggered_for: 'Solana',
+                  });
+                  let arr: any = [this.blockchain, this.email, wallet];
+                  this.firebaseanalytics.logEvent('page_change', {
+                    current_page: 'mint1 screen',
+                    page_directed_to: 'Endorsment signup page',
+                  });
+                  this.router.navigate(['./signUp'], {
+                    queryParams: { data: JSON.stringify(arr) },
+                  });
+                }
+              });
+          } else if (result.Status == 'Pending') {
+            this.dialogService.okDialog({
+              title: 'Endorsement in Pending',
+              message:
+                'Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission',
+              confirmText: ConfirmDialogText.CONFIRM_BTN,
+            });
+          } else {
+            this.proceed.emit({
+              email: this.email,
+              wallet,
+              key: key,
+            });
+          }
+        });
+      }
     }
   }
-
-  }
-
-
-
+}

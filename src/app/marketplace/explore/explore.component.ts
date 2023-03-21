@@ -498,7 +498,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
             this.Filters(filter);
           }
         } else {
-          alert("Invalid statement!")
+          this.snackbarService.openSnackBar("Invalid statement!","error")
         }
 
       }

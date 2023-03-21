@@ -39,7 +39,7 @@ export class BrowseMarketplaceComponent implements OnInit {
     this.loaderService.isLoading.next(false)
     let status="Pending"
 
-      const timer$ = timer(APIConfigENV.APIStartDelay,APIConfigENV.APIIntervalTimer);
+    const timer$ = timer(0,APIConfigENV.APIIntervalTimer);
     timer$.subscribe((data)=>{
        this.loaderService.isLoading.next(false)
         this.service.getEndorsementByStatus(status).subscribe((data:any)=>{

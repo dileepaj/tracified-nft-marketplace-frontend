@@ -163,7 +163,6 @@ export class ShowNFTComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('hey');
     this.route.queryParams.subscribe((params) => {
       this.data = params['data'];
     });

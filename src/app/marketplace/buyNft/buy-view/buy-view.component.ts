@@ -538,6 +538,7 @@ export class BuyViewComponent implements OnInit {
     this.txn.NFTName = this.NFTList.nftname;
     this.txn.NFTTxnHash = this.buytxn;
     this.txn.Status = 'BOUGHT';
+    this.txn.Time=new Date().toString() ;
 
     this.apiService.addTXN(this.txn).subscribe();
   }

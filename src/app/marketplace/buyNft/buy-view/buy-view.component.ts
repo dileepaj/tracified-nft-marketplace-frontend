@@ -135,7 +135,7 @@ export class BuyViewComponent implements OnInit {
   buytxn: any;
   data: any;
   svg: SVG = new SVG('', '', 'NA', '', '');
-  txn: TXN = new TXN('', '', '', '', '', '');
+  txn: TXN = new TXN('', '', '', '', '', '','');
   dec: string;
   transaction: Uint8Array;
   signer: Uint8Array;
@@ -230,7 +230,6 @@ export class BuyViewComponent implements OnInit {
     this.saleBE.CurrentPrice = this.NFTList.currentprice;
     this.saleBE.Royalty = this.NFTList.royalty;
     this.saleBE.SellingStatus = 'NOTFORSALE';
-    this.saleBE.Timestamp = '2022-04-21:13:41:00';
     this.saleBE.Commission = this.NFTList.commission;
 
     if (this.NFTList.blockchain == 'stellar') {
@@ -310,6 +309,7 @@ export class BuyViewComponent implements OnInit {
                 }
               })
               .then((res) => {
+                this.saleBE.Timestamp =new Date().toString() ;
                 this.ata
                   .createATAforBuyer(
                     this.total,
@@ -413,6 +413,7 @@ export class BuyViewComponent implements OnInit {
               )
               .then((res) => {
                 try {
+                   this.saleBE.Timestamp =new Date().toString() ;
                   this.buytxn = res.transactionHash;
                   this.saveTXNs();
                   this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -478,6 +479,7 @@ export class BuyViewComponent implements OnInit {
               )
               .then((res) => {
                 try {
+                  this.saleBE.Timestamp =new Date().toString() ;
                   this.buytxn = res.transactionHash;
                   this.saveTXNs();
                   this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -575,6 +577,7 @@ export class BuyViewComponent implements OnInit {
                   this.buytxn = transactionResult.hash;
                   this.saveTXNs();
                   this.saleBE.CurrentOwnerPK = this.userPK;
+                  this.saleBE.Timestamp =new Date().toString() ;
                   this.service.updateNFTStatusBackend(this.saleBE).subscribe();
                   this.snackbar.openSnackBar(
                     SnackBarText.BOUGHT_SUCCESS_MESSAGE,
@@ -618,6 +621,7 @@ export class BuyViewComponent implements OnInit {
                     this.buytxn = transactionResult.tx_hash;
                     this.saveTXNs();
                     this.saleBE.CurrentOwnerPK = this.userPK;
+                    this.saleBE.Timestamp =new Date().toString() ;
                     this.service
                       .updateNFTStatusBackend(this.saleBE)
                       .subscribe();
@@ -904,7 +908,13 @@ export class BuyViewComponent implements OnInit {
                 )
                 .subscribe((txn: any) => {
                   for (let x = 0; x < txn.Response.length; x++) {
-                    let card: Track = new Track('', '', '');
+                    let card: Track = new Track('', '', '','');
+                    card.Time=new Date().toString()
+                    const unwantedText = 'GMT+0530 (India Standard Time)';
+                    card.Time = card.Time.replace(
+                      unwantedText,
+                      ''
+                    );
                     card.NFTName = txn.Response[x].NFTName;
                     card.Status = txn.Response[x].Status;
                     if (txn.Response[x].Blockchain == 'ethereum') {

@@ -141,6 +141,7 @@
                 <table class="txn-table">
                   <thead>
                     <tr>
+                      <th>Date</th>
                       <th>Name</th>
                       <th>Status</th>
                       <th>View On Explorer</th>
@@ -148,7 +149,10 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let item of List">
-                      <td width="50%">
+                      <td width="25%">
+                        {{ item.Time }}
+                      </td>
+                      <td width="25%">
                         {{ item.NFTName }}
                       </td>
                       <td width="25%">{{ item.Status }}</td>

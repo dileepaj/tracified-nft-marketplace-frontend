@@ -219,9 +219,8 @@ export class HomeComponent implements OnInit {
 
   public getBestPicksNFTs() {
     this.bestPicksLoading = true;
-    this.nft
-      .getFilteredNFTs('ethereum', 0, 'hotpicks', 8)
-      .subscribe((result: any) => {
+    this.nft.getFilteredNFTs('ethereum', 0, 'hotpicks', 8).subscribe(
+      (result: any) => {
         try {
           const responseArrayLength = result.Response.content.length;
           result.Response.content.forEach(
@@ -305,14 +304,17 @@ export class HomeComponent implements OnInit {
         } catch (e) {
           this.bestPicksLoading = false;
         }
-      });
+      },
+      (err) => {
+        this.bestPicksLoading = false;
+      }
+    );
   }
 
   public getTrendingNFTs() {
     this.trendingLoading = true;
-    this.nft
-      .getFilteredNFTs('ethereum', 0, 'hotpicks', 8)
-      .subscribe((result: any) => {
+    this.nft.getFilteredNFTs('ethereum', 0, 'hotpicks', 8).subscribe(
+      (result: any) => {
         try {
           const responseArrayLength = result.Response.content.length;
           result.Response.content.forEach(
@@ -396,6 +398,10 @@ export class HomeComponent implements OnInit {
         } catch (e) {
           this.trendingLoading = false;
         }
-      });
+      },
+      (err) => {
+        this.trendingLoading = false;
+      }
+    );
   }
 }

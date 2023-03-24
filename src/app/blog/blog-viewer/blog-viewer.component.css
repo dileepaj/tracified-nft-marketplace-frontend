@@ -103,9 +103,9 @@
 }
 
 .story-img {
-  width: 303px;
+  width: 100%;
   max-width: 100%;
-  height: 267px;
+  height: 307px;
   border-radius: 20px;
   object-fit: cover;
 }

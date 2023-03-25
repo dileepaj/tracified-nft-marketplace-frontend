@@ -1097,7 +1097,12 @@ export class Mint2Component implements OnInit {
         .changeTrustByDistributor(
           this.mint.NFTName,
           this.mint.NFTIssuerPK,
-          userPK
+          userPK,
+          ()=>{
+            this.flag=false;
+            this.snackbar.openSnackBar("Transaction Failed: User closed Wallet","error")
+            this.pendingDialog.close(false);
+          }
         )
         .then((transactionResult: any) => {
           this.sendToMint3();

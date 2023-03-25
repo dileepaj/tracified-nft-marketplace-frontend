@@ -13,7 +13,7 @@ export class TrustByDistributorService {
  //networkType:any;
   net: Networks;
   constructor(private network:StellarCommonsService, private snackbar : SnackbarServiceService) { }
-  changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string) {
+  changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string,_callback:any) {
 
     return new Promise((resolve, reject) => {
       this.net =this.network.getNetwork()
@@ -56,8 +56,7 @@ export class TrustByDistributorService {
           resolve(transactionResult);
         })
         .catch((err) => {
-          this.snackbar.openSnackBar("Something went wrong, please try again! More information: "+err, 'error');
-          reject(err);
+          _callback()
         });
     });
   }

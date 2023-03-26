@@ -57,6 +57,7 @@
           (click)="goToExplore('ethereum')"
           fxLayout="row"
           fxLayoutAlign="center center"
+          disabled="true"
         >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/ethereum.png" />
@@ -68,6 +69,7 @@
           (click)="goToExplore('polygon')"
           fxLayout="row"
           fxLayoutAlign="center center"
+          disabled="true"
         >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/polygon.png" />
@@ -93,6 +95,7 @@
           (click)="goToExplore('solana')"
           fxLayout="row"
           fxLayoutAlign="center center"
+          disabled="true"
         >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/solana.png" />
@@ -193,6 +196,7 @@
           (click)="goToOverview('ethereum')"
           fxLayout="row"
           fxLayoutAlign="center center"
+          disabled="true"
         >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/ethereum.png" />
@@ -204,6 +208,7 @@
           (click)="goToOverview('polygon')"
           fxLayout="row"
           fxLayoutAlign="center center"
+          disabled="true"
         >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/polygon.png" />
@@ -229,6 +234,7 @@
           (click)="goToOverview('solana')"
           fxLayout="row"
           fxLayoutAlign="center center"
+          disabled="true"
         >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/solana.png" />
@@ -239,13 +245,13 @@
     </div>
 
     <mat-menu #accmenu="matMenu" class="explore-menu">
-      <button mat-menu-item (click)="goToOverview('ethereum')">
+      <button mat-menu-item (click)="goToOverview('ethereum')" disabled="true">
         <img
           class="bc-icon"
           src="../../../assets/images/ethereum.png"
         />Ethereum
       </button>
-      <button mat-menu-item (click)="goToOverview('polygon')">
+      <button mat-menu-item (click)="goToOverview('polygon')" disabled="true">
         <img class="bc-icon" src="../../../assets/images/polygon.png" />Polygon
       </button>
       <button mat-menu-item (click)="goToOverview('stellar')">
@@ -254,7 +260,7 @@
           src="../../../assets/images/stellar-white.png"
         />Stellar
       </button>
-      <button mat-menu-item (click)="goToOverview('solana')">
+      <button mat-menu-item (click)="goToOverview('solana')" disabled="true">
         <img class="bc-icon" src="../../../assets/images/solana.png" />Solana
       </button>
     </mat-menu>

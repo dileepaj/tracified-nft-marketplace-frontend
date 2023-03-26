@@ -541,103 +541,98 @@ export class BuyViewComponent implements OnInit {
   }
 
   async buyNFTOnStellar(_callback?: any): Promise<void> {
-    this.dialogService
-      .selectWallet({
-        title: SelectWalletText.WALLET_TITLE,
-        message: SelectWalletText.WALLET_MESSAGE,
-        selectA: SelectWalletText.WALLET_ALBEDO,
-        selectF: SelectWalletText.WALLET_FREIGHTER,
-      })
-      .subscribe(async (res: any) => {
-        this.wallet = res;
+    let details = navigator.userAgent;
 
-        if (this.wallet == 'freighter') {
-          let walletf = new UserWallet();
-          walletf = new FreighterComponent(walletf);
-          await walletf.initWallelt();
-          this.userPK = await walletf.getWalletaddress();
-          this.trust
-            .trustlineByBuyer(
-              this.NFTList.nftname,
-              this.NFTList.nftissuerpk,
-              this.userPK,
-              this.NFTList.currentprice,
-              this.NFTList.distributorpk,
-              this.royaltyCharge.toString(),
-              this.commission
-            )
-            .then((transactionResult: any) => {
-              if (transactionResult.successful) {
-                try {
-                  if (this.isLoadingPresent) {
-                    this.dissmissLoading();
-                  }
-                  this.buytxn = transactionResult.hash;
-                  this.saveTXNs();
-                  this.saleBE.CurrentOwnerPK = this.userPK;
-                  this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-                  this.snackbar.openSnackBar(
-                    SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                    'success'
-                  );
-                  this.showInProfile();
-                } catch (err) {
-                  _callback()!;
-                  this.snackbar.openSnackBar(
-                    'Something went wrong, please try again! More information: ' +
-                      err,
-                    'error'
-                  );
-                }
-              } else {
-                if (this.isLoadingPresent) {
-                  this.dissmissLoading();
-                }
-              }
-            });
-        }
-        if (this.wallet == 'albedo') {
-          await albedo
-            .publicKey({
-              require_existing: true,
-            })
-            .then((res: any) => {
-              this.userPK = res.pubkey;
-              this.trustalbedo
-                .trustlineByBuyer(
-                  this.NFTList.nftname,
-                  this.NFTList.nftissuerpk,
-                  this.userPK,
-                  this.NFTList.currentprice,
-                  this.NFTList.distributorpk,
-                  this.royaltyCharge.toString(),
-                  this.commission
-                )
-                .then((transactionResult: any) => {
-                  try {
-                    this.buytxn = transactionResult.tx_hash;
-                    this.saveTXNs();
-                    this.saleBE.CurrentOwnerPK = this.userPK;
-                    this.service
-                      .updateNFTStatusBackend(this.saleBE)
-                      .subscribe();
-                    this.snackbar.openSnackBar(
-                      SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                      'success'
-                    );
-                    this.showInProfile();
-                  } catch (err) {
-                    _callback()!;
-                    this.snackbar.openSnackBar(
-                      'Something went wrong, please try again! More information: ' +
-                        err,
-                      'error'
-                    );
-                  }
-                });
-            });
-        }
+    let regexp = /android|iphone|kindle|ipad/i;
+
+    let isMobileDevice = await regexp.test(details);
+
+    if (isMobileDevice) {
+      await albedo
+      .publicKey({
+        require_existing: true,
+      })
+      .then((res: any) => {
+        this.userPK = res.pubkey;
+        this.trustalbedo
+          .trustlineByBuyer(
+            this.NFTList.nftname,
+            this.NFTList.nftissuerpk,
+            this.userPK,
+            this.NFTList.currentprice,
+            this.NFTList.distributorpk,
+            this.royaltyCharge.toString(),
+            this.commission
+          )
+          .then((transactionResult: any) => {
+            try {
+              this.buytxn = transactionResult.tx_hash;
+              this.saveTXNs();
+              this.saleBE.CurrentOwnerPK = this.userPK;
+              this.service
+                .updateNFTStatusBackend(this.saleBE)
+                .subscribe();
+              this.snackbar.openSnackBar(
+                SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                'success'
+              );
+              this.showInProfile();
+            } catch (err) {
+              _callback()!;
+              this.snackbar.openSnackBar(
+                'Something went wrong, please try again! More information: ' +
+                  err,
+                'error'
+              );
+            }
+          });
       });
+
+    } else {
+      let walletf = new UserWallet();
+      walletf = new FreighterComponent(walletf);
+      await walletf.initWallelt();
+      this.userPK = await walletf.getWalletaddress();
+      this.trust
+        .trustlineByBuyer(
+          this.NFTList.nftname,
+          this.NFTList.nftissuerpk,
+          this.userPK,
+          this.NFTList.currentprice,
+          this.NFTList.distributorpk,
+          this.royaltyCharge.toString(),
+          this.commission
+        )
+        .then((transactionResult: any) => {
+          if (transactionResult.successful) {
+            try {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+              this.buytxn = transactionResult.hash;
+              this.saveTXNs();
+              this.saleBE.CurrentOwnerPK = this.userPK;
+              this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+              this.snackbar.openSnackBar(
+                SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                'success'
+              );
+              this.showInProfile();
+            } catch (err) {
+              _callback()!;
+              this.snackbar.openSnackBar(
+                'Something went wrong, please try again! More information: ' +
+                  err,
+                'error'
+              );
+            }
+          } else {
+            if (this.isLoadingPresent) {
+              this.dissmissLoading();
+            }
+          }
+        });
+    }
   }
 
   dissmissLoading() {

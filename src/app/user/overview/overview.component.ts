@@ -7,6 +7,7 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import { ethers } from 'ethers';
 import { Card, HomeCard, NFTCard } from 'src/app/models/marketPlaceModel';
 import { UserWallet } from 'src/app/models/userwallet';
+import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
@@ -58,7 +59,8 @@ export class OverviewComponent implements OnInit {
     private router: Router,
     private nft: NftServicesService,
     private _sanitizer: DomSanitizer,
-    private walletSideNav: WalletSidenavService
+    private walletSideNav: WalletSidenavService,
+    private service:ApiServicesService
   ) {}
 
   ngOnInit(): void {
@@ -114,16 +116,16 @@ export class OverviewComponent implements OnInit {
              this.status=true
             }
            
-            if(this.nfts.Response[x].trending==true && this.paginationflag==false){
-              this.FilterByTrending(this.nfts.Response[x])
-             this.countD++
-              this.status=true
-            }
-            if(this.nfts.Response[x].hotpicks==true && this.paginationflag==false){
-              this.FilterByHotpicks(this.nfts.Response[x])
-              this.countE++
-              this.status=true
-            }
+            // if(this.nfts.Response[x].trending==true && this.paginationflag==false){
+            //   this.FilterByTrending(this.nfts.Response[x])
+            //  this.countD++
+            //   this.status=true
+            // }
+            // if(this.nfts.Response[x].hotpicks==true && this.paginationflag==false){
+            //   this.FilterByHotpicks(this.nfts.Response[x])
+            //   this.countE++
+            //   this.status=true
+            // }
           }
    
           this.hotPicksLoading  = false;
@@ -148,6 +150,30 @@ export class OverviewComponent implements OnInit {
         }
     }
       )
+      //getwatchlistbyuser
+      //for loop send identifiers and blokchain
+      //get nftby id and bc
+  
+    this.service.getWatchListByUserId(this.user).subscribe((res:any)=>{
+      console.log("-----------------wl ",res)
+      for(let x=0;x<res.length;x++){
+         this.service.getNFTIdAndBlockchain(res[x].nftidentifier,res[x].blockchain).subscribe((resx:any)=>{
+          console.log("resultwatch nft ",resx)
+          this.FilterByTrending(resx.Response)
+         })
+      }
+      
+    })
+
+    this.service.getFavouritesByUserId(this.user).subscribe((res1:any)=>{
+      console.log("-----------------fl ",res1)
+      for(let y=0;y<res1.length;y++){
+        this.service.getNFTIdAndBlockchain(res1[y].nftidentifier,res1[y].blockchain).subscribe((resy:any)=>{
+          console.log("result nft ",resy)
+         this.FilterByHotpicks(resy.Response)
+        })
+      }
+    })
       
     });
   }

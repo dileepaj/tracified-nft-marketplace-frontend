@@ -183,26 +183,35 @@ export class NftgridComponent implements OnInit {
                     this.loading = false;
                   }
                 }
-
-                if (this.status == 'Favourites') {
-                  if (this.nfts.Response[x].trending == true  && this.paginationflag==false) {
-                    this.Filter(this.nfts.Response[x]);
-                  }else{
-                    this.loading = false;
-                  }
-                }
-
-                if (this.status == 'Hotpicks') {
-                  if (this.nfts.Response[x].hotpicks == true  && this.paginationflag==false) {
-                    this.Filter(this.nfts.Response[x]);
-                  }else{
-                    this.loading = false;
-                  }
-                }
               }
               this.loading = false;
             }
           });
+          if (this.status == 'Favourites') {
+            this.api.getWatchListByUserId(this.User).subscribe((res:any)=>{
+              console.log("-----------------wl ",res)
+              for(let x=0;x<res.length;x++){
+                 this.api.getNFTIdAndBlockchain(res[x].nftidentifier,res[x].blockchain).subscribe((resx:any)=>{
+                  console.log("resultwatch nft ",resx)
+                  this.Filter(resx.Response)
+                 })
+              }
+              
+            })
+           }
+
+           if (this.status == 'Hotpicks') { 
+    this.api.getFavouritesByUserId(this.User).subscribe((res1:any)=>{
+      console.log("-----------------fl ",res1)
+      for(let y=0;y<res1.length;y++){
+        this.api.getNFTIdAndBlockchain(res1[y].nftidentifier,res1[y].blockchain).subscribe((resy:any)=>{
+          console.log("result nft ",resy)
+          this.Filter(resy.Response)
+        })
+      }
+    })
+           }
+      
       });
     });
   }

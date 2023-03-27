@@ -84,7 +84,7 @@ export class SellNftComponent implements OnInit {
   tokenid: number;
   itemId: number;
   newATA: any;
-  txn: TXN = new TXN('', '', '', '', '', '');
+  txn: TXN = new TXN('', '', '', '', '', '','');
   selltxn: any;
   transaction: Uint8Array;
   imageSrc: any;
@@ -199,6 +199,7 @@ export class SellNftComponent implements OnInit {
     this.txn.NFTName = this.NFTList.nftname;
     this.txn.NFTTxnHash = this.selltxn;
     this.txn.Status = 'ON SALE';
+    this.txn.Time=new Date().toString();
 
     this.apiService.addTXN(this.txn).subscribe();
   }
@@ -207,7 +208,7 @@ export class SellNftComponent implements OnInit {
     this.saleBE.SellingStatus = 'ON SALE';
     this.saleBE.CurrentPrice = this.sellingPrice.toString();
     this.saleBE.Commission = this.commission.toString();
-    this.saleBE.Timestamp = '2022-4-20:17:28';
+    this.saleBE.Timestamp = new Date().toString();
     this.saleBE.CurrentOwnerPK = this.NFTList.currentownerpk;
     this.saleBE.Royalty = this.royalty.toString();
     this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -430,6 +431,7 @@ export class SellNftComponent implements OnInit {
                     )
                     .then((res: any) => {
                       try {
+                        this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.hash;
                         this.saveTXNs();
                         this.addDBBackend();
@@ -525,6 +527,7 @@ export class SellNftComponent implements OnInit {
                   const signature = await connection.sendRawTransaction(
                     this.transaction
                   );
+                  this.saleBE.Timestamp = new Date().toString();
                   this.selltxn = signature;
                   this.addDBBackend();
                   this.addDBGateway();
@@ -629,6 +632,7 @@ export class SellNftComponent implements OnInit {
                     )
                     .then((res) => {
                       try {
+                        this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.transactionHash;
                         this.itemId = parseInt(res.logs[3].topics[1]);
                         this.saleBE.SellingType = this.itemId.toString();
@@ -748,6 +752,7 @@ export class SellNftComponent implements OnInit {
                     )
                     .then((res) => {
                       try {
+                        this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.transactionHash;
                         this.itemId = parseInt(res.logs[2].topics[1]);
                         this.saleBE.SellingType = this.itemId.toString();
@@ -983,9 +988,15 @@ export class SellNftComponent implements OnInit {
             )
             .subscribe((txn: any) => {
               for (let x = 0; x < txn.Response.length; x++) {
-                let card: Track = new Track('', '', '');
+                let card: Track = new Track('', '', '','');
                 card.NFTName = txn.Response[x].NFTName;
                 card.Status = txn.Response[x].Status;
+                card.Time=txn.Response[x].Time
+                const unwantedText = 'GMT+0530 (India Standard Time)';
+                card.Time = card.Time.replace(
+                  unwantedText,
+                  ''
+                );
                 if (txn.Response[x].Blockchain == 'ethereum') {
                   card.NFTTxnHash =
                     'https://etherscan.io/tx/' + txn.Response[x].NFTTxnHash;

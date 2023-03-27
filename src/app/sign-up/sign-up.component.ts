@@ -87,7 +87,7 @@ export class SignUpComponent implements OnInit {
       this.signerPK = await metamaskwallet.getWalletaddress();
       this.endorse.PublicKey = this.signerPK;
     }
-console.log("Endorsing ",this.endorse)
+    console.log("Endorsing ",this.endorse)
     if (this.endorse.PublicKey != null && this.endorse.Name!="" 
       && this.endorse.Contact!="" && this.endorse.Description!="") {
       //sending data to the service
@@ -114,7 +114,7 @@ console.log("Endorsing ",this.endorse)
       })
 
     } else {
-      this.snackbarSrevice.openSnackBar(SnackBarText.ERROR_MESSAGE, 'error')
+      this.snackbarSrevice.openSnackBar("Please make sure to fill all Feilds", 'info')
     }
   }
 

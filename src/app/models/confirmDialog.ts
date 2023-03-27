@@ -60,6 +60,8 @@ export const ConfirmDialogText = {
   //Mint 1 screen
   MINT1_PK_ENDORSMENT_TITLE: 'Public Key Endorsement',
   MINT1_PK_ENDORSMENT_MESSAGE: 'Are you sure you want to get endorsed?',
+  MINT1_PK_ENDORSMENT_MESSAGE_P1: 'Your public key ',
+  MINT1_PK_ENDORSMENT_MESSAGE_P2: ' Has not been endorsed by Tracified. Do you want to get this key endorsed?',
 
   //Edit profile
   PROFILE_ENDORSMENT_TITLE: 'Get Endorsed',

@@ -130,6 +130,13 @@ export class MintComponent implements OnInit {
     });
   }
 
+  getShortenKey(key:string){
+    let keyPart1 = key.substring(0,4)
+    let keyPart2 = key.substring(key.length-4)
+    let finalkey =`${keyPart1}....${keyPart2}`
+    return finalkey
+  }
+
   public async selectWallet(wallet: string) {
     if (this.controlGroupMint.get('Email')?.errors) {
       this.snackBar.openSnackBar('Please enter a valid email address', 'info');
@@ -161,7 +168,7 @@ export class MintComponent implements OnInit {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE_P1 + `${this.getShortenKey(key)} for Ethereum/Polygon ` + ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE_P2,
                 confirmText: ConfirmDialogText.CONFIRM_BTN,
                 cancelText: ConfirmDialogText.CANCEL_BTN,
               })
@@ -229,7 +236,7 @@ export class MintComponent implements OnInit {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE_P1 + `${this.getShortenKey(key)} for Stellar ` + ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE_P2,
                 confirmText: ConfirmDialogText.CONFIRM_BTN,
                 cancelText: ConfirmDialogText.CANCEL_BTN,
               })
@@ -302,7 +309,7 @@ export class MintComponent implements OnInit {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE_P1 + `${this.getShortenKey(key)} for Stellar ` + ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE_P2,
                 confirmText: ConfirmDialogText.CONFIRM_BTN,
                 cancelText: ConfirmDialogText.CANCEL_BTN,
               })
@@ -372,7 +379,7 @@ export class MintComponent implements OnInit {
             this.dialogService
               .confirmDialog({
                 title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE_P1 + `${this.getShortenKey(key)} for Solana ` + ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE_P2,
                 confirmText: ConfirmDialogText.CONFIRM_BTN,
                 cancelText: ConfirmDialogText.CANCEL_BTN,
               })

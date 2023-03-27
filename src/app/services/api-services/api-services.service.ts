@@ -36,6 +36,7 @@ export class ApiServicesService {
   removeUserfromWatchList = this.nftBackendBaseURL+'watchlist'
   getfavouritebyUserPK = this.nftBackendBaseURL+'verify/favouriteCount/'
   removeUserfromFavourite = this.nftBackendBaseURL+'favourite'
+  getNFTByIdandBC =this.nftBackendBaseURL+'nftstats'
   pageSize : number = 10;
 
   readonly headers = new HttpHeaders()
@@ -85,6 +86,7 @@ export class ApiServicesService {
     //request to get collection name according to user public key
     return this.http.get<WatchList[]>(`${this.baseUrlGetWatchlist}`);
   }
+
 
   getWatchListByBlockchain(Blockchain:string): Observable<WatchList[]> {
     //request to get collection name according to user public key
@@ -201,5 +203,10 @@ export class ApiServicesService {
     getAllStoryByNFTIdAndBlockchain(id:string, blockchain:string):Observable<any> {
       return this.http.get<any>(`${this.baseUrlSaveStory}/${id}/${blockchain}`);
     }
+    
+    getNFTIdAndBlockchain(id:string, blockchain:string):Observable<any> {
+      return this.http.get<any>(`${this.getNFTByIdandBC}/${id}/${blockchain}`);
+    }
+    ///nftstats/{nftidentifier}/{blockchain}
 }
 

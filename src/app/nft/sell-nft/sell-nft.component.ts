@@ -341,7 +341,11 @@ export class SellNftComponent implements OnInit {
                     this.NFTList.nftissuerpk,
                     this.signerpK,
                     '1',
-                    this.sellingPrice
+                    this.sellingPrice,
+                    ()=>{
+                      this.snackbarService.openSnackBar("User Closed wallet","error");
+                      loadingAnimation.close();
+                    }
                   )
                   .then((res: any) => {
                     try {

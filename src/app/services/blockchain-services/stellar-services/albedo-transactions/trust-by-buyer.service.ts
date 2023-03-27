@@ -13,7 +13,7 @@ export class TrustByBuyerService {
   net: Networks;
   constructor(private network:StellarCommonsService, private snackbar : SnackbarServiceService) { }
 
-  trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string,commission:string) {
+  trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string,commission:string,_callback?:any) {
   
         return new Promise((resolve, reject) => {
           this.net =this.network.getNetwork()
@@ -100,7 +100,7 @@ export class TrustByBuyerService {
               resolve(transactionResult);
             })
             .catch((err) => {
-              this.snackbar.openSnackBar("Something went wrong, please try again! More information: "+err, 'error');
+              _callback()
               reject(err);
             });
         });

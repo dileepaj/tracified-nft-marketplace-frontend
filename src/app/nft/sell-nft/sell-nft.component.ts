@@ -285,8 +285,16 @@ export class SellNftComponent implements OnInit {
           this.saleBE.Blockchain = this.NFTList.blockchain;
           if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
             //might be distributor
-
+            this.firstPrice = parseFloat(this.formValue('Price'));
             this.royaltyamount = parseFloat(this.formValue('Royalty'));
+            if (isNaN(this.firstPrice) || parseFloat(this.firstPrice) <= 0) {
+               this.snackbarService.openSnackBar
+                   (
+                      "Price must be a postive numeric value!.",
+                      "info"
+                   )
+               return
+             }
             if (isNaN(+this.royaltyamount)) {
               this.snackbarService.openSnackBar(
                 'Royality must be inputed as a number',
@@ -379,7 +387,17 @@ export class SellNftComponent implements OnInit {
             if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
               //might be distributor
 
+              this.firstPrice = parseFloat(this.formValue('Price'));
               this.royaltyamount = parseFloat(this.formValue('Royalty'));
+              console.log("price: ", this.firstPrice)
+              if (isNaN(this.firstPrice) || parseFloat(this.firstPrice) <= 0) {
+                this.snackbarService.openSnackBar
+                  (
+                    "Price must be a postive numeric value!.",
+                    "info"
+                  )
+                return
+              }
               if (isNaN(+this.royaltyamount)) {
                 this.snackbarService.openSnackBar(
                   'Royality must be inputed as a number',
@@ -451,7 +469,7 @@ export class SellNftComponent implements OnInit {
                         loadingAnimation.close();
                         this.snackbarService.openSnackBar(
                           'Something went wrong, please try again! More information: ' +
-                            err,
+                          err,
                           'error'
                         );
                       }
@@ -473,7 +491,17 @@ export class SellNftComponent implements OnInit {
       if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
         //might be distributor
 
+        this.firstPrice = parseFloat(this.formValue('Price'));
         this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        console.log("price: ", this.firstPrice)
+        if (isNaN(this.firstPrice) || parseFloat(this.firstPrice) <= 0) {
+          this.snackbarService.openSnackBar
+            (
+              "Price must be a postive numeric value!.",
+              "info"
+            )
+          return
+        }
         if (isNaN(+this.royaltyamount)) {
           this.snackbarService.openSnackBar(
             'Royality must be inputed as a number',
@@ -547,7 +575,7 @@ export class SellNftComponent implements OnInit {
                   loadingAnimation.close();
                   this.snackbarService.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                      err,
+                    err,
                     'error'
                   );
                 }
@@ -563,7 +591,17 @@ export class SellNftComponent implements OnInit {
       this.tokenid = parseInt(this.NFTList.nftidentifier);
       if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
         //might be distributor
+        this.firstPrice = parseFloat(this.formValue('Price'));
         this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        console.log("price: ", this.firstPrice)
+        if (isNaN(this.firstPrice) || parseFloat(this.firstPrice) <= 0) {
+          this.snackbarService.openSnackBar
+            (
+              "Price must be a postive numeric value!.",
+              "info"
+            )
+          return
+        }
         if (isNaN(+this.royaltyamount)) {
           this.firebaseanalytics.logEvent('error', {
             reason: 'Invalid data typed entered for royalty',
@@ -654,7 +692,7 @@ export class SellNftComponent implements OnInit {
                         loadingAnimation.close();
                         this.snackbarService.openSnackBar(
                           'Something went wrong, please try again! More information: ' +
-                            err,
+                          err,
                           'error'
                         );
                       }
@@ -668,7 +706,7 @@ export class SellNftComponent implements OnInit {
                   loadingAnimation.close();
                   this.snackbarService.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                      err,
+                    err,
                     'error'
                   );
                 }
@@ -684,7 +722,17 @@ export class SellNftComponent implements OnInit {
       if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
         //might be distributor
 
+        this.firstPrice = parseFloat(this.formValue('Price'));
         this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        console.log("price: ", this.firstPrice)
+        if (isNaN(this.firstPrice) || parseFloat(this.firstPrice) <= 0) {
+          this.snackbarService.openSnackBar
+            (
+              "Price must be a postive numeric value!.",
+              "info"
+            )
+          return
+        }
         if (isNaN(+this.royaltyamount)) {
           this.firebaseanalytics.logEvent('error', {
             reason: 'Invalid data type entered for royalty',
@@ -774,7 +822,7 @@ export class SellNftComponent implements OnInit {
                         loadingAnimation.close();
                         this.snackbarService.openSnackBar(
                           'Something went wrong, please try again! More information: ' +
-                            err,
+                          err,
                           'error'
                         );
                       }
@@ -788,7 +836,7 @@ export class SellNftComponent implements OnInit {
                   loadingAnimation.close();
                   this.snackbarService.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                      err,
+                    err,
                     'error'
                   );
                 }

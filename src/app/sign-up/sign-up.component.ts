@@ -50,6 +50,14 @@ export class SignUpComponent implements OnInit {
     this.endorse.Blockchain = this.blockchain;
     this.endorse.Status = 'Pending';
 
+    const contactRegex = /^\+?[0-9]+$/
+    if (!contactRegex.test(this.endorse.Contact)){
+      this.snackbarSrevice.openSnackBar(
+        "Contact number can only contain numeric values!",
+        "info"
+      );
+      return
+    }
     if (this.endorse.Blockchain == 'stellar') {
       if (this.wallet == "freighter") {
         let freighterWallet = new UserWallet();

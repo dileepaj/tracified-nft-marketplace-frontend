@@ -50,7 +50,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatRippleModule } from '@angular/material/core';
-import { ViewNftCardComponent } from './nft/view-nft-card/view-nft-card.component';
 import { BuyViewComponent } from './marketplace/buyNft/buy-view/buy-view.component';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { CodeviewComponent } from './nft/codeview/codeview.component';
@@ -67,7 +66,6 @@ import { EditProfileComponent } from './user/edit-profile/edit-profile.component
 import { OverviewComponent } from './user/overview/overview.component';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 import { ShowNFTComponent } from './show-nft/show-nft.component';
-import { PutOnResaleComponent } from './put-on-resale/put-on-resale.component';
 import { VerifyComponent } from './verify/verify.component';
 import { DocumentationComponent } from './marketplace/documentation/documentation.component';
 import { FaqComponent } from './marketplace/faq/faq.component';
@@ -241,10 +239,6 @@ const appRoutes: Routes = [
     component: ShowNFTComponent,
   },
   {
-    path: 'nftresale',
-    component: PutOnResaleComponent,
-  },
-  {
     path: 'verify',
     component: VerifyComponent,
   },
@@ -313,7 +307,6 @@ const appRoutes: Routes = [
     FreighterComponent,
     PhantomComponent,
     MetamaskComponent,
-    ViewNftCardComponent,
     BuyViewComponent,
     CodeviewComponent,
     MintPopupComponent,
@@ -327,7 +320,6 @@ const appRoutes: Routes = [
     OverviewComponent,
     ConfirmComponent,
     ShowNFTComponent,
-    PutOnResaleComponent,
     VerifyComponent,
     DocumentationComponent,
     FaqComponent,

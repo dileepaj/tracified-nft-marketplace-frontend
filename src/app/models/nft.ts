@@ -76,7 +76,7 @@ export class SalesBE{
 		public CurrentOwnerPK :string,
 		public Royalty :string,
 		public Blockchain:string,
-		public Commission:string
+		public Commission:string,
 		
     ){}
 }

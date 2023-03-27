@@ -14,6 +14,13 @@
       fxFlex="50%"
       fxFlex.lt-sm="100%"
     >
+    <div fxLayout="row wrap" fxFlex="100%">
+      <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+        >Blockchain</label
+      ><label fxFlex="40%" fxFlex.lt-sm="80%" class="label-data">{{
+        this.data.Blockchain
+      }}</label>
+    </div>
       <div fxLayout="row wrap" fxFlex="100%">
         <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%">Name</label
         ><label fxFlex="40%" fxFlex.lt-sm="80%" class="label-data">{{
@@ -28,6 +35,13 @@
       </div>
       <div fxLayout="row wrap" fxFlex="100%">
         <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+          >Contact</label
+        ><label fxFlex="40%" fxFlex.lt-sm="80%" class="label-data">{{
+          this.data.Contact
+        }}</label>
+      </div>
+      <div fxLayout="row wrap" fxFlex="100%">
+        <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
           >Public Key</label
         ><label fxFlex="40%" fxFlex.lt-sm="80%" class="label-data">{{
           this.data.PublicKey
@@ -35,6 +49,14 @@
       </div>
     </div>
     <div fxLayout="column" fxFlex="50%" fxFlex.lt-sm="100%">
+      <div fxLayout="row wrap" fxFlex="100%">
+        <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
+          >Description</label
+        ><label fxFlex="40%" fxFlex.lt-sm="80%" class="label-data">{{
+          this.data.Description
+        }}
+        </label>
+      </div>
       <div fxLayout="column" fxFlex="100%">
         <label class="label-title" fxFlex="40%" fxFlex.lt-sm="80%"
           >Select Start Rating</label

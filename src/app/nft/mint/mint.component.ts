@@ -293,7 +293,6 @@ export class MintComponent implements OnInit {
       }
 
       } else {
-     
         let freighter = new UserWallet();
         freighter = new FreighterComponent(freighter);
         await freighter.initWallelt();
@@ -512,7 +511,6 @@ export class MintComponent implements OnInit {
          });
        }
       }
-     
     }
     if (wallet == 'phantom') {
       let phantomWallet = new UserWallet();

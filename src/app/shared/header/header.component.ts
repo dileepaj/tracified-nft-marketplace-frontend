@@ -131,7 +131,6 @@ export class HeaderComponent implements OnInit {
 
   public searchSideBar() {
     const tag = this.sideBarControlGroup.get('SideBarTag')!.value;
-    console.log(tag)
     if (tag !== '') {
       this.closeSideNav();
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {

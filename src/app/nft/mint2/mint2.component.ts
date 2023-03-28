@@ -1211,7 +1211,7 @@ export class Mint2Component implements OnInit {
       this.solana = true;
     }
     if (this.email != null) {
-      this.serviceCol.getCollectionName(this.email).subscribe((data: any) => {
+      this.serviceCol.getCollectionNameByMailAndPK(this.email,this.userPK).subscribe((data: any) => {
         if (data != null) {
           this.CollectionList = data;
         } else {

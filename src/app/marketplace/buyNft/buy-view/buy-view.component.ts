@@ -259,6 +259,7 @@ export class BuyViewComponent implements OnInit {
             });
             this.buyNFTOnStellar(() => {
               loadingAnimation.close();
+              return
             });
           }
         });
@@ -568,6 +569,7 @@ export class BuyViewComponent implements OnInit {
             this.commission,
             ()=>{
               this.snackbar.openSnackBar("User closed wallet.","error");
+              _callback()!;
             }
           )
           .then((transactionResult: any) => {
@@ -588,6 +590,8 @@ export class BuyViewComponent implements OnInit {
               this.snackbar.openSnackBar("User closed wallet.","error");
             }
           });
+      }).catch(err=>{
+        _callback()
       });
     } else {
       let walletf = new UserWallet();

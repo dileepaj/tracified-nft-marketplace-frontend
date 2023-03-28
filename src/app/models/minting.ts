@@ -28,6 +28,7 @@ export class NFT{
     public Trending:boolean,
     public HotPicks:boolean,
     public thumbnail:string,
+    public Timestamp:string,
     ){}
 }
 
@@ -167,7 +168,8 @@ export class TXN{
         public Status:string,
         public NFTName:string,
         public ImageURL:string,
-        public NFTTxnHash:string
+        public NFTTxnHash:string,
+        public Time:string
         
     ){}
 }
@@ -176,6 +178,7 @@ export class Track{
     constructor(
         public Status:string,
         public NFTName:string,
+        public Time:string,
         public NFTTxnHash:string
     ){}
 }

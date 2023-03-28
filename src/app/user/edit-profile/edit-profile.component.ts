@@ -62,6 +62,14 @@ export class EditProfileComponent implements OnInit {
     }
     if (this.controlGroupProfile.get('contact')!.value != "") {
       this.endorse.Contact = this.controlGroupProfile.get('contact')!.value;
+      const contactRegex =  /^\+?[0-9]+$/
+      if (!contactRegex.test(this.endorse.Contact)) {
+        this.snackbarSrevice.openSnackBar(
+          "Contact number can only contain numeric values!",
+          "info"
+        );
+        return
+      }
     }
     if (this.controlGroupProfile.get('mail')!.value != "") {
       this.endorse.Email = this.controlGroupProfile.get('mail')!.value;

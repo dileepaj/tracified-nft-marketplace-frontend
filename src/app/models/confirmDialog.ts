@@ -58,8 +58,10 @@ export const ConfirmDialogText = {
   SELL_VIEW_SELL_NFT_MESSAGE: 'Are you sure you want to put this NFT on sale?',
 
   //Mint 1 screen
-  MINT1_PK_ENDORSMENT_TITLE: 'Public Key Endorsment',
+  MINT1_PK_ENDORSMENT_TITLE: 'Public Key Endorsement',
   MINT1_PK_ENDORSMENT_MESSAGE: 'Are you sure you want to get endorsed?',
+  MINT1_PK_ENDORSMENT_MESSAGE_P1: 'Your public key ',
+  MINT1_PK_ENDORSMENT_MESSAGE_P2: ' Has not been endorsed by Tracified. Do you want to get this key endorsed?',
 
   //Edit profile
   PROFILE_ENDORSMENT_TITLE: 'Get Endorsed',
@@ -87,7 +89,7 @@ export const ConfirmDialogText = {
   ADMIN_FAQ_SUBMISSION_Message: 'Are you sure you want to submit this answer?',
 
   //Admin user Endorsement
-  ADMIN_ENDORSE_USER_ACCEPT_TITLE: 'Endorsment Acceptance Confirmation',
+  ADMIN_ENDORSE_USER_ACCEPT_TITLE: 'Endorsement Acceptance Confirmation',
   ADMIN_ENDORSE_USER_DECLINE_TITLE: 'Endorsment Decline Confirmation',
   ADMIN_ENDORSE_USER_ACCEPT_MESSAGE: 'Are you sure you want to accept this endorsement?',
   ADMIN_ENDORSE_USER_DECLINE_MESSAGE: 'Are you sure you want to decline this endorsement?',

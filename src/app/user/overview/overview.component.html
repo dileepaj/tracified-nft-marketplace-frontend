@@ -71,7 +71,7 @@
         Your Hot Picks
       </div>
       <div class="overview-picks-header-actions">
-        <button class="overview-picks-header-btn" (click)="viewall('Hotpicks')">
+        <button class="overview-picks-header-btn" (click)="viewall('hotpicks')">
           View All
         </button>
         <button
@@ -95,8 +95,8 @@
         </button>
       </div>
     </div>
-    <div class="cont-inner" *ngIf="this.status == true ">
-      You have {{this.countE}} NFTS.
+    <div class="cont-inner" *ngIf="!hotPicksLoading">
+      You have {{ ListHotpicks.length }} NFTS.
     </div>
     <div
       class="overview-nft-content"
@@ -132,7 +132,7 @@
         Your Minted NFTs
       </div>
       <div class="overview-picks-header-actions">
-        <button class="overview-picks-header-btn" (click)="viewall('Mints')">
+        <button class="overview-picks-header-btn" (click)="viewall('minted')">
           View All
         </button>
         <button
@@ -156,8 +156,8 @@
         </button>
       </div>
     </div>
-    <div class="cont-inner" *ngIf="this.status == true ">
-      You have {{this.countC}} NFTS.
+    <div class="cont-inner" *ngIf="!mintedLoading">
+      You have {{ ListMinted.length }} NFTS.
     </div>
     <div
       class="overview-nft-content"
@@ -189,7 +189,7 @@
         Items you Bought
       </div>
       <div class="overview-picks-header-actions">
-        <button class="overview-picks-header-btn" (click)="viewall('Bought')">
+        <button class="overview-picks-header-btn" (click)="viewall('bought')">
           View All
         </button>
         <button
@@ -213,8 +213,8 @@
         </button>
       </div>
     </div>
-    <div class="cont-inner" *ngIf="this.status == true ">
-      You have {{this.countB}} NFTS.
+    <div class="cont-inner" *ngIf="!boughtLoading">
+      You have {{ ListBought.length }} NFTS.
     </div>
     <div
       class="overview-nft-content"
@@ -250,10 +250,7 @@
         Your Favourites
       </div>
       <div class="overview-picks-header-actions">
-        <button
-          class="overview-picks-header-btn"
-          (click)="viewall('Favourites')"
-        >
+        <button class="overview-picks-header-btn" (click)="viewall('favorite')">
           View All
         </button>
         <button
@@ -277,8 +274,8 @@
         </button>
       </div>
     </div>
-    <div class="cont-inner" *ngIf="this.status == true">
-      You have {{this.countD}} NFTS.
+    <div class="cont-inner" *ngIf="!favLoading">
+      You have {{ ListTrends.length }} NFTS.
     </div>
     <div class="overview-nft-content" id="hotPicksContent" *ngIf="favLoading">
       <div *ngFor="let item of [0, 1, 2, 3, 4, 5]; index as i">
@@ -306,7 +303,7 @@
         Your NFTS on Sale
       </div>
       <div class="overview-picks-header-actions">
-        <button class="overview-picks-header-btn" (click)="viewall('Sale')">
+        <button class="overview-picks-header-btn" (click)="viewall('onsale')">
           View All
         </button>
         <button
@@ -330,8 +327,8 @@
         </button>
       </div>
     </div>
-    <div class="cont-inner" *ngIf="this.status == true ">
-      You have {{this.countA}} NFTS.
+    <div class="cont-inner" *ngIf="!onSaleLoading">
+      You have {{ ListSales.length }} NFTS.
     </div>
     <div
       class="overview-nft-content"

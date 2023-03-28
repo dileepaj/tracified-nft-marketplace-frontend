@@ -29,37 +29,33 @@
     Choose your preferred wallet. <br />If you don't have a wallet yet, you can
     select a provider and create one now.
   </p>
-  
+
   <div class="wallets" ngStyle.lt-md="width:80%">
     <div
-    class="wallet"
-    (click)="selectWallet('freighter')"
-    ngStyle.lt-md="width:100%"
-  >
-    <div class="wallet-inner-div">
-      <img
-        src="../../../assets/images/freighter.png"
-        class="wallet-logo"
-      /><label class="normal-text">Freighter</label>
-    </div>
-  </div>
-  <div
-  class="wallet"
-  (click)="selectWallet('albedo')"
-  ngStyle.lt-md="width:100%"
->
-  <div class="wallet-inner-div">
-    <img
-      src="../../../assets/images/albedo.png"
-      class="wallet-logo"
-    /><label class="normal-text">Albedo</label>
-  </div>
-</div>
-    <div
-      class="wallet wallet-first-item"
+      class="wallet"
+      (click)="selectWallet('freighter')"
       ngStyle.lt-md="width:100%"
-      disabled="true"
     >
+      <div class="wallet-inner-div">
+        <img
+          src="../../../assets/images/freighter.png"
+          class="wallet-logo"
+        /><label class="normal-text">Freighter</label>
+      </div>
+    </div>
+    <div
+      class="wallet"
+      (click)="selectWallet('albedo')"
+      ngStyle.lt-md="width:100%"
+    >
+      <div class="wallet-inner-div">
+        <img
+          src="../../../assets/images/albedo.png"
+          class="wallet-logo"
+        /><label class="normal-text">Albedo</label>
+      </div>
+    </div>
+    <div class="wallet" ngStyle.lt-md="width:100%" disabled="true">
       <div class="wallet-inner-div">
         <img
           src="../../../assets/images/metamask.png"
@@ -67,13 +63,8 @@
         /><label class="normal-text">Metamask</label>
       </div>
     </div>
-   
-   
-    <div
-      class="wallet wallet-last-item"
-      ngStyle.lt-md="width:100%"
-      disabled="true"
-    >
+
+    <div class="wallet" ngStyle.lt-md="width:100%" disabled="true">
       <div class="wallet-inner-div">
         <img
           src="../../../assets/images/phantom.png"

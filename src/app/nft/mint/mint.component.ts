@@ -444,7 +444,7 @@ export class MintComponent implements OnInit {
         window.location.href = 'https://albedo.link/';
       }
       } else {
-       this.snackBar.openSnackBar("You're on your PC, redirecting with freigter", "info");
+       this.snackBar.openSnackBar("You're on your PC, redirecting with freighter", "info");
        let freighter = new UserWallet();
        freighter = new FreighterComponent(freighter);
        await freighter.initWallelt();

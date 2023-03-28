@@ -353,7 +353,115 @@ export class Mint2Component implements OnInit {
           //  this.apiService.addSVG(this.svg).subscribe();
 
           if (this.mint.NFTIssuerPK != null) {
-            if (this.wallet == 'freighter') {
+            let details = navigator.userAgent;
+
+            let regexp = /android|iphone|kindle|ipad/i;
+      
+            let isMobileDevice = await regexp.test(details);
+      
+            if (isMobileDevice) {
+              await albedo
+              .publicKey({
+                require_existing: true,
+              }).catch(err=>{
+                this.flag=false;
+                this.snackbar.openSnackBar("User closed transaction","error");
+              })
+              .then((res: any) => {
+                this.userPK = res.pubkey;
+                this.mint.CreatorUserId = this.userPK;
+                this.pushTag();
+                this.dialogService
+                  .confirmMintDialog({
+                    promtHeading: 'You are Minting',
+                    nftName: this.mint.NFTName,
+                    thumbnail: this.mint.thumbnail,
+                    feeTypeName: 'Service Fee',
+                    serviceFee: 0.005,
+                    total: 0.005,
+                    blockchain: this.svg.blockchain,
+                    buttonAction: 'Mint Now',
+                  })
+                  .subscribe((res) => {
+                    if (res) {
+                      this.apiService
+                        .getEndorsement(this.userPK)
+                        .subscribe((result: any) => {
+                          if (
+                            result.Status == null ||
+                            result.Status == 'Declined' ||
+                            result.Status == ''
+                          ) {
+                            this.dialogService
+                              .confirmDialog({
+                                title:
+                                  ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
+                                message:
+                                  ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                                confirmText: ConfirmDialogText.CONFIRM_BTN,
+                                cancelText: ConfirmDialogText.CANCEL_BTN,
+                              })
+                              .subscribe((res) => {
+                                if (res) {
+                                  let arr: any = [
+                                    this.mint.Blockchain,
+                                    this.email,
+                                    this.wallet,
+                                  ];
+                                  this.router.navigate(['./signUp'], {
+                                    queryParams: {
+                                      data: JSON.stringify(arr),
+                                    },
+                                  });
+                                }
+                              });
+                          } else if (result.Status == 'Pending') {
+                            this.dialogService.okDialog({
+                              title: 'Endorsement in Pending',
+                              message:
+                                'Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission',
+                              confirmText: ConfirmDialogText.CONFIRM_BTN,
+                            });
+                          } else {
+                            this.pendingDialog =
+                              this.dialogService.mintingDialog({
+                                processTitle: 'Minting',
+                                message:
+                                  PendingDialogText.MINTING_IN_PROGRESS,
+                                nftName: this.mint.NFTName,
+                                thumbnail: this.mint.thumbnail,
+                              });
+                            this.pendingDialog
+                              .afterClosed()
+                              .subscribe((success) => {
+                                if (success) {
+                                  this.firebaseanalytics.logEvent(
+                                    'minting_status',
+                                    {
+                                      blockchain: this.mint.Blockchain,
+                                      result: 'Success',
+                                    }
+                                  );
+                                  this.snackbar.openSnackBar(
+                                    SnackBarText.MINTING_SUCCESSFUL_MESSAGE,
+                                    'success'
+                                  );
+                                }
+                              });
+
+                            this.mintNFTOnAlbedo(this.userPK, () => {
+                              this.pendingDialog.close(false);
+                              this.flag = false;
+                            });
+                          }
+                        });
+                    }
+                    else{
+                      this.flag=false;
+                    }
+                  });
+              });
+            }else{
               let freighter = new UserWallet();
               freighter = new FreighterComponent(freighter);
               await freighter.initWallelt();
@@ -444,112 +552,6 @@ export class Mint2Component implements OnInit {
                   } else {
                     this.flag = false;
                   }
-                });
-            }
-            if (this.wallet == 'albedo') {
-              await albedo
-                .publicKey({
-                  require_existing: true,
-                })
-                .catch((err) => {
-                  this.flag = false;
-                  this.snackbar.openSnackBar(
-                    'User closed transaction',
-                    'error'
-                  );
-                })
-                .then((res: any) => {
-                  this.userPK = res.pubkey;
-                  this.mint.CreatorUserId = this.userPK;
-                  this.pushTag();
-                  this.dialogService
-                    .confirmMintDialog({
-                      promtHeading: 'You are Minting',
-                      nftName: this.mint.NFTName,
-                      thumbnail: this.mint.thumbnail,
-                      feeTypeName: 'Service Fee',
-                      serviceFee: 0.005,
-                      total: 0.005,
-                      blockchain: this.svg.blockchain,
-                      buttonAction: 'Mint Now',
-                    })
-                    .subscribe((res) => {
-                      if (res) {
-                        this.apiService
-                          .getEndorsement(this.userPK)
-                          .subscribe((result: any) => {
-                            if (
-                              result.Status == null ||
-                              result.Status == 'Declined' ||
-                              result.Status == ''
-                            ) {
-                              this.dialogService
-                                .confirmDialog({
-                                  title:
-                                    ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                                  message:
-                                    ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
-                                  confirmText: ConfirmDialogText.CONFIRM_BTN,
-                                  cancelText: ConfirmDialogText.CANCEL_BTN,
-                                })
-                                .subscribe((res) => {
-                                  if (res) {
-                                    let arr: any = [
-                                      this.mint.Blockchain,
-                                      this.email,
-                                      this.wallet,
-                                    ];
-                                    this.router.navigate(['./signUp'], {
-                                      queryParams: {
-                                        data: JSON.stringify(arr),
-                                      },
-                                    });
-                                  }
-                                });
-                            } else if (result.Status == 'Pending') {
-                              this.dialogService.okDialog({
-                                title: 'Endorsement in Pending',
-                                message:
-                                  'Please be informed that your endorsement request has been sent to Tracified and will be reviewed within 48 hours after submission',
-                                confirmText: ConfirmDialogText.CONFIRM_BTN,
-                              });
-                            } else {
-                              this.pendingDialog =
-                                this.dialogService.mintingDialog({
-                                  processTitle: 'Minting',
-                                  message:
-                                    PendingDialogText.MINTING_IN_PROGRESS,
-                                  nftName: this.mint.NFTName,
-                                  thumbnail: this.mint.thumbnail,
-                                });
-                              this.pendingDialog
-                                .afterClosed()
-                                .subscribe((success) => {
-                                  if (success) {
-                                    this.firebaseanalytics.logEvent(
-                                      'minting_status',
-                                      {
-                                        blockchain: this.mint.Blockchain,
-                                        result: 'Success',
-                                      }
-                                    );
-                                    this.snackbar.openSnackBar(
-                                      SnackBarText.MINTING_SUCCESSFUL_MESSAGE,
-                                      'success'
-                                    );
-                                  }
-                                });
-
-                              this.mintNFTOnAlbedo(this.userPK, () => {
-                                this.pendingDialog.close(false);
-                                this.flag = false;
-                              });
-                            }
-                          });
-                      } else {
-                        this.flag = false;
-                      }
-                    });
                 });
             }
           }

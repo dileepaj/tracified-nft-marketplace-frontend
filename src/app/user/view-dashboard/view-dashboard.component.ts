@@ -29,9 +29,9 @@ export class ViewDashboardComponent implements OnInit {
   selectedBlockchain: any;
   User: string;
   Name: any;
-  smallScreen : boolean = false;
+  smallScreen: boolean = false;
   imagePath: any;
-  greeting : string = '';
+  greeting: string = '';
   pk: any;
 
   constructor(
@@ -43,23 +43,19 @@ export class ViewDashboardComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-
-
-  goToOverview(){
+  goToOverview() {
     this.router.navigate(['./user-dashboard/overview'], {
-      queryParams: { user:this.pk,blockchain: this.selectedBlockchain },
+      queryParams: { user: this.pk, blockchain: this.selectedBlockchain },
     });
     this.sideNavOpened = false;
     this.accListExpanded = false;
-
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.selectedBlockchain = params['blockchain']
-      this.pk = params['user']
-      this.retrive(this.selectedBlockchain,this.pk).then(res=>{
-
+      this.selectedBlockchain = params['blockchain'];
+      this.pk = params['user'];
+      this.retrive(this.selectedBlockchain, this.pk).then((res) => {
         this.setGreeting();
         if (window.innerWidth < 1280) {
           this.opened = false;
@@ -68,12 +64,8 @@ export class ViewDashboardComponent implements OnInit {
           this.opened = true;
           this.smallScreen = false;
         }
-      })
-
-
-  
-  
-  })
+      });
+    });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -87,106 +79,104 @@ export class ViewDashboardComponent implements OnInit {
     }
   }
 
-  private setGreeting () {
-    const date = new Date().toLocaleString('en-US', {hour : 'numeric', hour12 : false});
+  private setGreeting() {
+    const date = new Date().toLocaleString('en-US', {
+      hour: 'numeric',
+      hour12: false,
+    });
     let time = Number(date);
-    if(time >= 1 && time < 12 || time == 24) {
+    if ((time >= 1 && time < 12) || time == 24) {
       this.greeting = 'Good Morning';
-    }
-    else if(time >= 12 && time < 16) {
+    } else if (time >= 12 && time < 16) {
       this.greeting = 'Good Afternoon';
-    }
-    else {
+    } else {
       this.greeting = 'Good Evening';
     }
   }
 
-
-  async retrive(blockchain: string,pk:string) {
-   
+  async retrive(blockchain: string, pk: string) {
     if (blockchain == 'stellar') {
       let details = navigator.userAgent;
-     
+
       let regexp = /android|iphone|kindle|ipad/i;
-     
+
       let isMobileDevice = regexp.test(details);
-      
-      if(isMobileDevice) {
-            
-             this.api.getEndorsement(pk).subscribe((res: any) => {
-              if(res.Name != ""){
+
+      if (isMobileDevice) {
+        this.api.getEndorsement(pk).subscribe((res: any) => {
+          if (res.Name != '') {
             if (res.profilepic != '') {
               this.imagePath = res.profilepic;
             } else {
-              this.imagePath = "../../../assets/images/default_profile.png";
+              this.imagePath = '../../../assets/images/default_profile.png';
             }
             this.Name = res.Name;
-          }else{
-            this.Name="New User"
-          }
-          })
-           
-        }else{
-      this.api.getEndorsement(pk).subscribe((res:any)=>{
-        if(res.Name != ""){
-          if (res.profilepic != "") {
-            this.imagePath = res.profilepic;
           } else {
-            this.imagePath = "../../../assets/images/default_profile.png";
+            this.Name = 'New User';
+            this.imagePath = '../../../assets/images/default_profile.png';
           }
-          this.Name = res.Name;
-        }else{
-          this.Name="New User"
-        }
-      })
-    }
+        });
+      } else {
+        this.api.getEndorsement(pk).subscribe((res: any) => {
+          if (res.Name != '') {
+            if (res.profilepic != '') {
+              this.imagePath = res.profilepic;
+            } else {
+              this.imagePath = '../../../assets/images/default_profile.png';
+            }
+            this.Name = res.Name;
+          } else {
+            this.Name = 'New User';
+            this.imagePath = '../../../assets/images/default_profile.png';
+          }
+        });
+      }
     }
 
     if (blockchain == 'solana') {
-      this.api.getEndorsement(pk).subscribe((res:any)=>{
-        if(res.Name != ""){
-          if (res.profilepic != "") {
+      this.api.getEndorsement(pk).subscribe((res: any) => {
+        if (res.Name != '') {
+          if (res.profilepic != '') {
             this.imagePath = res.profilepic;
           } else {
-            this.imagePath = "../../../assets/images/default_profile.png";
+            this.imagePath = '../../../assets/images/default_profile.png';
           }
           this.Name = res.Name;
-        }else{
-          this.Name="New User"
+        } else {
+          this.Name = 'New User';
+          this.imagePath = '../../../assets/images/default_profile.png';
         }
-      })
-
+      });
     }
 
     if (
       blockchain == 'ethereum' ||
       blockchain == 'polygon' ||
-      blockchain=='ethereum or polygon'
+      blockchain == 'ethereum or polygon'
     ) {
-      this.api.getEndorsement(pk).subscribe((res:any)=>{
-        if(res.Name != ""){
-          if (res.profilepic != "") {
+      this.api.getEndorsement(pk).subscribe((res: any) => {
+        if (res.Name != '') {
+          if (res.profilepic != '') {
             this.imagePath = res.profilepic;
           } else {
-            this.imagePath = "../../../assets/images/default_profile.png";
+            this.imagePath = '../../../assets/images/default_profile.png';
           }
           this.Name = res.Name;
-        }else{
-          this.Name="New User"
+        } else {
+          this.Name = 'New User';
+          this.imagePath = '../../../assets/images/default_profile.png';
         }
-      })
+      });
     }
-
   }
 
-  goToEdit(user:any){
+  goToEdit(user: any) {
+    this.router.navigate(['/user-dashboard/edit-profile'], {
+      queryParams: { user: user, blockchain: this.selectedBlockchain },
+    });
 
-    this.router.navigate(['/user-dashboard/edit-profile'],{
-      queryParams:{user:user,blockchain:this.selectedBlockchain}
-      });
-
-      this.closeSideNav();
-}
+    this.closeSideNav();
+  }
 
   public toggleSidenav() {
     this.opened = !this.opened;
@@ -196,21 +186,21 @@ export class ViewDashboardComponent implements OnInit {
     return this.router.url;
   }
 
-  myCollections(id:any){
-    this.router.navigate(['./user-dashboard/mycollections'],{
-      queryParams:{user:id,blockchain:this.selectedBlockchain}
-      })
-      this.closeSideNav();
+  myCollections(id: any) {
+    this.router.navigate(['./user-dashboard/mycollections'], {
+      queryParams: { user: id, blockchain: this.selectedBlockchain },
+    });
+    this.closeSideNav();
   }
 
   public closeSideNav() {
-    if(this.smallScreen) {
+    if (this.smallScreen) {
       this.opened = false;
     }
   }
-  backtoHome(){
+  backtoHome() {
     this.router.navigate(['/user-dashboard/overview'], {
-      queryParams: { user:this.pk,blockchain: this.selectedBlockchain },
+      queryParams: { user: this.pk, blockchain: this.selectedBlockchain },
     });
   }
 }

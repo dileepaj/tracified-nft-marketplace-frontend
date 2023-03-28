@@ -1211,8 +1211,8 @@ export class Mint2Component implements OnInit {
       this.ethereum = true;
       this.solana = true;
     }
-    if (this.email != null) {
-      this.serviceCol.getCollectionNameByMailAndPK(this.email,this.userPK).subscribe((data: any) => {
+    if (this.email != null && this.key!=null) {
+      this.serviceCol.getCollectionNameByMailAndPK(this.email,this.key).subscribe((data: any) => {
         if (data != null) {
           this.CollectionList = data;
         } else {

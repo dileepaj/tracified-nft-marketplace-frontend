@@ -186,36 +186,62 @@ export class NftgridComponent implements OnInit {
       } else if (this.status === 'minted') {
         this.title = 'Mints';
       }
-      
+
       this.loading = true;
       this.retrive(this.blockchain).then((res) => {
-        this.getFilteredNFTs();
-        this.intersectionFilterObserver();
-       this.getPicks();
+        if (this.status == 'favorite' || this.status == 'hotpicks') {
+          this.getPicks();
+        } else {
+          this.getFilteredNFTs();
+          this.intersectionFilterObserver();
+        }
       });
     });
   }
 
-  private getPicks(){
+  private getPicks() {
     if (this.status == 'favorite') {
-      this.api.getFavouritesByUserId(this.User).subscribe((res1:any)=>{
-        for(let y=0;y<res1.length;y++){
-          this.api.getNFTIdAndBlockchain(res1[y].nftidentifier,res1[y].blockchain).subscribe((resy:any)=>{
-            this.Filter(resy.Response)
-          })
+      this.api.getFavouritesByUserId(this.User).subscribe(
+        (res1: any) => {
+          if (res1 != null) {
+            for (let y = 0; y < res1.length; y++) {
+              this.api
+                .getNFTIdAndBlockchain(
+                  res1[y].nftidentifier,
+                  res1[y].blockchain
+                )
+                .subscribe((resy: any) => {
+                  this.Filter(resy.Response);
+                });
+            }
+          } else {
+            this.loading = false;
+          }
+        },
+        (err) => {
+          this.loading = false;
         }
-      })
-     }
-
-     else if (this.status == 'hotpicks') { 
-  this.api.getWatchListByUserId(this.User).subscribe((res:any)=>{
-        for(let x=0;x<res.length;x++){
-           this.api.getNFTIdAndBlockchain(res[x].nftidentifier,res[x].blockchain).subscribe((resx:any)=>{
-            this.Filter(resx.Response)
-           })
+      );
+    } else if (this.status == 'hotpicks') {
+      this.api.getWatchListByUserId(this.User).subscribe(
+        (res: any) => {
+          if (res != null) {
+            for (let x = 0; x < res.length; x++) {
+              this.api
+                .getNFTIdAndBlockchain(res[x].nftidentifier, res[x].blockchain)
+                .subscribe((resx: any) => {
+                  this.Filter(resx.Response);
+                });
+            }
+          } else {
+            this.loading = false;
+          }
+        },
+        (err) => {
+          this.loading = false;
         }
-      });
-  }
+      );
+    }
   }
 
   private getFilteredNFTs() {
@@ -224,139 +250,163 @@ export class NftgridComponent implements OnInit {
     } else {
       this.responseArrayLength = 0;
     }
- if(this.status =="minted" || this.status=="bought" || this.status=="onsale"){
-    this.service
-      .getNFTByBlockchainandUserPaginated(
-        this.blockchain,
-        this.User,
-        this.data[0].toLowerCase(),
-        8,
-        this.currentPage
-      )
-      .subscribe(
-        (result: any) => {
-          try {
-            this.nextPage = result.Response.PaginationInfo.nextpage;
-            this.responseArrayLength += result.Response.content.length;
-            result.Response.content.forEach((cont) => {
-              if (this.paginationflag == false) {
-                this.service
-                  .getSVGByHash(cont.imagebase64)
-                  .subscribe((res: any) => {
-                    this.Decryption = res.Response.Base64ImageSVG;
-                    if (
-                      cont.attachmenttype == 'image/jpeg' ||
-                      cont.attachmenttype == 'image/jpg' ||
-                      cont.attachmenttype == 'image/png'
-                    ) {
-                      this.imageSrc =
-                        this._sanitizer.bypassSecurityTrustResourceUrl(
-                          this.Decryption.toString()
-                        );
-                    } else {
-                      this.dec = btoa(this.Decryption);
-                      var str2 = this.dec.toString();
-                      var str1 = new String('data:image/svg+xml;base64,');
-                      var src = str1.concat(str2.toString());
+    if (
+      this.status == 'minted' ||
+      this.status == 'bought' ||
+      this.status == 'onsale'
+    ) {
+      this.service
+        .getNFTByBlockchainandUserPaginated(
+          this.blockchain,
+          this.User,
+          this.data[0].toLowerCase(),
+          8,
+          this.currentPage
+        )
+        .subscribe(
+          (result: any) => {
+            try {
+              this.nextPage = result.Response.PaginationInfo.nextpage;
+              this.responseArrayLength += result.Response.content.length;
+              result.Response.content.forEach((cont) => {
+                if (this.paginationflag == false) {
+                  this.service
+                    .getSVGByHash(cont.imagebase64)
+                    .subscribe((res: any) => {
+                      this.Decryption = res.Response.Base64ImageSVG;
+                      if (
+                        cont.attachmenttype == 'image/jpeg' ||
+                        cont.attachmenttype == 'image/jpg' ||
+                        cont.attachmenttype == 'image/png'
+                      ) {
+                        this.imageSrc =
+                          this._sanitizer.bypassSecurityTrustResourceUrl(
+                            this.Decryption.toString()
+                          );
+                      } else {
+                        this.dec = btoa(this.Decryption);
+                        var str2 = this.dec.toString();
+                        var str1 = new String('data:image/svg+xml;base64,');
+                        var src = str1.concat(str2.toString());
 
-                      this.imageSrc =
-                        this._sanitizer.bypassSecurityTrustResourceUrl(src);
-                      // if(cont.thumbnail == "") {
-                      //   cont.thumbnail = this.imageSrc;
-                      // }
-                    }
+                        this.imageSrc =
+                          this._sanitizer.bypassSecurityTrustResourceUrl(src);
+                        // if(cont.thumbnail == "") {
+                        //   cont.thumbnail = this.imageSrc;
+                        // }
+                      }
 
-                    this.service
-                      .getThumbnailId(cont.Id)
-                      .subscribe(async (thumbnail: any) => {
-                        this.paginationflag = true;
-                        if (thumbnail == '') {
-                          this.thumbnailSRC = this.imageSrc;
-                        } else {
-                          this.thumbnailSRC =
-                            this._sanitizer.bypassSecurityTrustResourceUrl(
-                              thumbnail.Response.thumbnail
-                            );
-                        }
-                        card.thumbnail = this.thumbnailSRC;
-                        if (card.thumbnail != '') {
-                          this.paginationflag = false;
-                        }
-                      });
-                    let card: NFTCard = new NFTCard(
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      false,
-                      false
-                    );
-                    card.ImageBase64 = this.imageSrc;
-                    // card.thumbnail= cont.thumbnail;
-                    card.Blockchain = cont.blockchain;
-                    card.NFTIdentifier = cont.nftidentifier;
-                    card.NFTName = cont.nftname;
-                    card.Blockchain = cont.blockchain;
-                    card.CreatorUserId = cont.creatoruserid;
-                    card.SellingStatus = cont.sellingstatus;
-                    card.CurrentOwnerPK = cont.currentownerpk;
-                    this.List.push(card);
-                    if (this.List.length === this.responseArrayLength) {
-                      this.loading = false;
-                    }
-                  });
-              }
-            });
-          } catch (e) {
+                      this.service
+                        .getThumbnailId(cont.Id)
+                        .subscribe(async (thumbnail: any) => {
+                          this.paginationflag = true;
+                          if (thumbnail == '') {
+                            this.thumbnailSRC = this.imageSrc;
+                          } else {
+                            this.thumbnailSRC =
+                              this._sanitizer.bypassSecurityTrustResourceUrl(
+                                thumbnail.Response.thumbnail
+                              );
+                          }
+                          card.thumbnail = this.thumbnailSRC;
+                          if (card.thumbnail != '') {
+                            this.paginationflag = false;
+                          }
+                        });
+                      let card: NFTCard = new NFTCard(
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        false,
+                        false
+                      );
+                      card.ImageBase64 = this.imageSrc;
+                      // card.thumbnail= cont.thumbnail;
+                      card.Blockchain = cont.blockchain;
+                      card.NFTIdentifier = cont.nftidentifier;
+                      card.NFTName = cont.nftname;
+                      card.Blockchain = cont.blockchain;
+                      card.CreatorUserId = cont.creatoruserid;
+                      card.SellingStatus = cont.sellingstatus;
+                      card.CurrentOwnerPK = cont.currentownerpk;
+                      this.List.push(card);
+                      if (this.List.length === this.responseArrayLength) {
+                        this.loading = false;
+                      }
+                    });
+                }
+              });
+            } catch (e) {
+              this.loading = false;
+            }
+          },
+          (err) => {
             this.loading = false;
           }
-        },
-        (err) => {
-          this.loading = false;
-        }
-      );
-  }
+        );
+    }
   }
 
   Filter(response: any) {
     this.service.getSVGByHash(response.imagebase64).subscribe((res: any) => {
       this.Decryption = res.Response.Base64ImageSVG;
-      if(response.attachmenttype == "image/jpeg" || response.attachmenttype == "image/jpg" ||response.attachmenttype == "image/png"){
-        this.imageSrc =this._sanitizer.bypassSecurityTrustResourceUrl(this.Decryption.toString())
-      }else{
+      if (
+        response.attachmenttype == 'image/jpeg' ||
+        response.attachmenttype == 'image/jpg' ||
+        response.attachmenttype == 'image/png'
+      ) {
+        this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(
+          this.Decryption.toString()
+        );
+      } else {
         this.dec = btoa(this.Decryption);
-    var str2 = this.dec.toString();
-    var str1 = new String( "data:image/svg+xml;base64,");
-    var src = str1.concat(str2.toString());
-    this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
+        var str2 = this.dec.toString();
+        var str1 = new String('data:image/svg+xml;base64,');
+        var src = str1.concat(str2.toString());
+        this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
       }
-      this.service.getThumbnailId(response.id).subscribe(async(thumbnail:any)=>{
-     
-        this.paginationflag=true
-            if(thumbnail==""){
-                   this.thumbnailSRC=this.imageSrc
-                }else{
-                  this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(thumbnail.Response.thumbnail);
-                }
-      card.thumbnail=this.thumbnailSRC
-      if(card.thumbnail!=""){
-        this.paginationflag=false
-      }
-        })
-       let card: NFTCard = new NFTCard('', '', '', '','','','','',false,false);
+      this.service
+        .getThumbnailId(response.id)
+        .subscribe(async (thumbnail: any) => {
+          this.paginationflag = true;
+          if (thumbnail == '') {
+            this.thumbnailSRC = this.imageSrc;
+          } else {
+            this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
+              thumbnail.Response.thumbnail
+            );
+          }
+          card.thumbnail = this.thumbnailSRC;
+          if (card.thumbnail != '') {
+            this.paginationflag = false;
+          }
+        });
+      let card: NFTCard = new NFTCard(
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        false,
+        false
+      );
       card.ImageBase64 = this.imageSrc;
-     // card.thumbnail=this.thumbnailSRC
+      // card.thumbnail=this.thumbnailSRC
       card.NFTIdentifier = response.nftidentifier;
       card.NFTName = response.nftname;
       card.Blockchain = response.blockchain;
-      card.CreatorUserId=response.creatoruserid;
-      card.CurrentOwnerPK=response.currentownerpk;
-      card.SellingStatus=response.sellingstatus;
-    
+      card.CreatorUserId = response.creatoruserid;
+      card.CurrentOwnerPK = response.currentownerpk;
+      card.SellingStatus = response.sellingstatus;
+
       this.List.push(card);
       this.loading = false;
     });

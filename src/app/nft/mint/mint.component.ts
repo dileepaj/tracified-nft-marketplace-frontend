@@ -218,7 +218,7 @@ export class MintComponent implements OnInit {
       let isMobileDevice = await regexp.test(details);
 
       if (isMobileDevice) {
-        alert("You're on your mobile! Redirecting to Albedo")
+        this.snackBar.openSnackBar('You are on your mobile device, redirecting to albedo', 'info');
         await albedo
         .publicKey({
           require_existing: true,
@@ -444,7 +444,7 @@ export class MintComponent implements OnInit {
         window.location.href = 'https://albedo.link/';
       }
       } else {
-       alert("You're on your PC, redirecting with freigter")
+       this.snackBar.openSnackBar("You're on your PC, redirecting with freigter", "info");
        let freighter = new UserWallet();
        freighter = new FreighterComponent(freighter);
        await freighter.initWallelt();

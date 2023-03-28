@@ -1,3 +1,4 @@
+import albedo from '@albedo-link/intent';
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -53,12 +54,19 @@ export class NftCardComponent implements OnInit {
 
   public async retrive(blockchain: string) {
     if (blockchain == 'stellar') {
-      let freighterWallet = new UserWallet();
-      freighterWallet = new FreighterComponent(freighterWallet);
-      await freighterWallet.initWallelt();
-      this.user=this.watchlistModel.User= this.favouritesModel.User= await freighterWallet.getWalletaddress();
-      
 
+      if(this.checkIfMobileDevice()){
+        await albedo.publicKey({
+          require_existing: true,
+        }).then((res:any)=>{
+          this.user=this.watchlistModel.User= this.favouritesModel.User=res.pubkey
+        })
+      }else{
+        let freighterWallet = new UserWallet();
+        freighterWallet = new FreighterComponent(freighterWallet);
+        await freighterWallet.initWallelt();
+        this.user=this.watchlistModel.User= this.favouritesModel.User= await freighterWallet.getWalletaddress();
+      }
     }
 
     if (blockchain == 'solana') {
@@ -80,6 +88,19 @@ export class NftCardComponent implements OnInit {
 
     }
 
+  }
+
+  private checkIfMobileDevice(): boolean {
+    let details = navigator.userAgent;
+    let regexp = /android|iphone|kindle|ipad/i;
+
+    let isMobileDevice = regexp.test(details);
+
+    if (isMobileDevice) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**

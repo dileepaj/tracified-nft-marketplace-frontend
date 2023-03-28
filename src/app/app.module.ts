@@ -23,8 +23,6 @@ import { BlogViewerComponent } from './blog/blog-viewer/blog-viewer.component';
 import { RichTextEditorComponent } from './blog/rich-text-editor/rich-text-editor.component';
 import { CreateCollectionComponent } from './collections/create-collection/create-collection.component';
 import { ViewCollectionsComponent } from './collections/view-collections/view-collections.component';
-import { AdminNavbarLayoutComponent } from './shared/admin-navbar-layout/admin-navbar-layout.component';
-import { HomeNavbarLayoutComponent } from './shared/home-navbar-layout/home-navbar-layout.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -191,10 +189,10 @@ const appRoutes: Routes = [
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
-    canActivate: [AuthGuard],
+   canActivate: [AuthGuard],
     children: [
       {
-        canActivate: [AuthGuard],
+       canActivate: [AuthGuard],
         path: 'overview',
         component: BrowseMarketplaceComponent,
       },
@@ -303,8 +301,6 @@ const appRoutes: Routes = [
     RichTextEditorComponent,
     CreateCollectionComponent,
     ViewCollectionsComponent,
-    AdminNavbarLayoutComponent,
-    HomeNavbarLayoutComponent,
     Mint2Component,
     Mint3Component,
     HeaderComponent,

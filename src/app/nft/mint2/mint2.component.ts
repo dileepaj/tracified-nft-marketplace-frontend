@@ -554,9 +554,9 @@ export class Mint2Component implements OnInit {
                   }
                 });
             }
-        }
-      });
-    }
+          }
+        });
+      }
 
       if (this.mint.Blockchain == 'solana') {
         //minting if blockchain == solana

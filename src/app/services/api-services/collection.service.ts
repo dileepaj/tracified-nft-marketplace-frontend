@@ -13,6 +13,7 @@ export class CollectionService {
   private readonly nftBackendBaseURL = APIConfigENV.nftbackendBaseURL;
   baseUrlSave: string = this.nftBackendBaseURL + 'collection/save';
   baseUrlGet: string = this.nftBackendBaseURL + 'collection/userpk';
+  baseUrlGetCollection: string = this.nftBackendBaseURL + 'collection/user';
   baseUrlEndorsing: string = this.nftBackendBaseURL + 'endorsement';
   baseUrlNFT: string = this.nftBackendBaseURL + 'nftcollection';
   baseUrlCollection: string = this.nftBackendBaseURL + 'collection';
@@ -53,5 +54,10 @@ export class CollectionService {
     return this.http.get<NFT[]>(
       `${this.baseUrlNFT}/${blockchain}/${collection}/${pageSize}/${pageIndex}`
     );
+  }
+
+  getCollectionNameByMailAndPK(userId: string, publickey:string): Observable<Collection[]> {
+    //request to get collection name according to user public key
+    return this.http.get<Collection[]>(`${this.baseUrlGetCollection}/${userId}/${publickey}`);
   }
 }

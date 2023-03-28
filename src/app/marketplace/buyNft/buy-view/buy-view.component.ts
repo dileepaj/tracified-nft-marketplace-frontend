@@ -259,6 +259,7 @@ export class BuyViewComponent implements OnInit {
             });
             this.buyNFTOnStellar(() => {
               loadingAnimation.close();
+              return
             });
           }
         });
@@ -301,7 +302,6 @@ export class BuyViewComponent implements OnInit {
                 this.NFTList.nftissuerpk
               )
               .then((res: any) => {
-                console.log('result of fiding ata: ', res);
                 if (res == null) {
                   this.atastatus = '0';
                 } else {
@@ -334,7 +334,7 @@ export class BuyViewComponent implements OnInit {
                         )
 
                         .subscribe(async (res: any) => {
-                          console.log('result: ', res);
+
 
                           try {
                             loadingAnimation.close();
@@ -549,8 +549,8 @@ export class BuyViewComponent implements OnInit {
     let regexp = /android|iphone|kindle|ipad/i;
 
     let isMobileDevice = await regexp.test(details);
-
     if (isMobileDevice) {
+      
       await albedo
       .publicKey({
         require_existing: true,
@@ -565,7 +565,11 @@ export class BuyViewComponent implements OnInit {
             this.NFTList.currentprice,
             this.NFTList.distributorpk,
             this.royaltyCharge.toString(),
-            this.commission
+            this.commission,
+            ()=>{
+              this.snackbar.openSnackBar("User closed wallet.","error");
+              _callback()!;
+            }
           )
           .then((transactionResult: any) => {
             try {
@@ -582,13 +586,11 @@ export class BuyViewComponent implements OnInit {
               this.showInProfile();
             } catch (err) {
               _callback()!;
-              this.snackbar.openSnackBar(
-                'Something went wrong, please try again! More information: ' +
-                  err,
-                'error'
-              );
+              this.snackbar.openSnackBar("User closed wallet.","error");
             }
           });
+      }).catch(err=>{
+        _callback()
       });
     } else {
       let walletf = new UserWallet();
@@ -603,7 +605,11 @@ export class BuyViewComponent implements OnInit {
           this.NFTList.currentprice,
           this.NFTList.distributorpk,
           this.royaltyCharge.toString(),
-          this.commission
+          this.commission,
+          ()=>{
+            this.snackbar.openSnackBar("User closed wallet.","error");
+            _callback()!;
+          }
         )
         .then((transactionResult: any) => {
           if (transactionResult.successful) {

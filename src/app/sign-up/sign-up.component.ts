@@ -95,7 +95,6 @@ export class SignUpComponent implements OnInit {
       this.signerPK = await metamaskwallet.getWalletaddress();
       this.endorse.PublicKey = this.signerPK;
     }
-    console.log("Endorsing ",this.endorse)
     if (this.endorse.PublicKey != null && this.endorse.Name!="" 
       && this.endorse.Contact!="" && this.endorse.Description!="") {
       //sending data to the service

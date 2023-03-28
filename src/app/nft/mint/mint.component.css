@@ -5,7 +5,6 @@
   margin-top: 30px;
 }
 
-
 .input {
   caret-color: #fff;
   font-size: 18px;
@@ -13,7 +12,7 @@
 }
 
 .heading {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -32,7 +31,7 @@
 }
 
 ::ng-deep mat-form-field span.mat-form-field-label-wrapper label {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-weight: 400;
   font-size: 16px;
   margin-top: -7px !important;
@@ -84,14 +83,6 @@
   margin-top: 30px;
 }
 
-.wallet-first-item {
-  border-radius: 10px 10px 0px 0px;
-}
-
-.wallet-last-item {
-  border-radius: 0px 0px 10px 10px;
-}
-
 .wallet {
   cursor: pointer;
   display: flex;
@@ -107,6 +98,14 @@
 
 .wallet:hover {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.wallet:first-child {
+  border-radius: 10px 10px 0px 0px;
+}
+
+.wallet:last-child {
+  border-radius: 0px 0px 10px 10px;
 }
 
 .wallet-inner-div {
@@ -129,7 +128,7 @@
 }
 
 ::placeholder {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -146,9 +145,9 @@
   line-height: 33px;
 }
 
-.commingsoon{
+.commingsoon {
   border: 1px solid #848484;
   border-radius: 8px;
   padding: 3px;
-  color:#848484 ;
+  color: #848484;
 }

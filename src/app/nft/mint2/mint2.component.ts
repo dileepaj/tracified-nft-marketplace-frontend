@@ -41,7 +41,7 @@ import { NftServicesService } from 'src/app/services/api-services/nft-services/n
 import { LoaderService } from 'src/app/services/loader/loader.service';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
-import { COMMA, TAB } from '@angular/cdk/keycodes';
+import { COMMA, ENTER, TAB } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Description } from '@ethersproject/properties';
@@ -145,7 +145,7 @@ export class Mint2Component implements OnInit {
   );
   minter: Minter = new Minter('', '', '', '', '');
   tokenId: number;
-  txn: TXN = new TXN('', '', '', '', '', '','');
+  txn: TXN = new TXN('', '', '', '', '', '', '');
   svgUpdate: UpdateSVG = new UpdateSVG('', '');
   svg: SVG = new SVG('', '', 'NA', '', '');
   Decryption: any;
@@ -154,7 +154,7 @@ export class Mint2Component implements OnInit {
   imageSrc: any;
   userPK: string;
   distributor: any;
-  separatorKeysCodes: number[] = [TAB, COMMA];
+  separatorKeysCodes: number[] = [TAB, COMMA, ENTER];
   tagCtrl: FormControl = new FormControl('');
   filteredtags: Observable<string[]>;
   tags: string[] = [];
@@ -222,7 +222,7 @@ export class Mint2Component implements OnInit {
 
   sendToMint3(): void {
     //getting form data to mint and post
-    this.mint.Timestamp=new Date().toString();
+    this.mint.Timestamp = new Date().toString();
     this.mint.Collection = this.formValue('Collection');
     this.mint.Copies = '1';
     this.mint.Categories = 'NFT SVG';
@@ -290,7 +290,7 @@ export class Mint2Component implements OnInit {
     this.txn.NFTName = this.mint.NFTName;
     this.txn.NFTTxnHash = this.mint.NFTTxnHash;
     this.txn.Status = 'Minted';
-    this.txn.Time=new Date().toString();
+    this.txn.Time = new Date().toString();
 
     this.apiService.addTXN(this.txn).subscribe();
   }
@@ -432,19 +432,22 @@ export class Mint2Component implements OnInit {
                           });
                         }
                       });
-                  }
-                  else{
-                    this.flag=false;
+                  } else {
+                    this.flag = false;
                   }
                 });
             }
-         if (this.wallet == 'albedo') {
+            if (this.wallet == 'albedo') {
               await albedo
                 .publicKey({
                   require_existing: true,
-                }).catch(err=>{
-                  this.flag=false;
-                  this.snackbar.openSnackBar("User closed transaction","error");
+                })
+                .catch((err) => {
+                  this.flag = false;
+                  this.snackbar.openSnackBar(
+                    'User closed transaction',
+                    'error'
+                  );
                 })
                 .then((res: any) => {
                   this.userPK = res.pubkey;
@@ -534,18 +537,16 @@ export class Mint2Component implements OnInit {
                               });
                             }
                           });
-                      }
-                      else{
-                        this.flag=false;
+                      } else {
+                        this.flag = false;
                       }
                     });
                 });
             }
-        }
-      });
-    }
+          }
+        });
+      }
 
-    
       if (this.mint.Blockchain == 'solana') {
         //minting if blockchain == solana
         let phantomWallet = new UserWallet();
@@ -632,9 +633,8 @@ export class Mint2Component implements OnInit {
                     });
                   }
                 });
-            }
-            else{
-              this.flag=false;
+            } else {
+              this.flag = false;
             }
           });
       }
@@ -717,7 +717,7 @@ export class Mint2Component implements OnInit {
                         this.mint.Imagebase64,
                         () => {
                           dialog.close();
-                          this.flag=false;
+                          this.flag = false;
                         }
                       )
                       .then(async (res) => {
@@ -746,9 +746,8 @@ export class Mint2Component implements OnInit {
                       });
                   }
                 });
-            }
-            else{
-              this.flag=false;
+            } else {
+              this.flag = false;
             }
           });
       }
@@ -830,7 +829,7 @@ export class Mint2Component implements OnInit {
                           this.mint.Imagebase64,
                           () => {
                             dialog.close();
-                            this.flag=false;
+                            this.flag = false;
                           }
                         )
                         .then((res) => {
@@ -855,7 +854,7 @@ export class Mint2Component implements OnInit {
                                 err,
                               'error'
                             );
-                            this.flag=false;
+                            this.flag = false;
                           }
                         });
                     } catch (err) {
@@ -865,12 +864,12 @@ export class Mint2Component implements OnInit {
                           err,
                         'error'
                       );
-                      this.flag =false;
+                      this.flag = false;
                     }
                   }
                 });
-            }else{
-              this.flag=false;
+            } else {
+              this.flag = false;
             }
           });
       }
@@ -927,10 +926,10 @@ export class Mint2Component implements OnInit {
         });
       });
     } else {
-      try{
+      try {
         this.TXNStellar();
-      }catch(err){
-        this.flag=false;
+      } catch (err) {
+        this.flag = false;
       }
     }
   }
@@ -971,7 +970,7 @@ export class Mint2Component implements OnInit {
                     err,
                   'error'
                 );
-                this.flag=false;
+                this.flag = false;
               }
             });
         });
@@ -1002,84 +1001,84 @@ export class Mint2Component implements OnInit {
     //minting nft using stellar
     if (this.mint.CreatorUserId != null) {
       //step 1. - change trust by distributor
-      try{
+      try {
         this.trustService
-        .changeTrustByDistributor(
-          this.mint.NFTName,
-          this.mint.NFTIssuerPK,
-          userPK,
-          ()=>{
-            this.flag=false;
-            this.pendingDialog.close(false);
-          }
-        )
-        .then((transactionResult: any) => {
-          this.sendToMint3();
-          try {
-            if (transactionResult.successful) {
-              this.service
-                .minNFTStellar(
-                  //step 2. - mint
-                  transactionResult.successful,
-                  this.mint.NFTIssuerPK,
-                  userPK,
-                  this.mint.NFTName,
-                  this.mint.Imagebase64,
-                  this.mint.Description,
-                  this.mint.Collection,
-                  this.mint.Blockchain,
-                  this.mint.Tags,
-                  this.mint.Categories,
-                  this.mint.Copies,
-                  this.mint.NftContentURL,
-                  transactionResult.created_at,
-                  this.mint.ArtistName,
-                  this.mint.ArtistProfileLink
-                )
-                .then((res) => {
-                  try {
-                    this.TXNStellar();
-                  } catch (err) {
-                    _callback();
-                    this.snackbar.openSnackBar(
-                      'Something went wrong, please try again! More information: ' +
-                        err,
-                      'error'
-                    );
-                    this.flag = false;
-                  }
-                })
-                .then((nft) => {
-                  if (this.isLoadingPresent) {
-                    this.dissmissLoading();
-                  }
-                  // this.pendingDialog(true);
-                })
-                .catch((error) => {
-                  if (this.isLoadingPresent) {
-                    this.dissmissLoading();
-                  }
-                  this.pendingDialog(false);
-                  this.flag=false;
-                });
-            } else {
-              if (this.isLoadingPresent) {
-                this.dissmissLoading();
-              }
-              this.pendingDialog(false);
-              this.flag=false;
+          .changeTrustByDistributor(
+            this.mint.NFTName,
+            this.mint.NFTIssuerPK,
+            userPK,
+            () => {
+              this.flag = false;
+              this.pendingDialog.close(false);
             }
-          } catch (err) {
-            this.snackbar.openSnackBar(
-              'Something went wrong, please try again! More information: ' +
-                err,
-              'error'
-            );
-            this.flag = false;
-          }
-        });
-      }catch(err){
-        this.flag=false;
+          )
+          .then((transactionResult: any) => {
+            this.sendToMint3();
+            try {
+              if (transactionResult.successful) {
+                this.service
+                  .minNFTStellar(
+                    //step 2. - mint
+                    transactionResult.successful,
+                    this.mint.NFTIssuerPK,
+                    userPK,
+                    this.mint.NFTName,
+                    this.mint.Imagebase64,
+                    this.mint.Description,
+                    this.mint.Collection,
+                    this.mint.Blockchain,
+                    this.mint.Tags,
+                    this.mint.Categories,
+                    this.mint.Copies,
+                    this.mint.NftContentURL,
+                    transactionResult.created_at,
+                    this.mint.ArtistName,
+                    this.mint.ArtistProfileLink
+                  )
+                  .then((res) => {
+                    try {
+                      this.TXNStellar();
+                    } catch (err) {
+                      _callback();
+                      this.snackbar.openSnackBar(
+                        'Something went wrong, please try again! More information: ' +
+                          err,
+                        'error'
+                      );
+                      this.flag = false;
+                    }
+                  })
+                  .then((nft) => {
+                    if (this.isLoadingPresent) {
+                      this.dissmissLoading();
+                    }
+                    // this.pendingDialog(true);
+                  })
+                  .catch((error) => {
+                    if (this.isLoadingPresent) {
+                      this.dissmissLoading();
+                    }
+                    this.pendingDialog(false);
+                    this.flag = false;
+                  });
+              } else {
+                if (this.isLoadingPresent) {
+                  this.dissmissLoading();
+                }
+                this.pendingDialog(false);
+                this.flag = false;
+              }
+            } catch (err) {
+              this.snackbar.openSnackBar(
+                'Something went wrong, please try again! More information: ' +
+                  err,
+                'error'
+              );
+              this.flag = false;
+            }
+          });
+      } catch (err) {
+        this.flag = false;
       }
     } else {
       this.snackbar.openSnackBar(

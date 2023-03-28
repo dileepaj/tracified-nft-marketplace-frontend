@@ -302,7 +302,6 @@ export class BuyViewComponent implements OnInit {
                 this.NFTList.nftissuerpk
               )
               .then((res: any) => {
-                console.log('result of fiding ata: ', res);
                 if (res == null) {
                   this.atastatus = '0';
                 } else {
@@ -335,7 +334,7 @@ export class BuyViewComponent implements OnInit {
                         )
 
                         .subscribe(async (res: any) => {
-                          console.log('result: ', res);
+
 
                           try {
                             loadingAnimation.close();

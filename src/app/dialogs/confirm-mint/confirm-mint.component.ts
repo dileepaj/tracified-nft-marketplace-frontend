@@ -16,6 +16,7 @@ export class ConfirmMintComponent implements OnInit {
   blockchain : any;
   currency : string;
   public acceptEnabled: boolean = false;
+  state: string;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: userAgreementPromt,
     private matDialogRef: MatDialogRef<ConfirmComponent>
@@ -27,15 +28,19 @@ export class ConfirmMintComponent implements OnInit {
     this.blockchain = this.data.blockchain?.toString()
     if(this.blockchain === 'ethereum') {
       this.currency = 'ETH'
+      this.state=''
     }
     else if(this.blockchain == 'polygon'){
       this.currency = 'MATIC'
+      this.state=''
     }
     else if(this.blockchain === 'stellar') {
       this.currency = 'XLM'
+      this.state='When buying please refrain from using the same public key that was used to sell this nft'
     }
     else if(this.blockchain === 'solana') {
       this.currency = 'SOL'
+      this.state=''
     }
     this.convertToUSD();
   }

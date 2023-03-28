@@ -194,7 +194,6 @@ export class OverviewComponent implements OnInit {
     this.service.getWatchListByUserId(this.user).subscribe((res:any)=>{
       for(let x=0;x<res.length;x++){
          this.service.getNFTIdAndBlockchain(res[x].nftidentifier,res[x].blockchain).subscribe((resx:any)=>{
-          console.log("result is x ",resx)
           try {
                 this.nft
                   .getSVGByHash(resx.Response.imagebase64)
@@ -378,7 +377,6 @@ export class OverviewComponent implements OnInit {
     this.service.getFavouritesByUserId(this.user).subscribe((res1:any)=>{
       for(let y=0;y<res1.length;y++){
         this.service.getNFTIdAndBlockchain(res1[y].nftidentifier,res1[y].blockchain).subscribe((resy:any)=>{
-          console.log("result is y ",resy)
           // try {
                 this.nft
                   .getSVGByHash(resy.Response.imagebase64)

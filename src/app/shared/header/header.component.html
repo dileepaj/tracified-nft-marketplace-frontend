@@ -54,30 +54,6 @@
       <div class="dropdown-content">
         <button
           mat-menu-item
-          (click)="goToExplore('ethereum')"
-          fxLayout="row"
-          fxLayoutAlign="center center"
-          disabled="true"
-        >
-          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
-            <img class="bc-icon" src="../../../assets/images/ethereum.png" />
-          </div>
-          <div fxFlex="80%">Ethereum</div>
-        </button>
-        <button
-          mat-menu-item
-          (click)="goToExplore('polygon')"
-          fxLayout="row"
-          fxLayoutAlign="center center"
-          disabled="true"
-        >
-          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
-            <img class="bc-icon" src="../../../assets/images/polygon.png" />
-          </div>
-          <div fxFlex="80%">Polygon</div>
-        </button>
-        <button
-          mat-menu-item
           (click)="goToExplore('stellar')"
           fxLayout="row"
           fxLayoutAlign="center center"
@@ -92,15 +68,37 @@
         </button>
         <button
           mat-menu-item
+          (click)="goToExplore('ethereum')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img class="bc-icon" src="../../../assets/images/ethereum.png" />
+          </div>
+          <div fxFlex="80%">Ethereum <span class="comingsoon">Coming soon</span> </div>
+        </button>
+        <button
+          mat-menu-item
+          (click)="goToExplore('polygon')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img class="bc-icon" src="../../../assets/images/polygon.png" />
+          </div>
+          <div fxFlex="80%">Polygon <span class="comingsoon">Coming soon</span></div>
+        </button>
+        
+        <button
+          mat-menu-item
           (click)="goToExplore('solana')"
           fxLayout="row"
           fxLayoutAlign="center center"
-          disabled="true"
         >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/solana.png" />
           </div>
-          <div fxFlex="80%">Solana</div>
+          <div fxFlex="80%">Solana <span class="comingsoon">Coming soon</span></div>
         </button>
       </div>
     </div>
@@ -191,31 +189,7 @@
         arrow_drop_down
       </mat-icon>
       <div class="dropdown-account-content">
-        <button
-          mat-menu-item
-          (click)="goToOverview('ethereum')"
-          fxLayout="row"
-          fxLayoutAlign="center center"
-          disabled="true"
-        >
-          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
-            <img class="bc-icon" src="../../../assets/images/ethereum.png" />
-          </div>
-          <div fxFlex="80%">Ethereum</div>
-        </button>
-        <button
-          mat-menu-item
-          (click)="goToOverview('polygon')"
-          fxLayout="row"
-          fxLayoutAlign="center center"
-          disabled="true"
-        >
-          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
-            <img class="bc-icon" src="../../../assets/images/polygon.png" />
-          </div>
-          <div fxFlex="80%">Polygon</div>
-        </button>
-        <button
+         <button
           mat-menu-item
           (click)="goToOverview('stellar')"
           fxLayout="row"
@@ -227,31 +201,55 @@
               src="../../../assets/images/stellar-white.png"
             />
           </div>
-          <div fxFlex="80%">Stellar</div>
+          <div fxFlex="80%">Stellar </div>
         </button>
+        <button
+          mat-menu-item
+          (click)="goToOverview('ethereum')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+          
+        >
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img class="bc-icon" src="../../../assets/images/ethereum.png" />
+          </div>
+          <div fxFlex="80%">Ethereum <span class="comingsoon">Coming soon</span></div>
+        </button>
+        <button
+          mat-menu-item
+          (click)="goToOverview('polygon')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+         
+        >
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img class="bc-icon" src="../../../assets/images/polygon.png" />
+          </div>
+          <div fxFlex="80%">Polygon <span class="comingsoon">Coming soon</span></div>
+        </button>
+       
         <button
           mat-menu-item
           (click)="goToOverview('solana')"
           fxLayout="row"
           fxLayoutAlign="center center"
-          disabled="true"
         >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/solana.png" />
           </div>
-          <div fxFlex="80%">Solana</div>
+          <div fxFlex="80%">Solana <span class="comingsoon">Coming soon</span></div>
         </button>
       </div>
     </div>
 
     <mat-menu #accmenu="matMenu" class="explore-menu">
-      <button mat-menu-item (click)="goToOverview('ethereum')" disabled="true">
+      <button mat-menu-item (click)="goToOverview('ethereum')" >
         <img
           class="bc-icon"
           src="../../../assets/images/ethereum.png"
         />Ethereum
       </button>
-      <button mat-menu-item (click)="goToOverview('polygon')" disabled="true">
+      <button mat-menu-item (click)="goToOverview('polygon')" >
         <img class="bc-icon" src="../../../assets/images/polygon.png" />Polygon
       </button>
       <button mat-menu-item (click)="goToOverview('stellar')">
@@ -260,7 +258,7 @@
           src="../../../assets/images/stellar-white.png"
         />Stellar
       </button>
-      <button mat-menu-item (click)="goToOverview('solana')" disabled="true">
+      <button mat-menu-item (click)="goToOverview('solana')" >
         <img class="bc-icon" src="../../../assets/images/solana.png" />Solana
       </button>
     </mat-menu>

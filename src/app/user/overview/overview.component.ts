@@ -53,7 +53,7 @@ export class OverviewComponent implements OnInit {
   countC: number = 0;
   countD: number = 0;
   countE: number = 0;
-
+  bccommingsoon:string;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -622,11 +622,13 @@ export class OverviewComponent implements OnInit {
         provider.listAccounts().then((data) => {
           if (data.length > 0) {
             this.connectedWallet = 'Metamask';
+            this.bccommingsoon="Ethtereum/Polygon NFTs coming soon!"
           } else {
             this.connectedWallet = '';
           }
         });
       } else if (this.selectedBlockchain === 'stellar') {
+        this.bccommingsoon=""
         if (this.checkIfMobileDevice()) {
           this.connectedWallet = 'Albedo';
         } else {
@@ -639,6 +641,7 @@ export class OverviewComponent implements OnInit {
           });
         }
       } else if (this.selectedBlockchain === 'solana') {
+        this.bccommingsoon="Solana NFTs coming soon!"
         try {
           const connection = new Connection(BlockchainConfig.solananetworkURL);
           const pk = new PublicKey(this.user);

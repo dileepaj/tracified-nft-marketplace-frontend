@@ -224,3 +224,9 @@ label.footer-normal-text:hover {
   row-gap: 10px;
   flex-wrap: wrap;
 }
+.commingsoon{
+  border: 1px solid #848484;
+  border-radius: 8px;
+  padding: 3px;
+  color:#848484 ;
+}

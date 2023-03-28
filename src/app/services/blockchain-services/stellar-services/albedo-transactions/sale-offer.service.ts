@@ -69,8 +69,7 @@ export class SaleOfferService {
           resolve(transactionToSubmit);
         })
         .catch((err) => {
-          _callback()!
-          this.snackbar.openSnackBar("Something went wrong, please try again! More information: "+err, 'error');
+          _callback()
           reject(err);
         });
     });

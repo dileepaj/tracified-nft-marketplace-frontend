@@ -7,6 +7,7 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import { ethers } from 'ethers';
 import { Card, HomeCard, NFTCard } from 'src/app/models/marketPlaceModel';
 import { UserWallet } from 'src/app/models/userwallet';
+import { ApiServicesService } from 'src/app/services/api-services/api-services.service';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
@@ -58,7 +59,8 @@ export class OverviewComponent implements OnInit {
     private router: Router,
     private nft: NftServicesService,
     private _sanitizer: DomSanitizer,
-    private walletSideNav: WalletSidenavService
+    private walletSideNav: WalletSidenavService,
+    private service:ApiServicesService
   ) {}
 
   ngOnInit(): void {
@@ -73,8 +75,7 @@ export class OverviewComponent implements OnInit {
       this.selectedBlockchain = params['blockchain'];
       this.user = params['user'];
       this.connectedWallet = '';
-      this.getConnectedWallet();
-
+      this.getConnectedWallet(); 
       // this.router.navigate(['/user-dashboard'], {
       //   queryParams: {  user:this.user,blockchain: this.selectedBlockchain },
       // });
@@ -190,28 +191,19 @@ export class OverviewComponent implements OnInit {
   }
   private getHotpicksNFTs() {
     this.hotPicksLoading = true;
-    this.nft
-      .getNFTByBlockchainandUserPaginated(
-        this.selectedBlockchain,
-        this.user,
-        'hotpicks',
-        8,
-        0
-      )
-      .subscribe(
-        (result: any) => {
+    this.service.getWatchListByUserId(this.user).subscribe((res:any)=>{
+      for(let x=0;x<res.length;x++){
+         this.service.getNFTIdAndBlockchain(res[x].nftidentifier,res[x].blockchain).subscribe((resx:any)=>{
+          console.log("result is x ",resx)
           try {
-            const responseArrayLength = result.Response.content.length;
-            result.Response.content.forEach((cont) => {
-              if (this.paginationflag == false) {
                 this.nft
-                  .getSVGByHash(cont.imagebase64)
+                  .getSVGByHash(resx.Response.imagebase64)
                   .subscribe((res: any) => {
                     this.Decryption = res.Response.Base64ImageSVG;
                     if (
-                      cont.attachmenttype == 'image/jpeg' ||
-                      cont.attachmenttype == 'image/jpg' ||
-                      cont.attachmenttype == 'image/png'
+                      resx.Response.attachmenttype == 'image/jpeg' ||
+                      resx.Response.attachmenttype == 'image/jpg' ||
+                      resx.Response.attachmenttype == 'image/png'
                     ) {
                       this.imageSrc =
                         this._sanitizer.bypassSecurityTrustResourceUrl(
@@ -231,7 +223,7 @@ export class OverviewComponent implements OnInit {
                     }
 
                     this.nft
-                      .getThumbnailId(cont.Id)
+                      .getThumbnailId(resx.Response.id)
                       .subscribe(async (thumbnail: any) => {
                         this.paginationflag = true;
                         if (thumbnail == '') {
@@ -261,28 +253,28 @@ export class OverviewComponent implements OnInit {
                     );
                     card.ImageBase64 = this.imageSrc;
                     // card.thumbnail= cont.thumbnail;
-                    card.Blockchain = cont.blockchain;
-                    card.NFTIdentifier = cont.nftidentifier;
-                    card.NFTName = cont.nftname;
-                    card.Blockchain = cont.blockchain;
-                    card.CreatorUserId = cont.creatoruserid;
-                    card.SellingStatus = cont.sellingstatus;
-                    card.CurrentOwnerPK = cont.currentownerpk;
+                    card.Blockchain = resx.Response.blockchain;
+                    card.NFTIdentifier = resx.Response.nftidentifier;
+                    card.NFTName = resx.Response.nftname;
+                    card.Blockchain = resx.Response.blockchain;
+                    card.CreatorUserId = resx.Response.creatoruserid;
+                    card.SellingStatus = resx.Response.sellingstatus;
+                    card.CurrentOwnerPK = resx.Response.currentownerpk;
                     this.ListHotpicks.push(card);
-                    if (this.ListHotpicks.length === responseArrayLength) {
-                      this.hotPicksLoading = false;
-                    }
-                  });
-              }
+                    // if (this.ListHotpicks.length === responseArrayLength) {
+                       this.hotPicksLoading = false;
+                    // }
             });
           } catch (e) {
             this.hotPicksLoading = false;
           }
-        },
-        (err) => {
-          this.hotPicksLoading = false;
-        }
-      );
+         })
+      }
+      
+    })
+         
+      //   }
+      // );
   }
   private getBoughtNFTs() {
     this.boughtLoading = true;
@@ -382,28 +374,20 @@ export class OverviewComponent implements OnInit {
   }
   private getFavouriteNFTs() {
     this.favLoading = true;
-    this.nft
-      .getNFTByBlockchainandUserPaginated(
-        this.selectedBlockchain,
-        this.user,
-        'favorite',
-        8,
-        0
-      )
-      .subscribe(
-        (result: any) => {
-          try {
-            const responseArrayLength = result.Response.content.length;
-            result.Response.content.forEach((cont) => {
-              if (this.paginationflag == false) {
+    
+    this.service.getFavouritesByUserId(this.user).subscribe((res1:any)=>{
+      for(let y=0;y<res1.length;y++){
+        this.service.getNFTIdAndBlockchain(res1[y].nftidentifier,res1[y].blockchain).subscribe((resy:any)=>{
+          console.log("result is y ",resy)
+          // try {
                 this.nft
-                  .getSVGByHash(cont.imagebase64)
+                  .getSVGByHash(resy.Response.imagebase64)
                   .subscribe((res: any) => {
                     this.Decryption = res.Response.Base64ImageSVG;
                     if (
-                      cont.attachmenttype == 'image/jpeg' ||
-                      cont.attachmenttype == 'image/jpg' ||
-                      cont.attachmenttype == 'image/png'
+                      resy.Response.attachmenttype == 'image/jpeg' ||
+                      resy.Response.attachmenttype == 'image/jpg' ||
+                      resy.Response.attachmenttype == 'image/png'
                     ) {
                       this.imageSrc =
                         this._sanitizer.bypassSecurityTrustResourceUrl(
@@ -423,7 +407,7 @@ export class OverviewComponent implements OnInit {
                     }
 
                     this.nft
-                      .getThumbnailId(cont.Id)
+                      .getThumbnailId(resy.Response.id)
                       .subscribe(async (thumbnail: any) => {
                         this.paginationflag = true;
                         if (thumbnail == '') {
@@ -453,28 +437,40 @@ export class OverviewComponent implements OnInit {
                     );
                     card.ImageBase64 = this.imageSrc;
                     // card.thumbnail= cont.thumbnail;
-                    card.Blockchain = cont.blockchain;
-                    card.NFTIdentifier = cont.nftidentifier;
-                    card.NFTName = cont.nftname;
-                    card.Blockchain = cont.blockchain;
-                    card.CreatorUserId = cont.creatoruserid;
-                    card.SellingStatus = cont.sellingstatus;
-                    card.CurrentOwnerPK = cont.currentownerpk;
+                    card.Blockchain = resy.Response.blockchain;
+                    card.NFTIdentifier = resy.Response.nftidentifier;
+                    card.NFTName = resy.Response.nftname;
+                    card.Blockchain = resy.Response.blockchain;
+                    card.CreatorUserId = resy.Response.creatoruserid;
+                    card.SellingStatus = resy.Response.sellingstatus;
+                    card.CurrentOwnerPK = resy.Response.currentownerpk;
                     this.ListTrends.push(card);
-                    if (this.ListTrends.length === responseArrayLength) {
-                      this.favLoading = false;
-                    }
+                    // if (this.ListTrends.length === responseArrayLength) {
+                       this.favLoading = false;
+                    // }
                   });
-              }
-            });
-          } catch (e) {
-            this.favLoading = false;
-          }
-        },
-        (err) => {
-          this.favLoading = false;
-        }
-      );
+          // } catch (e) {
+          //   this.favLoading = false;
+          // }
+        })
+      }
+    })
+    // this.nft
+    //   .getNFTByBlockchainandUserPaginated(
+    //     this.selectedBlockchain,
+    //     this.user,
+    //     'favorite',
+    //     8,
+    //     0
+    //   )
+    //   .subscribe(
+    //     (result: any) => {
+        
+      //   },
+      //   (err) => {
+      //     this.favLoading = false;
+      //   }
+      // );
   }
   private getOnSaleNFTs() {
     this.onSaleLoading = true;

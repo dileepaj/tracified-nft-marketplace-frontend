@@ -331,6 +331,15 @@ export class Mint2Component implements OnInit {
       }
 
       if (this.mint.Blockchain == 'stellar') {
+        const nftnameRegex = /^[A-Za-z0-9]+$/
+        if(!nftnameRegex.test(this.mint.NFTName)){
+          this.snackbar.openSnackBar(
+            "NFT name cannot contain spaces or special characters.",
+            "info"
+          );
+          this.flag=false;
+          return
+        }
         //minting if blockchain == stellar
         this.service.createIssuer().subscribe(async (data: any) => {
           this.mint.NFTIssuerPK = data.NFTIssuerPK;

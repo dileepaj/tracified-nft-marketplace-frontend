@@ -331,6 +331,15 @@ export class Mint2Component implements OnInit {
       }
 
       if (this.mint.Blockchain == 'stellar') {
+        const nftnameRegex = /^[A-Za-z0-9]+$/
+        if(!nftnameRegex.test(this.mint.NFTName)){
+          this.snackbar.openSnackBar(
+            "NFT name cannot contain spaces or special characters.",
+            "info"
+          );
+          this.flag=false;
+          return
+        }
         //minting if blockchain == stellar
         this.service.createIssuer().subscribe(async (data: any) => {
           this.mint.NFTIssuerPK = data.NFTIssuerPK;
@@ -1096,7 +1105,12 @@ export class Mint2Component implements OnInit {
         .changeTrustByDistributor(
           this.mint.NFTName,
           this.mint.NFTIssuerPK,
-          userPK
+          userPK,
+          ()=>{
+            this.flag=false;
+            this.snackbar.openSnackBar("Transaction Failed: User closed Wallet","error")
+            this.pendingDialog.close(false);
+          }
         )
         .then((transactionResult: any) => {
           this.sendToMint3();

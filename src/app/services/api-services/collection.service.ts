@@ -48,11 +48,12 @@ export class CollectionService {
     collection: string,
     blockchain: string,
     pageSize: number,
-    pageIndex: number
+    pageIndex: number,
+    publickey:number
   ): Observable<NFT[]> {
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${blockchain}/${collection}/${pageSize}/${pageIndex}`
+      `${this.baseUrlNFT}/${blockchain}/${collection}/${publickey}/${pageSize}/${pageIndex}`
     );
   }
 

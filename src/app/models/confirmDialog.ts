@@ -23,6 +23,21 @@ export interface userAgreementPromt {
   buttonAction?: string;
 }
 
+export interface userAgreementPromt2 {
+  thumbnail?: string;
+  serviceFee?: number;
+  feeTypeName?: string
+  promtHeading?: string
+  total?: number;
+  blockchain?: string
+  nftName?: string;
+  buttonAction?: string;
+  royalty?:string,
+  royaltyfee?:number,
+  grandTotal?:string,
+  grandTotalfee?:number
+}
+
 export interface selectWalletDialog {
   title: string;
   message: string;

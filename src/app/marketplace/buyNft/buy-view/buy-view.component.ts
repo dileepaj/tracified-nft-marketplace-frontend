@@ -567,7 +567,7 @@ export class BuyViewComponent implements OnInit {
             this.royaltyCharge.toString(),
             this.commission,
             ()=>{
-              this.snackbar.openSnackBar("User closed wallet.","error");
+              this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.","error");
               _callback()!;
             }
           )
@@ -586,7 +586,7 @@ export class BuyViewComponent implements OnInit {
               this.showInProfile();
             } catch (err) {
               _callback()!;
-              this.snackbar.openSnackBar("User closed wallet.","error");
+              this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.","error");
             }
           });
       }).catch(err=>{

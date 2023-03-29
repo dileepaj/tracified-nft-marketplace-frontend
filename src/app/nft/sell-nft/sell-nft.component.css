@@ -696,3 +696,22 @@ mat-hint {
   font-size: 20px;
   row-gap: 10px;
 }
+
+.nfttagchips{
+  max-width: 90px;
+  color: #000;
+  display: inline-block;
+  min-height: 32px;
+  margin-right: 10px;
+  background-color: #ddd;
+  border: 1px solid #848484;
+  border-radius: 8px;
+  padding: 8px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  /* color:#848484 ; */
+}
+.p-text .sum-text .tag-text{
+  display: inline-block;
+  margin: 0; padding: 0; white-space: nowrap;
+}

@@ -33,10 +33,10 @@ export const adminENV={
 export const APIConfigENV = {
   production: false,
   mode: 'staging',
-  gatewayBaseURL: 'http://localhost:8000/',
-  nftbackendBaseURL: 'http://localhost:6081/',
+  gatewayBaseURL: 'https://qa.gateway.tracified.com/',
+  nftbackendBaseURL: 'https://qa.api.nft.tracified.com/',
   marketplaceBaseURL:"http://localhost:4200/",
-  tracifiedhelpDocsbaseURL:"http://localhost:3000/",
+  tracifiedhelpDocsbaseURL:"https://qa.help.tracified.com/",
   APIIntervalTimer: 60000,  // 30 seconds
   APIStartDelay: 60000, // 30 seconds
   homepageIntervalTimer: 600000 //10 minutes 600000

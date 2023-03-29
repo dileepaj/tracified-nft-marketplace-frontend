@@ -180,6 +180,10 @@ export class BuyViewComponent implements OnInit {
   addSubscription: any;
   atastatus: string;
   storyAvailable: boolean = false;
+  usercontentURLFlag: boolean =false;
+  nftcontentURLFlag: boolean =false;
+  userprofileURL: string="";
+  nftcontentURL: string="";
 
   constructor(
     private service: NftServicesService,
@@ -573,6 +577,7 @@ export class BuyViewComponent implements OnInit {
           )
           .then((transactionResult: any) => {
             try {
+              console.log("Trans rst: ",transactionResult)
               this.buytxn = transactionResult.tx_hash;
               this.saveTXNs();
               this.saleBE.CurrentOwnerPK = this.userPK;
@@ -583,6 +588,7 @@ export class BuyViewComponent implements OnInit {
                 SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                 'success'
               );
+              return
               this.showInProfile();
             } catch (err) {
               _callback()!;
@@ -721,7 +727,14 @@ export class BuyViewComponent implements OnInit {
             if (this.NFTList == null) {
               this.ngOnInit();
             }
-
+            if(this.NFTList.artistprofilelink!=""){
+              this.usercontentURLFlag=true;
+              this.userprofileURL=this.NFTList.artistprofilelink;
+            }
+            if(this.NFTList.nftcontenturl!=""){
+              this.nftcontentURLFlag=true;
+              this.nftcontentURL=this.NFTList.nftcontenturl
+            }
             if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
               //might
 
@@ -1003,7 +1016,7 @@ export class BuyViewComponent implements OnInit {
 
   public goToExplore() {
     this.router.navigate(['/explore'], {
-      queryParams: { blockchain: 'ethereum', filter: 'uptodate' },
+      queryParams: { blockchain: this.nftbe.Blockchain , filter: 'all' },
     });
   }
 

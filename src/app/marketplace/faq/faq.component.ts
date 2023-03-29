@@ -8,8 +8,8 @@ import { APIConfigENV } from 'src/environments/environment';
   styleUrls: ['./faq.component.css']
 })
 export class FaqComponent implements OnInit {
-  private readonly marketplaceBaseURL = APIConfigENV.marketplaceBaseURL
-  private readonly linkToDocs :string=this.marketplaceBaseURL+"docs"
+  private readonly tracifiedhelp = APIConfigENV.tracifiedhelpDocsbaseURL
+  readonly helpDocsMK: string = `${this.tracifiedhelp}docs/NFTPlatofrm/marketplace/introtoMarketplace`
   constructor(private router: Router) { }
   List:any[]=[
     {
@@ -84,7 +84,7 @@ export class FaqComponent implements OnInit {
       topic:"What blockchain should choose when minting a NFT?",
       desc:`
         <p>
-          Unlike other marketplaces out there. Tracified marketplace offers its users the ability to mint using four blockchains Ethereum, Polygon,Solana and stellar. It is import to know the differences and traits of each blockchain prior to minting your NFT. Refer our <a href="`+this.linkToDocs+`">documentation </a> section for more information
+          Unlike other marketplaces out there. Tracified marketplace offers its users the ability to mint using four blockchains Ethereum, Polygon,Solana and stellar. It is import to know the differences and traits of each blockchain prior to minting your NFT. Refer our <a target="_blank" href="`+this.helpDocsMK+`"> documentation </a> section for more information
         </p>
       `
     },

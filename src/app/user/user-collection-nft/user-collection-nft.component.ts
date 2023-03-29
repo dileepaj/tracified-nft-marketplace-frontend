@@ -92,6 +92,7 @@ export class UserCollectionNFTComponent implements OnInit {
       .getNFTByCollectionName(
         this.collection,
         this.blockchain,
+        this.pk,
         8,
         this.currentPage
       )

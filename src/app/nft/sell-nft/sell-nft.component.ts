@@ -142,6 +142,17 @@ export class SellNftComponent implements OnInit {
     private firebaseanalytics: FirebaseAnalyticsService
   ) { }
 
+  validateDecimal(input) {
+    // Get the value of the input box and convert it to a number with 6 decimal places
+    const value = parseFloat(input.value).toFixed(6);
+    
+    // Check if the value in the input box is the same as the rounded value
+    if (value !== input.value) {
+      // If the value is different, set the input box value to the rounded value
+      input.value = value;
+    }
+  }
+
   calculatePrice(): void {
     if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
       //might be distributor
@@ -160,7 +171,7 @@ export class SellNftComponent implements OnInit {
         .toPrecision(6)
         .toString();
       this.sellingPriceForNonContracts =
-        this.firstPrice + this.commissionforNonContracts;
+      (parseFloat(this.firstPrice )+ parseFloat(this.royaltyCharge) + parseFloat(this.commission)).toPrecision(6);
       this.value = false;
     } else {
       this.royalty = parseFloat(this.Royalty);
@@ -177,7 +188,7 @@ export class SellNftComponent implements OnInit {
         parseFloat(this.formValue('Price')) * (2.0 / 100.0);
       this.value = true;
       this.sellingPriceForNonContracts =
-        this.firstPrice + this.royaltyCharge + this.commissionforNonContracts;
+     ( parseFloat(this.firstPrice )+ parseFloat(this.royaltyCharge) + parseFloat(this.commission)).toPrecision(6);
     }
   }
 
@@ -266,11 +277,12 @@ export class SellNftComponent implements OnInit {
     });
     this.firstPrice =this.formValue('Price');
     this.royaltyamount = this.formValue('Royalty');
-    const priceRejex = /^\d*\.?\d+$/;
+    const priceRejex  = /^\d*(\.\d{1,4})?$/;
+   
     if (isNaN(this.firstPrice) || parseFloat(this.firstPrice) <= 0 || !priceRejex.test(this.firstPrice)) {
       this.snackbarService.openSnackBar
         (
-          "Price must be a postive numeric value!.",
+          "Price must be a postive numeric value that amounts to four or less decimal points!.",
           "info"
         )
       return
@@ -330,7 +342,7 @@ export class SellNftComponent implements OnInit {
             }
             this.calculatePrice();
             this.dialogService
-              .confirmMintDialog({
+              .confirmMintDialog2({
                 promtHeading: 'You are Selling',
                 nftName: this.NFTList.nftname,
                 thumbnail: this.NFTList.thumbnail,
@@ -339,6 +351,10 @@ export class SellNftComponent implements OnInit {
                 total: this.sellingPrice,
                 blockchain: this.NFTList.blockchain,
                 buttonAction: 'Sell Now',
+                royalty:'Royalty Fee',
+                royaltyfee: this.royaltyCharge,
+                grandTotal:'Grand Total',
+                grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
               })
               .subscribe((res) => {
                 if (res) {
@@ -426,7 +442,7 @@ export class SellNftComponent implements OnInit {
         }
         this.calculatePrice();
         this.dialogService
-          .confirmMintDialog({
+          .confirmMintDialog2({
             promtHeading: 'You are Selling',
             nftName: this.NFTList.nftname,
             thumbnail: this.NFTList.thumbnail,
@@ -435,6 +451,10 @@ export class SellNftComponent implements OnInit {
             total: this.sellingPrice,
             blockchain: this.NFTList.blockchain,
             buttonAction: 'Sell Now',
+            royalty:'Royalty Fee',
+            royaltyfee: this.royaltyCharge,
+            grandTotal:'Grand Total',
+            grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
           })
           .subscribe((res) => {
             if (res) {
@@ -519,7 +539,7 @@ export class SellNftComponent implements OnInit {
       }
       this.calculatePrice();
       this.dialogService
-        .confirmMintDialog({
+        .confirmMintDialog2({
           promtHeading: 'You are Selling',
           nftName: this.NFTList.nftname,
           thumbnail: this.NFTList.thumbnail,
@@ -528,6 +548,10 @@ export class SellNftComponent implements OnInit {
           total: this.sellingPrice,
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Sell Now',
+          royalty:'Royalty Fee',
+          royaltyfee: this.royaltyCharge,
+          grandTotal:'Grand Total',
+          grandTotalfee:parseFloat(this.sellingPriceForNonContracts),
         })
         .subscribe((res) => {
           if (res) {
@@ -621,7 +645,7 @@ export class SellNftComponent implements OnInit {
       }
       this.calculatePrice();
       this.dialogService
-        .confirmMintDialog({
+        .confirmMintDialog2({
           promtHeading: 'You are Selling',
           nftName: this.NFTList.nftname,
           thumbnail: this.NFTList.thumbnail,
@@ -630,6 +654,10 @@ export class SellNftComponent implements OnInit {
           total: this.sellingPrice,
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Sell Now',
+          royalty:'Royalty Fee',
+          royaltyfee: this.royaltyCharge,
+          grandTotal:'Grand Total',
+          grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
         })
         .subscribe((res) => {
           if (res) {
@@ -740,7 +768,7 @@ export class SellNftComponent implements OnInit {
       }
       this.calculatePrice();
       this.dialogService
-        .confirmMintDialog({
+        .confirmMintDialog2({
           promtHeading: 'You are Selling',
           nftName: this.NFTList.nftname,
           thumbnail: this.NFTList.thumbnail,
@@ -749,6 +777,10 @@ export class SellNftComponent implements OnInit {
           total: this.sellingPrice,
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Sell Now',
+          royalty:'Royalty Fee',
+          royaltyfee: this.royaltyCharge,
+          grandTotal:'Grand Total',
+          grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
         })
         .subscribe((res) => {
           if (res) {
@@ -1058,7 +1090,7 @@ export class SellNftComponent implements OnInit {
     }
 
     this.controlGroupSell = new FormGroup({
-      Price: new FormControl(this.sale.Price, Validators.required),
+      Price: new FormControl(this.sale.Price, [Validators.pattern(/^\d+(\.\d{1,6})?$/)]),
       Royalty: new FormControl(this.sale.Royalty, Validators.required),
     });
   }

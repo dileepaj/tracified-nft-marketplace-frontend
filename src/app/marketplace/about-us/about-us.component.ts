@@ -15,7 +15,7 @@ export class AboutUsComponent implements OnInit {
   }
 
   public goBack() {
-    this._location.back();
+    this.router.navigate(['/'])
   }
 
   public docs() {

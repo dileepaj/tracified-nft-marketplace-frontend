@@ -120,7 +120,10 @@ export class SellNftComponent implements OnInit {
   royaltyPriceUSD: number = 0;
   addSubscription: any;
   storyAvailable: boolean = false;
-
+  userprofileURL:string="";
+  nftContentURL:string="";
+  usercontentURLFlag: boolean=false;
+  nftcontentURLFlag: boolean=false;
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -277,7 +280,7 @@ export class SellNftComponent implements OnInit {
     }
     if (isNaN(+this.royaltyamount) ) {
       this.snackbarService.openSnackBar(
-        'Royality must be inputed as a number',
+        'Royality must be entered as a number',
         'info'
       );
       return;
@@ -313,7 +316,7 @@ export class SellNftComponent implements OnInit {
               this.royaltyamount = parseFloat(this.formValue('Royalty'));
               if (isNaN(+this.royaltyamount)) {
                 this.snackbarService.openSnackBar(
-                  'Royality must be inputed as a number',
+                  'Royality must be entered as a number',
                   'info'
                 );
                 return;
@@ -334,7 +337,7 @@ export class SellNftComponent implements OnInit {
                 promtHeading: 'You are Selling',
                 nftName: this.NFTList.nftname,
                 thumbnail: this.NFTList.thumbnail,
-                feeTypeName: 'Comission Fee ',
+                feeTypeName: 'Commission Fee ',
                 serviceFee: parseFloat(this.commission),
                 total: this.sellingPrice,
                 blockchain: this.NFTList.blockchain,
@@ -409,7 +412,7 @@ export class SellNftComponent implements OnInit {
           this.royaltyamount = parseFloat(this.formValue('Royalty'));
           if (isNaN(+this.royaltyamount)) {
             this.snackbarService.openSnackBar(
-              'Royality must be inputed as a number',
+              'Royality must be entered as a number',
               'info'
             );
             return;
@@ -430,7 +433,7 @@ export class SellNftComponent implements OnInit {
             promtHeading: 'You are Selling',
             nftName: this.NFTList.nftname,
             thumbnail: this.NFTList.thumbnail,
-            feeTypeName: 'Comission Fee ',
+            feeTypeName: 'Commission Fee ',
             serviceFee: parseFloat(this.commission),
             total: this.sellingPrice,
             blockchain: this.NFTList.blockchain,
@@ -502,7 +505,7 @@ export class SellNftComponent implements OnInit {
         this.royaltyamount = parseFloat(this.formValue('Royalty'));
         if (isNaN(+this.royaltyamount)) {
           this.snackbarService.openSnackBar(
-            'Royality must be inputed as a number',
+            'Royality must be entered as a number',
             'info'
           );
           return;
@@ -523,7 +526,7 @@ export class SellNftComponent implements OnInit {
           promtHeading: 'You are Selling',
           nftName: this.NFTList.nftname,
           thumbnail: this.NFTList.thumbnail,
-          feeTypeName: 'Comission Fee ',
+          feeTypeName: 'Commission Fee ',
           serviceFee: parseFloat(this.commission),
           total: this.sellingPrice,
           blockchain: this.NFTList.blockchain,
@@ -598,7 +601,7 @@ export class SellNftComponent implements OnInit {
             trigger_at: 'sell screen',
           });
           this.snackbarService.openSnackBar(
-            'Royality must be inputed as a number',
+            'Royality must be entered as a number',
             'info'
           );
           return;
@@ -625,7 +628,7 @@ export class SellNftComponent implements OnInit {
           promtHeading: 'You are Selling',
           nftName: this.NFTList.nftname,
           thumbnail: this.NFTList.thumbnail,
-          feeTypeName: 'Comission Fee ',
+          feeTypeName: 'Commission Fee ',
           serviceFee: parseFloat(this.commission),
           total: this.sellingPrice,
           blockchain: this.NFTList.blockchain,
@@ -718,7 +721,7 @@ export class SellNftComponent implements OnInit {
             trigger_at: 'sell screen',
           });
           this.snackbarService.openSnackBar(
-            'Royality must be inputed as a number',
+            'Royality must be entered as a number',
             'info'
           );
           return;
@@ -744,7 +747,7 @@ export class SellNftComponent implements OnInit {
           promtHeading: 'You are Selling',
           nftName: this.NFTList.nftname,
           thumbnail: this.NFTList.thumbnail,
-          feeTypeName: 'Comission Fee ',
+          feeTypeName: 'Commission Fee ',
           serviceFee: parseFloat(this.commission),
           total: this.sellingPrice,
           blockchain: this.NFTList.blockchain,
@@ -846,7 +849,7 @@ export class SellNftComponent implements OnInit {
       this.currency = 'XLM';
     }
   }
-
+ 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
@@ -880,7 +883,14 @@ export class SellNftComponent implements OnInit {
 
             this.value = true;
           }
-
+          if(this.NFTList.artistprofilelink!=""){
+            this.usercontentURLFlag=true;
+            this.userprofileURL=this.NFTList.artistprofilelink;
+          }
+          if(this.NFTList.nftcontenturl!=""){
+            this.nftcontentURLFlag=true;
+            this.nftContentURL=this.NFTList.nftcontenturl
+          }
           this.api
             .findWatchlistByBlockchainAndNFTIdentifier(
               this.NFTList.blockchain,

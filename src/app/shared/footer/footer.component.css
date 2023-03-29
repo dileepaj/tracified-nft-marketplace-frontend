@@ -229,4 +229,8 @@ label.footer-normal-text:hover {
   border-radius: 8px;
   padding: 3px;
   color:#848484 ;
+  margin-left: 10px;
 }
+.commingsoonlink:hover{
+  text-decoration: none;
+ }

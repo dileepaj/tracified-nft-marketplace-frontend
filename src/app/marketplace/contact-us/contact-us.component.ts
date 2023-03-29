@@ -17,6 +17,7 @@ import {
   PendingDialogText,
   SnackBarText,
 } from 'src/app/models/confirmDialog';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-contact-us',
   templateUrl: './contact-us.component.html',
@@ -40,7 +41,8 @@ export class ContactUsComponent implements OnInit {
     private apiService: UserFAQService,
     private dialogService: DialogService,
     private snackbarService: SnackbarServiceService,
-    private _location: Location
+    private _location: Location,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +59,7 @@ export class ContactUsComponent implements OnInit {
   }
 
   public back() {
-    this._location.back();
+    this.router.navigate(['/']);
   }
 
   //trigger file input click event

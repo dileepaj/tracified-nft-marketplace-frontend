@@ -45,21 +45,9 @@
           </label>
           <span class="connected-dot" style="cursor: pointer"></span>
         </div>
-        <mat-icon
-          class="material-symbols-outlined"
-          style="cursor: pointer"
-          (click)="toggleToolTip()"
-          *ngIf="connectedWallet === 'Freighter'"
-        >
-          help
-        </mat-icon>
+        
       </div>
-      <label
-        class="alert-txt"
-        *ngIf="isToolTipVisible && connectedWallet === 'Freighter'"
-      >
-        Please import your Albedo account to Freighter wallet to view NFTs.
-      </label>
+     
     </div>
     <p [textContent]="bccommingsoon"></p>
     <div
@@ -68,7 +56,7 @@
       fxLayoutAlign="space-between center"
     >
       <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="hotpick">
-        Your Hot Picks
+        Your Watchlist
       </div>
       <div class="overview-picks-header-actions">
         <button class="overview-picks-header-btn" (click)="viewall('hotpicks')">

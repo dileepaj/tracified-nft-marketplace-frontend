@@ -24,7 +24,7 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { Location } from '@angular/common';
-
+import albedo from '@albedo-link/intent';
 @Component({
   selector: 'app-nftgrid',
   templateUrl: './nftgrid.component.html',
@@ -98,10 +98,26 @@ export class NftgridComponent implements OnInit {
 
   async retrive(blockchain: string) {
     if (blockchain == 'stellar') {
-      let freighterWallet = new UserWallet();
-      freighterWallet = new FreighterComponent(freighterWallet);
-      await freighterWallet.initWallelt();
-      this.User = await freighterWallet.getWalletaddress();
+      let details = navigator.userAgent;
+
+      let regexp = /android|iphone|kindle|ipad/i;
+
+      let isMobileDevice = await regexp.test(details);
+
+      if (isMobileDevice) {
+        await albedo
+        .publicKey({
+          require_existing: true,
+        }).then((res:any)=>{
+          this.User=res.pubkey;
+        })
+      }else{
+        let freighterWallet = new UserWallet();
+        freighterWallet = new FreighterComponent(freighterWallet);
+        await freighterWallet.initWallelt();
+        this.User = await freighterWallet.getWalletaddress();
+      }
+      
     }
 
     if (blockchain == 'solana') {
@@ -178,7 +194,7 @@ export class NftgridComponent implements OnInit {
       if (this.status === 'onsale') {
         this.title = 'On Sale';
       } else if (this.status === 'hotpicks') {
-        this.title = 'Hot Picks';
+        this.title = 'Watchlist';
       } else if (this.status === 'bought') {
         this.title = 'Bought';
       } else if (this.status === 'favorite') {

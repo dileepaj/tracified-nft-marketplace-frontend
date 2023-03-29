@@ -486,6 +486,8 @@
             #tagsInput
             class="input"
             maxlength="10"
+            [(ngModel)]="tagInputText"
+            (ngModelChange)="onTagInputChange()"
             [formControl]="tagCtrl"
             [matChipInputFor]="chipList"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"

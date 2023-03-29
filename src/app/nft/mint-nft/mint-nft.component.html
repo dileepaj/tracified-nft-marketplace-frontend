@@ -25,7 +25,14 @@
           [key]="key"
         ></app-mint2>
       </mat-step>
-      <mat-step> <app-mint3 [blockchain]="blockchain" [user]="user" (mintagain)="mintAgain()"> </app-mint3></mat-step>
+      <mat-step>
+        <app-mint3
+          [blockchain]="blockchain"
+          [user]="user"
+          (mintagain)="mintAgain()"
+        >
+        </app-mint3
+      ></mat-step>
     </mat-stepper>
   </div>
 </div>

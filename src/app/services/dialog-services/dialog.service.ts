@@ -13,6 +13,7 @@ import {
   PreviewImage,
   selectWalletDialog,
   userAgreementPromt,
+  userAgreementPromt2,
 } from 'src/app/models/confirmDialog';
 import { PendingComponent } from 'src/app/dialogs/pending/pending.component';
 import { DisclaimerComponent } from 'src/app/dialogs/disclaimer/disclaimer.component';
@@ -23,6 +24,7 @@ import { MintPopupComponent } from 'src/app/nft/mint-popup/mint-popup.component'
 import { ConfirmMintComponent } from 'src/app/dialogs/confirm-mint/confirm-mint.component';
 import { MintingComponent } from 'src/app/dialogs/minting/minting.component';
 import { SellNftConfirmationComponent } from 'src/app/dialogs/sell-nft-confirmation/sell-nft-confirmation.component';
+import { ConfirmSellComponent } from 'src/app/dialogs/confirm-sell/confirm-sell.component';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +46,17 @@ export class DialogService {
   confirmMintDialog(data: userAgreementPromt): Observable<boolean> {
     return this.dialog
       .open(ConfirmMintComponent, {
+        data,
+        width: '500px',
+        disableClose: true,
+        backdropClass: 'back-drop'
+      })
+      .afterClosed();
+  }
+
+  confirmMintDialog2(data: userAgreementPromt2): Observable<boolean> {
+    return this.dialog
+      .open(ConfirmSellComponent, {
         data,
         width: '500px',
         disableClose: true,

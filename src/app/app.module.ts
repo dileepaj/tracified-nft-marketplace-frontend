@@ -100,6 +100,7 @@ import { FirebaseConfig } from 'src/environments/environment';
 import * as fireAnalytics from 'firebase/analytics';
 import { CustomSnackbarComponent } from './dialogs/custom-snackbar/custom-snackbar.component';
 import { AboutUsComponent } from './marketplace/about-us/about-us.component';
+import { ConfirmSellComponent } from './dialogs/confirm-sell/confirm-sell.component';
 firebase.initializeApp(FirebaseConfig.firebaseConfig);
 
 const appRoutes: Routes = [
@@ -347,6 +348,7 @@ const appRoutes: Routes = [
     NftCardSkeletonComponent,
     CustomSnackbarComponent,
     AboutUsComponent,
+    ConfirmSellComponent,
   ],
   imports: [
     BrowserModule,

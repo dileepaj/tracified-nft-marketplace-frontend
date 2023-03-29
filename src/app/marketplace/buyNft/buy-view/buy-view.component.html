@@ -45,7 +45,18 @@
         ngStyle.gt-md="max-width: 90%"
       >
         <label class="owner-s">Creator Name</label>
-        <label class="owner-l">{{ this.NFTList.artistname }}</label>
+        <label class="owner-l">{{ this.NFTList.artistname }}
+          <a
+          *ngIf = "usercontentURLFlag"
+          href="{{ userprofileURL }}"
+          target="_blank"
+          class="txn-link"
+          ><img
+            style="margin-left:5px"
+            src="https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/external-link.png"
+        /></a>
+
+        </label>
       </div>
       <div
         class="prev-o"
@@ -56,7 +67,18 @@
         <label class="p-text sum-text" ngStyle.lt-lg="width : 100%">
           {{ this.NFTList.description }}
         </label>
+       
       </div>
+      <div
+        class="prev-o"
+        style="margin-top: 30px; align-self: flex-start; max-width: 100%"
+        ngStyle.gt-md="max-width: 90%"
+      >
+      <label class="owner-s">Tags</label>
+      <label class="p-text sum-text tag-text" ngStyle.lt-lg="width : 100%" >
+       <div class="nfttagchips" *ngFor="let item of this.NFTList.tags">{{item}}</div>
+      </label>
+    </div>
     </div>
 
     <div
@@ -80,7 +102,17 @@
         class="nft-det-wrapper"
       >
         <div class="nft-det">
-          <label class="nft-name">{{ this.NFTList.nftname }}</label>
+          <label class="nft-name">{{ this.NFTList.nftname }}
+            <a
+            *ngIf = "usercontentURLFlag"
+            href="{{nftcontentURL}}"
+            target="_blank"
+            class="txn-link"
+            ><img
+              style="margin-left:5px"
+              src="https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/external-link.png"
+          /></a>
+          </label>
           <label class="nft-cat"
             ><b>Category - </b>{{ this.NFTList.categories }}</label
           >

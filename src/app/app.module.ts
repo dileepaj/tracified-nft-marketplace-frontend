@@ -67,7 +67,6 @@ import { OverviewComponent } from './user/overview/overview.component';
 import { ConfirmComponent } from './dialogs/confirm/confirm.component';
 import { ShowNFTComponent } from './show-nft/show-nft.component';
 import { VerifyComponent } from './verify/verify.component';
-import { DocumentationComponent } from './marketplace/documentation/documentation.component';
 import { FaqComponent } from './marketplace/faq/faq.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InterceptorService } from './services/loader/interceptor.service';
@@ -100,6 +99,7 @@ import { FirebaseConfig } from 'src/environments/environment';
 import * as fireAnalytics from 'firebase/analytics';
 import { CustomSnackbarComponent } from './dialogs/custom-snackbar/custom-snackbar.component';
 import { AboutUsComponent } from './marketplace/about-us/about-us.component';
+import { ConfirmSellComponent } from './dialogs/confirm-sell/confirm-sell.component';
 firebase.initializeApp(FirebaseConfig.firebaseConfig);
 
 const appRoutes: Routes = [
@@ -243,10 +243,6 @@ const appRoutes: Routes = [
     component: VerifyComponent,
   },
   {
-    path: 'docs',
-    component: DocumentationComponent,
-  },
-  {
     path: 'contact-us',
     component: ContactUsComponent,
   },
@@ -321,7 +317,6 @@ const appRoutes: Routes = [
     ConfirmComponent,
     ShowNFTComponent,
     VerifyComponent,
-    DocumentationComponent,
     FaqComponent,
     OkmessageComponent,
     MintNftComponent,
@@ -347,6 +342,7 @@ const appRoutes: Routes = [
     NftCardSkeletonComponent,
     CustomSnackbarComponent,
     AboutUsComponent,
+    ConfirmSellComponent,
   ],
   imports: [
     BrowserModule,

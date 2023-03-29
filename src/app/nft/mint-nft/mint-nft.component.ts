@@ -49,6 +49,7 @@ export class MintNftComponent implements OnInit {
 
   public mintAgain() {
     this.selectedIndex = 0;
+    window.location.reload()
   }
 
   public back() {

@@ -65,6 +65,8 @@ export class HomeComponent implements OnInit {
   paginationflag: boolean = false;
   bestPicksLoading: boolean = false;
   trendingLoading: boolean = false;
+  private readonly tracifiedhelp = APIConfigENV.tracifiedhelpDocsbaseURL
+  readonly helpDocsMK: string = `${this.tracifiedhelp}docs/NFTPlatofrm/marketplace/introtoMarketplace`
   constructor(
     private dialogref: MatDialog,
     private nft: NftServicesService,
@@ -163,18 +165,22 @@ export class HomeComponent implements OnInit {
   routeTo(filter: string) {
     if (filter == '/explore') {
       this.router.navigate([filter], {
-        queryParams: { blockchain: 'ethereum', filter: 'all' },
+        queryParams: { blockchain: 'stellar', filter: 'all' },
       });
     } else if (filter == '/mint') {
       this.router.navigate([filter]);
     } else if (filter == '/explore') {
       this.router.navigate([filter], {
-        queryParams: { blockchain: 'ethereum', filter: 'all' },
+        queryParams: { blockchain: 'stellar', filter: 'all' },
       });
     } else if (filter == '/blogs') {
       this.router.navigate([filter]);
     } else if (filter == '/docs') {
-      this.router.navigate([filter]);
+      const link = document.createElement('a');
+      link.href = this.helpDocsMK;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.click();
     } else {
       this.snackbarService.openSnackBar('Invalid page!', 'error');
     }

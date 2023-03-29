@@ -55,7 +55,7 @@
         /><label class="normal-text">Albedo</label>
       </div>
     </div>
-    <div class="wallet" ngStyle.lt-md="width:100%" disabled="true">
+    <div class="wallet" (click)="selectWallet('metamask')" ngStyle.lt-md="width:100%">
       <div class="wallet-inner-div">
         <img
           src="../../../assets/images/metamask.png"
@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <div class="wallet" ngStyle.lt-md="width:100%" disabled="true">
+    <div class="wallet" (click)="selectWallet('phantom')" ngStyle.lt-md="width:100%">
       <div class="wallet-inner-div">
         <img
           src="../../../assets/images/phantom.png"

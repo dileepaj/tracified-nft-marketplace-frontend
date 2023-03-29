@@ -1183,10 +1183,25 @@ export class Mint2Component implements OnInit {
     this.isLoadingPresent = false;
     this.loading.dismiss();
   }
+
+  reset(){
+    this.mint.NFTName=""
+    this.mint.Description=""
+    this.mint.ArtistName=""
+    this.mint.ArtistProfileLink=""
+    this.mint.NftContentURL=""
+    this.tags=[]
+    this.imageSrc=""
+    this.croppedImage=""
+  }
+
   ngOnInit(): void {
     this.firebaseanalytics.logEvent('page_load', { page_name: 'minting_page' });
+    this.reset();
   }
+
   ngOnChanges(): void {
+    this.reset();
     if (this.wallet == 'metamask') {
       this.polygon = false;
       this.stellar = true;

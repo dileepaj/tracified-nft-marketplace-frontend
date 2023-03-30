@@ -16,12 +16,27 @@ export class BlogViewerComponent implements OnInit {
     {
       thumbnail : '../../../assets/images/nft-mp-hero-2.jpg',
       topic: 'About Tracified',
-      desc: "Blockchain underwent a revolution with the introduction of Bitcoin, but other latecomers, like Ethereum, have gained just as much support as Bitcoin, if not more. The Ethereum Blockchain is a decentralized, open-source platform that was first introduced in 2015. Since its debut, Ethereum has accomplished a number of significant milestones. The collaboration between Microsoft and ConsenSys is one of the platform's most notable recent accomplishments. Through the cooperation, developers and organizations using Microsoft Azure will have access to Ethereum Blockchain as a Service (EBaaS). The Ethereum network functions the same as every other Blockchain network. Different nodes known as miners evaluate each new transaction after it has been logged. To update the transaction in the decentralized ledger, these miners run the program code on their computer. For each piece of code they run or each transaction they add to the chain, miners are rewarded 3 ether. The output of each miner's code is added to the consensus, which is then inspected to verify the most recent transaction for efficient network-wide transactions.",
+      desc: `
+      Tracified is a blockchain-based supply chain traceability platform that allows businesses to get transparency of people, process and product, through all its stages up until sale via retail or eCommerce.
+
+      Tracified facilitates a tamper-proof platform that streamlines the data flow within a supply chain, introducing a novel crypto-economic model based on a reward/penalty concept, ensuring fair distribution of gains across the chain. The originality of the solution is further enhanced by its ability to get customized to suit the needs of a business.
+
+      Tracified has a dynamic range of products that utilizes multiple blockchains in order to achieve various requirements maximizing transparency and authenticity.
+      `,
     },
     {
       thumbnail : '../../../assets/images/nft-mp-hero-3.jpg',
       topic: "About Tracified's Marketplace",
-      desc: 'The Polygon blockchain project is a framework for building and connecting Ethereum-compatible blockchain networks as wells a scaling solution for Ethereum. Low throughput and high transaction fees are two of the most serious problems the Ethereum ecosystem is now dealing with, and they are challenges that the protocol seeks to address.',
+      desc: `
+      Tracified NFT Marketplace is a decentralized platform that enables users to create, sell, and purchase traceability-related non-fungible tokens (NFTs) on various public blockchains. The platform specializes in NFTs that consist of traceability data, such as supply chain information, product origins, and authenticity verification. Users can create and mint their own traceability NFTs, and trade them on the platform using cryptocurrency. The platform utilizes various public blockchains, such as Ethereum, Stellar, Polygon and Solana, ensuring that the traceability NFTs created and traded on the platform are accessible to anyone on the blockchain network. To use the platform, users are required to have a crypto wallet such as MetaMask, Freighter, Phantom, or Albedo, depending on the preferred blockchain.
+    
+      Tracified NFT Marketplace is a decentralized platform built on various public blockchains that allows users to create, sell, and purchase traceability-related non-fungible tokens (NFTs). The NFTs created and traded on the platform consist of traceability data. This data can include information such as supply chain information, product origins, authenticity verification and many more.
+
+      Users can create and mint their own traceability NFTs on the platform, then sell or trade them on the platform using cryptocurrency. This ensures that the transactions are secure, transparent, and accessible to anyone on the blockchain network. The platform utilizes various public blockchains, such as Ethereum, Stellar, Polygon, and Solana, ensuring that the traceability NFTs created and traded on the platform are accessible to anyone on the blockchain network. To interact with the platform, users will need a crypto wallet that is compatible with the preferred blockchain, such as MetaMask for Ethereum an, Freighter and Albedo for Stellar, Phantom for Solana.
+
+      Tracified NFT marketplace offers a new way for people to represent their items and ensure authenticity, transparency and traceability in the supply chain. This platform is beneficial for consumers, businesses, and industries that are looking to build trust and transparency with their customers, partners and regulators.
+      
+      `,
     },
   ];
   topics: any;

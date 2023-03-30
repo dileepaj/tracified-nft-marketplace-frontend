@@ -144,7 +144,7 @@
         <img *ngIf="isStellarFlag" src="../../../assets/images/no-nfts.svg" />
         <label *ngIf="isStellarFlag">No NFTs Found</label>
         <img *ngIf="!isStellarFlag" src="../../../assets/images/coming-soon.svg" />
-        <label *ngIf="!isStellarFlag">blockchain Coming Soon...</label>
+        <label *ngIf="!isStellarFlag">{{ selectedBlockchain.charAt(0).toUpperCase()+ selectedBlockchain.slice(1)}} Coming Soon...</label>
       </div>
     </div>
   </div>

@@ -33,6 +33,7 @@ import albedo from '@albedo-link/intent';
 import { SaleOfferService } from 'src/app/services/blockchain-services/stellar-services/albedo-transactions/sale-offer.service';
 import { MintService } from 'src/app/services/blockchain-services/mint.service';
 import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
+import { CurrencyConverterService } from 'src/app/services/api-services/crypto-currency-converter/currency-converter.service';
 
 @Component({
   selector: 'app-sell-nft',
@@ -124,6 +125,7 @@ export class SellNftComponent implements OnInit {
   nftContentURL:string="";
   usercontentURLFlag: boolean=false;
   nftcontentURLFlag: boolean=false;
+  currencyRate: any = 0.0;
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -142,12 +144,13 @@ export class SellNftComponent implements OnInit {
     public pmint: PolygonMintService,
     private albedosale: SaleOfferService,
     private servicemint: MintService,
-    private firebaseanalytics: FirebaseAnalyticsService
+    private firebaseanalytics: FirebaseAnalyticsService,
+    private currencyConverter:CurrencyConverterService
   ) { }
 
   validateDecimal(input) {
     // Get the value of the input box and convert it to a number with 6 decimal places
-    const value = parseFloat(input.value).toFixed(6);
+    const value = parseFloat(input.value).toFixed(4);
     
     // Check if the value in the input box is the same as the rounded value
     if (value !== input.value) {
@@ -897,6 +900,8 @@ export class SellNftComponent implements OnInit {
         .getNFTDetails(this.data[1], this.data[0], this.data[2])
         .subscribe((data: any) => {
           this.NFTList = data.Response[0];
+          this.getCurrencyRate()
+          // this.currencyRate=0.1;
           if (this.NFTList == null) {
             this.ngOnInit();
           }
@@ -1141,12 +1146,14 @@ export class SellNftComponent implements OnInit {
 
   public convertToUSD(event: any, type: string) {
     if (type === 'selling') {
+      // `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${this.NFTList.blockchain}`
       fetch(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${this.NFTList.blockchain}`
+        'api.coincap.io/v2/rates/'
       )
         .then((res) => res.json())
         .then((res) => {
-          const rate = res[0].current_price;
+          const rate = res[5].id;
+          this.currencyRate = rate;
           const amount = parseFloat(event.target.value);
           this.sellingPriceUSD = amount * rate;
           if (Number.isNaN(this.sellingPriceUSD)) {
@@ -1161,23 +1168,32 @@ export class SellNftComponent implements OnInit {
       this.calculateRoyaltyPriceUSD();
     }
   }
+  public convertToUSDv2(event: any, type: string) {
+    if (type === 'selling') {
+          const amount = parseFloat(event.target.value);
+          this.sellingPriceUSD = amount * this.currencyRate;
+          if (Number.isNaN(this.sellingPriceUSD)) {
+            this.sellingPriceUSD = 0;
+          }
+          this.calculateRoyaltyPriceUSD();
+    } else {
+      this.calculateRoyaltyPriceUSD();
+    }
+  }
+
+  public getCurrencyRate(){
+    this.currencyConverter.GetUSDratebyBC(this.NFTList.blockchain).subscribe(res=>{
+      this.currencyRate=res.data.priceUsd;
+    })
+  }
 
   public calculateRoyaltyPriceUSD() {
     this.calculatePrice();
-    fetch(
-      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${this.NFTList.blockchain}`
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        const rate = res[0].current_price;
         let amount = this.royaltyCharge;
         if (amount === 'NaN') {
           amount = 0;
         }
-        this.royaltyPriceUSD = amount * rate;
-      })
-      .catch(() => {
-        this.royaltyPriceUSD = 0;
-      });
+        this.royaltyPriceUSD = amount * this.currencyRate;
+
   }
 }

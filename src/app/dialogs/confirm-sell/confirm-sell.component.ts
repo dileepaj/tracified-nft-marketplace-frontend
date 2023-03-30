@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { userAgreementPromt2 } from 'src/app/models/confirmDialog';
+import { CurrencyConverterService } from 'src/app/services/api-services/crypto-currency-converter/currency-converter.service';
 
 @Component({
   selector: 'app-confirm-sell',
@@ -20,17 +21,26 @@ export class ConfirmSellComponent implements OnInit {
   grandTotal: any;
   royaltyUSD: string;
   gtotalUSD: string;
+  currencyRate: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: userAgreementPromt2,
-    private matDialogRef: MatDialogRef<ConfirmSellComponent>
+    private matDialogRef: MatDialogRef<ConfirmSellComponent>,
+    private currencyConverter:CurrencyConverterService
   ) { }
 
   ngOnInit(): void {
+    this.serviceFeeUSD = `...`;
+    this.totalUSD = `...`;
+    this.royaltyUSD =`...`;
+    this.gtotalUSD = `...`;
+
+
     this.serviceFee = this.data.serviceFee?.toString()
     this.total = this.data.total?.toString()
     this.blockchain = this.data.blockchain?.toString()
     this.royalty = this.data.royaltyfee?.toString()
     this.grandTotal = this.data.grandTotalfee?.toString()
+    this.blockchain= "stellar"
     if(this.blockchain === 'ethereum') {
       this.currency = 'ETH'
     }
@@ -43,7 +53,10 @@ export class ConfirmSellComponent implements OnInit {
     else if(this.blockchain === 'solana') {
       this.currency = 'SOL'
     }
-    this.convertToUSD();
+    this.getCurrencyRate().then(res=>{
+      this.convertToUSD();
+    })
+    
   }
 
   
@@ -60,28 +73,28 @@ export class ConfirmSellComponent implements OnInit {
   }
 
 
-  private convertToUSD() {
-    fetch(
-      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${this.blockchain}`
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        const rate = res[0].current_price;
-        const src = parseFloat(this.serviceFee);
-        const tot = parseFloat(this.total);
-        const roy = parseFloat(this.royalty);
-        const gtot = parseFloat(this.grandTotal)
-        this.serviceFeeUSD = (src * rate).toFixed(2);
-        this.totalUSD = (tot * rate).toFixed(2);
-        this.royaltyUSD =(roy * rate).toFixed(2);
-        this.gtotalUSD = (gtot * rate).toFixed(2);
-      })
-      .catch(() => {
-        this.serviceFeeUSD = '0.00';
-        this.totalUSD = '0.00';
-        this.royaltyUSD='0.00';
-        this.gtotalUSD='0.00';
-      });
+  public async getCurrencyRate(){
+    this.currencyConverter.GetUSDratebyBC("stellar").subscribe(res => {
+      console.log("rate in api: ", res.data.priceUsd);
+      this.currencyRate = res.data.priceUsd;
+      return this.currencyRate;
+    })
+  }
+  private async convertToUSD() {
+    const rate = this.currencyRate;
+    const src = parseFloat(this.serviceFee);
+    const tot = parseFloat(this.total);
+    const roy = parseFloat(this.royalty);
+    const gtot = parseFloat(this.grandTotal)
+    this.currencyConverter.GetUSDratebyBC("stellar").subscribe(res => {
+      this.currencyRate = res.data.priceUsd;
+      this.serviceFeeUSD = (src * this.currencyRate).toFixed(4);
+      this.totalUSD = (tot * this.currencyRate).toFixed(4);
+      this.royaltyUSD =(roy * this.currencyRate).toFixed(4);
+      this.gtotalUSD = (gtot * this.currencyRate).toFixed(4);
+    })
+    
+
   }
 
 }

@@ -64,7 +64,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   svgflag: boolean = false;
   thumbnailflag: boolean = false;
   responseArrayLength: number = 0;
-
+  isStellarFlag: boolean = false;
   constructor(
     private api: ApiServicesService,
     private nft: NftServicesService,
@@ -175,6 +175,9 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         this.selectedBlockchain = params['blockchain'];
         this.selectedFilter = params['filter'];
 
+        if(this.selectedBlockchain=='stellar'){
+          this.isStellarFlag=true;
+        }
 
         if (this.selectedFilter === 'onsale' || this.selectedFilter === 'hotpicks' || this.selectedFilter === 'trending' || this.selectedFilter === 'bestcreators' || this.selectedFilter === 'uptodate') {
           this.currentPage = 1;

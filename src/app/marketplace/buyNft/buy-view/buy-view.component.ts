@@ -571,7 +571,10 @@ export class BuyViewComponent implements OnInit {
             this.royaltyCharge.toString(),
             this.commission,
             ()=>{
-              this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.","error");
+              if(this.userPK==this.NFTList.distributorpk){
+                this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.","error");
+              }
+             
               _callback()!;
             }
           )
@@ -594,6 +597,7 @@ export class BuyViewComponent implements OnInit {
               _callback()!;
               this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.","error");
             }
+            this.snackbar.openSnackBar('User closed wallet','error')
           });
       }).catch(err=>{
         _callback()
@@ -613,7 +617,10 @@ export class BuyViewComponent implements OnInit {
           this.royaltyCharge.toString(),
           this.commission,
           ()=>{
-            this.snackbar.openSnackBar("User closed wallet.","error");
+            if(this.userPK==this.NFTList.distributorpk){
+              this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.","error");
+            }
+            this.snackbar.openSnackBar('User closed wallet','error')
             _callback()!;
           }
         )

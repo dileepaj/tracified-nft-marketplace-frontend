@@ -8,6 +8,10 @@ import { WalletSidenavService } from '../services/wallet-sidenav.service';
 import { BigNumber, ethers } from 'ethers';
 import albedo from '@albedo-link/intent';
 import { CurrencyConverterService } from '../services/api-services/crypto-currency-converter/currency-converter.service';
+import { Server } from 'stellar-sdk';
+import { blockchainNet } from '../shared/config';
+import { StellarCommonsService } from '../services/blockchain-services/stellar-services/stellar-commons.service';
+
 
 @Component({
   selector: 'app-wallet',
@@ -30,7 +34,8 @@ export class WalletComponent implements OnInit {
   constructor(
     private walletService: WalletSidenavService,
     private ref: ChangeDetectorRef,
-    private currencyConverter:CurrencyConverterService
+    private currencyConverter:CurrencyConverterService,
+    private network:StellarCommonsService
   ) { }
 
   ngOnInit(): void {
@@ -97,13 +102,27 @@ export class WalletComponent implements OnInit {
       .publicKey({
         require_existing: true,
       })
-      .then((res: any) => {
+      .then(async (res: any) => {
         this.User = res.pubkey;
         this.walletName = 'Albedo';
         //this.getPhantomBalance(phantomWallet);
         this.walletConnected = true;
+        const server = new Server(blockchainNet);
+        const networkPassphrase = this.network.getNetwork();
+        const account = await server.loadAccount(this.User);
+        const balance = account.balances.find((balance) => balance.asset_type === 'native');
+
+        if (balance) {
+          console.log(`Your balance is: ${balance.balance}`);
+          this.balance=`${balance.balance}`
+          this.convertToUSD('stellar');
+        } else {
+          console.log('No balance found for the account.');
+        }
       });
   }
+
+
 
   //get wallet balance
   private getFreighterBalance(wallet: UserWallet) {

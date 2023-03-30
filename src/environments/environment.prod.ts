@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
-  contractAddressNFTPolygon: "0xE6F59c4A3118C0C00155b00331dF07b40DD85569",
-  contractAddressMKPolygon: "0x86E328AD08b5e66B6AcBF7e03DAC74c7b723f5B7",
+  contractAddressNFTPolygon: "0xc89bac690365d942ba49bb020274440dae54ec11",
+  contractAddressMKPolygon: "0x7D591543D2A09ef03AaB1490083943fC69c352Ec",
   contractAddressNFTEthereum: "0x6f09Ecb9e29bF5B1d2C9c39d126FF32dc089F34C",
-  contractAddressMKEthereum: "0xB5EBb0028AB92F19A0a415c450F64b4ED768cbca",
+  contractAddressMKEthereum: "0x7D591543D2A09ef03AaB1490083943fC69c352Ec",
   fromWallet: "4wtzfvaCWvYxzmdh4ajQoj8ep5AuJtUeV8rW3D5biCT7",
-  tracifiedStellarPK : "GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV",
+  tracifiedStellarPK : "GC6VQMBOJELJJYFXRYF4IQTVJYRHJB6AVQ7UVWTYD4WNWDFBGIK7R72L",
   tracifiedSolanaPK : "FfEztWGUyS7FjdxS6SPenpNiFmABBc3jLpLSPvPq1QP7"
 
 
@@ -50,8 +50,8 @@ export const APIConfigENV = {
 export const BlockchainConfig = {
   production: false,
   mode: 'production',
-  solananetwork: 'devnet',
-  solananetworkURL: 'https://api.devnet.solana.com'
+  solananetwork: 'mainnet-beta',
+  solananetworkURL: 'https://solana-mainnet.g.alchemy.com/v2/rSR0X9jq8qltHn8Tnb16oDa0eovOZf1Y'
 }
 
 

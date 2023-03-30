@@ -74,7 +74,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     private _sanitizer: DomSanitizer,
     private snackbarService: SnackbarServiceService,
     private dialogService: DialogService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
   ) { }
 
 
@@ -506,7 +506,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   public back() {
-    this._location.back();
+    this.router.navigate(['/']);
   }
 
   public toggleView(element: any) {

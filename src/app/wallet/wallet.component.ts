@@ -7,6 +7,7 @@ import { PhantomComponent } from './phantom/phantom.component';
 import { WalletSidenavService } from '../services/wallet-sidenav.service';
 import { BigNumber, ethers } from 'ethers';
 import albedo from '@albedo-link/intent';
+import { CurrencyConverterService } from '../services/api-services/crypto-currency-converter/currency-converter.service';
 import { Server } from 'stellar-sdk';
 import { blockchainNet } from '../shared/config';
 import { StellarCommonsService } from '../services/blockchain-services/stellar-services/stellar-commons.service';
@@ -28,9 +29,11 @@ export class WalletComponent implements OnInit {
   walletName: string = '';
   loading: boolean = false;
   User: any;
+  currencyRate: any;
   constructor(
     private walletService: WalletSidenavService,
     private ref: ChangeDetectorRef,
+    private currencyConverter:CurrencyConverterService,
     private network:StellarCommonsService
   ) { }
 
@@ -145,22 +148,23 @@ export class WalletComponent implements OnInit {
       });
   }
 
+  public async getCurrencyRate(blockchain:string){
+    this.currencyConverter.GetUSDratebyBC(blockchain).subscribe(res => {
+      this.currencyRate = res.data.priceUsd;
+      return this.currencyRate;
+    })
+  }
+
   //convert balance to usd
   private convertToUSD(blockchain: string) {
-    fetch(
-      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${blockchain}`
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        const rate = res[0].current_price;
+    this.currencyConverter.GetUSDratebyBC(blockchain).subscribe(res => {
+        console.log(`currentprice : ${res.data.priceUsd}`)
+        this.currencyRate = res.data.priceUsd;
+        const rate = this.currencyRate;
         const eth = parseFloat(this.balance);
         this.usd = (eth * rate).toFixed(2);
         this.loading = false;
       })
-      .catch(() => {
-        this.loading = false;
-        this.usd = '0.00';
-      });
   }
 
   public close() {

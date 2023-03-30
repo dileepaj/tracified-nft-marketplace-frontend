@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialog, userAgreementPromt } from 'src/app/models/confirmDialog';
+import { CurrencyConverterService } from 'src/app/services/api-services/crypto-currency-converter/currency-converter.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
 
 @Component({
@@ -17,12 +18,16 @@ export class ConfirmMintComponent implements OnInit {
   currency : string;
   public acceptEnabled: boolean = false;
   state: string;
+  currencyRate: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: userAgreementPromt,
-    private matDialogRef: MatDialogRef<ConfirmComponent>
+    private matDialogRef: MatDialogRef<ConfirmComponent>,
+    private currencyConverter:CurrencyConverterService
   ) {}
 
   ngOnInit(): void {
+    this.serviceFeeUSD = "...";
+      this.totalUSD = "...";
     this.serviceFee = this.data.serviceFee?.toString()
     this.total = this.data.total?.toString()
     this.blockchain = this.data.blockchain?.toString()
@@ -38,7 +43,9 @@ export class ConfirmMintComponent implements OnInit {
     else if(this.blockchain === 'solana') {
       this.currency = 'SOL'
     }
-    this.convertToUSD();
+    this.getCurrencyRate().then(res=>{
+      this.convertToUSD();
+    })
   }
 
   public onCheckedChange(e: any) {
@@ -52,22 +59,19 @@ export class ConfirmMintComponent implements OnInit {
   public cancel() {
     this.matDialogRef.close(false);
   }
-
+  public async getCurrencyRate(){
+    this.currencyConverter.GetUSDratebyBC("stellar").subscribe(res => {
+      this.currencyRate = res.data.priceUsd;
+      return this.currencyRate;
+    })
+  }
   private convertToUSD() {
-    fetch(
-      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${this.blockchain}`
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        const rate = res[0].current_price;
-        const src = parseFloat(this.serviceFee);
-        const tot = parseFloat(this.total);
-        this.serviceFeeUSD = (src * rate).toFixed(2);
-        this.totalUSD = (tot * rate).toFixed(2);
-      })
-      .catch(() => {
-        this.serviceFeeUSD = '0.00';
-        this.totalUSD = '0.00';
-      });
+    this.currencyConverter.GetUSDratebyBC("stellar").subscribe(res => {
+      this.currencyRate = res.data.priceUsd;
+      const src = parseFloat(this.serviceFee);
+      const tot = parseFloat(this.total);
+      this.serviceFeeUSD = (src * this.currencyRate).toFixed(4);
+      this.totalUSD = (tot * this.currencyRate).toFixed(4);
+    })
   }
 }

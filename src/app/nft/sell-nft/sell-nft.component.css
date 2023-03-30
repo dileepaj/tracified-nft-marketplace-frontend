@@ -701,6 +701,7 @@ mat-hint {
   max-width: 90px;
   color: #000;
   display: inline-block;
+  font-size: 14px;;
   min-height: 32px;
   margin-right: 10px;
   background-color: #ddd;
@@ -714,4 +715,8 @@ mat-hint {
 .p-text .sum-text .tag-text{
   display: inline-block;
   margin: 0; padding: 0; white-space: nowrap;
+}
+
+#royalty-box::placeholder{
+  color: white;
 }

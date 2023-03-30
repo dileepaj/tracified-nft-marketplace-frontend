@@ -17,6 +17,6 @@ export class HelpCenterComponent implements OnInit {
   }
 
   public back() {
-    this._location.back();
+    this.router.navigate(['/']);
   }
 }

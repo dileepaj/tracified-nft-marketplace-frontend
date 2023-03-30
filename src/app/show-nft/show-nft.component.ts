@@ -166,7 +166,6 @@ export class ShowNFTComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.data = params['data'];
     });
-
     if (this.data != null) {
       this.loading = true;
       if (this.data == 'Favourites') {
@@ -276,7 +275,7 @@ export class ShowNFTComponent implements OnInit {
     }
 
     this.service
-      .getFilteredNFTs('ethereum', this.currentPage, filter, 12)
+      .getFilteredNFTs('stellar', this.currentPage, filter, 12)
       .subscribe((result: any) => {
         try {
           this.nextPage = result.Response.PaginationInfo.nextpage;

@@ -359,7 +359,7 @@ export class SellNftComponent implements OnInit {
                 buttonAction: 'Sell Now',
                 royalty:'Royalty Fee',
                 royaltyfee: this.royaltyCharge,
-                grandTotal:'Grand Total',
+                grandTotal:'Total',
                 grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
               })
               .subscribe((res) => {
@@ -381,11 +381,11 @@ export class SellNftComponent implements OnInit {
                       '1',
                       this.sellingPrice,
                       () => {
-                        this.snackbarService.openSnackBar("User Closed wallet", "error");
+                        this.snackbarService.openSnackBar("Please check balance and network in the wallet", "error");
                         loadingAnimation.close();
                       }
                     )
-                    .then((res: any) => {
+                    .then((res: any) => { 
                       try {
                         this.selltxn = res.tx_hash;
                         this.saveTXNs();
@@ -459,7 +459,7 @@ export class SellNftComponent implements OnInit {
             buttonAction: 'Sell Now',
             royalty:'Royalty Fee',
             royaltyfee: this.royaltyCharge,
-            grandTotal:'Grand Total',
+            grandTotal:'Total',
             grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
           })
           .subscribe((res) => {
@@ -480,6 +480,7 @@ export class SellNftComponent implements OnInit {
                   this.sellingPrice,
                   () => {
                     loadingAnimation.close();
+                    this.snackbarService.openSnackBar("Please check balance and network in the wallet", "error");
                   }
                 )
                 .then((res: any) => {
@@ -556,7 +557,7 @@ export class SellNftComponent implements OnInit {
           buttonAction: 'Sell Now',
           royalty:'Royalty Fee',
           royaltyfee: this.royaltyCharge,
-          grandTotal:'Grand Total',
+          grandTotal:'Total',
           grandTotalfee:parseFloat(this.sellingPriceForNonContracts),
         })
         .subscribe((res) => {
@@ -662,7 +663,7 @@ export class SellNftComponent implements OnInit {
           buttonAction: 'Sell Now',
           royalty:'Royalty Fee',
           royaltyfee: this.royaltyCharge,
-          grandTotal:'Grand Total',
+          grandTotal:'Total',
           grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
         })
         .subscribe((res) => {
@@ -785,7 +786,7 @@ export class SellNftComponent implements OnInit {
           buttonAction: 'Sell Now',
           royalty:'Royalty Fee',
           royaltyfee: this.royaltyCharge,
-          grandTotal:'Grand Total',
+          grandTotal:'Total',
           grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
         })
         .subscribe((res) => {

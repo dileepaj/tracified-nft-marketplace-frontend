@@ -319,7 +319,7 @@ export class HomeComponent implements OnInit {
 
   public getTrendingNFTs() {
     this.trendingLoading = true;
-    this.nft.getFilteredNFTs('ethereum', 0, 'hotpicks', 8).subscribe(
+    this.nft.getFilteredNFTs('ethereum', 0, 'trending', 8).subscribe(
       (result: any) => {
         try {
           const responseArrayLength = result.Response.content.length;

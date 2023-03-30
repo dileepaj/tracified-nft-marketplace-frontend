@@ -12,7 +12,6 @@ import { Server } from 'stellar-sdk';
 import { blockchainNet } from '../shared/config';
 import { StellarCommonsService } from '../services/blockchain-services/stellar-services/stellar-commons.service';
 
-
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',

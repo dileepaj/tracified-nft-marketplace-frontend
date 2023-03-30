@@ -320,7 +320,7 @@ export class MintComponent implements OnInit {
               this.dialogService
                 .confirmDialog({
                   title: ConfirmDialogText.MINT1_PK_ENDORSMENT_TITLE,
-                  message: ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE,
+                  message:  ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE_P1 + `${this.getShortenKey(key)} for Stellar ` + ConfirmDialogText.MINT1_PK_ENDORSMENT_MESSAGE_P2,
                   confirmText: ConfirmDialogText.CONFIRM_BTN,
                   cancelText: ConfirmDialogText.CANCEL_BTN,
                 })

@@ -166,11 +166,9 @@ export class ShowNFTComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.data = params['data'];
     });
-    console.log("-----------data",this.data)
     if (this.data != null) {
       this.loading = true;
       if (this.data == 'Favourites') {
-        console.log("-----------1")
         this.service.getNFTOnSale('ON SALE').subscribe((result: any) => {
           this.nfts = result.Response;
           for (let x = 0; x < this.nfts.length; x++) {
@@ -241,7 +239,6 @@ export class ShowNFTComponent implements OnInit {
           }
         });
       } else if (this.data == 'hotpicks') {
-        console.log("-----------2")
         this.getFilteredNFTs('hotpicks');
         this.intersectionFilterObserver('hotpicks');
       } else if (this.data == 'trending') {

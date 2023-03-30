@@ -109,12 +109,9 @@ export class WalletComponent implements OnInit {
         const balance = account.balances.find((balance) => balance.asset_type === 'native');
 
         if (balance) {
-          console.log(`Your balance is: ${balance.balance}`);
           this.balance=`${balance.balance}`
           this.convertToUSD('stellar');
-        } else {
-          console.log('No balance found for the account.');
-        }
+        } 
       });
   }
 

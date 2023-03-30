@@ -11,7 +11,6 @@
 </div>
 <mat-dialog-content>
   <div class="dialog-content">
-    <label class="bold-text">You will be charged. {{this.state}}</label>
     <div class="fee-cont">
       <label>{{data?.feeTypeName}}</label>
       <label>{{data?.serviceFee}} {{currency}} ({{serviceFeeUSD}} USD) </label>
@@ -25,7 +24,7 @@
       <label>{{data?.total}} {{currency}} ({{totalUSD}} USD) </label>
     </div>
     <div class="fee-cont">
-      <label>{{data?.grandTotal}}</label>
+      <label><b>{{data?.grandTotal}}</b></label>
       <label><b>{{data?.grandTotalfee}} {{currency}}</b> ({{gtotalUSD}} USD) </label>
     </div>
     <div class="checkbox-group">

@@ -570,7 +570,7 @@ export class BuyViewComponent implements OnInit {
               if(this.userPK==this.NFTList.distributorpk){
                 this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.","error");
               }
-             
+              this.snackbar.openSnackBar("Please check balance and network in the wallet", "error");
               _callback()!;
             }
           )
@@ -589,9 +589,13 @@ export class BuyViewComponent implements OnInit {
               this.showInProfile();
             } catch (err) {
               _callback()!;
-              this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.","error");
-            }
-            this.snackbar.openSnackBar('User closed wallet','error')
+              this.snackbar.openSnackBar(
+                'Something went wrong, please try again! More information: ' +
+                  err,
+                'error'
+              );
+                 }
+           
           });
       }).catch(err=>{
         _callback()
@@ -614,7 +618,7 @@ export class BuyViewComponent implements OnInit {
             if(this.userPK==this.NFTList.distributorpk){
               this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.","error");
             }
-            this.snackbar.openSnackBar('User closed wallet','error')
+            this.snackbar.openSnackBar("Please check balance and network in the wallet", "error");
             _callback()!;
           }
         )
@@ -1093,6 +1097,9 @@ export class BuyViewComponent implements OnInit {
                 'Your review has been Successfully submitted',
                 'success'
               );
+              this.reviews.Description = "";
+              this.reviews.Rating =0;
+              this.reviews.UserID = "";
             } else {
               this.snackbar.openSnackBar(
                 'Failed to submit review please try again.',

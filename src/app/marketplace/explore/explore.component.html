@@ -141,8 +141,10 @@
           !loading && !nextPageLoading && List.length === 0 && showNoNftError
         "
       >
-        <img src="../../../assets/images/no-nfts.svg" />
-        <label>No NFTs Found</label>
+        <img *ngIf="isStellarFlag" src="../../../assets/images/no-nfts.svg" />
+        <label *ngIf="isStellarFlag">No NFTs Found</label>
+        <img *ngIf="!isStellarFlag" src="../../../assets/images/coming-soon.svg" />
+        <label *ngIf="!isStellarFlag">blockchain Coming Soon...</label>
       </div>
     </div>
   </div>

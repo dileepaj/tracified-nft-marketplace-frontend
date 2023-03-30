@@ -50,6 +50,11 @@ export class FooterComponent implements OnInit {
 
   subscribeNow() {
     this.subscribe.mail = this.formValue('Mail');
+    let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if(!emailRegex.test(this.subscribe.mail)){
+      this.snackbarService.openSnackBar("Please enter a valid email address!","error")
+      return
+    }
     this.service.checkifSubscribed(this.subscribe.mail).subscribe((subresponse: any) => {
       if (subresponse == "not subscribed") {
         this.service.addSubscription(this.subscribe).subscribe(res => {

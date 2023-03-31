@@ -35,7 +35,7 @@ pipeline {
       steps {
         script {
           if (env.BRANCH_NAME == "main") {
-            env.BUCKET_NAME = 'marketplace.nft.tracified.com'
+            env.BUCKET_NAME = 'nft.tracified.com'
           } else if(env.BRANCH_NAME == "qa") {
             env.BUCKET_NAME = 'qa.marketplace.nft.tracified.com'
           } else if (env.BRANCH_NAME == "staging") {

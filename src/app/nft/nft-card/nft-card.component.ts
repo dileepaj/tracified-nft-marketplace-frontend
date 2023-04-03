@@ -69,7 +69,7 @@ export class NftCardComponent implements OnInit {
       }else{
         let freighterWallet = new UserWallet();
         freighterWallet = new FreighterComponent(freighterWallet);
-        await freighterWallet.initWallelt();
+       // await freighterWallet.initWallelt();
         if(!freighterWallet){
           this.snackbarService.openSnackBar("The NFTs are not on sale! Please make sure you have an freighter account or wait for NFT to be on sale", 'error')
         }else{

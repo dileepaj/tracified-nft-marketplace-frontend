@@ -1355,7 +1355,7 @@ export class Mint2Component implements OnInit {
   }
 
   public onChange(event: any) {
-    if (event.target.files[0].size <= 10 * 1024 * 1024) {
+    if (event.target.files[0].size <= 5 * 1024 * 1024) {
       this.file = event.target.files[0];
       if (this.file.type.toLowerCase().includes('svg')) {
         this.type = this.file.type;

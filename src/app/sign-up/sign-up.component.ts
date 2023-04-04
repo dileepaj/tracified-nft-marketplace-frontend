@@ -59,14 +59,13 @@ export class SignUpComponent implements OnInit {
       return
     }
     if (this.endorse.Blockchain == 'stellar') {
-      if (this.wallet == "freighter") {
-        let freighterWallet = new UserWallet();
-        freighterWallet = new FreighterComponent(freighterWallet);
-        await freighterWallet.initWallelt();
-        this.signerPK = await freighterWallet.getWalletaddress();
-        this.endorse.PublicKey = this.signerPK;
-      }
-      if (this.wallet == "albedo") {
+      let details = navigator.userAgent;
+
+      let regexp = /android|iphone|kindle|ipad/i;
+
+      let isMobileDevice = await regexp.test(details);
+
+      if (isMobileDevice) {
         await albedo.publicKey({
           require_existing: true
         })
@@ -74,6 +73,12 @@ export class SignUpComponent implements OnInit {
             this.albedopk = res.pubkey
             this.endorse.PublicKey = this.albedopk;
           })
+      }else{
+        let freighterWallet = new UserWallet();
+        freighterWallet = new FreighterComponent(freighterWallet);
+        await freighterWallet.initWallelt();
+        this.signerPK = await freighterWallet.getWalletaddress();
+        this.endorse.PublicKey = this.signerPK;
       }
 
     }

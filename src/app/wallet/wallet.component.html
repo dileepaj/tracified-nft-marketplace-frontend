@@ -88,6 +88,11 @@
       <label class="amount">{{ balance }} XLM</label>
       <label class="usd">${{ usd }} USD</label>
     </div>
+    <div class="balance" *ngIf="!loading && walletName === 'Albedo'">
+      <label class="title">Total Balance</label>
+      <label class="amount">{{ balance }} XLM</label>
+      <label class="usd">${{ usd }} USD</label>
+    </div>
     <div class="balance" *ngIf="!loading && walletName === 'Phantom'">
       <label class="title">Total Balance</label>
       <label class="amount">{{ balance }} SOL</label>

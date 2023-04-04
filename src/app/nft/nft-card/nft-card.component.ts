@@ -59,13 +59,23 @@ export class NftCardComponent implements OnInit {
         await albedo.publicKey({
           require_existing: true,
         }).then((res:any)=>{
-          this.user=this.watchlistModel.User= this.favouritesModel.User=res.pubkey
+          if(res.pubkey){
+            this.user=this.watchlistModel.User= this.favouritesModel.User=res.pubkey
+          }else{
+            this.snackbarService.openSnackBar("The NFTs are not on sale! Please make sure you have an albedo account or wait for NFT to be on sale", 'error')
+          }
+         
         })
       }else{
         let freighterWallet = new UserWallet();
         freighterWallet = new FreighterComponent(freighterWallet);
-        await freighterWallet.initWallelt();
-        this.user=this.watchlistModel.User= this.favouritesModel.User= await freighterWallet.getWalletaddress();
+       // await freighterWallet.initWallelt();
+        if(!freighterWallet){
+          this.snackbarService.openSnackBar("The NFTs are not on sale! Please make sure you have an freighter account or wait for NFT to be on sale", 'error')
+        }else{
+          this.user=this.watchlistModel.User= this.favouritesModel.User= await freighterWallet.getWalletaddress();
+        }
+       
       }
     }
 

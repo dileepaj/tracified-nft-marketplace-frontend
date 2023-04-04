@@ -932,7 +932,7 @@ export class BuyViewComponent implements OnInit {
                 .subscribe((txn: any) => {
                   for (let x = 0; x < txn.Response.length; x++) {
                     let card: Track = new Track('', '', '','');
-                    card.Time=new Date().toString()
+                    card.Time=txn.Response[x].Time
                     const unwantedText = 'GMT+0530 (India Standard Time)';
                     card.Time = card.Time.replace(
                       unwantedText,

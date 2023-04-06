@@ -7,7 +7,8 @@ import {
   TransactionBuilder,
   Server,
   Asset,
-  Networks
+  Networks,
+  TimeoutInfinite
 } from "stellar-sdk";
 import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
@@ -65,7 +66,7 @@ export class SellOfferServiceService {
               })
              
             )
-            .setTimeout(60000)
+            .setTimeout(TimeoutInfinite)
             .build();
           let walletf = new UserWallet();
           walletf = new FreighterComponent(walletf)

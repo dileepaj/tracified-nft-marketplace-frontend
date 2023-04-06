@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { blockchainNet, blockchainNetType } from 'src/app/shared/config';
 import { environment } from 'src/environments/environment';
-import { Asset, Networks, Operation, Server, TransactionBuilder } from 'stellar-sdk';
+import { Asset, Networks, Operation, Server, TimeoutInfinite, TransactionBuilder } from 'stellar-sdk';
 import { StellarCommonsService } from '../stellar-commons.service';
 
 @Injectable({
@@ -40,7 +40,7 @@ export class TrustByDistributorService {
                 source: userPK,   //service charge
               })
             )
-            .setTimeout(60000)
+             .setTimeout(TimeoutInfinite)
             .build();
   
            let txn=  transaction.toEnvelope().toXDR().toString("base64");

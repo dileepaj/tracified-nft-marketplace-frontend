@@ -33,7 +33,7 @@ export class SaleOfferService {
       var sellingAsset = Asset.native();
       // var totalsaleprice = nftPrice-(royalty+commission)
       var opts = {
-        fee: '100',
+        fee: '50000',
         timebounds: {
           minTime: '0',
           maxTime: '0',

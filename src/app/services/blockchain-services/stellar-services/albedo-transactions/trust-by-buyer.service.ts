@@ -34,7 +34,7 @@ export class TrustByBuyerService {
           server
             .loadAccount(userPK)
             .then(async (account) => {
-              var transaction = new TransactionBuilder(account, { fee:'100', networkPassphrase: this.net,})
+              var transaction = new TransactionBuilder(account, { fee:'50000', networkPassphrase: this.net,})
                 .addOperation(
                   Operation.changeTrust({
                     asset: asset,

@@ -6,7 +6,8 @@ import {
   Server,
   Asset,
   Networks,
-  Memo
+  Memo,
+  TimeoutInfinite
 } from "stellar-sdk";
 import { blockchainNet } from 'src/app/shared/config';
 import { blockchainNetType } from 'src/app/shared/config';
@@ -96,7 +97,7 @@ export class TrustLineByBuyerServiceService {
                 value: previousOwnerNFTPK,
               })
             )
-            // .setTimeout(60000)
+             .setTimeout(TimeoutInfinite)
             .build();
             let walletf = new UserWallet();
             walletf = new FreighterComponent(walletf);

@@ -19,7 +19,7 @@ export class TrustByDistributorService {
       this.net =this.network.getNetwork()
       
       var asset = new Asset(asset_code, asset_issuer);
-      var opts = { fee: "100" ,networkPassphrase: this.net};
+      var opts = { fee: "50000" ,networkPassphrase: this.net};
       let server = new Server(blockchainNet);
       server
         .loadAccount(userPK)

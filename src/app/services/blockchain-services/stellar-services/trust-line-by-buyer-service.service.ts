@@ -96,7 +96,7 @@ export class TrustLineByBuyerServiceService {
                 value: previousOwnerNFTPK,
               })
             )
-            .setTimeout(60000)
+            // .setTimeout(60000)
             .build();
             let walletf = new UserWallet();
             walletf = new FreighterComponent(walletf);

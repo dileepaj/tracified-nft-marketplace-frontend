@@ -40,7 +40,7 @@ export class TrustByDistributorService {
                 source: userPK,   //service charge
               })
             )
-            .setTimeout(60000)
+            // .setTimeout(60000)
             .build();
   
            let txn=  transaction.toEnvelope().toXDR().toString("base64");

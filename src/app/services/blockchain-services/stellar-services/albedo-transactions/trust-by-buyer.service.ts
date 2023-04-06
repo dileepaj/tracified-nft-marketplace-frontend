@@ -86,7 +86,7 @@ export class TrustByBuyerService {
                     value: previousOwnerNFTPK,
                   })
                 )
-                .setTimeout(60000)
+                // .setTimeout(60000)
                 .build();
                 let txn=  transaction.toEnvelope().toXDR().toString("base64");
                return albedo.tx({

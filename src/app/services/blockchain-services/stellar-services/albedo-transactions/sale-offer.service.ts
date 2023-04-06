@@ -55,7 +55,7 @@ export class SaleOfferService {
               })
              
             )
-            .setTimeout(60000)
+            // .setTimeout(0)
             .build();
             let txn=  transaction.toEnvelope().toXDR().toString("base64");
             return albedo.tx({

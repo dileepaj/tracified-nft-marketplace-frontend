@@ -43,7 +43,7 @@ export class SellOfferServiceService {
       var asset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();
       var opts = {
-        fee: '100',
+        fee: '50000',
         timebounds: {
           minTime: '0',
           maxTime: '0',
@@ -88,3 +88,5 @@ export class SellOfferServiceService {
     });
   }
 }
+
+

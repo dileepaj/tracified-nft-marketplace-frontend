@@ -34,10 +34,6 @@ export class SaleOfferService {
       // var totalsaleprice = nftPrice-(royalty+commission)
       var opts = {
         fee: '50000',
-        timebounds: {
-          minTime: '0',
-          maxTime: '0',
-        },
         networkPassphrase: this.net,
       };
       let server = new Server(blockchainNet);
@@ -70,6 +66,7 @@ export class SaleOfferService {
         })
         .catch((err) => {
           _callback()
+          this.snackbar.openSnackBar("Something went wrong with Stellar, please try again! More information: "+err, 'error');
           reject(err);
         });
     });

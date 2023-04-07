@@ -57,6 +57,8 @@ export class TrustByDistributorService {
         })
         .catch((err) => {
           _callback()
+          this.snackbar.openSnackBar("Something went wrong with Stellar, please try again! More information: "+err, 'error');
+          reject(err);
         });
     });
   }

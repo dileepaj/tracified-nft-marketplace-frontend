@@ -104,6 +104,7 @@ export class TrustByBuyerService {
                 this.snackbar.openSnackBar("Error! Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.","error");
               }
               _callback()
+              this.snackbar.openSnackBar("Something went wrong with Stellar, please try again! More information: "+err, 'error');
               reject(err);
             });
         });

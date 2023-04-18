@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
   bestPicksLoading: boolean = false;
   trendingLoading: boolean = false;
   private readonly tracifiedhelp = APIConfigENV.tracifiedhelpDocsbaseURL
-  readonly helpDocsMK: string = `${this.tracifiedhelp}docs/NFTPlatofrm/marketplace/introtoMarketplace`
+  readonly helpDocsMK: string = `${this.tracifiedhelp}docs/NFTPlatform/marketplace/introtoMarketplace`
   constructor(
     private dialogref: MatDialog,
     private nft: NftServicesService,

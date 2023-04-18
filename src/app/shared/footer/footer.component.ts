@@ -25,7 +25,7 @@ export class FooterComponent implements OnInit {
   readonly mkBlog: string = `${this.mkURL}nft-story`
   readonly mkFaq: string = `${this.mkURL}faq`
   readonly mkHelpCenter: string = `${this.mkURL}help-center`
-  readonly helpDocsMK: string = `${this.tracifiedhelp}docs/NFTPlatofrm/marketplace/introtoMarketplace`
+  readonly helpDocsMK: string = `${this.tracifiedhelp}docs/NFTPlatform/marketplace/introtoMarketplace`
   readonly mkContact_us: string = `${this.mkURL}contact-us`
   readonly mkDocs: string = `${this.mkURL}docs`
   readonly mkAboutUs: string = `${this.mkURL}about-us`

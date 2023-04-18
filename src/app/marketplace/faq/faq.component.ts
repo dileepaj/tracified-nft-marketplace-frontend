@@ -9,7 +9,7 @@ import { APIConfigENV } from 'src/environments/environment';
 })
 export class FaqComponent implements OnInit {
   private readonly tracifiedhelp = APIConfigENV.tracifiedhelpDocsbaseURL
-  readonly helpDocsMK: string = `${this.tracifiedhelp}docs/NFTPlatofrm/marketplace/introtoMarketplace`
+  readonly helpDocsMK: string = `${this.tracifiedhelp}docs/NFTPlatform/marketplace/introtoMarketplace`
   constructor(private router: Router) { }
   List:any[]=[
     {

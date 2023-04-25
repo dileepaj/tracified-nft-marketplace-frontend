@@ -140,3 +140,16 @@ export class ReviewsCard{
 	
 		
 	}
+	
+	export class QueueNFT{
+		constructor(
+			public	Blockchain : string   ,       
+			public NFTIdentifier   :string,  
+			public Status   :string,  
+			public ImageBase64   :string,  
+			public User   :string,  
+			
+		){}
+	
+		
+	}

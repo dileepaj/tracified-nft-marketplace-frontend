@@ -672,7 +672,7 @@ export class OverviewComponent implements OnInit {
           });
         }
       } else if (this.selectedBlockchain === 'solana') {
-        this.bccommingsoon = 'Solana NFTs coming soon!';
+        this.bccommingsoon = '';
         try {
           const connection = new Connection(BlockchainConfig.solananetworkURL);
           const pk = new PublicKey(this.user);

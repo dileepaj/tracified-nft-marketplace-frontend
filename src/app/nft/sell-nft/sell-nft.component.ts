@@ -228,8 +228,17 @@ export class SellNftComponent implements OnInit {
     this.saleBE.Timestamp = new Date().toString();
     this.saleBE.CurrentOwnerPK = this.NFTList.currentownerpk;
     this.saleBE.Royalty = this.royalty.toString();
-    this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-    this.pushOwner();
+    this.saveTXNs();
+    this.service.updateNFTStatusBackend(this.saleBE).subscribe(res=>{
+      this.addDBGateway();
+      this.pushOwner();
+     this.snackbarService.openSnackBar(
+                         SnackBarText.SALE_SUCCESS_MESSAGE,
+                         'success'
+                       );
+      this.showInProfile();
+    }
+  ); 
   }
 
   pushOwner(): void {
@@ -388,15 +397,8 @@ export class SellNftComponent implements OnInit {
                     .then((res: any) => { 
                       try {
                         this.selltxn = res.tx_hash;
-                        this.saveTXNs();
                         this.addDBBackend();
-                        this.addDBGateway();
                         loadingAnimation.close();
-                        this.snackbarService.openSnackBar(
-                          SnackBarText.SALE_SUCCESS_MESSAGE,
-                          'success'
-                        );
-                        this.showInProfile();
                       } catch (err) {
                         this.firebaseanalytics.logEvent('error', {
                           reason: 'Failed to put NFT on sale',
@@ -487,15 +489,8 @@ export class SellNftComponent implements OnInit {
                   try {
                     this.saleBE.Timestamp = new Date().toString();
                     this.selltxn = res.hash;
-                    this.saveTXNs();
                     this.addDBBackend();
-                    this.addDBGateway();
                     loadingAnimation.close();
-                    this.snackbarService.openSnackBar(
-                      SnackBarText.SALE_SUCCESS_MESSAGE,
-                      'success'
-                    );
-                    this.showInProfile();
                   } catch (err) {
                     this.firebaseanalytics.logEvent('error', {
                       reason: 'Failed to put NFT on sale',
@@ -586,15 +581,11 @@ export class SellNftComponent implements OnInit {
                   );
                   this.saleBE.Timestamp = new Date().toString();
                   this.selltxn = signature;
-                  this.addDBBackend();
-                  this.addDBGateway();
-                  this.saveTXNs();
-                  loadingAnimation.close();
-                  this.snackbarService.openSnackBar(
-                    SnackBarText.SALE_SUCCESS_MESSAGE,
-                    'success'
-                  );
-                  this.showInProfile();
+                  if(this.selltxn!=null){
+                    this.addDBBackend();
+                    loadingAnimation.close();
+                  }
+               
                 } catch (err) {
                   this.firebaseanalytics.logEvent('error', {
                     reason: 'Failed to put NFT on sale',

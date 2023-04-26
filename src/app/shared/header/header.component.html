@@ -88,7 +88,7 @@
             <img class="bc-icon" src="../../../assets/images/solana.png" />
           </div>
           <div fxFlex="80%">
-            Solana<span class="comingsoon">TBA</span>
+            Solana
           </div>
         </button>
       </div>
@@ -210,12 +210,12 @@
           </div>
         </button>
 
-        <button mat-menu-item fxLayout="row" fxLayoutAlign="center center" disabled="true">
+        <button mat-menu-item fxLayout="row" fxLayoutAlign="center center" (click)="goToOverview('solana')" > 
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/solana.png" />
           </div>
           <div fxFlex="80%">
-            Solana <span class="comingsoon">TBA</span>
+            Solana
           </div>
         </button>
       </div>
@@ -330,7 +330,7 @@
           Poloygon <span class="comingsoon">TBA</span>
         </a>
         <a class="sidenav-text" mat-button [routerLinkActive]="['active-link']" (click)="goToExplore('solana')">
-          Solana <span class="comingsoon">TBA</span>
+          Solana 
         </a>
       </div>
     </div>
@@ -433,8 +433,13 @@
           Poloygon <span class="comingsoon">TBA</span>
         </a>
 
-        <a class="sidenav-text" mat-button [routerLinkActive]="['active-link']">
-          Solana <span class="comingsoon">TBA</span>
+        <a 
+        class="sidenav-text" 
+        mat-button 
+        [routerLinkActive]="['active-link']"
+        (click)="goToOverview('solana')"
+        >
+          Solana 
         </a>
       </div>
     </div>

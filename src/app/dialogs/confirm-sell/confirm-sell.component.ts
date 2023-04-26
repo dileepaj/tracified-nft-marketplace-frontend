@@ -40,7 +40,6 @@ export class ConfirmSellComponent implements OnInit {
     this.blockchain = this.data.blockchain?.toString()
     this.royalty = this.data.royaltyfee?.toString()
     this.grandTotal = this.data.grandTotalfee?.toString()
-    this.blockchain= "stellar"
     if(this.blockchain === 'ethereum') {
       this.currency = 'ETH'
     }
@@ -74,7 +73,7 @@ export class ConfirmSellComponent implements OnInit {
 
 
   public async getCurrencyRate(){
-    this.currencyConverter.GetUSDratebyBC("stellar").subscribe(res => {
+    this.currencyConverter.GetUSDratebyBC(this.blockchain).subscribe(res => {
       console.log("rate in api: ", res.data.priceUsd);
       this.currencyRate = res.data.priceUsd;
       return this.currencyRate;
@@ -86,7 +85,7 @@ export class ConfirmSellComponent implements OnInit {
     const tot = parseFloat(this.total);
     const roy = parseFloat(this.royalty);
     const gtot = parseFloat(this.grandTotal)
-    this.currencyConverter.GetUSDratebyBC("stellar").subscribe(res => {
+    this.currencyConverter.GetUSDratebyBC(this.blockchain).subscribe(res => {
       this.currencyRate = res.data.priceUsd;
       this.serviceFeeUSD = (src * this.currencyRate).toFixed(4);
       this.totalUSD = (tot * this.currencyRate).toFixed(4);

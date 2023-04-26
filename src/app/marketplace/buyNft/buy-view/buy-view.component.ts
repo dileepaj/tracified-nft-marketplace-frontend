@@ -43,12 +43,13 @@ import {
   SelectWalletText,
   SnackBarText,
 } from 'src/app/models/confirmDialog';
-import { interval, timer } from 'rxjs';
+import { catchError, interval, throwError, timer } from 'rxjs';
 import albedo from '@albedo-link/intent';
 import { Float } from '@solana/buffer-layout';
 import { MintService } from 'src/app/services/blockchain-services/mint.service';
 import { Seller2tracService } from 'src/app/services/blockchain-services/solana-services/seller2trac.service';
 import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
+import { QueueNFT } from 'src/app/models/nft';
 
 @Component({
   selector: 'app-buy-view',
@@ -136,6 +137,7 @@ export class BuyViewComponent implements OnInit {
   data: any;
   svg: SVG = new SVG('', '', 'NA', '', '');
   txn: TXN = new TXN('', '', '', '', '', '','');
+  queue:QueueNFT = new QueueNFT('','','','','');
   dec: string;
   transaction: Uint8Array;
   signer: Uint8Array;
@@ -205,16 +207,68 @@ export class BuyViewComponent implements OnInit {
     private firebaseanalytics: FirebaseAnalyticsService
   ) {}
 
-  buyNFT(): void {
+  async buyNFT(): Promise<void> {
     this.firebaseanalytics.logEvent('button clicked', {
       button_name: 'buy now',
     });
-    this.updateBackend();
+
+    if( this.nftbe.Blockchain=="stellar"){
+      let details = navigator.userAgent;
+
+      let regexp = /android|iphone|kindle|ipad/i;
+  
+      let isMobileDevice = await regexp.test(details);
+      if (isMobileDevice) {
+        await albedo
+        .publicKey({
+          require_existing: true,
+        })
+        .then((res: any) => {
+          this.userPK = res.pubkey;
+        })
+      }else{
+        let walletf = new UserWallet();
+        walletf = new FreighterComponent(walletf);
+        await walletf.initWallelt();
+        this.userPK = await walletf.getWalletaddress();
+      }
+
+    }else if( this.nftbe.Blockchain=="solana"){
+      let phantomWallet = new UserWallet();
+      phantomWallet = new PhantomComponent(phantomWallet);
+      await phantomWallet.initWallelt();
+      this.userPK = phantomWallet.getWalletaddress();
+
+    }else if( this.nftbe.Blockchain=="ethereum" ||  this.nftbe.Blockchain=="polygon"){
+      let walletMetamask = new UserWallet();
+      walletMetamask = new MetamaskComponent(walletMetamask);
+      await walletMetamask.initWallelt();
+      this.userPK = await walletMetamask.getWalletaddress();
+    }
+    this.queue.User=this.userPK;
+    this.queue.Blockchain=this.nftbe.Blockchain;
+    this.queue.Status="PROCESSING";
+    this.queue.ImageBase64=this.NFTList.imagebase64;
+    this.queue.NFTIdentifier=this.nftbe.NFTIdentifier;
+    this.service.queueBuys(this.queue).subscribe(res=>{
+      this.service.getQueueData(this.NFTList.imagebase64,this.nftbe.Blockchain) 
+      .pipe(
+        catchError((error) => {
+          this.buyNFT();
+          return throwError('Something went wrong');
+        })
+      )
+      .subscribe((data:any)=>{
+        if(data.Status=="PROCESSED"){
+          this.userPK=data.User
+          this.updateBackend(this.userPK);
+        }
+      })
+    })
   }
 
   calculateCommision() {
     if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
-      //might
       this.total = parseFloat(this.NFTList.currentprice);
       this.royalty = parseFloat(this.NFTList.royalty);
       this.royaltyCharge = (this.total * (this.royalty / 100.0)).toPrecision(6);
@@ -230,7 +284,7 @@ export class BuyViewComponent implements OnInit {
     }
   }
 
-  async updateBackend(): Promise<void> {
+  async updateBackend(user:string): Promise<void> {
     this.saleBE.CurrentPrice = this.NFTList.currentprice;
     this.saleBE.Royalty = this.NFTList.royalty;
     this.saleBE.SellingStatus = 'NOTFORSALE';
@@ -261,7 +315,7 @@ export class BuyViewComponent implements OnInit {
               nftName: this.NFTList.nftname,
               thumbnail: this.NFTList.thumbnail,
             });
-            this.buyNFTOnStellar(() => {
+            this.buyNFTOnStellar(user,() => {
               loadingAnimation.close();
               return
             });
@@ -270,11 +324,8 @@ export class BuyViewComponent implements OnInit {
     }
     if (this.NFTList.blockchain == 'solana') {
       this.calculateCommision();
-      const connection = new Connection(this.network);
-      let phantomWallet = new UserWallet();
-      phantomWallet = new PhantomComponent(phantomWallet);
-      await phantomWallet.initWallelt();
-      this.userPK = phantomWallet.getWalletaddress();
+       const connection = new Connection(this.network);
+      this.userPK = user;
       this.saleBE.CurrentOwnerPK = this.userPK;
       this.saleBE.SellingType = 'NFT';
       this.saleBE.Blockchain = this.NFTList.blockchain;
@@ -302,7 +353,7 @@ export class BuyViewComponent implements OnInit {
 
             this.servicesell
               .findATA(
-                phantomWallet.getWalletaddress(),
+                user,
                 this.NFTList.nftissuerpk
               )
               .then((res: any) => {
@@ -317,7 +368,7 @@ export class BuyViewComponent implements OnInit {
                 this.ata
                   .createATAforBuyer(
                     this.total,
-                    phantomWallet.getWalletaddress(),
+                   user,
                     this.royaltyCharge,
                     this.NFTList.creatoruserid,
                     this.NFTList.currentownerpk,
@@ -333,7 +384,7 @@ export class BuyViewComponent implements OnInit {
                       this.transfer
                         .createServiceATAforTransfer(
                           environment.fromWallet,
-                          phantomWallet.getWalletaddress(),
+                          user,
                           this.NFTList.nftissuerpk
                         )
 
@@ -379,10 +430,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.SellingType = this.NFTList.sellingtype;
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.calculateCommision();
-      let walletMetamask = new UserWallet();
-      walletMetamask = new MetamaskComponent(walletMetamask);
-      await walletMetamask.initWallelt();
-      this.userPK = await walletMetamask.getWalletaddress();
+      this.userPK =user;
       this.saleBE.CurrentOwnerPK = this.userPK;
       this.dialogService
         .confirmMintDialog({
@@ -445,10 +493,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.SellingType = this.NFTList.sellingtype;
       this.saleBE.Blockchain = this.NFTList.blockchain;
       this.calculateCommision();
-      let walletMetamask = new UserWallet();
-      walletMetamask = new MetamaskComponent(walletMetamask);
-      await walletMetamask.initWallelt();
-      this.userPK = await walletMetamask.getWalletaddress();
+      this.userPK = user;
       this.saleBE.CurrentOwnerPK = this.userPK;
       this.dialogService
         .confirmMintDialog({
@@ -508,7 +553,7 @@ export class BuyViewComponent implements OnInit {
   }
 
   updateGateway(): void {
-    this.buyGW.CurrentOwnerNFTPK = '0xD85E667594EC848895466Fb702D35F6111f258e8';
+    this.buyGW.CurrentOwnerNFTPK = this.userPK;
     this.buyGW.PreviousOwnerNFTPK = this.NFTList.distributorpk;
     this.buyGW.SellingStatus = 'NOT FOR SALE';
     this.buyGW.NFTTXNhash = this.NFTList.nfttxnhash;
@@ -547,7 +592,7 @@ export class BuyViewComponent implements OnInit {
     this.apiService.addTXN(this.txn).subscribe();
   }
 
-  async buyNFTOnStellar(_callback?: any): Promise<void> {
+  async buyNFTOnStellar(user:string,_callback?: any): Promise<void> {
     let details = navigator.userAgent;
 
     let regexp = /android|iphone|kindle|ipad/i;
@@ -555,12 +600,7 @@ export class BuyViewComponent implements OnInit {
     let isMobileDevice = await regexp.test(details);
     if (isMobileDevice) {
       
-      await albedo
-      .publicKey({
-        require_existing: true,
-      })
-      .then((res: any) => {
-        this.userPK = res.pubkey;
+        this.userPK = user;
         this.trustalbedo
           .trustlineByBuyer(
             this.NFTList.nftname,
@@ -603,14 +643,8 @@ export class BuyViewComponent implements OnInit {
                  }
            
           });
-      }).catch(err=>{
-        _callback()
-      });
     } else {
-      let walletf = new UserWallet();
-      walletf = new FreighterComponent(walletf);
-      await walletf.initWallelt();
-      this.userPK = await walletf.getWalletaddress();
+      this.userPK = user;
       this.trust
         .trustlineByBuyer(
           this.NFTList.nftname,

@@ -137,7 +137,7 @@ export class BuyViewComponent implements OnInit {
   data: any;
   svg: SVG = new SVG('', '', 'NA', '', '');
   txn: TXN = new TXN('', '', '', '', '', '','');
-  queue:QueueNFT = new QueueNFT('','','','','');
+  queue:QueueNFT = new QueueNFT('','','','','','');
   dec: string;
   transaction: Uint8Array;
   signer: Uint8Array;
@@ -186,6 +186,7 @@ export class BuyViewComponent implements OnInit {
   nftcontentURLFlag: boolean =false;
   userprofileURL: string="";
   nftcontentURL: string="";
+  count: number = 0;
 
   constructor(
     private service: NftServicesService,
@@ -250,8 +251,9 @@ export class BuyViewComponent implements OnInit {
     this.queue.Status="PROCESSING";
     this.queue.ImageBase64=this.NFTList.imagebase64;
     this.queue.NFTIdentifier=this.nftbe.NFTIdentifier;
+    this.queue.Version=(this.count).toString();
     this.service.queueBuys(this.queue).subscribe(res=>{
-      this.service.getQueueData(this.NFTList.imagebase64,this.nftbe.Blockchain) 
+      this.service.getQueueData(this.NFTList.imagebase64,this.nftbe.Blockchain,this.count) 
       .pipe(
         catchError((error) => {
           this.buyNFT();
@@ -974,6 +976,9 @@ export class BuyViewComponent implements OnInit {
                     );
                     card.NFTName = txn.Response[x].NFTName;
                     card.Status = txn.Response[x].Status;
+                    if(txn.Response[x].Status=="ON SALE"){
+                      this.count = this.count + 1;
+                    }
                     if (txn.Response[x].Blockchain == 'ethereum') {
                       card.NFTTxnHash =
                         'https://etherscan.io/tx/' + txn.Response[x].NFTTxnHash;

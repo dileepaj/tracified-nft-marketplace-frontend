@@ -148,6 +148,7 @@ export class ReviewsCard{
 			public Status   :string,  
 			public ImageBase64   :string,  
 			public User   :string,  
+			public Version :string
 			
 		){}
 	

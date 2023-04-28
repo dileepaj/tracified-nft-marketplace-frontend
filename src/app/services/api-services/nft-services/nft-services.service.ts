@@ -97,9 +97,9 @@ export class NftServicesService {
     });
   }
 
-  getQueueData(hash:string,blockchain:string,version:number): Observable<QueueNFT[]> {
+  getQueueData(ImageBase64:string,blockchain:string,version:number): Observable<QueueNFT[]> {
     //request to get collection name according to user public key
-    return this.http.get<QueueNFT[]>(`${this.baseUrlGetQueueData}/${hash}/${blockchain}/${version}`);
+    return this.http.get<QueueNFT[]>(`${this.baseUrlGetQueueData}/${ImageBase64}/${blockchain}/${version}`);
   }
 
   updateNFTStatusGateway(

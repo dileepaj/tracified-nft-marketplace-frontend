@@ -60,13 +60,13 @@ export class ConfirmMintComponent implements OnInit {
     this.matDialogRef.close(false);
   }
   public async getCurrencyRate(){
-    this.currencyConverter.GetUSDratebyBC("stellar").subscribe(res => {
+    this.currencyConverter.GetUSDratebyBC(this.blockchain).subscribe(res => {
       this.currencyRate = res.data.priceUsd;
       return this.currencyRate;
     })
   }
   private convertToUSD() {
-    this.currencyConverter.GetUSDratebyBC("stellar").subscribe(res => {
+    this.currencyConverter.GetUSDratebyBC(this.blockchain).subscribe(res => {
       this.currencyRate = res.data.priceUsd;
       const src = parseFloat(this.serviceFee);
       const tot = parseFloat(this.total);

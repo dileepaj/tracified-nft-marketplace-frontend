@@ -253,19 +253,23 @@ export class BuyViewComponent implements OnInit {
     this.queue.NFTIdentifier=this.nftbe.NFTIdentifier;
     this.queue.Version=(this.count).toString();
     this.service.queueBuys(this.queue).subscribe(res=>{
-      this.service.getQueueData(this.NFTList.imagebase64,this.nftbe.Blockchain,this.count) 
-      .pipe(
-        catchError((error) => {
-          this.buyNFT();
-          return throwError('Something went wrong');
-        })
-      )
-      .subscribe((data:any)=>{
-        if(data.Status=="PROCESSED"){
-          this.userPK=data.User
-          this.updateBackend(this.userPK);
-        }
+      this.getProcessedData()
+    })
+  }
+
+  getProcessedData(){
+    this.service.getQueueData(this.NFTList.imagebase64,this.nftbe.Blockchain,this.count) 
+    .pipe(
+      catchError((error) => {
+        this.getProcessedData();
+        return throwError('Something went wrong');
       })
+    )
+    .subscribe((data:any)=>{
+      if(data.Status=="PROCESSED"){
+        this.userPK=data.User
+        this.updateBackend(this.userPK);
+      }
     })
   }
 
@@ -399,13 +403,14 @@ export class BuyViewComponent implements OnInit {
                             this.saveTXNs();
                             this.service
                               .updateNFTStatusBackend(this.saleBE)
-                              .subscribe();
-                            this.updateGateway();
-                            this.snackbar.openSnackBar(
-                              SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                              'success'
-                            );
-                            this.showInProfile();
+                              .subscribe(res=>{
+                                this.updateGateway();
+                                this.snackbar.openSnackBar(
+                                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                                  'success'
+                                );
+                                this.showInProfile();
+                              });
                           } catch (err) {
                             this.snackbar.openSnackBar(
                               'Something went wrong, please try again! More information: ' +

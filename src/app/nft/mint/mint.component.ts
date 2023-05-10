@@ -515,8 +515,8 @@ export class MintComponent implements OnInit {
       }
     }
     if (wallet == 'phantom') {
-      this.snackBar.openSnackBar("Solana  NFTs coming soon!","info");
-      return
+      // this.snackBar.openSnackBar("Solana  NFTs coming soon!","info");
+      // return
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();

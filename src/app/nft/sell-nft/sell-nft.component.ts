@@ -2,7 +2,7 @@ import { FreighterComponent } from './../../wallet/freighter/freighter.component
 import { UserWallet } from 'src/app/models/userwallet';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NFTMarket, SalesBE, SalesGW, Sales } from 'src/app/models/nft';
+import { NFTMarket, SalesBE, SalesGW, Sales,ContractStatus } from 'src/app/models/nft';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
@@ -76,6 +76,7 @@ export class SellNftComponent implements OnInit {
   saleGW: SalesGW = new SalesGW('', '', '', '');
   sale: Sales = new Sales('', '');
   own: Ownership = new Ownership('', '', '', '', 1);
+  statuscontract: ContractStatus=new ContractStatus('','','')
   royalty: any;
   firstPrice: any;
   royaltyCharge: any;
@@ -665,18 +666,16 @@ export class SellNftComponent implements OnInit {
               nftName: this.NFTList.nftname,
               thumbnail: this.NFTList.thumbnail,
             });
-            this.pmint
-              .approveContract(this.tokenid, () => {
-                loadingAnimation.close();
-              })
-              .then((res: any) => {
+            // this.pmint
+            //   .approveContract(this.tokenid, () => {
+            //     loadingAnimation.close();
+            //   })
+            //   .then((res: any) => {
                 try {
                   this.pmarket
                     .createSaleOffer(
-                      environment.contractAddressNFTPolygon,
-                      this.tokenid,
-                      this.sellingPrice + parseFloat(this.royaltyCharge),
-                      this.commission,
+                      this.statuscontract.ONSALE,
+                     this.NFTList.imagebase64,
                       () => {
                         this.snackbarService.openSnackBar("Something went wrong ", "error")
                         loadingAnimation.close();
@@ -724,7 +723,7 @@ export class SellNftComponent implements OnInit {
                     'error'
                   );
                 }
-              });
+              // });
           }
         });
     }
@@ -789,18 +788,16 @@ export class SellNftComponent implements OnInit {
               thumbnail: this.NFTList.thumbnail,
             });
 
-            this.emint
-              .approveContract(this.tokenid, () => {
-                loadingAnimation.close();
-              })
-              .then((res: any) => {
+            // this.emint
+            //   .approveContract(this.tokenid, () => {
+            //     loadingAnimation.close();
+            //   })
+            //   .then((res: any) => {
                 try {
                   this.emarket
                     .createSaleOffer(
-                      environment.contractAddressNFTEthereum,
-                      this.tokenid,
-                      this.sellingPrice,
-                      this.commission,
+                      this.statuscontract.ONSALE,
+                      this.NFTList.imagebase64,
                       () => {
                         this.snackbarService.openSnackBar("Something went wrong ", "error")
                         loadingAnimation.close();
@@ -848,7 +845,7 @@ export class SellNftComponent implements OnInit {
                     'error'
                   );
                 }
-              });
+              // });
           }
         });
     }

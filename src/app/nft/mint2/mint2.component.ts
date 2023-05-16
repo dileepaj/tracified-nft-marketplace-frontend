@@ -725,11 +725,9 @@ export class Mint2Component implements OnInit {
                     });
                     this.emint
                       .mintInEthereum(
-                        this.mint.NFTIssuerPK,
                         this.mint.NFTName,
-                        this.mint.Description,
-                        this.mint.NftContentURL,
                         this.mint.Imagebase64,
+                        "TRACIFIED_NFT",
                         () => {
                           dialog.close();
                           this.flag = false;
@@ -840,8 +838,9 @@ export class Mint2Component implements OnInit {
                     try {
                       this.pmint
                         .mintInPolygon(
-                          this.mint.NFTIssuerPK,
+                          this.mint.NFTName,
                           this.mint.Imagebase64,
+                          "TRACIFIED_NFT",
                           () => {
                             dialog.close();
                             this.flag = false;

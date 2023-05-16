@@ -47,22 +47,15 @@ export class MetamaskComponent extends walletOptions implements OnInit {
   }
   public async createSaleOffer(
     blockchain: string,
-    nftcontract: string,
-    tokenId: number,
-    price: string,
-    listingPrice: string,
+    status: string,
+    nftsvgHash: string,
     _callback? : any
   ): Promise<any> {
     if (blockchain == 'ethereum') {
       const contract = await EthereumMarketServiceService.getContract(true);
-      const transaction = await contract['sellNFT'](
-        nftcontract,
-        tokenId,
-        ethers.utils.parseEther(price.toString()),
-        ethers.utils.parseEther(listingPrice.toString()),
-        {
-          value: ethers.utils.parseEther(listingPrice),
-        }
+      const transaction = await contract['changeNFTStatus'](
+        status,
+        nftsvgHash,
       )
       .catch(error=>{       
         _callback()!
@@ -72,13 +65,9 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     }
     if (blockchain == 'polygon') {
       const contract = await PolygonMarketServiceService.getContract(true);
-      const transaction = await contract['createMarketItem'](
-        nftcontract,
-        tokenId,
-        ethers.utils.parseEther(price.toString()),
-        ethers.utils.parseEther(listingPrice.toString()),
-        { value: ethers.utils.parseEther(listingPrice)
-           }
+      const transaction = await contract['changeNFTStatus'](
+        status,
+        nftsvgHash,
       )
       .catch(error=>{
         _callback()!
@@ -87,27 +76,18 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       return tx;
     }
   }
+
   public async buynft(
     blockchain: string,
-    nftcontract: string,
-    itemId: number,
-    price: string,
-    listingPrice: string,
-    royalty:string,
-    seller:string,
+    _itemID: string,
+    _nftaddress: string,
     _callback? : any
   ): Promise<any> {
     if (blockchain == 'ethereum') {
       const contract = await EthereumMarketServiceService.getContract(true);
-      const val = price.toString();
-      const transaction = await contract['createMarketSale'](
-        nftcontract,
-        itemId,
-        ethers.utils.parseEther(royalty.toString()),
-        seller,
-        ethers.utils.parseEther(listingPrice.toString()),
-        { value: ethers.utils.parseEther(price.toString()),
-        }
+      const transaction = await contract['buyNFT'](
+        _itemID,
+        _nftaddress,
       )
       .catch(error=>{
         _callback()!
@@ -117,13 +97,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     } else if (blockchain == 'polygon') {
       const contract = await PolygonMarketServiceService.getContract(true);
       const transaction = await contract['createMarketSale'](
-        nftcontract,
-        itemId,
-        ethers.utils.parseEther(royalty.toString()),
-        seller,
-        ethers.utils.parseEther(listingPrice.toString()),
-        { value: ethers.utils.parseEther(price.toString()),
-         }
+        _itemID,
+        _nftaddress,
       )
       .catch(error=>{
         _callback()!

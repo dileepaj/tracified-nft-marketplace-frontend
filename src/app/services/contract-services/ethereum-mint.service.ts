@@ -32,14 +32,12 @@ export class EthereumMintService {
   }
 
   
-  public async mintInEthereum(reciever: string,name:string,proofBotData:string,tdpData:string, tokenURI: string, _callback? : any): Promise<any> {
+  public async mintInEthereum(_nftname : string, _nftsvgHash : string, _symbol : string, _callback? : any): Promise<any> {
     const contract = await EthereumMintService.getContract(true)
-    const transaction = await contract['mintNFT'](
-      reciever,
-      name,
-      proofBotData,
-      tdpData,
-      tokenURI,
+    const transaction = await contract['createNewNFT'](
+      _nftname,
+      _nftsvgHash,
+      _symbol,
       { gasLimit: 3000000 }
     )
     .catch(error=>{
@@ -50,19 +48,19 @@ export class EthereumMintService {
     return tx
   }
 
-  public async approveContract(tokenId:number, _callback? :any):Promise<any>{
-    var marketcontract=environment.contractAddressMKEthereum
-    const contract = await EthereumMintService.getContract(true)
-    const transaction = await contract['approve'](
-      marketcontract,
-      tokenId,
-      { gasLimit: 3000000 }
-    )
-    .catch(error=>{
-      _callback()!
-      this.snackbarService.openSnackBar("Something went wrong : "+"Transcation failed", 'error')
-    })
-    const tx = await transaction.wait()
-    return tx
-  }
+  // public async approveContract(tokenId:number, _callback? :any):Promise<any>{
+  //   var marketcontract=environment.contractAddressMKEthereum
+  //   const contract = await EthereumMintService.getContract(true)
+  //   const transaction = await contract['approve'](
+  //     marketcontract,
+  //     tokenId,
+  //     { gasLimit: 3000000 }
+  //   )
+  //   .catch(error=>{
+  //     _callback()!
+  //     this.snackbarService.openSnackBar("Something went wrong : "+"Transcation failed", 'error')
+  //   })
+  //   const tx = await transaction.wait()
+  //   return tx
+  // }
 }

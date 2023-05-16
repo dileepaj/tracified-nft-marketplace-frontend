@@ -34,11 +34,12 @@ export class PolygonMintService {
       bySigner ? signer : provider,
     )
   }
-  public async mintInPolygon(reciever: string, tokenURI: string, _callback? : any): Promise<any> {
+  public async mintInPolygon(_nftname : string, _nftsvgHash : string, _symbol : string, _callback? : any): Promise<any> {
     const contract = await PolygonMintService.getContract(true)
-    const transaction = await contract['mintNFT'](
-      reciever,
-      tokenURI,
+    const transaction = await contract['createNewNFT'](
+      _nftname,
+      _nftsvgHash,
+      _symbol,
       { gasLimit: 3000000 }
     )
 .catch(error=>{
@@ -53,19 +54,19 @@ export class PolygonMintService {
     return tx
   }
 
-  public async approveContract(tokenId:number, _callback? : any):Promise<any>{
-    var marketcontract=environment.contractAddressMKPolygon
-    const contract = await PolygonMintService.getContract(true)
-    const transaction = await contract['approve'](
-      marketcontract,
-      tokenId,
-      { gasLimit: 3000000 }
-    )
-    .catch(error=>{
-      _callback()!
-      this.snackbarService.openSnackBar("Something went wrong : "+"Transcation failed", 'error')
-    })
-    const tx = await transaction.wait()
-    return tx
-  }
+  // public async approveContract(tokenId:number, _callback? : any):Promise<any>{
+  //   var marketcontract=environment.contractAddressMKPolygon
+  //   const contract = await PolygonMintService.getContract(true)
+  //   const transaction = await contract['approve'](
+  //     marketcontract,
+  //     tokenId,
+  //     { gasLimit: 3000000 }
+  //   )
+  //   .catch(error=>{
+  //     _callback()!
+  //     this.snackbarService.openSnackBar("Something went wrong : "+"Transcation failed", 'error')
+  //   })
+  //   const tx = await transaction.wait()
+  //   return tx
+  // }
 }

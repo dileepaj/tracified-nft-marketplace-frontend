@@ -37,18 +37,18 @@ export class EthereumMarketServiceService {
   }
 
   
-  public async createSaleOffer(nftcontract: string,tokenId:number,price:string,commission:string, _callback? :any): Promise<any> {
+  public async createSaleOffer(status: string,nftsvgHash:string, _callback? :any): Promise<any> {
     let metmaskWallet = new UserWallet();
     metmaskWallet = new MetamaskComponent(metmaskWallet);
-    const tx = metmaskWallet.createSaleOffer('ethereum',nftcontract, tokenId, price,commission)
+    const tx = metmaskWallet.createSaleOffer('ethereum',status, nftsvgHash,_callback)
     return tx
 
   }
 
-  public async BuyNFT(nftcontract: string,itemId:number,price:string,royalty:string,seller:string,commission:string,  _callback? :any): Promise<any> {
+  public async BuyNFT(_itemID: string,_nftaddress:string,  _callback? :any): Promise<any> {
     let metmaskWallet = new UserWallet();
     metmaskWallet = new MetamaskComponent(metmaskWallet);
-    const tx = metmaskWallet.buynft('ethereum',nftcontract, itemId, price,commission,royalty,seller, _callback)
+    const tx = metmaskWallet.buynft('ethereum',_itemID, _nftaddress, _callback)
     return tx
   }
 

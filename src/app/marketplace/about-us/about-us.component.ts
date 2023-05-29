@@ -8,6 +8,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./about-us.component.css'],
 })
 export class AboutUsComponent implements OnInit {
+  jpToggled: boolean = false;
   text0: string = '';
   text1: string = '';
   text2: string = '';
@@ -60,6 +61,8 @@ export class AboutUsComponent implements OnInit {
   }
 
   public toggleLang(e: any) {
+    this.jpToggled = e.target.checked;
+
     if (e.target.checked) {
       this.text0 = this.jpText0;
       this.text1 = this.jpText1;

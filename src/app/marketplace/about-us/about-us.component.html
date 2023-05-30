@@ -34,7 +34,7 @@
       <p class="normal-text" [innerHTML]="text2"></p>
       <button mat-button (click)="docs()">Visit Documentation</button>
     </div>
-    <div class="link-section">
+    <div [class.link-section-2]="jpToggled" [class.link-section]="!jpToggled">
       <h2 [innerHTML]="text3"></h2>
       <p class="normal-text" [innerHTML]="text4"></p>
       <button mat-button (click)="tracified()">Visit Tracified</button>

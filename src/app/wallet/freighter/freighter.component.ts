@@ -54,8 +54,6 @@ export class FreighterComponent implements Wallet, OnInit {
       }
   }
   getWalletaddress(): string {
-    if (isConnected()) {
-    }
     this.address = this.retrievePublicKey();
     return this.address;
   }

@@ -314,6 +314,7 @@ export class BuyViewComponent implements OnInit {
     this.saleBE.Commission = this.NFTList.commission;
 
     if (this.NFTList.blockchain == 'stellar') {
+      user = this.userPK;
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;

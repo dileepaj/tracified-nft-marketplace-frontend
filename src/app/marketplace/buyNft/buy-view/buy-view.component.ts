@@ -314,7 +314,6 @@ export class BuyViewComponent implements OnInit {
     this.saleBE.Commission = this.NFTList.commission;
 
     if (this.NFTList.blockchain == 'stellar') {
-      user = this.userPK;
       this.saleBE.SellingType = 'NFT';
       this.saleBE.MarketContract = 'Not Applicable';
       this.saleBE.NFTIdentifier = this.NFTList.nftissuerpk;
@@ -339,7 +338,7 @@ export class BuyViewComponent implements OnInit {
               nftName: this.NFTList.nftname,
               thumbnail: this.NFTList.thumbnail,
             });
-            this.buyNFTOnStellar(user,() => {
+            this.buyNFTOnStellar(this.userPK,() => {
               loadingAnimation.close();
               return
             });
@@ -624,7 +623,6 @@ export class BuyViewComponent implements OnInit {
 
     let isMobileDevice = await regexp.test(details);
     if (isMobileDevice) {
-      
         this.userPK = user;
         this.trustalbedo
           .trustlineByBuyer(
@@ -669,7 +667,6 @@ export class BuyViewComponent implements OnInit {
            
           });
     } else {
-      this.userPK = user;
       this.trust
         .trustlineByBuyer(
           this.NFTList.nftname,

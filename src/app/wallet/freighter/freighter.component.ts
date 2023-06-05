@@ -45,7 +45,6 @@ export class FreighterComponent implements Wallet, OnInit {
 
   async initWallelt() {
     if (isConnected()) {
-      // this.address = this.retrievePublicKey();
       return;
     } else {
         if (typeof (window as any).freighterApi != 'undefined'){

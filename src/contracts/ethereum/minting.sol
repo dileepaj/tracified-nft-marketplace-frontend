@@ -1,165 +1,162 @@
-// SPDX-License-Identifier: MIT OR Apache-2.0
-pragma solidity ^0.8.3;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+import "./interfaces/ERC721.sol";
+import "./interfaces/Ownable.sol";
+import "./interfaces/INFT.sol";
+import "./interfaces/NftUtill.sol";
+import "solmate/src/utils/FixedPointMathLib.sol";
 
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "./Base64.sol";
-//import "hardhat/console.sol";
+contract NFT is ERC721, Ownable, INFT, NftUtill {
+    NFTData private nftCustomData;
+    address private initOwner;
+    address private tracifiedMKAddress;
+    address private immutable tracifiedAccountAddress;
 
-contract NFT is ERC721,ERC721URIStorage,Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
-    address contractAddress;
-
-    mapping(uint256 => Attr) public attributes;
-    mapping (address => uint256) public balances;
-    mapping (string => uint256) public tokenIDTrack;
-
-    string svgheaderInfo;
-    string metaDataOpenTag;
-    string metaDataClosingTag;
-    string descriptionOpenTag;
-    string descriptionClosingTag;
-    string svgProofBotTitle;
-    string svgTdpDatatitle;
-    string svgOtherData;
-    string hrefAttribute;
-    string svgfooterInfo;
-    string private svg;
-
-    struct Attr {
-        string name;
+    //constructor
+    constructor(
+        string memory _name,
+        bytes memory _nftHash,
+        string memory _symbol,
+        uint8 _royalty,
+        address _owner,
+        address _tracifiedaccount
+    ) ERC721(_name, _symbol) Ownable(_owner) royaltyInRange(_royalty) {
+        nftCustomData = NFTData({
+            NFTHash: _nftHash,
+            price: 0,
+            royalty: _royalty,
+            nftsatus: EnumNFTStatus.OFFSALE,
+            purchaseStatus: NftUtill.PurchaseStatus.FIRST_HAND
+        });
+        initOwner = _owner;
+        tracifiedMKAddress = msg.sender;
+        tracifiedAccountAddress = _tracifiedaccount;
     }
 
-    constructor(address marketplaceAddress) ERC721("Tracified", "NFT") {
-        contractAddress = 0xB5EBb0028AB92F19A0a415c450F64b4ED768cbca;
-
-        svgheaderInfo = "<svg width='100%' height='100%' viewBox='0 0 400 370' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>";
-        metaDataOpenTag = "<metadata>";
-        metaDataClosingTag = "<rdf:RDF xmlns:rdf = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:rdfs = 'http://www.w3.org/2000/01/rdf-schema#' xmlns:dc = 'http://purl.org/dc/elements/1.1/' ><rdf:Description about='https://qa.explorer.tillit.world/txn/c221afb87469f6f2e9defb880b85393d02defae6d23c899a3ae9f737b93b57c5' dc:title='Proof presentation NFT' dc:description='POE' dc:publisher='Hezelnut' dc:date='2022-02-11' dc:format='JSON' dc:language='en' ><dc:creator><rdf:Bag><rdf:li>Tracified</rdf:li><rdf:li>NFT for Proofs</rdf:li></rdf:Bag></dc:creator></rdf:Description></rdf:RDF></metadata><image  width='400px' height='400px'";
-        descriptionOpenTag = "<desc>";
-        descriptionClosingTag = "</desc>";
-        svgProofBotTitle = "<title>Proof BOT JSON</title>";
-        svgTdpDatatitle = "<title>NFT TDP details</title>";
-        hrefAttribute = " href='";
-        svgfooterInfo = "'/></svg>";
-        
-    }
-
-    function uint2str(uint _i) internal pure returns (string memory uintAsString) {
-        if (_i == 0) {
-            return "0";
-        }
-        uint j = _i;
-        uint len;
-        while (j != 0) {
-            len++;
-            j /= 10;
-        }
-        bytes memory bstr = new bytes(len);
-        uint k = len;
-        while (_i != 0) {
-            k = k-1;
-            uint8 temp = (48 + uint8(_i - _i / 10 * 10));
-            bytes1 b1 = bytes1(temp);
-            bstr[k] = b1;
-            _i /= 10;
-        }
-        return string(bstr);
-    }
-
-
-    function _burn(uint256 tokenId) internal override(ERC721URIStorage,ERC721) {
-        super._burn(tokenId);
-    }
-
-    function mintNFT(
-        address reciver,
-       /* string memory tokenURI,*/
-        string memory _name, 
-        string memory _proofbotdata,
-        string memory _tdpdata,
-        string memory _imagedata
-        ) 
-    public 
-    returns (uint) 
-    {
-        _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current();
-
-        setSvg(generateSvg(_proofbotdata, _tdpdata, _imagedata));
-        _mint(reciver, newItemId);
-        //_setTokenURI(newItemId, tokenURI);
-        setApprovalForAll(contractAddress, true);
-        attributes[newItemId] = Attr(_name);
-        tokenIDTrack[_name] = newItemId; 
-        return newItemId;
-    }
-
-    function getTokenIDfromTokenURI(string memory _name)
-    public
-    view
-    returns (uint256)
-    {
-        return tokenIDTrack[_name];
-    }
-
-
-/*
-    function createTokenURI(uint256 tokenID) public{
-        string memory tokenURI = _getTokenURI(tokenID);
-        _setTokenURI(newItemId, tokenURI);
-    }
-*/
-
-    function getSvg(uint tokenId) public view returns (string memory) {
-        return svg;
-    }
-
-    function setSvg(string memory _svg) internal {
-        svg = _svg;
-    }
-
-    
-
-    function generateSvg(string memory proofbotdata, string memory tdpdata, string memory _imagedata) internal returns (string memory) {
-        string memory svgheader = string(abi.encodePacked(svgheaderInfo,metaDataOpenTag));
-        string memory proofBotdata = string(abi.encodePacked(svgProofBotTitle,descriptionOpenTag,proofbotdata,descriptionClosingTag));
-        string memory tdpdata = string(abi.encodePacked(svgTdpDatatitle,descriptionOpenTag,tdpdata,descriptionClosingTag));
-        string memory svgFooter = string(abi.encodePacked(metaDataClosingTag,hrefAttribute,_imagedata,svgfooterInfo));
-
-        string memory newSvg = string(abi.encodePacked(svgheader,proofBotdata,tdpdata,svgFooter));
-
-        return newSvg;
-    }
-
-    function tokenURI(uint256 tokenId) override(ERC721,ERC721URIStorage) public view returns (string memory) {
-        string memory json = Base64.encode(
-            bytes(string(
-                abi.encodePacked(
-                    '{"name": "', attributes[tokenId].name, '",',
-                    '"image_data": "', getSvg(tokenId), '",',
-                    '"Description": "Issued By Tracified.",',
-                    '"attributes": []}'
-                )
-            ))
+    //modifer
+    modifier onlyInitialOwner() {
+        require(
+            msg.sender == initOwner,
+            "Royalty can only be set by the initial owner"
         );
-        return string(abi.encodePacked('data:application/json;base64,', json));
+        _;
     }
 
-    function transferToken(address from, address to, uint256 tokenId) external {
-        require(ownerOf(tokenId) == from, "From address must be token owner");
-        _transfer(from, to, tokenId);
+    modifier royaltyInRange(uint256 royalty) {
+        require(royalty <= 100, "Royalty can not set more than 100");
+        _;
     }
 
-  /*  function safeTransferFrom(
-        address from,
-        address to,
-        uint256 tokenId,
-        bytes memory _data
-    ) public virtual override {
-        safeTransfer(from, to, tokenId, data);
-    } */
+    modifier onOffSell() {
+        require(
+            nftCustomData.nftsatus == NftUtill.EnumNFTStatus.OFFSALE,
+            "can not change royalty on onSell"
+        );
 
+        _;
+    }
+    modifier ownerShoudlInitialOwner() {
+        require(
+            Ownable.owner() == initOwner,
+            "Initial owner not the NFT Current owner"
+        );
+        _;
+    }
+    modifier onlyTransactionAuth() {
+        require(
+            tracifiedMKAddress == msg.sender || Ownable.owner() == msg.sender,
+            "No transaction auth"
+        );
+        _;
+    }
+
+    modifier sendValidEth() {
+        require(
+            msg.value >= nftCustomData.price,
+            "eth value mismatch to the NFT price"
+        );
+        _;
+    }
+
+    //private functions
+
+    function calculateRoyalty(uint8 royalty) private view returns (uint256) {
+        return NftUtill.calculatePercentage(nftCustomData.price, uint256(royalty));
+    }
+
+    function setPurcahseStatus() private {
+        nftCustomData.purchaseStatus = NftUtill.PurchaseStatus.SECOND_HAND;
+    }
+
+    //internal functions
+
+    //public functions
+
+    //external
+    function getName() external view returns (string memory) {
+        return ERC721.name();
+    }
+
+    function getNftHash() external view returns (bytes memory) {
+        return nftCustomData.NFTHash;
+    }
+
+    function getPrice() external view returns (uint256) {
+        return nftCustomData.price;
+    }
+
+    function getInitialOwner() external view returns (address) {
+        return initOwner;
+    }
+
+    function getStatus() external view returns (NftUtill.EnumNFTStatus) {
+        return nftCustomData.nftsatus;
+    }
+
+    function getRoyalty() external view returns (uint8) {
+        return nftCustomData.royalty;
+    }
+
+    function getPurchaseStatus()
+        external
+        view
+        returns (NftUtill.PurchaseStatus)
+    {
+        return nftCustomData.purchaseStatus;
+    }
+
+    function setPrice(uint256 _price) external onlyTransactionAuth {
+        nftCustomData.price = _price;
+    }
+
+    function setRoyalty(
+        uint8 _royalty
+    )
+        external
+        onOffSell
+        royaltyInRange(_royalty)
+        onlyInitialOwner
+        ownerShoudlInitialOwner
+    {
+        nftCustomData.royalty = _royalty;
+    }
+
+    function changeStatus(
+        NftUtill.EnumNFTStatus status
+    ) external onlyTransactionAuth returns (NftUtill.EnumNFTStatus) {
+        nftCustomData.nftsatus = status;
+        emit nftStatusChanged(nftCustomData.nftsatus, nftCustomData.NFTHash);
+        return nftCustomData.nftsatus;
+    }
+
+    function transferOwnership(
+        address newOwner
+    ) external payable onlyTransactionAuth hasValidAddress(newOwner) sendValidEth {
+        uint256 royaltyPayment = calculateRoyalty(nftCustomData.royalty);
+        payable(initOwner).transfer(royaltyPayment);
+        payable(newOwner).transfer(msg.value - royaltyPayment);
+
+        Ownable._transferOwnership(newOwner);
+        delete nftCustomData.purchaseStatus;
+    }
 }

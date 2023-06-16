@@ -13,14 +13,13 @@ export abstract class Wallet {
   signTransaction(transaction: Transaction<Memo<MemoType>, Operation[]>): any {}
   createSaleOffer(
     blockchain:string,
-    status: string,
     nftsvgHash: string,
+    price:number,
     _callback? : any
   ) {}
   buynft(
     blockchain: string,
     _itemID: string,
-    _nftaddress: string,
     _callback? : any
   ) {}
   signTransactionPhantom(userPK: string, tracifiedAta: string) {}

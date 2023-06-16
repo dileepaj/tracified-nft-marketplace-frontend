@@ -728,6 +728,7 @@ export class Mint2Component implements OnInit {
                         this.mint.NFTName,
                         this.mint.Imagebase64,
                         "TRACIFIED_NFT",
+                        0,
                         () => {
                           dialog.close();
                           this.flag = false;
@@ -841,6 +842,7 @@ export class Mint2Component implements OnInit {
                           this.mint.NFTName,
                           this.mint.Imagebase64,
                           "TRACIFIED_NFT",
+                          0,
                           () => {
                             dialog.close();
                             this.flag = false;

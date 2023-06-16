@@ -460,8 +460,7 @@ export class BuyViewComponent implements OnInit {
             });
             this.pmarket
               .BuyNFT(
-                (this.NFTList.sellingtype),
-                environment.contractAddressNFTPolygon,
+                this.NFTList.sellingtype,
                 () => {
                   loadingAnimation.close();
                 }
@@ -519,8 +518,7 @@ export class BuyViewComponent implements OnInit {
             });
             this.emarket
               .BuyNFT(
-              (this.NFTList.sellingtype) ,
-                environment.contractAddressNFTEthereum,
+              this.NFTList.sellingtype ,
                 () => {
                   loadingAnimation.close();
                 }

@@ -674,8 +674,8 @@ export class SellNftComponent implements OnInit {
                 try {
                   this.pmarket
                     .createSaleOffer(
-                      this.statuscontract.ONSALE,
                      this.NFTList.imagebase64,
+                     this.firstPrice,
                       () => {
                         this.snackbarService.openSnackBar("Something went wrong ", "error")
                         loadingAnimation.close();
@@ -796,8 +796,8 @@ export class SellNftComponent implements OnInit {
                 try {
                   this.emarket
                     .createSaleOffer(
-                      this.statuscontract.ONSALE,
                       this.NFTList.imagebase64,
+                      this.firstPrice,
                       () => {
                         this.snackbarService.openSnackBar("Something went wrong ", "error")
                         loadingAnimation.close();

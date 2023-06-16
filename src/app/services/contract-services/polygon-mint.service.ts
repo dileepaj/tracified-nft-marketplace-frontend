@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ethers } from "ethers";
 import { environment } from 'src/environments/environment';
 import detectEthereumProvider from "@metamask/detect-provider";
-import NFT from "src/contracts/polygon/mint.json";
+import NFT from "src/contracts/polygon/market.json";
 import { SnackbarServiceService } from '../snackbar-service/snackbar-service.service';
 
 
@@ -29,17 +29,18 @@ export class PolygonMintService {
     const provider = await PolygonMintService.getWebProvider()
     const signer = provider.getSigner()
     return new ethers.Contract(
-      environment.contractAddressNFTPolygon,
+      environment.contractAddressMKPolygon,
       NFT,
       bySigner ? signer : provider,
     )
   }
-  public async mintInPolygon(_nftname : string, _nftsvgHash : string, _symbol : string, _callback? : any): Promise<any> {
+  public async mintInPolygon(_nftname : string, _nftsvgHash : string, _symbol : string,royalty:number, _callback? : any): Promise<any> {
     const contract = await PolygonMintService.getContract(true)
-    const transaction = await contract['createNewNFT'](
+    const transaction = await contract['mintNFT'](
       _nftname,
       _nftsvgHash,
       _symbol,
+      royalty,
       { gasLimit: 3000000 }
     )
 .catch(error=>{

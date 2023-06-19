@@ -164,8 +164,9 @@ export class SellNftComponent implements OnInit {
     if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
       //might be distributor
       this.Royalty = this.NFTList.royalty;
-      this.royalty = parseFloat(this.formValue('Royalty'));
-      this.royaltyamount = this.royalty;
+      this.royalty = parseFloat(this.Royalty);
+      // this.royalty = parseFloat(this.formValue('Royalty'));
+      // this.royaltyamount = this.royalty;
       this.firstPrice = parseFloat(this.formValue('Price'));
       this.royaltyCharge = (
         this.firstPrice *
@@ -179,7 +180,7 @@ export class SellNftComponent implements OnInit {
         .toString();
       this.sellingPriceForNonContracts =
       (parseFloat(this.firstPrice )+ parseFloat(this.royaltyCharge) + parseFloat(this.commission)).toPrecision(6);
-      this.value = false;
+      this.value = true;
     } else {
       this.royalty = parseFloat(this.Royalty);
       this.firstPrice = parseFloat(this.formValue('Price'));
@@ -188,11 +189,11 @@ export class SellNftComponent implements OnInit {
         (this.royalty / 100.0)
       ).toPrecision(6);
       this.sellingPrice = this.firstPrice;
-      this.commission = (this.firstPrice * (2.0 / 100.0))
+      this.commission = (this.firstPrice * (2.5 / 100.0))
         .toPrecision(6)
         .toString();
       this.commissionforNonContracts =
-        parseFloat(this.formValue('Price')) * (2.0 / 100.0);
+        parseFloat(this.formValue('Price')) * (2.5 / 100.0);
       this.value = true;
       this.sellingPriceForNonContracts =
      ( parseFloat(this.firstPrice )+ parseFloat(this.royaltyCharge) + parseFloat(this.commission)).toPrecision(6);
@@ -676,6 +677,7 @@ export class SellNftComponent implements OnInit {
                     .createSaleOffer(
                      this.NFTList.imagebase64,
                      this.firstPrice,
+                     this.commission,
                       () => {
                         this.snackbarService.openSnackBar("Something went wrong ", "error")
                         loadingAnimation.close();
@@ -798,6 +800,7 @@ export class SellNftComponent implements OnInit {
                     .createSaleOffer(
                       this.NFTList.imagebase64,
                       this.firstPrice,
+                      this.commission,
                       () => {
                         this.snackbarService.openSnackBar("Something went wrong ", "error")
                         loadingAnimation.close();

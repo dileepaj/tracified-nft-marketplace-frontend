@@ -49,13 +49,17 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     blockchain: string,
     nftsvgHash: string,
     price:number,
+    commission:string,
     _callback? : any
   ): Promise<any> {
     if (blockchain == 'ethereum') {
+      const priceInWei = price
       const contract = await EthereumMarketServiceService.getContract(true);
       const transaction = await contract['listNFT'](
         price,
         nftsvgHash,
+        { gasLimit: 3000000 },
+        {value: ethers.utils.parseEther(commission)}
       )
       .catch(error=>{       
         _callback()!
@@ -68,6 +72,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       const transaction = await contract['listNFT'](
         price,
         nftsvgHash,
+        { gasLimit: 3000000 },
+        {value: ethers.utils.parseEther(commission)}
       )
       .catch(error=>{
         _callback()!
@@ -80,12 +86,15 @@ export class MetamaskComponent extends walletOptions implements OnInit {
   public async buynft(
     blockchain: string,
     _itemID: string,
+    price:string,
     _callback? : any
   ): Promise<any> {
     if (blockchain == 'ethereum') {
       const contract = await EthereumMarketServiceService.getContract(true);
       const transaction = await contract['buyNFT'](
         _itemID,
+        { gasLimit: 3000000 },
+        {value: ethers.utils.parseEther(price)}
       )
       .catch(error=>{
         _callback()!
@@ -96,6 +105,8 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       const contract = await PolygonMarketServiceService.getContract(true);
       const transaction = await contract['buyNFT'](
         _itemID,
+        { gasLimit: 3000000 },
+        {value: ethers.utils.parseEther(price)}
       )
       .catch(error=>{
         _callback()!

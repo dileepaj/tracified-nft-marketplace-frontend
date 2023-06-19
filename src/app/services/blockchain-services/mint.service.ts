@@ -181,7 +181,8 @@ export class MintService {
     copies: string,
     nftLink: string,
     artist: string,
-    artistLink: string
+    artistLink: string,
+    royalty:string
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       this.reqOpts = {

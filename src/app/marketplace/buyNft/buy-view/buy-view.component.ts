@@ -461,6 +461,7 @@ export class BuyViewComponent implements OnInit {
             this.pmarket
               .BuyNFT(
                 this.NFTList.sellingtype,
+                this.totals.toString(),
                 () => {
                   loadingAnimation.close();
                 }
@@ -519,6 +520,7 @@ export class BuyViewComponent implements OnInit {
             this.emarket
               .BuyNFT(
               this.NFTList.sellingtype ,
+              this.total.toString(),
                 () => {
                   loadingAnimation.close();
                 }

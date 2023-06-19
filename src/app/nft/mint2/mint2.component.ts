@@ -141,6 +141,7 @@ export class Mint2Component implements OnInit {
     false,
     false,
     '',
+    '',
     ''
   );
   minter: Minter = new Minter('', '', '', '', '');
@@ -235,6 +236,7 @@ export class Mint2Component implements OnInit {
     this.mint.SellingType = 'NFT';
     this.mint.DistributorPK = this.mint.CreatorUserId;
     this.mint.Status = 'Minted';
+    this.mint.Royalty=this.formValue('Royalty').toString();
     (this.mint.Trending = false), (this.mint.HotPicks = false);
     //posting of mint data to backend via service
     if (this.mint.CreatorUserId != null) {
@@ -728,7 +730,7 @@ export class Mint2Component implements OnInit {
                         this.mint.NFTName,
                         this.mint.Imagebase64,
                         "TRACIFIED_NFT",
-                        0,
+                       parseInt(this.mint.Royalty),
                         () => {
                           dialog.close();
                           this.flag = false;
@@ -842,7 +844,7 @@ export class Mint2Component implements OnInit {
                           this.mint.NFTName,
                           this.mint.Imagebase64,
                           "TRACIFIED_NFT",
-                          0,
+                          parseInt(this.mint.Royalty),
                           () => {
                             dialog.close();
                             this.flag = false;
@@ -1263,6 +1265,7 @@ export class Mint2Component implements OnInit {
       ArtistName: new FormControl(this.mint.ArtistName, Validators.required),
       ArtistProfileLink: new FormControl(this.mint.ArtistProfileLink),
       Issuer: new FormControl(this.mint.NFTIssuerPK),
+      Royalty:new FormControl(this.mint.Royalty,Validators.required)
     });
 
     this.controlGroup.get('Blockchain')?.setValue('');
@@ -1297,7 +1300,8 @@ export class Mint2Component implements OnInit {
                 this.mint.Copies,
                 this.mint.NftContentURL,
                 this.mint.ArtistName,
-                this.mint.ArtistProfileLink
+                this.mint.ArtistProfileLink,
+                this.mint.Royalty
               )
               .then((nft) => {
                 if (this.isLoadingPresent) {

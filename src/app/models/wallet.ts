@@ -15,11 +15,13 @@ export abstract class Wallet {
     blockchain:string,
     nftsvgHash: string,
     price:number,
+    commission:string,
     _callback? : any
   ) {}
   buynft(
     blockchain: string,
     _itemID: string,
+    price:string,
     _callback? : any
   ) {}
   signTransactionPhantom(userPK: string, tracifiedAta: string) {}

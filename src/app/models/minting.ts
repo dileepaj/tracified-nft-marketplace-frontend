@@ -125,6 +125,7 @@ export class Contracts{
        public  ArtistName           : string,
        public  ArtistLink           : string,
        public  Identifier           : string,
+       public Royalty               :string,
     ){}
 }
 

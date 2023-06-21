@@ -32,20 +32,29 @@ export class EthereumMintService {
   }
 
   
-  public async mintInEthereum(_nftname : string, _nftsvgHash : string, _symbol : string,royalty:number, _callback? : any): Promise<any> {
+  public async mintInEthereum(_nftname : string, nftsvgHash : string, _symbol : string,_royalty:number, _callback? : any): Promise<any> {
+console.log("data ",_nftname,nftsvgHash,_symbol,_royalty )
+    const str = nftsvgHash;
+    const encoder = new TextEncoder();
+    const _nftsvgHash = encoder.encode(str);
+    console.log(_nftsvgHash);
+
     const contract = await EthereumMintService.getContract(true)
+    console.log("cotract....................",contract)
     const transaction = await contract['mintNFT'](
       _nftname,
       _nftsvgHash,
       _symbol,
-      royalty,
+      _royalty,
       { gasLimit: 3000000 }
     )
     .catch(error=>{
       _callback()!
       this.snackbarService.openSnackBar("Something went wrong : "+ " Transaction failed", 'error')
     })
+    console.log("transaction ",transaction)
     const tx = await transaction.wait()
+    console.log("transaction ",tx)
     return tx
   }
 

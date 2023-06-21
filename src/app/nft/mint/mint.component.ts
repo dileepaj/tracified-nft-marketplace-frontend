@@ -143,8 +143,8 @@ export class MintComponent implements OnInit {
       return;
     }
     if (wallet == 'metamask') {
-      this.snackBar.openSnackBar("Ethereum and Polygon NFTs coming soon!","info");
-      return
+      // this.snackBar.openSnackBar("Ethereum and Polygon NFTs coming soon!","info");
+      // return
       let metamaskwallet = new UserWallet();
       metamaskwallet = new MetamaskComponent(metamaskwallet);
       await metamaskwallet.initWallelt();

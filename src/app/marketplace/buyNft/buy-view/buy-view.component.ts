@@ -267,6 +267,7 @@ export class BuyViewComponent implements OnInit {
     )
     .subscribe((data:any)=>{
       if(data.Status=="PROCESSED"){
+        console.log("passed queues")
         this.userPK=data.User
         this.updateBackend(this.userPK);
       }
@@ -491,6 +492,7 @@ export class BuyViewComponent implements OnInit {
         });
     }
     if (this.NFTList.blockchain == 'ethereum') {
+      console.log("we here----------")
       this.saleBE.MarketContract = environment.contractAddressMKEthereum;
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
@@ -527,6 +529,7 @@ export class BuyViewComponent implements OnInit {
               )
               .then((res) => {
                 try {
+                  console.log("this hash after buying",res)
                   this.saleBE.Timestamp =new Date().toString() ;
                   this.buytxn = res.transactionHash;
                   this.saveTXNs();
@@ -801,7 +804,7 @@ export class BuyViewComponent implements OnInit {
               this.royaltyR = parseFloat(this.NFTList.royalty);
               this.servicess = parseFloat(this.NFTList.commission);
               this.royaltyCharges = this.totals * (this.royaltyR / 100.0);
-              this.commissions = (this.totals * (2.0 / 100.0))
+              this.commissions = (this.totals * (2.5 / 100.0))
                 .toFixed(7)
                 .toString();
               this.fullTotal = (

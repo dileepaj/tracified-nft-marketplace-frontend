@@ -293,7 +293,7 @@ export class SellNftComponent implements OnInit {
       button_name: 'sell now',
     });
     this.firstPrice =this.formValue('Price');
-    this.royaltyamount = this.formValue('Royalty');
+    this.royaltyamount = (this.royalty);
     const priceRejex  = /^\d*(\.\d{1,4})?$/;
    
     if (isNaN(this.firstPrice) || parseFloat(this.firstPrice) <= 0 || !priceRejex.test(this.firstPrice)) {
@@ -339,7 +339,7 @@ export class SellNftComponent implements OnInit {
             this.saleBE.Blockchain = this.NFTList.blockchain;
             if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
               //might be distributor
-              this.royaltyamount = parseFloat(this.formValue('Royalty'));
+              this.royaltyamount = parseFloat(this.royalty);
               if (isNaN(+this.royaltyamount)) {
                 this.snackbarService.openSnackBar(
                   'Royality must be entered as a number',
@@ -429,10 +429,10 @@ export class SellNftComponent implements OnInit {
         this.saleBE.MarketContract = 'Not Applicable';
         this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
         this.saleBE.Blockchain = this.NFTList.blockchain;
-        this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        this.royaltyamount = parseFloat(this.royalty);
         if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
           //might be distributor
-          this.royaltyamount = parseFloat(this.formValue('Royalty'));
+          this.royaltyamount = parseFloat(this.royalty);
           if (isNaN(+this.royaltyamount)) {
             this.snackbarService.openSnackBar(
               'Royality must be entered as a number',
@@ -523,7 +523,7 @@ export class SellNftComponent implements OnInit {
       await phantomWallet.initWallelt();
       if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
         //might be distributor
-        this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        this.royaltyamount = parseFloat(this.royalty);
         if (isNaN(+this.royaltyamount)) {
           this.snackbarService.openSnackBar(
             'Royality must be entered as a number',
@@ -613,7 +613,7 @@ export class SellNftComponent implements OnInit {
       this.tokenid = parseInt(this.NFTList.nftidentifier);
       if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
         //might be distributor
-        this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        this.royaltyamount = parseFloat(this.royalty);
         if (isNaN(+this.royaltyamount)) {
           this.firebaseanalytics.logEvent('error', {
             reason: 'Invalid data typed entered for royalty',
@@ -737,7 +737,7 @@ export class SellNftComponent implements OnInit {
       if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
         //might be distributor
 
-        this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        this.royaltyamount = parseFloat(this.royalty);
         if (isNaN(+this.royaltyamount)) {
           this.firebaseanalytics.logEvent('error', {
             reason: 'Invalid data type entered for royalty',
@@ -808,9 +808,10 @@ export class SellNftComponent implements OnInit {
                     )
                     .then((res) => {
                       try {
+                        console.log('transaction data: ',res)
                         this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.transactionHash;
-                        this.itemId = parseInt(res.logs[2].topics[1]);
+                        this.itemId = parseInt(res.logs[1].topics[1]);
                         this.saleBE.SellingType = this.itemId.toString();
                         this.saveTXNs();
                         this.addDBBackend();

@@ -653,7 +653,7 @@ export class OverviewComponent implements OnInit {
         provider.listAccounts().then((data) => {
           if (data.length > 0) {
             this.connectedWallet = 'Metamask';
-            this.bccommingsoon = 'Ethtereum/Polygon NFTs coming soon!';
+            this.bccommingsoon = '';
           } else {
             this.connectedWallet = '';
           }

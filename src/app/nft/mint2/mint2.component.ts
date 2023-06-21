@@ -100,6 +100,7 @@ export class Mint2Component implements OnInit {
     '',
     '',
     '',
+    '',
     ''
   );
   tag: tags = new tags('', '', []);
@@ -145,7 +146,7 @@ export class Mint2Component implements OnInit {
     ''
   );
   minter: Minter = new Minter('', '', '', '', '');
-  tokenId: number;
+  tokenId: string;
   txn: TXN = new TXN('', '', '', '', '', '', '');
   svgUpdate: UpdateSVG = new UpdateSVG('', '');
   svg: SVG = new SVG('', '', 'NA', '', '');
@@ -193,6 +194,7 @@ export class Mint2Component implements OnInit {
   descriptionRemainingChars: number = 500;
   flag: boolean = false;
   tagInputText: string = '';
+  mycontract: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -236,7 +238,7 @@ export class Mint2Component implements OnInit {
     this.mint.SellingType = 'NFT';
     this.mint.DistributorPK = this.mint.CreatorUserId;
     this.mint.Status = 'Minted';
-    this.mint.Royalty=this.formValue('Royalty').toString();
+    this.mint.Royalty=this.formValue('Royalty');
     (this.mint.Trending = false), (this.mint.HotPicks = false);
     //posting of mint data to backend via service
     if (this.mint.CreatorUserId != null) {
@@ -311,6 +313,7 @@ export class Mint2Component implements OnInit {
       this.mint.Imagebase64 = this.hash;
       this.mint.AttachmentType = this.type;
       this.mint.Description = this.formValue('Description');
+      this.mint.Royalty=this.formValue('Royalty')
       this.mint.thumbnail = this.thumbnail;
       this.svgUpdate.Id = this.hash;
 
@@ -662,7 +665,7 @@ export class Mint2Component implements OnInit {
         await metamask.initWallelt();
         this.mint.NFTIssuerPK = metamask.getWalletaddress();
         this.mint.DistributorPK = metamask.getWalletaddress();
-        this.mint.MintedContract = environment.contractAddressNFTEthereum;
+        // this.mint.MintedContract = environment.contractAddressNFTEthereum;
         this.mint.MarketContract = environment.contractAddressMKEthereum;
         this.mint.CreatorUserId = this.mint.DistributorPK;
         this.mint.thumbnail = this.thumbnail;
@@ -725,6 +728,7 @@ export class Mint2Component implements OnInit {
                       nftName: this.mint.NFTName,
                       thumbnail: this.mint.thumbnail,
                     });
+                    console.log("Royalty value: ",this.mint.Royalty)
                     this.emint
                       .mintInEthereum(
                         this.mint.NFTName,
@@ -738,9 +742,11 @@ export class Mint2Component implements OnInit {
                       )
                       .then(async (res) => {
                         try {
+                          console.log("transaction data: ",res)
+                          console.log("txn hash : ",res.transactionHash)
                           this.mint.NFTTxnHash = res.transactionHash;
-                          this.tokenId = parseInt(res.logs[0].topics[3]);
-                          this.mint.NFTIdentifier = this.tokenId.toString();
+                          this.tokenId = (res.logs[0].address).toString();
+                          this.mint.NFTIdentifier = this.tokenId;
                           this.sendToMint3();
                           this.saveContractInGateway();
                           this.saveTXNs();
@@ -775,7 +781,7 @@ export class Mint2Component implements OnInit {
         await metamask.initWallelt();
         this.mint.NFTIssuerPK = metamask.getWalletaddress();
         this.mint.DistributorPK = metamask.getWalletaddress();
-        this.mint.MintedContract = environment.contractAddressNFTPolygon;
+       // this.mint.MintedContract = environment.contractAddressNFTPolygon;
         this.mint.MarketContract = environment.contractAddressMKPolygon;
         this.mint.CreatorUserId = this.mint.DistributorPK;
         this.mint.thumbnail = this.thumbnail;
@@ -853,8 +859,8 @@ export class Mint2Component implements OnInit {
                         .then((res) => {
                           try {
                             this.mint.NFTTxnHash = res.transactionHash;
-                            this.tokenId = parseInt(res.logs[0].topics[3]);
-                            this.mint.NFTIdentifier = this.tokenId.toString();
+                            this.tokenId = (res.logs[0].address).toString();
+                            this.mint.NFTIdentifier = this.tokenId;
                             this.sendToMint3();
                             this.saveContractInGateway();
                             this.saveTXNs();
@@ -905,12 +911,13 @@ export class Mint2Component implements OnInit {
     this.contract.MarketplaceContract = this.mint.MarketContract;
     this.contract.MintNFTTxn = this.mint.NFTTxnHash;
     this.contract.NFTBlockChain = this.mint.Blockchain;
-    this.contract.NFTContract = this.mint.MintedContract;
+    this.contract.NFTContract = this.mint.NFTIdentifier;
     this.contract.NFTLinks = this.mint.NftContentURL;
     this.contract.NFTURL = this.mint.Imagebase64;
     this.contract.OwnerPK = this.mint.CreatorUserId;
     this.contract.Tags = this.tags;
     this.contract.Identifier = this.mint.NFTIdentifier;
+    this.contract.Royalty=this.mint.Royalty
     this.service.addNFTGW(this.contract).subscribe((res) => {
       this.proceed.emit({
         blockchain: this.mint.Blockchain,
@@ -1051,7 +1058,8 @@ export class Mint2Component implements OnInit {
                     this.mint.NftContentURL,
                     transactionResult.created_at,
                     this.mint.ArtistName,
-                    this.mint.ArtistProfileLink
+                    this.mint.ArtistProfileLink,
+                    this.mint.Royalty
                   )
                   .then((res) => {
                     try {
@@ -1144,7 +1152,8 @@ export class Mint2Component implements OnInit {
                 this.mint.NftContentURL,
                 Date().toString(),
                 this.mint.ArtistName,
-                this.mint.ArtistProfileLink
+                this.mint.ArtistProfileLink,
+                this.mint.Royalty
               )
               .then((res) => {
                 try {
@@ -1203,6 +1212,7 @@ export class Mint2Component implements OnInit {
     this.tags=[]
     this.imageSrc=""
     this.croppedImage=""
+    this.mint.Royalty=""
   }
 
   ngOnInit(): void {

@@ -235,7 +235,7 @@ export class Mint2Component implements OnInit {
     this.mint.ArtistProfileLink = this.formValue('ArtistProfileLink');
     this.mint.CurrentOwnerPK = this.mint.CreatorUserId;
     this.mint.SellingStatus = 'Minted';
-    this.mint.SellingType = 'NFT';
+    this.mint.SellingType = '0';
     this.mint.DistributorPK = this.mint.CreatorUserId;
     this.mint.Status = 'Minted';
     this.mint.Royalty=this.formValue('Royalty');
@@ -250,11 +250,11 @@ export class Mint2Component implements OnInit {
         });
     }
 
-    this.proceed.emit({
-      email: this.email,
-      blockchain: this.mint.Blockchain,
-      user: this.mint.CreatorUserId,
-    });
+    // this.proceed.emit({
+    //   email: this.email,
+    //   blockchain: this.mint.Blockchain,
+    //   user: this.mint.CreatorUserId,
+    // });
   }
   pushOwner(): void {
     //posting owner data via service to backend
@@ -748,9 +748,9 @@ export class Mint2Component implements OnInit {
                           this.tokenId = (res.logs[0].address).toString();
                           this.mint.NFTIdentifier = this.tokenId;
                           this.sendToMint3();
-                          this.saveContractInGateway();
                           this.saveTXNs();
                           this.apiService.addSVG(this.svg).subscribe();
+                          this.saveContractInGateway();
                           dialog.close();
                           this.snackbar.openSnackBar(
                             SnackBarText.MINTING_SUCCESSFUL_MESSAGE,
@@ -858,13 +858,15 @@ export class Mint2Component implements OnInit {
                         )
                         .then((res) => {
                           try {
-                            this.mint.NFTTxnHash = res.transactionHash;
-                            this.tokenId = (res.logs[0].address).toString();
-                            this.mint.NFTIdentifier = this.tokenId;
+                            console.log("transaction data: ",res)
+                          console.log("txn hash : ",res.transactionHash)
+                          this.mint.NFTTxnHash = res.transactionHash;
+                          this.tokenId = (res.logs[0].address).toString();
+                          this.mint.NFTIdentifier = this.tokenId;
                             this.sendToMint3();
-                            this.saveContractInGateway();
                             this.saveTXNs();
                             this.apiService.addSVG(this.svg).subscribe();
+                            this.saveContractInGateway();
                             dialog.close();
                             this.snackbar.openSnackBar(
                               SnackBarText.MINTING_SUCCESSFUL_MESSAGE,
@@ -919,10 +921,10 @@ export class Mint2Component implements OnInit {
     this.contract.Identifier = this.mint.NFTIdentifier;
     this.contract.Royalty=this.mint.Royalty
     this.service.addNFTGW(this.contract).subscribe((res) => {
-      this.proceed.emit({
-        blockchain: this.mint.Blockchain,
-        user: this.mint.CreatorUserId,
-      });
+      // this.proceed.emit({
+      //   blockchain: this.mint.Blockchain,
+      //   user: this.mint.CreatorUserId,
+      // });
     });
   }
 

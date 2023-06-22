@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   contractAddressNFTPolygon: "0xE6F59c4A3118C0C00155b00331dF07b40DD85569",
-  contractAddressMKPolygon: "0x86E328AD08b5e66B6AcBF7e03DAC74c7b723f5B7",
+  contractAddressMKPolygon: "0x383D27EE2b6411C401e0f48691bCF84b6B4f2Bc4",
   contractAddressNFTEthereum: "0x6f09Ecb9e29bF5B1d2C9c39d126FF32dc089F34C",
   contractAddressMKEthereum: "0xb60a18fd76a0B488A7259aF76650F090C58cEE30",
   fromWallet: "9aE476sH92Vz7DMPyq5WLPkrKWivxeuTKEFKd2sZZcde",

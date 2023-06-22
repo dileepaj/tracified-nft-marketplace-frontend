@@ -79,12 +79,22 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       return tx;
     }
     if (blockchain == 'polygon') {
+      console.log("-------------------data----------",blockchain,nftsvgHash,price,commission)
+      const _priceInWei = ethers.utils.parseEther((price).toString())
+      const _price= ethers.BigNumber.from(_priceInWei).toNumber()
+      const commissionInWei=ethers.utils.parseEther(commission)
+      const _commission=ethers.BigNumber.from(commissionInWei).toNumber()
+      console.log("----------",_price)
+      const str = nftsvgHash;
+      const encoder = new TextEncoder();
+      const _nfthash = encoder.encode(str);
+      console.log("hash is",_nfthash);
       const contract = await PolygonMarketServiceService.getContract(true);
       const transaction = await contract['listNFT'](
-        price,
-        nftsvgHash,
-        { gasLimit: 3000000 },
-        {value: ethers.utils.parseEther(commission)}
+        _nfthash,
+        _price,
+       // { gasLimit: 3000000 },
+        {value: _commission}// 
       )
       .catch(error=>{
         _callback()!
@@ -108,7 +118,7 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       console.log("after conversin ",_itemID,_price)
       const contract = await EthereumMarketServiceService.getContract(true);
       const transaction = await contract['buyNFT'](
-        2,
+        _itemID,
        // { gasLimit: 3000000 },
         {value: _price}
       )
@@ -118,13 +128,16 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       const tx = await transaction.wait();
       return tx;
     } else if (blockchain == 'polygon') {
+      console.log("data is ",price,itemID)
       const _priceInWei = ethers.utils.parseEther((price).toString())
       const _price= ethers.BigNumber.from(_priceInWei).toNumber()
       const _itemID=parseInt(itemID)
+      console.log("after conversin ",_itemID,_price)
+  
       const contract = await PolygonMarketServiceService.getContract(true);
       const transaction = await contract['buyNFT'](
         _itemID,
-        { gasLimit: 3000000 },
+       // { gasLimit: 3000000 },
         {value: _price}
       )
       .catch(error=>{

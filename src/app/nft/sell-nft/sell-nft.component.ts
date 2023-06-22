@@ -238,7 +238,7 @@ export class SellNftComponent implements OnInit {
                          SnackBarText.SALE_SUCCESS_MESSAGE,
                          'success'
                        );
-      this.showInProfile();
+      //this.showInProfile();
     }
   ); 
   }
@@ -685,19 +685,20 @@ export class SellNftComponent implements OnInit {
                     )
                     .then((res) => {
                       try {
+                        console.log('transaction data: ',res)
                         this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.transactionHash;
-                        this.itemId = parseInt(res.logs[3].topics[1]);
-                        this.saleBE.SellingType = this.itemId.toString();
-                        this.saveTXNs();
+                        console.log("Selling type : ",this.NFTList.sellingtype)
+                        this.saleBE.SellingType = (1 + parseInt(this.NFTList.sellingtype)).toString();
+                       // this.saveTXNs();
                         this.addDBBackend();
-                        this.addDBGateway();
+                      //  this.addDBGateway();
                         loadingAnimation.close();
                         this.snackbarService.openSnackBar(
                           SnackBarText.SALE_SUCCESS_MESSAGE,
                           'success'
                         );
-                        this.showInProfile();
+                       // this.showInProfile();
                       } catch (err) {
                         this.firebaseanalytics.logEvent('error', {
                           reason: 'Failed to put NFT on sale',
@@ -811,11 +812,12 @@ export class SellNftComponent implements OnInit {
                         console.log('transaction data: ',res)
                         this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.transactionHash;
-                        this.itemId = parseInt(res.logs[1].topics[1]);
-                        this.saleBE.SellingType = this.itemId.toString();
-                        this.saveTXNs();
+                       // this.itemId = parseInt(res.logs[2].topics[1]);
+                       console.log("Selling type : ",this.NFTList.sellingtype)
+                        this.saleBE.SellingType = (1 + parseInt(this.NFTList.sellingtype)).toString();
+                       // this.saveTXNs();
                         this.addDBBackend();
-                        this.addDBGateway();
+                       // this.addDBGateway();
                         loadingAnimation.close();
                         this.snackbarService.openSnackBar(
                           SnackBarText.SALE_SUCCESS_MESSAGE,

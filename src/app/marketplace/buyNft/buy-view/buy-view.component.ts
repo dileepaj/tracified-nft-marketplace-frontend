@@ -461,15 +461,16 @@ export class BuyViewComponent implements OnInit {
             });
             this.pmarket
               .BuyNFT(
-                this.NFTList.sellingtype,
-                this.totals.toString(),
+                this.NFTList.sellingtype ,
+                this.total.toString(),
                 () => {
                   loadingAnimation.close();
                 }
               )
               .then((res) => {
                 try {
-                   this.saleBE.Timestamp =new Date().toString() ;
+                  console.log("this hash after buying",res)
+                  this.saleBE.Timestamp =new Date().toString() ;
                   this.buytxn = res.transactionHash;
                   this.saveTXNs();
                   this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -479,7 +480,7 @@ export class BuyViewComponent implements OnInit {
                     SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                     'success'
                   );
-                  this.showInProfile();
+                  //this.showInProfile();
                 } catch (err) {
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +

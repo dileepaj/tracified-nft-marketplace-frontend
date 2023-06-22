@@ -34,7 +34,11 @@ export class PolygonMintService {
       bySigner ? signer : provider,
     )
   }
-  public async mintInPolygon(_nftname : string, _nftsvgHash : string, _symbol : string,royalty:number, _callback? : any): Promise<any> {
+  public async mintInPolygon(_nftname : string, nftsvgHash : string, _symbol : string,royalty:number, _callback? : any): Promise<any> {
+    const str = nftsvgHash;
+    const encoder = new TextEncoder();
+    const _nftsvgHash = encoder.encode(str);
+    console.log(_nftsvgHash);
     const contract = await PolygonMintService.getContract(true)
     const transaction = await contract['mintNFT'](
       _nftname,

@@ -277,10 +277,16 @@ export class BuyViewComponent implements OnInit {
       })
     )
     .subscribe((data:any)=>{
+      if(data==null){
+        this.buyNFT()
+    }else{
       if(data.Status=="PROCESSED"){
         this.userPK=data.User
         this.updateBackend(this.userPK);
+      }else{
+        this.buyNFT()
       }
+    }
     })
   }
 

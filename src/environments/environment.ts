@@ -46,8 +46,8 @@ export const APIConfigENV = {
 export const BlockchainConfig = {
   production: false,
   mode: 'qa',
-  solananetwork: 'devnet',
-  solananetworkURL:'https://api.devnet.solana.com'
+  solananetwork: 'testnet',
+  solananetworkURL:'https://api.testnet.solana.com'
 }
 
 export const FirebaseConfig = {

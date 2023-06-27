@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { getPublicKey } from '@stellar/freighter-api';
+import { isConnected } from "@stellar/freighter-api";
 import { Wallet } from 'src/app/models/wallet';
 import { walletOptions } from 'src/app/models/walletoptions';
 import { Memo, MemoType, Operation, Transaction, Server } from 'stellar-sdk';
@@ -38,8 +39,8 @@ export class FreighterComponent implements Wallet, OnInit {
 
   ngOnInit(): void {}
 
-  initWallelt() {
-    if ((window as any).freighterApi.isConnected()) {
+  async initWallelt() {
+    if (isConnected()) {
       return;
     } else {
         if (typeof (window as any).freighterApi != 'undefined'){
@@ -48,8 +49,6 @@ export class FreighterComponent implements Wallet, OnInit {
       }
   }
   getWalletaddress(): string {
-    if ((window as any).freighterApi.isConnected()) {
-    }
     this.address = this.retrievePublicKey();
     return this.address;
   }

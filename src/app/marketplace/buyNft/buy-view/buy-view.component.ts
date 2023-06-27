@@ -252,7 +252,18 @@ export class BuyViewComponent implements OnInit {
     this.queue.ImageBase64=this.NFTList.imagebase64;
     this.queue.NFTIdentifier=this.nftbe.NFTIdentifier;
     this.queue.Version=(this.count).toString();
-    this.service.queueBuys(this.queue).subscribe(res=>{
+    this.lockData()
+  }
+
+  lockData(){
+    this.service.queueBuys(this.queue)
+    .pipe(
+      catchError((error) => {
+        this.buyNFT();
+        return throwError('Something went wrong');
+      })
+    )
+    .subscribe(res=>{
       this.getProcessedData()
     })
   }
@@ -261,13 +272,12 @@ export class BuyViewComponent implements OnInit {
     this.service.getQueueData(this.NFTList.imagebase64,this.nftbe.Blockchain,this.count) 
     .pipe(
       catchError((error) => {
-        this.getProcessedData();
+        this.buyNFT();
         return throwError('Something went wrong');
       })
     )
     .subscribe((data:any)=>{
       if(data.Status=="PROCESSED"){
-        console.log("passed queues")
         this.userPK=data.User
         this.updateBackend(this.userPK);
       }
@@ -322,7 +332,7 @@ export class BuyViewComponent implements OnInit {
               nftName: this.NFTList.nftname,
               thumbnail: this.NFTList.thumbnail,
             });
-            this.buyNFTOnStellar(user,() => {
+            this.buyNFTOnStellar(this.userPK,() => {
               loadingAnimation.close();
               return
             });
@@ -602,7 +612,6 @@ export class BuyViewComponent implements OnInit {
 
     let isMobileDevice = await regexp.test(details);
     if (isMobileDevice) {
-      
         this.userPK = user;
         this.trustalbedo
           .trustlineByBuyer(
@@ -647,7 +656,6 @@ export class BuyViewComponent implements OnInit {
            
           });
     } else {
-      this.userPK = user;
       this.trust
         .trustlineByBuyer(
           this.NFTList.nftname,

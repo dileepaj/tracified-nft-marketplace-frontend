@@ -15,7 +15,6 @@ export class TransferServiceChargeService {
    ): Promise<Transaction>{
     return (async () => {
       // Connect to cluster
-      const network :any =BlockchainConfig.solananetwork;
     const networkURL :any =BlockchainConfig.solananetworkURL;
       const connection = new Connection(networkURL);
    
@@ -27,7 +26,7 @@ export class TransferServiceChargeService {
                 lamports: 20000, //service charge
               }),
                )
-               tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+               tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash
     
                tx.feePayer = new PublicKey(to);
           

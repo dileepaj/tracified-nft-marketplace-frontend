@@ -207,6 +207,7 @@ export class MintService {
         NFTLinks: nftLink,
         ArtistName: artist,
         ArtistLink: artistLink,
+        Royalty:royalty
       };
       this.http.post(this.baseUrlMintSolana, NFTModel, this.reqOpts).subscribe(
         (response) => {

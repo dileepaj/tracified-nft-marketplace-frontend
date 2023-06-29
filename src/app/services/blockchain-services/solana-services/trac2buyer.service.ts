@@ -36,13 +36,13 @@ export class Trac2buyerService {
                 lamports: totalprice,
               }),
                )
-              //  .add(
-              //   SystemProgram.transfer({
-              //   fromPubkey: new PublicKey(to),
-              //   toPubkey: new PublicKey(owner),
-              //   lamports: royalties,
-              // }),
-              //  )
+               .add(
+                SystemProgram.transfer({
+                fromPubkey: new PublicKey(to),
+                toPubkey: new PublicKey(owner),
+                lamports: royalties,
+              }),
+               )
                .add(
                 SystemProgram.transfer({
                 fromPubkey: new PublicKey(to),

@@ -1,41 +1,42 @@
 <div class="container">
+  <div class="switch-wrapper cont-wrapper">
+    <div class="switch">
+      <input
+        id="language-toggle"
+        class="check-toggle check-toggle-round-flat"
+        type="checkbox"
+        (change)="toggleLang($event)"
+      />
+      <label for="language-toggle"></label>
+      <span class="on">EN</span>
+      <span class="off">JP</span>
+    </div>
+  </div>
   <div class="about-us-header cont-wrapper">
     <mat-icon class="back" matTooltip="Back" (click)="goBack()"
       >arrow_back</mat-icon
     >
-    <label class="about-heading">About Us</label>
+    <label class="about-heading" [innerHTML]="text5"></label>
   </div>
   <div class="about-us-img-cont">
     <img src="../../../assets/images/nft-mp-web-about-us.png" />
   </div>
-  <div class="cont-wrapper" style="margin-top:60px">
-    <p class="normal-text about-us-text">
-      Tracified NFT Marketplace is a decentralized platform that enables users to create, sell, and purchase traceability-related non-fungible tokens (NFTs) on various public blockchains. The platform specializes in NFTs that consist of traceability data, such as Supply chain information, Product origins, Authenticity verification.
-      Users can create and mint their own traceability NFTs, and trade them on the platform using cryptocurrency. The platform utilizes various public blockchains, such as: Ethereum, Stellar, Polygon, Solana.
-      <br/>
-      <br/>
-      Ensuring that the traceability NFTs created and traded on the platform are accessible to anyone on the blockchain network.
-      To use the platform, users are required to have a crypto wallet such as:
-      MetaMask for Ethereum and Polygon, Freighter for Stellar, Phantom for Solana, Albedo for Stellar
-      <br/>
-      <br/>
-      This platform offers a new way for people to represent their items and ensure authenticity, transparency and traceability in the supply chain. This platform is beneficial for consumers, businesses, and industries that are looking to build trust and transparency with their customers, partners, and regulators.</p>
+  <div class="cont-wrapper" style="margin-top: 60px">
+    <p
+      id="contentText"
+      class="normal-text about-us-text"
+      [innerHTML]="text0"
+    ></p>
   </div>
   <div class="links-cont cont-wrapper">
     <div class="link-section">
-      <h2>Learn more about how it works</h2>
-      <p class="normal-text">
-        Read our complete documentation
-        and get to know how the platform works
-      </p>
+      <h2 [innerHTML]="text1"></h2>
+      <p class="normal-text" [innerHTML]="text2"></p>
       <button mat-button (click)="docs()">Visit Documentation</button>
     </div>
-    <div class="link-section">
-      <h2>Learn about Tracified</h2>
-      <p class="normal-text">
-        Get to know how your business can benefit from
-        traceability through public blockchain
-      </p>
+    <div [class.link-section-2]="jpToggled" [class.link-section]="!jpToggled">
+      <h2 [innerHTML]="text3"></h2>
+      <p class="normal-text" [innerHTML]="text4"></p>
       <button mat-button (click)="tracified()">Visit Tracified</button>
     </div>
   </div>

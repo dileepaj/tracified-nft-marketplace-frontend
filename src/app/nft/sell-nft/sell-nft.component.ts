@@ -238,7 +238,7 @@ export class SellNftComponent implements OnInit {
                          SnackBarText.SALE_SUCCESS_MESSAGE,
                          'success'
                        );
-      //this.showInProfile();
+      this.showInProfile();
     }
   ); 
   }
@@ -685,10 +685,8 @@ export class SellNftComponent implements OnInit {
                     )
                     .then((res) => {
                       try {
-                        console.log('transaction data: ',res)
                         this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.transactionHash;
-                        console.log("Selling type : ",this.NFTList.sellingtype)
                         this.saleBE.SellingType = (1 + parseInt(this.NFTList.sellingtype)).toString();
                        // this.saveTXNs();
                         this.addDBBackend();
@@ -809,11 +807,9 @@ export class SellNftComponent implements OnInit {
                     )
                     .then((res) => {
                       try {
-                        console.log('transaction data: ',res)
                         this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.transactionHash;
                        // this.itemId = parseInt(res.logs[2].topics[1]);
-                       console.log("Selling type : ",this.NFTList.sellingtype)
                         this.saleBE.SellingType = (1 + parseInt(this.NFTList.sellingtype)).toString();
                        // this.saveTXNs();
                         this.addDBBackend();
@@ -823,7 +819,7 @@ export class SellNftComponent implements OnInit {
                           SnackBarText.SALE_SUCCESS_MESSAGE,
                           'success'
                         );
-                        this.showInProfile();
+                       // this.showInProfile();
                       } catch (err) {
                         this.firebaseanalytics.logEvent('error', {
                           reason: 'Failed to put NFT on sale',

@@ -38,7 +38,6 @@ export class PolygonMintService {
     const str = nftsvgHash;
     const encoder = new TextEncoder();
     const _nftsvgHash = encoder.encode(str);
-    console.log(_nftsvgHash);
     const contract = await PolygonMintService.getContract(true)
     const transaction = await contract['mintNFT'](
       _nftname,

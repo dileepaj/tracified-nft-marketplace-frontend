@@ -74,7 +74,6 @@ export class ConfirmSellComponent implements OnInit {
 
   public async getCurrencyRate(){
     this.currencyConverter.GetUSDratebyBC(this.blockchain).subscribe(res => {
-      console.log("rate in api: ", res.data.priceUsd);
       this.currencyRate = res.data.priceUsd;
       return this.currencyRate;
     })

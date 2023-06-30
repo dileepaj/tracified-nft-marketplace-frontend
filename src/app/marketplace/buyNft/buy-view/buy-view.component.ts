@@ -485,7 +485,6 @@ export class BuyViewComponent implements OnInit {
               )
               .then((res) => {
                 try {
-                  console.log("this hash after buying",res)
                   this.saleBE.Timestamp =new Date().toString() ;
                   this.buytxn = res.transactionHash;
                   this.saveTXNs();
@@ -496,7 +495,7 @@ export class BuyViewComponent implements OnInit {
                     SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                     'success'
                   );
-                  //this.showInProfile();
+                  this.showInProfile();
                 } catch (err) {
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
@@ -509,7 +508,6 @@ export class BuyViewComponent implements OnInit {
         });
     }
     if (this.NFTList.blockchain == 'ethereum') {
-      console.log("we here----------")
       this.saleBE.MarketContract = environment.contractAddressMKEthereum;
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
@@ -546,7 +544,6 @@ export class BuyViewComponent implements OnInit {
               )
               .then((res) => {
                 try {
-                  console.log("this hash after buying",res)
                   this.saleBE.Timestamp =new Date().toString() ;
                   this.buytxn = res.transactionHash;
                   this.saveTXNs();
@@ -638,7 +635,6 @@ export class BuyViewComponent implements OnInit {
           )
           .then((transactionResult: any) => {
             try {
-              console.log("Trans rst: ",transactionResult)
               this.buytxn = transactionResult.tx_hash;
               this.saveTXNs();
               this.saleBE.CurrentOwnerPK = this.userPK;

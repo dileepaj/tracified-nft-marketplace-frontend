@@ -53,18 +53,14 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     _callback? : any
   ): Promise<any> {
     if (blockchain == 'ethereum') {
-      console.log("-------------------data----------",blockchain,nftsvgHash,price,commission)
       const _priceInWei = ethers.utils.parseEther((price).toString())
       const _price= ethers.BigNumber.from(_priceInWei).toNumber()
       const commissionInWei=ethers.utils.parseEther(commission)
       const _commission=ethers.BigNumber.from(commissionInWei).toNumber()
-      console.log("----------",_price)
       const str = nftsvgHash;
       const encoder = new TextEncoder();
       const _nfthash = encoder.encode(str);
-      console.log("hash is",_nfthash);
       const contract = await EthereumMarketServiceService.getContract(true);
-      console.log("------------contract----------",contract,_nfthash,_price,_commission)
       const transaction = await contract['listNFT'](
         _nfthash,
         _price,
@@ -74,21 +70,17 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       .catch(error=>{       
         _callback()!
       })
-      console.log("transaction body : ",transaction)
       const tx = await transaction.wait();
       return tx;
     }
     if (blockchain == 'polygon') {
-      console.log("-------------------data----------",blockchain,nftsvgHash,price,commission)
       const _priceInWei = ethers.utils.parseEther((price).toString())
       const _price= ethers.BigNumber.from(_priceInWei).toNumber()
       const commissionInWei=ethers.utils.parseEther(commission)
       const _commission=ethers.BigNumber.from(commissionInWei).toNumber()
-      console.log("----------",_price)
       const str = nftsvgHash;
       const encoder = new TextEncoder();
       const _nfthash = encoder.encode(str);
-      console.log("hash is",_nfthash);
       const contract = await PolygonMarketServiceService.getContract(true);
       const transaction = await contract['listNFT'](
         _nfthash,
@@ -111,11 +103,9 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     _callback? : any
   ): Promise<any> {
     if (blockchain == 'ethereum') {
-      console.log("data is ",price,itemID)
       const _priceInWei = ethers.utils.parseEther((price).toString())
       const _price= ethers.BigNumber.from(_priceInWei).toNumber()
       const _itemID=parseInt(itemID)
-      console.log("after conversin ",_itemID,_price)
       const contract = await EthereumMarketServiceService.getContract(true);
       const transaction = await contract['buyNFT'](
         _itemID,
@@ -128,11 +118,9 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       const tx = await transaction.wait();
       return tx;
     } else if (blockchain == 'polygon') {
-      console.log("data is ",price,itemID)
       const _priceInWei = ethers.utils.parseEther((price).toString())
       const _price= ethers.BigNumber.from(_priceInWei).toNumber()
       const _itemID=parseInt(itemID)
-      console.log("after conversin ",_itemID,_price)
   
       const contract = await PolygonMarketServiceService.getContract(true);
       const transaction = await contract['buyNFT'](

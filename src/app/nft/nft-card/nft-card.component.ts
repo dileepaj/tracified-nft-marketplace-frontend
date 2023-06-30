@@ -223,11 +223,8 @@ export class NftCardComponent implements OnInit {
       queryParams:{data:JSON.stringify(data)}
       })
     }else if(this.sellingstatus=="NOTFORSALE"){
-      console.log("here we are")
       this.retrive(this.blockchain).then(res=>{
-        console.log("user and c.o",this.user,this.currentownerpk,id)
         if(this.user==this.currentownerpk){
-          console.log("hereeeeeeeeeeeeeeee")
           this.command=false
           let data : any[] = ["NOTFORSALE",id,this.blockchain]
           this.router.navigate(['./sell'],{

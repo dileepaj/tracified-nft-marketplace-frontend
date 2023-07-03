@@ -24,18 +24,14 @@ export class FreighterComponent implements Wallet, OnInit {
   }
   buynft(
     blockchain: string,
-    nftcontract: string,
-    tokenId: number,
-    price: string,
-    listingPrice: string
+    _itemID: string,
   ): void {
     throw new Error('Method not implemented.');
   }
   createSaleOffer(
     blockchain: string,
-    nftcontract: string,
-    tokenId: number,
-    price: string
+    nftsvgHash: string,
+    price:number,
   ): void {
     throw new Error('Method not implemented.');
   }

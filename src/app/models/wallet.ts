@@ -12,21 +12,16 @@ export abstract class Wallet {
   disconenctWallet(): void {}
   signTransaction(transaction: Transaction<Memo<MemoType>, Operation[]>): any {}
   createSaleOffer(
-    blockchain: string,
-    nftcontract: string,
-    tokenId: number,
-    price: string,
-    listingPrice: string,
+    blockchain:string,
+    nftsvgHash: string,
+    price:number,
+    commission:string,
     _callback? : any
   ) {}
   buynft(
     blockchain: string,
-    nftcontract: string,
-    tokenId: number,
-    price: string,
-    listingPrice: string,
-    royalty:string,
-    seller:string,
+    _itemID: string,
+    price:string,
     _callback? : any
   ) {}
   signTransactionPhantom(userPK: string, tracifiedAta: string) {}

@@ -56,6 +56,7 @@
     "rxjs": "~7.5.0",
     "rxjs-observable": "0.0.7",
     "services": "0.0.3",
+    "solmate": "^6.1.0",
     "stellar-sdk": "^10.1.1",
     "stream-http": "^3.2.0",
     "sweetalert2": "^11.4.5",

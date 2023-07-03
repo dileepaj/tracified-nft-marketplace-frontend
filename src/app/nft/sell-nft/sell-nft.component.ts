@@ -2,7 +2,7 @@ import { FreighterComponent } from './../../wallet/freighter/freighter.component
 import { UserWallet } from 'src/app/models/userwallet';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NFTMarket, SalesBE, SalesGW, Sales } from 'src/app/models/nft';
+import { NFTMarket, SalesBE, SalesGW, Sales,ContractStatus } from 'src/app/models/nft';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
@@ -76,6 +76,7 @@ export class SellNftComponent implements OnInit {
   saleGW: SalesGW = new SalesGW('', '', '', '');
   sale: Sales = new Sales('', '');
   own: Ownership = new Ownership('', '', '', '', 1);
+  statuscontract: ContractStatus=new ContractStatus('','','')
   royalty: any;
   firstPrice: any;
   royaltyCharge: any;
@@ -163,8 +164,9 @@ export class SellNftComponent implements OnInit {
     if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
       //might be distributor
       this.Royalty = this.NFTList.royalty;
-      this.royalty = parseFloat(this.formValue('Royalty'));
-      this.royaltyamount = this.royalty;
+      this.royalty = parseFloat(this.Royalty);
+      // this.royalty = parseFloat(this.formValue('Royalty'));
+      // this.royaltyamount = this.royalty;
       this.firstPrice = parseFloat(this.formValue('Price'));
       this.royaltyCharge = (
         this.firstPrice *
@@ -178,7 +180,7 @@ export class SellNftComponent implements OnInit {
         .toString();
       this.sellingPriceForNonContracts =
       (parseFloat(this.firstPrice )+ parseFloat(this.royaltyCharge) + parseFloat(this.commission)).toPrecision(6);
-      this.value = false;
+      this.value = true;
     } else {
       this.royalty = parseFloat(this.Royalty);
       this.firstPrice = parseFloat(this.formValue('Price'));
@@ -187,11 +189,11 @@ export class SellNftComponent implements OnInit {
         (this.royalty / 100.0)
       ).toPrecision(6);
       this.sellingPrice = this.firstPrice;
-      this.commission = (this.firstPrice * (2.0 / 100.0))
+      this.commission = (this.firstPrice * (2.5 / 100.0))
         .toPrecision(6)
         .toString();
       this.commissionforNonContracts =
-        parseFloat(this.formValue('Price')) * (2.0 / 100.0);
+        parseFloat(this.formValue('Price')) * (2.5 / 100.0);
       this.value = true;
       this.sellingPriceForNonContracts =
      ( parseFloat(this.firstPrice )+ parseFloat(this.royaltyCharge) + parseFloat(this.commission)).toPrecision(6);
@@ -291,7 +293,7 @@ export class SellNftComponent implements OnInit {
       button_name: 'sell now',
     });
     this.firstPrice =this.formValue('Price');
-    this.royaltyamount = this.formValue('Royalty');
+    this.royaltyamount = (this.royalty);
     const priceRejex  = /^\d*(\.\d{1,4})?$/;
    
     if (isNaN(this.firstPrice) || parseFloat(this.firstPrice) <= 0 || !priceRejex.test(this.firstPrice)) {
@@ -337,7 +339,7 @@ export class SellNftComponent implements OnInit {
             this.saleBE.Blockchain = this.NFTList.blockchain;
             if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
               //might be distributor
-              this.royaltyamount = parseFloat(this.formValue('Royalty'));
+              this.royaltyamount = parseFloat(this.royalty);
               if (isNaN(+this.royaltyamount)) {
                 this.snackbarService.openSnackBar(
                   'Royality must be entered as a number',
@@ -427,10 +429,10 @@ export class SellNftComponent implements OnInit {
         this.saleBE.MarketContract = 'Not Applicable';
         this.saleBE.NFTIdentifier = this.NFTList.nftidentifier;
         this.saleBE.Blockchain = this.NFTList.blockchain;
-        this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        this.royaltyamount = parseFloat(this.royalty);
         if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
           //might be distributor
-          this.royaltyamount = parseFloat(this.formValue('Royalty'));
+          this.royaltyamount = parseFloat(this.royalty);
           if (isNaN(+this.royaltyamount)) {
             this.snackbarService.openSnackBar(
               'Royality must be entered as a number',
@@ -521,7 +523,7 @@ export class SellNftComponent implements OnInit {
       await phantomWallet.initWallelt();
       if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
         //might be distributor
-        this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        this.royaltyamount = parseFloat(this.royalty);
         if (isNaN(+this.royaltyamount)) {
           this.snackbarService.openSnackBar(
             'Royality must be entered as a number',
@@ -611,7 +613,7 @@ export class SellNftComponent implements OnInit {
       this.tokenid = parseInt(this.NFTList.nftidentifier);
       if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
         //might be distributor
-        this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        this.royaltyamount = parseFloat(this.royalty);
         if (isNaN(+this.royaltyamount)) {
           this.firebaseanalytics.logEvent('error', {
             reason: 'Invalid data typed entered for royalty',
@@ -665,18 +667,17 @@ export class SellNftComponent implements OnInit {
               nftName: this.NFTList.nftname,
               thumbnail: this.NFTList.thumbnail,
             });
-            this.pmint
-              .approveContract(this.tokenid, () => {
-                loadingAnimation.close();
-              })
-              .then((res: any) => {
+            // this.pmint
+            //   .approveContract(this.tokenid, () => {
+            //     loadingAnimation.close();
+            //   })
+            //   .then((res: any) => {
                 try {
                   this.pmarket
                     .createSaleOffer(
-                      environment.contractAddressNFTPolygon,
-                      this.tokenid,
-                      this.sellingPrice + parseFloat(this.royaltyCharge),
-                      this.commission,
+                     this.NFTList.imagebase64,
+                     this.firstPrice,
+                     this.commission,
                       () => {
                         this.snackbarService.openSnackBar("Something went wrong ", "error")
                         loadingAnimation.close();
@@ -686,17 +687,16 @@ export class SellNftComponent implements OnInit {
                       try {
                         this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.transactionHash;
-                        this.itemId = parseInt(res.logs[3].topics[1]);
-                        this.saleBE.SellingType = this.itemId.toString();
-                        this.saveTXNs();
+                        this.saleBE.SellingType = (1 + parseInt(this.NFTList.sellingtype)).toString();
+                       // this.saveTXNs();
                         this.addDBBackend();
-                        this.addDBGateway();
+                      //  this.addDBGateway();
                         loadingAnimation.close();
                         this.snackbarService.openSnackBar(
                           SnackBarText.SALE_SUCCESS_MESSAGE,
                           'success'
                         );
-                        this.showInProfile();
+                       // this.showInProfile();
                       } catch (err) {
                         this.firebaseanalytics.logEvent('error', {
                           reason: 'Failed to put NFT on sale',
@@ -724,7 +724,7 @@ export class SellNftComponent implements OnInit {
                     'error'
                   );
                 }
-              });
+              // });
           }
         });
     }
@@ -736,7 +736,7 @@ export class SellNftComponent implements OnInit {
       if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
         //might be distributor
 
-        this.royaltyamount = parseFloat(this.formValue('Royalty'));
+        this.royaltyamount = parseFloat(this.royalty);
         if (isNaN(+this.royaltyamount)) {
           this.firebaseanalytics.logEvent('error', {
             reason: 'Invalid data type entered for royalty',
@@ -789,17 +789,16 @@ export class SellNftComponent implements OnInit {
               thumbnail: this.NFTList.thumbnail,
             });
 
-            this.emint
-              .approveContract(this.tokenid, () => {
-                loadingAnimation.close();
-              })
-              .then((res: any) => {
+            // this.emint
+            //   .approveContract(this.tokenid, () => {
+            //     loadingAnimation.close();
+            //   })
+            //   .then((res: any) => {
                 try {
                   this.emarket
                     .createSaleOffer(
-                      environment.contractAddressNFTEthereum,
-                      this.tokenid,
-                      this.sellingPrice,
+                      this.NFTList.imagebase64,
+                      this.firstPrice,
                       this.commission,
                       () => {
                         this.snackbarService.openSnackBar("Something went wrong ", "error")
@@ -810,17 +809,17 @@ export class SellNftComponent implements OnInit {
                       try {
                         this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.transactionHash;
-                        this.itemId = parseInt(res.logs[2].topics[1]);
-                        this.saleBE.SellingType = this.itemId.toString();
-                        this.saveTXNs();
+                       // this.itemId = parseInt(res.logs[2].topics[1]);
+                        this.saleBE.SellingType = (1 + parseInt(this.NFTList.sellingtype)).toString();
+                       // this.saveTXNs();
                         this.addDBBackend();
-                        this.addDBGateway();
+                       // this.addDBGateway();
                         loadingAnimation.close();
                         this.snackbarService.openSnackBar(
                           SnackBarText.SALE_SUCCESS_MESSAGE,
                           'success'
                         );
-                        this.showInProfile();
+                       // this.showInProfile();
                       } catch (err) {
                         this.firebaseanalytics.logEvent('error', {
                           reason: 'Failed to put NFT on sale',
@@ -848,7 +847,7 @@ export class SellNftComponent implements OnInit {
                     'error'
                   );
                 }
-              });
+              // });
           }
         });
     }

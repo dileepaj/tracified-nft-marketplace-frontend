@@ -278,14 +278,15 @@ export class BuyViewComponent implements OnInit {
     )
     .subscribe((data:any)=>{
       if(data==null){
-          this.buyNFT()
+        this.buyNFT()
+    }else{
+      if(data.Status=="PROCESSED"){
+        this.userPK=data.User
+        this.updateBackend(this.userPK);
       }else{
-        if(data.Status=="PROCESSED"){
-          this.updateBackend(this.userPK);
-        }else{
-          this.buyNFT()
-        }
+        this.buyNFT()
       }
+    }
     })
   }
 
@@ -476,19 +477,15 @@ export class BuyViewComponent implements OnInit {
             });
             this.pmarket
               .BuyNFT(
-                environment.contractAddressNFTPolygon,
-                parseInt(this.NFTList.sellingtype),
-                (this.total + parseFloat(this.royaltyCharge)).toString(),
-                this.royaltyCharge.toString(),
-                this.NFTList.creatoruserid,
-                this.commission,
+                this.NFTList.sellingtype ,
+                this.total.toString(),
                 () => {
                   loadingAnimation.close();
                 }
               )
               .then((res) => {
                 try {
-                   this.saleBE.Timestamp =new Date().toString() ;
+                  this.saleBE.Timestamp =new Date().toString() ;
                   this.buytxn = res.transactionHash;
                   this.saveTXNs();
                   this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -539,12 +536,8 @@ export class BuyViewComponent implements OnInit {
             });
             this.emarket
               .BuyNFT(
-                environment.contractAddressNFTEthereum,
-                parseInt(this.NFTList.sellingtype),
-                (this.total + parseFloat(this.royaltyCharge)).toString(),
-                this.royaltyCharge.toString(),
-                this.NFTList.creatoruserid,
-                this.commission,
+              this.NFTList.sellingtype ,
+              this.total.toString(),
                 () => {
                   loadingAnimation.close();
                 }
@@ -642,7 +635,6 @@ export class BuyViewComponent implements OnInit {
           )
           .then((transactionResult: any) => {
             try {
-              console.log("Trans rst: ",transactionResult)
               this.buytxn = transactionResult.tx_hash;
               this.saveTXNs();
               this.saleBE.CurrentOwnerPK = this.userPK;
@@ -823,7 +815,7 @@ export class BuyViewComponent implements OnInit {
               this.royaltyR = parseFloat(this.NFTList.royalty);
               this.servicess = parseFloat(this.NFTList.commission);
               this.royaltyCharges = this.totals * (this.royaltyR / 100.0);
-              this.commissions = (this.totals * (2.0 / 100.0))
+              this.commissions = (this.totals * (2.5 / 100.0))
                 .toFixed(7)
                 .toString();
               this.fullTotal = (

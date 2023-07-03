@@ -29,6 +29,7 @@ export class NFT{
     public HotPicks:boolean,
     public thumbnail:string,
     public Timestamp:string,
+    public Royalty:string
     ){}
 }
 
@@ -124,6 +125,7 @@ export class Contracts{
        public  ArtistName           : string,
        public  ArtistLink           : string,
        public  Identifier           : string,
+       public Royalty               :string,
     ){}
 }
 

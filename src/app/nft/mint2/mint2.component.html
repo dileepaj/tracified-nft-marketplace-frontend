@@ -497,7 +497,34 @@
         <!-- <mat-hint class="tags">Maximum tags allowed is 4</mat-hint> -->
       </mat-form-field>
     </div>
-    <div class="mint-form-group margin" ngStyle.lt-md="width:100%">
+    <div class="mint-form-group margin"   ngStyle.lt-md="width:100%">
+      <label class="normal-text"
+        >NFT Royalty <span class="required">*</span></label
+      >
+      <label class="tooltip"
+      >Include an external link to a page further describing your NFT.</label
+    >
+      <div class="input-field-wrapper">
+        <input
+          type="text"
+          class="input"
+          matInput
+          name="Royalty"
+          min="0"
+          max="100"
+          formControlName="Royalty"
+          placeholder="Enter Royalty as a percentage."
+        />
+        <span
+          [class.invalid-border]="
+            (controlGroup.get('Royalty')!.touched || mintForm.submitted) &&
+            controlGroup.get('Royalty')?.hasError('required')
+          "
+        ></span>
+        <label class="prefix">%</label>
+      </div>
+    </div>
+    <div class="mint-form-group" ngStyle.lt-md="width:100%">
       <label class="normal-text">External Link </label>
       <label class="tooltip"
         >Include an external link to a page further describing your NFT.</label

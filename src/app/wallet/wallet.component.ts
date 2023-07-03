@@ -155,7 +155,6 @@ export class WalletComponent implements OnInit {
   //convert balance to usd
   private convertToUSD(blockchain: string) {
     this.currencyConverter.GetUSDratebyBC(blockchain).subscribe(res => {
-        console.log(`currentprice : ${res.data.priceUsd}`)
         this.currencyRate = res.data.priceUsd;
         const rate = this.currencyRate;
         const eth = parseFloat(this.balance);

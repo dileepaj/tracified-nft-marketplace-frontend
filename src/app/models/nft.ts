@@ -154,3 +154,18 @@ export class ReviewsCard{
 	
 		
 	}
+
+	export class ContractStatus{
+		constructor(
+			public	MINTED : string ='0'  ,       
+			public ONSALE   :string='1',  
+			public BOUGHT   :string='2',  
+		){}
+	}
+
+	export class CommissionStatus{
+		constructor(
+			public	SALE : string ='0'  ,       
+			public RESALE   :string='1',  
+		){}
+	}

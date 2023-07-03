@@ -71,7 +71,7 @@
             <img class="bc-icon" src="../../../assets/images/ethereum.png" />
           </div>
           <div fxFlex="80%">
-            Ethereum<span class="comingsoon">TBA</span>
+            Ethereum
           </div>
         </button>
         <button mat-menu-item (click)="goToExplore('polygon')" fxLayout="row" fxLayoutAlign="center center">
@@ -79,7 +79,7 @@
             <img class="bc-icon" src="../../../assets/images/polygon.png" />
           </div>
           <div fxFlex="80%">
-            Polygon<span class="comingsoon" style="text-align: right;">TBA</span>
+            Polygon
           </div>
         </button>
 
@@ -193,20 +193,24 @@
           </div>
           <div fxFlex="80%">Stellar</div>
         </button>
-        <button mat-menu-item fxLayout="row" fxLayoutAlign="center center" disabled="true">
+        <button mat-menu-item
+        (click)="goToOverview('ethereum')"
+         fxLayout="row" fxLayoutAlign="center center" >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/ethereum.png" />
           </div>
           <div fxFlex="80%">
-            Ethereum <span class="comingsoon">TBA</span>
+            Ethereum
           </div>
         </button>
-        <button mat-menu-item fxLayout="row" fxLayoutAlign="center center" disabled="true">
+        <button mat-menu-item 
+        (click)="goToOverview('polygon')"
+        fxLayout="row" fxLayoutAlign="center center" >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/polygon.png" />
           </div>
           <div fxFlex="80%">
-            Polygon <span class="comingsoon">TBA</span>
+            Polygon 
           </div>
         </button>
 

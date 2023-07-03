@@ -40,7 +40,7 @@ export class FreighterComponent implements Wallet, OnInit {
   ngOnInit(): void {}
 
   async initWallelt() {
-    if (isConnected()) {
+    if ((window as any).freighterApi.isConnected()) {
       return;
     } else {
         if (typeof (window as any).freighterApi != 'undefined'){

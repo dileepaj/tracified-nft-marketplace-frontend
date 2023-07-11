@@ -13,7 +13,7 @@ import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
-import { BlockchainConfig } from 'src/environments/environment.qa';
+import { BlockchainConfig } from 'src/environments/environment';
 
 @Component({
   selector: 'app-overview',

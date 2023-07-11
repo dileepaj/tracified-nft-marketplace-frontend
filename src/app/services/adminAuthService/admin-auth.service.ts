@@ -1,4 +1,4 @@
-import { adminENV } from './../../../environments/environment.qa';
+import { adminENV } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { JwtServiceService } from './jwt-service.service';
 import { Observable } from 'rxjs';

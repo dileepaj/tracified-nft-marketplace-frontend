@@ -1,3 +1,4 @@
+def scriptModule
 pipeline {
   agent any
   tools { nodejs 'nodejs-16' }
@@ -9,6 +10,9 @@ pipeline {
         sh 'npm --version'
         sh 'npm install'
         sh 'npm run build'
+        script {
+          scriptModule = load 'scripts/Upload.Groovy'
+        }
       }
     }
 
@@ -30,29 +34,9 @@ pipeline {
       }
       steps {
         sh 'npm run build-qa'
-        s3Upload(
-          consoleLogLevel: 'INFO',
-          dontWaitForConcurrentBuildCompletion: false,
-          entries: [[
-            bucket: 'qa.marketplace.nft.tracified.com',
-            excludedFile: '',
-            flatten: false,
-            gzipFiles: false,
-            keepForever: false,
-            managedArtifacts: false,
-            noUploadOnFailure: true,
-            selectedRegion: 'ap-south-1',
-            showDirectlyInBrowser: false,
-            sourceFile: 'dist/**',
-            storageClass: 'STANDARD',
-            uploadFromSlave: false,
-            useServerSideEncryption: false
-          ]],
-          pluginFailureResultConstraint: 'FAILURE',
-          profileName: 'tracified-admin-frontend-jenkins-deployer',
-          userMetadata: [],
-          dontSetBuildResultOnFailure: false
-        )
+        script {
+          scriptModule.uploadToS3('qa.marketplace.nft.tracified.com')
+        }
       }
     }
 
@@ -62,29 +46,9 @@ pipeline {
       }
       steps {
         sh 'npm run build-staging'
-        s3Upload(
-          consoleLogLevel: 'INFO',
-          dontWaitForConcurrentBuildCompletion: false,
-          entries: [[
-            bucket: 'staging.marketplace.nft.tracified.com',
-            excludedFile: '',
-            flatten: false,
-            gzipFiles: false,
-            keepForever: false,
-            managedArtifacts: false,
-            noUploadOnFailure: true,
-            selectedRegion: 'ap-south-1',
-            showDirectlyInBrowser: false,
-            sourceFile: 'dist/**',
-            storageClass: 'STANDARD',
-            uploadFromSlave: false,
-            useServerSideEncryption: false
-          ]],
-          pluginFailureResultConstraint: 'FAILURE',
-          profileName: 'tracified-admin-frontend-jenkins-deployer',
-          userMetadata: [],
-          dontSetBuildResultOnFailure: false
-        )
+        script {
+          scriptModule.uploadToS3('qa.marketplace.nft.tracified.com')
+        }
       }
     }
 

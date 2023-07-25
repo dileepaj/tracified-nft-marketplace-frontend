@@ -25,4 +25,15 @@ def uploadToS3(String bucketUrl) {
   )
 }
 
+def uploadToGCB(String bucketUrl) {
+  step([
+    $class: 'ClassicUploadStep',
+    credentialsId: 'main-gcp',
+    bucket: bucketUrl,
+    pattern: 'dist/**',
+    showInline: true,
+    pathPrefix: 'dist/'
+  ])
+}
+
 return this

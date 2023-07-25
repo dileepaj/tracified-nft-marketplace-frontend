@@ -35,7 +35,7 @@ pipeline {
       steps {
         sh 'npm run build-qa'
         script {
-          scriptModule.uploadToS3('qa.marketplace.nft.tracified.com')
+          scriptModule.uploadToGCB('gs://qa.nft.tracified.com')
         }
       }
     }
@@ -47,7 +47,7 @@ pipeline {
       steps {
         sh 'npm run build-staging'
         script {
-          scriptModule.uploadToS3('qa.marketplace.nft.tracified.com')
+          scriptModule.uploadToGCB('gs://staging.nft.tracified.com')
         }
       }
     }

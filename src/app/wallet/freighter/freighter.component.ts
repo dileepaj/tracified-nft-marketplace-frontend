@@ -40,7 +40,7 @@ export class FreighterComponent implements Wallet, OnInit {
   ngOnInit(): void {}
 
   async initWallelt() {
-    if ((window as any).freighterApi.isConnected()) {
+    if (await isConnected()) {
       return;
     } else {
         if (typeof (window as any).freighterApi != 'undefined'){
@@ -48,9 +48,10 @@ export class FreighterComponent implements Wallet, OnInit {
         }
       }
   }
+
   getWalletaddress(): string {
-    this.address = this.retrievePublicKey();
-    return this.address;
+      this.address = this.retrievePublicKey();
+      return this.address;
   }
 
   public signTransaction(

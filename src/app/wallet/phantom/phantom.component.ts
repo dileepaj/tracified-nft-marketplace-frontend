@@ -74,7 +74,8 @@ export class PhantomComponent extends walletOptions implements OnInit {
     const connection = new Connection(this.networkURL);
     (async () => {
       const pk = new PublicKey(publicKey);
-      let balance = await connection.getBalance(pk);
+      let inSol= (await connection.getBalance(pk))/1000000000.00  //as balance comes in lamports
+      let balance = inSol;
       /* console.log(`${balance / LAMPORTS_PER_SOL} SOL`); */
       if (_callback !== undefined) {
         _callback(balance);

@@ -50,8 +50,8 @@ export class FreighterComponent implements Wallet, OnInit {
   }
   
   getWalletaddress(): string {
-    this.address = this.retrievePublicKey();
-    return this.address;
+      this.address = this.retrievePublicKey();
+      return this.address;
   }
 
   public signTransaction(

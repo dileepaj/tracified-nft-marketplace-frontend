@@ -170,7 +170,7 @@ export class WalletComponent implements OnInit {
   //get wallet balance
   private getPhantomBalance(wallet: UserWallet) {
     wallet.getBalance(this.address, (b: any) => {
-      this.balance = b.toFixed(2);
+      this.balance = b.toFixed(5);
       this.convertToUSD('solana');
     });
   }

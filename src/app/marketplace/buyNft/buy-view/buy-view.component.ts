@@ -1160,9 +1160,7 @@ export class BuyViewComponent implements OnInit {
                 'Your review has been Successfully submitted',
                 'success'
               );
-              this.reviews.Description = "";
-              this.reviews.Rating =0;
-              this.reviews.UserID = "";
+                this.cleanReviews()
             } else {
               this.snackbar.openSnackBar(
                 'Failed to submit review please try again.',
@@ -1177,6 +1175,10 @@ export class BuyViewComponent implements OnInit {
   private formValue(controlName: string): any {
     return this.controlGroup.get(controlName)!.value;
   }
+
+  cleanReviews(){
+  window.location.reload()
+   }
 
   getUSDConversion() {
     if (this.nftbe.Blockchain == 'ethereum') {

@@ -238,7 +238,7 @@ export class Mint2Component implements OnInit {
     this.mint.SellingType = '0';
     this.mint.DistributorPK = this.mint.CreatorUserId;
     this.mint.Status = 'Minted';
-    this.mint.Royalty=this.formValue('Royalty');
+    this.mint.Royalty=(this.formValue('Royalty')).toString();
     (this.mint.Trending = false), (this.mint.HotPicks = false);
     //posting of mint data to backend via service
     if (this.mint.CreatorUserId != null) {
@@ -313,7 +313,7 @@ export class Mint2Component implements OnInit {
       this.mint.Imagebase64 = this.hash;
       this.mint.AttachmentType = this.type;
       this.mint.Description = this.formValue('Description');
-      this.mint.Royalty=this.formValue('Royalty')
+      this.mint.Royalty=(this.formValue('Royalty')).toString();
       this.mint.thumbnail = this.thumbnail;
       this.svgUpdate.Id = this.hash;
 
@@ -914,7 +914,7 @@ export class Mint2Component implements OnInit {
     this.contract.OwnerPK = this.mint.CreatorUserId;
     this.contract.Tags = this.tags;
     this.contract.Identifier = this.mint.NFTIdentifier;
-    this.contract.Royalty=this.mint.Royalty
+    this.contract.Royalty=(this.mint.Royalty).toString()
     this.service.addNFTGW(this.contract).subscribe((res) => {
       // this.proceed.emit({
       //   blockchain: this.mint.Blockchain,

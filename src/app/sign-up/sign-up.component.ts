@@ -166,6 +166,7 @@ export class SignUpComponent implements OnInit {
           Validators.pattern(
             '(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))s*[)]?[-s.]?[(]?[0-9]{1,3}[)]?([-s.]?[0-9]{3})([-s.]?[0-9]{3,4})'
           ),
+          Validators.maxLength(15)
         ])
       ),
       Description: new FormControl(

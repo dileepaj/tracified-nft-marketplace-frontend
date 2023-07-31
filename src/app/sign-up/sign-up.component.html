@@ -37,7 +37,7 @@
       </div>
       <div class="form-input-group">
         <label class="normal-text endrs-input-wrapper">Name: </label>
-        <div class="input-field-wrapper endrs-input-wrapper">      
+        <div class="input-field-wrapper endrs-input-wrapper">
           <input
             matInput
             placeholder="John Doe"
@@ -52,11 +52,42 @@
           ></span>
         </div>
       </div>
-      
+
+      <div class="form-input-group">
+        <label class="normal-text endrs-input-wrapper">Country: </label>
+        <mat-form-field class="country-input-wrapper" appearance="outline">
+          <mat-select
+            formControlName="Country"
+            class="select-bc"
+            value="Japan"
+            placeholder="Select Country"
+            disableOptionCentering
+            panelClass="dropdown-panel-class"
+            [(ngModel)]="country"
+            (ngModelChange)="countryChange()"
+          >
+            <mat-select-trigger *ngIf="country != undefined">
+              <label class="collection-dropdown-selected">
+                {{ country.name }}
+              </label>
+            </mat-select-trigger>
+            <mat-option
+              [value]="country"
+              name="type"
+              *ngFor="let country of countries"
+              ><label class="collection-dropdown">{{
+                country.name
+              }}</label></mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+
       <div class="form-input-group">
         <label class="normal-text endrs-input-wrapper">Contact Number: </label>
         <div class="input-field-wrapper endrs-input-wrapper">
           <input
+            maxlength="15"
             matInput
             placeholder="+18143514239"
             formControlName="Contact"

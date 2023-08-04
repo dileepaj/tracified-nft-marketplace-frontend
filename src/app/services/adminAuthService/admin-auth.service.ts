@@ -25,7 +25,7 @@ export class AdminAuthService {
         !!decoded.permissions[0] &&
         !!decoded.tenantID &&
         !!decoded.username &&
-        decoded.permissions[0].includes('97')
+        decoded.permissions[0].includes('98')
       )
         return true;
       else {

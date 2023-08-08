@@ -294,7 +294,7 @@ export class SellNftComponent implements OnInit {
     });
     this.firstPrice =this.formValue('Price');
     this.royaltyamount = (this.royalty);
-    const priceRejex  = /^\d*(\.\d{1,4})?$/;
+    const priceRejex  = /^(?=\d)(\d*(\.\d{1,4})?)$/;
    
     if (isNaN(this.firstPrice) || parseFloat(this.firstPrice) <= 0 || !priceRejex.test(this.firstPrice)) {
       this.snackbarService.openSnackBar
@@ -306,7 +306,7 @@ export class SellNftComponent implements OnInit {
     }
     if (isNaN(+this.royaltyamount) ) {
       this.snackbarService.openSnackBar(
-        'Royality must be entered as a number',
+        'Price must be entered as a number',
         'info'
       );
       return;

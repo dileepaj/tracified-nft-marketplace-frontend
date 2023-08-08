@@ -1272,7 +1272,7 @@ export class Mint2Component implements OnInit {
       ArtistName: new FormControl(this.mint.ArtistName, Validators.required),
       ArtistProfileLink: new FormControl(this.mint.ArtistProfileLink),
       Issuer: new FormControl(this.mint.NFTIssuerPK),
-      Royalty:new FormControl(this.mint.Royalty,Validators.required)
+      Royalty:new FormControl(this.mint.Royalty,[Validators.pattern(/^(?:[1-9][0-9]?|100)$/)])
     });
 
     this.controlGroup.get('Blockchain')?.setValue('');

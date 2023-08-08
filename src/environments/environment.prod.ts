@@ -1,8 +1,6 @@
 export const environment = {
   production: true,
-  contractAddressNFTPolygon: "0xc89bac690365d942ba49bb020274440dae54ec11",
   contractAddressMKPolygon: "0x7D591543D2A09ef03AaB1490083943fC69c352Ec",
-  contractAddressNFTEthereum: "0x6f09Ecb9e29bF5B1d2C9c39d126FF32dc089F34C",
   contractAddressMKEthereum: "0x7D591543D2A09ef03AaB1490083943fC69c352Ec",
   fromWallet: "9aE476sH92Vz7DMPyq5WLPkrKWivxeuTKEFKd2sZZcde",
   tracifiedStellarPK : "GC6VQMBOJELJJYFXRYF4IQTVJYRHJB6AVQ7UVWTYD4WNWDFBGIK7R72L",

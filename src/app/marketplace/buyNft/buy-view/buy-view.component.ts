@@ -426,7 +426,7 @@ export class BuyViewComponent implements OnInit {
                                   SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                                   'success'
                                 );
-                                this.showInProfile();
+                                //this.showInProfile();
                               });
                           } catch (err) {
                             this.snackbar.openSnackBar(
@@ -453,6 +453,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
       this.saleBE.Blockchain = this.NFTList.blockchain;
+      this.saleBE.SellingStatus = 'NOTFORSALE';
       this.calculateCommision();
       this.userPK =user;
       this.saleBE.CurrentOwnerPK = this.userPK;
@@ -495,7 +496,7 @@ export class BuyViewComponent implements OnInit {
                     SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                     'success'
                   );
-                  this.showInProfile();
+                 // this.showInProfile();
                 } catch (err) {
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
@@ -512,6 +513,7 @@ export class BuyViewComponent implements OnInit {
       this.saleBE.NFTIdentifier = this.nftbe.NFTIdentifier;
       this.saleBE.SellingType = this.NFTList.sellingtype;
       this.saleBE.Blockchain = this.NFTList.blockchain;
+      this.saleBE.SellingStatus = 'NOTFORSALE';
       this.calculateCommision();
       this.userPK = user;
       this.saleBE.CurrentOwnerPK = this.userPK;
@@ -554,7 +556,7 @@ export class BuyViewComponent implements OnInit {
                     SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                     'success'
                   );
-                  this.showInProfile();
+                 // this.showInProfile();
                 } catch (err) {
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
@@ -581,7 +583,8 @@ export class BuyViewComponent implements OnInit {
         this.buyGW.PreviousOwnerNFTPK,
         this.buyGW.NFTTXNhash
       )
-      .subscribe();
+      .subscribe(r=>{ this.showInProfile()}
+      );
   }
 
   pushOwner(): void {
@@ -646,7 +649,7 @@ export class BuyViewComponent implements OnInit {
                 'success'
               );
               return
-              this.showInProfile();
+              this.updateGateway();
             } catch (err) {
               _callback()!;
               this.snackbar.openSnackBar(
@@ -689,7 +692,7 @@ export class BuyViewComponent implements OnInit {
                 SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                 'success'
               );
-              this.showInProfile();
+              this.updateGateway();
             } catch (err) {
               _callback()!;
               this.snackbar.openSnackBar(

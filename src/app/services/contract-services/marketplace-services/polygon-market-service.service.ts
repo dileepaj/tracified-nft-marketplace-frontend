@@ -5,13 +5,14 @@ import { ethers } from "ethers";
 import { environment } from 'src/environments/environment';
 import detectEthereumProvider from "@metamask/detect-provider";
 import MK from "src/contracts/polygon/market.json";
+import { SnackbarServiceService } from '../../snackbar-service/snackbar-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PolygonMarketServiceService {
 
-  constructor() { }
+  constructor(private snackbarService : SnackbarServiceService) { }
 
   
   private static async getWebProvider(requestAccounts = true) {
@@ -38,6 +39,16 @@ export class PolygonMarketServiceService {
   }
 
 
+  public async getListingID( _callback? : any): Promise<any> {
+    const contract = await PolygonMarketServiceService.getContract(true)
+    const transaction = await contract['getAvailableListingId']()
+    .catch(error=>{
+      _callback()!
+      this.snackbarService.openSnackBar("Something went wrong : "+ " Transaction failed", 'error')
+    })
+    const tx = await transaction
+    return tx
+  }
   
   
   public async createSaleOffer(nftsvgHash:string,price:number,commission: string, _callback? :any): Promise<any> {

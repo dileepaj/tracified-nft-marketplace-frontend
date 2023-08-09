@@ -5,13 +5,14 @@ import { ethers } from "ethers";
 import { environment } from 'src/environments/environment';
 import detectEthereumProvider from "@metamask/detect-provider";
 import NFT from "src/contracts/ethereum/market.json";
+import { SnackbarServiceService } from '../../snackbar-service/snackbar-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EthereumMarketServiceService {
 
-  constructor() { }
+  constructor(private snackbarService : SnackbarServiceService) { }
 
   
   private static async getWebProvider(requestAccounts = true) {
@@ -34,6 +35,17 @@ export class EthereumMarketServiceService {
       NFT,
       bySigner ? signer : provider,
     )
+  }
+
+  public async getListingID( _callback? : any): Promise<any> {
+    const contract = await EthereumMarketServiceService.getContract(true)
+    const transaction = await contract['getAvailableListingId']()
+    .catch(error=>{
+      _callback()!
+      this.snackbarService.openSnackBar("Something went wrong : "+ " Transaction failed", 'error')
+    })
+    const tx = await transaction
+    return tx
   }
 
   

@@ -105,7 +105,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     if (blockchain == 'ethereum') {
       const _priceInWei = ethers.utils.parseEther((price).toString())
       const _price= ethers.BigNumber.from(_priceInWei).toNumber()
-      // const _itemID=parseInt(itemID)
       const contract = await EthereumMarketServiceService.getContract(true);
       const transaction = await contract['buyNFT'](
         parseInt(itemID),
@@ -120,7 +119,6 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     } else if (blockchain == 'polygon') {
       const _priceInWei = ethers.utils.parseEther((price).toString())
       const _price= ethers.BigNumber.from(_priceInWei).toNumber()
-      // const _itemID=parseInt(itemID)
       const contract = await PolygonMarketServiceService.getContract(true);
       const transaction = await contract['buyNFT'](
         parseInt(itemID),

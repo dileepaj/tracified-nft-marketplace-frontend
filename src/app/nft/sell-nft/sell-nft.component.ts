@@ -667,11 +667,9 @@ export class SellNftComponent implements OnInit {
               nftName: this.NFTList.nftname,
               thumbnail: this.NFTList.thumbnail,
             });
-            // this.pmint
-            //   .approveContract(this.tokenid, () => {
-            //     loadingAnimation.close();
-            //   })
-            //   .then((res: any) => {
+            this.pmarket.getListingID().then((id:any)=>{
+              this.saleBE.SellingType = parseInt(id._hex).toString();
+            })
                 try {
                   this.pmarket
                     .createSaleOffer(
@@ -687,7 +685,7 @@ export class SellNftComponent implements OnInit {
                       try {
                         this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.transactionHash;
-                        this.saleBE.SellingType = (1 + parseInt(this.NFTList.sellingtype)).toString();
+                       // this.saleBE.SellingType = (1 + parseInt(this.NFTList.sellingtype)).toString();
                        // this.saveTXNs();
                         this.addDBBackend();
                       //  this.addDBGateway();
@@ -789,11 +787,9 @@ export class SellNftComponent implements OnInit {
               thumbnail: this.NFTList.thumbnail,
             });
 
-            // this.emint
-            //   .approveContract(this.tokenid, () => {
-            //     loadingAnimation.close();
-            //   })
-            //   .then((res: any) => {
+          this.emarket.getListingID().then((id:any)=>{
+            this.saleBE.SellingType = parseInt(id._hex).toString();
+          })
                 try {
                   this.emarket
                     .createSaleOffer(
@@ -810,7 +806,6 @@ export class SellNftComponent implements OnInit {
                         this.saleBE.Timestamp = new Date().toString();
                         this.selltxn = res.transactionHash;
                        // this.itemId = parseInt(res.logs[2].topics[1]);
-                        this.saleBE.SellingType = (1 + parseInt(this.NFTList.sellingtype)).toString();
                        // this.saveTXNs();
                         this.addDBBackend();
                        // this.addDBGateway();
@@ -847,7 +842,6 @@ export class SellNftComponent implements OnInit {
                     'error'
                   );
                 }
-              // });
           }
         });
     }

@@ -166,7 +166,7 @@ export class NftServicesService {
   ): Observable<NFT[]> {
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(
-      `${this.nftBackendBaseURL}/profilecontent/${userId}/${blockchain}/${filter}/${pageSize}/${requestedPage}`
+      `${this.nftBackendBaseURL}profilecontent/${userId}/${blockchain}/${filter}/${pageSize}/${requestedPage}`
     );
   }
 

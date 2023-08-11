@@ -299,7 +299,7 @@ export class SellNftComponent implements OnInit {
     if (isNaN(this.firstPrice) || parseFloat(this.firstPrice) <= 0 || !priceRejex.test(this.firstPrice)) {
       this.snackbarService.openSnackBar
         (
-          "Price must be a postive numeric value that amounts to four or less decimal points!.",
+          "Please enter a positive number for the price, with up to four decimal places.",
           "info"
         )
       return

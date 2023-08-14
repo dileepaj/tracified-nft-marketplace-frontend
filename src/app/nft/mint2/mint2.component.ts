@@ -313,7 +313,17 @@ export class Mint2Component implements OnInit {
       this.mint.Imagebase64 = this.hash;
       this.mint.AttachmentType = this.type;
       this.mint.Description = this.formValue('Description');
-      this.mint.Royalty=(this.formValue('Royalty')).toString();
+      if( this.formValue('Royalty')==null){
+        this.snackbar.openSnackBar
+        (
+          "Please enter a positive number ranging between 0 and 100 for the royalty.",
+          "info"
+        )
+        this.flag=false;
+      return
+      }else{ this.mint.Royalty=(this.formValue('Royalty')).toString();}
+     
+    
       this.mint.thumbnail = this.thumbnail;
       this.svgUpdate.Id = this.hash;
 
@@ -334,6 +344,16 @@ export class Mint2Component implements OnInit {
         return;
       } else {
         this.flag = true;
+      }
+      const royaltyRejex  =/^(?:[1-9][0-9]?|100)$/;
+      if (parseFloat(this.mint.Royalty) <= 0 || !royaltyRejex.test(this.mint.Royalty) || isNaN(parseFloat(this.mint.Royalty)) || this.mint.Royalty==null) {
+        this.snackbar.openSnackBar
+          (
+            "Please enter a positive number ranging between 0 and 100 for the royalty.",
+            "info"
+          )
+          this.flag=false;
+        return
       }
 
       if (this.mint.Blockchain == 'stellar') {

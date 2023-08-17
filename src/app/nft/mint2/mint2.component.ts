@@ -1323,7 +1323,6 @@ export class Mint2Component implements OnInit {
         .then(async (result: solanaTransaction) => {
           try {
             let isMobile = await this.getDeviceType()
-            alert(isMobile)
             if (isMobile) {
               const{signature} = await (window as any).solana.signAndSendTransaction(result, ['finalized']);
               await connection.confirmTransaction(signature);

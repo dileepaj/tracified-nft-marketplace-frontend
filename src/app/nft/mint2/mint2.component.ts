@@ -1326,11 +1326,9 @@ export class Mint2Component implements OnInit {
             alert(isMobile)
             if (isMobile) {
               const{signature} = await (window as any).solana.signAndSendTransaction(result, ['finalized']);
-              alert("sig : "+JSON.stringify(signature.signature))
-              await connection.confirmTransaction(signature.signature);
+              await connection.confirmTransaction(signature);
             } else {
               const {signature} = await (window as any).solana.signAndSendTransaction(result);
-              alert("sig : "+JSON.stringify(signature))
               await connection.confirmTransaction(signature);
             }
             this.service

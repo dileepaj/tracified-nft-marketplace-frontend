@@ -411,12 +411,12 @@ export class BuyViewComponent implements OnInit {
                       let isMobile = await this.getDeviceType();
                       let signature;
                       if (isMobile) {
-                        signature = await (window as any).solana.signAndSendTransaction(result, "finalized");
+                        const{signature} = await (window as any).solana.signAndSendTransaction(result, ['finalized']);
+                        await connection.confirmTransaction(signature);
                       } else {
-                        signature = await (window as any).solana.signAndSendTransaction(result);
+                        const {signature} = await (window as any).solana.signAndSendTransaction(result);
+                        await connection.confirmTransaction(signature);
                       }
-                      await connection.confirmTransaction(signature);
-
                       this.transfer
                         .createServiceATAforTransfer(
                           environment.fromWallet,

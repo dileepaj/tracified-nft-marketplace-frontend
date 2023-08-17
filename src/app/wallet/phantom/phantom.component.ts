@@ -33,8 +33,8 @@ export class PhantomComponent extends walletOptions implements OnInit {
 
   public async createSaleOffer(): Promise<any> {
     //! remove this code
-    const network = '<NETWORK_URL>';
-    const connection = new Connection(network);
+    //const network = '<NETWORK_URL>';
+    const connection = new Connection(this.networkURL);
     const transaction = new Transaction();
     const { signature } = await (window as any).solana.signAndSendTransaction(
       transaction

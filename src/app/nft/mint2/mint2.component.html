@@ -511,9 +511,9 @@
           matInput
           name="Royalty"
           min="0"
-          max="100"
           formControlName="Royalty"
           placeholder="Enter Royalty as a percentage."
+          (input)="sanatizeRoyaltyInput($event)"
         />
         <span
           [class.invalid-border]="

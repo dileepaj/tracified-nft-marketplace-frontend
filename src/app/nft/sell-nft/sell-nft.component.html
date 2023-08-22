@@ -244,14 +244,14 @@
                   <div class="input-field-wrapper sell-view-input-wrapper">
                     <label class="prefix">{{ this.currency }}</label>
                     <input
-                      type="text"
+                      type="number"
                       class="input"
                       matInput
                       name="Price"
                       pattern="^\d+(\.\d{1,4})?$"
                       formControlName="Price"
-                      (input)="convertToUSDv2($event, 'selling')"
-                     required
+                      (input)="convertToUSDv2($event, 'selling');"
+                      required
                     />
                     <span
                       [class.invalid-border]="
@@ -288,14 +288,8 @@
                       placeholder="{{ this.Royalty }}"
                       [readonly]="true"
                       (input)="convertToUSD($event, 'royalty')"
+                      style="cursor: default;"
                     />
-                    <span
-                      [class.invalid-border]="
-                        (controlGroupSell.get('Royalty')!.touched ||
-                          sellForm.submitted) &&
-                        controlGroupSell.get('Royalty')?.errors
-                      "
-                    ></span>
                     <label class="prefix">%</label>
                   </div>
                 </div>

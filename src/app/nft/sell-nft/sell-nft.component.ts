@@ -1091,7 +1091,7 @@ export class SellNftComponent implements OnInit {
 
     this.controlGroupSell = new FormGroup({
       Price: new FormControl(this.sale.Price, [Validators.pattern(/^\d+(\.\d{1,6})?$/)]),
-      Royalty: new FormControl(this.sale.Royalty, Validators.required),
+      Royalty: new FormControl(this.sale.Royalty),
     });
   }
 

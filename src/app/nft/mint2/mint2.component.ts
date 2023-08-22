@@ -1294,7 +1294,7 @@ export class Mint2Component implements OnInit {
       ArtistName: new FormControl(this.mint.ArtistName, Validators.required),
       ArtistProfileLink: new FormControl(this.mint.ArtistProfileLink),
       Issuer: new FormControl(this.mint.NFTIssuerPK),
-      Royalty: new FormControl(this.mint.Royalty, [Validators.pattern(/^(?:[1-9][0-9]?|100)$/)])
+      Royalty: new FormControl(this.mint.Royalty, [Validators.required,Validators.pattern(/^(?![\d+e]+$)(?:[1-9][0-9]?|100)$/)])
     });
 
     this.controlGroup.get('Blockchain')?.setValue('');
@@ -1821,5 +1821,22 @@ export class Mint2Component implements OnInit {
         this.tagInputText.substring(0, this.tagInputText.length - 1)
       );
     }
+  }
+
+  sanatizeRoyaltyInput(event:Event){
+    const inputElement = event.target as HTMLInputElement;
+    let inputValue = inputElement.value;
+
+    // Remove '+' and 'e' characters if they are present
+    inputValue = inputValue.replace(/[+e]/gi, '');
+
+    // Ensure the value doesn't exceed 100
+    const sanitizedValue = Math.min(parseInt(inputValue, 10), 100);
+
+    // Update the input value with sanitized value
+    inputElement.value = sanitizedValue.toString();
+
+    // Update the form control's value as well
+    this.controlGroup.get('Royalty')!.setValue(sanitizedValue);
   }
 }

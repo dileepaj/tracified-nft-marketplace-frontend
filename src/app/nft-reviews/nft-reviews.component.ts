@@ -30,11 +30,17 @@ export class NftReviewsComponent implements OnInit {
   //Fuction will retreive data from the .html file and initiate the service call to save a user reivew
   save(): void {
     this.reviews.Status="Pending"
-    this.reviews.Description=this.controlGroup.get('description')!.value;
+    this.reviews.Description=this.controlGroup.get('description')!.value.trim();
     this.reviews.Rating=Number(this.controlGroup.get('rating')!.value);
     this.reviews.NFTIdentifier=this.data.nftidentifier;
     this.reviews.UserID=this.data.currentownerpk;
     this.reviews.Timestamp=new Date().toString()
+
+    if (this.reviews.UserID=="" || this.reviews.Description == "" || this.reviews.Rating == 0){
+      this.snackbar.openSnackBar("Please fill in all fields and provide a star rating. Your input matters!","info")
+      return
+    }
+
     this.dialogService.confirmDialog({
       title:"User review confirmation",
       message:"Are you sure you want to submit this review",

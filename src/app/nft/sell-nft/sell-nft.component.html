@@ -46,16 +46,16 @@
       >
         <label class="owner-s">Creator Name</label>
         <label class="owner-l">
-          {{ this.NFTList.artistname }} 
+          {{ this.NFTList.artistname }}
           <a
-          *ngIf = "usercontentURLFlag"
-          href="{{ userprofileURL }}"
-          target="_blank"
-          class="txn-link"
-          ><img
-            style="margin-left:5px"
-            src="https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/external-link.png"
-        /></a>
+            *ngIf="usercontentURLFlag"
+            href="{{ userprofileURL }}"
+            target="_blank"
+            class="txn-link"
+            ><img
+              style="margin-left: 5px"
+              src="https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/external-link.png"
+          /></a>
         </label>
       </div>
       <div
@@ -75,7 +75,9 @@
       >
         <label class="owner-s">Tags</label>
         <label class="p-text sum-text" ngStyle.lt-lg="width : 100%">
-          <div class="nfttagchips" *ngFor="let item of this.NFTList.tags">{{item}}</div>
+          <div class="nfttagchips" *ngFor="let item of this.NFTList.tags">
+            {{ item }}
+          </div>
         </label>
       </div>
     </div>
@@ -100,16 +102,17 @@
         class="nft-det-wrapper"
       >
         <div class="nft-det">
-          <label class="nft-name">{{ this.NFTList.nftname }}
+          <label class="nft-name"
+            >{{ this.NFTList.nftname }}
             <a
-            *ngIf = "usercontentURLFlag"
-            href="{{nftContentURL}}"
-            target="_blank"
-            class="txn-link"
-            ><img
-              style="margin-left:5px"
-              src="https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/external-link.png"
-          /></a>
+              *ngIf="usercontentURLFlag"
+              href="{{ nftContentURL }}"
+              target="_blank"
+              class="txn-link"
+              ><img
+                style="margin-left: 5px"
+                src="https://tracified-platform-images.s3.ap-south-1.amazonaws.com/NFT_Market/external-link.png"
+            /></a>
           </label>
           <label class="nft-cat"
             ><b>Category - </b>{{ this.NFTList.categories }}</label
@@ -244,14 +247,14 @@
                   <div class="input-field-wrapper sell-view-input-wrapper">
                     <label class="prefix">{{ this.currency }}</label>
                     <input
-                      type="text"
-                      class="input"
+                      type="number"
+                      class="number-input"
                       matInput
                       name="Price"
                       pattern="^\d+(\.\d{1,4})?$"
                       formControlName="Price"
                       (input)="convertToUSDv2($event, 'selling')"
-                     required
+                      required
                     />
                     <span
                       [class.invalid-border]="
@@ -288,14 +291,8 @@
                       placeholder="{{ this.Royalty }}"
                       [readonly]="true"
                       (input)="convertToUSD($event, 'royalty')"
+                      style="cursor: default"
                     />
-                    <span
-                      [class.invalid-border]="
-                        (controlGroupSell.get('Royalty')!.touched ||
-                          sellForm.submitted) &&
-                        controlGroupSell.get('Royalty')?.errors
-                      "
-                    ></span>
                     <label class="prefix">%</label>
                   </div>
                 </div>

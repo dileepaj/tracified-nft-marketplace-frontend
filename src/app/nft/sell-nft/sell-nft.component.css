@@ -697,11 +697,11 @@ mat-hint {
   row-gap: 10px;
 }
 
-.nfttagchips{
+.nfttagchips {
   max-width: 90px;
   color: #000;
   display: inline-block;
-  font-size: 14px;;
+  font-size: 14px;
   min-height: 32px;
   margin-right: 10px;
   background-color: #ddd;
@@ -712,11 +712,19 @@ mat-hint {
   padding-bottom: 1px;
   /* color:#848484 ; */
 }
-.p-text .sum-text .tag-text{
+.p-text .sum-text .tag-text {
   display: inline-block;
-  margin: 0; padding: 0; white-space: nowrap;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
 }
 
-#royalty-box::placeholder{
+#royalty-box::placeholder {
   color: white;
+}
+
+.number-input::-webkit-outer-spin-button,
+.number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

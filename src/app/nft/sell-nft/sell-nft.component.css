@@ -618,6 +618,7 @@ mat-hint {
 .sell-view-input-wrapper {
   border-radius: 10px;
   padding: 10px;
+  align-items: center;
 }
 
 .sell-view-input-wrapper input:focus + span::before {
@@ -721,6 +722,21 @@ mat-hint {
 
 #royalty-box::placeholder {
   color: white;
+}
+
+.number-input {
+  align-self: baseline;
+  margin-top: 0.2em;
+  outline: none;
+  padding: 0px !important;
+}
+
+.number-input:focus {
+  outline: none !important;
+  outline-width: 0 !important;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
 }
 
 .number-input::-webkit-outer-spin-button,

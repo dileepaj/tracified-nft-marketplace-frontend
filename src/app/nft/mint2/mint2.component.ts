@@ -413,6 +413,7 @@ export class Mint2Component implements OnInit {
                       total: 0.005,
                       blockchain: this.svg.blockchain,
                       buttonAction: 'Mint Now',
+                      Info:'Please note that Tracified imposes a service charge for the minting of NFTs on the Stellar and Solana blockchain networks'
                     })
                     .subscribe((res) => {
                       if (res) {
@@ -509,6 +510,7 @@ export class Mint2Component implements OnInit {
                   total: 0.005,
                   blockchain: this.svg.blockchain,
                   buttonAction: 'Mint Now',
+                  Info:'Please note that Tracified imposes a service charge for the minting of NFTs on the Stellar and Solana blockchain networks'
                 })
                 .subscribe((res) => {
                   if (res) {
@@ -613,6 +615,7 @@ export class Mint2Component implements OnInit {
             total: 0.00002,
             blockchain: this.svg.blockchain,
             buttonAction: 'Mint Now',
+            Info:'Please note that Tracified imposes a service charge for the minting of NFTs on the Stellar and Solana blockchain networks'
           })
           .subscribe((res) => {
             if (res) {
@@ -706,6 +709,7 @@ export class Mint2Component implements OnInit {
             total: 0,
             blockchain: this.svg.blockchain,
             buttonAction: 'Mint Now',
+            Info:'Please note that Tracified imposes a service charge for the minting of NFTs on the Stellar and Solana blockchain networks'
           })
           .subscribe((res) => {
             if (res) {
@@ -819,6 +823,7 @@ export class Mint2Component implements OnInit {
             total: 0,
             blockchain: this.svg.blockchain,
             buttonAction: 'Mint Now',
+            Info:'Please note that Tracified imposes a service charge for the minting of NFTs on the Stellar and Solana blockchain networks'
           })
           .subscribe((res) => {
             if (res) {

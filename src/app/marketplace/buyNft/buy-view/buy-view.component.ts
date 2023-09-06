@@ -338,6 +338,7 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
+          Info:'Note that this is the total price inclusive of all commissions and royalties'
         })
         .subscribe((res) => {
           if (res) {
@@ -373,6 +374,7 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
+          Info:'Note that this is the total price inclusive of all commissions and royalties'
         })
         .subscribe((res) => {
           if (res) {
@@ -480,6 +482,7 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
+          Info:'Note that this is the total price inclusive of all commissions and royalties'
         })
         .subscribe((res) => {
           if (res) {
@@ -540,6 +543,7 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
+          Info:'Note that this is the total price inclusive of all commissions and royalties'
         })
         .subscribe((res) => {
           if (res) {

@@ -11,7 +11,7 @@
 </div>
 <mat-dialog-content>
   <div class="dialog-content">
-    <label class="bold-text">You will be charged.</label>
+    <label class="bold-text">You will be charged <mat-icon matTooltip={{data?.Info}} class="info-icon">info</mat-icon></label>
     <div class="fee-cont">
       <label>{{data?.feeTypeName}}</label>
       <label>{{data?.serviceFee}} {{currency}} ({{serviceFeeUSD}} USD) </label>

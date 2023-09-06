@@ -19,6 +19,7 @@ export class ConfirmMintComponent implements OnInit {
   public acceptEnabled: boolean = false;
   state: string;
   currencyRate: any;
+  Info:any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: userAgreementPromt,
     private matDialogRef: MatDialogRef<ConfirmComponent>,
@@ -31,6 +32,7 @@ export class ConfirmMintComponent implements OnInit {
     this.serviceFee = this.data.serviceFee?.toString()
     this.total = this.data.total?.toString()
     this.blockchain = this.data.blockchain?.toString()
+    this.Info=this.data.Info?.toString()
     if(this.blockchain === 'ethereum') {
       this.currency = 'ETH'
     }

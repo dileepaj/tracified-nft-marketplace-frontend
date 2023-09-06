@@ -123,3 +123,7 @@
     text-decoration: underline;
   }
   
+  .info-icon {
+    font-size: 15px;
+    cursor: pointer;
+  }

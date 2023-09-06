@@ -21,6 +21,7 @@ export interface userAgreementPromt {
   blockchain?: string
   nftName?: string;
   buttonAction?: string;
+  Info?:string;
 }
 
 export interface userAgreementPromt2 {

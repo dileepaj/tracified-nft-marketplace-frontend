@@ -12,7 +12,8 @@
 <mat-dialog-content>
   <div class="dialog-content">
     <div class="fee-cont">
-      <label>{{data?.feeTypeName}}</label>
+      <label>{{data?.feeTypeName}}
+      </label>
       <label>{{data?.serviceFee}} {{currency}} ({{serviceFeeUSD}} USD) </label>
     </div>
     <div class="fee-cont">
@@ -24,7 +25,7 @@
       <label>{{data?.total}} {{currency}} ({{totalUSD}} USD) </label>
     </div>
     <div class="fee-cont">
-      <label><b>{{data?.grandTotal}}</b></label>
+      <label><b>{{data?.grandTotal}}</b><mat-icon matTooltip="Please note that Tracified charges a commission fee for utilizing our marketplace to list NFTs for sale, while the NFT owner is entitled to claim royalties" class="info-icon">info</mat-icon></label>
       <label><b>{{data?.grandTotalfee}} {{currency}}</b> ({{gtotalUSD}} USD) </label>
     </div>
     <div class="checkbox-group">

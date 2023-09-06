@@ -92,3 +92,33 @@
 .mat-list-option:focus {
   background: #10ceac !important;
 }
+
+.selected-bc {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  background: #2d2d2d;
+  border-radius: 5px;
+  width: fit-content;
+  padding: 10px;
+}
+
+.selected-bc label {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+
+  color: #ffffff;
+}
+
+.connected-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+
+  background: #10ceac;
+}

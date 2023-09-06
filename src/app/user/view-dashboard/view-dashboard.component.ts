@@ -10,6 +10,7 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
 @Component({
   selector: 'app-view-dashboard',
   templateUrl: './view-dashboard.component.html',
@@ -33,14 +34,15 @@ export class ViewDashboardComponent implements OnInit {
   imagePath: any;
   greeting: string = '';
   pk: any;
-
+  connectedWallet: string = '';
   constructor(
     private api: ApiServicesService,
     private _sanitizer: DomSanitizer,
     private nft: NftServicesService,
     private collection: CollectionService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private walletSideNav: WalletSidenavService,
   ) {}
 
   goToOverview() {
@@ -202,5 +204,10 @@ export class ViewDashboardComponent implements OnInit {
     this.router.navigate(['/user-dashboard/overview'], {
       queryParams: { user: this.pk, blockchain: this.selectedBlockchain },
     });
+  }
+
+  public openWalletSideBar() {
+    this.walletSideNav.setWallet(this.connectedWallet.toLowerCase());
+    this.walletSideNav.open();
   }
 }

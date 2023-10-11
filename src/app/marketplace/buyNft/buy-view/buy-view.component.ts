@@ -632,6 +632,9 @@ export class BuyViewComponent implements OnInit {
     let isMobileDevice = await regexp.test(details);
     if (isMobileDevice) {
       this.userPK = user;
+      if (this.userPK == this.NFTList.distributorpk) {
+        this.snackbar.openSnackBar("Current owner cannot purchase NFT!", "error");
+      }else{
       this.trustalbedo
         .trustlineByBuyer(
           this.NFTList.nftname,
@@ -643,7 +646,7 @@ export class BuyViewComponent implements OnInit {
           this.commission,
           () => {
             if (this.userPK == this.NFTList.distributorpk) {
-              this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.", "error");
+              this.snackbar.openSnackBar("Current owner cannot purchase NFT!", "error");
             }
             this.snackbar.openSnackBar("Please check balance and network in the wallet", "error");
             _callback()!;
@@ -673,7 +676,11 @@ export class BuyViewComponent implements OnInit {
           }
 
         });
+      }
     } else {
+      if (this.userPK == this.NFTList.distributorpk) {
+        this.snackbar.openSnackBar("Current owner cannot purchase NFT!", "error");
+      }else{
       this.trust
         .trustlineByBuyer(
           this.NFTList.nftname,
@@ -684,9 +691,6 @@ export class BuyViewComponent implements OnInit {
           this.royaltyCharge.toString(),
           this.commission,
           () => {
-            if (this.userPK == this.NFTList.distributorpk) {
-              this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.", "error");
-            }
             this.snackbar.openSnackBar("Please check balance and network in the wallet", "error");
             _callback()!;
           }
@@ -720,6 +724,7 @@ export class BuyViewComponent implements OnInit {
             }
           }
         });
+      }
     }
   }
 

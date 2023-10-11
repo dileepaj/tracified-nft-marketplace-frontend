@@ -634,6 +634,7 @@ export class BuyViewComponent implements OnInit {
       this.userPK = user;
       if (this.userPK == this.NFTList.distributorpk) {
         this.snackbar.openSnackBar("Current owner cannot purchase NFT!", "error");
+        _callback()!;
       }else{
       this.trustalbedo
         .trustlineByBuyer(
@@ -680,6 +681,7 @@ export class BuyViewComponent implements OnInit {
     } else {
       if (this.userPK == this.NFTList.distributorpk) {
         this.snackbar.openSnackBar("Current owner cannot purchase NFT!", "error");
+        _callback()!;
       }else{
       this.trust
         .trustlineByBuyer(

@@ -679,7 +679,7 @@ export class BuyViewComponent implements OnInit {
       }
     } else {
       if (this.userPK == this.NFTList.distributorpk) {
-        this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.", "error");
+        this.snackbar.openSnackBar("Current owner cannot purchase NFT!", "error");
       }else{
       this.trust
         .trustlineByBuyer(

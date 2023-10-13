@@ -38,7 +38,7 @@ export class TrustLineByBuyerServiceService {
       var buyAsset = new Asset(asset_code, asset_issuer);
       var sellingAsset = Asset.native();
 
-      const senderPublickKey = userPK;
+     // const senderPublickKey = userPK;
       var asset = new Asset(asset_code, asset_issuer); //for buyer --> gateway
       var claimer =previousOwnerNFTPK
       let server = new Server(blockchainNet);
@@ -50,7 +50,7 @@ export class TrustLineByBuyerServiceService {
               Operation.changeTrust({
                 asset: asset,
                 limit: "1",
-                source: senderPublickKey,
+                source: userPK,
               })
             ) 
             .addMemo(Memo.text("Payment has been made!"))
@@ -59,7 +59,7 @@ export class TrustLineByBuyerServiceService {
                 destination:claimer,
                 asset:Asset.native(),
                 amount: royalty,
-                source: senderPublickKey,
+                source: userPK,
               })
             )
             .addOperation(
@@ -67,7 +67,7 @@ export class TrustLineByBuyerServiceService {
                 destination:"GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV",  //commission
                 asset:Asset.native(),
                 amount: commission,
-                source: senderPublickKey,
+                source: userPK,
               })
             )
             .addOperation(

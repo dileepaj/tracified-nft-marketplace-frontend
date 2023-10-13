@@ -184,8 +184,8 @@ export class BuyViewComponent implements OnInit {
   storyAvailable: boolean = false;
   usercontentURLFlag: boolean = false;
   nftcontentURLFlag: boolean = false;
-  userprofileURL: string = "";
-  nftcontentURL: string = "";
+  userprofileURL: string = '';
+  nftcontentURL: string = '';
   count: number = 0;
 
   constructor(
@@ -206,7 +206,7 @@ export class BuyViewComponent implements OnInit {
     private servicemint: MintService,
     private servicesell: Seller2tracService,
     private firebaseanalytics: FirebaseAnalyticsService
-  ) { }
+  ) {}
 
   public async getDeviceType(): Promise<boolean> {
     let details = navigator.userAgent;
@@ -214,7 +214,7 @@ export class BuyViewComponent implements OnInit {
     let regexp = /android|iphone|kindle|ipad/i;
 
     let isMobileDevice = await regexp.test(details);
-    return isMobileDevice
+    return isMobileDevice;
   }
 
   async buyNFT(): Promise<void> {
@@ -222,7 +222,7 @@ export class BuyViewComponent implements OnInit {
       button_name: 'buy now',
     });
 
-    if (this.nftbe.Blockchain == "stellar") {
+    if (this.nftbe.Blockchain == 'stellar') {
       let details = navigator.userAgent;
 
       let regexp = /android|iphone|kindle|ipad/i;
@@ -235,21 +235,22 @@ export class BuyViewComponent implements OnInit {
           })
           .then((res: any) => {
             this.userPK = res.pubkey;
-          })
+          });
       } else {
         let walletf = new UserWallet();
         walletf = new FreighterComponent(walletf);
         await walletf.initWallelt();
         this.userPK = await walletf.getWalletaddress();
       }
-
-    } else if (this.nftbe.Blockchain == "solana") {
+    } else if (this.nftbe.Blockchain == 'solana') {
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();
       this.userPK = phantomWallet.getWalletaddress();
-
-    } else if (this.nftbe.Blockchain == "ethereum" || this.nftbe.Blockchain == "polygon") {
+    } else if (
+      this.nftbe.Blockchain == 'ethereum' ||
+      this.nftbe.Blockchain == 'polygon'
+    ) {
       let walletMetamask = new UserWallet();
       walletMetamask = new MetamaskComponent(walletMetamask);
       await walletMetamask.initWallelt();
@@ -257,28 +258,30 @@ export class BuyViewComponent implements OnInit {
     }
     this.queue.User = this.userPK;
     this.queue.Blockchain = this.nftbe.Blockchain;
-    this.queue.Status = "PROCESSING";
+    this.queue.Status = 'PROCESSING';
     this.queue.ImageBase64 = this.NFTList.imagebase64;
     this.queue.NFTIdentifier = this.nftbe.NFTIdentifier;
-    this.queue.Version = (this.count).toString();
-    this.lockData()
+    this.queue.Version = this.count.toString();
+    this.lockData();
   }
 
   lockData() {
-    this.service.queueBuys(this.queue)
+    this.service
+      .queueBuys(this.queue)
       .pipe(
         catchError((error) => {
           this.buyNFT();
           return throwError('Something went wrong');
         })
       )
-      .subscribe(res => {
-        this.getProcessedData()
-      })
+      .subscribe((res) => {
+        this.getProcessedData();
+      });
   }
 
   getProcessedData() {
-    this.service.getQueueData(this.NFTList.imagebase64, this.nftbe.Blockchain, this.count)
+    this.service
+      .getQueueData(this.NFTList.imagebase64, this.nftbe.Blockchain, this.count)
       .pipe(
         catchError((error) => {
           this.buyNFT();
@@ -287,16 +290,16 @@ export class BuyViewComponent implements OnInit {
       )
       .subscribe((data: any) => {
         if (data == null) {
-          this.buyNFT()
+          this.buyNFT();
         } else {
-          if (data.Status == "PROCESSED") {
-            this.userPK = data.User
+          if (data.Status == 'PROCESSED') {
+            this.userPK = data.User;
             this.updateBackend(this.userPK);
           } else {
-            this.buyNFT()
+            this.buyNFT();
           }
         }
-      })
+      });
   }
 
   calculateCommision() {
@@ -349,7 +352,7 @@ export class BuyViewComponent implements OnInit {
             });
             this.buyNFTOnStellar(this.userPK, () => {
               loadingAnimation.close();
-              return
+              return;
             });
           }
         });
@@ -384,10 +387,7 @@ export class BuyViewComponent implements OnInit {
             });
 
             this.servicesell
-              .findATA(
-                user,
-                this.NFTList.nftissuerpk
-              )
+              .findATA(user, this.NFTList.nftissuerpk)
               .then((res: any) => {
                 if (res == null) {
                   this.atastatus = '0';
@@ -411,10 +411,14 @@ export class BuyViewComponent implements OnInit {
                       let isMobile = await this.getDeviceType();
                       let signature;
                       if (isMobile) {
-                        const{signature} = await (window as any).solana.signAndSendTransaction(result, ['finalized']);
+                        const { signature } = await (
+                          window as any
+                        ).solana.signAndSendTransaction(result, ['finalized']);
                         await connection.confirmTransaction(signature);
                       } else {
-                        const {signature} = await (window as any).solana.signAndSendTransaction(result);
+                        const { signature } = await (
+                          window as any
+                        ).solana.signAndSendTransaction(result);
                         await connection.confirmTransaction(signature);
                       }
                       this.transfer
@@ -425,15 +429,13 @@ export class BuyViewComponent implements OnInit {
                         )
 
                         .subscribe(async (res: any) => {
-
-
                           try {
                             loadingAnimation.close();
                             this.buytxn = res;
                             this.saveTXNs();
                             this.service
                               .updateNFTStatusBackend(this.saleBE)
-                              .subscribe(res => {
+                              .subscribe((res) => {
                                 this.updateGateway();
                                 this.snackbar.openSnackBar(
                                   SnackBarText.BOUGHT_SUCCESS_MESSAGE,
@@ -444,7 +446,7 @@ export class BuyViewComponent implements OnInit {
                           } catch (err) {
                             this.snackbar.openSnackBar(
                               'Something went wrong, please try again! More information: ' +
-                              err,
+                                err,
                               'error'
                             );
                           }
@@ -452,7 +454,7 @@ export class BuyViewComponent implements OnInit {
                     } catch (err) {
                       this.snackbar.openSnackBar(
                         'Something went wrong, please try again! More information: ' +
-                        err,
+                          err,
                         'error'
                       );
                     }
@@ -490,13 +492,9 @@ export class BuyViewComponent implements OnInit {
               thumbnail: this.NFTList.thumbnail,
             });
             this.pmarket
-              .BuyNFT(
-                this.NFTList.sellingtype,
-                this.total.toString(),
-                () => {
-                  loadingAnimation.close();
-                }
-              )
+              .BuyNFT(this.NFTList.sellingtype, this.total.toString(), () => {
+                loadingAnimation.close();
+              })
               .then((res) => {
                 try {
                   this.saleBE.Timestamp = new Date().toString();
@@ -513,7 +511,7 @@ export class BuyViewComponent implements OnInit {
                 } catch (err) {
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                    err,
+                      err,
                     'error'
                   );
                 }
@@ -550,13 +548,9 @@ export class BuyViewComponent implements OnInit {
               thumbnail: this.NFTList.thumbnail,
             });
             this.emarket
-              .BuyNFT(
-                this.NFTList.sellingtype,
-                this.total.toString(),
-                () => {
-                  loadingAnimation.close();
-                }
-              )
+              .BuyNFT(this.NFTList.sellingtype, this.total.toString(), () => {
+                loadingAnimation.close();
+              })
               .then((res) => {
                 try {
                   this.saleBE.Timestamp = new Date().toString();
@@ -573,7 +567,7 @@ export class BuyViewComponent implements OnInit {
                 } catch (err) {
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                    err,
+                      err,
                     'error'
                   );
                 }
@@ -596,8 +590,9 @@ export class BuyViewComponent implements OnInit {
         this.buyGW.PreviousOwnerNFTPK,
         this.buyGW.NFTTXNhash
       )
-      .subscribe(r => { this.showInProfile() }
-      );
+      .subscribe((r) => {
+        this.showInProfile();
+      });
   }
 
   pushOwner(): void {
@@ -633,77 +628,39 @@ export class BuyViewComponent implements OnInit {
     if (isMobileDevice) {
       this.userPK = user;
       if (this.userPK == this.NFTList.distributorpk) {
-        this.snackbar.openSnackBar("Current owner cannot purchase NFT!", "error");
+        this.snackbar.openSnackBar(
+          'Current owner cannot purchase NFT!',
+          'error'
+        );
         _callback()!;
-      }else{
-      this.trustalbedo
-        .trustlineByBuyer(
-          this.NFTList.nftname,
-          this.NFTList.nftissuerpk,
-          this.userPK,
-          this.NFTList.currentprice,
-          this.NFTList.distributorpk,
-          this.royaltyCharge.toString(),
-          this.commission,
-          () => {
-            if (this.userPK == this.NFTList.distributorpk) {
-              this.snackbar.openSnackBar("Current owner cannot purchase NFT!", "error");
-            }
-            this.snackbar.openSnackBar("Please check balance and network in the wallet", "error");
-            _callback()!;
-          }
-        )
-        .then((transactionResult: any) => {
-          try {
-            this.buytxn = transactionResult.tx_hash;
-            this.saveTXNs();
-            this.saleBE.CurrentOwnerPK = this.userPK;
-            this.service
-              .updateNFTStatusBackend(this.saleBE)
-              .subscribe();
-            this.snackbar.openSnackBar(
-              SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-              'success'
-            );
-            return
-            this.updateGateway();
-          } catch (err) {
-            _callback()!;
-            this.snackbar.openSnackBar(
-              'Something went wrong, please try again! More information: ' +
-              err,
-              'error'
-            );
-          }
-
-        });
-      }
-    } else {
-      if (this.userPK == this.NFTList.distributorpk) {
-        this.snackbar.openSnackBar("Current owner cannot purchase NFT!", "error");
-        _callback()!;
-      }else{
-      this.trust
-        .trustlineByBuyer(
-          this.NFTList.nftname,
-          this.NFTList.nftissuerpk,
-          this.userPK,
-          this.NFTList.currentprice,
-          this.NFTList.distributorpk,
-          this.royaltyCharge.toString(),
-          this.commission,
-          () => {
-            this.snackbar.openSnackBar("Please check balance and network in the wallet", "error");
-            _callback()!;
-          }
-        )
-        .then((transactionResult: any) => {
-          if (transactionResult.successful) {
-            try {
-              if (this.isLoadingPresent) {
-                this.dissmissLoading();
+        this.ngOnInit()
+      } else {
+        this.trustalbedo
+          .trustlineByBuyer(
+            this.NFTList.nftname,
+            this.NFTList.nftissuerpk,
+            this.userPK,
+            this.NFTList.currentprice,
+            this.NFTList.distributorpk,
+            this.royaltyCharge.toString(),
+            this.commission,
+            () => {
+              if (this.userPK == this.NFTList.distributorpk) {
+                this.snackbar.openSnackBar(
+                  'Current owner cannot purchase NFT!',
+                  'error'
+                );
               }
-              this.buytxn = transactionResult.hash;
+              this.snackbar.openSnackBar(
+                'Please check balance and network in the wallet',
+                'error'
+              );
+              _callback()!;
+            }
+          )
+          .then((transactionResult: any) => {
+            try {
+              this.buytxn = transactionResult.tx_hash;
               this.saveTXNs();
               this.saleBE.CurrentOwnerPK = this.userPK;
               this.service.updateNFTStatusBackend(this.saleBE).subscribe();
@@ -711,21 +668,73 @@ export class BuyViewComponent implements OnInit {
                 SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                 'success'
               );
+              return;
               this.updateGateway();
             } catch (err) {
               _callback()!;
               this.snackbar.openSnackBar(
                 'Something went wrong, please try again! More information: ' +
-                err,
+                  err,
                 'error'
               );
             }
-          } else {
-            if (this.isLoadingPresent) {
-              this.dissmissLoading();
+          });
+      }
+    } else {
+      if (this.userPK == this.NFTList.distributorpk) {
+        this.snackbar.openSnackBar(
+          'Current owner cannot purchase NFT!',
+          'error'
+        );
+        _callback()!;
+        this.ngOnInit()
+      } else {
+        this.trust
+          .trustlineByBuyer(
+            this.NFTList.nftname,
+            this.NFTList.nftissuerpk,
+            this.userPK,
+            this.NFTList.currentprice,
+            this.NFTList.distributorpk,
+            this.royaltyCharge.toString(),
+            this.commission,
+            () => {
+              this.snackbar.openSnackBar(
+                'Please check balance and network in the wallet',
+                'error'
+              );
+              _callback()!;
             }
-          }
-        });
+          )
+          .then((transactionResult: any) => {
+            if (transactionResult.successful) {
+              try {
+                if (this.isLoadingPresent) {
+                  this.dissmissLoading();
+                }
+                this.buytxn = transactionResult.hash;
+                this.saveTXNs();
+                this.saleBE.CurrentOwnerPK = this.userPK;
+                this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+                this.snackbar.openSnackBar(
+                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                  'success'
+                );
+                this.updateGateway();
+              } catch (err) {
+                _callback()!;
+                this.snackbar.openSnackBar(
+                  'Something went wrong, please try again! More information: ' +
+                    err,
+                  'error'
+                );
+              }
+            } else {
+              if (this.isLoadingPresent) {
+                this.dissmissLoading();
+              }
+            }
+          });
       }
     }
   }
@@ -785,6 +794,7 @@ export class BuyViewComponent implements OnInit {
     this.firebaseanalytics.logEvent('page_load', {
       page_name: 'Buy_NFT_Screen',
     });
+    this.userPK=""
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
       this.nftbe.Blockchain = this.data[1];
@@ -808,13 +818,13 @@ export class BuyViewComponent implements OnInit {
             if (this.NFTList == null) {
               this.ngOnInit();
             }
-            if (this.NFTList.artistprofilelink != "") {
+            if (this.NFTList.artistprofilelink != '') {
               this.usercontentURLFlag = true;
               this.userprofileURL = this.NFTList.artistprofilelink;
             }
-            if (this.NFTList.nftcontenturl != "") {
+            if (this.NFTList.nftcontenturl != '') {
               this.nftcontentURLFlag = true;
-              this.nftcontentURL = this.NFTList.nftcontenturl
+              this.nftcontentURL = this.NFTList.nftcontenturl;
             }
             if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
               //might
@@ -1002,15 +1012,12 @@ export class BuyViewComponent implements OnInit {
                 .subscribe((txn: any) => {
                   for (let x = 0; x < txn.Response.length; x++) {
                     let card: Track = new Track('', '', '', '');
-                    card.Time = txn.Response[x].Time
+                    card.Time = txn.Response[x].Time;
                     const unwantedText = 'GMT+0530 (India Standard Time)';
-                    card.Time = card.Time.replace(
-                      unwantedText,
-                      ''
-                    );
+                    card.Time = card.Time.replace(unwantedText, '');
                     card.NFTName = txn.Response[x].NFTName;
                     card.Status = txn.Response[x].Status;
-                    if (txn.Response[x].Status == "ON SALE") {
+                    if (txn.Response[x].Status == 'ON SALE') {
                       this.count = this.count + 1;
                     }
                     if (txn.Response[x].Blockchain == 'ethereum') {
@@ -1163,14 +1170,23 @@ export class BuyViewComponent implements OnInit {
 
   public openConfirmation() {
     this.reviews.Status = 'Pending';
-    this.reviews.Description = this.controlGroup.get('description')!.value.trim();
+    this.reviews.Description = this.controlGroup
+      .get('description')!
+      .value.trim();
     this.reviews.Rating = Number(this.controlGroup.get('rating')!.value);
     this.reviews.NFTIdentifier = this.NFTList.nftidentifier;
     this.reviews.UserID = this.controlGroup.get('userid')!.value.trim();
     this.reviews.Timestamp = new Date().toString();
-    if (this.reviews.UserID=="" || this.reviews.Description == "" || this.reviews.Rating == 0){
-      this.snackbar.openSnackBar("Please fill in all fields and provide a star rating. Your input matters!","info")
-      return
+    if (
+      this.reviews.UserID == '' ||
+      this.reviews.Description == '' ||
+      this.reviews.Rating == 0
+    ) {
+      this.snackbar.openSnackBar(
+        'Please fill in all fields and provide a star rating. Your input matters!',
+        'info'
+      );
+      return;
     }
     this.dialogService
       .confirmDialog({
@@ -1187,7 +1203,7 @@ export class BuyViewComponent implements OnInit {
                 'Your review has been Successfully submitted',
                 'success'
               );
-              this.cleanReviews()
+              this.cleanReviews();
             } else {
               this.snackbar.openSnackBar(
                 'Failed to submit review please try again.',
@@ -1204,7 +1220,7 @@ export class BuyViewComponent implements OnInit {
   }
 
   cleanReviews() {
-    window.location.reload()
+    window.location.reload();
   }
 
   getUSDConversion() {

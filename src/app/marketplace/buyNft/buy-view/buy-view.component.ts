@@ -255,48 +255,7 @@ export class BuyViewComponent implements OnInit {
       await walletMetamask.initWallelt();
       this.userPK = await walletMetamask.getWalletaddress();
     }
-    this.queue.User = this.userPK;
-    this.queue.Blockchain = this.nftbe.Blockchain;
-    this.queue.Status = "PROCESSING";
-    this.queue.ImageBase64 = this.NFTList.imagebase64;
-    this.queue.NFTIdentifier = this.nftbe.NFTIdentifier;
-    this.queue.Version = (this.count).toString();
-    this.lockData()
-  }
-
-  lockData() {
-    this.service.queueBuys(this.queue)
-      .pipe(
-        catchError((error) => {
-          this.buyNFT();
-          return throwError('Something went wrong');
-        })
-      )
-      .subscribe(res => {
-        this.getProcessedData()
-      })
-  }
-
-  getProcessedData() {
-    this.service.getQueueData(this.NFTList.imagebase64, this.nftbe.Blockchain, this.count)
-      .pipe(
-        catchError((error) => {
-          this.buyNFT();
-          return throwError('Something went wrong');
-        })
-      )
-      .subscribe((data: any) => {
-        if (data == null) {
-          this.buyNFT()
-        } else {
-          if (data.Status == "PROCESSED") {
-            this.userPK = data.User
-            this.updateBackend(this.userPK);
-          } else {
-            this.buyNFT()
-          }
-        }
-      })
+    this.updateBackend(this.userPK);
   }
 
   calculateCommision() {
@@ -390,6 +349,7 @@ export class BuyViewComponent implements OnInit {
               )
               .then((res: any) => {
                 if (res == null) {
+                  console.log("Result here is : ",res)//add condition
                   this.atastatus = '0';
                 } else {
                   this.atastatus = '1';
@@ -409,14 +369,15 @@ export class BuyViewComponent implements OnInit {
                   .then(async (result: solanaTransaction) => {
                     try {
                       let isMobile = await this.getDeviceType();
-                      let signature;
+                      let tx;
                       if (isMobile) {
                         const{signature} = await (window as any).solana.signAndSendTransaction(result, ['finalized']);
                         await connection.confirmTransaction(signature);
                       } else {
                         const {signature} = await (window as any).solana.signAndSendTransaction(result);
-                        await connection.confirmTransaction(signature);
+                        tx=await connection.confirmTransaction(signature);
                       }
+                      if(tx != null){ //check
                       this.transfer
                         .createServiceATAforTransfer(
                           environment.fromWallet,
@@ -426,7 +387,7 @@ export class BuyViewComponent implements OnInit {
 
                         .subscribe(async (res: any) => {
 
-
+                          console.log("result when transferred : ",res)//add condition
                           try {
                             loadingAnimation.close();
                             this.buytxn = res;
@@ -449,6 +410,7 @@ export class BuyViewComponent implements OnInit {
                             );
                           }
                         });
+                      }
                     } catch (err) {
                       this.snackbar.openSnackBar(
                         'Something went wrong, please try again! More information: ' +
@@ -498,6 +460,7 @@ export class BuyViewComponent implements OnInit {
                 }
               )
               .then((res) => {
+                console.log("result here is : ",res)//add condition
                 try {
                   this.saleBE.Timestamp = new Date().toString();
                   this.buytxn = res.transactionHash;
@@ -558,6 +521,7 @@ export class BuyViewComponent implements OnInit {
                 }
               )
               .then((res) => {
+                console.log("result here is : ",res)//add condition
                 try {
                   this.saleBE.Timestamp = new Date().toString();
                   this.buytxn = res.transactionHash;
@@ -650,6 +614,7 @@ export class BuyViewComponent implements OnInit {
           }
         )
         .then((transactionResult: any) => {
+          if(transactionResult.successful){
           try {
             this.buytxn = transactionResult.tx_hash;
             this.saveTXNs();
@@ -661,8 +626,9 @@ export class BuyViewComponent implements OnInit {
               SnackBarText.BOUGHT_SUCCESS_MESSAGE,
               'success'
             );
-            return
             this.updateGateway();
+            return
+            
           } catch (err) {
             _callback()!;
             this.snackbar.openSnackBar(
@@ -671,7 +637,7 @@ export class BuyViewComponent implements OnInit {
               'error'
             );
           }
-
+        }
         });
     } else {
       this.trust

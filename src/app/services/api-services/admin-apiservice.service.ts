@@ -16,7 +16,7 @@ export class AdminAPIServiceService {
    * @function setHeaders - set headers for an API request
    * @param none
    */
-   private setHeaders(): HttpHeaders {
+  private setHeaders(): HttpHeaders {
     const headersConfig = {
       'Content-Type': 'application/json',
       Accept: 'application/json',

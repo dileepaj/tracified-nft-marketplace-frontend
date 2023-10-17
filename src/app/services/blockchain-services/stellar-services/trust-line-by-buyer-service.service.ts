@@ -21,13 +21,13 @@ import { SnackbarServiceService } from '../../snackbar-service/snackbar-service.
 })
 export class TrustLineByBuyerServiceService {
   userSignedTransaction: any;
-//networkType:any;
+  //networkType:any;
   net: Networks;
-  constructor(private network:StellarCommonsService, private snackbar : SnackbarServiceService) { }
-  trustlineByBuyer(asset_code:string, asset_issuer:string, userPK:string,nftPrice:string,previousOwnerNFTPK:string,royalty:string,commission:string,_callback?:any) {
+  constructor(private network: StellarCommonsService, private snackbar: SnackbarServiceService) { }
+  trustlineByBuyer(asset_code: string, asset_issuer: string, userPK: string, nftPrice: string, previousOwnerNFTPK: string, royalty: string, commission: string, _callback?: any) {
 
     return new Promise((resolve, reject) => {
-      this.net =this.network.getNetwork()
+      this.net = this.network.getNetwork()
       //let sourceKeypair = Keypair.fromSecret(signerSK); //buyers secret key
       // if (blockchainNetType === "live") {
       //   this.networkType= Networks.PUBLIC
@@ -40,32 +40,32 @@ export class TrustLineByBuyerServiceService {
 
       const senderPublickKey = userPK;
       var asset = new Asset(asset_code, asset_issuer); //for buyer --> gateway
-      var claimer =previousOwnerNFTPK
+      var claimer = previousOwnerNFTPK
       let server = new Server(blockchainNet);
       server
         .loadAccount(userPK)
         .then(async (account) => {
-          var transaction = new TransactionBuilder(account, { fee:'50000', networkPassphrase: this.net,})
+          var transaction = new TransactionBuilder(account, { fee: '50000', networkPassphrase: this.net, })
             .addOperation(
               Operation.changeTrust({
                 asset: asset,
                 limit: "1",
                 source: senderPublickKey,
               })
-            ) 
+            )
             .addMemo(Memo.text("Payment has been made!"))
             .addOperation(
               Operation.payment({
-                destination:claimer,
-                asset:Asset.native(),
+                destination: claimer,
+                asset: Asset.native(),
                 amount: royalty,
                 source: senderPublickKey,
               })
             )
             .addOperation(
               Operation.payment({
-                destination:"GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV",  //commission
-                asset:Asset.native(),
+                destination: "GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV",  //commission
+                asset: Asset.native(),
                 amount: commission,
                 source: senderPublickKey,
               })
@@ -97,23 +97,20 @@ export class TrustLineByBuyerServiceService {
                 value: previousOwnerNFTPK,
               })
             )
-             .setTimeout(TimeoutInfinite)
+            .setTimeout(TimeoutInfinite)
             .build();
-            let walletf = new UserWallet();
-            walletf = new FreighterComponent(walletf);
-            this.userSignedTransaction = await walletf.signTransaction(transaction)
-            const transactionToSubmit = TransactionBuilder.fromXDR(
-              this.userSignedTransaction,
-              this.net
-            );
-          return server.submitTransaction(transactionToSubmit);
-        })
-        .then((transactionResult) => {
-          resolve(transactionResult);
-        })
-        .catch((err) => {
+          let walletf = new UserWallet();
+          walletf = new FreighterComponent(walletf);
+          this.userSignedTransaction = await walletf.signTransaction(transaction)
+          const transactionToSubmit = TransactionBuilder.fromXDR(
+            this.userSignedTransaction,
+            this.net
+          );
+          let result =  server.submitTransaction(transactionToSubmit);
+          resolve(result)
+        }).catch((err) => {
+          this.snackbar.openSnackBar("Something went wrong with Stellar, please try again! More information: " + err, 'error');
           _callback()
-          this.snackbar.openSnackBar("Something went wrong with Stellar, please try again! More information: "+err, 'error');
           reject(err);
         });
     });

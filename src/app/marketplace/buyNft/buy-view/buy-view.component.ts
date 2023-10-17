@@ -50,6 +50,7 @@ import { MintService } from 'src/app/services/blockchain-services/mint.service';
 import { Seller2tracService } from 'src/app/services/blockchain-services/solana-services/seller2trac.service';
 import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
 import { QueueNFT } from 'src/app/models/nft';
+import { StellarUtilService } from 'src/app/services/blockchain-services/stellar-services/stellar-util.service';
 
 @Component({
   selector: 'app-buy-view',
@@ -205,7 +206,8 @@ export class BuyViewComponent implements OnInit {
     public dialog: MatDialog,
     private servicemint: MintService,
     private servicesell: Seller2tracService,
-    private firebaseanalytics: FirebaseAnalyticsService
+    private firebaseanalytics: FirebaseAnalyticsService,
+    private stellarUtilService : StellarUtilService
   ) { }
 
   public async getDeviceType(): Promise<boolean> {
@@ -460,7 +462,6 @@ export class BuyViewComponent implements OnInit {
                 }
               )
               .then((res) => {
-                console.log("result here is : ",res)//add condition
                 try {
                   this.saleBE.Timestamp = new Date().toString();
                   this.buytxn = res.transactionHash;
@@ -614,20 +615,28 @@ export class BuyViewComponent implements OnInit {
           }
         )
         .then((transactionResult: any) => {
-          if(transactionResult.successful){
+          if(true){
           try {
             this.buytxn = transactionResult.tx_hash;
-            this.saveTXNs();
             this.saleBE.CurrentOwnerPK = this.userPK;
-            this.service
-              .updateNFTStatusBackend(this.saleBE)
-              .subscribe();
-            this.snackbar.openSnackBar(
-              SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-              'success'
-            );
-            this.updateGateway();
-            return
+            this.stellarUtilService.getStellarAccountStatus(this.userPK).subscribe(accountInfo=>{
+              let res = this.stellarUtilService.isAssetAvailableAccount(accountInfo.balances,this.NFTList.nftname)
+              if(res){
+                this.snackbar.openSnackBar(
+                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                  'success'
+                );
+                this.saveTXNs();
+                this.service.updateNFTStatusBackend(this.saleBE).subscribe(); 
+                this.updateGateway();
+              }else{
+                this.snackbar.openSnackBar(
+                  'Someone has purchashed this NFT!!',
+                  'error'
+                );
+                _callback()!;
+              }
+            })
             
           } catch (err) {
             _callback()!;
@@ -664,14 +673,26 @@ export class BuyViewComponent implements OnInit {
                 this.dissmissLoading();
               }
               this.buytxn = transactionResult.hash;
-              this.saveTXNs();
               this.saleBE.CurrentOwnerPK = this.userPK;
-              this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-              this.snackbar.openSnackBar(
-                SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                'success'
-              );
-              this.updateGateway();
+              this.stellarUtilService.getStellarAccountStatus(this.userPK).subscribe(accountInfo=>{
+                let res = this.stellarUtilService.isAssetAvailableAccount(accountInfo.balances,this.NFTList.nftname)
+                if(res){
+                  this.snackbar.openSnackBar(
+                    SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                    'success'
+                  );
+                  this.saveTXNs();
+                  this.service.updateNFTStatusBackend(this.saleBE).subscribe();
+                  this.updateGateway();
+                }else{
+                  _callback()!;
+                  this.snackbar.openSnackBar(
+                    'Someone has purchashed this NFT!',
+                    'error'
+                  );
+                }
+              })
+              
             } catch (err) {
               _callback()!;
               this.snackbar.openSnackBar(
@@ -685,6 +706,8 @@ export class BuyViewComponent implements OnInit {
               this.dissmissLoading();
             }
           }
+        }).catch(err =>{
+          //! handle error
         });
     }
   }

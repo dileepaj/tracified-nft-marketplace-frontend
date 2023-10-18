@@ -724,7 +724,11 @@ export class BuyViewComponent implements OnInit {
           }
         })
         .catch((err) => {
-          //! handle error
+          this.snackbar.openSnackBar(
+            'Something went wrong, please try again! More information: ' +
+              err,
+            'error'
+          );
         });
     }
   }

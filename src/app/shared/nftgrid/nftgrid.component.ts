@@ -106,18 +106,18 @@ export class NftgridComponent implements OnInit {
 
       if (isMobileDevice) {
         await albedo
-        .publicKey({
-          require_existing: true,
-        }).then((res:any)=>{
-          this.User=res.pubkey;
-        })
-      }else{
+          .publicKey({
+            require_existing: true,
+          })
+          .then((res: any) => {
+            this.User = res.pubkey;
+          });
+      } else {
         let freighterWallet = new UserWallet();
         freighterWallet = new FreighterComponent(freighterWallet);
         await freighterWallet.initWallelt();
         this.User = await freighterWallet.getWalletaddress();
       }
-      
     }
 
     if (blockchain == 'solana') {

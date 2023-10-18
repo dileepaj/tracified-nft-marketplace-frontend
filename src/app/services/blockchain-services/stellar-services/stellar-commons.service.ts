@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
 import { blockchainNetType } from 'src/app/shared/config';
+import { ENV } from 'src/environments/environment';
 import { Networks } from 'stellar-sdk';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StellarCommonsService {
   networkType: Networks;
+  constructor() {}
 
-  constructor() { }
-
-  getNetwork(){
-    if (blockchainNetType === "live") {
-     return Networks.PUBLIC
-    } else {
-      return Networks.TESTNET
-    }
-
+  getNetwork() {
+    let netWorkType =
+      blockchainNetType === 'live' ? Networks.PUBLIC : Networks.TESTNET;
+    return netWorkType;
   }
 }

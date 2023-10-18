@@ -240,7 +240,7 @@ export class Mint2Component implements OnInit {
     this.mint.SellingType = '0';
     this.mint.DistributorPK = this.mint.CreatorUserId;
     this.mint.Status = 'Minted';
-    this.mint.Royalty = (this.formValue('Royalty')).toString();
+    this.mint.Royalty = this.formValue('Royalty').toString();
     (this.mint.Trending = false), (this.mint.HotPicks = false);
     //posting of mint data to backend via service
     if (this.mint.CreatorUserId != null) {
@@ -316,15 +316,15 @@ export class Mint2Component implements OnInit {
       this.mint.AttachmentType = this.type;
       this.mint.Description = this.formValue('Description');
       if (this.formValue('Royalty') == null) {
-        this.snackbar.openSnackBar
-          (
-            "Please enter a positive number ranging between 0 and 100 for the royalty.",
-            "info"
-          )
+        this.snackbar.openSnackBar(
+          'Please enter a positive number ranging between 0 and 100 for the royalty.',
+          'info'
+        );
         this.flag = false;
-        return
-      } else { this.mint.Royalty = (this.formValue('Royalty')).toString(); }
-
+        return;
+      } else {
+        this.mint.Royalty = this.formValue('Royalty').toString();
+      }
 
       this.mint.thumbnail = this.thumbnail;
       this.svgUpdate.Id = this.hash;
@@ -348,14 +348,18 @@ export class Mint2Component implements OnInit {
         this.flag = true;
       }
       const royaltyRejex = /^(?:[1-9][0-9]?|100)$/;
-      if (parseFloat(this.mint.Royalty) <= 0 || !royaltyRejex.test(this.mint.Royalty) || isNaN(parseFloat(this.mint.Royalty)) || this.mint.Royalty == null) {
-        this.snackbar.openSnackBar
-          (
-            "Please enter a positive number ranging between 0 and 100 for the royalty.",
-            "info"
-          )
+      if (
+        parseFloat(this.mint.Royalty) <= 0 ||
+        !royaltyRejex.test(this.mint.Royalty) ||
+        isNaN(parseFloat(this.mint.Royalty)) ||
+        this.mint.Royalty == null
+      ) {
+        this.snackbar.openSnackBar(
+          'Please enter a positive number ranging between 0 and 100 for the royalty.',
+          'info'
+        );
         this.flag = false;
-        return
+        return;
       }
 
       if (this.mint.Blockchain == 'stellar') {
@@ -754,7 +758,7 @@ export class Mint2Component implements OnInit {
                       .mintInEthereum(
                         this.mint.NFTName,
                         this.mint.Imagebase64,
-                        "TRACIFIED_NFT",
+                        'TRACIFIED_NFT',
                         parseInt(this.mint.Royalty),
                         () => {
                           dialog.close();
@@ -764,7 +768,7 @@ export class Mint2Component implements OnInit {
                       .then(async (res) => {
                         try {
                           this.mint.NFTTxnHash = res.transactionHash;
-                          this.tokenId = (res.logs[0].address).toString();
+                          this.tokenId = res.logs[0].address.toString();
                           this.mint.NFTIdentifier = this.tokenId;
                           this.saveTXNs();
                           this.apiService.addSVG(this.svg).subscribe();
@@ -779,7 +783,7 @@ export class Mint2Component implements OnInit {
                         } catch (err) {
                           this.snackbar.openSnackBar(
                             'Something went wrong, please try again! More information: ' +
-                            err,
+                              err,
                             'error'
                           );
                           this.flag = false;
@@ -868,7 +872,7 @@ export class Mint2Component implements OnInit {
                         .mintInPolygon(
                           this.mint.NFTName,
                           this.mint.Imagebase64,
-                          "TRACIFIED_NFT",
+                          'TRACIFIED_NFT',
                           parseInt(this.mint.Royalty),
                           () => {
                             dialog.close();
@@ -878,7 +882,7 @@ export class Mint2Component implements OnInit {
                         .then((res) => {
                           try {
                             this.mint.NFTTxnHash = res.transactionHash;
-                            this.tokenId = (res.logs[0].address).toString();
+                            this.tokenId = res.logs[0].address.toString();
                             this.mint.NFTIdentifier = this.tokenId;
                             this.saveTXNs();
                             this.apiService.addSVG(this.svg).subscribe();
@@ -894,7 +898,7 @@ export class Mint2Component implements OnInit {
                           } catch (err) {
                             this.snackbar.openSnackBar(
                               'Something went wrong, please try again! More information: ' +
-                              err,
+                                err,
                               'error'
                             );
                             this.flag = false;
@@ -904,7 +908,7 @@ export class Mint2Component implements OnInit {
                       dialog.close();
                       this.snackbar.openSnackBar(
                         'Something went wrong, please try again! More information: ' +
-                        err,
+                          err,
                         'error'
                       );
                       this.flag = false;
@@ -936,7 +940,7 @@ export class Mint2Component implements OnInit {
     this.contract.OwnerPK = this.mint.CreatorUserId;
     this.contract.Tags = this.tags;
     this.contract.Identifier = this.mint.NFTIdentifier;
-    this.contract.Royalty = (this.mint.Royalty).toString()
+    this.contract.Royalty = this.mint.Royalty.toString();
     this.service.addNFTGW(this.contract).subscribe((res) => {
       // this.proceed.emit({
       //   blockchain: this.mint.Blockchain,
@@ -1011,7 +1015,7 @@ export class Mint2Component implements OnInit {
               } catch (err) {
                 this.snackbar.openSnackBar(
                   'Something went wrong, please try again! More information: ' +
-                  err,
+                    err,
                   'error'
                 );
                 this.flag = false;
@@ -1087,7 +1091,7 @@ export class Mint2Component implements OnInit {
                       _callback();
                       this.snackbar.openSnackBar(
                         'Something went wrong, please try again! More information: ' +
-                        err,
+                          err,
                         'error'
                       );
                       this.flag = false;
@@ -1116,7 +1120,7 @@ export class Mint2Component implements OnInit {
             } catch (err) {
               this.snackbar.openSnackBar(
                 'Something went wrong, please try again! More information: ' +
-                err,
+                  err,
                 'error'
               );
               this.flag = false;
@@ -1181,7 +1185,7 @@ export class Mint2Component implements OnInit {
                   _callback();
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                    err,
+                      err,
                     'error'
                   );
                   this.flag = false;
@@ -1202,7 +1206,7 @@ export class Mint2Component implements OnInit {
           } catch (err) {
             this.snackbar.openSnackBar(
               'Something went wrong, please try again! More information: ' +
-              err,
+                err,
               'error'
             );
             this.flag = false;
@@ -1223,15 +1227,15 @@ export class Mint2Component implements OnInit {
   }
 
   reset() {
-    this.mint.NFTName = ""
-    this.mint.Description = ""
-    this.mint.ArtistName = ""
-    this.mint.ArtistProfileLink = ""
-    this.mint.NftContentURL = ""
-    this.tags = []
-    this.imageSrc = ""
-    this.croppedImage = ""
-    this.mint.Royalty = ""
+    this.mint.NFTName = '';
+    this.mint.Description = '';
+    this.mint.ArtistName = '';
+    this.mint.ArtistProfileLink = '';
+    this.mint.NftContentURL = '';
+    this.tags = [];
+    this.imageSrc = '';
+    this.croppedImage = '';
+    this.mint.Royalty = '';
   }
 
   ngOnInit(): void {
@@ -1267,13 +1271,15 @@ export class Mint2Component implements OnInit {
     }
 
     if (this.email != null && this.key != null) {
-      this.serviceCol.getCollectionNameByMailAndPK(this.email, this.key).subscribe((data: any) => {
-        if (data != null) {
-          this.CollectionList = data;
-        } else {
-          this.CollectionList = [];
-        }
-      });
+      this.serviceCol
+        .getCollectionNameByMailAndPK(this.email, this.key)
+        .subscribe((data: any) => {
+          if (data != null) {
+            this.CollectionList = data;
+          } else {
+            this.CollectionList = [];
+          }
+        });
     }
 
     //  })
@@ -1294,7 +1300,10 @@ export class Mint2Component implements OnInit {
       ArtistName: new FormControl(this.mint.ArtistName, Validators.required),
       ArtistProfileLink: new FormControl(this.mint.ArtistProfileLink),
       Issuer: new FormControl(this.mint.NFTIssuerPK),
-      Royalty: new FormControl(this.mint.Royalty, [Validators.required,Validators.pattern(/^(?![\d+e]+$)(?:[1-9][0-9]?|100)$/)])
+      Royalty: new FormControl(this.mint.Royalty, [
+        Validators.required,
+        Validators.pattern(/^(?![\d+e]+$)(?:[1-9][0-9]?|100)$/),
+      ]),
     });
 
     this.controlGroup.get('Blockchain')?.setValue('');
@@ -1310,24 +1319,27 @@ export class Mint2Component implements OnInit {
     let regexp = /android|iphone|kindle|ipad/i;
 
     let isMobileDevice = await regexp.test(details);
-    return isMobileDevice
+    return isMobileDevice;
   }
 
   mintNftSolana(ownerPK: string, _callback?: any) {
     const networkURL: any = BlockchainConfig.solananetworkURL;
     const connection = new Connection(networkURL);
-    console.log("connection " + (connection.getAccountInfo))
     return new Promise((resolve, reject) => {
       this.servicecharge
         .transferServiceCharge(ownerPK)
         .then(async (result: solanaTransaction) => {
           try {
-            let isMobile = await this.getDeviceType()
+            let isMobile = await this.getDeviceType();
             if (isMobile) {
-              const{signature} = await (window as any).solana.signAndSendTransaction(result, ['finalized']);
+              const { signature } = await (
+                window as any
+              ).solana.signAndSendTransaction(result, ['finalized']);
               await connection.confirmTransaction(signature);
             } else {
-              const {signature} = await (window as any).solana.signAndSendTransaction(result);
+              const { signature } = await (
+                window as any
+              ).solana.signAndSendTransaction(result);
               await connection.confirmTransaction(signature);
             }
             this.service
@@ -1356,7 +1368,7 @@ export class Mint2Component implements OnInit {
                   _callback();
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                    err,
+                      err,
                     'error'
                   );
                   this.flag = false;
@@ -1689,7 +1701,7 @@ export class Mint2Component implements OnInit {
     this.showthumbnailContainer = true;
     this.compressImage();
   }
-  imageLoaded(image?: LoadedImage) { }
+  imageLoaded(image?: LoadedImage) {}
   cropperReady() {
     // cropper ready
   }
@@ -1823,7 +1835,7 @@ export class Mint2Component implements OnInit {
     }
   }
 
-  sanatizeRoyaltyInput(event:Event){
+  sanatizeRoyaltyInput(event: Event) {
     const inputElement = event.target as HTMLInputElement;
     let inputValue = inputElement.value;
 

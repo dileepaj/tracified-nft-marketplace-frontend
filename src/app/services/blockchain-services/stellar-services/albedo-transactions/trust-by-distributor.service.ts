@@ -3,23 +3,37 @@ import { Injectable } from '@angular/core';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { blockchainNet, blockchainNetType } from 'src/app/shared/config';
 import { environment } from 'src/environments/environment';
-import { Asset, Networks, Operation, Server, TimeoutInfinite, TransactionBuilder } from 'stellar-sdk';
+import {
+  Asset,
+  Networks,
+  Operation,
+  Server,
+  TimeoutInfinite,
+  TransactionBuilder,
+} from 'stellar-sdk';
 import { StellarCommonsService } from '../stellar-commons.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TrustByDistributorService {
- //networkType:any;
+  //networkType:any;
   net: Networks;
-  constructor(private network:StellarCommonsService, private snackbar : SnackbarServiceService) { }
-  changeTrustByDistributor(asset_code:string, asset_issuer:string, userPK:string,_callback:any) {
-
+  constructor(
+    private network: StellarCommonsService,
+    private snackbar: SnackbarServiceService
+  ) {}
+  changeTrustByDistributor(
+    asset_code: string,
+    asset_issuer: string,
+    userPK: string,
+    _callback: any
+  ) {
     return new Promise((resolve, reject) => {
-      this.net =this.network.getNetwork()
-      
+      this.net = this.network.getNetwork();
+
       var asset = new Asset(asset_code, asset_issuer);
-      var opts = { fee: "50000" ,networkPassphrase: this.net};
+      var opts = { fee: '50000', networkPassphrase: this.net };
       let server = new Server(blockchainNet);
       server
         .loadAccount(userPK)
@@ -28,42 +42,40 @@ export class TrustByDistributorService {
             .addOperation(
               Operation.changeTrust({
                 asset: asset,
-                limit: "1",
+                limit: '1',
                 source: userPK,
               })
             )
             .addOperation(
               Operation.payment({
-                destination:environment.tracifiedStellarPK,
-                asset:Asset.native(),
+                destination: environment.tracifiedStellarPK,
+                asset: Asset.native(),
                 amount: '0.005',
-                source: userPK,   //service charge
+                source: userPK, //service charge
               })
             )
-             .setTimeout(TimeoutInfinite)
+            .setTimeout(TimeoutInfinite)
             .build();
-  
-           let txn=  transaction.toEnvelope().toXDR().toString("base64");
+
+          let txn = transaction.toEnvelope().toXDR().toString('base64');
           return await albedo.tx({
             xdr: txn,
             network: this.net,
-            submit :true
-        })
-           
-      
+            submit: true,
+          });
         })
         .then((transactionResult) => {
           resolve(transactionResult);
         })
         .catch((err) => {
-          _callback()
-          this.snackbar.openSnackBar("Something went wrong with Stellar, please try again! More information: "+err, 'error');
+          _callback();
+          this.snackbar.openSnackBar(
+            'Something went wrong with Stellar, please try again! More information: ' +
+              err,
+            'error'
+          );
           reject(err);
         });
     });
   }
-
 }
-
-
-

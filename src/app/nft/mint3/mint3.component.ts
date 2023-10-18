@@ -22,31 +22,29 @@ export class Mint3Component implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private dialogService : DialogService
+    private dialogService: DialogService
   ) {}
 
   openDialog() {
     this.dialogService.openMintAgain().subscribe((res) => {
-      if(res) {
+      if (res) {
         this.mintagain.emit();
       }
-    })
+    });
   }
 
   save(): void {}
 
   showInProfile() {
     this.router.navigate(['/user-dashboard/overview'], {
-      queryParams: { user:this.user,blockchain: this.blockchain },
+      queryParams: { user: this.user, blockchain: this.blockchain },
     });
   }
 
-  ngOnChanges(): void {
-  }
+  ngOnChanges(): void {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
   ngOnDestroy() {
     this.alive = false;
   }
-
 }

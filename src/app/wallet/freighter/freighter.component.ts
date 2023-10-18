@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { getPublicKey } from '@stellar/freighter-api';
-import { isConnected } from "@stellar/freighter-api";
+import { isConnected } from '@stellar/freighter-api';
 import { Wallet } from 'src/app/models/wallet';
 import { walletOptions } from 'src/app/models/walletoptions';
 import { Memo, MemoType, Operation, Transaction, Server } from 'stellar-sdk';
@@ -22,17 +22,10 @@ export class FreighterComponent implements Wallet, OnInit {
   signTransactionPhantom(userPK: string, tracifiedAta: string): void {
     throw new Error('Method not implemented.');
   }
-  buynft(
-    blockchain: string,
-    _itemID: string,
-  ): void {
+  buynft(blockchain: string, _itemID: string): void {
     throw new Error('Method not implemented.');
   }
-  createSaleOffer(
-    blockchain: string,
-    nftsvgHash: string,
-    price:number,
-  ): void {
+  createSaleOffer(blockchain: string, nftsvgHash: string, price: number): void {
     throw new Error('Method not implemented.');
   }
   currentUserAddress: string;
@@ -43,21 +36,21 @@ export class FreighterComponent implements Wallet, OnInit {
     if (await isConnected()) {
       return;
     } else {
-        if (typeof (window as any).freighterApi != 'undefined'){
-          window.location.href = 'https://www.freighter.app/';
-        }
+      if (typeof (window as any).freighterApi != 'undefined') {
+        window.location.href = 'https://www.freighter.app/';
       }
+    }
   }
-  
+
   getWalletaddress(): string {
-      this.address = this.retrievePublicKey();
-      return this.address;
+    this.address = this.retrievePublicKey();
+    return this.address;
   }
 
   public signTransaction(
     transaction: Transaction<Memo<MemoType>, Operation[]>
   ): Promise<any> {
-    const network :any =ENV.NETWORK;
+    const network: any = ENV.NETWORK;
     let signedTransaction = signTransaction(transaction.toXDR(), network);
     return signedTransaction;
   }

@@ -46,8 +46,8 @@ export class NftServicesService {
   reqOpts: any;
 
   pageSize: number = 8;
-  baseUrlQueue: string=this.gateWayBaseURL + 'lock';
-  baseUrlGetQueueData:string=this.gateWayBaseURL+'queue';
+  baseUrlQueue: string = this.gateWayBaseURL + 'lock';
+  baseUrlGetQueueData: string = this.gateWayBaseURL + 'queue';
 
   constructor(private http: HttpClient) {}
 
@@ -88,18 +88,6 @@ export class NftServicesService {
     return this.http.put<SalesBE>(this.baseUrlUpdateStatusBE, st, {
       headers: this.headers,
     });
-  }
-
-  queueBuys(st:QueueNFT):Observable<QueueNFT> {
-    //request to add collection into the nft backend DB
-    return this.http.post<QueueNFT>(this.baseUrlQueue, st, {
-      headers: this.headers,
-    });
-  }
-
-  getQueueData(ImageBase64:string,blockchain:string,version:number): Observable<QueueNFT[]> {
-    //request to get collection name according to user public key
-    return this.http.get<QueueNFT[]>(`${this.baseUrlGetQueueData}/${ImageBase64}/${blockchain}/${version}`);
   }
 
   updateNFTStatusGateway(

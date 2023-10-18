@@ -49,7 +49,7 @@ export class CollectionService {
     blockchain: string,
     pageSize: number,
     pageIndex: number,
-    publickey:number
+    publickey: number
   ): Observable<NFT[]> {
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(
@@ -57,8 +57,13 @@ export class CollectionService {
     );
   }
 
-  getCollectionNameByMailAndPK(userId: string, publickey:string): Observable<Collection[]> {
+  getCollectionNameByMailAndPK(
+    userId: string,
+    publickey: string
+  ): Observable<Collection[]> {
     //request to get collection name according to user public key
-    return this.http.get<Collection[]>(`${this.baseUrlGetCollection}/${userId}/${publickey}`);
+    return this.http.get<Collection[]>(
+      `${this.baseUrlGetCollection}/${userId}/${publickey}`
+    );
   }
 }

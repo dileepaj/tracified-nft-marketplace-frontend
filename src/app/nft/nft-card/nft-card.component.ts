@@ -15,67 +15,77 @@ import { CreatorViewComponent } from '../creator-view/creator-view.component';
 @Component({
   selector: 'app-nft-card',
   templateUrl: './nft-card.component.html',
-  styleUrls: ['./nft-card.component.css']
+  styleUrls: ['./nft-card.component.css'],
 })
 export class NftCardComponent implements OnInit {
-  @Input() itemId : string;
+  @Input() itemId: string;
   @Input() item: any;
-  @Input() blockchain : string;
-  @Input() creatoruserid : string;
-  @Input() sellingstatus : string;
-  @Input() currentownerpk : string;
-  private isNftItem : boolean = false;
-  favouritesModel: Favourites = new Favourites('', '','');
-  watchlistModel: WatchList = new WatchList('', '','');
+  @Input() blockchain: string;
+  @Input() creatoruserid: string;
+  @Input() sellingstatus: string;
+  @Input() currentownerpk: string;
+  private isNftItem: boolean = false;
+  favouritesModel: Favourites = new Favourites('', '', '');
+  watchlistModel: WatchList = new WatchList('', '', '');
   user: string;
   command: any;
   tip: any;
 
   constructor(
-    private router : Router,
-    private snackbarService : SnackbarServiceService,
+    private router: Router,
+    private snackbarService: SnackbarServiceService,
     private api: ApiServicesService,
     public dialog: MatDialog,
-    private dialogService : DialogService
-
-  ) { }
+    private dialogService: DialogService
+  ) {}
 
   ngOnInit(): void {
-    if(this.sellingstatus=='Minted'){
-      this.tip="PUT ON SALE"
-    }else if(this.sellingstatus=='ON SALE'){
-      this.tip="BUY NFT"
-    }else if(this.sellingstatus=='NOTFORSALE'){
-      this.tip="PUT ON SALE"
-    }else{
-      this.snackbarService.openSnackBar("Something went wrong!", 'error')
+    if (this.sellingstatus == 'Minted') {
+      this.tip = 'PUT ON SALE';
+    } else if (this.sellingstatus == 'ON SALE') {
+      this.tip = 'BUY NFT';
+    } else if (this.sellingstatus == 'NOTFORSALE') {
+      this.tip = 'PUT ON SALE';
+    } else {
+      this.snackbarService.openSnackBar('Something went wrong!', 'error');
     }
   }
 
   public async retrive(blockchain: string) {
     if (blockchain == 'stellar') {
-
-      if(this.checkIfMobileDevice()){
-        await albedo.publicKey({
-          require_existing: true,
-        }).then((res:any)=>{
-          if(res.pubkey){
-            this.user=this.watchlistModel.User= this.favouritesModel.User=res.pubkey
-          }else{
-            this.snackbarService.openSnackBar("The NFTs are not on sale! Please make sure you have an albedo account or wait for NFT to be on sale", 'error')
-          }
-         
-        })
-      }else{
+      if (this.checkIfMobileDevice()) {
+        await albedo
+          .publicKey({
+            require_existing: true,
+          })
+          .then((res: any) => {
+            if (res.pubkey) {
+              this.user =
+                this.watchlistModel.User =
+                this.favouritesModel.User =
+                  res.pubkey;
+            } else {
+              this.snackbarService.openSnackBar(
+                'The NFTs are not on sale! Please make sure you have an albedo account or wait for NFT to be on sale',
+                'error'
+              );
+            }
+          });
+      } else {
         let freighterWallet = new UserWallet();
         freighterWallet = new FreighterComponent(freighterWallet);
-       // await freighterWallet.initWallelt();
-        if(!freighterWallet){
-          this.snackbarService.openSnackBar("The NFTs are not on sale! Please make sure you have an freighter account or wait for NFT to be on sale", 'error')
-        }else{
-          this.user=this.watchlistModel.User= this.favouritesModel.User= await freighterWallet.getWalletaddress();
+        // await freighterWallet.initWallelt();
+        if (!freighterWallet) {
+          this.snackbarService.openSnackBar(
+            'The NFTs are not on sale! Please make sure you have an freighter account or wait for NFT to be on sale',
+            'error'
+          );
+        } else {
+          this.user =
+            this.watchlistModel.User =
+            this.favouritesModel.User =
+              await freighterWallet.getWalletaddress();
         }
-       
       }
     }
 
@@ -83,21 +93,21 @@ export class NftCardComponent implements OnInit {
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();
-      this.user=this.watchlistModel.User=this.favouritesModel.User = await phantomWallet.getWalletaddress();
-
+      this.user =
+        this.watchlistModel.User =
+        this.favouritesModel.User =
+          await phantomWallet.getWalletaddress();
     }
 
-    if (
-      blockchain == 'ethereum' ||
-      blockchain == 'polygon'
-    ) {
+    if (blockchain == 'ethereum' || blockchain == 'polygon') {
       let metamaskwallet = new UserWallet();
       metamaskwallet = new MetamaskComponent(metamaskwallet);
       await metamaskwallet.initWallelt();
-     this.user= this.watchlistModel.User=this.favouritesModel.User = await metamaskwallet.getWalletaddress();
-
+      this.user =
+        this.watchlistModel.User =
+        this.favouritesModel.User =
+          await metamaskwallet.getWalletaddress();
     }
-
   }
 
   private checkIfMobileDevice(): boolean {
@@ -117,7 +127,7 @@ export class NftCardComponent implements OnInit {
    * @function toggleView - Toggle NFT item overlay.
    * @param element - element id
    */
-  public toggleView(element : any) : void {
+  public toggleView(element: any): void {
     this.isNftItem = true;
     document.getElementById(element)?.classList.add('overlay-hide');
   }
@@ -126,134 +136,174 @@ export class NftCardComponent implements OnInit {
    * @function addToFavourites - Add NFT to favorites.
    * @param id - NFT Identifier
    */
-  public addToFavourites(id : string) : void {
-    this.retrive(this.blockchain)
+  public addToFavourites(id: string): void {
+    this.retrive(this.blockchain);
     this.favouritesModel.Blockchain = this.blockchain;
     this.favouritesModel.NFTIdentifier = id;
-    this.retrive(this.favouritesModel.Blockchain).then(res=>{
-      this.api.getFavouritebyBlockchainandUserPK(this.favouritesModel.Blockchain,this.user,this.favouritesModel.NFTIdentifier).subscribe((favouriteresponse:any)=>{
-        if(favouriteresponse.user=="Add to favourite"){
-            this.api.addToFavourites(this.favouritesModel).subscribe(res=>{
-              this.snackbarService.openSnackBar("Added to favourites", 'success')
-              this.api.getFavouritesByBlockchainAndNFTIdentifier(this.favouritesModel.Blockchain,this.favouritesModel.NFTIdentifier).subscribe(res=>{
+    this.retrive(this.favouritesModel.Blockchain).then((res) => {
+      this.api
+        .getFavouritebyBlockchainandUserPK(
+          this.favouritesModel.Blockchain,
+          this.user,
+          this.favouritesModel.NFTIdentifier
+        )
+        .subscribe((favouriteresponse: any) => {
+          if (favouriteresponse.user == 'Add to favourite') {
+            this.api.addToFavourites(this.favouritesModel).subscribe((res) => {
+              this.snackbarService.openSnackBar(
+                'Added to favourites',
+                'success'
+              );
+              this.api
+                .getFavouritesByBlockchainAndNFTIdentifier(
+                  this.favouritesModel.Blockchain,
+                  this.favouritesModel.NFTIdentifier
+                )
+                .subscribe((res) => {});
+            });
+          } else {
+            this.api
+              .removeuserfromFavourite(favouriteresponse.id)
+              .subscribe((removerst) => {
+                this.snackbarService.openSnackBar(
+                  'Removed from favourites',
+                  'success'
+                );
               });
-            })
-          
-        }else{
-          this.api.removeuserfromFavourite(favouriteresponse.id).subscribe(removerst=>{
-            this.snackbarService.openSnackBar("Removed from favourites", 'success')
-          })
-        }
-      })
-      
-    })
+          }
+        });
+    });
   }
 
   /**
    * @function addToWatchList - Add NFT to watch list.
    * @param id - NFT Identifier
    */
-  public addToWatchList(id : string) : void {
-    this.retrive(this.blockchain)
+  public addToWatchList(id: string): void {
+    this.retrive(this.blockchain);
     this.watchlistModel.Blockchain = this.blockchain;
-    this.watchlistModel.NFTIdentifier =id;
-    this.retrive(this.watchlistModel.Blockchain).then(res=>{
-      this.api.getWatchlistbyBlockchainandUserPK(this.watchlistModel.Blockchain,this.user,this.watchlistModel.NFTIdentifier).subscribe((watchlistresponse:any)=>{
-        if(watchlistresponse.user=="Add to watch"){
-          this.api.addToWatchList(this.watchlistModel).subscribe(res=>{
-            this.snackbarService.openSnackBar("Added to watchlists", 'success')
-            this.api.getWatchlistByBlockchainAndNFTIdentifier(this.watchlistModel.Blockchain,this.watchlistModel.NFTIdentifier).subscribe(res=>{
+    this.watchlistModel.NFTIdentifier = id;
+    this.retrive(this.watchlistModel.Blockchain).then((res) => {
+      this.api
+        .getWatchlistbyBlockchainandUserPK(
+          this.watchlistModel.Blockchain,
+          this.user,
+          this.watchlistModel.NFTIdentifier
+        )
+        .subscribe((watchlistresponse: any) => {
+          if (watchlistresponse.user == 'Add to watch') {
+            this.api.addToWatchList(this.watchlistModel).subscribe((res) => {
+              this.snackbarService.openSnackBar(
+                'Added to watchlists',
+                'success'
+              );
+              this.api
+                .getWatchlistByBlockchainAndNFTIdentifier(
+                  this.watchlistModel.Blockchain,
+                  this.watchlistModel.NFTIdentifier
+                )
+                .subscribe((res) => {});
             });
-          })
-        }else{
-          this.dialogService.confirmDialog({
-            title:"Watchlist removal confirmation.",
-            message:"Do you want to remove this NFT from your watchlist?",
-            confirmText:"Yes",
-            cancelText:"No",
-          }).subscribe(respoonse=>{
-            if(respoonse){
-              this.api.removeuserfromWatchList(watchlistresponse.id).subscribe(delresponse=>{
-                this.snackbarService.openSnackBar("Removed from Watchlist", 'success')
+          } else {
+            this.dialogService
+              .confirmDialog({
+                title: 'Watchlist removal confirmation.',
+                message: 'Do you want to remove this NFT from your watchlist?',
+                confirmText: 'Yes',
+                cancelText: 'No',
               })
-            }
-          })
-        }
-      })
-      return
-      
-    })
+              .subscribe((respoonse) => {
+                if (respoonse) {
+                  this.api
+                    .removeuserfromWatchList(watchlistresponse.id)
+                    .subscribe((delresponse) => {
+                      this.snackbarService.openSnackBar(
+                        'Removed from Watchlist',
+                        'success'
+                      );
+                    });
+                }
+              });
+          }
+        });
+      return;
+    });
   }
 
   //TO:DO
-  viewNFT(){
-
-    this.api.getEndorsement(this.creatoruserid).subscribe((res:any)=>{
+  viewNFT() {
+    this.api.getEndorsement(this.creatoruserid).subscribe((res: any) => {
       const dialogRef = this.dialog.open(CreatorViewComponent, {
         data: {
           Name: res.Name,
           Email: res.Email,
-          Contact: res.Contact
+          Contact: res.Contact,
         },
       });
-    })
+    });
   }
 
   /**
    * @function routeToBuy - Navigate to buy view.
    * @param id - NFT Identifier
    */
-  public routeToBuy(id : string) : void {
-    if(this.sellingstatus=="Minted"){
-      this.retrive(this.blockchain).then(res=>{
-      if(this.user==this.currentownerpk){
-        this.command=false
-        let data : any[] = ["Minted",id,this.blockchain]
-        this.router.navigate(['./sell'],{
-          queryParams:{data:JSON.stringify(data)}
-        });
-      }else{
-        this.snackbarService.openSnackBar("NFT is yet to be put on sale", 'info')
-        this.command=true
-      }})
-    }else if(this.sellingstatus=="ON SALE"){
-      this.command=false
-      let data :any[]=[id,this.blockchain];
-      this.router.navigate(['./buyNft'],{
-      queryParams:{data:JSON.stringify(data)}
-      })
-    }else if(this.sellingstatus=="NOTFORSALE"){
-      this.retrive(this.blockchain).then(res=>{
-        if(this.user==this.currentownerpk){
-          this.command=false
-          let data : any[] = ["NOTFORSALE",id,this.blockchain]
-          this.router.navigate(['./sell'],{
-            queryParams:{data:JSON.stringify(data)}
+  public routeToBuy(id: string): void {
+    if (this.sellingstatus == 'Minted') {
+      this.retrive(this.blockchain).then((res) => {
+        if (this.user == this.currentownerpk) {
+          this.command = false;
+          let data: any[] = ['Minted', id, this.blockchain];
+          this.router.navigate(['./sell'], {
+            queryParams: { data: JSON.stringify(data) },
           });
-        }else{
-        this.snackbarService.openSnackBar("NFT is yet to be put on sale", 'info')
-        this.command=true
+        } else {
+          this.snackbarService.openSnackBar(
+            'NFT is yet to be put on sale',
+            'info'
+          );
+          this.command = true;
         }
-      })
-    }else{
-      this.snackbarService.openSnackBar("Invalid Command!", 'error')
-      this.command=true
+      });
+    } else if (this.sellingstatus == 'ON SALE') {
+      this.command = false;
+      let data: any[] = [id, this.blockchain];
+      this.router.navigate(['./buyNft'], {
+        queryParams: { data: JSON.stringify(data) },
+      });
+    } else if (this.sellingstatus == 'NOTFORSALE') {
+      this.retrive(this.blockchain).then((res) => {
+        if (this.user == this.currentownerpk) {
+          this.command = false;
+          let data: any[] = ['NOTFORSALE', id, this.blockchain];
+          this.router.navigate(['./sell'], {
+            queryParams: { data: JSON.stringify(data) },
+          });
+        } else {
+          this.snackbarService.openSnackBar(
+            'NFT is yet to be put on sale',
+            'info'
+          );
+          this.command = true;
+        }
+      });
+    } else {
+      this.snackbarService.openSnackBar('Invalid Command!', 'error');
+      this.command = true;
     }
-   
   }
 
   @HostListener('document:click')
   clickedOut() {
-    if(this.isNftItem) {
+    if (this.isNftItem) {
       this.isNftItem = false;
-    }
-    else {
-      document.getElementById('overlay'+this.itemId)?.classList.remove('overlay-hide');
+    } else {
+      document
+        .getElementById('overlay' + this.itemId)
+        ?.classList.remove('overlay-hide');
     }
   }
 
   public openPreview() {
-    this.dialogService.openNftPreview({image : this.item.ImageBase64});
+    this.dialogService.openNftPreview({ image: this.item.ImageBase64 });
   }
-
 }

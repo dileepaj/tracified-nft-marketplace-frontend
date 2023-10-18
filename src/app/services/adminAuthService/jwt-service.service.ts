@@ -1,24 +1,24 @@
 import { adminENV } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Key } from 'src/app/entity/Variables';
-import{CookieService} from 'ngx-cookie-service'
+import { CookieService } from 'ngx-cookie-service';
 import { AES, enc } from 'crypto-js';
 import { MarketPlaceAdminUser } from 'src/app/models/user';
 import jwt_decode from 'jwt-decode';
 import * as MomentAll from 'moment';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class JwtServiceService {
-  private tokenName:string;
-  private expName:string;
+  private tokenName: string;
+  private expName: string;
   private domain: string;
-  private key = new Key()
-  constructor(private _cookieService:CookieService) { 
-    if(adminENV.name == 'Production'){
+  private key = new Key();
+  constructor(private _cookieService: CookieService) {
+    if (adminENV.name == 'Production') {
       this.tokenName = 'PTOKENCOMNFTMK';
       this.expName = 'PWAITCOMNFTMK';
-    }else if (adminENV.name == 'staging') {
+    } else if (adminENV.name == 'staging') {
       this.tokenName = 'STOKENCOMNFTMK';
       this.expName = 'SWAITCOMNFTMK';
     } else if (adminENV.name == 'qa') {
@@ -46,7 +46,6 @@ export class JwtServiceService {
       return true;
     }
   }
-
 
   public saveToken(data: any) {
     let decoded: any = jwt_decode(data.Token, { header: false });
@@ -78,7 +77,6 @@ export class JwtServiceService {
     this._cookieService.set(this.tokenName, '', expireDate, '/', this.domain);
     this._cookieService.set(this.expName, '', expireDate, '/', this.domain);
   }
-
 
   public setExp(exp: string) {
     const expirehours = MomentAll().add(1, 'd').toDate();

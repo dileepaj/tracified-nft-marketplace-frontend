@@ -16,67 +16,84 @@ export class NftReviewsComponent implements OnInit {
   controlGroup: FormGroup;
   addSubscription: Subscription;
   rating: number;
-  reviews:Reviews=new Reviews('','','',0.0,'','')
+  reviews: Reviews = new Reviews('', '', '', 0.0, '', '');
   description: ExecFileSyncOptionsWithStringEncoding;
   data: any;
-  List:any[]=[];
+  List: any[] = [];
   list: any;
-  constructor( 
-    private route:ActivatedRoute,
-    private service:ApiServicesService,
-    private dialogService:DialogService,
-    private snackbar:SnackbarServiceService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private service: ApiServicesService,
+    private dialogService: DialogService,
+    private snackbar: SnackbarServiceService
+  ) {}
 
   //Fuction will retreive data from the .html file and initiate the service call to save a user reivew
   save(): void {
-    this.reviews.Status="Pending"
-    this.reviews.Description=this.controlGroup.get('description')!.value.trim();
-    this.reviews.Rating=Number(this.controlGroup.get('rating')!.value);
-    this.reviews.NFTIdentifier=this.data.nftidentifier;
-    this.reviews.UserID=this.data.currentownerpk;
-    this.reviews.Timestamp=new Date().toString()
+    this.reviews.Status = 'Pending';
+    this.reviews.Description = this.controlGroup
+      .get('description')!
+      .value.trim();
+    this.reviews.Rating = Number(this.controlGroup.get('rating')!.value);
+    this.reviews.NFTIdentifier = this.data.nftidentifier;
+    this.reviews.UserID = this.data.currentownerpk;
+    this.reviews.Timestamp = new Date().toString();
 
-    if (this.reviews.UserID=="" || this.reviews.Description == "" || this.reviews.Rating == 0){
-      this.snackbar.openSnackBar("Please fill in all fields and provide a star rating. Your input matters!","info")
-      return
+    if (
+      this.reviews.UserID == '' ||
+      this.reviews.Description == '' ||
+      this.reviews.Rating == 0
+    ) {
+      this.snackbar.openSnackBar(
+        'Please fill in all fields and provide a star rating. Your input matters!',
+        'info'
+      );
+      return;
     }
 
-    this.dialogService.confirmDialog({
-      title:"User review confirmation",
-      message:"Are you sure you want to submit this review",
-      confirmText:"Yes",
-      cancelText:"No"
-    }).subscribe(result=>{
-      if(result){
-        this.service.addReviews(this.reviews).subscribe(res=>{
-          if(res!=null){
-            this.snackbar.openSnackBar("Your review has been Successfully submitted", 'success')
-          }else{
-            this.snackbar.openSnackBar("Failed to submit review please try again.", 'error')
-          }
-        })
-      }
-    })
-    
-
+    this.dialogService
+      .confirmDialog({
+        title: 'User review confirmation',
+        message: 'Are you sure you want to submit this review',
+        confirmText: 'Yes',
+        cancelText: 'No',
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.service.addReviews(this.reviews).subscribe((res) => {
+            if (res != null) {
+              this.snackbar.openSnackBar(
+                'Your review has been Successfully submitted',
+                'success'
+              );
+            } else {
+              this.snackbar.openSnackBar(
+                'Failed to submit review please try again.',
+                'error'
+              );
+            }
+          });
+        }
+      });
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
-    })
+    });
 
-    this.service.getAllReviewsByNFTId(this.data.nftidentifier).subscribe((res:any)=>{
-      this.list=res
-      for(let x=0; x< (this.list.length); x++){
-        let card:ReviewsCard= new ReviewsCard('','','','');
-        card.UserID=this.list[x].userid
-        card.Rating=this.list[x].rating
-        card.Description=this.list[x].description
-        this.List.push(card)
-        
-      }
-    })
+    this.service
+      .getAllReviewsByNFTId(this.data.nftidentifier)
+      .subscribe((res: any) => {
+        this.list = res;
+        for (let x = 0; x < this.list.length; x++) {
+          let card: ReviewsCard = new ReviewsCard('', '', '', '');
+          card.UserID = this.list[x].userid;
+          card.Rating = this.list[x].rating;
+          card.Description = this.list[x].description;
+          this.List.push(card);
+        }
+      });
     /**
      * Adds the requeired validator for rating and validation. when the user tries to submit empty data Visual feedback
      * will apear

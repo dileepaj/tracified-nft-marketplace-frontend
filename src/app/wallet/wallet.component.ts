@@ -33,9 +33,9 @@ export class WalletComponent implements OnInit {
   constructor(
     private walletService: WalletSidenavService,
     private ref: ChangeDetectorRef,
-    private currencyConverter:CurrencyConverterService,
-    private network:StellarCommonsService
-  ) { }
+    private currencyConverter: CurrencyConverterService,
+    private network: StellarCommonsService
+  ) {}
 
   ngOnInit(): void {
     //check whether the wallet is already connected
@@ -109,16 +109,16 @@ export class WalletComponent implements OnInit {
         const server = new Server(blockchainNet);
         const networkPassphrase = this.network.getNetwork();
         const account = await server.loadAccount(this.User);
-        const balance = account.balances.find((balance) => balance.asset_type === 'native');
+        const balance = account.balances.find(
+          (balance) => balance.asset_type === 'native'
+        );
 
         if (balance) {
-          this.balance=`${balance.balance}`
+          this.balance = `${balance.balance}`;
           this.convertToUSD('stellar');
-        } 
+        }
       });
   }
-
-
 
   //get wallet balance
   private getFreighterBalance(wallet: UserWallet) {
@@ -145,22 +145,22 @@ export class WalletComponent implements OnInit {
       });
   }
 
-  public async getCurrencyRate(blockchain:string){
-    this.currencyConverter.GetUSDratebyBC(blockchain).subscribe(res => {
+  public async getCurrencyRate(blockchain: string) {
+    this.currencyConverter.GetUSDratebyBC(blockchain).subscribe((res) => {
       this.currencyRate = res.data.priceUsd;
       return this.currencyRate;
-    })
+    });
   }
 
   //convert balance to usd
   private convertToUSD(blockchain: string) {
-    this.currencyConverter.GetUSDratebyBC(blockchain).subscribe(res => {
-        this.currencyRate = res.data.priceUsd;
-        const rate = this.currencyRate;
-        const eth = parseFloat(this.balance);
-        this.usd = (eth * rate).toFixed(2);
-        this.loading = false;
-      })
+    this.currencyConverter.GetUSDratebyBC(blockchain).subscribe((res) => {
+      this.currencyRate = res.data.priceUsd;
+      const rate = this.currencyRate;
+      const eth = parseFloat(this.balance);
+      this.usd = (eth * rate).toFixed(2);
+      this.loading = false;
+    });
   }
 
   public close() {

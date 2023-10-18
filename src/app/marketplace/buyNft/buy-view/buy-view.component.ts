@@ -656,8 +656,10 @@ export class BuyViewComponent implements OnInit {
             }
              this.snackbar.openSnackBar("Please check balance and network in the wallet", "error");
             _callback()!;
+          }
           )
           .then((transactionResult: any) => {
+            if (transactionResult.successful) {
             try {
               if (this.isLoadingPresent) {
                 this.dissmissLoading();

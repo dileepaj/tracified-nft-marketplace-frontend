@@ -1316,7 +1316,6 @@ export class Mint2Component implements OnInit {
   mintNftSolana(ownerPK: string, _callback?: any) {
     const networkURL: any = BlockchainConfig.solananetworkURL;
     const connection = new Connection(networkURL);
-    console.log("connection " + (connection.getAccountInfo))
     return new Promise((resolve, reject) => {
       this.servicecharge
         .transferServiceCharge(ownerPK)

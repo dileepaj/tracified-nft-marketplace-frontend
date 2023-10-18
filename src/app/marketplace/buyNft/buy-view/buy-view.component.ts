@@ -349,9 +349,8 @@ export class BuyViewComponent implements OnInit {
                 user,
                 this.NFTList.nftissuerpk
               )
-              .then((res: any) => {
-                if (res == null) {
-                  console.log("Result here is : ",res)//add condition
+              .then((resAta: any) => {
+                if (resAta == null) {
                   this.atastatus = '0';
                 } else {
                   this.atastatus = '1';
@@ -388,8 +387,6 @@ export class BuyViewComponent implements OnInit {
                         )
 
                         .subscribe(async (res: any) => {
-
-                          console.log("result when transferred : ",res)//add condition
                           try {
                             loadingAnimation.close();
                             this.buytxn = res;
@@ -522,7 +519,6 @@ export class BuyViewComponent implements OnInit {
                 }
               )
               .then((res) => {
-                console.log("result here is : ",res)//add condition
                 try {
                   this.saleBE.Timestamp = new Date().toString();
                   this.buytxn = res.transactionHash;
@@ -561,7 +557,9 @@ export class BuyViewComponent implements OnInit {
         this.buyGW.PreviousOwnerNFTPK,
         this.buyGW.NFTTXNhash
       )
-      .subscribe(r => { this.showInProfile() }
+      .subscribe(r => { 
+        //this.showInProfile()
+       }
       );
   }
 

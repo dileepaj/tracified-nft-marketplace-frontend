@@ -15,6 +15,7 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 import { UserWallet } from 'src/app/models/userwallet';
 import { StellarCommonsService } from './stellar-commons.service';
 import { SnackbarServiceService } from '../../snackbar-service/snackbar-service.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +65,7 @@ export class TrustLineByBuyerServiceService {
             )
             .addOperation(
               Operation.payment({
-                destination: "GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV",  //commission
+                destination: environment.tracifiedStellarPK,  //commission
                 asset: Asset.native(),
                 amount: commission,
                 source: senderPublickKey,

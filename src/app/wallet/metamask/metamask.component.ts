@@ -54,9 +54,9 @@ export class MetamaskComponent extends walletOptions implements OnInit {
   ): Promise<any> {
     if (blockchain == 'ethereum') {
       const _priceInWei = ethers.utils.parseEther((price).toString())
-      const _price= ethers.BigNumber.from(_priceInWei).toNumber()
+      const _price= ethers.BigNumber.from(_priceInWei)
       const commissionInWei=ethers.utils.parseEther(commission)
-      const _commission=ethers.BigNumber.from(commissionInWei).toNumber()
+      const _commission=ethers.BigNumber.from(commissionInWei)
       const str = nftsvgHash;
       const encoder = new TextEncoder();
       const _nfthash = encoder.encode(str);
@@ -75,9 +75,9 @@ export class MetamaskComponent extends walletOptions implements OnInit {
     }
     if (blockchain == 'polygon') {
       const _priceInWei = ethers.utils.parseEther((price).toString())
-      const _price= ethers.BigNumber.from(_priceInWei).toNumber()
+      const _price= ethers.BigNumber.from(_priceInWei)
       const commissionInWei=ethers.utils.parseEther(commission)
-      const _commission=ethers.BigNumber.from(commissionInWei).toNumber()
+      const _commission=ethers.BigNumber.from(commissionInWei)
       const str = nftsvgHash;
       const encoder = new TextEncoder();
       const _nfthash = encoder.encode(str);

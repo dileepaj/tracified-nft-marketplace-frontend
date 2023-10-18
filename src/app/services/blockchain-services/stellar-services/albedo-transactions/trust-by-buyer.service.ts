@@ -4,6 +4,7 @@ import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackb
 import { blockchainNet, blockchainNetType } from 'src/app/shared/config';
 import { Asset, Memo, Networks, Operation, Server, TimeoutInfinite, TransactionBuilder } from 'stellar-sdk';
 import { StellarCommonsService } from '../stellar-commons.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,7 @@ export class TrustByBuyerService {
                 )
                 .addOperation(
                   Operation.payment({
-                    destination:"GDL7U4NZ6JGENCU7GMW2TQ3OQUE7NCUUFC7PG6SRAHNQWYGNP77XXYCV", //commission
+                    destination:environment.tracifiedStellarPK, //commission
                     asset:Asset.native(),
                     amount: commission,
                     source: senderPublickKey,

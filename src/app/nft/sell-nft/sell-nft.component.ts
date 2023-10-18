@@ -677,7 +677,7 @@ export class SellNftComponent implements OnInit {
                      this.firstPrice,
                      this.commission,
                       () => {
-                        this.snackbarService.openSnackBar("Something went wrong ", "error")
+                        this.snackbarService.openSnackBar("Something went wrong, please check your balance or network ", "error")
                         loadingAnimation.close();
                       }
                     )
@@ -797,7 +797,7 @@ export class SellNftComponent implements OnInit {
                       this.firstPrice,
                       this.commission,
                       () => {
-                        this.snackbarService.openSnackBar("Something went wrong ", "error")
+                        this.snackbarService.openSnackBar("Something went wrong, please check your balance or network ", "error")
                         loadingAnimation.close();
                       }
                     )

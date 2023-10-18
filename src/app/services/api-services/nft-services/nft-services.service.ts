@@ -46,8 +46,8 @@ export class NftServicesService {
   reqOpts: any;
 
   pageSize: number = 8;
-  baseUrlQueue: string=this.gateWayBaseURL + 'lock';
-  baseUrlGetQueueData:string=this.gateWayBaseURL+'queue';
+  baseUrlQueue: string = this.gateWayBaseURL + 'lock';
+  baseUrlGetQueueData: string = this.gateWayBaseURL + 'queue';
 
   constructor(private http: HttpClient) {}
 

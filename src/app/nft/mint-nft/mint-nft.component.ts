@@ -16,7 +16,7 @@ export class MintNftComponent implements OnInit {
   public wallet: string;
   public key: string;
   public blockchain: string;
-  public user : string;
+  public user: string;
   constructor(private _location: Location) {}
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class MintNftComponent implements OnInit {
       Description: ' ',
       Collection: '',
       imgObjectID: '',
-      svg: new SVG('', '', 'NA','',''),
+      svg: new SVG('', '', 'NA', '', ''),
     };
   }
 
@@ -49,7 +49,7 @@ export class MintNftComponent implements OnInit {
 
   public mintAgain() {
     this.selectedIndex = 0;
-    window.location.reload()
+    window.location.reload();
   }
 
   public back() {

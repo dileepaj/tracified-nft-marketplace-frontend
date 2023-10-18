@@ -207,8 +207,8 @@ export class BuyViewComponent implements OnInit {
     private servicemint: MintService,
     private servicesell: Seller2tracService,
     private firebaseanalytics: FirebaseAnalyticsService,
-    private stellarUtilService : StellarUtilService
-  ) { }
+    private stellarUtilService: StellarUtilService
+  ) {}
 
   public async getDeviceType(): Promise<boolean> {
     let details = navigator.userAgent;
@@ -346,10 +346,7 @@ export class BuyViewComponent implements OnInit {
             });
 
             this.servicesell
-              .findATA(
-                user,
-                this.NFTList.nftissuerpk
-              )
+              .findATA(user, this.NFTList.nftissuerpk)
               .then((resAta: any) => {
                 if (resAta == null) {
                   this.atastatus = '0';
@@ -378,40 +375,43 @@ export class BuyViewComponent implements OnInit {
                         ).solana.signAndSendTransaction(result, ['finalized']);
                         await connection.confirmTransaction(signature);
                       } else {
-                        const {signature} = await (window as any).solana.signAndSendTransaction(result);
-                        tx=await connection.confirmTransaction(signature);
+                        const { signature } = await (
+                          window as any
+                        ).solana.signAndSendTransaction(result);
+                        tx = await connection.confirmTransaction(signature);
                       }
-                      if(tx != null){ //check
-                      this.transfer
-                        .createServiceATAforTransfer(
-                          environment.fromWallet,
-                          user,
-                          this.NFTList.nftissuerpk
-                        )
+                      if (tx != null) {
+                        //check
+                        this.transfer
+                          .createServiceATAforTransfer(
+                            environment.fromWallet,
+                            user,
+                            this.NFTList.nftissuerpk
+                          )
 
-                        .subscribe(async (res: any) => {
-                          try {
-                            loadingAnimation.close();
-                            this.buytxn = res;
-                            this.saveTXNs();
-                            this.service
-                              .updateNFTStatusBackend(this.saleBE)
-                              .subscribe((res) => {
-                                this.updateGateway();
-                                this.snackbar.openSnackBar(
-                                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                                  'success'
-                                );
-                                //this.showInProfile();
-                              });
-                          } catch (err) {
-                            this.snackbar.openSnackBar(
-                              'Something went wrong, please try again! More information: ' +
-                                err,
-                              'error'
-                            );
-                          }
-                        });
+                          .subscribe(async (res: any) => {
+                            try {
+                              loadingAnimation.close();
+                              this.buytxn = res;
+                              this.saveTXNs();
+                              this.service
+                                .updateNFTStatusBackend(this.saleBE)
+                                .subscribe((res) => {
+                                  this.updateGateway();
+                                  this.snackbar.openSnackBar(
+                                    SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                                    'success'
+                                  );
+                                  //this.showInProfile();
+                                });
+                            } catch (err) {
+                              this.snackbar.openSnackBar(
+                                'Something went wrong, please try again! More information: ' +
+                                  err,
+                                'error'
+                              );
+                            }
+                          });
                       }
                     } catch (err) {
                       this.snackbar.openSnackBar(
@@ -600,45 +600,57 @@ export class BuyViewComponent implements OnInit {
           this.commission,
           () => {
             if (this.userPK == this.NFTList.distributorpk) {
-              this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.", "error");
+              this.snackbar.openSnackBar(
+                'Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.',
+                'error'
+              );
             }
-            this.snackbar.openSnackBar("Please check balance and network in the wallet", "error");
+            this.snackbar.openSnackBar(
+              'Please check balance and network in the wallet',
+              'error'
+            );
             _callback()!;
           }
         )
         .then((transactionResult: any) => {
-          if(true){
-          try {
-            this.buytxn = transactionResult.tx_hash;
-            this.saleBE.CurrentOwnerPK = this.userPK;
-            this.stellarUtilService.getStellarAccountStatus(this.userPK).subscribe(accountInfo=>{
-              let res = this.stellarUtilService.isAssetAvailableAccount(accountInfo.balances,this.NFTList.nftname)
-              if(res){
-                this.snackbar.openSnackBar(
-                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                  'success'
-                );
-                this.saveTXNs();
-                this.service.updateNFTStatusBackend(this.saleBE).subscribe(); 
-                this.updateGateway();
-              }else{
-                this.snackbar.openSnackBar(
-                  'Someone has purchashed this NFT!!',
-                  'error'
-                );
-                _callback()!;
-              }
-            })
-            
-          } catch (err) {
-            _callback()!;
-            this.snackbar.openSnackBar(
-              'Something went wrong, please try again! More information: ' +
-              err,
-              'error'
-            );
+          if (true) {
+            try {
+              this.buytxn = transactionResult.tx_hash;
+              this.saleBE.CurrentOwnerPK = this.userPK;
+              this.stellarUtilService
+                .getStellarAccountStatus(this.userPK)
+                .subscribe((accountInfo) => {
+                  let res = this.stellarUtilService.isAssetAvailableAccount(
+                    accountInfo.balances,
+                    this.NFTList.nftname
+                  );
+                  if (res) {
+                    this.snackbar.openSnackBar(
+                      SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                      'success'
+                    );
+                    this.saveTXNs();
+                    this.service
+                      .updateNFTStatusBackend(this.saleBE)
+                      .subscribe();
+                    this.updateGateway();
+                  } else {
+                    this.snackbar.openSnackBar(
+                      'Someone has purchashed this NFT!!',
+                      'error'
+                    );
+                    _callback()!;
+                  }
+                });
+            } catch (err) {
+              _callback()!;
+              this.snackbar.openSnackBar(
+                'Something went wrong, please try again! More information: ' +
+                  err,
+                'error'
+              );
+            }
           }
-        }
         });
     } else {
       this.trust
@@ -652,38 +664,51 @@ export class BuyViewComponent implements OnInit {
           this.commission,
           () => {
             if (this.userPK == this.NFTList.distributorpk) {
-              this.snackbar.openSnackBar("Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.", "error");
+              this.snackbar.openSnackBar(
+                'Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.',
+                'error'
+              );
             }
-             this.snackbar.openSnackBar("Please check balance and network in the wallet", "error");
+            this.snackbar.openSnackBar(
+              'Please check balance and network in the wallet',
+              'error'
+            );
             _callback()!;
           }
-          )
-          .then((transactionResult: any) => {
-            if (transactionResult.successful) {
+        )
+        .then((transactionResult: any) => {
+          if (transactionResult.successful) {
             try {
               if (this.isLoadingPresent) {
                 this.dissmissLoading();
               }
               this.buytxn = transactionResult.hash;
               this.saleBE.CurrentOwnerPK = this.userPK;
-              this.stellarUtilService.getStellarAccountStatus(this.userPK).subscribe(accountInfo=>{
-                let res = this.stellarUtilService.isAssetAvailableAccount(accountInfo.balances,this.NFTList.nftname)
-                if(res){
-                  this.snackbar.openSnackBar(
-                    SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                    'success'
+              this.stellarUtilService
+                .getStellarAccountStatus(this.userPK)
+                .subscribe((accountInfo) => {
+                  let res = this.stellarUtilService.isAssetAvailableAccount(
+                    accountInfo.balances,
+                    this.NFTList.nftname
                   );
-                  this.saveTXNs();
-                  this.service.updateNFTStatusBackend(this.saleBE).subscribe();
-                  this.updateGateway();
-                }else{
-                  _callback()!;
-                  this.snackbar.openSnackBar(
-                    'Someone has purchashed this NFT!',
-                    'error'
-                  );
-                }
-              })
+                  if (res) {
+                    this.snackbar.openSnackBar(
+                      SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                      'success'
+                    );
+                    this.saveTXNs();
+                    this.service
+                      .updateNFTStatusBackend(this.saleBE)
+                      .subscribe();
+                    this.updateGateway();
+                  } else {
+                    _callback()!;
+                    this.snackbar.openSnackBar(
+                      'Someone has purchashed this NFT!',
+                      'error'
+                    );
+                  }
+                });
             } catch (err) {
               _callback()!;
               this.snackbar.openSnackBar(
@@ -697,7 +722,8 @@ export class BuyViewComponent implements OnInit {
               this.dissmissLoading();
             }
           }
-        }).catch(err =>{
+        })
+        .catch((err) => {
           //! handle error
         });
     }
@@ -758,7 +784,7 @@ export class BuyViewComponent implements OnInit {
     this.firebaseanalytics.logEvent('page_load', {
       page_name: 'Buy_NFT_Screen',
     });
-    this.userPK=""
+    this.userPK = '';
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
       this.nftbe.Blockchain = this.data[1];

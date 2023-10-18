@@ -1,61 +1,66 @@
 import { Injectable } from '@angular/core';
-import { ethers } from "ethers";
+import { ethers } from 'ethers';
 import { environment } from 'src/environments/environment';
-import detectEthereumProvider from "@metamask/detect-provider";
-import NFT from "src/contracts/polygon/market.json";
+import detectEthereumProvider from '@metamask/detect-provider';
+import NFT from 'src/contracts/polygon/market.json';
 import { SnackbarServiceService } from '../snackbar-service/snackbar-service.service';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PolygonMintService {
+  constructor(private snackbarService: SnackbarServiceService) {}
 
-  constructor(private snackbarService: SnackbarServiceService) { }
-
-  
   private static async getWebProvider(requestAccounts = true) {
-    const provider: any = await detectEthereumProvider()
-  
+    const provider: any = await detectEthereumProvider();
+
     if (requestAccounts) {
-      await provider.request({ method: 'eth_requestAccounts' })
+      await provider.request({ method: 'eth_requestAccounts' });
     }
-    return new ethers.providers.Web3Provider(provider)
+    return new ethers.providers.Web3Provider(provider);
   }
 
-
-  private static async getContract(bySigner=false) {
-
-    const provider = await PolygonMintService.getWebProvider()
-    const signer = provider.getSigner()
+  private static async getContract(bySigner = false) {
+    const provider = await PolygonMintService.getWebProvider();
+    const signer = provider.getSigner();
     return new ethers.Contract(
       environment.contractAddressMKPolygon,
       NFT,
-      bySigner ? signer : provider,
-    )
+      bySigner ? signer : provider
+    );
   }
-  public async mintInPolygon(_nftname : string, nftsvgHash : string, _symbol : string,royalty:number, _callback? : any): Promise<any> {
+  public async mintInPolygon(
+    _nftname: string,
+    nftsvgHash: string,
+    _symbol: string,
+    royalty: number,
+    _callback?: any
+  ): Promise<any> {
     const str = nftsvgHash;
     const encoder = new TextEncoder();
     const _nftsvgHash = encoder.encode(str);
-    const contract = await PolygonMintService.getContract(true)
+    const contract = await PolygonMintService.getContract(true);
     const transaction = await contract['mintNFT'](
       _nftname,
       _nftsvgHash,
       _symbol,
       royalty,
       { gasLimit: 3000000 }
-    )
-.catch(error=>{
-  _callback()!
-  this.snackbarService.openSnackBar("Something went wrong : "+"Transaction failed", 'error')
-})
-    const tx = await transaction.wait()
-    .catch(error1=>{
-      _callback()!
-      this.snackbarService.openSnackBar("Something went wrong : "+ "Transaction failed", 'error')
-    })
-    return tx
+    ).catch((error) => {
+      _callback()!;
+      this.snackbarService.openSnackBar(
+        'Something went wrong : ' + 'Transaction failed',
+        'error'
+      );
+    });
+    const tx = await transaction.wait().catch((error1) => {
+      _callback()!;
+      this.snackbarService.openSnackBar(
+        'Something went wrong : ' + 'Transaction failed',
+        'error'
+      );
+    });
+    return tx;
   }
 
   // public async approveContract(tokenId:number, _callback? : any):Promise<any>{

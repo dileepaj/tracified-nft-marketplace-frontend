@@ -20,14 +20,11 @@ import { BlockchainConfig } from 'src/environments/environment';
   styleUrls: ['./phantom.component.css'],
 })
 export class PhantomComponent extends walletOptions implements OnInit {
-  readonly networkURL :any =BlockchainConfig.solananetworkURL;
+  readonly networkURL: any = BlockchainConfig.solananetworkURL;
   public signTransaction() {
     throw new Error('Method not implemented.');
   }
-  public buynft(
-    blockchain: string,
-    _itemID: string,
-  ): Promise<any> {
+  public buynft(blockchain: string, _itemID: string): Promise<any> {
     throw new Error('Method not implemented.');
   }
 
@@ -58,13 +55,11 @@ export class PhantomComponent extends walletOptions implements OnInit {
       if (_callback !== undefined) {
         _callback(this.walletAddress);
       }
-    } catch (err:any){
-      if (err.code!=4001){
+    } catch (err: any) {
+      if (err.code != 4001) {
         window.location.href = 'https://phantom.app/';
       }
-    } 
-      
-    
+    }
   }
   override getWalletaddress(): string {
     return this.walletAddress;
@@ -74,7 +69,7 @@ export class PhantomComponent extends walletOptions implements OnInit {
     const connection = new Connection(this.networkURL);
     (async () => {
       const pk = new PublicKey(publicKey);
-      let inSol= (await connection.getBalance(pk))/1000000000.00  //as balance comes in lamports
+      let inSol = (await connection.getBalance(pk)) / 1000000000.0; //as balance comes in lamports
       let balance = inSol;
       /* console.log(`${balance / LAMPORTS_PER_SOL} SOL`); */
       if (_callback !== undefined) {
@@ -86,8 +81,7 @@ export class PhantomComponent extends walletOptions implements OnInit {
   override disconenctWallet(): void {
     (window as any).solana
       .disconnect()(window as any)
-      .solana.on('disconnect', () => {
-      });
+      .solana.on('disconnect', () => {});
   }
 
   public override async signTransactionPhantom(

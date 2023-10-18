@@ -25,7 +25,8 @@ import { WalletComponent } from 'src/app/wallet/wallet.component';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  @ViewChild('sidenav', { read: ElementRef, static: false }) sideBarContainer: ElementRef
+  @ViewChild('sidenav', { read: ElementRef, static: false })
+  sideBarContainer: ElementRef;
   private rect: any;
   sideNavOpened: boolean = false;
   accListExpanded: boolean = false;
@@ -44,7 +45,7 @@ export class HeaderComponent implements OnInit {
     public loaderService: LoaderService,
     private walletService: WalletSidenavService,
     private dialogService: DialogService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     //this.openDialogTest();
@@ -111,9 +112,13 @@ export class HeaderComponent implements OnInit {
   }
 
   public goToExplore(blockchain: string) {
-    this.router.navigate(['/explore'], {
-      queryParams: { blockchain: blockchain, filter: 'all' },
-    }).then(res => { window.location.reload(); })
+    this.router
+      .navigate(['/explore'], {
+        queryParams: { blockchain: blockchain, filter: 'all' },
+      })
+      .then((res) => {
+        window.location.reload();
+      });
     this.sideNavOpened = false;
     this.bcListExpanded = false;
   }
@@ -164,15 +169,14 @@ export class HeaderComponent implements OnInit {
 
       if (isMobileDevice) {
         await albedo.publicKey({ require_existing: true }).then((re1s: any) => {
-          this.tx = re1s
+          this.tx = re1s;
           this.router.navigate(['/user-dashboard/overview'], {
             queryParams: { user: this.tx.pubkey, blockchain: blockchain },
           });
 
           this.sideNavOpened = false;
           this.accListExpanded = false;
-        })
-
+        });
       } else {
         let freighterWallet = new UserWallet();
         freighterWallet = new FreighterComponent(freighterWallet);
@@ -252,14 +256,15 @@ export class HeaderComponent implements OnInit {
   clickout(event) {
     try {
       if (this.sideNavOpened) {
-        if (!this.sideBarContainer.nativeElement.contains(event.target) && event.target.id !== "menu-icon") {
-          this.closeSideNav()
+        if (
+          !this.sideBarContainer.nativeElement.contains(event.target) &&
+          event.target.id !== 'menu-icon'
+        ) {
+          this.closeSideNav();
         }
       }
-    }
-    catch (e) {
+    } catch (e) {
       //do something
     }
-
   }
 }

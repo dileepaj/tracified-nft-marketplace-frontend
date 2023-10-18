@@ -5,15 +5,15 @@ import { Observable } from 'rxjs';
 import { ENV } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StellarUtilService {
   networkBaseURL = ENV.BLOCKCHAIN_NETWORK;
-  networkURL = `${this.networkBaseURL}/accounts`
+  networkURL = `${this.networkBaseURL}/accounts`;
   constructor(
     private network: StellarCommonsService,
     private http: HttpClient
-  ) { }
+  ) {}
 
   /**
    * @function setHeaders - set headers for an API request
@@ -28,16 +28,17 @@ export class StellarUtilService {
   }
 
   getStellarAccountStatus(publicKey: string): Observable<any> {
-    return this.http.get(`${this.networkURL}/${publicKey}`, { headers: this.setHeaders() })
+    return this.http.get(`${this.networkURL}/${publicKey}`, {
+      headers: this.setHeaders(),
+    });
   }
 
   isAssetAvailableAccount(assetList: any, assetName: string) {
     for (const item of assetList) {
       if (item.asset_code === assetName && parseFloat(item.balance) > 0) {
-        return true
+        return true;
       }
     }
-    return false
+    return false;
   }
-
 }

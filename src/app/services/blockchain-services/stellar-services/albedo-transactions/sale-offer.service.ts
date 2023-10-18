@@ -2,28 +2,37 @@ import albedo from '@albedo-link/intent';
 import { Injectable } from '@angular/core';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { blockchainNet, blockchainNetType } from 'src/app/shared/config';
-import { Asset, Networks, Operation, Server, TimeoutInfinite, TransactionBuilder } from 'stellar-sdk';
+import {
+  Asset,
+  Networks,
+  Operation,
+  Server,
+  TimeoutInfinite,
+  TransactionBuilder,
+} from 'stellar-sdk';
 import { StellarCommonsService } from '../stellar-commons.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SaleOfferService {
   res: string;
-//networkType:any;
+  //networkType:any;
   net: any;
-  constructor(private network:StellarCommonsService, private snackbar : SnackbarServiceService) { }
+  constructor(
+    private network: StellarCommonsService,
+    private snackbar: SnackbarServiceService
+  ) {}
   sellNft(
     asset_code: string,
     asset_issuer: string,
     signerPK: string,
     nftAmmount: string,
     nftPrice: number,
-    _callback? :any
+    _callback?: any
   ) {
-
     return new Promise((resolve, reject) => {
-      this.net =this.network.getNetwork()
+      this.net = this.network.getNetwork();
       // if (blockchainNetType === "live") {
       //  this.networkType= Networks.PUBLIC
       // } else {
@@ -49,27 +58,28 @@ export class SaleOfferService {
                 price: nftPrice,
                 offerId: '0',
               })
-             
             )
-             .setTimeout(TimeoutInfinite)
+            .setTimeout(TimeoutInfinite)
             .build();
-            let txn=  transaction.toEnvelope().toXDR().toString("base64");
-            return albedo.tx({
-              xdr: txn,
-              network: this.net,
-              submit :true
-           })
-
+          let txn = transaction.toEnvelope().toXDR().toString('base64');
+          return albedo.tx({
+            xdr: txn,
+            network: this.net,
+            submit: true,
+          });
         })
         .then((transactionToSubmit) => {
           resolve(transactionToSubmit);
         })
         .catch((err) => {
-          _callback()
-          this.snackbar.openSnackBar("Something went wrong with Stellar, please try again! More information: "+err, 'error');
+          _callback();
+          this.snackbar.openSnackBar(
+            'Something went wrong with Stellar, please try again! More information: ' +
+              err,
+            'error'
+          );
           reject(err);
         });
     });
   }
 }
-

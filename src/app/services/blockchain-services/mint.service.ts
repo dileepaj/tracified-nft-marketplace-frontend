@@ -131,7 +131,7 @@ export class MintService {
     created_at: string,
     artist: string,
     artistLink: string,
-    royalty :string
+    royalty: string
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       this.reqOpts = {
@@ -157,7 +157,7 @@ export class MintService {
         ArtistLink: artistLink,
         Successfull: transactionResultSuccessful,
         TrustLineCreatedAt: created_at,
-        Royalty:royalty
+        Royalty: royalty,
       };
       this.http.post(this.baseUrlMintStellar, NFTModel, this.reqOpts).subscribe(
         (response) => {
@@ -184,7 +184,7 @@ export class MintService {
     nftLink: string,
     artist: string,
     artistLink: string,
-    royalty:string
+    royalty: string
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       this.reqOpts = {
@@ -207,7 +207,7 @@ export class MintService {
         NFTLinks: nftLink,
         ArtistName: artist,
         ArtistLink: artistLink,
-        Royalty:royalty
+        Royalty: royalty,
       };
       this.http.post(this.baseUrlMintSolana, NFTModel, this.reqOpts).subscribe(
         (response) => {

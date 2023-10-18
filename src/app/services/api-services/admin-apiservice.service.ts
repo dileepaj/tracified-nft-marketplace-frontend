@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdminAPIServiceService {
-  constructor(private http: HttpClient, private jwt: JwtServiceService) { }
+  constructor(private http: HttpClient, private jwt: JwtServiceService) {}
   private api_url: String = '';
   private auth_token = this.jwt.getToken() || '';
   private sToken = 'Bearer ' + this.auth_token;
@@ -43,4 +43,3 @@ export class AdminAPIServiceService {
     });
   }
 }
-

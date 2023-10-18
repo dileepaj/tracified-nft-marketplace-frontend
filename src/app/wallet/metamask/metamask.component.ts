@@ -32,11 +32,11 @@ export class MetamaskComponent extends walletOptions implements OnInit {
             _callback(addresses[0]);
           }
         })
-        .catch((e: { code:any,message: any }) => {
+        .catch((e: { code: any; message: any }) => {
           return;
         });
     } else {
-       window.location.href = 'https://metamask.io/';
+      window.location.href = 'https://metamask.io/';
     }
   }
   public getWalletaddress(): string {
@@ -48,15 +48,15 @@ export class MetamaskComponent extends walletOptions implements OnInit {
   public async createSaleOffer(
     blockchain: string,
     nftsvgHash: string,
-    price:number,
-    commission:string,
-    _callback? : any
+    price: number,
+    commission: string,
+    _callback?: any
   ): Promise<any> {
     if (blockchain == 'ethereum') {
-      const _priceInWei = ethers.utils.parseEther((price).toString())
-      const _price= ethers.BigNumber.from(_priceInWei)
-      const commissionInWei=ethers.utils.parseEther(commission)
-      const _commission=ethers.BigNumber.from(commissionInWei)
+      const _priceInWei = ethers.utils.parseEther(price.toString());
+      const _price = ethers.BigNumber.from(_priceInWei);
+      const commissionInWei = ethers.utils.parseEther(commission);
+      const _commission = ethers.BigNumber.from(commissionInWei);
       const str = nftsvgHash;
       const encoder = new TextEncoder();
       const _nfthash = encoder.encode(str);
@@ -64,20 +64,19 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       const transaction = await contract['listNFT'](
         _nfthash,
         _price,
-       // { gasLimit: 3000000 },
-        {value: _commission}// 
-      )
-      .catch(error=>{       
-        _callback()!
-      })
+        // { gasLimit: 3000000 },
+        { value: _commission } //
+      ).catch((error) => {
+        _callback()!;
+      });
       const tx = await transaction.wait();
       return tx;
     }
     if (blockchain == 'polygon') {
-      const _priceInWei = ethers.utils.parseEther((price).toString())
-      const _price= ethers.BigNumber.from(_priceInWei)
-      const commissionInWei=ethers.utils.parseEther(commission)
-      const _commission=ethers.BigNumber.from(commissionInWei)
+      const _priceInWei = ethers.utils.parseEther(price.toString());
+      const _price = ethers.BigNumber.from(_priceInWei);
+      const commissionInWei = ethers.utils.parseEther(commission);
+      const _commission = ethers.BigNumber.from(commissionInWei);
       const str = nftsvgHash;
       const encoder = new TextEncoder();
       const _nfthash = encoder.encode(str);
@@ -85,12 +84,11 @@ export class MetamaskComponent extends walletOptions implements OnInit {
       const transaction = await contract['listNFT'](
         _nfthash,
         _price,
-       // { gasLimit: 3000000 },
-        {value: _commission}// 
-      )
-      .catch(error=>{
-        _callback()!
-      })
+        // { gasLimit: 3000000 },
+        { value: _commission } //
+      ).catch((error) => {
+        _callback()!;
+      });
       const tx = await transaction.wait();
       return tx;
     }
@@ -99,39 +97,33 @@ export class MetamaskComponent extends walletOptions implements OnInit {
   public async buynft(
     blockchain: string,
     itemID: string,
-    price:string,
-    _callback? : any
+    price: string,
+    _callback?: any
   ): Promise<any> {
     if (blockchain == 'ethereum') {
-      const _priceInWei = ethers.utils.parseEther((price).toString())
-      const _price= ethers.BigNumber.from(_priceInWei).toNumber()
+      const _priceInWei = ethers.utils.parseEther(price.toString());
+      const _price = ethers.BigNumber.from(_priceInWei).toNumber();
       const contract = await EthereumMarketServiceService.getContract(true);
       const transaction = await contract['buyNFT'](
         parseInt(itemID),
-       // { gasLimit: 3000000 },
-        {value: _price}
-      )
-      .catch(error=>{
-        _callback()!
-      })
+        // { gasLimit: 3000000 },
+        { value: _price }
+      ).catch((error) => {
+        _callback()!;
+      });
       const tx = await transaction.wait();
       return tx;
     } else if (blockchain == 'polygon') {
-      const _priceInWei = ethers.utils.parseEther((price).toString())
-      const _price= ethers.BigNumber.from(_priceInWei).toNumber()
+      const _priceInWei = ethers.utils.parseEther(price.toString());
+      const _price = ethers.BigNumber.from(_priceInWei).toNumber();
       const contract = await PolygonMarketServiceService.getContract(true);
-      const transaction = await contract['buyNFT'](
-        parseInt(itemID),
-        {value: _price}
-      )
-      .catch(error=>{
-        _callback()!
-      })
+      const transaction = await contract['buyNFT'](parseInt(itemID), {
+        value: _price,
+      }).catch((error) => {
+        _callback()!;
+      });
       const tx = await transaction.wait();
       return tx;
     }
   }
-
-
-
 }

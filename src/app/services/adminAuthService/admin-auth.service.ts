@@ -6,19 +6,22 @@ import jwt_decode from 'jwt-decode';
 import { AdminAPIServiceService } from '../api-services/admin-apiservice.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdminAuthService {
-  private admin:any;
+  private admin: any;
   constructor(
-    private jwt : JwtServiceService,
-    private apiService: AdminAPIServiceService,
-  ) { 
-    this.admin = adminENV.adminUrl
+    private jwt: JwtServiceService,
+    private apiService: AdminAPIServiceService
+  ) {
+    this.admin = adminENV.adminUrl;
   }
 
   public isValidToken(): boolean {
-    if (!this.jwt.isEmpty() && !(Date.now() >= Number(this.jwt.getExp()) * 1000)) {
+    if (
+      !this.jwt.isEmpty() &&
+      !(Date.now() >= Number(this.jwt.getExp()) * 1000)
+    ) {
       let decoded: any = jwt_decode(this.jwt.getToken(), { header: false });
       if (
         !!decoded.permissions &&
@@ -36,13 +39,9 @@ export class AdminAuthService {
     }
   }
 
-
   public login(credentials: any): Observable<any> {
     return this.apiService.post(this.admin + '/sign/login', {
       user: credentials,
     });
   }
 }
-
-
-

@@ -14,6 +14,7 @@ import {
 import {
   APIConfigENV,
   BlockchainConfig,
+  StellarWalletTypes,
   environment,
 } from 'src/environments/environment';
 import { TrustLineByBuyerServiceService } from 'src/app/services/blockchain-services/stellar-services/trust-line-by-buyer-service.service';
@@ -639,6 +640,27 @@ export class BuyViewComponent implements OnInit {
                       'Someone has purchashed this NFT!!',
                       'error'
                     );
+
+                    this.stellarUtilService.getOffersForAccount(this.userPK).subscribe((res:any)=>{
+                      let rst = this.stellarUtilService.getOfferIDForAsset(res._embedded.records,this.NFTList.nftname)
+                      if (rst != -1){
+                        this.stellarUtilService.getXDRToDeleteOfferAndTrustLine(
+                          this.userPK,
+                          rst,
+                          this.NFTList.nftname,
+                          this.NFTList.nftissuerpk,
+                          StellarWalletTypes.ALBEDO_WALLET,
+                          this.NFTList.currentprice
+                        ).then((xdr:any)=>{
+                          this.stellarUtilService.SubmitXDRToDeleteOfferAndTrustLine(xdr,this.userPK).subscribe(gatewayResult=>{
+                            this.snackbar.openSnackBar(
+                              'Request to pruchase has been cancled',
+                              'info'
+                            );
+                          });
+                        })
+                      }
+                    });
                     _callback()!;
                   }
                 });
@@ -702,11 +724,31 @@ export class BuyViewComponent implements OnInit {
                       .subscribe();
                     this.updateGateway();
                   } else {
-                    _callback()!;
                     this.snackbar.openSnackBar(
                       'Someone has purchashed this NFT!',
                       'error'
                     );
+                    this.stellarUtilService.getOffersForAccount(this.userPK).subscribe((res:any)=>{
+                      let rst = this.stellarUtilService.getOfferIDForAsset(res._embedded.records,this.NFTList.nftname)
+                      if (rst != -1){
+                        this.stellarUtilService.getXDRToDeleteOfferAndTrustLine(
+                          this.userPK,
+                          rst,
+                          this.NFTList.nftname,
+                          this.NFTList.nftissuerpk,
+                          StellarWalletTypes.FREIGHTER_WALLET,
+                          this.NFTList.currentprice
+                        ).then((xdr:any)=>{
+                          this.stellarUtilService.SubmitXDRToDeleteOfferAndTrustLine(xdr,this.userPK).subscribe(gatewayResult=>{
+                            this.snackbar.openSnackBar(
+                              'Request to pruchase has been cancled',
+                              'info'
+                            );
+                          });
+                        })
+                      }
+                    });
+                    _callback()!;
                   }
                 });
             } catch (err) {
@@ -724,6 +766,7 @@ export class BuyViewComponent implements OnInit {
           }
         })
         .catch((err) => {
+          
           this.snackbar.openSnackBar(
             'Something went wrong, please try again! More information: ' +
               err,

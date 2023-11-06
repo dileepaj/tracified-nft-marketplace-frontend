@@ -51,13 +51,10 @@ export const BlockchainConfig = {
   solananetwork: 'testnet',
   solananetworkURL: 'https://api.testnet.solana.com',
   STELLAR_BASE_FEE : '50000',
-  STELLAR_SPONSOR_KEY:"GBVVOHJKWKAVW4ZSKXNMC25IAKHJYXXK5E7BGD6EP3LXXVD5FEIYV4B3"
+  STELLAR_SPONSOR_KEY:"GBVVOHJKWKAVW4ZSKXNMC25IAKHJYXXK5E7BGD6EP3LXXVD5FEIYV4B3",
+  STELLAR_MARKETPLACE_KEY:""
 }
 
-export enum StellarWalletTypes  {
-  FREIGHTER_WALLET,
-  ALBEDO_WALLET
-}
 
 export const FirebaseConfig = {
   firebaseConfig: {

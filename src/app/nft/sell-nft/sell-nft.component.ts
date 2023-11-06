@@ -40,6 +40,10 @@ import { SaleOfferService } from 'src/app/services/blockchain-services/stellar-s
 import { MintService } from 'src/app/services/blockchain-services/mint.service';
 import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
 import { CurrencyConverterService } from 'src/app/services/api-services/crypto-currency-converter/currency-converter.service';
+import { TransactionBuilderService } from 'src/app/services/blockchain-services/stellar-services/transaction-builder.service';
+import { WalletType } from 'src/app/models/enums/wallets';
+import { StellarUtilService } from 'src/app/services/blockchain-services/stellar-services/stellar-util.service';
+import { StellarNFTOperationType } from 'src/app/models/enums/blockchain';
 
 @Component({
   selector: 'app-sell-nft',
@@ -152,8 +156,10 @@ export class SellNftComponent implements OnInit {
     private albedosale: SaleOfferService,
     private servicemint: MintService,
     private firebaseanalytics: FirebaseAnalyticsService,
-    private currencyConverter: CurrencyConverterService
-  ) {}
+    private currencyConverter: CurrencyConverterService,
+    private StellarTransactionBuilder: TransactionBuilderService,
+    private stellarUtil: StellarUtilService
+  ) { }
 
   validateDecimal(input) {
     // Get the value of the input box and convert it to a number with 6 decimal places
@@ -396,40 +402,38 @@ export class SellNftComponent implements OnInit {
                     thumbnail: this.NFTList.thumbnail,
                   });
 
-                  this.albedosale
-                    .sellNft(
-                      this.NFTList.nftname,
-                      this.NFTList.nftissuerpk,
-                      this.signerpK,
-                      '1',
-                      this.sellingPrice,
-                      () => {
-                        this.snackbarService.openSnackBar(
-                          'Please check balance and network in the wallet',
-                          'error'
-                        );
-                        loadingAnimation.close();
-                      }
-                    )
-                    .then((res: any) => {
-                      try {
-                        this.selltxn = res.tx_hash;
+                  this.StellarTransactionBuilder.putNFTOnSale(
+                    this.signerpK,
+                    this.NFTList.nftname,
+                    this.NFTList.nftissuerpk,
+                    this.sellingPrice,
+                    WalletType.ALBEDO_WALLET,
+                    true,
+                    0
+                  ).then((resultXDR) => {
+                    this.stellarUtil.SubmitXDRToGateway(resultXDR, StellarNFTOperationType.SELL).subscribe({
+                      next: (rst: any) => {
+                        this.saleBE.Timestamp = new Date().toString();
+                        this.selltxn = rst.hash;
                         this.addDBBackend();
                         loadingAnimation.close();
-                      } catch (err) {
-                        this.firebaseanalytics.logEvent('error', {
-                          reason: 'Failed to put NFT on sale',
-                          wallet: this.wallet,
-                          trigger_at: 'sell screen',
-                        });
-                        loadingAnimation.close();
+                      },
+                      error: (error) => {
                         this.snackbarService.openSnackBar(
                           'Something went wrong, please try again! More information: ' +
-                            err,
+                          error,
                           'error'
                         );
                       }
-                    });
+                    })
+                  }).catch(err => {
+                    loadingAnimation.close();
+                    this.snackbarService.openSnackBar(
+                      'Something went wrong, please try again! More information: ' +
+                      err,
+                      'error'
+                    );
+                  })
                 }
               });
           });
@@ -489,41 +493,38 @@ export class SellNftComponent implements OnInit {
                 thumbnail: this.NFTList.thumbnail,
               });
 
-              this.stellarService
-                .sellNft(
-                  this.NFTList.nftname,
-                  this.NFTList.nftissuerpk,
-                  this.signerpK,
-                  '1',
-                  this.sellingPrice,
-                  () => {
-                    loadingAnimation.close();
-                    this.snackbarService.openSnackBar(
-                      'Please check balance and network in the wallet',
-                      'error'
-                    );
-                  }
-                )
-                .then((res: any) => {
-                  try {
+              this.StellarTransactionBuilder.putNFTOnSale(
+                this.signerpK,
+                this.NFTList.nftname,
+                this.NFTList.nftissuerpk,
+                this.sellingPrice,
+                WalletType.FREIGHTER_WALLET,
+                true,
+                0
+              ).then((resultXDR) => {
+                this.stellarUtil.SubmitXDRToGateway(resultXDR, StellarNFTOperationType.SELL).subscribe({
+                  next: (rst: any) => {
                     this.saleBE.Timestamp = new Date().toString();
-                    this.selltxn = res.hash;
+                    this.selltxn = rst.hash;
                     this.addDBBackend();
-                    loadingAnimation.close();
-                  } catch (err) {
-                    this.firebaseanalytics.logEvent('error', {
-                      reason: 'Failed to put NFT on sale',
-                      wallet: this.wallet,
-                      trigger_at: 'sell screen',
-                    });
+                  },
+                  error: (error) => {
                     loadingAnimation.close();
                     this.snackbarService.openSnackBar(
                       'Something went wrong, please try again! More information: ' +
-                        err,
+                      error,
                       'error'
                     );
                   }
-                });
+                })
+              }).catch(err => {
+                loadingAnimation.close();
+                this.snackbarService.openSnackBar(
+                  'Something went wrong, please try again! More information: ' +
+                  err,
+                  'error'
+                );
+              })
             }
           });
       }
@@ -613,7 +614,7 @@ export class SellNftComponent implements OnInit {
                   loadingAnimation.close();
                   this.snackbarService.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                      err,
+                    err,
                     'error'
                   );
                 }
@@ -723,7 +724,7 @@ export class SellNftComponent implements OnInit {
                     loadingAnimation.close();
                     this.snackbarService.openSnackBar(
                       'Something went wrong, please try again! More information: ' +
-                        err,
+                      err,
                       'error'
                     );
                   }
@@ -737,7 +738,7 @@ export class SellNftComponent implements OnInit {
               loadingAnimation.close();
               this.snackbarService.openSnackBar(
                 'Something went wrong, please try again! More information: ' +
-                  err,
+                err,
                 'error'
               );
             }
@@ -846,7 +847,7 @@ export class SellNftComponent implements OnInit {
                     loadingAnimation.close();
                     this.snackbarService.openSnackBar(
                       'Something went wrong, please try again! More information: ' +
-                        err,
+                      err,
                       'error'
                     );
                   }
@@ -860,7 +861,7 @@ export class SellNftComponent implements OnInit {
               loadingAnimation.close();
               this.snackbarService.openSnackBar(
                 'Something went wrong, please try again! More information: ' +
-                  err,
+                err,
                 'error'
               );
             }

@@ -48,12 +48,8 @@ export const BlockchainConfig = {
   solananetwork: 'mainnet-beta',
   solananetworkURL: 'https://solana-mainnet.g.alchemy.com/v2/rSR0X9jq8qltHn8Tnb16oDa0eovOZf1Y',
   STELLAR_BASE_FEE : '50000',
-  STELLAR_SPONSOR_KEY:"GBVVOHJKWKAVW4ZSKXNMC25IAKHJYXXK5E7BGD6EP3LXXVD5FEIYV4B3"
-}
-
-export enum StellarWalletTypes  {
-  FREIGHTER_WALLET,
-  ALBEDO_WALLET
+  STELLAR_SPONSOR_KEY:"GBVVOHJKWKAVW4ZSKXNMC25IAKHJYXXK5E7BGD6EP3LXXVD5FEIYV4B3",
+  STELLAR_MARKETPLACE_KEY:""
 }
 
 export const FirebaseConfig = {

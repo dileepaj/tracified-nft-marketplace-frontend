@@ -31,7 +31,7 @@ export const adminENV={
 export const APIConfigENV = {
   production: false,
   mode: 'qa',
-  gatewayBaseURL: 'https://qa.gateway.tracified.com/',
+  gatewayBaseURL: 'https://2z14s5qp-8000.asse.devtunnels.ms/',
   nftbackendBaseURL: 'https://qa.api.nft.tracified.com/',
   marketplaceBaseURL:"https://qa.marketplace.nft.tracified.com/",
   tracifiedhelpDocsbaseURL:"https://qa.help.tracified.com/",
@@ -47,12 +47,8 @@ export const BlockchainConfig = {
   solananetwork: 'testnet',
   solananetworkURL:'https://api.testnet.solana.com',
   STELLAR_BASE_FEE : '50000',
-  STELLAR_SPONSOR_KEY:"GBVVOHJKWKAVW4ZSKXNMC25IAKHJYXXK5E7BGD6EP3LXXVD5FEIYV4B3"
-}
-
-export enum StellarWalletTypes  {
-  FREIGHTER_WALLET,
-  ALBEDO_WALLET
+  STELLAR_SPONSOR_KEY:"GBVVOHJKWKAVW4ZSKXNMC25IAKHJYXXK5E7BGD6EP3LXXVD5FEIYV4B3",
+  STELLAR_MARKETPLACE_KEY:"GBVVOHJKWKAVW4ZSKXNMC25IAKHJYXXK5E7BGD6EP3LXXVD5FEIYV4B3"
 }
 
 export const FirebaseConfig = {

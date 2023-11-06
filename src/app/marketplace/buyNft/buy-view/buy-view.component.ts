@@ -14,7 +14,6 @@ import {
 import {
   APIConfigENV,
   BlockchainConfig,
-  StellarWalletTypes,
   environment,
 } from 'src/environments/environment';
 import { TrustLineByBuyerServiceService } from 'src/app/services/blockchain-services/stellar-services/trust-line-by-buyer-service.service';
@@ -52,6 +51,10 @@ import { Seller2tracService } from 'src/app/services/blockchain-services/solana-
 import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
 import { QueueNFT } from 'src/app/models/nft';
 import { StellarUtilService } from 'src/app/services/blockchain-services/stellar-services/stellar-util.service';
+import { WalletType } from 'src/app/models/enums/wallets';
+import { TransactionBuilderService } from 'src/app/services/blockchain-services/stellar-services/transaction-builder.service';
+import { StellarNFTOperationType } from 'src/app/models/enums/blockchain';
+import { error } from 'console';
 
 @Component({
   selector: 'app-buy-view',
@@ -208,8 +211,9 @@ export class BuyViewComponent implements OnInit {
     private servicemint: MintService,
     private servicesell: Seller2tracService,
     private firebaseanalytics: FirebaseAnalyticsService,
-    private stellarUtilService: StellarUtilService
-  ) {}
+    private stellarUtilService: StellarUtilService,
+    private StellarTransactionBuilder: TransactionBuilderService
+  ) { }
 
   public async getDeviceType(): Promise<boolean> {
     let details = navigator.userAgent;
@@ -408,7 +412,7 @@ export class BuyViewComponent implements OnInit {
                             } catch (err) {
                               this.snackbar.openSnackBar(
                                 'Something went wrong, please try again! More information: ' +
-                                  err,
+                                err,
                                 'error'
                               );
                             }
@@ -417,7 +421,7 @@ export class BuyViewComponent implements OnInit {
                     } catch (err) {
                       this.snackbar.openSnackBar(
                         'Something went wrong, please try again! More information: ' +
-                          err,
+                        err,
                         'error'
                       );
                     }
@@ -470,11 +474,11 @@ export class BuyViewComponent implements OnInit {
                     SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                     'success'
                   );
-                  // this.showInProfile();
+                  this.showInProfile();
                 } catch (err) {
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                      err,
+                    err,
                     'error'
                   );
                 }
@@ -526,11 +530,11 @@ export class BuyViewComponent implements OnInit {
                     SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                     'success'
                   );
-                  // this.showInProfile();
+                  this.showInProfile();
                 } catch (err) {
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                      err,
+                    err,
                     'error'
                   );
                 }
@@ -590,189 +594,110 @@ export class BuyViewComponent implements OnInit {
     let isMobileDevice = await regexp.test(details);
     if (isMobileDevice) {
       this.userPK = user;
-      this.trustalbedo
-        .trustlineByBuyer(
-          this.NFTList.nftname,
-          this.NFTList.nftissuerpk,
-          this.userPK,
-          this.NFTList.currentprice,
-          this.NFTList.distributorpk,
-          this.royaltyCharge.toString(),
-          this.commission,
-          () => {
-            if (this.userPK == this.NFTList.distributorpk) {
-              this.snackbar.openSnackBar(
-                'Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.',
-                'error'
-              );
-            }
-            this.snackbar.openSnackBar(
-              'Please check balance and network in the wallet',
-              'error'
-            );
-            _callback()!;
-          }
-        )
-        .then((transactionResult: any) => {
-          if (true) {
-            try {
-              this.buytxn = transactionResult.tx_hash;
-              this.saleBE.CurrentOwnerPK = this.userPK;
-              this.stellarUtilService
-                .getStellarAccountStatus(this.userPK)
-                .subscribe((accountInfo) => {
-                  let res = this.stellarUtilService.isAssetAvailableAccount(
-                    accountInfo.balances,
-                    this.NFTList.nftname
-                  );
-                  if (res) {
-                    this.snackbar.openSnackBar(
-                      SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                      'success'
-                    );
-                    this.saveTXNs();
-                    this.service
-                      .updateNFTStatusBackend(this.saleBE)
-                      .subscribe();
-                    this.updateGateway();
-                  } else {
-                    this.snackbar.openSnackBar(
-                      'Someone has purchashed this NFT!!',
-                      'error'
-                    );
 
-                    this.stellarUtilService.getOffersForAccount(this.userPK).subscribe((res:any)=>{
-                      let rst = this.stellarUtilService.getOfferIDForAsset(res._embedded.records,this.NFTList.nftname)
-                      if (rst != -1){
-                        this.stellarUtilService.getXDRToDeleteOfferAndTrustLine(
-                          this.userPK,
-                          rst,
-                          this.NFTList.nftname,
-                          this.NFTList.nftissuerpk,
-                          StellarWalletTypes.ALBEDO_WALLET,
-                          this.NFTList.currentprice
-                        ).then((xdr:any)=>{
-                          this.stellarUtilService.SubmitXDRToDeleteOfferAndTrustLine(xdr,this.userPK).subscribe(gatewayResult=>{
-                            this.snackbar.openSnackBar(
-                              'Request to pruchase has been cancled',
-                              'info'
-                            );
-                          });
-                        })
-                      }
-                    });
-                    _callback()!;
-                  }
-                });
-            } catch (err) {
-              _callback()!;
-              this.snackbar.openSnackBar(
-                'Something went wrong, please try again! More information: ' +
-                  err,
-                'error'
-              );
-            }
-          }
-        });
-    } else {
-      this.trust
-        .trustlineByBuyer(
-          this.NFTList.nftname,
-          this.NFTList.nftissuerpk,
-          this.userPK,
-          this.NFTList.currentprice,
-          this.NFTList.distributorpk,
-          this.royaltyCharge.toString(),
-          this.commission,
-          () => {
-            if (this.userPK == this.NFTList.distributorpk) {
-              this.snackbar.openSnackBar(
-                'Cannot buy this NFT as you have just put it on sale. Please retry once there is atleast one buyer other than yourself.',
-                'error'
-              );
-            }
-            this.snackbar.openSnackBar(
-              'Please check balance and network in the wallet',
-              'error'
-            );
-            _callback()!;
-          }
-        )
-        .then((transactionResult: any) => {
-          if (transactionResult.successful) {
-            try {
-              if (this.isLoadingPresent) {
-                this.dissmissLoading();
+      this.StellarTransactionBuilder.purchaseNFT(
+        this.NFTList.nftname,
+        this.NFTList.nftissuerpk,
+        this.userPK,
+        this.NFTList.currentprice,
+        this.NFTList.distributorpk,
+        this.royaltyCharge.toString(),
+        this.commission,
+        true,
+        WalletType.ALBEDO_WALLET,
+      ).then((resultXDR) => {
+        this.stellarUtilService.SubmitXDRToGateway(resultXDR, StellarNFTOperationType.BUY).subscribe({
+          next: (rst:any) => {
+            if (rst) {
+              try {
+                this.snackbar.openSnackBar(
+                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                  'success'
+                );
+                this.buytxn = rst.hash;
+                this.saleBE.CurrentOwnerPK = this.userPK;
+                this.saveTXNs();
+                this.service
+                  .updateNFTStatusBackend(this.saleBE)
+                  .subscribe();
+                this.updateGateway();
               }
-              this.buytxn = transactionResult.hash;
-              this.saleBE.CurrentOwnerPK = this.userPK;
-              this.stellarUtilService
-                .getStellarAccountStatus(this.userPK)
-                .subscribe((accountInfo) => {
-                  let res = this.stellarUtilService.isAssetAvailableAccount(
-                    accountInfo.balances,
-                    this.NFTList.nftname
-                  );
-                  if (res) {
-                    this.snackbar.openSnackBar(
-                      SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                      'success'
-                    );
-                    this.saveTXNs();
-                    this.service
-                      .updateNFTStatusBackend(this.saleBE)
-                      .subscribe();
-                    this.updateGateway();
-                  } else {
-                    this.snackbar.openSnackBar(
-                      'Someone has purchashed this NFT!',
-                      'error'
-                    );
-                    this.stellarUtilService.getOffersForAccount(this.userPK).subscribe((res:any)=>{
-                      let rst = this.stellarUtilService.getOfferIDForAsset(res._embedded.records,this.NFTList.nftname)
-                      if (rst != -1){
-                        this.stellarUtilService.getXDRToDeleteOfferAndTrustLine(
-                          this.userPK,
-                          rst,
-                          this.NFTList.nftname,
-                          this.NFTList.nftissuerpk,
-                          StellarWalletTypes.FREIGHTER_WALLET,
-                          this.NFTList.currentprice
-                        ).then((xdr:any)=>{
-                          this.stellarUtilService.SubmitXDRToDeleteOfferAndTrustLine(xdr,this.userPK).subscribe(gatewayResult=>{
-                            this.snackbar.openSnackBar(
-                              'Request to pruchase has been cancled',
-                              'info'
-                            );
-                          });
-                        })
-                      }
-                    });
-                    _callback()!;
-                  }
-                });
-            } catch (err) {
-              _callback()!;
-              this.snackbar.openSnackBar(
-                'Something went wrong, please try again! More information: ' +
-                  err,
-                'error'
-              );
+              catch (error) {
+                this.snackbar.openSnackBar(
+                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                  'error'
+                );
+              }
             }
-          } else {
-            if (this.isLoadingPresent) {
-              this.dissmissLoading();
-            }
-          }
+          },
+          error: err => {
+            this.snackbar.openSnackBar(
+              "unable to purchase NFT: "+err,
+              "error"
+            );
+            _callback()
+          },
+
         })
-        .catch((err) => {
-          
-          this.snackbar.openSnackBar(
-            'Something went wrong, please try again! More information: ' +
-              err,
-            'error'
-          );
-        });
+      }).catch(err => {
+        this.snackbar.openSnackBar(
+          "unable to purchase NFT: "+err,
+          "error"
+        );
+      })
+    } else {
+      this.StellarTransactionBuilder.purchaseNFT(
+        this.NFTList.nftname,
+        this.NFTList.nftissuerpk,
+        this.userPK,
+        this.NFTList.currentprice,
+        this.NFTList.distributorpk,
+        this.royaltyCharge.toString(),
+        this.commission,
+        true,
+        WalletType.FREIGHTER_WALLET,
+      ).then((resultXDR) => {
+        this.stellarUtilService.SubmitXDRToGateway(resultXDR, StellarNFTOperationType.BUY).subscribe({
+          next: (rst:any) => {
+            if (rst) {
+              try {
+                this.snackbar.openSnackBar(
+                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                  'success'
+                );
+                this.buytxn = rst.hash;
+                this.saleBE.CurrentOwnerPK = this.userPK;
+                this.saveTXNs();
+                this.service
+                  .updateNFTStatusBackend(this.saleBE)
+                  .subscribe();
+                this.updateGateway();
+              }
+              catch (error) {
+                this.snackbar.openSnackBar(
+                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                  'error'
+                );
+                _callback();
+              }
+            }
+          },
+          error: err => {
+            this.snackbar.openSnackBar(
+              "unable to purchase NFT",
+              "error"
+            );
+            _callback()
+          },
+
+        })
+      }).catch(err => {
+        this.snackbar.openSnackBar(
+          "unable to purchase NFT",
+          "error"
+        );
+        _callback()
+      })
     }
   }
 

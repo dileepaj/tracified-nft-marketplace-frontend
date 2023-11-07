@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BlockchainType } from 'src/app/models/enums/blockchain';
 import { WalletType } from 'src/app/models/enums/wallets';
 import { StellarCommonsService } from './stellar-commons.service';
-import { Account, Asset, Memo, Operation, Server, TimeoutInfinite, TransactionBuilder } from 'stellar-sdk';
+import { Asset, Memo, Operation, Server, TimeoutInfinite, TransactionBuilder } from 'stellar-sdk';
 import { blockchainNet } from 'src/app/shared/config';
 import { BlockchainConfig, environment } from 'src/environments/environment';
 import { UserWallet } from 'src/app/models/userwallet';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import albedo from '@albedo-link/intent';
-import { async } from '@angular/core/testing';
-import { resolve } from 'dns';
-import { rejects } from 'assert';
-
 @Injectable({
   providedIn: 'root'
 })

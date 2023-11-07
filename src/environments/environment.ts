@@ -31,7 +31,7 @@ export const adminENV={
 export const APIConfigENV = {
   production: false,
   mode: 'qa',
-  gatewayBaseURL: 'https://2z14s5qp-8000.asse.devtunnels.ms/',
+  gatewayBaseURL: 'https://qa.gateway.tracified.com/',
   nftbackendBaseURL: 'https://qa.api.nft.tracified.com/',
   marketplaceBaseURL:"https://qa.marketplace.nft.tracified.com/",
   tracifiedhelpDocsbaseURL:"https://qa.help.tracified.com/",

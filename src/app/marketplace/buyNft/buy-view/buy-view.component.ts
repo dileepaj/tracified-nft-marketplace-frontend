@@ -608,14 +608,14 @@ export class BuyViewComponent implements OnInit {
       ).then((resultXDR) => {
         this.stellarUtilService.SubmitXDRToGateway(resultXDR, StellarNFTOperationType.BUY).subscribe({
           next: (rst:any) => {
-            if (rst) {
+            if (rst.hash != "" && rst.account !="") {
               try {
                 this.snackbar.openSnackBar(
                   SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                   'success'
                 );
                 this.buytxn = rst.hash;
-                this.saleBE.CurrentOwnerPK = this.userPK;
+                this.saleBE.CurrentOwnerPK = rst.account;
                 this.saveTXNs();
                 this.service
                   .updateNFTStatusBackend(this.saleBE)
@@ -628,11 +628,17 @@ export class BuyViewComponent implements OnInit {
                   'error'
                 );
               }
+            }else{
+              this.snackbar.openSnackBar(
+                "NFT has already beign pruchased by someone.",
+                "error"
+              );
+              _callback()
             }
           },
           error: err => {
             this.snackbar.openSnackBar(
-              "unable to purchase NFT: "+err,
+              "unable to purchase NFT: ",
               "error"
             );
             _callback()
@@ -641,7 +647,7 @@ export class BuyViewComponent implements OnInit {
         })
       }).catch(err => {
         this.snackbar.openSnackBar(
-          "unable to purchase NFT: "+err,
+          "unable to purchase NFT: ",
           "error"
         );
       })
@@ -659,14 +665,14 @@ export class BuyViewComponent implements OnInit {
       ).then((resultXDR) => {
         this.stellarUtilService.SubmitXDRToGateway(resultXDR, StellarNFTOperationType.BUY).subscribe({
           next: (rst:any) => {
-            if (rst) {
+            if (rst.hash !="" && rst.account !="") {
               try {
                 this.snackbar.openSnackBar(
                   SnackBarText.BOUGHT_SUCCESS_MESSAGE,
                   'success'
                 );
                 this.buytxn = rst.hash;
-                this.saleBE.CurrentOwnerPK = this.userPK;
+                this.saleBE.CurrentOwnerPK = rst.account;
                 this.saveTXNs();
                 this.service
                   .updateNFTStatusBackend(this.saleBE)
@@ -680,6 +686,12 @@ export class BuyViewComponent implements OnInit {
                 );
                 _callback();
               }
+            }else{
+              this.snackbar.openSnackBar(
+                "NFT has already beign pruchased by someone.",
+                "error"
+              );
+              _callback()
             }
           },
           error: err => {

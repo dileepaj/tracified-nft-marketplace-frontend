@@ -425,7 +425,9 @@ export class SellNftComponent implements OnInit {
                           'error'
                         );
                       }
-                    })
+                    },
+                    
+                    )
                   }).catch(err => {
                     loadingAnimation.close();
                     this.snackbarService.openSnackBar(

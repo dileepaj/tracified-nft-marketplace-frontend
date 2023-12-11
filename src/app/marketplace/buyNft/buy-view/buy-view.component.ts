@@ -636,18 +636,27 @@ export class BuyViewComponent implements OnInit {
               _callback()
             }
           },
-          error: err => {
-            this.snackbar.openSnackBar(
-              "unable to purchase NFT: ",
-              "error"
-            );
-            _callback()
+          error: (err: any) => {
+            if (err.status === 400) {
+              console.error("Bad Request:", err);
+              this.snackbar.openSnackBar("Bad Request: " + err.error.message, "error");
+            } else {
+              this.snackbar.openSnackBar("Cannot purchase NFT: " + err.message, "error");
+            }
+            _callback();
           },
+          // error: err => {
+          //   this.snackbar.openSnackBar(
+          //     "Cannot purchase NFT: ",
+          //     "error"
+          //   );
+          //   _callback()
+          // },
 
-        })
+        });
       }).catch(err => {
         this.snackbar.openSnackBar(
-          "unable to purchase NFT: ",
+          "Cannot purchase NFT:Unable to build XDR ",
           "error"
         );
       })
@@ -694,18 +703,19 @@ export class BuyViewComponent implements OnInit {
               _callback()
             }
           },
-          error: err => {
-            this.snackbar.openSnackBar(
-              "unable to purchase NFT",
-              "error"
-            );
-            _callback()
+          error: (err: any) => {
+            if (err.status === 400) {
+              console.error("Bad Request:", err);
+              this.snackbar.openSnackBar("Bad Request: " + err.error.message, "error");
+            } else {
+              this.snackbar.openSnackBar("Cannot purchase NFT: " + err.message, "error");
+            }
+            _callback();
           },
-
         })
       }).catch(err => {
         this.snackbar.openSnackBar(
-          "unable to purchase NFT",
+          "Cannot purchase NFT : unable to build XDR",
           "error"
         );
         _callback()

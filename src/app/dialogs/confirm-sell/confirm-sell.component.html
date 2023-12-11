@@ -1,41 +1,53 @@
 <div class="close-div"><mat-icon mat-dialog-close> close </mat-icon></div>
 <div class="dialog-header">
   <div class="dialog-header-cont">
-    <label class="dialog-title">{{data?.promtHeading}}</label>
-    <label class="nft-name">{{data?.nftName}} </label>
+    <label class="dialog-title">{{ data?.promtHeading }}</label>
+    <label class="nft-name">{{ data?.nftName }} </label>
   </div>
   <div class="dialog-header-cont">
     <img [src]="data?.thumbnail" class="nft-thumb" />
   </div>
-
 </div>
 <mat-dialog-content>
   <div class="dialog-content">
     <div class="fee-cont">
-      <label>{{data?.feeTypeName}}</label>
-      <label>{{data?.serviceFee}} {{currency}} ({{serviceFeeUSD}} USD) </label>
+      <label>{{ data?.feeTypeName }}</label>
+      <label class="val-label"
+        >{{ data?.serviceFee }} {{ currency }} ({{ serviceFeeUSD }} USD)
+      </label>
     </div>
     <div class="fee-cont">
-      <label>{{data?.royalty}}</label>
-      <label>{{data?.royaltyfee}} {{currency}} ({{royaltyUSD}} USD) </label>
+      <label>{{ data?.royalty }}</label>
+      <label class="val-label"
+        >{{ data?.royaltyfee }} {{ currency }} ({{ royaltyUSD }} USD)
+      </label>
     </div>
     <div class="fee-cont">
       <label>Suggested Offer</label>
-      <label>{{data?.total}} {{currency}} ({{totalUSD}} USD) </label>
+      <label class="val-label"
+        >{{ data?.total }} {{ currency }} ({{ totalUSD }} USD)
+      </label>
     </div>
     <div class="fee-cont">
-      <label><b>{{data?.grandTotal}}</b></label>
-      <label><b>{{data?.grandTotalfee}} {{currency}}</b> ({{gtotalUSD}} USD) </label>
+      <label
+        ><b>{{ data?.grandTotal }}</b></label
+      >
+      <label class="val-label"
+        ><b>{{ data?.grandTotalfee }} {{ currency }}</b> ({{ gtotalUSD }} USD)
+      </label>
     </div>
     <div class="checkbox-group">
-      <input type="checkbox"  (change)="onCheckedChange($event)" />
-      <label>I accept the <a href="#" class="highlight">Terms of Service</a> for using this service, and hereby
-        confirm I have read the <a href="#" class="highlight">Privacy Policy.</a></label>
+      <input type="checkbox" (change)="onCheckedChange($event)" />
+      <label
+        >I accept the <a href="#" class="highlight">Terms of Service</a> for
+        using this service, and hereby confirm I have read the
+        <a href="#" class="highlight">Privacy Policy.</a></label
+      >
     </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="center" class="dialog-actions">
-<!--   <button
+  <!--   <button
     mat-dialog-close
     class="dialog-btn-secondary"
     (click)="cancel()"
@@ -50,7 +62,6 @@
     (click)="confirm()"
     matRipple
   >
-    {{data?.buttonAction}}
+    {{ data?.buttonAction }}
   </button>
 </mat-dialog-actions>
-

@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { UserWallet } from 'src/app/models/userwallet';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { LoaderService } from 'src/app/services/loader/loader.service';
+import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
 import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
@@ -44,7 +45,8 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     public loaderService: LoaderService,
     private walletService: WalletSidenavService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private snackBar: SnackbarServiceService,
   ) {}
 
   ngOnInit(): void {
@@ -190,27 +192,31 @@ export class HeaderComponent implements OnInit {
         this.accListExpanded = false;
       }
     } else if (blockchain == 'solana') {
-      let phantomWallet = new UserWallet();
-      phantomWallet = new PhantomComponent(phantomWallet);
-      await phantomWallet.initWallelt();
-      this.User = await phantomWallet.getWalletaddress();
+      this.snackBar.openSnackBar("Solana NFTs coming soon!","info");
+      return
+      // let phantomWallet = new UserWallet();
+      // phantomWallet = new PhantomComponent(phantomWallet);
+      // await phantomWallet.initWallelt();
+      // this.User = await phantomWallet.getWalletaddress();
 
-      this.router.navigate(['/user-dashboard/overview'], {
-        queryParams: { user: this.User, blockchain: blockchain },
-      });
-      this.sideNavOpened = false;
-      this.accListExpanded = false;
+      // this.router.navigate(['/user-dashboard/overview'], {
+      //   queryParams: { user: this.User, blockchain: blockchain },
+      // });
+      // this.sideNavOpened = false;
+      // this.accListExpanded = false;
     } else if (blockchain == 'ethereum' || blockchain == 'polygon') {
-      let metamaskwallet = new UserWallet();
-      metamaskwallet = new MetamaskComponent(metamaskwallet);
-      await metamaskwallet.initWallelt();
-      this.User = await metamaskwallet.getWalletaddress();
+      this.snackBar.openSnackBar("Ethereum and Polygon NFTs coming soon!","info");
+      return
+      // let metamaskwallet = new UserWallet();
+      // metamaskwallet = new MetamaskComponent(metamaskwallet);
+      // await metamaskwallet.initWallelt();
+      // this.User = await metamaskwallet.getWalletaddress();
 
-      this.router.navigate(['/user-dashboard/overview'], {
-        queryParams: { user: this.User, blockchain: blockchain },
-      });
-      this.sideNavOpened = false;
-      this.accListExpanded = false;
+      // this.router.navigate(['/user-dashboard/overview'], {
+      //   queryParams: { user: this.User, blockchain: blockchain },
+      // });
+      // this.sideNavOpened = false;
+      // this.accListExpanded = false;
     }
   }
 

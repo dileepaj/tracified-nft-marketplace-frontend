@@ -5,9 +5,8 @@
     fxLayoutAlign="space-between center"
   >
     <button
-      style="width: fit-content"
+      style="width: fit-content; background-color: transparent; border: none"
       (click)="goToHome()"
-      mat-icon-button
       disableRipple
     >
       <img
@@ -66,30 +65,39 @@
           </div>
           <div fxFlex="80%">Stellar</div>
         </button>
-        <button mat-menu-item (click)="goToExplore('ethereum')" fxLayout="row" fxLayoutAlign="center center">
+        <button
+          mat-menu-item
+          (click)="goToExplore('ethereum')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/ethereum.png" />
           </div>
-          <div fxFlex="80%">
-            Ethereum<span class="commingsoon">TBA</span>
-          </div>
+          <div fxFlex="80%">Ethereum<span class="commingsoon">TBA</span></div>
         </button>
-        <button mat-menu-item (click)="goToExplore('polygon')" fxLayout="row" fxLayoutAlign="center center">
+        <button
+          mat-menu-item
+          (click)="goToExplore('polygon')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/polygon.png" />
           </div>
-          <div fxFlex="80%">
-            Polygon<span class="commingsoon">TBA</span>
-          </div>
+          <div fxFlex="80%">Polygon<span class="commingsoon">TBA</span></div>
         </button>
 
-        <button mat-menu-item fxLayout="row" (click)="goToExplore('solana')" fxLayoutAlign="center center">
+        <button
+          mat-menu-item
+          fxLayout="row"
+          (click)="goToExplore('solana')"
+          fxLayoutAlign="center center"
+        >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/solana.png" />
           </div>
-          <div fxFlex="80%">
-            Solana<span class="commingsoon">TBA</span>
-          </div>
+          <div fxFlex="80%">Solana<span class="commingsoon">TBA</span></div>
         </button>
       </div>
     </div>
@@ -193,34 +201,39 @@
           </div>
           <div fxFlex="80%">Stellar</div>
         </button>
-        <button mat-menu-item
-        (click)="goToOverview('ethereum')"
-         fxLayout="row" fxLayoutAlign="center center" >
+        <button
+          mat-menu-item
+          (click)="goToOverview('ethereum')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/ethereum.png" />
           </div>
-          <div fxFlex="80%">
-            Ethereum <span class="commingsoon">TBA</span>
-          </div>
+          <div fxFlex="80%">Ethereum <span class="commingsoon">TBA</span></div>
         </button>
-        <button mat-menu-item 
-        (click)="goToOverview('polygon')"
-        fxLayout="row" fxLayoutAlign="center center" >
+        <button
+          mat-menu-item
+          (click)="goToOverview('polygon')"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/polygon.png" />
           </div>
-          <div fxFlex="80%">
-            Polygon <span class="commingsoon">TBA</span>
-          </div>
+          <div fxFlex="80%">Polygon <span class="commingsoon">TBA</span></div>
         </button>
 
-        <button mat-menu-item fxLayout="row" fxLayoutAlign="center center" (click)="goToOverview('solana')" > 
+        <button
+          mat-menu-item
+          fxLayout="row"
+          fxLayoutAlign="center center"
+          (click)="goToOverview('solana')"
+        >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/solana.png" />
           </div>
-          <div fxFlex="80%">
-            Solana <span class="commingsoon">TBA</span>
-          </div>
+          <div fxFlex="80%">Solana <span class="commingsoon">TBA</span></div>
         </button>
       </div>
     </div>
@@ -327,14 +340,29 @@
         >
           Stellar
         </a>
-        <a class="sidenav-text" mat-button [routerLinkActive]="['active-link']" (click)="goToExplore('ethereum')">
-          Ethereum 
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          (click)="goToExplore('ethereum')"
+        >
+          Ethereum
         </a>
-        <a class="sidenav-text" mat-button [routerLinkActive]="['active-link']" (click)="goToExplore('polygon')">
-          Polygon 
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          (click)="goToExplore('polygon')"
+        >
+          Polygon
         </a>
-        <a class="sidenav-text" mat-button [routerLinkActive]="['active-link']" (click)="goToExplore('solana')">
-          Solana 
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          (click)="goToExplore('solana')"
+        >
+          Solana
         </a>
       </div>
     </div>
@@ -430,20 +458,30 @@
         >
           Stellar
         </a>
-        <a class="sidenav-text" mat-button [routerLinkActive]="['active-link']"  (click)="goToOverview('ethereum')">
-          Ethereum 
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          (click)="goToOverview('ethereum')"
+        >
+          Ethereum
         </a>
-        <a class="sidenav-text" mat-button [routerLinkActive]="['active-link']"  (click)="goToOverview('polygon')">
-          Polygon 
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          (click)="goToOverview('polygon')"
+        >
+          Polygon
         </a>
 
-        <a 
-        class="sidenav-text" 
-        mat-button 
-        [routerLinkActive]="['active-link']"
-        (click)="goToOverview('solana')"
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          (click)="goToOverview('solana')"
         >
-          Solana 
+          Solana
         </a>
       </div>
     </div>

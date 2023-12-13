@@ -192,31 +192,31 @@ export class HeaderComponent implements OnInit {
         this.accListExpanded = false;
       }
     } else if (blockchain == 'solana') {
-      this.snackBar.openSnackBar("Solana NFTs coming soon!","info");
-      return
-      // let phantomWallet = new UserWallet();
-      // phantomWallet = new PhantomComponent(phantomWallet);
-      // await phantomWallet.initWallelt();
-      // this.User = await phantomWallet.getWalletaddress();
+      // this.snackBar.openSnackBar("Solana NFTs coming soon!","info");
+      // return
+      let phantomWallet = new UserWallet();
+      phantomWallet = new PhantomComponent(phantomWallet);
+      await phantomWallet.initWallelt();
+      this.User = await phantomWallet.getWalletaddress();
 
-      // this.router.navigate(['/user-dashboard/overview'], {
-      //   queryParams: { user: this.User, blockchain: blockchain },
-      // });
-      // this.sideNavOpened = false;
-      // this.accListExpanded = false;
+      this.router.navigate(['/user-dashboard/overview'], {
+        queryParams: { user: this.User, blockchain: blockchain },
+      });
+      this.sideNavOpened = false;
+      this.accListExpanded = false;
     } else if (blockchain == 'ethereum' || blockchain == 'polygon') {
-      this.snackBar.openSnackBar("Ethereum and Polygon NFTs coming soon!","info");
-      return
-      // let metamaskwallet = new UserWallet();
-      // metamaskwallet = new MetamaskComponent(metamaskwallet);
-      // await metamaskwallet.initWallelt();
-      // this.User = await metamaskwallet.getWalletaddress();
+      // this.snackBar.openSnackBar("Ethereum and Polygon NFTs coming soon!","info");
+      // return
+      let metamaskwallet = new UserWallet();
+      metamaskwallet = new MetamaskComponent(metamaskwallet);
+      await metamaskwallet.initWallelt();
+      this.User = await metamaskwallet.getWalletaddress();
 
-      // this.router.navigate(['/user-dashboard/overview'], {
-      //   queryParams: { user: this.User, blockchain: blockchain },
-      // });
-      // this.sideNavOpened = false;
-      // this.accListExpanded = false;
+      this.router.navigate(['/user-dashboard/overview'], {
+        queryParams: { user: this.User, blockchain: blockchain },
+      });
+      this.sideNavOpened = false;
+      this.accListExpanded = false;
     }
   }
 

@@ -377,8 +377,8 @@ export class BuyViewComponent implements OnInit {
                       if (isMobile) {
                         const { signature } = await (
                           window as any
-                        ).solana.signAndSendTransaction(result, ['finalized']);
-                        await connection.confirmTransaction(signature);
+                        ).solana.signAndSendTransaction(result);
+                       tx = await connection.confirmTransaction(signature);
                       } else {
                         const { signature } = await (
                           window as any

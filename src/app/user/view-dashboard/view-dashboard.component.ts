@@ -55,9 +55,9 @@ export class ViewDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.subscribe(async (params) => {
       this.selectedBlockchain = params['blockchain'];
-      this.pk = this.validatorService.GetActivePubKey(params['user'],this.selectedBlockchain)
+      this.pk = await this.validatorService.GetActivePubKey(params['user'],this.selectedBlockchain)
       this.retrive(this.selectedBlockchain, this.pk).then((res) => {
         this.setGreeting();
         if (window.innerWidth < 1280) {

@@ -7,6 +7,7 @@ import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackb
 import { Location } from '@angular/common';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { ConfirmDialogText } from 'src/app/models/confirmDialog';
+import { PubkeyvalidatorService } from 'src/app/services/common/pubkeyvalidator.service';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -28,11 +29,11 @@ export class EditProfileComponent implements OnInit {
   EndorseList: any;
   displayName: string;
   loading: boolean = false;
-  constructor(private router: Router, private dialogService: DialogService, private _location: Location, private route: ActivatedRoute, private service: ApiServicesService, private snackbarSrevice: SnackbarServiceService) { }
+  constructor(private router: Router, private dialogService: DialogService, private _location: Location, private route: ActivatedRoute, private service: ApiServicesService, private snackbarSrevice: SnackbarServiceService,private pubkeyveirfy:PubkeyvalidatorService) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.data = params['user'];
+    this.route.queryParams.subscribe(async (params) => {
+      this.data = await this.pubkeyveirfy.GetActivePubKey(params['user'],params['blockchain'])
       this.loading = true;
       this.service.getEndorsement(this.data).subscribe((res: any) => {
         this.EndorseList = res

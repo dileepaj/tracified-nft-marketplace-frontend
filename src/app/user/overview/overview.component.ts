@@ -1,3 +1,4 @@
+import { PubkeyvalidatorService } from 'src/app/services/common/pubkeyvalidator.service';
 import albedo from '@albedo-link/intent';
 import { P } from '@angular/cdk/keycodes';
 import { Component, OnInit } from '@angular/core';
@@ -60,7 +61,8 @@ export class OverviewComponent implements OnInit {
     private nft: NftServicesService,
     private _sanitizer: DomSanitizer,
     private walletSideNav: WalletSidenavService,
-    private service: ApiServicesService
+    private service: ApiServicesService,
+    private PubkeyvalidatorService:PubkeyvalidatorService,
   ) {}
 
   ngOnInit(): void {
@@ -71,9 +73,9 @@ export class OverviewComponent implements OnInit {
       window.location.reload();
       sessionStorage.setItem('refreshProfile', '0');
     }
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.subscribe(async (params) => {
       this.selectedBlockchain = params['blockchain'];
-      this.user = params['user'];
+      this.user = await this.PubkeyvalidatorService.GetActivePubKey(params['user'],this.selectedBlockchain)
       this.connectedWallet = '';
       this.getConnectedWallet();
       // this.router.navigate(['/user-dashboard'], {

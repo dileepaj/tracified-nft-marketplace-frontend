@@ -10,6 +10,8 @@ import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import albedo from '@albedo-link/intent';
+import { PubkeyvalidatorService } from 'src/app/services/common/pubkeyvalidator.service';
 @Component({
   selector: 'app-view-dashboard',
   templateUrl: './view-dashboard.component.html',
@@ -40,7 +42,8 @@ export class ViewDashboardComponent implements OnInit {
     private nft: NftServicesService,
     private collection: CollectionService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private validatorService : PubkeyvalidatorService,
   ) {}
 
   goToOverview() {
@@ -52,9 +55,9 @@ export class ViewDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.subscribe(async (params) => {
       this.selectedBlockchain = params['blockchain'];
-      this.pk = params['user'];
+      this.pk = await this.validatorService.GetActivePubKey(params['user'],this.selectedBlockchain)
       this.retrive(this.selectedBlockchain, this.pk).then((res) => {
         this.setGreeting();
         if (window.innerWidth < 1280) {

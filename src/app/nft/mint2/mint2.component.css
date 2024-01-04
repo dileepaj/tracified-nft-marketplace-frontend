@@ -345,6 +345,11 @@
   font-size: 18px;
 }
 
+.secondary-txt {
+  font-size: 14px !important;
+  color: #515151 !important;
+}
+
 .collection-dropdown-selected {
   color: #fff;
   font-size: 18px;
@@ -503,7 +508,7 @@ mat-hint.tags {
   font-weight: 400 !important;
   font-size: 22px !important;
   /* identical to box height */
-  line-height: 15px !important;
+  line-height: 24px !important;
   color: #ffffff !important;
 }
 

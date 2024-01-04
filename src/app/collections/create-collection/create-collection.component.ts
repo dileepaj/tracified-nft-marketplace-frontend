@@ -1,4 +1,11 @@
-import { Component, OnInit,Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ElementRef,
+  ViewChild,
+  HostListener,
+} from '@angular/core';
 import { Collection } from 'src/app/models/collection';
 import { CollectionService } from 'src/app/services/api-services/collection.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -13,6 +20,9 @@ import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmDialogText, SnackBarText } from 'src/app/models/confirmDialog';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SHA256, enc } from 'crypto-js';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 
 export interface Blockchain {
   value: string;
@@ -25,63 +35,98 @@ export interface Blockchain {
   styleUrls: ['./create-collection.component.css'],
 })
 export class CreateCollectionComponent implements OnInit {
+  @ViewChild('fileUpload') fileUpload: ElementRef<HTMLInputElement>;
+  @ViewChild('thumbDnd') thumbDnd: ElementRef<HTMLElement>;
   controlGroup: FormGroup;
   addSubscription: Subscription;
   selectVal: string = '';
-  collection: Collection = new Collection('', '', '', '',''); //declaring the model
+  collection: Collection = new Collection('', '', '', '', '', false); //declaring the model
   signerPK: string = '';
-  mail:any;
+  mail: any;
   key: any;
+  imageSrc: any;
+  file: File;
+  type: string;
+  base64: string = '';
+  Encoded: string;
+  hash: any;
+  img: any = '';
+  onHover: boolean = false;
+  cropperStat: boolean = false;
+  imageChangedEvent: any = '';
+  showthumbnailContainer: boolean = true;
+  croppedImage: any = '';
 
-  constructor(public service: CollectionService,
-     private _location: Location,
-     private router:Router,
-     private dialogService:DialogService,
-     private snackbarService:SnackbarServiceService,
-     private dialogRef: MatDialogRef<CreateCollectionComponent>,
-     @Inject(MAT_DIALOG_DATA) public data: any
+  constructor(
+    public service: CollectionService,
+    private _location: Location,
+    private router: Router,
+    private dialogService: DialogService,
+    private snackbarService: SnackbarServiceService,
+    private dialogRef: MatDialogRef<CreateCollectionComponent>,
+    private _sanitizer: DomSanitizer,
+    private snackbar: SnackbarServiceService,
 
-      ) {}
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   async save(): Promise<void> {
     //getting form data and sending it to the collection service to post
     //getting form data and equalling it to to model variables
     this.collection.CollectionName = this.formValue('collectionName');
     this.collection.OrganizationName = this.formValue('organizationName');
-    this.collection.Blockchain = "any";
-    this.collection.UserId=this.mail;
-    this.collection.Publickey=this.key;
-    this.dialogService.confirmDialog({
-      title:ConfirmDialogText.CREATE_COLLECTION_TITLE,
-      message:ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P1 +this.collection.CollectionName+ ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P2,
-      confirmText:ConfirmDialogText.CONFIRM_BTN,
-      cancelText:ConfirmDialogText.CANCEL_BTN
-    }).subscribe(result=>{
-      if(result){
-              //sending data to the service
-        this.addSubscription = this.service.add(this.collection).subscribe(res=>{
-          if(res != null || res!=""){
-            this.snackbarService.openSnackBar(this.collection.CollectionName+SnackBarText.CREATE_COLLECTION_SUCCESS_MESSAGE, 'success')
-            this.selectVal = this.collection.CollectionName;
-            this.dialogRef.close({UserId: this.collection.UserId, OrganizationName : this.collection.OrganizationName, CollectionName : this.collection.CollectionName});
-          }else{
-            this.snackbarService.openSnackBar(SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE, 'error')
-          }
-        });
-      }
-    })
-
-  }
-
-  done(){
-    this.router.navigate(['./mint'],{
-      queryParams:{data:JSON.stringify(this.collection.UserId)}
+    this.collection.Blockchain = 'any';
+    this.collection.UserId = this.mail;
+    this.collection.Publickey = this.key;
+    this.collection.isPrivate = this.formValue('isprivate');
+    this.dialogService
+      .confirmDialog({
+        title: ConfirmDialogText.CREATE_COLLECTION_TITLE,
+        message:
+          ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P1 +
+          this.collection.CollectionName +
+          ConfirmDialogText.CREATE_COLLECTION_MESSAGE_P2,
+        confirmText: ConfirmDialogText.CONFIRM_BTN,
+        cancelText: ConfirmDialogText.CANCEL_BTN,
+      })
+      .subscribe((result) => {
+        if (result) {
+          //sending data to the service
+          this.addSubscription = this.service
+            .add(this.collection)
+            .subscribe((res) => {
+              if (res != null || res != '') {
+                this.snackbarService.openSnackBar(
+                  this.collection.CollectionName +
+                    SnackBarText.CREATE_COLLECTION_SUCCESS_MESSAGE,
+                  'success'
+                );
+                this.selectVal = this.collection.CollectionName;
+                this.dialogRef.close({
+                  UserId: this.collection.UserId,
+                  OrganizationName: this.collection.OrganizationName,
+                  CollectionName: this.collection.CollectionName,
+                });
+              } else {
+                this.snackbarService.openSnackBar(
+                  SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE,
+                  'error'
+                );
+              }
+            });
+        }
       });
   }
 
+  done() {
+    this.router.navigate(['./mint'], {
+      queryParams: { data: JSON.stringify(this.collection.UserId) },
+    });
+  }
+
   ngOnInit(): void {
-    this.mail=this.data.email
-    this.key=this.data.key
+    this.mail = this.data.email;
+    this.key = this.data.key;
     this.controlGroup = new FormGroup({
       userId: new FormControl(this.collection.UserId, Validators.required),
       collectionName: new FormControl(
@@ -92,7 +137,10 @@ export class CreateCollectionComponent implements OnInit {
         this.collection.OrganizationName,
         Validators.required
       ),
-
+      isprivate: new FormControl(
+        this.collection.isPrivate,
+        Validators.required
+      ),
     });
   }
 
@@ -107,5 +155,109 @@ export class CreateCollectionComponent implements OnInit {
 
   public back() {
     this._location.back();
+  }
+
+  public triggerClick() {
+    let el: HTMLElement = this.fileUpload.nativeElement;
+    el.click();
+  }
+
+  public onChange(event: any) {
+    if (event.target.files[0].size <= 1 * 1024 * 1024) {
+      this.file = event.target.files[0];
+      if (
+        this.file.type.toLowerCase().includes('png') ||
+        this.file.type.toLowerCase().includes('jpg') ||
+        this.file.type.toLowerCase().includes('jpeg')
+      ) {
+        this.imageChangedEvent = event;
+        this.cropperStat = true;
+        this.showthumbnailContainer = false;
+      } else {
+        this.snackbar.openSnackBar('The file type is not supported', 'error');
+      }
+    } else {
+      this.snackbar.openSnackBar(
+        'Maximum file size for thumbnail is 1 MB',
+        'error'
+      );
+    }
+  }
+
+  //update html
+  public updateHTML() {
+    const reader = new FileReader();
+    reader.readAsDataURL(this.file);
+    reader.onload = (_event) => {
+      this.img = reader.result;
+      this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.img);
+    };
+  }
+
+  //create base64 image
+  private _handleReaderLoadedThumbnail(readerEvt: any) {
+    var binaryString = readerEvt.target.result;
+    this.Encoded = binaryString;
+    this.hash = SHA256(this.Encoded).toString(enc.Hex);
+    this.updateHTML();
+  }
+
+  @HostListener('dragover', ['$event']) public onDragOver(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    this.onHover = true;
+  }
+
+  @HostListener('dragleave', ['$event']) public onDragLeave(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    this.onHover = false;
+  }
+
+  @HostListener('drop', ['$event']) public onDrop(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    this.onHover = false;
+    if (this.thumbDnd.nativeElement.contains(evt.target)) {
+      let files = evt.dataTransfer.files;
+      let valid_files: Array<File> = files;
+      if (valid_files[0].size <= 1 * 1024 * 1024) {
+        this.file = valid_files[0];
+        if (
+          this.file.type.toLowerCase().includes('png') ||
+          this.file.type.toLowerCase().includes('jpg') ||
+          this.file.type.toLowerCase().includes('jpeg')
+        ) {
+          const el = this.fileUpload.nativeElement;
+          el.files = files;
+          el.dispatchEvent(new Event('change'));
+        } else {
+          this.snackbar.openSnackBar('The file type is not supported', 'error');
+        }
+      } else {
+        this.snackbar.openSnackBar(
+          'Maximum file size for NFT is 1 MB',
+          'error'
+        );
+      }
+    }
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+    this.imageSrc = this.croppedImage;
+    //this.updateHTML();
+    this.img = this.croppedImage;
+  }
+  hideCropper() {
+    this.cropperStat = false;
+    this.showthumbnailContainer = true;
+  }
+  imageLoaded(image?: LoadedImage) {}
+  cropperReady() {
+    // cropper ready
+  }
+  loadImageFailed() {
+    // show message
   }
 }

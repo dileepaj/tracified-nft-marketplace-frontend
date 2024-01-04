@@ -46,7 +46,7 @@ export class HeaderComponent implements OnInit {
     public loaderService: LoaderService,
     private walletService: WalletSidenavService,
     private dialogService: DialogService,
-    private snackBar: SnackbarServiceService,
+    private snackBar: SnackbarServiceService
   ) {}
 
   ngOnInit(): void {
@@ -212,6 +212,12 @@ export class HeaderComponent implements OnInit {
       await metamaskwallet.initWallelt();
       this.User = await metamaskwallet.getWalletaddress();
 
+      this.router.navigate(['/user-dashboard/overview'], {
+        queryParams: { user: this.User, blockchain: blockchain },
+      });
+      this.sideNavOpened = false;
+      this.accListExpanded = false;
+    } else if (blockchain == 'usd') {
       this.router.navigate(['/user-dashboard/overview'], {
         queryParams: { user: this.User, blockchain: blockchain },
       });

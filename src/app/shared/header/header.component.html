@@ -74,9 +74,7 @@
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/ethereum.png" />
           </div>
-          <div fxFlex="80%">
-            Ethereum
-          </div>
+          <div fxFlex="80%">Ethereum</div>
         </button>
         <button
           mat-menu-item
@@ -87,9 +85,7 @@
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/polygon.png" />
           </div>
-          <div fxFlex="80%">
-            Polygon
-          </div>
+          <div fxFlex="80%">Polygon</div>
         </button>
 
         <button
@@ -101,9 +97,22 @@
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/solana.png" />
           </div>
-          <div fxFlex="80%">
-            Solana
+          <div fxFlex="80%">Solana</div>
+        </button>
+        <button
+          mat-menu-item
+          fxLayout="row"
+          (click)="goToExplore('usd')"
+          fxLayoutAlign="center center"
+        >
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img
+              class="bc-icon"
+              style="width: 17px; height: 17px"
+              src="../../../assets/images/usd.png"
+            />
           </div>
+          <div fxFlex="80%">USD</div>
         </button>
       </div>
     </div>
@@ -216,9 +225,7 @@
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/ethereum.png" />
           </div>
-          <div fxFlex="80%">
-            Ethereum 
-          </div>
+          <div fxFlex="80%">Ethereum</div>
         </button>
         <button
           mat-menu-item
@@ -229,9 +236,7 @@
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/polygon.png" />
           </div>
-          <div fxFlex="80%">
-            Polygon 
-          </div>
+          <div fxFlex="80%">Polygon</div>
         </button>
 
         <button
@@ -243,9 +248,22 @@
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img class="bc-icon" src="../../../assets/images/solana.png" />
           </div>
-          <div fxFlex="80%">
-            Solana 
+          <div fxFlex="80%">Solana</div>
+        </button>
+        <button
+          mat-menu-item
+          fxLayout="row"
+          (click)="goToOverview('usd')"
+          fxLayoutAlign="center center"
+        >
+          <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
+            <img
+              class="bc-icon"
+              style="width: 17px; height: 17px"
+              src="../../../assets/images/usd.png"
+            />
           </div>
+          <div fxFlex="80%">USD</div>
         </button>
       </div>
     </div>
@@ -376,6 +394,14 @@
         >
           Solana
         </a>
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          (click)="goToExplore('usd')"
+        >
+          USD
+        </a>
       </div>
     </div>
     <div class="side-nav-link">
@@ -494,6 +520,14 @@
           (click)="goToOverview('solana')"
         >
           Solana
+        </a>
+        <a
+          class="sidenav-text"
+          mat-button
+          [routerLinkActive]="['active-link']"
+          (click)="goToOverview('usd')"
+        >
+          USD
         </a>
       </div>
     </div>

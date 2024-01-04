@@ -159,7 +159,7 @@ export class SellNftComponent implements OnInit {
     private currencyConverter: CurrencyConverterService,
     private StellarTransactionBuilder: TransactionBuilderService,
     private stellarUtil: StellarUtilService
-  ) { }
+  ) {}
 
   validateDecimal(input) {
     // Get the value of the input box and convert it to a number with 6 decimal places
@@ -410,32 +410,37 @@ export class SellNftComponent implements OnInit {
                     WalletType.ALBEDO_WALLET,
                     true,
                     0
-                  ).then((resultXDR) => {
-                    this.stellarUtil.SubmitXDRToGateway(resultXDR, StellarNFTOperationType.SELL).subscribe({
-                      next: (rst: any) => {
-                        this.saleBE.Timestamp = new Date().toString();
-                        this.selltxn = rst.hash;
-                        this.addDBBackend();
-                        loadingAnimation.close();
-                      },
-                      error: (error) => {
-                        this.snackbarService.openSnackBar(
-                          'Something went wrong, please try again! More information: ' +
-                          error,
-                          'error'
-                        );
-                      }
-                    },
-                    
-                    )
-                  }).catch(err => {
-                    loadingAnimation.close();
-                    this.snackbarService.openSnackBar(
-                      'Something went wrong, please try again! More information: ' +
-                      err,
-                      'error'
-                    );
-                  })
+                  )
+                    .then((resultXDR) => {
+                      this.stellarUtil
+                        .SubmitXDRToGateway(
+                          resultXDR,
+                          StellarNFTOperationType.SELL
+                        )
+                        .subscribe({
+                          next: (rst: any) => {
+                            this.saleBE.Timestamp = new Date().toString();
+                            this.selltxn = rst.hash;
+                            this.addDBBackend();
+                            loadingAnimation.close();
+                          },
+                          error: (error) => {
+                            this.snackbarService.openSnackBar(
+                              'Something went wrong, please try again! More information: ' +
+                                error,
+                              'error'
+                            );
+                          },
+                        });
+                    })
+                    .catch((err) => {
+                      loadingAnimation.close();
+                      this.snackbarService.openSnackBar(
+                        'Something went wrong, please try again! More information: ' +
+                          err,
+                        'error'
+                      );
+                    });
                 }
               });
           });
@@ -503,30 +508,34 @@ export class SellNftComponent implements OnInit {
                 WalletType.FREIGHTER_WALLET,
                 true,
                 0
-              ).then((resultXDR) => {
-                this.stellarUtil.SubmitXDRToGateway(resultXDR, StellarNFTOperationType.SELL).subscribe({
-                  next: (rst: any) => {
-                    this.saleBE.Timestamp = new Date().toString();
-                    this.selltxn = rst.hash;
-                    this.addDBBackend();
-                  },
-                  error: (error) => {
-                    loadingAnimation.close();
-                    this.snackbarService.openSnackBar(
-                      'Something went wrong, please try again! More information: ' +
-                      error,
-                      'error'
-                    );
-                  }
+              )
+                .then((resultXDR) => {
+                  this.stellarUtil
+                    .SubmitXDRToGateway(resultXDR, StellarNFTOperationType.SELL)
+                    .subscribe({
+                      next: (rst: any) => {
+                        this.saleBE.Timestamp = new Date().toString();
+                        this.selltxn = rst.hash;
+                        this.addDBBackend();
+                      },
+                      error: (error) => {
+                        loadingAnimation.close();
+                        this.snackbarService.openSnackBar(
+                          'Something went wrong, please try again! More information: ' +
+                            error,
+                          'error'
+                        );
+                      },
+                    });
                 })
-              }).catch(err => {
-                loadingAnimation.close();
-                this.snackbarService.openSnackBar(
-                  'Something went wrong, please try again! More information: ' +
-                  err,
-                  'error'
-                );
-              })
+                .catch((err) => {
+                  loadingAnimation.close();
+                  this.snackbarService.openSnackBar(
+                    'Something went wrong, please try again! More information: ' +
+                      err,
+                    'error'
+                  );
+                });
             }
           });
       }
@@ -616,7 +625,7 @@ export class SellNftComponent implements OnInit {
                   loadingAnimation.close();
                   this.snackbarService.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                    err,
+                      err,
                     'error'
                   );
                 }
@@ -726,7 +735,7 @@ export class SellNftComponent implements OnInit {
                     loadingAnimation.close();
                     this.snackbarService.openSnackBar(
                       'Something went wrong, please try again! More information: ' +
-                      err,
+                        err,
                       'error'
                     );
                   }
@@ -740,7 +749,7 @@ export class SellNftComponent implements OnInit {
               loadingAnimation.close();
               this.snackbarService.openSnackBar(
                 'Something went wrong, please try again! More information: ' +
-                err,
+                  err,
                 'error'
               );
             }
@@ -849,7 +858,7 @@ export class SellNftComponent implements OnInit {
                     loadingAnimation.close();
                     this.snackbarService.openSnackBar(
                       'Something went wrong, please try again! More information: ' +
-                      err,
+                        err,
                       'error'
                     );
                   }
@@ -863,7 +872,7 @@ export class SellNftComponent implements OnInit {
               loadingAnimation.close();
               this.snackbarService.openSnackBar(
                 'Something went wrong, please try again! More information: ' +
-                err,
+                  err,
                 'error'
               );
             }
@@ -1015,6 +1024,10 @@ export class SellNftComponent implements OnInit {
           }
           if (this.NFTList.blockchain == 'solana') {
             this.image = '../../../assets/images/solana-dd.png';
+          }
+
+          if (this.data[2] === 'usd') {
+            this.image = '../../assets/images/usd.png';
           }
 
           this.service

@@ -213,7 +213,7 @@ export class BuyViewComponent implements OnInit {
     private firebaseanalytics: FirebaseAnalyticsService,
     private stellarUtilService: StellarUtilService,
     private StellarTransactionBuilder: TransactionBuilderService
-  ) { }
+  ) {}
 
   public async getDeviceType(): Promise<boolean> {
     let details = navigator.userAgent;
@@ -378,7 +378,7 @@ export class BuyViewComponent implements OnInit {
                         const { signature } = await (
                           window as any
                         ).solana.signAndSendTransaction(result);
-                       tx = await connection.confirmTransaction(signature);
+                        tx = await connection.confirmTransaction(signature);
                       } else {
                         const { signature } = await (
                           window as any
@@ -412,7 +412,7 @@ export class BuyViewComponent implements OnInit {
                             } catch (err) {
                               this.snackbar.openSnackBar(
                                 'Something went wrong, please try again! More information: ' +
-                                err,
+                                  err,
                                 'error'
                               );
                             }
@@ -421,7 +421,7 @@ export class BuyViewComponent implements OnInit {
                     } catch (err) {
                       this.snackbar.openSnackBar(
                         'Something went wrong, please try again! More information: ' +
-                        err,
+                          err,
                         'error'
                       );
                     }
@@ -478,7 +478,7 @@ export class BuyViewComponent implements OnInit {
                 } catch (err) {
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                    err,
+                      err,
                     'error'
                   );
                 }
@@ -534,7 +534,7 @@ export class BuyViewComponent implements OnInit {
                 } catch (err) {
                   this.snackbar.openSnackBar(
                     'Something went wrong, please try again! More information: ' +
-                    err,
+                      err,
                     'error'
                   );
                 }
@@ -604,62 +604,70 @@ export class BuyViewComponent implements OnInit {
         this.royaltyCharge.toString(),
         this.commission,
         true,
-        WalletType.ALBEDO_WALLET,
-      ).then((resultXDR) => {
-        this.stellarUtilService.SubmitXDRToGateway(resultXDR, StellarNFTOperationType.BUY).subscribe({
-          next: (rst:any) => {
-            if (rst.hash != "" && rst.account !="") {
-              try {
-                this.snackbar.openSnackBar(
-                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                  'success'
-                );
-                this.buytxn = rst.hash;
-                this.saleBE.CurrentOwnerPK = rst.account;
-                this.saveTXNs();
-                this.service
-                  .updateNFTStatusBackend(this.saleBE)
-                  .subscribe();
-                this.updateGateway();
-              }
-              catch (error) {
-                this.snackbar.openSnackBar(
-                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                  'error'
-                );
-              }
-            }else{
-              this.snackbar.openSnackBar(
-                "NFT has already beign pruchased by someone.",
-                "error"
-              );
-              _callback()
-            }
-          },
-          error: (err: any) => {
-            if (err.status === 400) {
-              console.error("Bad Request:", err);
-              this.snackbar.openSnackBar("Bad Request: " + err.error.message, "error");
-            } else {
-              this.snackbar.openSnackBar("Cannot purchase NFT: " + err.message, "error");
-            }
-            _callback();
-          },
-          // error: err => {
-          //   this.snackbar.openSnackBar(
-          //     "Cannot purchase NFT: ",
-          //     "error"
-          //   );
-          //   _callback()
-          // },
-
+        WalletType.ALBEDO_WALLET
+      )
+        .then((resultXDR) => {
+          this.stellarUtilService
+            .SubmitXDRToGateway(resultXDR, StellarNFTOperationType.BUY)
+            .subscribe({
+              next: (rst: any) => {
+                if (rst.hash != '' && rst.account != '') {
+                  try {
+                    this.snackbar.openSnackBar(
+                      SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                      'success'
+                    );
+                    this.buytxn = rst.hash;
+                    this.saleBE.CurrentOwnerPK = rst.account;
+                    this.saveTXNs();
+                    this.service
+                      .updateNFTStatusBackend(this.saleBE)
+                      .subscribe();
+                    this.updateGateway();
+                  } catch (error) {
+                    this.snackbar.openSnackBar(
+                      SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                      'error'
+                    );
+                  }
+                } else {
+                  this.snackbar.openSnackBar(
+                    'NFT has already beign pruchased by someone.',
+                    'error'
+                  );
+                  _callback();
+                }
+              },
+              error: (err: any) => {
+                if (err.status === 400) {
+                  console.error('Bad Request:', err);
+                  this.snackbar.openSnackBar(
+                    'Bad Request: ' + err.error.message,
+                    'error'
+                  );
+                } else {
+                  this.snackbar.openSnackBar(
+                    'Cannot purchase NFT: ' + err.message,
+                    'error'
+                  );
+                }
+                _callback();
+              },
+              // error: err => {
+              //   this.snackbar.openSnackBar(
+              //     "Cannot purchase NFT: ",
+              //     "error"
+              //   );
+              //   _callback()
+              // },
+            });
+        })
+        .catch((err) => {
+          this.snackbar.openSnackBar(
+            'Cannot purchase NFT:Unable to build XDR ',
+            'error'
+          );
         });
-      }).catch(err => {
-        this.snackbar.openSnackBar(
-          "Cannot purchase NFT:Unable to build XDR ",
-          "error"
-        );
-      })
     } else {
       this.StellarTransactionBuilder.purchaseNFT(
         this.NFTList.nftname,
@@ -670,56 +678,65 @@ export class BuyViewComponent implements OnInit {
         this.royaltyCharge.toString(),
         this.commission,
         true,
-        WalletType.FREIGHTER_WALLET,
-      ).then((resultXDR) => {
-        this.stellarUtilService.SubmitXDRToGateway(resultXDR, StellarNFTOperationType.BUY).subscribe({
-          next: (rst:any) => {
-            if (rst.hash !="" && rst.account !="") {
-              try {
-                this.snackbar.openSnackBar(
-                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                  'success'
-                );
-                this.buytxn = rst.hash;
-                this.saleBE.CurrentOwnerPK = rst.account;
-                this.saveTXNs();
-                this.service
-                  .updateNFTStatusBackend(this.saleBE)
-                  .subscribe();
-                this.updateGateway();
-              }
-              catch (error) {
-                this.snackbar.openSnackBar(
-                  SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                  'error'
-                );
+        WalletType.FREIGHTER_WALLET
+      )
+        .then((resultXDR) => {
+          this.stellarUtilService
+            .SubmitXDRToGateway(resultXDR, StellarNFTOperationType.BUY)
+            .subscribe({
+              next: (rst: any) => {
+                if (rst.hash != '' && rst.account != '') {
+                  try {
+                    this.snackbar.openSnackBar(
+                      SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                      'success'
+                    );
+                    this.buytxn = rst.hash;
+                    this.saleBE.CurrentOwnerPK = rst.account;
+                    this.saveTXNs();
+                    this.service
+                      .updateNFTStatusBackend(this.saleBE)
+                      .subscribe();
+                    this.updateGateway();
+                  } catch (error) {
+                    this.snackbar.openSnackBar(
+                      SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                      'error'
+                    );
+                    _callback();
+                  }
+                } else {
+                  this.snackbar.openSnackBar(
+                    'NFT has already beign pruchased by someone.',
+                    'error'
+                  );
+                  _callback();
+                }
+              },
+              error: (err: any) => {
+                if (err.status === 400) {
+                  console.error('Bad Request:', err);
+                  this.snackbar.openSnackBar(
+                    'Bad Request: ' + err.error.message,
+                    'error'
+                  );
+                } else {
+                  this.snackbar.openSnackBar(
+                    'Cannot purchase NFT: ' + err.message,
+                    'error'
+                  );
+                }
                 _callback();
-              }
-            }else{
-              this.snackbar.openSnackBar(
-                "NFT has already beign pruchased by someone.",
-                "error"
-              );
-              _callback()
-            }
-          },
-          error: (err: any) => {
-            if (err.status === 400) {
-              console.error("Bad Request:", err);
-              this.snackbar.openSnackBar("Bad Request: " + err.error.message, "error");
-            } else {
-              this.snackbar.openSnackBar("Cannot purchase NFT: " + err.message, "error");
-            }
-            _callback();
-          },
+              },
+            });
         })
-      }).catch(err => {
-        this.snackbar.openSnackBar(
-          "Cannot purchase NFT : unable to build XDR",
-          "error"
-        );
-        _callback()
-      })
+        .catch((err) => {
+          this.snackbar.openSnackBar(
+            'Cannot purchase NFT : unable to build XDR',
+            'error'
+          );
+          _callback();
+        });
     }
   }
 
@@ -948,6 +965,10 @@ export class BuyViewComponent implements OnInit {
               this.image = '../../../assets/images/solana-dd.png';
               this.icon = '../../../assets/images/blockchain-icons/sol.png';
               this.crypto = 'SOL';
+            }
+            if (this.nftbe.Blockchain === 'usd') {
+              this.image = '../../assets/images/usd.png';
+              this.crypto = 'USD';
             }
 
             this.svg.Hash = this.NFTList.imagebase64;

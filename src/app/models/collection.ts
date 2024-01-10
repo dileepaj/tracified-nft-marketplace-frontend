@@ -5,7 +5,8 @@ export class Collection {
     public OrganizationName: string,
     public Blockchain?: string,
     public Publickey?: string,
-    public isPrivate?: boolean
+    public isPublic?: boolean,
+    public ThumbnailID?: string
   ) {}
 }
 

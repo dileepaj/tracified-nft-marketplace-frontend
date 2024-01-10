@@ -40,7 +40,7 @@ export class CreateCollectionComponent implements OnInit {
   controlGroup: FormGroup;
   addSubscription: Subscription;
   selectVal: string = '';
-  collection: Collection = new Collection('', '', '', '', '', false); //declaring the model
+  collection: Collection = new Collection('', '', '', '', '', true, ''); //declaring the model
   signerPK: string = '';
   mail: any;
   key: any;
@@ -78,7 +78,7 @@ export class CreateCollectionComponent implements OnInit {
     this.collection.Blockchain = 'any';
     this.collection.UserId = this.mail;
     this.collection.Publickey = this.key;
-    this.collection.isPrivate = this.formValue('isprivate');
+    this.collection.isPublic = this.formValue('ispublic');
     this.dialogService
       .confirmDialog({
         title: ConfirmDialogText.CREATE_COLLECTION_TITLE,
@@ -137,10 +137,7 @@ export class CreateCollectionComponent implements OnInit {
         this.collection.OrganizationName,
         Validators.required
       ),
-      isprivate: new FormControl(
-        this.collection.isPrivate,
-        Validators.required
-      ),
+      ispublic: new FormControl(this.collection.isPublic, Validators.required),
     });
   }
 
@@ -192,14 +189,6 @@ export class CreateCollectionComponent implements OnInit {
       this.img = reader.result;
       this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(this.img);
     };
-  }
-
-  //create base64 image
-  private _handleReaderLoadedThumbnail(readerEvt: any) {
-    var binaryString = readerEvt.target.result;
-    this.Encoded = binaryString;
-    this.hash = SHA256(this.Encoded).toString(enc.Hex);
-    this.updateHTML();
   }
 
   @HostListener('dragover', ['$event']) public onDragOver(evt) {

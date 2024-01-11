@@ -97,7 +97,7 @@ export class MintService {
 
   getNFTByTag(tag: string, pageSize: number, pageIndex: number) {
     return this.http.get<NFT[]>(
-      `${this.baseUrlNftByTags}/${tag}/${pageSize}/${pageIndex}`
+      `${this.baseUrlNftByTags}/${tag}?limit=${pageSize}&page=${pageIndex}&sort=1`
     );
   }
 

@@ -53,7 +53,7 @@ export class CollectionService {
   ): Observable<NFT[]> {
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${blockchain}/${collection}/${publickey}/${pageSize}/${pageIndex}`
+      `${this.baseUrlNFT}/${blockchain}/${collection}/${publickey}?limit=${pageSize}&page=${pageIndex}&sort=1`
     );
   }
 

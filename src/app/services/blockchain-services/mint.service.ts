@@ -36,6 +36,7 @@ export class MintService {
   mint: NFT;
   tag: tags;
   reqOpts: any;
+  sortBy: number = -1;
   private content = new Subject<any>();
 
   readonly headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -97,7 +98,7 @@ export class MintService {
 
   getNFTByTag(tag: string, pageSize: number, pageIndex: number) {
     return this.http.get<NFT[]>(
-      `${this.baseUrlNftByTags}/${tag}?limit=${pageSize}&page=${pageIndex}&sort=1`
+      `${this.baseUrlNftByTags}/${tag}?limit=${pageSize}&page=${pageIndex}&sort=${this.sortBy}`
     );
   }
 

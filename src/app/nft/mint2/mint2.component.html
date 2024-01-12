@@ -369,6 +369,70 @@
         />
       </div>
     </div>
+
+    <div
+      class="mint-form-group"
+      style="margin-top: 15px"
+      ngStyle.lt-md="width:100%; margin-bottom: 35px"
+    >
+      <label class="normal-text"
+        >Select Your Currency Preference <span class="required">*</span></label
+      >
+      <label class="tooltip"
+        >Your NFT can be listed with fiat or cryptocurrency. Please select which
+        one you prefer.</label
+      >
+      <div
+        style="
+          position: relative;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        "
+      >
+        <mat-form-field
+          appearance="outline"
+          style="width: 100%"
+          class="mint-form-field"
+        >
+          <mat-select
+            formControlName="Currency"
+            class="select-bc"
+            placeholder="Select Currency"
+            disableOptionCentering
+            panelClass="dropdown-panel-class"
+          >
+            <mat-select-trigger
+              *ngIf="controlGroup.controls['Currency'].value === 'usd'"
+            >
+              <div class="bc-dropdown-selected">
+                <label>United States Dollar (USD)</label>
+              </div>
+            </mat-select-trigger>
+            <mat-select-trigger
+              *ngIf="controlGroup.controls['Currency'].value === 'crypto'"
+            >
+              <div class="bc-dropdown-selected">
+                <label>Cryptocurrency&nbsp;</label>
+                <label class="secondary-txt"> (ETH, XLM, etc.)</label>
+              </div>
+            </mat-select-trigger>
+            <mat-option value="usd"
+              ><label class="collection-dropdown"
+                >United States Dollar (USD)</label
+              ></mat-option
+            >
+            <mat-option value="crypto"
+              ><label class="collection-dropdown">Cryptocurrency&nbsp;</label
+              ><label class="secondary-txt">
+                (ETH, XLM, etc.)</label
+              ></mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
     <div
       class="mint-form-group"
       style="margin-top: 15px"
@@ -454,14 +518,42 @@
       </mat-form-field>
     </div>
     <div
+      *ngIf="controlGroup.controls['Currency'].value === 'crypto'"
+      class="mint-form-group"
+      ngStyle.lt-md="width:100%"
+      style="margin-top: 15px"
+    >
+      <label class="normal-text">Royalty <span class="required">*</span></label>
+      <label class="tooltip">Enter Royalty as a percentage.</label>
+      <div class="input-field-wrapper">
+        <input
+          type="number"
+          class="input"
+          matInput
+          name="Royalty"
+          min="0"
+          formControlName="Royalty"
+          placeholder="Enter Royalty as a percentage."
+          (input)="sanatizeRoyaltyInput($event)"
+        />
+        <span
+          [class.invalid-border]="
+            (controlGroup.get('Royalty')!.touched || mintForm.submitted) &&
+            controlGroup.get('Royalty')?.hasError('required')
+          "
+        ></span>
+        <label class="prefix">%</label>
+      </div>
+    </div>
+    <div
       class="mint-form-group"
       style="margin-top: 15px"
       ngStyle.lt-md="width:100%"
     >
       <label class="normal-text">Tags <span class="required">*</span></label>
       <label class="tooltip"
-        >Enter upto four tags seperated by a comma, that best describes your NFT. Tags can be used
-        to search for NFTs.</label
+        >Enter upto four tags seperated by a comma, that best describes your
+        NFT. Tags can be used to search for NFTs.</label
       >
       <mat-form-field
         class="example-chip-list mint-form-field"
@@ -497,34 +589,8 @@
         <!-- <mat-hint class="tags">Maximum tags allowed is 4</mat-hint> -->
       </mat-form-field>
     </div>
-    <div class="mint-form-group margin"   ngStyle.lt-md="width:100%">
-      <label class="normal-text"
-        >NFT Royalty <span class="required">*</span></label
-      >
-      <label class="tooltip"
-      >Include an external link to a page further describing your NFT.</label
-    >
-      <div class="input-field-wrapper">
-        <input
-          type="number"
-          class="input"
-          matInput
-          name="Royalty"
-          min="0"
-          formControlName="Royalty"
-          placeholder="Enter Royalty as a percentage."
-          (input)="sanatizeRoyaltyInput($event)"
-        />
-        <span
-          [class.invalid-border]="
-            (controlGroup.get('Royalty')!.touched || mintForm.submitted) &&
-            controlGroup.get('Royalty')?.hasError('required')
-          "
-        ></span>
-        <label class="prefix">%</label>
-      </div>
-    </div>
-    <div class="mint-form-group" ngStyle.lt-md="width:100%">
+
+    <div class="mint-form-group margin" ngStyle.lt-md="width:100%">
       <label class="normal-text">External Link </label>
       <label class="tooltip"
         >Include an external link to a page further describing your NFT.</label

@@ -3,14 +3,13 @@ export class Collection {
     public UserId: string,
     public CollectionName: string,
     public OrganizationName: string,
+    public Timestamp?: string,
     public Blockchain?: string,
     public Publickey?: string,
+    public isPublic?: boolean
   ) {}
 }
 
 export class MyCollection {
-  constructor(
-    public collection: string
-  ) {}
+  constructor(public collection: string) {}
 }
-

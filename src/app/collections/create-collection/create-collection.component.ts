@@ -19,10 +19,15 @@ import { Route, Router } from '@angular/router';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ConfirmDialogText, SnackBarText } from 'src/app/models/confirmDialog';
+import {
+  ConfirmDialogText,
+  PendingDialogText,
+  SnackBarText,
+} from 'src/app/models/confirmDialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SHA256, enc } from 'crypto-js';
 import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { FileDetails } from 'src/app/models/fildedetails';
 
 export interface Blockchain {
   value: string;
@@ -40,7 +45,8 @@ export class CreateCollectionComponent implements OnInit {
   controlGroup: FormGroup;
   addSubscription: Subscription;
   selectVal: string = '';
-  collection: Collection = new Collection('', '', '', '', '', true, ''); //declaring the model
+  collection: Collection = new Collection('', '', '', '', '', '', true, ''); //declaring the model
+  fileDetails: FileDetails = new FileDetails('', '');
   signerPK: string = '';
   mail: any;
   key: any;
@@ -73,12 +79,36 @@ export class CreateCollectionComponent implements OnInit {
   async save(): Promise<void> {
     //getting form data and sending it to the collection service to post
     //getting form data and equalling it to to model variables
+
+    if (this.croppedImage === '') {
+      this.snackbarService.openSnackBar(
+        SnackBarText.PLEASE_UPLOAD_A_THUMBNAIL,
+        'error'
+      );
+      return;
+    } else if (
+      this.formValue('collectionName') === '' ||
+      this.formValue('organizationName') === ''
+    ) {
+      this.snackbarService.openSnackBar(
+        SnackBarText.CONTACT_US_FIELDS_EMPTY_WARNING,
+        'error'
+      );
+      return;
+    }
+
     this.collection.CollectionName = this.formValue('collectionName');
     this.collection.OrganizationName = this.formValue('organizationName');
     this.collection.Blockchain = 'any';
     this.collection.UserId = this.mail;
     this.collection.Publickey = this.key;
     this.collection.isPublic = this.formValue('ispublic');
+    this.collection.ThumbnailID =
+      'QmYJE6fwMsG3k48hC6Si6euYdi6FcJC4f4cZcDcFemfS3m';
+    this.collection.Timestamp = new Date().toISOString();
+    this.fileDetails.FileName = this.file.name;
+    this.fileDetails.FileContent = this.croppedImage;
+
     this.dialogService
       .confirmDialog({
         title: ConfirmDialogText.CREATE_COLLECTION_TITLE,
@@ -92,10 +122,14 @@ export class CreateCollectionComponent implements OnInit {
       .subscribe((result) => {
         if (result) {
           //sending data to the service
+          const pendingDialog = this.dialogService.pendingDialog({
+            message: PendingDialogText.PLEASE_WAIT,
+          });
           this.addSubscription = this.service
-            .add(this.collection)
+            .add(this.collection, this.fileDetails)
             .subscribe((res) => {
               if (res != null || res != '') {
+                pendingDialog.close();
                 this.snackbarService.openSnackBar(
                   this.collection.CollectionName +
                     SnackBarText.CREATE_COLLECTION_SUCCESS_MESSAGE,
@@ -108,6 +142,7 @@ export class CreateCollectionComponent implements OnInit {
                   CollectionName: this.collection.CollectionName,
                 });
               } else {
+                pendingDialog.close();
                 this.snackbarService.openSnackBar(
                   SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE,
                   'error'

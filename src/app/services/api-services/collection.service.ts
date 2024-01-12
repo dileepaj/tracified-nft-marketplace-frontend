@@ -5,6 +5,7 @@ import { Collection } from 'src/app/models/collection';
 import { NFT } from 'src/app/models/minting';
 import { Endorse } from 'src/app/models/endorse';
 import { APIConfigENV } from 'src/environments/environment';
+import { FileDetails } from 'src/app/models/fildedetails';
 
 @Injectable({
   providedIn: 'root',
@@ -33,9 +34,14 @@ export class CollectionService {
     );
   }
 
-  add(st: Collection): Observable<Collection> {
+  add(collection: Collection, file: FileDetails): Observable<Collection> {
+    const payload: any = {
+      collectiondetails: collection,
+      filedetails: file,
+      filetype: 2,
+    };
     //request to add collection into the nft backend DB
-    return this.http.post<Collection>(this.baseUrlSave, st, {
+    return this.http.post<Collection>(this.baseUrlSave, payload, {
       headers: this.headers,
     });
   }

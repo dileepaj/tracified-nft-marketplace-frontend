@@ -49,6 +49,7 @@ export class NftServicesService {
   baseUrlQueue: string = this.gateWayBaseURL + 'lock';
   baseUrlGetQueueData: string = this.gateWayBaseURL + 'queue';
   baseUrlSellingStatus: string = this.nftBackendBaseURL + 'marketplace/nft';
+  sortBy: number = -1;
 
   constructor(private http: HttpClient) {}
 
@@ -155,7 +156,7 @@ export class NftServicesService {
   ): Observable<NFT[]> {
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(
-      `${this.nftBackendBaseURL}profilecontent/${userId}/${blockchain}/${filter}?limit=${this.pageSize}&page=${requestedPage}&sort=1`
+      `${this.nftBackendBaseURL}profilecontent/${userId}/${blockchain}/${filter}?limit=${this.pageSize}&page=${requestedPage}&sort=${this.sortBy}`
     );
   }
 
@@ -173,7 +174,7 @@ export class NftServicesService {
     requestedPage: number
   ): Observable<GetNFT[]> {
     return this.http.get<GetNFT[]>(
-      `${this.baseUrlPaginated}/${blockchain}?limit=${this.pageSize}&page=${requestedPage}&sort=1`
+      `${this.baseUrlPaginated}/${blockchain}?limit=${this.pageSize}&page=${requestedPage}&sort=${this.sortBy}`
     );
   }
 
@@ -183,7 +184,7 @@ export class NftServicesService {
     filter: string
   ): Observable<GetNFT[]> {
     return this.http.get<GetNFT[]>(
-      `${this.baseUrlPaginated}/${blockchain}/${filter}?limit=${this.pageSize}&page=${requestedPage}&sort=1`
+      `${this.baseUrlPaginated}/${blockchain}/${filter}?limit=${this.pageSize}&page=${requestedPage}&sort=${this.sortBy}`
     );
   }
 
@@ -193,7 +194,7 @@ export class NftServicesService {
     filter: string
   ): Observable<GetNFT[]> {
     return this.http.get<GetNFT[]>(
-      `${this.baseUrlPaginated}/filterby/${filter}/${blockchain}?limit=${this.pageSize}&page=${requestedPage}&sort=1`
+      `${this.baseUrlPaginated}/filterby/${filter}/${blockchain}?limit=${this.pageSize}&page=${requestedPage}&sort=${this.sortBy}`
     );
   }
 
@@ -202,7 +203,7 @@ export class NftServicesService {
     blockchain: string
   ): Observable<GetNFT[]> {
     return this.http.get<GetNFT[]>(
-      `${this.baseUrlBestCreators}${blockchain}?limit=${this.pageSize}&page=${requestedPage}&sort=1`
+      `${this.baseUrlBestCreators}${blockchain}?limit=${this.pageSize}&page=${requestedPage}&sort=${this.sortBy}`
     );
   }
 
@@ -213,7 +214,7 @@ export class NftServicesService {
     pageSize: number
   ): Observable<NFT[]> {
     return this.http.get<NFT[]>(
-      `${this.baseUrlOnSale}/${filter}/${blockchain}?limit=${this.pageSize}&page=${requestedPage}&sort=1`
+      `${this.baseUrlOnSale}/${filter}/${blockchain}?limit=${this.pageSize}&page=${requestedPage}&sort=${this.sortBy}`
     );
   }
 }

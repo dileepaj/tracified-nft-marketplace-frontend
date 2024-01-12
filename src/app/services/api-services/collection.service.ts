@@ -18,6 +18,7 @@ export class CollectionService {
   baseUrlEndorsing: string = this.nftBackendBaseURL + 'endorsement';
   baseUrlNFT: string = this.nftBackendBaseURL + 'nftcollection';
   baseUrlCollection: string = this.nftBackendBaseURL + 'collection';
+  sortBy: number = -1;
 
   readonly headers = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient) {}

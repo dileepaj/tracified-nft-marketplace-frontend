@@ -45,7 +45,7 @@ export class CreateCollectionComponent implements OnInit {
   controlGroup: FormGroup;
   addSubscription: Subscription;
   selectVal: string = '';
-  collection: Collection = new Collection('', '', '', '', '', '', true, ''); //declaring the model
+  collection: Collection = new Collection('', '', '', '', '', '', true); //declaring the model
   fileDetails: FileDetails = new FileDetails('', '');
   signerPK: string = '';
   mail: any;
@@ -103,8 +103,7 @@ export class CreateCollectionComponent implements OnInit {
     this.collection.UserId = this.mail;
     this.collection.Publickey = this.key;
     this.collection.isPublic = this.formValue('ispublic');
-    this.collection.ThumbnailID =
-      'QmYJE6fwMsG3k48hC6Si6euYdi6FcJC4f4cZcDcFemfS3m';
+
     this.collection.Timestamp = new Date().toISOString();
     this.fileDetails.FileName = this.file.name;
     this.fileDetails.FileContent = this.croppedImage;

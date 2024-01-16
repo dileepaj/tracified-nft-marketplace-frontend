@@ -13,6 +13,7 @@ import {
 } from 'src/app/models/minting';
 import { APIConfigENV } from 'src/environments/environment';
 import { SnackbarServiceService } from '../snackbar-service/snackbar-service.service';
+import { SVGDataExtraction } from 'src/app/models/enums/SVGDataExtraction';
 
 @Injectable({
   providedIn: 'root',
@@ -184,7 +185,8 @@ export class MintService {
     nftLink: string,
     artist: string,
     artistLink: string,
-    royalty: string
+    royalty: string,
+    SVGReadContent:Record<SVGDataExtraction, string>
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       this.reqOpts = {
@@ -208,6 +210,9 @@ export class MintService {
         ArtistName: artist,
         ArtistLink: artistLink,
         Royalty: royalty,
+        BatchId : SVGReadContent.BatchCTRAC,
+        ProductId: SVGReadContent.ProductBTRAC,
+        TenantId:SVGReadContent.TenantATRAC
       };
       this.http.post(this.baseUrlMintSolana, NFTModel, this.reqOpts).subscribe(
         (response) => {

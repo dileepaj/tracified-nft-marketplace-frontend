@@ -338,6 +338,7 @@ export class NftgridComponent implements OnInit {
                         '',
                         '',
                         '',
+                        '',
                         false,
                         false,
                         ''
@@ -405,6 +406,7 @@ export class NftgridComponent implements OnInit {
           }
         });
       let card: NFTCard = new NFTCard(
+        '',
         '',
         '',
         '',

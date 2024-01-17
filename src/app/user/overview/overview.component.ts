@@ -166,6 +166,7 @@ export class OverviewComponent implements OnInit {
                       '',
                       '',
                       '',
+                      '',
                       false,
                       false,
                       ''
@@ -254,6 +255,7 @@ export class OverviewComponent implements OnInit {
                           }
                         });
                       let card: NFTCard = new NFTCard(
+                        '',
                         '',
                         '',
                         '',
@@ -367,6 +369,7 @@ export class OverviewComponent implements OnInit {
                       '',
                       '',
                       '',
+                      '',
                       false,
                       false,
                       ''
@@ -456,6 +459,7 @@ export class OverviewComponent implements OnInit {
                         }
                       });
                     let card: NFTCard = new NFTCard(
+                      '',
                       '',
                       '',
                       '',
@@ -575,6 +579,7 @@ export class OverviewComponent implements OnInit {
                         }
                       });
                     let card: NFTCard = new NFTCard(
+                      '',
                       '',
                       '',
                       '',

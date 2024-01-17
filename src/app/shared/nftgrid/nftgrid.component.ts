@@ -339,7 +339,8 @@ export class NftgridComponent implements OnInit {
                         '',
                         '',
                         false,
-                        false
+                        false,
+                        ''
                       );
                       card.ImageBase64 = this.imageSrc;
                       // card.thumbnail= cont.thumbnail;
@@ -350,6 +351,7 @@ export class NftgridComponent implements OnInit {
                       card.CreatorUserId = cont.creatoruserid;
                       card.SellingStatus = cont.sellingstatus;
                       card.CurrentOwnerPK = cont.currentownerpk;
+                      card.CurrentPrice = cont.currentprice;
                       this.List.push(card);
                       if (this.List.length === this.responseArrayLength) {
                         this.loading = false;
@@ -412,7 +414,8 @@ export class NftgridComponent implements OnInit {
         '',
         '',
         false,
-        false
+        false,
+        ''
       );
       card.ImageBase64 = this.imageSrc;
       // card.thumbnail=this.thumbnailSRC
@@ -422,7 +425,7 @@ export class NftgridComponent implements OnInit {
       card.CreatorUserId = response.creatoruserid;
       card.CurrentOwnerPK = response.currentownerpk;
       card.SellingStatus = response.sellingstatus;
-
+      card.CurrentPrice = response.currentprice;
       this.List.push(card);
       this.loading = false;
     });

@@ -6,20 +6,7 @@
 
 @import "~highlight.js/styles/github.css";
 body {
-  background: radial-gradient(
-        107.46% 107.46% at 92.81% 151.49%,
-        #44795a 19.79%,
-        rgba(15, 22, 14, 1) 100%
-      )
-      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
-    radial-gradient(
-        74.55% 188.74% at -19.17% 100%,
-        #44795a 19.79%,
-        rgba(15, 22, 14, 1) 100%
-      )
-      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
-    #000000;
-  background-attachment: fixed;
+  background-color: #121212;
 }
 
 html,

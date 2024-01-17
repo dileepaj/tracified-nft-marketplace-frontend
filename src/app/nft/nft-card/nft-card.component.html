@@ -1,51 +1,70 @@
-<div class="nft-item">
-  <!-- *ngIf="item.ImageBase64" -->
-  <img
-    [src]="item.thumbnail"
-    class="nft-img"
-    alt=" "
-    onerror="this.onerror=null;this.src='../../../assets/images/thumbnail-placeholder.png'"
-  />
-  <!-- </object> -->
-  <div
-    [id]="'overlay' + itemId"
-    class="nft-img-overlay"
-    (click)="routeToBuy(item.NFTIdentifier)"
-  >
-    <label
-      ngClass.gt-sm="overlay-text"
-      ngClass.lt-sm="overlay-hide"
-      ngClass.sm="overlay-hide"
-      >Click to View</label
-    >
-  </div>
-  <div class="nft-title" (click)="routeToBuy(item.NFTIdentifier)">
-    {{ item.NFTName }}
-  </div>
-  <div class="nft-actions">
+<div class="card-parent" matRipple>
+  <div class="thumbnail-wrapper">
     <img
-      class="nft-action-btn"
-      src="../../../assets/images/purchase.png"
-      matTooltip="{{ this.tip }}"
+      [src]="item.thumbnail"
+      class="thumbnail"
+      alt=" "
+      onerror="this.onerror=null;this.src='../../../assets/images/thumbnail-placeholder.png'"
       (click)="routeToBuy(item.NFTIdentifier)"
     />
-    <img
-      class="nft-action-btn"
-      src="../../../assets/images/view.png"
-      matTooltip="View NFT"
-      (click)="openPreview()"
-    />
-    <img
-      class="nft-action-btn"
-      src="../../../assets/images/wishlist.png"
-      matTooltip="Add to watchlist"
-      (click)="addToWatchList(item.NFTIdentifier)"
-    />
-    <img
-      class="nft-action-btn"
-      src="../../../assets/images/favorite.png"
-      matTooltip="Add to favorites"
-      (click)="addToFavourites(item.NFTIdentifier)"
-    />
+    <div class="bc-icon-wrapper">
+      <img
+        *ngIf="item.Blockchain !== 'usd' && item.Blockchain !== 'jpy'"
+        style="
+          vertical-align: middle;
+
+          transform: scale(1.1);
+        "
+        [src]="'../../../assets/images/' + item.Blockchain + '.png'"
+      />
+      <img
+        *ngIf="item.Blockchain === 'usd' || item.Blockchain === 'jpy'"
+        style="
+          vertical-align: middle;
+
+          width: 20px;
+          height: 20px;
+        "
+        [src]="'../../../assets/images/usd.png'"
+      />
+    </div>
   </div>
+
+  <div class="title-div">
+    <div class="nft-actions">
+      <label class="title">{{ item.NFTName }}</label
+      ><img
+        class="nft-action-btn"
+        style="margin-right: 15px"
+        src="../../../assets/images/wishlist.png"
+        matTooltip="Add to watchlist"
+        (click)="addToWatchList(item.NFTIdentifier)"
+      />
+      <img
+        class="nft-action-btn"
+        src="../../../assets/images/favorite.png"
+        matTooltip="Add to favorites"
+        (click)="addToFavourites(item.NFTIdentifier)"
+      />
+    </div>
+
+    <label *ngIf="item.CurrentPrice !== ''" class="nft-count"
+      >{{ item.CurrentPrice }}&nbsp;{{
+        item.Blockchain === "stellar"
+          ? "XLM"
+          : item.Blockchain === "ethereum"
+          ? "ETH"
+          : item.Blockchain === "solana"
+          ? "SOL"
+          : item.Blockhain === "polygon"
+          ? "MATIC"
+          : ""
+      }}</label
+    >
+  </div>
+  <button class="btn-view-collection" (click)="routeToBuy(item.NFTIdentifier)">
+    <img class="buy-icon" src="../../../assets/images/purchase.png" />
+    {{getButtonText()}}
+  </button>
 </div>
+

@@ -113,14 +113,15 @@ export class HeaderComponent implements OnInit {
     return this.router.url.split('?')[0];
   }
 
-  public goToExplore(blockchain: string) {
-    this.router
+  public goToExplore() {
+    this.router.navigate(['/explore/collections']);
+    /* this.router
       .navigate(['/explore'], {
         queryParams: { blockchain: blockchain, filter: 'all' },
       })
       .then((res) => {
         window.location.reload();
-      });
+      }); */
     this.sideNavOpened = false;
     this.bcListExpanded = false;
   }

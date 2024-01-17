@@ -306,4 +306,14 @@ export class NftCardComponent implements OnInit {
   public openPreview() {
     this.dialogService.openNftPreview({ image: this.item.ImageBase64 });
   }
+
+  public getButtonText() : string {
+    let text = 'Buy Now'
+    if (this.router.url.includes('user-dashboard')) {
+      if (this.sellingstatus === 'Minted' || this.sellingstatus === 'NOTFORSALE') {
+        text = 'Sell Now'
+      }
+    } 
+    return text
+  }
 }

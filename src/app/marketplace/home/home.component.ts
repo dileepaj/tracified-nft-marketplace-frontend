@@ -65,8 +65,8 @@ export class HomeComponent implements OnInit {
   paginationflag: boolean = false;
   bestPicksLoading: boolean = false;
   trendingLoading: boolean = false;
-  private readonly tracifiedhelp = APIConfigENV.tracifiedhelpDocsbaseURL
-  readonly helpDocsMK: string = `${this.tracifiedhelp}docs/NFTPlatform/marketplace/introtoMarketplace`
+  private readonly tracifiedhelp = APIConfigENV.tracifiedhelpDocsbaseURL;
+  readonly helpDocsMK: string = `${this.tracifiedhelp}docs/NFTPlatform/marketplace/introtoMarketplace`;
   constructor(
     private dialogref: MatDialog,
     private nft: NftServicesService,
@@ -285,7 +285,8 @@ export class HomeComponent implements OnInit {
                       '',
                       '',
                       false,
-                      false
+                      false,
+                      ''
                     );
                     card.ImageBase64 = this.imageSrc;
                     // card.thumbnail= cont.thumbnail;
@@ -296,6 +297,7 @@ export class HomeComponent implements OnInit {
                     card.CreatorUserId = cont.creatoruserid;
                     card.SellingStatus = cont.sellingstatus;
                     card.CurrentOwnerPK = cont.currentownerpk;
+                    card.CurrentPrice = cont.currentprice;
                     this.List.push(card);
                     if (this.List.length === responseArrayLength) {
                       this.bestPicksLoading = false;
@@ -379,7 +381,8 @@ export class HomeComponent implements OnInit {
                       '',
                       '',
                       false,
-                      false
+                      false,
+                      ''
                     );
                     card.ImageBase64 = this.imageSrc;
                     // card.thumbnail= cont.thumbnail;
@@ -390,6 +393,7 @@ export class HomeComponent implements OnInit {
                     card.CreatorUserId = cont.creatoruserid;
                     card.SellingStatus = cont.sellingstatus;
                     card.CurrentOwnerPK = cont.currentownerpk;
+                    card.CurrentPrice = cont.currentprice;
                     this.List2.push(card);
                     if (this.List2.length === responseArrayLength) {
                       this.trendingLoading = false;

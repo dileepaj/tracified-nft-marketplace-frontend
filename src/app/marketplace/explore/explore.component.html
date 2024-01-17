@@ -4,13 +4,93 @@
       <mat-icon class="back" matTooltip="Back" (click)="back()"
         >arrow_back</mat-icon
       >
-      <label class="explore-heading">Explore NFTs</label>
+      <label class="explore-heading">{{ collectionName }} Collection</label>
     </div>
+
+    <div class="bc-filter-wrapper cont-wrapper">
+      <div
+        class="bc-filter-name"
+        [class.selected-bc]="selectedBlockchain === 'stellar'"
+        (click)="changeBlockchain('stellar')"
+        matRipple
+      >
+        <img [src]="'../../../assets/images/stellar.png'" />
+        <label>Stellar</label>
+      </div>
+      <div
+        class="bc-filter-name"
+        [class.selected-bc]="selectedBlockchain === 'ethereum'"
+        (click)="changeBlockchain('ethereum')"
+        matRipple
+      >
+        <img [src]="'../../../assets/images/ethereum.png'" />
+        <label>Ethereum</label>
+      </div>
+      <div
+        class="bc-filter-name"
+        [class.selected-bc]="selectedBlockchain === 'polygon'"
+        (click)="changeBlockchain('polygon')"
+        matRipple
+      >
+        <img [src]="'../../../assets/images/polygon.png'" />
+        <label>Polygon</label>
+      </div>
+      <div
+        class="bc-filter-name"
+        [class.selected-bc]="selectedBlockchain === 'solana'"
+        (click)="changeBlockchain('solana')"
+        matRipple
+      >
+        <img [src]="'../../../assets/images/solana.png'" />
+        <label>Solana</label>
+      </div>
+      <div
+        class="bc-filter-name"
+        [class.selected-bc]="selectedBlockchain === 'usd'"
+        (click)="changeBlockchain('usd')"
+        matRipple
+      >
+        <img
+          [src]="'../../../assets/images/usd.png'"
+          style="width: 18px; height: 18px"
+        />
+        <label>USD</label>
+      </div>
+    </div>
+    <div class="filter-dd-wrapper cont-wrapper">
+      <div
+        style="
+          width: 90%;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+        "
+      >
+        <div #ddRef class="filter-dropdown" (click)="clickedOnDropdown()">
+          <div class="filter-dd-btn" (click)="openFilterDropdown()" matRipple>
+            <mat-icon class="material-symbols-outlined"> swap_vert </mat-icon>
+            <span *ngIf="selectedFilter === 'all'">Latest</span>
+            <span *ngIf="selectedFilter === 'hotpicks'">Hot Picks</span>
+            <span *ngIf="selectedFilter === 'trending'">Trending</span>
+            <mat-icon class="material-symbols-outlined">
+              arrow_drop_down
+            </mat-icon>
+          </div>
+
+          <div class="filter-dropdown-content">
+            <div (click)="setFilter('all')" matRipple>Latest</div>
+            <div (click)="setFilter('hotpicks')" matRipple>Hot Picks</div>
+            <div (click)="setFilter('trending')" matRipple>Trending</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
       >arrow_back</mat-icon
     >
     <h1 style="font-size: 40px">Explore Collections</h1> -->
-    <div style="margin-top: 10px" fxFlexLayout="row wrap" fxFlexAlign="center">
+    <!-- <div style="margin-top: 10px" fxFlexLayout="row wrap" fxFlexAlign="center">
       <img
         *ngIf="selectedBlockchain !== 'usd'"
         style="
@@ -33,8 +113,8 @@
       <label style="font-size: 18px">{{
         selectedBlockchain.charAt(0).toUpperCase() + selectedBlockchain.slice(1)
       }}</label>
-    </div>
-    <div class="filters cont-wrapper">
+    </div> -->
+    <!-- <div class="filters cont-wrapper">
       <div
         class="filter"
         [class.active-filter]="selectedFilter === 'all'"
@@ -114,7 +194,7 @@
         />
         Best Creations
       </div>
-    </div>
+    </div> -->
     <div class="explore-content cont-wrapper" fxLayout="row wrap">
       <div class="cont-inner" *ngIf="!loading && List.length > 0">
         <div *ngFor="let item of List; index as i">

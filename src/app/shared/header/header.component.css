@@ -15,7 +15,7 @@
 .navbar-text {
   padding-top: 0px;
   color: white;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
@@ -28,7 +28,7 @@
 .sidenav-text {
   padding-top: 0px;
   color: white;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
@@ -102,8 +102,6 @@
 
 .active-link {
   color: #00c853;
-  text-decoration: underline solid #00c853 3px;
-  text-underline-offset: 5px;
 }
 
 .header-colored {
@@ -222,22 +220,22 @@ button.mat-menu-item:hover {
   display: block;
 }
 
-.dropdown-content{
+.dropdown-content {
   display: none;
   position: absolute;
-  background: #2D2D2D;
+  background: #2d2d2d;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   border-radius: 0px 0px 10px 10px;
   z-index: 1;
 }
 
-.dropdown-account-content{
+.dropdown-account-content {
   display: none;
   position: absolute;
-  background: #2D2D2D;
+  background: #2d2d2d;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   border-radius: 0px 0px 10px 10px;
   right: 0;
   z-index: 1;
@@ -269,10 +267,10 @@ button.mat-menu-item:hover {
   color:#848484 ;
   margin-left: 10px;
 } */
-.commingsoon{
+.commingsoon {
   border: 1px solid #848484;
   border-radius: 8px;
   padding: 3px;
-  color:#848484 ;
+  color: #848484;
   margin-left: 10px;
 }

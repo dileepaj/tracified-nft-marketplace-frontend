@@ -157,13 +157,14 @@ export class UserCollectionNFTComponent implements OnInit {
                 this.paginationflag = false;
               }
             });
-          let card: MyNFTCard = new MyNFTCard('', '', '', '', '', '');
+          let card: MyNFTCard = new MyNFTCard('', '', '', '', '', '', '');
           card.ImageBase64 = this.imageSrc;
           // card.thumbnail=this.thumbnailSRC
           card.NFTIdentifier = arr[a].nftidentifier;
           card.NFTName = arr[a].nftname;
           card.Blockchain = arr[a].blockchain;
           card.SellingStatus = arr[a].sellingstatus;
+          card.CurrentPrice = arr[a].currentprice
           this.List.push(card);
           if (this.List.length === this.responseArrayLength) {
             this.loading = false;

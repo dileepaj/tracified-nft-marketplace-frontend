@@ -94,12 +94,14 @@ import { ConfirmMintComponent } from './dialogs/confirm-mint/confirm-mint.compon
 import { MintingComponent } from './dialogs/minting/minting.component';
 import { SellNftConfirmationComponent } from './dialogs/sell-nft-confirmation/sell-nft-confirmation.component';
 import { NftCardSkeletonComponent } from './nft/nft-card-skeleton/nft-card-skeleton.component';
-import * as firebase from 'firebase/app'
+import * as firebase from 'firebase/app';
 import { FirebaseConfig } from 'src/environments/environment';
 import * as fireAnalytics from 'firebase/analytics';
 import { CustomSnackbarComponent } from './dialogs/custom-snackbar/custom-snackbar.component';
 import { AboutUsComponent } from './marketplace/about-us/about-us.component';
 import { ConfirmSellComponent } from './dialogs/confirm-sell/confirm-sell.component';
+import { CollectionsComponent } from './marketplace/collections/collections.component';
+import { CollectionCardComponent } from './collections/collection-card/collection-card.component';
 firebase.initializeApp(FirebaseConfig.firebaseConfig);
 
 const appRoutes: Routes = [
@@ -148,9 +150,10 @@ const appRoutes: Routes = [
     component: BlogViewerComponent,
   },
   {
-    path: 'explore',
+    path: 'explore/nfts',
     component: ExploreComponent,
   },
+  { path: 'explore/collections', component: CollectionsComponent },
   {
     path: 'signUp',
     component: SignUpComponent,
@@ -189,10 +192,10 @@ const appRoutes: Routes = [
   {
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
-   canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
-       canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
         path: 'overview',
         component: BrowseMarketplaceComponent,
       },
@@ -248,7 +251,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'about-us',
-    component: AboutUsComponent
+    component: AboutUsComponent,
   },
   {
     path: 'help-center',
@@ -343,6 +346,8 @@ const appRoutes: Routes = [
     CustomSnackbarComponent,
     AboutUsComponent,
     ConfirmSellComponent,
+    CollectionsComponent,
+    CollectionCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -376,7 +381,7 @@ const appRoutes: Routes = [
     MatListModule,
     MatProgressBarModule,
     MatChipsModule,
-    ImageCropperModule
+    ImageCropperModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
@@ -397,7 +402,9 @@ export class AppModule implements OnInit {
   }
   ngOnInit(): void {
     firebase.initializeApp(FirebaseConfig.firebaseConfig);
-    fireAnalytics.logEvent(this.analytics, 'initialized', { logged: true, name: 'Marketplace firebase Analytics' })
+    fireAnalytics.logEvent(this.analytics, 'initialized', {
+      logged: true,
+      name: 'Marketplace firebase Analytics',
+    });
   }
-
 }

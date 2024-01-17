@@ -5,7 +5,7 @@
   left: 0;
   right: 0; */
   margin-top: 65px;
-  border-top: 1px solid white;
+  border-top: 1px solid #242424;
   padding: 0px 0px 20px 0px;
 }
 
@@ -92,7 +92,7 @@
   justify-content: center;
   align-items: center;
   row-gap: 15px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -159,7 +159,7 @@
 }
 
 .explore-heading {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -229,6 +229,171 @@
   height: 150px;
 }
 
+.bc-filter-wrapper {
+  border-radius: 50px;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    ),
+    #121212;
+  margin-top: 30px;
+  margin-bottom: 35px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: fit-content;
+  max-width: 90%;
+}
+
+.bc-filter-name {
+  cursor: pointer;
+  border-radius: 50px;
+
+  padding: 10px 0px 10px 0px;
+  width: 135px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.bc-filter-name label {
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.bc-filter-name img {
+  transform: scale(0.9);
+}
+
+.selected-bc {
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.15) 100%
+    ),
+    #121212;
+}
+
+.filter-dd-btn {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-dd-btn {
+  cursor: pointer;
+}
+
+.filter-dd-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.filter-dropdown {
+  /* margin-right: 4%; */
+  position: relative;
+  display: inline-block;
+  margin-bottom: 35px;
+  border-radius: 20px;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    ),
+    #121212;
+  width: 168px;
+  padding: 7px 7px;
+  flex-shrink: 0;
+  color: #fff;
+  text-align: center;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  align-self: flex-end;
+}
+
+.filter-dropdown-content {
+  display: none;
+  position: absolute;
+  border-radius: 10px;
+  top: 45px;
+  right: 0px;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    ),
+    #121212;
+  width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* .filter-dd-wrapper:hover .filter-dropdown-content {
+  display: block;
+} */
+
+.filter-dropdown-content div {
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: left;
+  padding: 15px 10px 15px 10px;
+  border-bottom: 1px solid #000;
+}
+
+.filter-dropdown-content div:last-child {
+  border-bottom: none;
+}
+
+.filter-dropdown-content div:hover {
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.15) 100%
+    ),
+    #121212;
+}
+
+.filter-dropdown-content div:last-child:hover {
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.15) 100%
+    ),
+    #121212;
+}
+
+.filter-dropdown-content div:first-child:hover {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.15) 100%
+    ),
+    #121212;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 689px) {
   .cont-inner {
@@ -236,5 +401,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .bc-filter-wrapper {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    row-gap: 20px;
   }
 }

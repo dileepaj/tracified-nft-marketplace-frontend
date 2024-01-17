@@ -60,7 +60,30 @@ export class CollectionService {
   ): Observable<NFT[]> {
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${blockchain}/${collection}/${publickey}?limit=${pageSize}&page=${pageIndex}&sort=1`
+      `${this.baseUrlNFT}/${blockchain}/${collection}?pubkey=${publickey}&limit=${pageSize}&page=${pageIndex}&sort=-1`
+    );
+  }
+
+  getFilteredNFTsByCollection(
+    collection: string,
+    blockchain: string,
+    pageSize: number,
+    pageIndex: number,
+    type: number
+  ): Observable<NFT[]> {
+    return this.http.get<NFT[]>(
+      `${this.baseUrlNFT}/${blockchain}/${collection}?limit=${pageSize}&page=${pageIndex}&sort=-1&type=${type}`
+    );
+  }
+
+  getAllNFTsByCollection(
+    collection: string,
+    blockchain: string,
+    pageSize: number,
+    pageIndex: number
+  ): Observable<NFT[]> {
+    return this.http.get<NFT[]>(
+      `${this.baseUrlNFT}/${blockchain}/${collection}?limit=${pageSize}&page=${pageIndex}&sort=-1`
     );
   }
 
@@ -71,6 +94,16 @@ export class CollectionService {
     //request to get collection name according to user public key
     return this.http.get<Collection[]>(
       `${this.baseUrlGetCollection}/${userId}/${publickey}`
+    );
+  }
+
+  getAllPublicCollections(
+    pageSize: number,
+    pageIndex: number
+  ): Observable<Collection[]> {
+    //request to get collection name according to user public key
+    return this.http.get<Collection[]>(
+      `${this.baseUrlCollection}?limit=${pageSize}&page=${pageIndex}&sort=${this.sortBy}`
     );
   }
 }

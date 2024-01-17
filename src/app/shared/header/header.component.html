@@ -46,11 +46,12 @@
         fxHide.md
         fxHide.sm
         fxHide.xs
-        [class.active-link]="checkPath() === '/explore'"
+        [class.active-link]="checkPath().includes('/explore')"
+        (click)="goToExplore()"
       >
         Explore
       </a>
-      <div class="dropdown-content">
+      <!-- <div class="dropdown-content">
         <button
           mat-menu-item
           (click)="goToExplore('stellar')"
@@ -114,7 +115,7 @@
           </div>
           <div fxFlex="80%">USD</div>
         </button>
-      </div>
+      </div> -->
     </div>
     <div class="header-dropdown">
       <a
@@ -347,21 +348,16 @@
       </a>
     </div>
     <div class="side-nav-link">
-      <div fxLayout="row" fxLayoutAlign="start center" (click)="toggleBcList()">
-        <a class="sidenav-text" mat-button [routerLinkActive]="['active-link']">
+      <div fxLayout="row" fxLayoutAlign="start center" (click)="goToExplore()">
+        <a
+          class="sidenav-text"
+          mat-button
+          [class.active-link]="checkPath().includes('/explore')"
+        >
           Explore
         </a>
-        <mat-icon
-          class="material-symbols-outlined example-icon"
-          [ngStyle]="{
-            transform: bcListExpanded ? 'rotate(0deg)' : 'rotate(270deg)'
-          }"
-          matRipple
-        >
-          arrow_drop_down
-        </mat-icon>
       </div>
-      <div class="child-nodes" *ngIf="bcListExpanded">
+      <!-- <div class="child-nodes" *ngIf="bcListExpanded">
         <a
           class="sidenav-text"
           mat-button
@@ -402,7 +398,7 @@
         >
           USD
         </a>
-      </div>
+      </div> -->
     </div>
     <div class="side-nav-link">
       <div

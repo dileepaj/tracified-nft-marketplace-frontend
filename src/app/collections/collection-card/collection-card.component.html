@@ -1,0 +1,19 @@
+<div class="card-parent" (click)="goToNfts()" matRipple>
+  <div class="thumbnail-wrapper">
+    <img
+      [src]="thumbnail"
+      class="thumbnail"
+      alt=" "
+      onerror="this.onerror=null;this.src='../../../assets/images/explore-default-thumb.png'"
+    />
+  </div>
+
+  <div class="title-div">
+    <label class="title">{{ data.CollectionName }}</label>
+    <!-- <label class="nft-count">8 NFTs</label> -->
+  </div>
+  <button class="btn-view-collection">
+    <img class="eye-icon" src="../../../assets/images/view.png" />View
+    Collection
+  </button>
+</div>

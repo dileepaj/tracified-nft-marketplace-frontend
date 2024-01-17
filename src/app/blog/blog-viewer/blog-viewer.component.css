@@ -18,7 +18,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-top: 1px solid #fff;
+  border-top: 1px solid #242424;
 }
 
 .cont-wrapper {
@@ -72,7 +72,7 @@
 
 .name {
   margin-top: 30px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 25px;
@@ -83,7 +83,7 @@
 }
 
 .nft-info .cat {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -93,7 +93,7 @@
 }
 
 .nft-info .cat-val {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -116,7 +116,7 @@
 }
 
 .normal-text {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -154,7 +154,7 @@
 
 .nft-story-sidebar h3 {
   width: 100%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -202,7 +202,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
@@ -216,7 +216,7 @@
 }
 
 .story-card .actions button {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -262,7 +262,7 @@
 
 .browse h3 {
   width: 100%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;

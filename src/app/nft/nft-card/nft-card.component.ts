@@ -40,6 +40,7 @@ export class NftCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('nft', this.item);
     if (this.sellingstatus == 'Minted') {
       this.tip = 'PUT ON SALE';
     } else if (this.sellingstatus == 'ON SALE') {
@@ -248,6 +249,7 @@ export class NftCardComponent implements OnInit {
    * @param id - NFT Identifier
    */
   public routeToBuy(id: string): void {
+    console.log('called');
     if (this.sellingstatus == 'Minted') {
       this.retrive(this.blockchain).then((res) => {
         if (this.user == this.currentownerpk) {

@@ -222,7 +222,8 @@ export class ShowNFTComponent implements OnInit {
                     '',
                     '',
                     false,
-                    false
+                    false,
+                    ''
                   );
                   card.ImageBase64 = this.imageSrc;
                   // card.thumbnail=this.thumbnailSRC
@@ -232,6 +233,7 @@ export class ShowNFTComponent implements OnInit {
                   card.CreatorUserId = this.nfts[x].creatoruserid;
                   card.CurrentOwnerPK = this.nfts[x].currentownerpk;
                   card.SellingStatus = this.nfts[x].sellingstatus;
+                  card.CurrentPrice = this.nfts[x].currentprice;
                   this.List.push(card);
                   this.loading = false;
                 });
@@ -336,7 +338,8 @@ export class ShowNFTComponent implements OnInit {
                       '',
                       '',
                       false,
-                      false
+                      false,
+                      ''
                     );
                     card.ImageBase64 = this.imageSrc;
                     // card.thumbnail= cont.thumbnail;
@@ -347,6 +350,7 @@ export class ShowNFTComponent implements OnInit {
                     card.CreatorUserId = cont.creatoruserid;
                     card.SellingStatus = cont.sellingstatus;
                     card.CurrentOwnerPK = cont.currentownerpk;
+                    card.CurrentPrice = cont.currentprice;
                     this.List.push(card);
                     if (this.List.length === this.responseArrayLength) {
                       this.nextPageLoading = false;
@@ -441,7 +445,8 @@ export class ShowNFTComponent implements OnInit {
                     '',
                     '',
                     false,
-                    false
+                    false,
+                    ''
                   );
                   card.ImageBase64 = this.imageSrc;
                   // card.thumbnail=this.thumbnailSRC
@@ -455,6 +460,8 @@ export class ShowNFTComponent implements OnInit {
                     this.NFTList.Response.content[x].currentownerpk;
                   card.SellingStatus =
                     this.NFTList.Response.content[x].sellingstatus;
+                  card.CurrentPrice =
+                    this.NFTList.Response.content[x].currentprice;
                   this.List.push(card);
                   if (this.List.length === this.responseArrayLength) {
                     this.nextPageLoading = false;

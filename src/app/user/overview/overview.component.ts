@@ -62,7 +62,7 @@ export class OverviewComponent implements OnInit {
     private _sanitizer: DomSanitizer,
     private walletSideNav: WalletSidenavService,
     private service: ApiServicesService,
-    private PubkeyvalidatorService:PubkeyvalidatorService,
+    private PubkeyvalidatorService: PubkeyvalidatorService
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +75,10 @@ export class OverviewComponent implements OnInit {
     }
     this.route.queryParams.subscribe(async (params) => {
       this.selectedBlockchain = params['blockchain'];
-      this.user = await this.PubkeyvalidatorService.GetActivePubKey(params['user'],this.selectedBlockchain)
+      this.user = await this.PubkeyvalidatorService.GetActivePubKey(
+        params['user'],
+        this.selectedBlockchain
+      );
       this.connectedWallet = '';
       this.getConnectedWallet();
       // this.router.navigate(['/user-dashboard'], {
@@ -164,7 +167,8 @@ export class OverviewComponent implements OnInit {
                       '',
                       '',
                       false,
-                      false
+                      false,
+                      ''
                     );
                     card.ImageBase64 = this.imageSrc;
                     // card.thumbnail= cont.thumbnail;
@@ -175,6 +179,7 @@ export class OverviewComponent implements OnInit {
                     card.CreatorUserId = cont.creatoruserid;
                     card.SellingStatus = cont.sellingstatus;
                     card.CurrentOwnerPK = cont.currentownerpk;
+                    card.CurrentPrice = cont.currentprice;
                     this.ListMinted.push(card);
                     if (this.ListMinted.length === responseArrayLength) {
                       this.mintedLoading = false;
@@ -258,7 +263,8 @@ export class OverviewComponent implements OnInit {
                         '',
                         '',
                         false,
-                        false
+                        false,
+                        ''
                       );
                       card.ImageBase64 = this.imageSrc;
                       // card.thumbnail= cont.thumbnail;
@@ -269,6 +275,7 @@ export class OverviewComponent implements OnInit {
                       card.CreatorUserId = resx.Response.creatoruserid;
                       card.SellingStatus = resx.Response.sellingstatus;
                       card.CurrentOwnerPK = resx.Response.currentownerpk;
+                      card.CurrentPrice = resx.Response.currentprice;
                       this.ListHotpicks.push(card);
                       // if (this.ListHotpicks.length === responseArrayLength) {
                       this.hotPicksLoading = false;
@@ -361,7 +368,8 @@ export class OverviewComponent implements OnInit {
                       '',
                       '',
                       false,
-                      false
+                      false,
+                      ''
                     );
                     card.ImageBase64 = this.imageSrc;
                     // card.thumbnail= cont.thumbnail;
@@ -372,6 +380,7 @@ export class OverviewComponent implements OnInit {
                     card.CreatorUserId = cont.creatoruserid;
                     card.SellingStatus = cont.sellingstatus;
                     card.CurrentOwnerPK = cont.currentownerpk;
+                    card.CurrentPrice = cont.currentprice;
                     this.ListBought.push(card);
                     if (this.ListBought.length === responseArrayLength) {
                       this.boughtLoading = false;
@@ -456,7 +465,8 @@ export class OverviewComponent implements OnInit {
                       '',
                       '',
                       false,
-                      false
+                      false,
+                      ''
                     );
                     card.ImageBase64 = this.imageSrc;
                     // card.thumbnail= cont.thumbnail;
@@ -467,6 +477,8 @@ export class OverviewComponent implements OnInit {
                     card.CreatorUserId = resy.Response.creatoruserid;
                     card.SellingStatus = resy.Response.sellingstatus;
                     card.CurrentOwnerPK = resy.Response.currentownerpk;
+                    card.CurrentPrice = resy.Response.currentprice;
+
                     this.ListTrends.push(card);
                     // if (this.ListTrends.length === responseArrayLength) {
                     this.favLoading = false;
@@ -572,7 +584,8 @@ export class OverviewComponent implements OnInit {
                       '',
                       '',
                       false,
-                      false
+                      false,
+                      ''
                     );
                     card.ImageBase64 = this.imageSrc;
                     // card.thumbnail= cont.thumbnail;
@@ -583,6 +596,7 @@ export class OverviewComponent implements OnInit {
                     card.CreatorUserId = cont.creatoruserid;
                     card.SellingStatus = cont.sellingstatus;
                     card.CurrentOwnerPK = cont.currentownerpk;
+                    card.CurrentPrice = cont.currentprice;
                     this.ListSales.push(card);
                     if (this.ListSales.length === responseArrayLength) {
                       this.onSaleLoading = false;

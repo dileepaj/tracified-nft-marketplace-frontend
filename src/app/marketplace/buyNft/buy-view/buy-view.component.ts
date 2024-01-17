@@ -1111,9 +1111,11 @@ export class BuyViewComponent implements OnInit {
   }
 
   public goToExplore() {
-    this.router.navigate(['/explore'], {
+    this.router.navigate(
+      ['/explore/collections'] /* , {
       queryParams: { blockchain: this.nftbe.Blockchain, filter: 'all' },
-    });
+    } */
+    );
   }
 
   public addReview() {

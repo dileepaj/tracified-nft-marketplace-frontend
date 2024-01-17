@@ -5,6 +5,7 @@ import {
   HostListener,
   OnInit,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,6 +30,7 @@ import { interval, timer } from 'rxjs';
 import { APIConfigENV } from 'src/environments/environment';
 import { DialogService } from 'src/app/services/dialog-services/dialog.service';
 import { LoaderService } from 'src/app/services/loader/loader.service';
+import { CollectionService } from 'src/app/services/api-services/collection.service';
 
 @Component({
   selector: 'app-explore',
@@ -38,6 +40,11 @@ import { LoaderService } from 'src/app/services/loader/loader.service';
 export class ExploreComponent implements OnInit, AfterViewInit {
   @ViewChildren('theLastItem', { read: ElementRef })
   theLastItem: QueryList<ElementRef>;
+
+  @ViewChild('ddRef') ddRef: ElementRef<HTMLElement>;
+
+  isOnDropdown: boolean = false;
+
   watchlist: any;
   favourites: any;
   uptodates: any;
@@ -81,6 +88,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   responseArrayLength: number = 0;
   isStellarFlag: boolean = false;
   isSolanaFlag: boolean = false;
+  collectionName: string;
+
   constructor(
     private api: ApiServicesService,
     private nft: NftServicesService,
@@ -90,7 +99,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     private _sanitizer: DomSanitizer,
     private snackbarService: SnackbarServiceService,
     private dialogService: DialogService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private collectionService: CollectionService
   ) {}
 
   async retrive(blockchain: string) {
@@ -180,6 +190,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       this.List.splice(0);
       this.route.queryParams.subscribe((params) => {
         this.loading = true;
+        this.collectionName = params['collection'];
         this.selectedBlockchain = params['blockchain'];
         this.selectedFilter = params['filter'];
 
@@ -205,7 +216,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
           this.currentPage = 1;
           this.List.splice(0);
           this.intersectionObserver(this.selectedFilter);
-          this.getAllNFTs(this.selectedFilter);
+          this.getAllNFTsByCollection(this.selectedFilter);
         }
       });
 
@@ -261,7 +272,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
           '',
           '',
           false,
-          false
+          false,
+          ''
         );
         card.ImageBase64 = this.imageSrc;
         this.nft.getThumbnailId(arr[x].Id).subscribe(async (thumbnail: any) => {
@@ -287,6 +299,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         card.CurrentOwnerPK = arr[x].currentownerpk;
         card.Hotpicks = arr[x].hotpicks;
         card.Trending = arr[x].trending;
+        card.CurrentPrice = arr[x].currentprice;
         if (card.Blockchain == this.selectedBlockchain) {
           this.List.push(card);
         }
@@ -309,13 +322,42 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     this.UpToDate.splice(0);
     this.Creators.splice(0);
     this.Sale.splice(0);
+    this.closeFilterDropdown();
     this.router
-      .navigate(['/explore'], {
-        queryParams: { blockchain: this.selectedBlockchain, filter },
+      .navigate(['/explore/nfts'], {
+        queryParams: {
+          collection: this.collectionName,
+          blockchain: this.selectedBlockchain,
+          filter,
+        },
       })
       .then((res) => {
         window.location.reload();
       });
+  }
+
+  public changeBlockchain(blockchain: string) {
+    if (blockchain !== this.selectedBlockchain) {
+      this.filterChanged = true;
+      this.List.splice(0);
+      this.nftItems.splice(0);
+      this.Trend.splice(0);
+      this.HotPick.splice(0);
+      this.UpToDate.splice(0);
+      this.Creators.splice(0);
+      this.Sale.splice(0);
+      this.router
+        .navigate(['/explore/nfts'], {
+          queryParams: {
+            collection: this.collectionName,
+            blockchain,
+            filter: this.selectedFilter,
+          },
+        })
+        .then((res) => {
+          window.location.reload();
+        });
+    }
   }
 
   Filters(filter: string) {
@@ -363,11 +405,13 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       } else {
         this.responseArrayLength = 0;
       }
-      this.nft
-        .getNFTpaginatedTrendsHotpicks(
+      this.collectionService
+        .getFilteredNFTsByCollection(
+          this.collectionName,
           this.selectedBlockchain,
+          8,
           this.currentPage,
-          'hotpicks'
+          1
         )
         .subscribe(async (data: any) => {
           if (data.Response.content != null) {
@@ -395,11 +439,13 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       } else {
         this.responseArrayLength = 0;
       }
-      this.nft
-        .getNFTpaginatedTrendsHotpicks(
+      this.collectionService
+        .getFilteredNFTsByCollection(
+          this.collectionName,
           this.selectedBlockchain,
+          8,
           this.currentPage,
-          'trending'
+          2
         )
         .subscribe(async (data: any) => {
           if (data.Response.content != null) {
@@ -454,8 +500,14 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       } else {
         this.responseArrayLength = 0;
       }
-      this.nft
-        .getBestCreators(this.currentPage, this.selectedBlockchain)
+      this.collectionService
+        .getFilteredNFTsByCollection(
+          this.collectionName,
+          this.selectedBlockchain,
+          8,
+          this.currentPage,
+          3
+        )
         .subscribe(async (data: any) => {
           if (data.Response.content != null) {
             this.creators = data;
@@ -506,6 +558,41 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       });
   }
 
+  public getAllNFTsByCollection(filter) {
+    this.nftItems.splice(0);
+    if (!this.loading) {
+      this.nextPageLoading = true;
+    } else {
+      this.responseArrayLength = 0;
+    }
+    this.collectionService
+      .getAllNFTsByCollection(
+        this.collectionName,
+        this.selectedBlockchain,
+        8,
+        this.currentPage
+      )
+      .subscribe(async (data: any) => {
+        if (data.Response.content == null) {
+          window.location.reload();
+        } else {
+          this.nfts = data;
+          this.nftItems.splice(0);
+          this.responseArrayLength += this.nfts.Response.content.length;
+          for (let a = 0; a < this.nfts.Response.content.length; a++) {
+            if (
+              this.nfts.Response.content[a].sellingstatus === 'Minted' ||
+              this.nfts.Response.content[a].sellingstatus === 'ON SALE' ||
+              this.nfts.Response.content[a].sellingstatus === 'NOTFORSALE'
+            ) {
+              this.nftItems.push(this.nfts.Response.content[a]);
+            }
+          }
+          this.filterAndShowCard(this.nftItems, filter);
+        }
+      });
+  }
+
   intersectionObserver(filter: string) {
     const option = {
       root: null,
@@ -520,7 +607,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
           this.paginationflag == false
         ) {
           this.currentPage++;
-          this.getAllNFTs(filter);
+          this.getAllNFTsByCollection(filter);
         }
       }
     }, option);
@@ -583,11 +670,35 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   public back() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/explore/collections']);
   }
 
   public toggleView(element: any) {
     this.isNftItem = true;
     document.getElementById(element)?.classList.add('overlay-hide');
+  }
+
+  public closeFilterDropdown() {
+    (
+      document.querySelector('.filter-dropdown-content') as HTMLElement
+    ).style.display = 'none';
+  }
+
+  public openFilterDropdown() {
+    (
+      document.querySelector('.filter-dropdown-content') as HTMLElement
+    ).style.display = 'block';
+  }
+
+  public clickedOnDropdown() {
+    this.isOnDropdown = true;
+  }
+
+  @HostListener('document:click')
+  clickedOut() {
+    if (!this.isOnDropdown) {
+      this.closeFilterDropdown();
+    }
+    this.isOnDropdown = false;
   }
 }

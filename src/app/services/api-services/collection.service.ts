@@ -28,10 +28,10 @@ export class CollectionService {
     return this.http.get<Collection[]>(`${this.baseUrlGet}/${userId}`);
   }
 
-  getCollectionPK(publickey: string): Observable<Collection[]> {
+  getCollectionPK(publickey: string, limit: number, pageIndex: number): Observable<Collection[]> {
     //request to get collection name according to user public key
     return this.http.get<Collection[]>(
-      `${this.baseUrlCollection}/${publickey}`
+      `${this.baseUrlCollection}/${publickey}?limit=${limit}&page=${pageIndex}`
     );
   }
 

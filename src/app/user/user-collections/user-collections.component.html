@@ -10,17 +10,31 @@
       </div>
     </div>
     <div class="explore-content cont-wrapper" fxLayout="row wrap">
-      <div class="cont-inner" *ngIf="List.length > 0">
-        <div
-          class="nft-item"
-          *ngFor="let item of List"
-          (click)="showNFT(item.collection)"
-        >
-          <img class="nft-img" src="../../../assets/images/collection.jpg" />
-          <div class="nft-title">{{ item.collection }}</div>
+      <div class="cont-inner" *ngIf="collections.length > 0">
+        <div *ngFor="let collection of collections; index as i">
+          <app-collection-card
+            *ngIf="i !== collections.length - 1"
+            [data]="collection"
+            [key]="key"
+            [selectedblockchain]="selectedblockchain"
+          ></app-collection-card>
+
+          <app-collection-card
+            #theLastItem
+            *ngIf="i === collections.length - 1"
+            [data]="collection"
+            [key]="key"
+            [selectedblockchain]="selectedblockchain"
+          ></app-collection-card>
+        </div>
+        
+        <div class="cont-inner" *ngIf="loading || nextPageLoading">
+          <app-nft-card-skeleton
+            *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7]"
+          ></app-nft-card-skeleton>
         </div>
       </div>
-      <div class="cont-inner" *ngIf="List.length === 0">
+      <div class="cont-inner" *ngIf="!loading && !nextPageLoading && collections.length === 0">
         You do not have any collection.
       </div>
     </div>

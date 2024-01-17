@@ -9,6 +9,8 @@ import { Collection } from 'src/app/models/collection';
 })
 export class CollectionCardComponent implements OnInit {
   @Input() data: Collection;
+  @Input() key: string;
+  @Input() selectedblockchain: string;
   thumbnail: string = '';
 
   constructor(private router: Router) {}
@@ -18,12 +20,19 @@ export class CollectionCardComponent implements OnInit {
   }
 
   public goToNfts() {
-    this.router.navigate(['/explore/nfts'], {
-      queryParams: {
-        collection: this.data.CollectionName,
-        blockchain: 'stellar',
-        filter: 'all',
-      },
-    });
+    if(this.router.url.includes('user-dashboard')) {
+      this.router.navigate(['./user-dashboard/mynfts'], {
+        queryParams: { collection: this.data.CollectionName,user:this.key,blockchain:this.selectedblockchain},//this.data
+      });
+    } else {
+      this.router.navigate(['/explore/nfts'], {
+        queryParams: {
+          collection: this.data.CollectionName,
+          blockchain: 'stellar',
+          filter: 'all',
+        },
+      });
+    }
+    
   }
 }

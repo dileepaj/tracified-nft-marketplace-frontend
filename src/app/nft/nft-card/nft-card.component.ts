@@ -40,7 +40,6 @@ export class NftCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('nft', this.item);
     if (this.sellingstatus == 'Minted') {
       this.tip = 'PUT ON SALE';
     } else if (this.sellingstatus == 'ON SALE') {
@@ -249,7 +248,6 @@ export class NftCardComponent implements OnInit {
    * @param id - NFT Identifier
    */
   public routeToBuy(id: string): void {
-    console.log('called');
     if (this.sellingstatus == 'Minted') {
       this.retrive(this.blockchain).then((res) => {
         if (this.user == this.currentownerpk) {
@@ -307,5 +305,15 @@ export class NftCardComponent implements OnInit {
 
   public openPreview() {
     this.dialogService.openNftPreview({ image: this.item.ImageBase64 });
+  }
+
+  public getButtonText() : string {
+    let text = 'Buy Now'
+    if (this.router.url.includes('user-dashboard')) {
+      if (this.sellingstatus === 'Minted' || this.sellingstatus === 'NOTFORSALE') {
+        text = 'Sell Now'
+      }
+    } 
+    return text
   }
 }

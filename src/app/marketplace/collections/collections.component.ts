@@ -46,7 +46,7 @@ export class CollectionsComponent implements OnInit {
     this.collectionService
       .getAllPublicCollections(8, this.currentPage)
       .subscribe(async (data: any) => {
-        console.log(data);
+        
 
         if (data != undefined || data.Content != null) {
           this.collections.push(...data.Content);

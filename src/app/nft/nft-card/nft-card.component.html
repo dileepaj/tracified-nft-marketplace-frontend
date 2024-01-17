@@ -63,58 +63,8 @@
     >
   </div>
   <button class="btn-view-collection" (click)="routeToBuy(item.NFTIdentifier)">
-    <img class="buy-icon" src="../../../assets/images/purchase.png" />Buy Now
+    <img class="buy-icon" src="../../../assets/images/purchase.png" />
+    {{getButtonText()}}
   </button>
 </div>
 
-<!-- <div class="nft-item">
-  <img
-    [src]="item.thumbnail"
-    class="nft-img"
-    alt=" "
-    onerror="this.onerror=null;this.src='../../../assets/images/thumbnail-placeholder.png'"
-  />
-
-  <div
-    [id]="'overlay' + itemId"
-    class="nft-img-overlay"
-    (click)="routeToBuy(item.NFTIdentifier)"
-  >
-    <label
-      ngClass.gt-sm="overlay-text"
-      ngClass.lt-sm="overlay-hide"
-      ngClass.sm="overlay-hide"
-      >Click to View</label
-    >
-  </div>
-  <div class="nft-title" (click)="routeToBuy(item.NFTIdentifier)">
-    {{ item.NFTName }}
-  </div>
-  <div class="nft-actions">
-    <img
-      class="nft-action-btn"
-      src="../../../assets/images/purchase.png"
-      matTooltip="{{ this.tip }}"
-      (click)="routeToBuy(item.NFTIdentifier)"
-    />
-    <img
-      class="nft-action-btn"
-      src="../../../assets/images/view.png"
-      matTooltip="View NFT"
-      (click)="openPreview()"
-    />
-    <img
-      class="nft-action-btn"
-      src="../../../assets/images/wishlist.png"
-      matTooltip="Add to watchlist"
-      (click)="addToWatchList(item.NFTIdentifier)"
-    />
-    <img
-      class="nft-action-btn"
-      src="../../../assets/images/favorite.png"
-      matTooltip="Add to favorites"
-      (click)="addToFavourites(item.NFTIdentifier)"
-    />
-  </div>
-</div>
- -->

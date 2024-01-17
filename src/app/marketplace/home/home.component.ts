@@ -284,6 +284,7 @@ export class HomeComponent implements OnInit {
                       '',
                       '',
                       '',
+                      '',
                       false,
                       false,
                       ''
@@ -372,6 +373,7 @@ export class HomeComponent implements OnInit {
                         }
                       });
                     let card: NFTCard = new NFTCard(
+                      '',
                       '',
                       '',
                       '',

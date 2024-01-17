@@ -241,76 +241,70 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   public filterAndShowCard(arr: any[], filter: string) {
-    let count = 0;
+    const curLength = this.List.length
     for (let x = 0; x < arr.length; x++) {
-      this.thumbnailSRC = '';
-      this.paginationflag = true;
-      this.nft.getSVGByHash(arr[x].imagebase64).subscribe(async (res: any) => {
-        this.Decryption = res.Response.Base64ImageSVG;
-        if (
-          arr[x].attachmenttype == 'image/jpeg' ||
-          arr[x].attachmenttype == 'image/jpg' ||
-          arr[x].attachmenttype == 'image/png'
-        ) {
-          this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(
-            this.Decryption.toString()
-          );
-        } else {
-          this.dec = btoa(this.Decryption);
-          var str2 = this.dec.toString();
-          var str1 = new String('data:image/svg+xml;base64,');
-          var src = str1.concat(str2.toString());
-          this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-        }
-        let card: NFTCard = new NFTCard(
-          '',
-          '',
-          '',
-          '',
-          '',
-          '',
-          '',
-          '',
-          false,
-          false,
-          ''
-        );
-        card.ImageBase64 = this.imageSrc;
-        this.nft.getThumbnailId(arr[x].Id).subscribe(async (thumbnail: any) => {
-          this.paginationflag = true;
-          if (thumbnail == '') {
-            this.thumbnailSRC = this.imageSrc;
-          } else {
-            this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
-              thumbnail.Response.thumbnail
-            );
-          }
-          card.thumbnail = this.thumbnailSRC;
-          if (count >= 7) {
-            this.paginationflag = false;
-          }
-          count++;
-        });
-        card.NFTIdentifier = arr[x].nftidentifier;
-        card.NFTName = arr[x].nftname;
-        card.Blockchain = arr[x].blockchain;
-        card.CreatorUserId = arr[x].creatoruserid;
-        card.SellingStatus = arr[x].sellingstatus;
-        card.CurrentOwnerPK = arr[x].currentownerpk;
-        card.Hotpicks = arr[x].hotpicks;
-        card.Trending = arr[x].trending;
-        card.CurrentPrice = arr[x].currentprice;
-        if (card.Blockchain == this.selectedBlockchain) {
-          this.List.push(card);
-        }
-        if (this.List.length === this.responseArrayLength) {
-          this.nextPageLoading = false;
-          this.loading = false;
-        }
-      });
+      let card: NFTCard = new NFTCard(
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        false,
+        false,
+        ''
+      );
+      card.Id = arr[x].Id
+      card.thumbnail = ''
+      card.NFTIdentifier = arr[x].nftidentifier;
+      card.NFTName = arr[x].nftname;
+      card.Blockchain = arr[x].blockchain;
+      card.CreatorUserId = arr[x].creatoruserid;
+      card.SellingStatus = arr[x].sellingstatus;
+      card.CurrentOwnerPK = arr[x].currentownerpk;
+      card.Hotpicks = arr[x].hotpicks;
+      card.Trending = arr[x].trending;
+      card.CurrentPrice = arr[x].currentprice;
+      if (card.Blockchain == this.selectedBlockchain) {
+        this.List.push(card);
+      }
+      if (this.List.length === this.responseArrayLength) {
+        this.nextPageLoading = false;
+        this.loading = false;
+      }
     }
 
+    this.setThumbnails(curLength)
     //this.checkIfNftLoaded();
+  }
+
+  public setThumbnails (curLength: number) {
+    let count = 0;
+    for (let x = curLength; x < this.List.length; x++) {
+      this.thumbnailSRC = '';
+      //this.paginationflag = true;
+   
+      this.nft.getThumbnailId(this.List[x].Id).subscribe(async (thumbnail: any) => {
+        //this.paginationflag = true;
+        if (thumbnail == '') {
+          this.thumbnailSRC = this.imageSrc;
+        } else {
+          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
+            thumbnail.Response.thumbnail
+          );
+        }
+        this.List[x].thumbnail = this.thumbnailSRC;
+        /* if (count >= 7) {
+          this.paginationflag = false;
+        } */
+        count++;
+      });
+
+      
+    }
   }
 
   public setFilter(filter: string) {
@@ -565,12 +559,11 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     } else {
       this.responseArrayLength = 0;
     }
-    this.collectionService
-      .getAllNFTsByCollection(
-        this.collectionName,
+    this.nft
+      .getNFTpaginatedOnSALE(
         this.selectedBlockchain,
-        8,
-        this.currentPage
+        this.currentPage,
+        'ON SALE'
       )
       .subscribe(async (data: any) => {
         if (data.Response.content == null) {
@@ -580,13 +573,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
           this.nftItems.splice(0);
           this.responseArrayLength += this.nfts.Response.content.length;
           for (let a = 0; a < this.nfts.Response.content.length; a++) {
-            if (
-              this.nfts.Response.content[a].sellingstatus === 'Minted' ||
-              this.nfts.Response.content[a].sellingstatus === 'ON SALE' ||
-              this.nfts.Response.content[a].sellingstatus === 'NOTFORSALE'
-            ) {
-              this.nftItems.push(this.nfts.Response.content[a]);
-            }
+            this.nftItems.push(this.nfts.Response.content[a]);
           }
           this.filterAndShowCard(this.nftItems, filter);
         }

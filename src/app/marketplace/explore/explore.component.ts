@@ -559,11 +559,12 @@ export class ExploreComponent implements OnInit, AfterViewInit {
     } else {
       this.responseArrayLength = 0;
     }
-    this.nft
-      .getNFTpaginatedOnSALE(
+    this.collectionService
+      .getAllNFTsByCollection(
+        this.collectionName,
         this.selectedBlockchain,
-        this.currentPage,
-        'ON SALE'
+        8,
+        this.currentPage
       )
       .subscribe(async (data: any) => {
         if (data.Response.content == null) {
@@ -573,7 +574,9 @@ export class ExploreComponent implements OnInit, AfterViewInit {
           this.nftItems.splice(0);
           this.responseArrayLength += this.nfts.Response.content.length;
           for (let a = 0; a < this.nfts.Response.content.length; a++) {
+            
             this.nftItems.push(this.nfts.Response.content[a]);
+            
           }
           this.filterAndShowCard(this.nftItems, filter);
         }

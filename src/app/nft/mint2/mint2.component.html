@@ -509,8 +509,8 @@
               <label>Stellar</label>
             </div>
           </mat-option>
-          <mat-option class="option" value="solana" [disabled]="this.solana || controlGroup.controls['Currency'].value === 'usd'">
-            <div class="bc-dropdown" [class.dropdown-disabled]="this.solana || controlGroup.controls['Currency'].value === 'usd'">
+          <mat-option class="option" value="solana" [disabled]="this.solana">
+            <div class="bc-dropdown" [class.dropdown-disabled]="this.solana">
               <img src="../../../assets/images/solana-dd.png" />
               <label>Solana</label>
             </div>

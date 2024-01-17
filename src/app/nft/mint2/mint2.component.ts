@@ -304,7 +304,7 @@ export class Mint2Component implements OnInit {
   }
 
   async getIssuer(): Promise<void> {
-    if (this.flag == false) {
+        if (this.flag == false) {
       //minting according to blockchain
       this.firebaseanalytics.logEvent('button_click', { name: 'Create' });
       this.firebaseanalytics.logEvent('Start_mint', {
@@ -316,7 +316,8 @@ export class Mint2Component implements OnInit {
       this.mint.Imagebase64 = this.hash;
       this.mint.AttachmentType = this.type;
       this.mint.Description = this.formValue('Description');
-      if (this.formValue('Royalty') == null) {
+      
+      if (this.formValue('Currency') === 'crypto' && this.formValue('Royalty') == null) {
         this.snackbar.openSnackBar(
           'Please enter a positive number ranging between 0 and 100 for the royalty.',
           'info'
@@ -349,18 +350,20 @@ export class Mint2Component implements OnInit {
         this.flag = true;
       }
       const royaltyRejex = /^(?:[1-9][0-9]?|100)$/;
-      if (
-        parseFloat(this.mint.Royalty) <= 0 ||
-        !royaltyRejex.test(this.mint.Royalty) ||
-        isNaN(parseFloat(this.mint.Royalty)) ||
-        this.mint.Royalty == null
-      ) {
-        this.snackbar.openSnackBar(
-          'Please enter a positive number ranging between 0 and 100 for the royalty.',
-          'info'
-        );
-        this.flag = false;
-        return;
+      if(this.formValue('Currency') === 'crypto') {
+        if (
+          parseFloat(this.mint.Royalty) <= 0 ||
+          !royaltyRejex.test(this.mint.Royalty) ||
+          isNaN(parseFloat(this.mint.Royalty)) ||
+          this.mint.Royalty == null
+        ) {
+                    this.snackbar.openSnackBar(
+            'Please enter a positive number ranging between 0 and 100 for the royalty.',
+            'info'
+          );
+          this.flag = false;
+          return;
+        }
       }
 
       if (this.mint.Blockchain == 'stellar') {
@@ -1852,5 +1855,12 @@ export class Mint2Component implements OnInit {
 
     // Update the form control's value as well
     this.controlGroup.get('Royalty')!.setValue(sanitizedValue);
+  }
+
+  currencyChanged(event:any) {
+    
+    if(event === 'usd') {
+      this.controlGroup.get('Blockchain')?.setValue('')
+    }
   }
 }

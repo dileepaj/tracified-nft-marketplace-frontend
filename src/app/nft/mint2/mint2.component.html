@@ -401,6 +401,7 @@
             placeholder="Select Currency"
             disableOptionCentering
             panelClass="dropdown-panel-class"
+            (valueChange)="currencyChanged($event)"
           >
             <mat-select-trigger
               *ngIf="controlGroup.controls['Currency'].value === 'usd'"
@@ -508,8 +509,8 @@
               <label>Stellar</label>
             </div>
           </mat-option>
-          <mat-option class="option" value="solana" [disabled]="this.solana">
-            <div class="bc-dropdown" [class.dropdown-disabled]="this.solana">
+          <mat-option class="option" value="solana" [disabled]="this.solana || controlGroup.controls['Currency'].value === 'usd'">
+            <div class="bc-dropdown" [class.dropdown-disabled]="this.solana || controlGroup.controls['Currency'].value === 'usd'">
               <img src="../../../assets/images/solana-dd.png" />
               <label>Solana</label>
             </div>

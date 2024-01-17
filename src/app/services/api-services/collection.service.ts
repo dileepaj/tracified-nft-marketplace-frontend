@@ -83,7 +83,7 @@ export class CollectionService {
     pageIndex: number
   ): Observable<NFT[]> {
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${blockchain}/${collection}?limit=${pageSize}&page=${pageIndex}&sort=-1`
+      `${this.baseUrlNFT}/${blockchain}/${collection}?limit=${pageSize}&page=${pageIndex}&nfttype=ON SALE&sort=-1`
     );
   }
 

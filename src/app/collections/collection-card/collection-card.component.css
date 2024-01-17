@@ -38,12 +38,12 @@
 }
 
 .title {
-  max-width: 260px;
+  width: 260px;
   font-size: 18px;
   font-weight: 600;
   line-height: 24px;
   letter-spacing: 0em;
-  text-align: left;
+  text-align: center;
   color: #10ceac;
   white-space: nowrap;
   overflow: hidden;

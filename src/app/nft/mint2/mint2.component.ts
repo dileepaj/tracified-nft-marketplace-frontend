@@ -145,7 +145,8 @@ export class Mint2Component implements OnInit {
     false,
     '',
     '',
-    ''
+    '',
+    true
   );
   minter: Minter = new Minter('', '', '', '', '');
   tokenId: string;
@@ -243,6 +244,12 @@ export class Mint2Component implements OnInit {
     this.mint.Status = 'Minted';
     this.mint.Royalty = this.formValue('Royalty').toString();
     (this.mint.Trending = false), (this.mint.HotPicks = false);
+
+    if (this.formValue('Currency') === 'crypto') {
+      this.mint.IsFiat = false
+    } else {
+      this.mint.IsFiat = true
+    }
     //posting of mint data to backend via service
     if (this.mint.CreatorUserId != null) {
       this.addSubscription = this.service
@@ -304,7 +311,7 @@ export class Mint2Component implements OnInit {
   }
 
   async getIssuer(): Promise<void> {
-        if (this.flag == false) {
+      if (this.flag == false) {
       //minting according to blockchain
       this.firebaseanalytics.logEvent('button_click', { name: 'Create' });
       this.firebaseanalytics.logEvent('Start_mint', {

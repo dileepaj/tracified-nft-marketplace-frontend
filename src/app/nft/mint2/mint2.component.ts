@@ -1,3 +1,4 @@
+import { Key } from './../../entity/Variables';
 import { Blockchain } from './../../collections/create-collection/create-collection.component';
 import {
   Component,
@@ -67,6 +68,7 @@ import {
 import { Collection } from 'src/app/models/collection';
 import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
 import { stringify } from 'querystring';
+import { SVGDataExtraction } from 'src/app/models/enums/SVGDataExtraction';
 
 @Component({
   selector: 'app-mint2',
@@ -199,7 +201,7 @@ export class Mint2Component implements OnInit {
   tagInputText: string = '';
   mycontract: any;
   signature;
-
+  SVGData: Record<SVGDataExtraction, string>
   constructor(
     private route: ActivatedRoute,
     private service: MintService,
@@ -1368,7 +1370,8 @@ export class Mint2Component implements OnInit {
                 this.mint.NftContentURL,
                 this.mint.ArtistName,
                 this.mint.ArtistProfileLink,
-                this.mint.Royalty
+                this.mint.Royalty,
+                this.SVGData
               )
               .then((nft) => {
                 if (this.isLoadingPresent) {
@@ -1462,11 +1465,40 @@ export class Mint2Component implements OnInit {
       Tags: this.tags,
     };
   }
+  extractVariables(svgText: string): Record<SVGDataExtraction, string> {
+    const variables: Record<SVGDataExtraction, string> = {
+      [SVGDataExtraction.TENANT]: '',
+      [SVGDataExtraction.PRDUCT]: '',
+      [SVGDataExtraction.BATCH]: ''
+    };
 
-  public onChange(event: any) {
+    // Define the variables to extract
+    const variableNames = [SVGDataExtraction.TENANT, SVGDataExtraction.PRDUCT, SVGDataExtraction.BATCH];
+
+    // Create a regular expression pattern to match the variables and their values
+    const regexPattern = new RegExp(
+      `(${variableNames.join('|')}):([^\\s;]+)`,
+      'g'
+    );
+
+    // Match the variables and values in the SVG text
+    const matches = svgText.match(regexPattern);
+
+    // Process the matches and store the values in the variables object
+    if (matches) {
+      matches.forEach((match) => {
+        const [variable, value] = match.split(':');
+        variables[variable] = value;
+      });
+    }
+    return variables;
+  }
+  public async onChange(event: any) {
     if (event.target.files[0].size <= 5 * 1024 * 1024) {
       this.file = event.target.files[0];
       if (this.file.type.toLowerCase().includes('svg')) {
+        let text = await this.file.text();
+        this.SVGData = this.extractVariables(text)
         this.type = this.file.type;
         this.uploadImage(true);
       } else if (

@@ -111,83 +111,62 @@ export class OverviewComponent implements OnInit {
       .subscribe(
         (result: any) => {
           try {
+            const curLength = this.ListMinted.length
             const responseArrayLength = result.Response.content.length;
             result.Response.content.forEach((cont) => {
-              if (this.paginationflag == false) {
-                this.nft
-                  .getSVGByHash(cont.imagebase64)
-                  .subscribe((res: any) => {
-                    this.Decryption = res.Response.Base64ImageSVG;
-                    if (
-                      cont.attachmenttype == 'image/jpeg' ||
-                      cont.attachmenttype == 'image/jpg' ||
-                      cont.attachmenttype == 'image/png'
-                    ) {
-                      this.imageSrc =
-                        this._sanitizer.bypassSecurityTrustResourceUrl(
-                          this.Decryption.toString()
-                        );
-                    } else {
-                      this.dec = btoa(this.Decryption);
-                      var str2 = this.dec.toString();
-                      var str1 = new String('data:image/svg+xml;base64,');
-                      var src = str1.concat(str2.toString());
-
-                      this.imageSrc =
-                        this._sanitizer.bypassSecurityTrustResourceUrl(src);
-                      // if(cont.thumbnail == "") {
-                      //   cont.thumbnail = this.imageSrc;
-                      // }
-                    }
-
-                    this.nft
-                      .getThumbnailId(cont.Id)
-                      .subscribe(async (thumbnail: any) => {
-                        this.paginationflag = true;
-                        if (thumbnail == '') {
-                          this.thumbnailSRC = this.imageSrc;
-                        } else {
-                          this.thumbnailSRC =
-                            this._sanitizer.bypassSecurityTrustResourceUrl(
-                              thumbnail.Response.thumbnail
-                            );
-                        }
-                        card.thumbnail = this.thumbnailSRC;
-                        if (card.thumbnail != '') {
-                          this.paginationflag = false;
-                        }
-                      });
-                    let card: NFTCard = new NFTCard(
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      false,
-                      false,
-                      ''
-                    );
-                    card.ImageBase64 = this.imageSrc;
-                    // card.thumbnail= cont.thumbnail;
-                    card.Blockchain = cont.blockchain;
-                    card.NFTIdentifier = cont.nftidentifier;
-                    card.NFTName = cont.nftname;
-                    card.Blockchain = cont.blockchain;
-                    card.CreatorUserId = cont.creatoruserid;
-                    card.SellingStatus = cont.sellingstatus;
-                    card.CurrentOwnerPK = cont.currentownerpk;
-                    card.CurrentPrice = cont.currentprice;
-                    this.ListMinted.push(card);
-                    if (this.ListMinted.length === responseArrayLength) {
-                      this.mintedLoading = false;
-                    }
-                  });
+              let card: NFTCard = new NFTCard(
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                false,
+                false,
+                ''
+              );
+              card.Id = cont.Id
+              card.thumbnail = ''
+              card.ImageBase64 = this.imageSrc;
+              // card.thumbnail= cont.thumbnail;
+              card.Blockchain = cont.blockchain;
+              card.NFTIdentifier = cont.nftidentifier;
+              card.NFTName = cont.nftname;
+              card.Blockchain = cont.blockchain;
+              card.CreatorUserId = cont.creatoruserid;
+              card.SellingStatus = cont.sellingstatus;
+              card.CurrentOwnerPK = cont.currentownerpk;
+              card.CurrentPrice = cont.currentprice;
+              this.ListMinted.push(card);
+              if (this.ListMinted.length === responseArrayLength) {
+                this.mintedLoading = false;
               }
             });
+
+            let count = 0;
+            for (let x = curLength; x < this.ListMinted.length; x++) {
+              this.thumbnailSRC = '';
+          
+              this.nft.getThumbnailId(this.ListMinted[x].Id).subscribe(async (thumbnail: any) => {
+                
+                if (thumbnail == '') {
+                  this.thumbnailSRC = this.imageSrc;
+                } else {
+                  this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
+                    thumbnail.Response.thumbnail
+                  );
+                }
+                this.ListMinted[x].thumbnail = this.thumbnailSRC;
+                
+                count++;
+              });
+
+              
+            }
+
           } catch (e) {
             this.mintedLoading = false;
           }
@@ -197,6 +176,7 @@ export class OverviewComponent implements OnInit {
         }
       );
   }
+
   private getHotpicksNFTs() {
     this.hotPicksLoading = true;
     this.service.getWatchListByUserId(this.user).subscribe(
@@ -211,32 +191,6 @@ export class OverviewComponent implements OnInit {
             .subscribe(
               (resx: any) => {
                 try {
-                  this.nft
-                    .getSVGByHash(resx.Response.imagebase64)
-                    .subscribe((res: any) => {
-                      this.Decryption = res.Response.Base64ImageSVG;
-                      if (
-                        resx.Response.attachmenttype == 'image/jpeg' ||
-                        resx.Response.attachmenttype == 'image/jpg' ||
-                        resx.Response.attachmenttype == 'image/png'
-                      ) {
-                        this.imageSrc =
-                          this._sanitizer.bypassSecurityTrustResourceUrl(
-                            this.Decryption.toString()
-                          );
-                      } else {
-                        this.dec = btoa(this.Decryption);
-                        var str2 = this.dec.toString();
-                        var str1 = new String('data:image/svg+xml;base64,');
-                        var src = str1.concat(str2.toString());
-
-                        this.imageSrc =
-                          this._sanitizer.bypassSecurityTrustResourceUrl(src);
-                        // if(cont.thumbnail == "") {
-                        //   cont.thumbnail = this.imageSrc;
-                        // }
-                      }
-
                       this.nft
                         .getThumbnailId(resx.Response.id)
                         .subscribe(async (thumbnail: any) => {
@@ -282,7 +236,7 @@ export class OverviewComponent implements OnInit {
                       // if (this.ListHotpicks.length === responseArrayLength) {
                       this.hotPicksLoading = false;
                       // }
-                    });
+                    
                 } catch (e) {
                   this.hotPicksLoading = false;
                 }
@@ -314,83 +268,64 @@ export class OverviewComponent implements OnInit {
       .subscribe(
         (result: any) => {
           try {
+            const curLength = this.ListBought.length
             const responseArrayLength = result.Response.content.length;
             result.Response.content.forEach((cont) => {
-              if (this.paginationflag == false) {
-                this.nft
-                  .getSVGByHash(cont.imagebase64)
-                  .subscribe((res: any) => {
-                    this.Decryption = res.Response.Base64ImageSVG;
-                    if (
-                      cont.attachmenttype == 'image/jpeg' ||
-                      cont.attachmenttype == 'image/jpg' ||
-                      cont.attachmenttype == 'image/png'
-                    ) {
-                      this.imageSrc =
-                        this._sanitizer.bypassSecurityTrustResourceUrl(
-                          this.Decryption.toString()
-                        );
-                    } else {
-                      this.dec = btoa(this.Decryption);
-                      var str2 = this.dec.toString();
-                      var str1 = new String('data:image/svg+xml;base64,');
-                      var src = str1.concat(str2.toString());
+              let card: NFTCard = new NFTCard(
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                false,
+                false,
+                ''
+              );
 
-                      this.imageSrc =
-                        this._sanitizer.bypassSecurityTrustResourceUrl(src);
-                      // if(cont.thumbnail == "") {
-                      //   cont.thumbnail = this.imageSrc;
-                      // }
-                    }
-
-                    this.nft
-                      .getThumbnailId(cont.Id)
-                      .subscribe(async (thumbnail: any) => {
-                        this.paginationflag = true;
-                        if (thumbnail == '') {
-                          this.thumbnailSRC = this.imageSrc;
-                        } else {
-                          this.thumbnailSRC =
-                            this._sanitizer.bypassSecurityTrustResourceUrl(
-                              thumbnail.Response.thumbnail
-                            );
-                        }
-                        card.thumbnail = this.thumbnailSRC;
-                        if (card.thumbnail != '') {
-                          this.paginationflag = false;
-                        }
-                      });
-                    let card: NFTCard = new NFTCard(
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      false,
-                      false,
-                      ''
-                    );
-                    card.ImageBase64 = this.imageSrc;
-                    // card.thumbnail= cont.thumbnail;
-                    card.Blockchain = cont.blockchain;
-                    card.NFTIdentifier = cont.nftidentifier;
-                    card.NFTName = cont.nftname;
-                    card.Blockchain = cont.blockchain;
-                    card.CreatorUserId = cont.creatoruserid;
-                    card.SellingStatus = cont.sellingstatus;
-                    card.CurrentOwnerPK = cont.currentownerpk;
-                    card.CurrentPrice = cont.currentprice;
-                    this.ListBought.push(card);
-                    if (this.ListBought.length === responseArrayLength) {
-                      this.boughtLoading = false;
-                    }
-                  });
+              card.Id = cont.Id
+              card.thumbnail = ''
+              card.ImageBase64 = this.imageSrc;
+              // card.thumbnail= cont.thumbnail;
+              card.Blockchain = cont.blockchain;
+              card.NFTIdentifier = cont.nftidentifier;
+              card.NFTName = cont.nftname;
+              card.Blockchain = cont.blockchain;
+              card.CreatorUserId = cont.creatoruserid;
+              card.SellingStatus = cont.sellingstatus;
+              card.CurrentOwnerPK = cont.currentownerpk;
+              card.CurrentPrice = cont.currentprice;
+              this.ListBought.push(card);
+              if (this.ListBought.length === responseArrayLength) {
+                this.boughtLoading = false;
               }
             });
+              
+            let count = 0;
+            for (let x = curLength; x < this.ListBought.length; x++) {
+              this.thumbnailSRC = '';
+          
+              this.nft.getThumbnailId(this.ListBought[x].Id).subscribe(async (thumbnail: any) => {
+                
+                if (thumbnail == '') {
+                  this.thumbnailSRC = this.imageSrc;
+                } else {
+                  this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
+                    thumbnail.Response.thumbnail
+                  );
+                }
+                this.ListBought[x].thumbnail = this.thumbnailSRC;
+                
+                count++;
+              });
+
+              
+            }
+
+            
           } catch (e) {
             this.boughtLoading = false;
           }
@@ -415,32 +350,7 @@ export class OverviewComponent implements OnInit {
             .subscribe(
               (resy: any) => {
                 // try {
-                this.nft
-                  .getSVGByHash(resy.Response.imagebase64)
-                  .subscribe((res: any) => {
-                    this.Decryption = res.Response.Base64ImageSVG;
-                    if (
-                      resy.Response.attachmenttype == 'image/jpeg' ||
-                      resy.Response.attachmenttype == 'image/jpg' ||
-                      resy.Response.attachmenttype == 'image/png'
-                    ) {
-                      this.imageSrc =
-                        this._sanitizer.bypassSecurityTrustResourceUrl(
-                          this.Decryption.toString()
-                        );
-                    } else {
-                      this.dec = btoa(this.Decryption);
-                      var str2 = this.dec.toString();
-                      var str1 = new String('data:image/svg+xml;base64,');
-                      var src = str1.concat(str2.toString());
-
-                      this.imageSrc =
-                        this._sanitizer.bypassSecurityTrustResourceUrl(src);
-                      // if(cont.thumbnail == "") {
-                      //   cont.thumbnail = this.imageSrc;
-                      // }
-                    }
-
+                
                     this.nft
                       .getThumbnailId(resy.Response.id)
                       .subscribe(async (thumbnail: any) => {
@@ -487,7 +397,7 @@ export class OverviewComponent implements OnInit {
                     // if (this.ListTrends.length === responseArrayLength) {
                     this.favLoading = false;
                     // }
-                  });
+                  
                 // } catch (e) {
                 //   this.favLoading = false;
                 // }
@@ -532,52 +442,10 @@ export class OverviewComponent implements OnInit {
       .subscribe(
         (result: any) => {
           try {
+            const curLength = this.ListSales.length
             const responseArrayLength = result.Response.content.length;
             result.Response.content.forEach((cont) => {
               if (this.paginationflag == false) {
-                this.nft
-                  .getSVGByHash(cont.imagebase64)
-                  .subscribe((res: any) => {
-                    this.Decryption = res.Response.Base64ImageSVG;
-                    if (
-                      cont.attachmenttype == 'image/jpeg' ||
-                      cont.attachmenttype == 'image/jpg' ||
-                      cont.attachmenttype == 'image/png'
-                    ) {
-                      this.imageSrc =
-                        this._sanitizer.bypassSecurityTrustResourceUrl(
-                          this.Decryption.toString()
-                        );
-                    } else {
-                      this.dec = btoa(this.Decryption);
-                      var str2 = this.dec.toString();
-                      var str1 = new String('data:image/svg+xml;base64,');
-                      var src = str1.concat(str2.toString());
-
-                      this.imageSrc =
-                        this._sanitizer.bypassSecurityTrustResourceUrl(src);
-                      // if(cont.thumbnail == "") {
-                      //   cont.thumbnail = this.imageSrc;
-                      // }
-                    }
-
-                    this.nft
-                      .getThumbnailId(cont.Id)
-                      .subscribe(async (thumbnail: any) => {
-                        this.paginationflag = true;
-                        if (thumbnail == '') {
-                          this.thumbnailSRC = this.imageSrc;
-                        } else {
-                          this.thumbnailSRC =
-                            this._sanitizer.bypassSecurityTrustResourceUrl(
-                              thumbnail.Response.thumbnail
-                            );
-                        }
-                        card.thumbnail = this.thumbnailSRC;
-                        if (card.thumbnail != '') {
-                          this.paginationflag = false;
-                        }
-                      });
                     let card: NFTCard = new NFTCard(
                       '',
                       '',
@@ -592,6 +460,9 @@ export class OverviewComponent implements OnInit {
                       false,
                       ''
                     );
+
+                    card.Id = cont.Id
+                    card.thumbnail = ''
                     card.ImageBase64 = this.imageSrc;
                     // card.thumbnail= cont.thumbnail;
                     card.Blockchain = cont.blockchain;
@@ -606,9 +477,28 @@ export class OverviewComponent implements OnInit {
                     if (this.ListSales.length === responseArrayLength) {
                       this.onSaleLoading = false;
                     }
-                  });
+                  
               }
             });
+
+            let count = 0;
+            for (let x = curLength; x < this.ListSales.length; x++) {
+              this.thumbnailSRC = '';
+          
+              this.nft.getThumbnailId(this.ListSales[x].Id).subscribe(async (thumbnail: any) => {
+                
+                if (thumbnail == '') {
+                  this.thumbnailSRC = this.imageSrc;
+                } else {
+                  this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
+                    thumbnail.Response.thumbnail
+                  );
+                }
+                this.ListSales[x].thumbnail = this.thumbnailSRC;
+                
+                count++;
+              });
+            }
           } catch (e) {
             this.onSaleLoading = false;
           }

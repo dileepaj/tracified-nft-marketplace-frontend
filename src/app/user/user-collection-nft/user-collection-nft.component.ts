@@ -98,19 +98,26 @@ export class UserCollectionNFTComponent implements OnInit {
       )
       .subscribe(
         (res: any) => {
-          this.nfts = res.Response.content;
-          this.nextPage = res.Response.PaginationInfo.nextpage;
-          if (this.nfts == null) {
-            this.ngOnInit();
-          } else {
-            this.responseArrayLength += this.nfts.length;
-            for (let x = 0; x < this.nfts.length; x++) {
-              if (this.nfts[x].creatoruserid == this.key) {
-                this.MyList.push(this.nfts[x]);
+          
+          if (Boolean(res)) {
+            this.nfts = res.Response.content;
+            this.nextPage = res.Response.PaginationInfo.nextpage;
+            if (this.nfts == null) {
+              this.ngOnInit();
+            } else {
+              this.responseArrayLength += this.nfts.length;
+              for (let x = 0; x < this.nfts.length; x++) {
+                if (this.nfts[x].creatoruserid == this.key) {
+                  this.MyList.push(this.nfts[x]);
+                }
               }
+              this.showNFT(this.MyList);
             }
-            this.showNFT(this.MyList);
+          } else {
+            this.loading = false;
+            this.nextPageLoading = false;
           }
+          
         },
         (err) => {
           this.loading = false;
@@ -121,57 +128,53 @@ export class UserCollectionNFTComponent implements OnInit {
 
   showNFT(arr: any[]) {
     this.List.splice(0);
+    const currLength = this.List.length
     for (let a = 0; a < arr.length; a++) {
       if (this.paginationflag == false) {
-        this.nft.getSVGByHash(arr[a].imagebase64).subscribe((res: any) => {
-          this.Decryption = res.Response.Base64ImageSVG;
-          if (
-            arr[a].attachmenttype == 'image/jpeg' ||
-            arr[a].attachmenttype == 'image/jpg' ||
-            arr[a].attachmenttype == 'image/png'
-          ) {
-            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(
-              this.Decryption.toString()
-            );
-          } else {
-            this.dec = btoa(this.Decryption);
-            var str2 = this.dec.toString();
-            var str1 = new String('data:image/svg+xml;base64,');
-            var src = str1.concat(str2.toString());
-            this.imageSrc = this._sanitizer.bypassSecurityTrustResourceUrl(src);
-          }
-          this.nft
-            .getThumbnailId(arr[a].Id)
-            .subscribe(async (thumbnail: any) => {
-              this.paginationflag = true;
-              if (thumbnail == '') {
-                this.thumbnailSRC = this.imageSrc;
-              } else {
-                this.thumbnailSRC =
-                  this._sanitizer.bypassSecurityTrustResourceUrl(
-                    thumbnail.Response.thumbnail
-                  );
-              }
-              card.thumbnail = this.thumbnailSRC;
-              if (card.thumbnail != '') {
-                this.paginationflag = false;
-              }
-            });
-          let card: MyNFTCard = new MyNFTCard('', '', '', '', '', '', '');
-          card.ImageBase64 = this.imageSrc;
-          // card.thumbnail=this.thumbnailSRC
-          card.NFTIdentifier = arr[a].nftidentifier;
-          card.NFTName = arr[a].nftname;
-          card.Blockchain = arr[a].blockchain;
-          card.SellingStatus = arr[a].sellingstatus;
-          card.CurrentPrice = arr[a].currentprice
-          this.List.push(card);
-          if (this.List.length === this.responseArrayLength) {
-            this.loading = false;
-            this.nextPageLoading = false;
-          }
-        });
+        let card: MyNFTCard = new MyNFTCard('', '', '', '', '', '', '', '');
+        card.Id = arr[a].Id
+        card.thumbnail = ''
+        card.ImageBase64 = this.imageSrc;
+        // card.thumbnail=this.thumbnailSRC
+        card.NFTIdentifier = arr[a].nftidentifier;
+        card.NFTName = arr[a].nftname;
+        card.Blockchain = arr[a].blockchain;
+        card.SellingStatus = arr[a].sellingstatus;
+        card.CurrentPrice = arr[a].currentprice
+        this.List.push(card);
+        if (this.List.length === this.responseArrayLength) {
+          this.loading = false;
+          this.nextPageLoading = false;
+        }
       }
+    }
+
+    this.setThumbnails(currLength)
+  }
+
+  public setThumbnails (curLength: number) {
+    let count = 0;
+    for (let x = curLength; x < this.List.length; x++) {
+      this.thumbnailSRC = '';
+      //this.paginationflag = true;
+   
+      this.nft.getThumbnailId(this.List[x].Id).subscribe(async (thumbnail: any) => {
+        //this.paginationflag = true;
+        if (thumbnail == '') {
+          this.thumbnailSRC = this.imageSrc;
+        } else {
+          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
+            thumbnail.Response.thumbnail
+          );
+        }
+        this.List[x].thumbnail = this.thumbnailSRC;
+        /* if (count >= 7) {
+          this.paginationflag = false;
+        } */
+        count++;
+      });
+
+      
     }
   }
 

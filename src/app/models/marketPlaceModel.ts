@@ -50,6 +50,7 @@ export class NFTCard {
 
 export class MyNFTCard {
   constructor(
+    public Id: string,
     public NFTName: string,
     public NFTIdentifier: string,
     public ImageBase64: string,

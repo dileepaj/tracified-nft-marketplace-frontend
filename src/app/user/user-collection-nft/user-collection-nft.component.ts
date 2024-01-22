@@ -280,20 +280,22 @@ export class UserCollectionNFTComponent implements OnInit {
   }
 
   public setFilter(filter: string) {
-    this.List.splice(0);
+    if (filter !== this.selectedFilter) {
+      this.List.splice(0);
 
-    this.closeFilterDropdown();
-    this.router.navigate(['/user-dashboard/mynfts'], {
-      queryParams: {
-        collection: this.collection,
-        user: this.pk,
-        blockchain: this.blockchain,
-        filter,
-      },
-    });
-    /* .then(() => {
-        window.location.reload();
-      }); */
+      this.closeFilterDropdown();
+      this.router.navigate(['/user-dashboard/mynfts'], {
+        queryParams: {
+          collection: this.collection,
+          user: this.pk,
+          blockchain: this.blockchain,
+          filter,
+        },
+      });
+      /* .then(() => {
+          window.location.reload();
+        }); */
+    }
   }
 
   public async setBlockchain(blockchain: string) {

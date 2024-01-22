@@ -76,8 +76,10 @@ export class CollectionService {
     pageIndex: number,
     type: number
   ): Observable<NFT[]> {
+    const bcFilter =
+      blockchain === 'all' ? '' : 'blockchain=' + blockchain + '&';
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${blockchain}/${collection}?limit=${pageSize}&page=${pageIndex}&sort=-1&type=${type}`
+      `${this.baseUrlNFT}/${collection}?${bcFilter}&limit=${pageSize}&page=${pageIndex}&sort=-1&type=${type}`
     );
   }
 
@@ -87,8 +89,10 @@ export class CollectionService {
     pageSize: number,
     pageIndex: number
   ): Observable<NFT[]> {
+    const bcFilter =
+      blockchain === 'all' ? '' : 'blockchain=' + blockchain + '&';
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${blockchain}/${collection}?limit=${pageSize}&page=${pageIndex}&nfttype=ON SALE&sort=-1`
+      `${this.baseUrlNFT}/${collection}?${bcFilter}limit=${pageSize}&page=${pageIndex}&nfttype=ON SALE&sort=-1`
     );
   }
 

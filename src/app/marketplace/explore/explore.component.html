@@ -10,6 +10,15 @@
     <div class="bc-filter-wrapper cont-wrapper">
       <div
         class="bc-filter-name"
+        [class.selected-bc]="selectedBlockchain === 'all'"
+        (click)="changeBlockchain('all')"
+        matRipple
+      >
+        <img class="white-icon" [src]="'../../../assets/images/all.png'" />
+        <label>All</label>
+      </div>
+      <div
+        class="bc-filter-name"
         [class.selected-bc]="selectedBlockchain === 'stellar'"
         (click)="changeBlockchain('stellar')"
         matRipple
@@ -85,7 +94,6 @@
         </div>
       </div>
     </div>
-
     <div class="explore-content cont-wrapper" fxLayout="row wrap">
       <div class="cont-inner" *ngIf="!loading && List.length > 0">
         <div *ngFor="let item of List; index as i">

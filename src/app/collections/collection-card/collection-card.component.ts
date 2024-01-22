@@ -33,7 +33,7 @@ export class CollectionCardComponent implements OnInit {
       this.router.navigate(['/explore/nfts'], {
         queryParams: {
           collection: this.data.CollectionName,
-          blockchain: 'stellar',
+          blockchain: 'all',
           filter: 'all',
         },
       });

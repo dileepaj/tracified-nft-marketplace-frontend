@@ -20,9 +20,14 @@ export class CollectionCardComponent implements OnInit {
   }
 
   public goToNfts() {
-    if(this.router.url.includes('user-dashboard')) {
+    if (this.router.url.includes('user-dashboard')) {
       this.router.navigate(['./user-dashboard/mynfts'], {
-        queryParams: { collection: this.data.CollectionName,user:this.key,blockchain:this.selectedblockchain},//this.data
+        queryParams: {
+          collection: this.data.CollectionName,
+          user: this.key,
+          blockchain: this.selectedblockchain,
+          filter: 'BOUGHT',
+        }, //this.data
       });
     } else {
       this.router.navigate(['/explore/nfts'], {
@@ -33,6 +38,5 @@ export class CollectionCardComponent implements OnInit {
         },
       });
     }
-    
   }
 }

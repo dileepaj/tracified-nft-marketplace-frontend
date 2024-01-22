@@ -62,7 +62,11 @@
 
 #ep-header-title label {
   max-width: 128px;
-  border-bottom: 5px solid #00c820;
+  color: #FFF;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 #img-section {

@@ -173,7 +173,7 @@ export class HeaderComponent implements OnInit {
       if (isMobileDevice) {
         await albedo.publicKey({ require_existing: true }).then((re1s: any) => {
           this.tx = re1s;
-          this.router.navigate(['/user-dashboard/overview'], {
+          this.router.navigate(['/user-dashboard/mycollections'], {
             queryParams: { user: this.tx.pubkey, blockchain: blockchain },
           });
 
@@ -186,7 +186,7 @@ export class HeaderComponent implements OnInit {
         await freighterWallet.initWallelt();
         this.User = await freighterWallet.getWalletaddress();
 
-        this.router.navigate(['/user-dashboard/overview'], {
+        this.router.navigate(['/user-dashboard/mycollections'], {
           queryParams: { user: this.User, blockchain: blockchain },
         });
         this.sideNavOpened = false;
@@ -200,7 +200,7 @@ export class HeaderComponent implements OnInit {
       await phantomWallet.initWallelt();
       this.User = await phantomWallet.getWalletaddress();
 
-      this.router.navigate(['/user-dashboard/overview'], {
+      this.router.navigate(['/user-dashboard/mycollections'], {
         queryParams: { user: this.User, blockchain: blockchain },
       });
       this.sideNavOpened = false;
@@ -213,13 +213,13 @@ export class HeaderComponent implements OnInit {
       await metamaskwallet.initWallelt();
       this.User = await metamaskwallet.getWalletaddress();
 
-      this.router.navigate(['/user-dashboard/overview'], {
+      this.router.navigate(['/user-dashboard/mycollections'], {
         queryParams: { user: this.User, blockchain: blockchain },
       });
       this.sideNavOpened = false;
       this.accListExpanded = false;
     } else if (blockchain == 'usd') {
-      this.router.navigate(['/user-dashboard/overview'], {
+      this.router.navigate(['/user-dashboard/mycollections'], {
         queryParams: { user: this.User, blockchain: blockchain },
       });
       this.sideNavOpened = false;

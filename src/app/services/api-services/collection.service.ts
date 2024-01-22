@@ -28,7 +28,11 @@ export class CollectionService {
     return this.http.get<Collection[]>(`${this.baseUrlGet}/${userId}`);
   }
 
-  getCollectionPK(publickey: string, limit: number, pageIndex: number): Observable<Collection[]> {
+  getCollectionPK(
+    publickey: string,
+    limit: number,
+    pageIndex: number
+  ): Observable<Collection[]> {
     //request to get collection name according to user public key
     return this.http.get<Collection[]>(
       `${this.baseUrlCollection}/${publickey}?limit=${limit}&page=${pageIndex}`
@@ -56,11 +60,12 @@ export class CollectionService {
     blockchain: string,
     pageSize: number,
     pageIndex: number,
-    publickey: number
+    publickey: number,
+    nfttype: string
   ): Observable<NFT[]> {
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${blockchain}/${collection}?pubkey=${publickey}&limit=${pageSize}&page=${pageIndex}&sort=-1`
+      `${this.baseUrlNFT}/${collection}?blockchain=${blockchain}&pubkey=${publickey}&limit=${pageSize}&page=${pageIndex}&nfttype=${nfttype}&sort=-1`
     );
   }
 

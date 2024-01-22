@@ -6,7 +6,7 @@
       fxLayoutAlign="space-between center"
     >
       <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="hotpick">
-        Explore Your Collections
+        My Collections
       </div>
     </div>
     <div class="explore-content cont-wrapper" fxLayout="row wrap">
@@ -34,9 +34,14 @@
           ></app-nft-card-skeleton>
         </div>
       </div>
-      <div class="cont-inner" *ngIf="!loading && !nextPageLoading && collections.length === 0">
-        You do not have any collection.
-      </div>
+      
+      <div
+      class="explore-no-content"
+      *ngIf="!loading && !nextPageLoading && collections.length === 0"
+    >
+      <img src="../../../assets/images/no-nfts.svg" />
+      <label>No Collections Found</label>
+    </div>
     </div>
   </div>
 </div>

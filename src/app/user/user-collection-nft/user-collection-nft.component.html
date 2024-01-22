@@ -1,12 +1,108 @@
 <div class="overview-main-div">
   <div class="overview-main-wrapper">
-    <div
-      class="overview-picks-header"
-      fxLayout="row wrap"
-      fxLayoutAlign="space-between center"
-    >
+    <div class="overview-picks-header" fxLayout="column" fxLayoutAlign="center">
+      <div class="breadcrumb-div">
+        <a class="breadcrumb-link" (click)="goBack()">My Collections</a>
+        <mat-icon
+          class="material-symbols-outlined"
+          style="vertical-align: middle"
+        >
+          navigate_next
+        </mat-icon>
+
+        <a style="color: #00c853">{{ data }} Collection</a>
+      </div>
       <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="hotpick">
-        Explore your NFTs
+        <label>{{ data }} Collection</label>
+        <div class="filters-parent">
+          <!--blockchain filter-->
+          <!-- <div class="filter-dd-wrapper">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+              "
+            >
+              <div
+                #ddRef
+                class="filter-dropdown"
+                (click)="clickedOnDropdown('.bc-filters')"
+              >
+                <div
+                  class="filter-dd-btn"
+                  (click)="openFilterDropdown('.bc-filters')"
+                  matRipple
+                >
+                  <mat-icon class="material-symbols-outlined">
+                    swap_vert
+                  </mat-icon>
+                  <span *ngIf="blockchain === 'stellar'">Stellar</span>
+                  <span *ngIf="blockchain === 'ethereum'">Ethereum</span>
+                  <span *ngIf="blockchain === 'polygon'">Polygon</span>
+                  <span *ngIf="blockchain === 'solana'">Solana</span>
+                  <span *ngIf="blockchain === 'usd'">USD</span>
+                  <mat-icon class="material-symbols-outlined">
+                    arrow_drop_down
+                  </mat-icon>
+                </div>
+
+                <div class="filter-dropdown-content bc-filters">
+                  <div (click)="setBlockchain('stellar')" matRipple>
+                    Stellar
+                  </div>
+                  <div (click)="setBlockchain('ethereum')" matRipple>
+                    Ethereum
+                  </div>
+                  <div (click)="setBlockchain('polygon')" matRipple>
+                    Polygon
+                  </div>
+                  <div (click)="setBlockchain('solana')" matRipple>Solana</div>
+                  <div (click)="setBlockchain('usd')" matRipple>USD</div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <!--filters-->
+          <div class="filter-dd-wrapper">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+              "
+            >
+              <div
+                #ddRef
+                class="filter-dropdown"
+                (click)="clickedOnDropdown('.other-filters')"
+              >
+                <div
+                  class="filter-dd-btn"
+                  (click)="openFilterDropdown('.other-filters')"
+                  matRipple
+                >
+                  <mat-icon class="material-symbols-outlined">
+                    swap_vert
+                  </mat-icon>
+                  <span *ngIf="selectedFilter === 'BOUGHT'">Purchased</span>
+                  <span *ngIf="selectedFilter === 'ON SALE'">On Sale</span>
+                  <span *ngIf="selectedFilter === 'MINTED'">Minted</span>
+                  <mat-icon class="material-symbols-outlined">
+                    arrow_drop_down
+                  </mat-icon>
+                </div>
+
+                <div #gFilter class="filter-dropdown-content other-filters">
+                  <div (click)="setFilter('BOUGHT')" matRipple>Purchased</div>
+                  <div (click)="setFilter('ON SALE')" matRipple>On Sale</div>
+                  <div (click)="setFilter('MINTED')" matRipple>Minted</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="explore-content cont-wrapper" fxLayout="row wrap">

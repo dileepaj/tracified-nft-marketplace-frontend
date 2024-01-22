@@ -10,6 +10,15 @@
     <div class="bc-filter-wrapper cont-wrapper">
       <div
         class="bc-filter-name"
+        [class.selected-bc]="selectedBlockchain === 'all'"
+        (click)="changeBlockchain('all')"
+        matRipple
+      >
+        <img class="white-icon" [src]="'../../../assets/images/all.png'" />
+        <label>All</label>
+      </div>
+      <div
+        class="bc-filter-name"
         [class.selected-bc]="selectedBlockchain === 'stellar'"
         (click)="changeBlockchain('stellar')"
         matRipple
@@ -85,116 +94,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <mat-icon class="back-icon" matTooltip="Back" (click)="back()"
-      >arrow_back</mat-icon
-    >
-    <h1 style="font-size: 40px">Explore Collections</h1> -->
-    <!-- <div style="margin-top: 10px" fxFlexLayout="row wrap" fxFlexAlign="center">
-      <img
-        *ngIf="selectedBlockchain !== 'usd'"
-        style="
-          vertical-align: middle;
-          margin-right: 10px;
-          transform: scale(1.1);
-        "
-        [src]="'../../../assets/images/' + selectedBlockchain + '.png'"
-      />
-      <img
-        *ngIf="selectedBlockchain === 'usd'"
-        style="
-          vertical-align: middle;
-          margin-right: 10px;
-          width: 20px;
-          height: 20px;
-        "
-        [src]="'../../../assets/images/' + selectedBlockchain + '.png'"
-      />
-      <label style="font-size: 18px">{{
-        selectedBlockchain.charAt(0).toUpperCase() + selectedBlockchain.slice(1)
-      }}</label>
-    </div> -->
-    <!-- <div class="filters cont-wrapper">
-      <div
-        class="filter"
-        [class.active-filter]="selectedFilter === 'all'"
-        (click)="setFilter('all')"
-        matRipple
-      >
-        <img
-          class="filter-icon"
-          [class.filter-icon-active]="selectedFilter === 'all'"
-          src="../../../assets/images/all-icon.svg"
-        />
-        All
-      </div>
-      <div
-        class="filter"
-        [class.active-filter]="selectedFilter === 'onsale'"
-        (click)="setFilter('onsale')"
-        matRipple
-      >
-        <img
-          class="filter-icon"
-          [class.filter-icon-active]="selectedFilter === 'onsale'"
-          src="../../../assets/images/on_sale.png"
-        />
-        On Sale
-      </div>
-      <div
-        class="filter"
-        [class.active-filter]="selectedFilter === 'uptodate'"
-        (click)="setFilter('uptodate')"
-        matRipple
-      >
-        <img
-          class="filter-icon"
-          [class.filter-icon-active]="selectedFilter === 'uptodate'"
-          src="../../../assets/images/up_to_date.png"
-        />
-        Up To Date
-      </div>
-      <div
-        class="filter"
-        [class.active-filter]="selectedFilter === 'hotpicks'"
-        (click)="setFilter('hotpicks')"
-        matRipple
-      >
-        <img
-          class="filter-icon"
-          [class.filter-icon-active]="selectedFilter === 'hotpicks'"
-          src="../../../assets/images/hot_picks.png"
-        />
-        Hot Picks
-      </div>
-      <div
-        class="filter"
-        [class.active-filter]="selectedFilter === 'trending'"
-        (click)="setFilter('trending')"
-        matRipple
-      >
-        <img
-          class="filter-icon"
-          [class.filter-icon-active]="selectedFilter === 'trending'"
-          src="../../../assets/images/trending.png"
-        />
-        Trending
-      </div>
-
-      <div
-        class="filter"
-        [class.active-filter]="selectedFilter === 'bestcreators'"
-        (click)="setFilter('bestcreators')"
-        matRipple
-      >
-        <img
-          class="filter-icon"
-          [class.filter-icon-active]="selectedFilter === 'bestcreators'"
-          src="../../../assets/images/best_creators.png"
-        />
-        Best Creations
-      </div>
-    </div> -->
     <div class="explore-content cont-wrapper" fxLayout="row wrap">
       <div class="cont-inner" *ngIf="!loading && List.length > 0">
         <div *ngFor="let item of List; index as i">

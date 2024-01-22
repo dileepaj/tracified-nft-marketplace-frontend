@@ -20,19 +20,22 @@ export class CollectionCardComponent implements OnInit {
   }
 
   public goToNfts() {
-    if(this.router.url.includes('user-dashboard')) {
+    if (this.router.url.includes('user-dashboard')) {
       this.router.navigate(['./user-dashboard/mynfts'], {
-        queryParams: { collection: this.data.CollectionName,user:this.key,blockchain:this.selectedblockchain},//this.data
+        queryParams: {
+          collection: this.data.CollectionName,
+          user: this.key,
+          blockchain: this.selectedblockchain,
+        }, //this.data
       });
     } else {
       this.router.navigate(['/explore/nfts'], {
         queryParams: {
           collection: this.data.CollectionName,
-          blockchain: 'stellar',
+          blockchain: 'all',
           filter: 'all',
         },
       });
     }
-    
   }
 }

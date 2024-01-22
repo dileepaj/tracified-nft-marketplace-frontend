@@ -86,18 +86,20 @@
                   <mat-icon class="material-symbols-outlined">
                     swap_vert
                   </mat-icon>
-                  <span *ngIf="selectedFilter === 'BOUGHT'">Purchased</span>
+                  <span *ngIf="selectedFilter === 'NOTFORSALE'">Purchased</span>
                   <span *ngIf="selectedFilter === 'ON SALE'">On Sale</span>
-                  <span *ngIf="selectedFilter === 'MINTED'">Minted</span>
+                  <span *ngIf="selectedFilter === 'Minted'">Minted</span>
                   <mat-icon class="material-symbols-outlined">
                     arrow_drop_down
                   </mat-icon>
                 </div>
 
                 <div #gFilter class="filter-dropdown-content other-filters">
-                  <div (click)="setFilter('BOUGHT')" matRipple>Purchased</div>
+                  <div (click)="setFilter('NOTFORSALE')" matRipple>
+                    Purchased
+                  </div>
                   <div (click)="setFilter('ON SALE')" matRipple>On Sale</div>
-                  <div (click)="setFilter('MINTED')" matRipple>Minted</div>
+                  <div (click)="setFilter('Minted')" matRipple>Minted</div>
                 </div>
               </div>
             </div>

@@ -26,7 +26,7 @@ export class CollectionCardComponent implements OnInit {
           collection: this.data.CollectionName,
           user: this.key,
           blockchain: this.selectedblockchain,
-          filter: 'BOUGHT',
+          filter: 'NOTFORSALE',
         }, //this.data
       });
     } else {

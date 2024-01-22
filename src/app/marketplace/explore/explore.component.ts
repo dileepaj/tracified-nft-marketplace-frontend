@@ -241,7 +241,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   }
 
   public filterAndShowCard(arr: any[], filter: string) {
-    const curLength = this.List.length
+    const curLength = this.List.length;
     for (let x = 0; x < arr.length; x++) {
       let card: NFTCard = new NFTCard(
         '',
@@ -257,8 +257,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         false,
         ''
       );
-      card.Id = arr[x].Id
-      card.thumbnail = ''
+      card.Id = arr[x].Id;
+      card.thumbnail = '';
       card.NFTIdentifier = arr[x].nftidentifier;
       card.NFTName = arr[x].nftname;
       card.Blockchain = arr[x].blockchain;
@@ -268,42 +268,46 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       card.Hotpicks = arr[x].hotpicks;
       card.Trending = arr[x].trending;
       card.CurrentPrice = arr[x].currentprice;
-      if (card.Blockchain == this.selectedBlockchain) {
+      if (
+        this.selectedBlockchain === 'all' ||
+        card.Blockchain == this.selectedBlockchain
+      ) {
         this.List.push(card);
       }
+
       if (this.List.length === this.responseArrayLength) {
         this.nextPageLoading = false;
         this.loading = false;
       }
     }
 
-    this.setThumbnails(curLength)
+    this.setThumbnails(curLength);
     //this.checkIfNftLoaded();
   }
 
-  public setThumbnails (curLength: number) {
+  public setThumbnails(curLength: number) {
     let count = 0;
     for (let x = curLength; x < this.List.length; x++) {
       this.thumbnailSRC = '';
       //this.paginationflag = true;
-   
-      this.nft.getThumbnailId(this.List[x].Id).subscribe(async (thumbnail: any) => {
-        //this.paginationflag = true;
-        if (thumbnail == '') {
-          this.thumbnailSRC = this.imageSrc;
-        } else {
-          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
-            thumbnail.Response.thumbnail
-          );
-        }
-        this.List[x].thumbnail = this.thumbnailSRC;
-        /* if (count >= 7) {
+
+      this.nft
+        .getThumbnailId(this.List[x].Id)
+        .subscribe(async (thumbnail: any) => {
+          //this.paginationflag = true;
+          if (thumbnail == '') {
+            this.thumbnailSRC = this.imageSrc;
+          } else {
+            this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
+              thumbnail.Response.thumbnail
+            );
+          }
+          this.List[x].thumbnail = this.thumbnailSRC;
+          /* if (count >= 7) {
           this.paginationflag = false;
         } */
-        count++;
-      });
-
-      
+          count++;
+        });
     }
   }
 
@@ -574,9 +578,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
           this.nftItems.splice(0);
           this.responseArrayLength += this.nfts.Response.content.length;
           for (let a = 0; a < this.nfts.Response.content.length; a++) {
-            
             this.nftItems.push(this.nfts.Response.content[a]);
-            
           }
           this.filterAndShowCard(this.nftItems, filter);
         }

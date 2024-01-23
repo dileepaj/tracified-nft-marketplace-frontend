@@ -132,15 +132,17 @@
         "
       >
         <img
-          *ngIf="isStellarFlag || isSolanaFlag"
+          *ngIf="isStellarFlag || isSolanaFlag || isAllFlag"
           src="../../../assets/images/no-nfts.svg"
         />
-        <label *ngIf="isStellarFlag || isSolanaFlag">No NFTs Found</label>
+        <label *ngIf="isStellarFlag || isSolanaFlag || isAllFlag"
+          >No NFTs Found</label
+        >
         <img
-          *ngIf="!isStellarFlag && !isSolanaFlag"
+          *ngIf="!isStellarFlag && !isSolanaFlag && !isAllFlag"
           src="../../../assets/images/coming-soon.svg"
         />
-        <label *ngIf="!isStellarFlag && !isSolanaFlag"
+        <label *ngIf="!isStellarFlag && !isSolanaFlag && !isAllFlag"
           >{{
             selectedBlockchain.charAt(0).toUpperCase() +
               selectedBlockchain.slice(1)

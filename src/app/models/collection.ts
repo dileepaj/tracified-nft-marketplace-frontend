@@ -7,7 +7,8 @@ export class Collection {
     public Blockchain?: string,
     public Publickey?: string,
     public isPublic?: boolean,
-    public cid?: string
+    public cid?: string,
+    public nftcount?: number
   ) {}
 }
 

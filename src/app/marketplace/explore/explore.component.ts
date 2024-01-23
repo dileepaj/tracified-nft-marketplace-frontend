@@ -88,6 +88,7 @@ export class ExploreComponent implements OnInit, AfterViewInit {
   responseArrayLength: number = 0;
   isStellarFlag: boolean = false;
   isSolanaFlag: boolean = false;
+  isAllFlag: boolean = false;
   collectionName: string;
 
   constructor(
@@ -199,6 +200,9 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         }
         if (this.selectedBlockchain == 'solana') {
           this.isSolanaFlag = true;
+        }
+        if (this.selectedBlockchain == 'all') {
+          this.isAllFlag = true;
         }
 
         if (

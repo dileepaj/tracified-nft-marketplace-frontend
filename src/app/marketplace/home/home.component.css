@@ -238,7 +238,7 @@
   transition: 0.2s ease-in;
 }
 
-.hot-picks-header-btn:hover {
+.hot-picks-header-btn:enabled:hover {
   background: #bbbbbb;
   color: black;
 }
@@ -425,6 +425,13 @@
   margin-top: 50px;
   width: 144px;
   margin-right: 40px;
+}
+
+.hot-picks-header-btn:disabled {
+  cursor: not-allowed;
+  transition: none;
+  border: 1px solid #646464;
+  color: #646464;
 }
 
 @media only screen and (max-width: 1400px) {

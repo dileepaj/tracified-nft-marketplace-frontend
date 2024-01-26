@@ -103,11 +103,7 @@
             </button>
           </div>
         </div>
-        <div
-          class="hot-picks-content"
-          id="hot-picks-content"
-          *ngIf="bestPicksLoading"
-        >
+        <div class="hot-picks-content" *ngIf="bestPicksLoading">
           <div *ngFor="let item of [0, 1, 2, 3, 4, 5]">
             <app-nft-card-skeleton></app-nft-card-skeleton>
           </div>
@@ -170,11 +166,7 @@
             </button>
           </div>
         </div>
-        <div
-          class="hot-picks-content"
-          id="category-content"
-          *ngIf="trendingLoading"
-        >
+        <div class="hot-picks-content" *ngIf="trendingLoading">
           <div *ngFor="let item of [0, 1, 2, 3, 4, 5]">
             <app-nft-card-skeleton></app-nft-card-skeleton>
           </div>

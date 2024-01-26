@@ -174,38 +174,37 @@ export class ShowNFTComponent implements OnInit {
           this.nfts = result.Response;
           for (let x = 0; x < this.nfts.length; x++) {
             if (this.nfts[x].trending == true) {
-                  let card: NFTCard = new NFTCard(
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    false,
-                    false,
-                    ''
-                  );
-                  card.Id = this.nfts[x].Id
-                  card.thumbnail = ''
-                  card.ImageBase64 = this.imageSrc;
-                  // card.thumbnail=this.thumbnailSRC
-                  card.NFTIdentifier = this.nfts[x].nftidentifier;
-                  card.NFTName = this.nfts[x].nftname;
-                  card.Blockchain = this.nfts[x].blockchain;
-                  card.CreatorUserId = this.nfts[x].creatoruserid;
-                  card.CurrentOwnerPK = this.nfts[x].currentownerpk;
-                  card.SellingStatus = this.nfts[x].sellingstatus;
-                  card.CurrentPrice = this.nfts[x].currentprice;
-                  this.List.push(card);
-                  this.loading = false;
-                
+              let card: NFTCard = new NFTCard(
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                false,
+                false,
+                ''
+              );
+              card.Id = this.nfts[x].Id;
+              card.thumbnail = '';
+              card.ImageBase64 = this.imageSrc;
+              // card.thumbnail=this.thumbnailSRC
+              card.NFTIdentifier = this.nfts[x].nftidentifier;
+              card.NFTName = this.nfts[x].nftname;
+              card.Blockchain = this.nfts[x].blockchain;
+              card.CreatorUserId = this.nfts[x].creatoruserid;
+              card.CurrentOwnerPK = this.nfts[x].currentownerpk;
+              card.SellingStatus = this.nfts[x].sellingstatus;
+              card.CurrentPrice = this.nfts[x].currentprice;
+              this.List.push(card);
+              this.loading = false;
             }
           }
 
-          this.setThumbnails(curLength)
+          this.setThumbnails(curLength);
         });
       } else if (this.data == 'hotpicks') {
         this.getFilteredNFTs('hotpicks');
@@ -244,54 +243,52 @@ export class ShowNFTComponent implements OnInit {
     }
 
     this.service
-      .getFilteredNFTs('stellar', this.currentPage, filter, 12)
+      .getFilteredNFTs(this.currentPage, filter, 12)
       .subscribe((result: any) => {
         try {
-          const curLength = this.List.length
+          const curLength = this.List.length;
           this.nextPage = result.Response.PaginationInfo.nextpage;
           this.responseArrayLength += result.Response.content.length;
           result.Response.content.forEach(
             (cont) => {
-                    let card: NFTCard = new NFTCard(
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      '',
-                      false,
-                      false,
-                      ''
-                    );
-                    card.Id = cont.Id
-                  card.thumbnail = ''
-                    card.ImageBase64 = this.imageSrc;
-                    // card.thumbnail= cont.thumbnail;
-                    card.Blockchain = cont.blockchain;
-                    card.NFTIdentifier = cont.nftidentifier;
-                    card.NFTName = cont.nftname;
-                    card.Blockchain = cont.blockchain;
-                    card.CreatorUserId = cont.creatoruserid;
-                    card.SellingStatus = cont.sellingstatus;
-                    card.CurrentOwnerPK = cont.currentownerpk;
-                    card.CurrentPrice = cont.currentprice;
-                    this.List.push(card);
-                    if (this.List.length === this.responseArrayLength) {
-                      this.nextPageLoading = false;
-                      this.loading = false;
-                    }
-                  
-              
+              let card: NFTCard = new NFTCard(
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                false,
+                false,
+                ''
+              );
+              card.Id = cont.Id;
+              card.thumbnail = '';
+              card.ImageBase64 = this.imageSrc;
+              // card.thumbnail= cont.thumbnail;
+              card.Blockchain = cont.blockchain;
+              card.NFTIdentifier = cont.nftidentifier;
+              card.NFTName = cont.nftname;
+              card.Blockchain = cont.blockchain;
+              card.CreatorUserId = cont.creatoruserid;
+              card.SellingStatus = cont.sellingstatus;
+              card.CurrentOwnerPK = cont.currentownerpk;
+              card.CurrentPrice = cont.currentprice;
+              this.List.push(card);
+              if (this.List.length === this.responseArrayLength) {
+                this.nextPageLoading = false;
+                this.loading = false;
+              }
             },
             (err) => {
               this.loading = false;
               this.nextPageLoading = false;
             }
           );
-          this.setThumbnails(curLength)
+          this.setThumbnails(curLength);
         } catch (e) {
           this.loading = false;
           this.nextPageLoading = false;
@@ -308,7 +305,7 @@ export class ShowNFTComponent implements OnInit {
     try {
       this.mint.getNFTByTag(tag, 8, this.currentPage).subscribe(
         (res: any) => {
-          const curLength = this.List.length
+          const curLength = this.List.length;
           this.nextPage = res.Response.PaginationInfo.nextpage;
           this.NFTList = res;
           if (this.NFTList.Response == null) {
@@ -318,53 +315,47 @@ export class ShowNFTComponent implements OnInit {
 
           this.responseArrayLength += this.NFTList.Response.content.length;
           for (let x = 0; x < this.NFTList.Response.content.length; x++) {
-            if (
-              this.NFTList.Response.content[x].sellingstatus == 'ON SALE' 
-            ) {
-              
-                  let card: NFTCard = new NFTCard(
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    '',
-                    false,
-                    false,
-                    ''
-                  );
-                  card.Id = this.NFTList.Response.content[x].Id
-                  card.thumbnail = ''
-                  card.ImageBase64 = this.imageSrc;
-                  // card.thumbnail=this.thumbnailSRC
-                  card.NFTIdentifier =
-                    this.NFTList.Response.content[x].nftidentifier;
-                  card.NFTName = this.NFTList.Response.content[x].nftname;
-                  card.Blockchain = this.NFTList.Response.content[x].blockchain;
-                  card.CreatorUserId =
-                    this.NFTList.Response.content[x].creatoruserid;
-                  card.CurrentOwnerPK =
-                    this.NFTList.Response.content[x].currentownerpk;
-                  card.SellingStatus =
-                    this.NFTList.Response.content[x].sellingstatus;
-                  card.CurrentPrice =
-                    this.NFTList.Response.content[x].currentprice;
-                  this.List.push(card);
-                  if (this.List.length === this.responseArrayLength) {
-                    this.nextPageLoading = false;
-                    this.loading = false;
-                  }
-                
+            if (this.NFTList.Response.content[x].sellingstatus == 'ON SALE') {
+              let card: NFTCard = new NFTCard(
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                false,
+                false,
+                ''
+              );
+              card.Id = this.NFTList.Response.content[x].Id;
+              card.thumbnail = '';
+              card.ImageBase64 = this.imageSrc;
+              // card.thumbnail=this.thumbnailSRC
+              card.NFTIdentifier =
+                this.NFTList.Response.content[x].nftidentifier;
+              card.NFTName = this.NFTList.Response.content[x].nftname;
+              card.Blockchain = this.NFTList.Response.content[x].blockchain;
+              card.CreatorUserId =
+                this.NFTList.Response.content[x].creatoruserid;
+              card.CurrentOwnerPK =
+                this.NFTList.Response.content[x].currentownerpk;
+              card.SellingStatus =
+                this.NFTList.Response.content[x].sellingstatus;
+              card.CurrentPrice = this.NFTList.Response.content[x].currentprice;
+              this.List.push(card);
+              if (this.List.length === this.responseArrayLength) {
+                this.nextPageLoading = false;
+                this.loading = false;
+              }
             } else {
               this.loading = false;
               this.nextPageLoading = false;
             }
           }
-          this.setThumbnails(curLength)
-          
+          this.setThumbnails(curLength);
         },
         (err) => {
           this.loading = false;
@@ -406,29 +397,29 @@ export class ShowNFTComponent implements OnInit {
     }, option);
   }
 
-  public setThumbnails (curLength: number) {
+  public setThumbnails(curLength: number) {
     let count = 0;
     for (let x = curLength; x < this.List.length; x++) {
       this.thumbnailSRC = '';
       //this.paginationflag = true;
-   
-      this.service.getThumbnailId(this.List[x].Id).subscribe(async (thumbnail: any) => {
-        //this.paginationflag = true;
-        if (thumbnail == '') {
-          this.thumbnailSRC = this.imageSrc;
-        } else {
-          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
-            thumbnail.Response.thumbnail
-          );
-        }
-        this.List[x].thumbnail = this.thumbnailSRC;
-        /* if (count >= 7) {
+
+      this.service
+        .getThumbnailId(this.List[x].Id)
+        .subscribe(async (thumbnail: any) => {
+          //this.paginationflag = true;
+          if (thumbnail == '') {
+            this.thumbnailSRC = this.imageSrc;
+          } else {
+            this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
+              thumbnail.Response.thumbnail
+            );
+          }
+          this.List[x].thumbnail = this.thumbnailSRC;
+          /* if (count >= 7) {
           this.paginationflag = false;
         } */
-        count++;
-      });
-
-      
+          count++;
+        });
     }
   }
 }

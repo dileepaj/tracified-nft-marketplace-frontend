@@ -83,6 +83,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollLeft('hot-picks-content')"
+              [disabled]="!bestPicksOverflowing"
             >
               <mat-icon class="material-symbols-outlined">
                 navigate_before
@@ -91,6 +92,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollRight('hot-picks-content')"
+              [disabled]="!bestPicksOverflowing"
             >
               <mat-icon
                 class="material-symbols-outlined"
@@ -148,6 +150,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollLeft('category-content')"
+              [disabled]="!trendingOverflowing"
             >
               <mat-icon class="material-symbols-outlined">
                 navigate_before
@@ -156,6 +159,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollRight('category-content')"
+              [disabled]="!trendingOverflowing"
             >
               <mat-icon
                 class="material-symbols-outlined"
@@ -168,7 +172,7 @@
         </div>
         <div
           class="hot-picks-content"
-          id="hot-picks-content"
+          id="category-content"
           *ngIf="trendingLoading"
         >
           <div *ngFor="let item of [0, 1, 2, 3, 4, 5]">
@@ -177,7 +181,7 @@
         </div>
         <div
           class="hot-picks-content"
-          id="hot-picks-content"
+          id="category-content"
           *ngIf="!trendingLoading"
         >
           <div *ngFor="let item2 of List2; index as i">

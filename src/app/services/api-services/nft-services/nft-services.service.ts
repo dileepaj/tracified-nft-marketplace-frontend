@@ -208,13 +208,12 @@ export class NftServicesService {
   }
 
   getFilteredNFTs(
-    blockchain: string,
     requestedPage: number,
     filter: string,
     pageSize: number
   ): Observable<NFT[]> {
     return this.http.get<NFT[]>(
-      `${this.baseUrlOnSale}/${filter}/${blockchain}?limit=${this.pageSize}&page=${requestedPage}&sort=${this.sortBy}`
+      `${this.baseUrlOnSale}/${filter}?limit=${this.pageSize}&page=${requestedPage}&sort=${this.sortBy}`
     );
   }
 }

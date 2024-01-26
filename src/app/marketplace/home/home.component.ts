@@ -273,8 +273,10 @@ export class HomeComponent implements OnInit {
               this.List.push(card);
               if (this.List.length === responseArrayLength) {
                 this.bestPicksLoading = false;
-                this.bestPicksOverflowing =
-                  this.isScrollable('hot-picks-content');
+                setTimeout(() => {
+                  this.bestPicksOverflowing =
+                    this.isScrollable('hot-picks-content');
+                });
               }
             },
             (err) => {
@@ -349,8 +351,10 @@ export class HomeComponent implements OnInit {
               this.List2.push(card);
               if (this.List2.length === responseArrayLength) {
                 this.trendingLoading = false;
-                this.trendingOverflowing =
-                  this.isScrollable('category-content');
+                setTimeout(() => {
+                  this.trendingOverflowing =
+                    this.isScrollable('category-content');
+                }, 1000);
               }
             },
             (err) => {

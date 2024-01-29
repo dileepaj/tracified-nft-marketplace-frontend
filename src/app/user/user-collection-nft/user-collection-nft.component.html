@@ -86,6 +86,7 @@
                   <mat-icon class="material-symbols-outlined">
                     swap_vert
                   </mat-icon>
+                  <span *ngIf="selectedFilter === 'All'">All</span>
                   <span *ngIf="selectedFilter === 'NOTFORSALE'">Purchased</span>
                   <span *ngIf="selectedFilter === 'ON SALE'">On Sale</span>
                   <span *ngIf="selectedFilter === 'Minted'">Minted</span>
@@ -95,6 +96,7 @@
                 </div>
 
                 <div #gFilter class="filter-dropdown-content other-filters">
+                  <div (click)="setFilter('All')" matRipple>All</div>
                   <div (click)="setFilter('NOTFORSALE')" matRipple>
                     Purchased
                   </div>

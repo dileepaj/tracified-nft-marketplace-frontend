@@ -15,7 +15,8 @@ export class CollectionService {
   baseUrlSave: string = this.nftBackendBaseURL + 'collection/save';
   baseUrlGet: string = this.nftBackendBaseURL + 'collection/userpk';
   baseUrlGetCollection: string = this.nftBackendBaseURL + 'collection/user';
-  baseUrlGetCollectionbyEndorsement: string = this.nftBackendBaseURL + 'collection/owner';
+  baseUrlGetCollectionbyEndorsement: string =
+    this.nftBackendBaseURL + 'collection/owner';
   baseUrlEndorsing: string = this.nftBackendBaseURL + 'endorsement';
   baseUrlNFT: string = this.nftBackendBaseURL + 'nftcollection';
   baseUrlCollection: string = this.nftBackendBaseURL + 'collection';
@@ -62,11 +63,13 @@ export class CollectionService {
     pageSize: number,
     pageIndex: number,
     publickey: number,
-    nfttype: string
+    nfttype: string,
+    isfiat: boolean
   ): Observable<NFT[]> {
+    const sFilter = nfttype === 'All' ? '' : 'nfttype=' + nfttype + '&';
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${collection}?blockchain=${blockchain}&pubkey=${publickey}&limit=${pageSize}&page=${pageIndex}&nfttype=${nfttype}&sort=-1`
+      `${this.baseUrlNFT}/${collection}?blockchain=${blockchain}&pubkey=${publickey}&limit=${pageSize}&page=${pageIndex}&${sFilter}isfiat=${isfiat}&sort=-1`
     );
   }
 
@@ -117,13 +120,10 @@ export class CollectionService {
     );
   }
 
-  getCollectionNameByObjectID(
-    objectid: string
-  ): Observable<Collection[]> {
+  getCollectionNameByObjectID(objectid: string): Observable<Collection[]> {
     //request to get collection name according to endorsement id
     return this.http.get<Collection[]>(
       `${this.baseUrlGetCollectionbyEndorsement}/${objectid}`
     );
   }
 }
-

@@ -64,9 +64,13 @@ export class ViewDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(async (params) => {
       this.selectedBlockchain = params['blockchain'];
+      let pkBlockchain = this.selectedBlockchain;
+      if (this.selectedBlockchain === 'usd') {
+        pkBlockchain = 'solana';
+      }
       this.pk = await this.validatorService.GetActivePubKey(
         params['user'],
-        this.selectedBlockchain
+        pkBlockchain
       );
       this.retrive(this.selectedBlockchain, this.pk).then((res) => {
         this.setGreeting();
@@ -79,6 +83,7 @@ export class ViewDashboardComponent implements OnInit {
         }
       });
       this.connectedWallet = '';
+      this.Name = '';
       this.getConnectedWallet();
     });
   }
@@ -148,7 +153,7 @@ export class ViewDashboardComponent implements OnInit {
       }
     }
 
-    if (blockchain == 'solana') {
+    if (blockchain == 'solana' || blockchain == 'usd') {
       this.api.getEndorsement(pk).subscribe((res: any) => {
         if (res.Name != '') {
           if (res.profilepic != '') {
@@ -291,7 +296,10 @@ export class ViewDashboardComponent implements OnInit {
             this.connectedWallet = '';
           }
         }
-      } else if (this.selectedBlockchain === 'solana') {
+      } else if (
+        this.selectedBlockchain === 'solana' ||
+        this.selectedBlockchain === 'usd'
+      ) {
         this.bccommingsoon = '';
         try {
           const connection = new Connection(BlockchainConfig.solananetworkURL);

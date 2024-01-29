@@ -192,7 +192,7 @@ export class HeaderComponent implements OnInit {
         this.sideNavOpened = false;
         this.accListExpanded = false;
       }
-    } else if (blockchain == 'solana') {
+    } else if (blockchain == 'solana' || blockchain == 'usd') {
       // this.snackBar.openSnackBar("Solana NFTs coming soon!","info");
       // return
       let phantomWallet = new UserWallet();
@@ -218,13 +218,13 @@ export class HeaderComponent implements OnInit {
       });
       this.sideNavOpened = false;
       this.accListExpanded = false;
-    } else if (blockchain == 'usd') {
+    } /* else if (blockchain == 'usd') {
       this.router.navigate(['/user-dashboard/mycollections'], {
         queryParams: { user: this.User, blockchain: blockchain },
       });
       this.sideNavOpened = false;
       this.accListExpanded = false;
-    }
+    } */
   }
 
   public goToHome() {

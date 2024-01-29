@@ -52,7 +52,7 @@ export class UserCollectionNFTComponent implements OnInit {
   responseArrayLength: number = 0;
   isOnBcDropdown: boolean = false;
   isOnOtherDropdown: boolean = false;
-  selectedFilter: string = 'all';
+  selectedFilter: string = 'All';
 
   constructor(
     private router: Router,
@@ -102,14 +102,22 @@ export class UserCollectionNFTComponent implements OnInit {
       this.responseArrayLength = 0;
     }
 
+    let bc = this.blockchain;
+    let isfiat = false;
+    if (this.blockchain === 'usd') {
+      bc = 'solana';
+      isfiat = true;
+    }
+
     this.service
       .getNFTByCollectionName(
         this.collection,
-        this.blockchain,
+        bc,
         8,
         this.currentPage,
         this.pk,
-        this.selectedFilter
+        this.selectedFilter,
+        isfiat
       )
       .subscribe(
         (res: any) => {
@@ -144,7 +152,7 @@ export class UserCollectionNFTComponent implements OnInit {
     const currLength = this.List.length;
     for (let a = 0; a < arr.length; a++) {
       if (this.paginationflag == false) {
-        let card: MyNFTCard = new MyNFTCard('', '', '', '', '', '', '', '');
+        let card: MyNFTCard = new MyNFTCard('', '', '', '', '', '', '', '', '');
         card.Id = arr[a].Id;
         card.thumbnail = '';
         card.ImageBase64 = this.imageSrc;
@@ -154,6 +162,7 @@ export class UserCollectionNFTComponent implements OnInit {
         card.Blockchain = arr[a].blockchain;
         card.SellingStatus = arr[a].sellingstatus;
         card.CurrentPrice = arr[a].currentprice;
+        card.CurrentOwnerPK = arr[a].currentownerpk;
         this.List.push(card);
         if (this.List.length === this.responseArrayLength) {
           this.loading = false;

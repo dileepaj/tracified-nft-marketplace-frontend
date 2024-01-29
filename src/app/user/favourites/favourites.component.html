@@ -34,12 +34,12 @@
             #theLastItem
           ></app-nft-card>
         </div>
+      </div>
 
-        <div class="cont-inner" *ngIf="loading || nextPageLoading">
-          <app-nft-card-skeleton
-            *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7]"
-          ></app-nft-card-skeleton>
-        </div>
+      <div class="cont-inner" *ngIf="loading || nextPageLoading">
+        <app-nft-card-skeleton
+          *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7]"
+        ></app-nft-card-skeleton>
       </div>
 
       <div
@@ -47,7 +47,7 @@
         *ngIf="!loading && !nextPageLoading && List.length === 0"
       >
         <img src="../../../assets/images/no-nfts.svg" />
-        <label>No Collections Found</label>
+        <label>No NFTs Found</label>
       </div>
     </div>
   </div>

@@ -89,7 +89,7 @@ export class NftCardComponent implements OnInit {
       }
     }
 
-    if (blockchain == 'solana') {
+    if (blockchain == 'solana' || blockchain == 'usd') {
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();
@@ -250,6 +250,7 @@ export class NftCardComponent implements OnInit {
   public routeToBuy(id: string): void {
     if (this.sellingstatus == 'Minted') {
       this.retrive(this.blockchain).then((res) => {
+        console.log(this.currentownerpk);
         if (this.user == this.currentownerpk) {
           this.command = false;
           let data: any[] = ['Minted', id, this.blockchain];
@@ -307,13 +308,16 @@ export class NftCardComponent implements OnInit {
     this.dialogService.openNftPreview({ image: this.item.ImageBase64 });
   }
 
-  public getButtonText() : string {
-    let text = 'Buy Now'
+  public getButtonText(): string {
+    let text = 'Buy Now';
     if (this.router.url.includes('user-dashboard')) {
-      if (this.sellingstatus === 'Minted' || this.sellingstatus === 'NOTFORSALE') {
-        text = 'Sell Now'
+      if (
+        this.sellingstatus === 'Minted' ||
+        this.sellingstatus === 'NOTFORSALE'
+      ) {
+        text = 'Sell Now';
       }
-    } 
-    return text
+    }
+    return text;
   }
 }

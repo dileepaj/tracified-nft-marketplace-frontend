@@ -120,7 +120,7 @@ export class WatchlistComponent implements OnInit {
       }
     }
 
-    if (blockchain == 'solana') {
+    if (blockchain == 'solana' || blockchain == 'usd') {
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();
@@ -283,7 +283,13 @@ export class WatchlistComponent implements OnInit {
     card.CurrentOwnerPK = response.currentownerpk;
     card.SellingStatus = response.sellingstatus;
     card.CurrentPrice = response.currentprice;
-    this.List.push(card);
+    if (
+      this.blockchain !== 'usd' ||
+      (this.blockchain === 'usd' && response.isfiat === true)
+    ) {
+      this.List.push(card);
+    }
+
     this.loading = false;
   }
 

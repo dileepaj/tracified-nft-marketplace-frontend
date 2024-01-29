@@ -48,7 +48,7 @@ export class CreateCollectionComponent implements OnInit {
   collection: Collection = new Collection('', '', '', '', '', '', true); //declaring the model
   fileDetails: FileDetails = new FileDetails('', '');
   signerPK: string = '';
-  mail: any;
+  objectid: any;
   key: any;
   imageSrc: any;
   file: File;
@@ -100,7 +100,7 @@ export class CreateCollectionComponent implements OnInit {
     this.collection.CollectionName = this.formValue('collectionName');
     this.collection.OrganizationName = this.formValue('organizationName');
     this.collection.Blockchain = 'any';
-    this.collection.UserId = this.mail;
+    this.collection.UserId = this.objectid;
     this.collection.Publickey = this.key;
     this.collection.isPublic = this.formValue('ispublic');
 
@@ -159,10 +159,10 @@ export class CreateCollectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mail = this.data.email;
+    this.objectid = this.data.objectid;
     this.key = this.data.key;
     this.controlGroup = new FormGroup({
-      userId: new FormControl(this.collection.UserId, Validators.required),
+       objectId: new FormControl(this.collection.UserId, Validators.required),
       collectionName: new FormControl(
         this.collection.CollectionName,
         Validators.required

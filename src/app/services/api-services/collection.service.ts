@@ -15,6 +15,7 @@ export class CollectionService {
   baseUrlSave: string = this.nftBackendBaseURL + 'collection/save';
   baseUrlGet: string = this.nftBackendBaseURL + 'collection/userpk';
   baseUrlGetCollection: string = this.nftBackendBaseURL + 'collection/user';
+  baseUrlGetCollectionbyEndorsement: string = this.nftBackendBaseURL + 'collection/owner';
   baseUrlEndorsing: string = this.nftBackendBaseURL + 'endorsement';
   baseUrlNFT: string = this.nftBackendBaseURL + 'nftcollection';
   baseUrlCollection: string = this.nftBackendBaseURL + 'collection';
@@ -114,4 +115,14 @@ export class CollectionService {
       `${this.baseUrlCollection}?limit=${pageSize}&page=${pageIndex}&sort=${this.sortBy}`
     );
   }
+
+  getCollectionNameByObjectID(
+    objectid: string
+  ): Observable<Collection[]> {
+    //request to get collection name according to endorsement id
+    return this.http.get<Collection[]>(
+      `${this.baseUrlGetCollectionbyEndorsement}/${objectid}`
+    );
+  }
 }
+

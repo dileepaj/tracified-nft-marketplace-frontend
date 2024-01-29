@@ -86,6 +86,7 @@ export class Mint2Component implements OnInit {
   @Input() email: string;
   @Input() wallet: string;
   @Input() key: string;
+  @Input() objectId: string;
   stxn: StellarTXN = new StellarTXN('', '', '');
   contract: Contracts = new Contracts(
     '',
@@ -1257,6 +1258,7 @@ export class Mint2Component implements OnInit {
   }
 
   ngOnChanges(): void {
+    console.log("here======")
     this.reset();
     if (this.wallet == 'metamask') {
       this.polygon = false;
@@ -1283,9 +1285,9 @@ export class Mint2Component implements OnInit {
       this.solana = true;
     }
 
-    if (this.email != null && this.key != null) {
+    if (this.email != null && this.key != null && this.objectId!=null) {
       this.serviceCol
-        .getCollectionNameByMailAndPK(this.email, this.key)
+        .getCollectionNameByObjectID(this.objectId) 
         .subscribe((data: any) => {
           if (data != null) {
             this.CollectionList = data;
@@ -1596,7 +1598,7 @@ export class Mint2Component implements OnInit {
 
   public openCreateCollection() {
     this.dialogService
-      .createCollection(this.email, this.key)
+      .createCollection(this.email, this.key,this.objectId)
       .afterClosed()
       .subscribe((data: any) => {
         if (Boolean(data)) {

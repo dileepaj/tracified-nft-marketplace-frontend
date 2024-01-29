@@ -51,6 +51,7 @@ export class MintComponent implements OnInit {
   email: string = '';
   blockchain: any;
   albedopk: string;
+  objectId: any;
   constructor(
     private service: CollectionService,
     private router: Router,
@@ -156,6 +157,7 @@ export class MintComponent implements OnInit {
         });
         this.firebaseanalytics.setUserProperties({ UserWallet: wallet });
         this.apiService.getEndorsement(key).subscribe((result: any) => {
+          this.objectId=result.Id
           if (
             result.Status == null ||
             result.Status == 'Declined' ||
@@ -210,6 +212,7 @@ export class MintComponent implements OnInit {
               email: this.email,
               wallet,
               key: key,
+              objectId:this.objectId
             });
           }
         });
@@ -242,6 +245,7 @@ export class MintComponent implements OnInit {
           });
           this.firebaseanalytics.setUserProperties({ UserWallet: wallet });
           this.apiService.getEndorsement(key).subscribe((result: any) => {
+            this.objectId=result.Id
             if (
               result.Status == null ||
               result.Status == 'Declined' ||
@@ -296,6 +300,7 @@ export class MintComponent implements OnInit {
                 email: this.email,
                 wallet,
                 key: key,
+                objectId:this.objectId
               });
             }
           });
@@ -314,6 +319,7 @@ export class MintComponent implements OnInit {
           });
           this.firebaseanalytics.setUserProperties({ UserWallet: wallet });
           this.apiService.getEndorsement(key).subscribe((result: any) => {
+            this.objectId=result.Id
             if (
               result.Status == null ||
               result.Status == 'Declined' ||
@@ -368,6 +374,7 @@ export class MintComponent implements OnInit {
                 email: this.email,
                 wallet,
                 key: key,
+                objectId:this.objectId
               });
             }
           });
@@ -398,6 +405,8 @@ export class MintComponent implements OnInit {
           });
           this.firebaseanalytics.setUserProperties({ UserWallet: wallet });
           this.apiService.getEndorsement(key).subscribe((result: any) => {
+            this.objectId=result.Id
+
             if (
               result.Status == null ||
               result.Status == 'Declined' ||
@@ -452,6 +461,7 @@ export class MintComponent implements OnInit {
                 email: this.email,
                 wallet,
                 key: key,
+               objectId:this.objectId
               });
             }
           });
@@ -474,6 +484,7 @@ export class MintComponent implements OnInit {
           });
           this.firebaseanalytics.setUserProperties({ UserWallet: wallet });
           this.apiService.getEndorsement(key).subscribe((result: any) => {
+            this.objectId=result.Id
             if (
               result.Status == null ||
               result.Status == 'Declined' ||
@@ -525,6 +536,7 @@ export class MintComponent implements OnInit {
                 email: this.email,
                 wallet,
                 key: key,
+                objectId:this.objectId
               });
             }
           });
@@ -545,6 +557,7 @@ export class MintComponent implements OnInit {
         });
         this.firebaseanalytics.setUserProperties({ UserWallet: wallet });
         this.apiService.getEndorsement(key).subscribe((result: any) => {
+          this.objectId=result.Id
           if (
             result.Status == null ||
             result.Status == 'Declined' ||
@@ -599,6 +612,7 @@ export class MintComponent implements OnInit {
               email: this.email,
               wallet,
               key: key,
+             objectId:this.objectId
             });
           }
         });

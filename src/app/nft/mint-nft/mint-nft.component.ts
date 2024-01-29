@@ -16,6 +16,7 @@ export class MintNftComponent implements OnInit {
   public wallet: string;
   public key: string;
   public blockchain: string;
+  public objectId: string;
   public user: string;
   constructor(private _location: Location) {}
 
@@ -36,6 +37,7 @@ export class MintNftComponent implements OnInit {
         this.email = event.email;
         this.wallet = event.wallet;
         this.key = event.key;
+        this.objectId=event.objectId;
       } else if (index == 2) {
         this.blockchain = event.blockchain;
         this.user = event.user;

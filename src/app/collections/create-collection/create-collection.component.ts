@@ -49,6 +49,7 @@ export class CreateCollectionComponent implements OnInit {
   fileDetails: FileDetails = new FileDetails('', '');
   signerPK: string = '';
   objectid: any;
+  email:any;
   key: any;
   imageSrc: any;
   file: File;
@@ -161,6 +162,7 @@ export class CreateCollectionComponent implements OnInit {
   ngOnInit(): void {
     this.objectid = this.data.objectid;
     this.key = this.data.key;
+    this.email=this.data.email;
     this.controlGroup = new FormGroup({
        objectId: new FormControl(this.collection.UserId, Validators.required),
       collectionName: new FormControl(

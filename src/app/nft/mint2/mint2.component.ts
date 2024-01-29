@@ -1258,7 +1258,6 @@ export class Mint2Component implements OnInit {
   }
 
   ngOnChanges(): void {
-    console.log("here======")
     this.reset();
     if (this.wallet == 'metamask') {
       this.polygon = false;

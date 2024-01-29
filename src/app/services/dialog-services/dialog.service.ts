@@ -118,7 +118,8 @@ export class DialogService {
 
   createCollection(
     email: string,
-    key: string
+    key: string,
+    objectid:string
   ): MatDialogRef<CreateCollectionComponent> {
     return this.dialog.open(CreateCollectionComponent, {
       width: '500px',
@@ -126,6 +127,7 @@ export class DialogService {
       data: {
         email: email,
         key: key,
+        objectid:objectid
       },
       backdropClass: 'back-drop'
     });

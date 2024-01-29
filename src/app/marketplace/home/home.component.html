@@ -84,6 +84,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollLeft('hot-picks-content')"
+              [disabled]="!bestPicksOverflowing"
             >
               <mat-icon class="material-symbols-outlined">
                 navigate_before
@@ -92,6 +93,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollRight('hot-picks-content')"
+              [disabled]="!bestPicksOverflowing"
             >
               <mat-icon
                 class="material-symbols-outlined"
@@ -102,11 +104,7 @@
             </button>
           </div>
         </div>
-        <div
-          class="hot-picks-content"
-          id="hot-picks-content"
-          *ngIf="bestPicksLoading"
-        >
+        <div class="hot-picks-content" *ngIf="bestPicksLoading">
           <div *ngFor="let item of [0, 1, 2, 3, 4, 5]">
             <app-nft-card-skeleton></app-nft-card-skeleton>
           </div>
@@ -149,6 +147,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollLeft('category-content')"
+              [disabled]="!trendingOverflowing"
             >
               <mat-icon class="material-symbols-outlined">
                 navigate_before
@@ -157,6 +156,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollRight('category-content')"
+              [disabled]="!trendingOverflowing"
             >
               <mat-icon
                 class="material-symbols-outlined"
@@ -167,18 +167,14 @@
             </button>
           </div>
         </div>
-        <div
-          class="hot-picks-content"
-          id="hot-picks-content"
-          *ngIf="trendingLoading"
-        >
+        <div class="hot-picks-content" *ngIf="trendingLoading">
           <div *ngFor="let item of [0, 1, 2, 3, 4, 5]">
             <app-nft-card-skeleton></app-nft-card-skeleton>
           </div>
         </div>
         <div
           class="hot-picks-content"
-          id="hot-picks-content"
+          id="category-content"
           *ngIf="!trendingLoading"
         >
           <div *ngFor="let item2 of List2; index as i">

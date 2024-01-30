@@ -122,7 +122,7 @@
             <label class="nft-cat"><b>Price - </b></label>
             <label class="label-hl"
               >{{ this.fullTotal }} {{ this.crypto }}
-              <small *ngIf="nftbe.Blockchain !== 'usd'"
+              <small *ngIf="this.NFTList.isfiat !== true"
                 >(includes royalties)</small
               ></label
             >
@@ -135,7 +135,7 @@
           [class.hidden]="selectedTab === 1"
           (click)="buyNFT()"
         >
-          Buy Now
+          {{this.buttonvalue}}
         </button>
       </div>
       <mat-tab-group class="buy-view-tabs" [selectedIndex]="selectedTab">

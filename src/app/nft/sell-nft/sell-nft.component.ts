@@ -138,6 +138,7 @@ export class SellNftComponent implements OnInit {
   usercontentURLFlag: boolean = false;
   nftcontentURLFlag: boolean = false;
   currencyRate: any = 0.0;
+  royaltycontent:boolean=true;
   constructor(
     private route: ActivatedRoute,
     private service: NftServicesService,
@@ -326,14 +327,14 @@ export class SellNftComponent implements OnInit {
       );
       return;
     }
-    if (isNaN(+this.royaltyamount)) {
+    if (isNaN(+this.royaltyamount) && this.NFTList.isfiat==false) {
       this.snackbarService.openSnackBar(
-        'Price must be entered as a number',
+        'Royalty must be entered as a number',
         'info'
       );
       return;
     }
-    if (this.royaltyamount < 0 || this.royaltyamount > 100) {
+    if (this.royaltyamount < 0 || this.royaltyamount > 100 && this.NFTList.isfiat==false) {
       this.snackbarService.openSnackBar(
         'Royalty must be between 1 to 100%',
         'info'
@@ -555,14 +556,14 @@ export class SellNftComponent implements OnInit {
       if (this.NFTList.creatoruserid == this.NFTList.currentownerpk) {
         //might be distributor
         this.royaltyamount = parseFloat(this.royalty);
-        if (isNaN(+this.royaltyamount)) {
+        if (isNaN(+this.royaltyamount) && this.NFTList.isfiat==false) {
           this.snackbarService.openSnackBar(
             'Royality must be entered as a number',
             'info'
           );
           return;
         }
-        if (this.royaltyamount < 0 || this.royaltyamount > 100) {
+        if (this.royaltyamount < 0 || this.royaltyamount > 100 && this.NFTList.isfiat==false) {
           this.snackbarService.openSnackBar(
             'Royalty must be between 1 to 100%',
             'info'
@@ -895,13 +896,13 @@ export class SellNftComponent implements OnInit {
   }
 
   public setCurrency() {
-    if (this.data[2].toLowerCase().trim() === 'ethereum') {
+    if (this.data[2].toLowerCase().trim() === 'ethereum' && this.NFTList.isfiat==false) {
       this.currency = 'ETH';
-    } else if (this.data[2].toLowerCase().trim() === 'polygon') {
+    } else if (this.data[2].toLowerCase().trim() === 'polygon' && this.NFTList.isfiat==false) {
       this.currency = 'MATIC';
-    } else if (this.data[2].toLowerCase().trim() === 'solana') {
+    } else if (this.data[2].toLowerCase().trim() === 'solana' && this.NFTList.isfiat==false) {
       this.currency = 'SOL';
-    } else if (this.data[2].toLowerCase().trim() === 'stellar') {
+    } else if (this.data[2].toLowerCase().trim() === 'stellar' && this.NFTList.isfiat==false) {
       this.currency = 'XLM';
     }
   }
@@ -921,6 +922,11 @@ export class SellNftComponent implements OnInit {
         .getNFTDetails(this.data[1], this.data[0], this.data[2])
         .subscribe((data: any) => {
           this.NFTList = data.Response[0];
+          if(this.NFTList.isfiat==true){
+          this.royaltycontent=false
+          this.currency='JPY'
+          this.NFTList.royalty=0
+          }
           this.getCurrencyRate();
           // this.currencyRate=0.1;
           if (this.NFTList == null) {
@@ -1202,11 +1208,19 @@ export class SellNftComponent implements OnInit {
   }
 
   public getCurrencyRate() {
-    this.currencyConverter
+    if(this.NFTList.isfiat==true){
+      this.currencyConverter
+      .GetUSDratebyFiat("japanese-yen")
+      .subscribe((res) => {
+        this.currencyRate = res.data.rateUsd;
+      });
+    }else{
+      this.currencyConverter
       .GetUSDratebyBC(this.NFTList.blockchain)
       .subscribe((res) => {
         this.currencyRate = res.data.priceUsd;
       });
+    }
   }
 
   public calculateRoyaltyPriceUSD() {

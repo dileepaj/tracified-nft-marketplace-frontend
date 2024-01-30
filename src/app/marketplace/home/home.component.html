@@ -84,7 +84,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollLeft('hot-picks-content')"
-              [disabled]="!bestPicksOverflowing"
+              [disabled]="!bestPicksOverflowing || !bestPicksLeftScroll"
             >
               <mat-icon class="material-symbols-outlined">
                 navigate_before
@@ -93,7 +93,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollRight('hot-picks-content')"
-              [disabled]="!bestPicksOverflowing"
+              [disabled]="!bestPicksOverflowing || !bestPicksRightScroll"
             >
               <mat-icon
                 class="material-symbols-outlined"
@@ -147,7 +147,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollLeft('category-content')"
-              [disabled]="!trendingOverflowing"
+              [disabled]="!trendingOverflowing || !trendingLeftScroll"
             >
               <mat-icon class="material-symbols-outlined">
                 navigate_before
@@ -156,7 +156,7 @@
             <button
               class="hot-picks-header-btn rounded"
               (click)="scrollRight('category-content')"
-              [disabled]="!trendingOverflowing"
+              [disabled]="!trendingOverflowing || !trendingRightScroll"
             >
               <mat-icon
                 class="material-symbols-outlined"

@@ -25,6 +25,7 @@
 }
 
 .title-div {
+  cursor: pointer;
   height: 62px;
   width: 100%;
   border-bottom: 1px solid black;
@@ -37,8 +38,17 @@
   background-color: #ffffff0d;
 }
 
-.title {
+.title-wrapper {
+  position: relative;
   width: 260px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  cursor: pointer;
   font-size: 18px;
   font-weight: 600;
   line-height: 24px;
@@ -50,7 +60,12 @@
   text-overflow: ellipsis;
 }
 
+.more-vert {
+  margin-right: -10px;
+}
+
 .nft-count {
+  cursor: pointer;
   max-width: 260px;
   font-size: 14px;
   font-weight: 400;
@@ -102,4 +117,46 @@
 
 .card-parent:hover .eye-icon {
   filter: invert(1);
+}
+
+.menu-text {
+  margin: -50px 0px -50px 0px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 208.02%;
+  /* or 23px */
+  color: #fff;
+}
+
+.mat-menu-item {
+  line-height: 30px;
+  height: 30px;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.15) 100%
+    ),
+    #121212 !important;
+}
+
+::ng-deep.menu .mat-menu-content:not(:empty) {
+  padding-top: 1px !important;
+  padding-bottom: 1px !important;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.15) 100%
+    ),
+    #121212 !important;
+}
+
+::ng-deep.mat-menu-panel {
+  min-height: 10px !important;
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.15) 100%
+    ),
+    #121212 !important;
 }

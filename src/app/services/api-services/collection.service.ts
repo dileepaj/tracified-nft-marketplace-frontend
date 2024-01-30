@@ -15,10 +15,12 @@ export class CollectionService {
   baseUrlSave: string = this.nftBackendBaseURL + 'collection/save';
   baseUrlGet: string = this.nftBackendBaseURL + 'collection/userpk';
   baseUrlGetCollection: string = this.nftBackendBaseURL + 'collection/user';
-  baseUrlGetCollectionbyEndorsement: string = this.nftBackendBaseURL + 'collection/owner';
+  baseUrlGetCollectionbyEndorsement: string =
+    this.nftBackendBaseURL + 'collection/owner';
   baseUrlEndorsing: string = this.nftBackendBaseURL + 'endorsement';
   baseUrlNFT: string = this.nftBackendBaseURL + 'nftcollection';
   baseUrlCollection: string = this.nftBackendBaseURL + 'collection';
+  baseUrlVisibility: string = this.nftBackendBaseURL + 'collection-visibility';
   sortBy: number = -1;
 
   readonly headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -61,11 +63,15 @@ export class CollectionService {
     blockchain: string,
     pageSize: number,
     pageIndex: number,
-    publickey: number
+    publickey: number,
+    nfttype: string,
+    isfiat: boolean
   ): Observable<NFT[]> {
+    const sFilter = nfttype === 'All' ? '' : 'nfttype=' + nfttype + '&';
+    const coll = collection === '' ? '' : 'collection=' + nfttype + '&';
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${blockchain}/${collection}?pubkey=${publickey}&limit=${pageSize}&page=${pageIndex}&sort=-1`
+      `${this.baseUrlNFT}?${coll}&blockchain=${blockchain}&pubkey=${publickey}&limit=${pageSize}&page=${pageIndex}&${sFilter}isfiat=${isfiat}&sort=-1`
     );
   }
 
@@ -79,7 +85,7 @@ export class CollectionService {
     const bcFilter =
       blockchain === 'all' ? '' : 'blockchain=' + blockchain + '&';
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${collection}?${bcFilter}&limit=${pageSize}&page=${pageIndex}&sort=-1&type=${type}`
+      `${this.baseUrlNFT}/${collection}?${bcFilter}limit=${pageSize}&page=${pageIndex}&sort=-1&type=${type}`
     );
   }
 
@@ -116,13 +122,21 @@ export class CollectionService {
     );
   }
 
-  getCollectionNameByObjectID(
-    objectid: string
-  ): Observable<Collection[]> {
+  getCollectionNameByObjectID(objectid: string): Observable<Collection[]> {
     //request to get collection name according to endorsement id
     return this.http.get<Collection[]>(
       `${this.baseUrlGetCollectionbyEndorsement}/${objectid}`
     );
   }
-}
 
+  updateCollectionVisibility(id: string, ispublic: boolean) {
+    const payload: any = {
+      id,
+      ispublic,
+    };
+    //request to update collection inthe nft backend DB
+    return this.http.put<Collection>(this.baseUrlVisibility, payload, {
+      headers: this.headers,
+    });
+  }
+}

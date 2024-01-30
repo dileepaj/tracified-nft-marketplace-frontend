@@ -49,7 +49,7 @@ export class CreateCollectionComponent implements OnInit {
   fileDetails: FileDetails = new FileDetails('', '');
   signerPK: string = '';
   objectid: any;
-  email:any;
+  email: any;
   key: any;
   imageSrc: any;
   file: File;
@@ -121,8 +121,17 @@ export class CreateCollectionComponent implements OnInit {
       })
       .subscribe((result) => {
         if (result) {
+          this.dialogRef.close({
+            UserId: this.collection.UserId,
+            OrganizationName: this.collection.OrganizationName,
+            CollectionName: this.collection.CollectionName,
+            RequestPayload: {
+              Collection: this.collection,
+              FileDetails: this.fileDetails,
+            },
+          });
           //sending data to the service
-          const pendingDialog = this.dialogService.pendingDialog({
+          /* const pendingDialog = this.dialogService.pendingDialog({
             message: PendingDialogText.PLEASE_WAIT,
           });
           this.addSubscription = this.service
@@ -148,7 +157,7 @@ export class CreateCollectionComponent implements OnInit {
                   'error'
                 );
               }
-            });
+            }); */
         }
       });
   }
@@ -162,9 +171,9 @@ export class CreateCollectionComponent implements OnInit {
   ngOnInit(): void {
     this.objectid = this.data.objectid;
     this.key = this.data.key;
-    this.email=this.data.email;
+    this.email = this.data.email;
     this.controlGroup = new FormGroup({
-       objectId: new FormControl(this.collection.UserId, Validators.required),
+      objectId: new FormControl(this.collection.UserId, Validators.required),
       collectionName: new FormControl(
         this.collection.CollectionName,
         Validators.required

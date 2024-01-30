@@ -125,7 +125,7 @@ export class Mint2Component implements OnInit {
     '',
     '',
     '',
-    'usd',
+    'jpy',
     '0',
     '',
     [],
@@ -203,7 +203,9 @@ export class Mint2Component implements OnInit {
   tagInputText: string = '';
   mycontract: any;
   signature;
-  SVGData: Record<SVGDataExtraction, string>
+  SVGData: Record<SVGDataExtraction, string>;
+  newCollectionCreated: boolean = false;
+  newCollectionPayload: any[] = [];
   constructor(
     private route: ActivatedRoute,
     private service: MintService,
@@ -250,9 +252,9 @@ export class Mint2Component implements OnInit {
     (this.mint.Trending = false), (this.mint.HotPicks = false);
 
     if (this.formValue('Currency') === 'crypto') {
-      this.mint.IsFiat = false
+      this.mint.IsFiat = false;
     } else {
-      this.mint.IsFiat = true
+      this.mint.IsFiat = true;
     }
     //posting of mint data to backend via service
     if (this.mint.CreatorUserId != null) {
@@ -315,7 +317,7 @@ export class Mint2Component implements OnInit {
   }
 
   async getIssuer(): Promise<void> {
-      if (this.flag == false) {
+    if (this.flag == false) {
       //minting according to blockchain
       this.firebaseanalytics.logEvent('button_click', { name: 'Create' });
       this.firebaseanalytics.logEvent('Start_mint', {
@@ -327,8 +329,11 @@ export class Mint2Component implements OnInit {
       this.mint.Imagebase64 = this.hash;
       this.mint.AttachmentType = this.type;
       this.mint.Description = this.formValue('Description');
-      
-      if (this.formValue('Currency') === 'crypto' && this.formValue('Royalty') == null) {
+
+      if (
+        this.formValue('Currency') === 'crypto' &&
+        this.formValue('Royalty') == null
+      ) {
         this.snackbar.openSnackBar(
           'Please enter a positive number ranging between 0 and 100 for the royalty.',
           'info'
@@ -361,14 +366,14 @@ export class Mint2Component implements OnInit {
         this.flag = true;
       }
       const royaltyRejex = /^(?:[1-9][0-9]?|100)$/;
-      if(this.formValue('Currency') === 'crypto') {
+      if (this.formValue('Currency') === 'crypto') {
         if (
           parseFloat(this.mint.Royalty) <= 0 ||
           !royaltyRejex.test(this.mint.Royalty) ||
           isNaN(parseFloat(this.mint.Royalty)) ||
           this.mint.Royalty == null
         ) {
-                    this.snackbar.openSnackBar(
+          this.snackbar.openSnackBar(
             'Please enter a positive number ranging between 0 and 100 for the royalty.',
             'info'
           );
@@ -973,11 +978,48 @@ export class Mint2Component implements OnInit {
   updateMinter(): void {
     if (this.minter.NFTIssuerPK != null) {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
-        this.pendingDialog.close(true);
-        this.proceed.emit({
-          blockchain: this.mint.Blockchain,
-          user: this.mint.CreatorUserId,
-        });
+        if (this.newCollectionCreated) {
+          let newColl;
+          for (let i = 0; i < this.newCollectionPayload.length; i++) {
+            if (
+              this.newCollectionPayload[i].collection.CollectionName ===
+              this.mint.Collection
+            ) {
+              newColl = this.newCollectionPayload[i];
+              break;
+            }
+          }
+          if(Boolean(newColl)) {
+            this.serviceCol
+            .add(newColl.collection, newColl.fileDetails)
+            .subscribe((res) => {
+              if (res != null || res != '') {
+                this.pendingDialog.close(true);
+                this.proceed.emit({
+                  blockchain: this.mint.Blockchain,
+                  user: this.mint.CreatorUserId,
+                });
+              } else {
+                this.snackbar.openSnackBar(
+                  SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE,
+                  'error'
+                );
+                this.pendingDialog.close(true);
+                this.proceed.emit({
+                  blockchain: this.mint.Blockchain,
+                  user: this.mint.CreatorUserId,
+                });
+              }
+            });
+          }
+          
+        } else {
+          this.pendingDialog.close(true);
+          this.proceed.emit({
+            blockchain: this.mint.Blockchain,
+            user: this.mint.CreatorUserId,
+          });
+        }
       });
     } else {
       this.Minter();
@@ -1144,6 +1186,7 @@ export class Mint2Component implements OnInit {
                   err,
                 'error'
               );
+
               this.flag = false;
             }
           });
@@ -1291,9 +1334,9 @@ export class Mint2Component implements OnInit {
       this.solana = true;
     }
 
-    if (this.email != null && this.key != null && this.objectId!=null) {
+    if (this.email != null && this.key != null && this.objectId != null) {
       this.serviceCol
-        .getCollectionNameByObjectID(this.objectId) 
+        .getCollectionNameByObjectID(this.objectId)
         .subscribe((data: any) => {
           if (data != null) {
             this.CollectionList = data;
@@ -1406,6 +1449,10 @@ export class Mint2Component implements OnInit {
                 }
               })
               .catch((error) => {
+                this.snackbar.openSnackBar(
+                  'Something went wrong, please try again!',
+                  'error'
+                );
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
@@ -1415,7 +1462,10 @@ export class Mint2Component implements OnInit {
               this.snackbar.openSnackBar("Transaction failed! Transaction: ", tx);
             }
           } catch (err: any) {
-            this.snackbar.openSnackBar(JSON.stringify(err), 'error');
+            this.snackbar.openSnackBar(
+              'Something went wrong, please try again!',
+              'error'
+            );
             this.pendingDialog.close(false);
             this.flag = false;
           }
@@ -1488,11 +1538,15 @@ export class Mint2Component implements OnInit {
     const variables: Record<SVGDataExtraction, string> = {
       [SVGDataExtraction.TENANT]: '',
       [SVGDataExtraction.PRDUCT]: '',
-      [SVGDataExtraction.BATCH]: ''
+      [SVGDataExtraction.BATCH]: '',
     };
 
     // Define the variables to extract
-    const variableNames = [SVGDataExtraction.TENANT, SVGDataExtraction.PRDUCT, SVGDataExtraction.BATCH];
+    const variableNames = [
+      SVGDataExtraction.TENANT,
+      SVGDataExtraction.PRDUCT,
+      SVGDataExtraction.BATCH,
+    ];
 
     // Create a regular expression pattern to match the variables and their values
     const regexPattern = new RegExp(
@@ -1517,7 +1571,7 @@ export class Mint2Component implements OnInit {
       this.file = event.target.files[0];
       if (this.file.type.toLowerCase().includes('svg')) {
         let text = await this.file.text();
-        this.SVGData = this.extractVariables(text)
+        this.SVGData = this.extractVariables(text);
         this.type = this.file.type;
         this.uploadImage(true);
       } else if (
@@ -1617,7 +1671,7 @@ export class Mint2Component implements OnInit {
 
   public openCreateCollection() {
     this.dialogService
-      .createCollection(this.email, this.key,this.objectId)
+      .createCollection(this.email, this.key, this.objectId)
       .afterClosed()
       .subscribe((data: any) => {
         if (Boolean(data)) {
@@ -1625,6 +1679,11 @@ export class Mint2Component implements OnInit {
             CollectionName: data.CollectionName,
             UserId: data.UserId,
             OrganizationName: data.OrganizationName,
+          });
+          this.newCollectionCreated = true;
+          this.newCollectionPayload.push({
+            collection: data.RequestPayload.Collection,
+            fileDetails: data.RequestPayload.FileDetails,
           });
         }
       });
@@ -1917,10 +1976,9 @@ export class Mint2Component implements OnInit {
     this.controlGroup.get('Royalty')!.setValue(sanitizedValue);
   }
 
-  currencyChanged(event:any) {
-    
-    if(event === 'usd') {
-      this.controlGroup.get('Blockchain')?.setValue('')
+  currencyChanged(event: any) {
+    if (event === 'jpy') {
+      this.controlGroup.get('Blockchain')?.setValue('');
     }
   }
 }

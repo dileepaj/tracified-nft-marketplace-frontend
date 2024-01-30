@@ -44,6 +44,7 @@ import { TransactionBuilderService } from 'src/app/services/blockchain-services/
 import { WalletType } from 'src/app/models/enums/wallets';
 import { StellarUtilService } from 'src/app/services/blockchain-services/stellar-services/stellar-util.service';
 import { StellarNFTOperationType } from 'src/app/models/enums/blockchain';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-sell-nft',
@@ -159,7 +160,8 @@ export class SellNftComponent implements OnInit {
     private firebaseanalytics: FirebaseAnalyticsService,
     private currencyConverter: CurrencyConverterService,
     private StellarTransactionBuilder: TransactionBuilderService,
-    private stellarUtil: StellarUtilService
+    private stellarUtil: StellarUtilService,
+    private location: Location
   ) {}
 
   validateDecimal(input) {
@@ -1143,9 +1145,7 @@ export class SellNftComponent implements OnInit {
   }
 
   public goToExplore() {
-    this.router.navigate(['/explore'], {
-      queryParams: { blockchain: this.NFTList.blockchain, filter: 'all' },
-    });
+    this.location.back();
   }
 
   public sellNow() {

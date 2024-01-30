@@ -22,11 +22,11 @@ import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 
 @Component({
-  selector: 'app-user-collection-nft',
-  templateUrl: './user-collection-nft.component.html',
-  styleUrls: ['./user-collection-nft.component.css'],
+  selector: 'app-my-items',
+  templateUrl: './my-items.component.html',
+  styleUrls: ['./my-items.component.css'],
 })
-export class UserCollectionNFTComponent implements OnInit {
+export class MyItemsComponent implements OnInit {
   @ViewChildren('theLastItem', { read: ElementRef })
   @ViewChild('ddRef')
   ddRef: ElementRef<HTMLElement>;
@@ -66,7 +66,7 @@ export class UserCollectionNFTComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.data = params['collection'];
+      this.data = '';
       this.pk = params['user'];
       this.blockchain = params['blockchain'];
       this.selectedFilter = params['filter'];
@@ -76,7 +76,7 @@ export class UserCollectionNFTComponent implements OnInit {
       this.MyList.splice(0);
       this.List.splice(0);
       this.loading = true;
-      if (this.collection !== '' && this.blockchain !== '') {
+      if (this.blockchain !== '') {
         this.getNFts();
         this.intersectionFilterObserver();
       } else {
@@ -293,9 +293,8 @@ export class UserCollectionNFTComponent implements OnInit {
       this.List.splice(0);
 
       this.closeFilterDropdown();
-      this.router.navigate(['/user-dashboard/mynfts'], {
+      this.router.navigate(['/user-dashboard/myitems'], {
         queryParams: {
-          collection: this.collection,
           user: this.pk,
           blockchain: this.blockchain,
           filter,

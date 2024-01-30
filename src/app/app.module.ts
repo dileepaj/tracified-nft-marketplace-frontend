@@ -102,6 +102,11 @@ import { AboutUsComponent } from './marketplace/about-us/about-us.component';
 import { ConfirmSellComponent } from './dialogs/confirm-sell/confirm-sell.component';
 import { CollectionsComponent } from './marketplace/collections/collections.component';
 import { CollectionCardComponent } from './collections/collection-card/collection-card.component';
+import { WatchlistComponent } from './user/watchlist/watchlist.component';
+import { FavouritesComponent } from './user/favourites/favourites.component';
+import { ChangeVisibilityDialogComponent } from './collections/change-visibility-dialog/change-visibility-dialog.component';
+import { MyItemsComponent } from './user/my-items/my-items.component';
+
 firebase.initializeApp(FirebaseConfig.firebaseConfig);
 
 const appRoutes: Routes = [
@@ -170,9 +175,13 @@ const appRoutes: Routes = [
         path: 'edit-profile',
         component: EditProfileComponent,
       },
-      {
+      /* {
         path: 'overview',
         component: OverviewComponent,
+      }, */
+      {
+        path: 'myitems',
+        component: MyItemsComponent,
       },
       {
         path: 'mycollections',
@@ -183,8 +192,16 @@ const appRoutes: Routes = [
         component: UserCollectionNFTComponent,
       },
       {
+        path: 'watchlist',
+        component: WatchlistComponent,
+      },
+      {
+        path: 'favourites',
+        component: FavouritesComponent,
+      },
+      {
         path: '',
-        redirectTo: 'overview',
+        redirectTo: 'mycollections',
         pathMatch: 'full',
       },
     ],
@@ -348,6 +365,10 @@ const appRoutes: Routes = [
     ConfirmSellComponent,
     CollectionsComponent,
     CollectionCardComponent,
+    WatchlistComponent,
+    FavouritesComponent,
+    ChangeVisibilityDialogComponent,
+    MyItemsComponent,
   ],
   imports: [
     BrowserModule,

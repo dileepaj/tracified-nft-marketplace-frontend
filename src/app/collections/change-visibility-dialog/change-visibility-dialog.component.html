@@ -1,0 +1,27 @@
+<div class="close-div"><mat-icon mat-dialog-close> close </mat-icon></div>
+<div class="dialog-header">
+  <label mat-dialog-title>Change Collection Visibility</label>
+</div>
+<mat-dialog-content>
+  <div class="dialog-content">
+    <form class="example-form" [formGroup]="controlGroup">
+      <div class="mint-form-group">
+        <div class="input-field radio-group">
+          <mat-radio-group class="mat-radio-grp" formControlName="ispublic">
+            <mat-radio-button [value]="true"
+              >Public Collection</mat-radio-button
+            >
+            <mat-radio-button [value]="false"
+              >Private Collection</mat-radio-button
+            >
+          </mat-radio-group>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="dialog-actions">
+  <button cdkFocusInitial class="dialog-btn-primary" (click)="save()" matRipple>
+    Save Changes
+  </button>
+</mat-dialog-actions>

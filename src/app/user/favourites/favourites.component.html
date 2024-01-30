@@ -1,0 +1,54 @@
+<div class="overview-main-div">
+  <div class="overview-main-wrapper">
+    <div
+      class="overview-picks-header"
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between center"
+    >
+      <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="hotpick">
+        Favourites
+      </div>
+    </div>
+    <div class="explore-content cont-wrapper" fxLayout="row wrap">
+      <div class="cont-inner" *ngIf="List.length > 0">
+        <div *ngFor="let item of List; index as i">
+          <app-nft-card
+            *ngIf="i !== List.length - 1"
+            [item]="item"
+            [itemId]="i.toString()"
+            [blockchain]="item.Blockchain"
+            [creatoruserid]="item.CreatorUserId"
+            [sellingstatus]="item.SellingStatus"
+            [currentownerpk]="item.CurrentOwnerPK"
+          ></app-nft-card>
+
+          <!--last item-->
+          <app-nft-card
+            *ngIf="i === List.length - 1"
+            [item]="item"
+            [itemId]="i.toString()"
+            [blockchain]="item.Blockchain"
+            [creatoruserid]="item.CreatorUserId"
+            [sellingstatus]="item.SellingStatus"
+            [currentownerpk]="item.CurrentOwnerPK"
+            #theLastItem
+          ></app-nft-card>
+        </div>
+      </div>
+
+      <div class="cont-inner" *ngIf="loading || nextPageLoading">
+        <app-nft-card-skeleton
+          *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7]"
+        ></app-nft-card-skeleton>
+      </div>
+
+      <div
+        class="explore-no-content"
+        *ngIf="!loading && !nextPageLoading && List.length === 0"
+      >
+        <img src="../../../assets/images/no-nfts.svg" />
+        <label>No NFTs Found</label>
+      </div>
+    </div>
+  </div>
+</div>

@@ -167,16 +167,12 @@ export class HomeComponent implements OnInit {
   }
 
   routeTo(filter: string) {
-    if (filter == '/explore') {
-      this.router.navigate([filter], {
-        queryParams: { blockchain: 'stellar', filter: 'all' },
-      });
+    if (filter == '/explore/collections') {
+      this.router.navigate([filter]);
     } else if (filter == '/mint') {
       this.router.navigate([filter]);
-    } else if (filter == '/explore') {
-      this.router.navigate([filter], {
-        queryParams: { blockchain: 'stellar', filter: 'all' },
-      });
+    } else if (filter == '/explore/collections') {
+      this.router.navigate([filter]);
     } else if (filter == '/blogs') {
       this.router.navigate([filter]);
     } else if (filter == '/docs') {

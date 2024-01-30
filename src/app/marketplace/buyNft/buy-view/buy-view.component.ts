@@ -55,7 +55,7 @@ import { WalletType } from 'src/app/models/enums/wallets';
 import { TransactionBuilderService } from 'src/app/services/blockchain-services/stellar-services/transaction-builder.service';
 import { StellarNFTOperationType } from 'src/app/models/enums/blockchain';
 import { error } from 'console';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-buy-view',
   templateUrl: './buy-view.component.html',
@@ -213,7 +213,8 @@ export class BuyViewComponent implements OnInit {
     private servicesell: Seller2tracService,
     private firebaseanalytics: FirebaseAnalyticsService,
     private stellarUtilService: StellarUtilService,
-    private StellarTransactionBuilder: TransactionBuilderService
+    private StellarTransactionBuilder: TransactionBuilderService,
+    private location: Location
   ) {}
 
   public async getDeviceType(): Promise<boolean> {
@@ -416,6 +417,7 @@ export class BuyViewComponent implements OnInit {
                                   err,
                                 'error'
                               );
+                              loadingAnimation.close();
                             }
                           });
                       }
@@ -425,6 +427,7 @@ export class BuyViewComponent implements OnInit {
                           err,
                         'error'
                       );
+                      loadingAnimation.close();
                     }
                   });
               });
@@ -538,6 +541,7 @@ export class BuyViewComponent implements OnInit {
                       err,
                     'error'
                   );
+                  loadingAnimation.close();
                 }
               });
           }
@@ -1114,11 +1118,7 @@ export class BuyViewComponent implements OnInit {
   }
 
   public goToExplore() {
-    this.router.navigate(
-      ['/explore/collections'] /* , {
-      queryParams: { blockchain: this.nftbe.Blockchain, filter: 'all' },
-    } */
-    );
+    this.location.back();
   }
 
   public addReview() {

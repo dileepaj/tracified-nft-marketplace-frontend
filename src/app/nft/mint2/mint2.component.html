@@ -404,10 +404,10 @@
             (valueChange)="currencyChanged($event)"
           >
             <mat-select-trigger
-              *ngIf="controlGroup.controls['Currency'].value === 'usd'"
+              *ngIf="controlGroup.controls['Currency'].value === 'jpy'"
             >
               <div class="bc-dropdown-selected">
-                <label>United States Dollar (USD)</label>
+                <label>Japanese Yen (JPY)</label>
               </div>
             </mat-select-trigger>
             <mat-select-trigger
@@ -418,9 +418,9 @@
                 <label class="secondary-txt"> (ETH, XLM, etc.)</label>
               </div>
             </mat-select-trigger>
-            <mat-option value="usd"
+            <mat-option value="jpy"
               ><label class="collection-dropdown"
-                >United States Dollar (USD)</label
+                >Japanese Yen (JPY)</label
               ></mat-option
             >
             <mat-option value="crypto"

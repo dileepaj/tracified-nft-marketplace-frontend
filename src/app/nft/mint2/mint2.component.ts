@@ -1345,18 +1345,21 @@ export class Mint2Component implements OnInit {
         .transferServiceCharge(ownerPK)
         .then(async (result: solanaTransaction) => {
           try {
+            let tx
             let isMobile = await this.getDeviceType();
             if (isMobile) {
               const { signature } = await (
                 window as any
               ).solana.signAndSendTransaction(result, ['finalized']);
-              await connection.confirmTransaction(signature);
+               tx=await connection.confirmTransaction(signature);
             } else {
               const { signature } = await (
                 window as any
               ).solana.signAndSendTransaction(result);
-              await connection.confirmTransaction(signature);
+               tx=await connection.confirmTransaction(signature);
             }
+           
+            if(tx != null){
             this.service
               .minNFTSolana(
                 ownerPK, //distributer Public key
@@ -1396,6 +1399,9 @@ export class Mint2Component implements OnInit {
                 }
                 this.pendingDialog.close(false);
               });
+            }else{
+              this.snackbar.openSnackBar("Transaction failed! Transaction: ", tx);
+            }
           } catch (err: any) {
             this.snackbar.openSnackBar(JSON.stringify(err), 'error');
             this.pendingDialog.close(false);

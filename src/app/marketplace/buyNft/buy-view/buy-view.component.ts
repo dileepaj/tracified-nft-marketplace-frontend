@@ -192,6 +192,7 @@ export class BuyViewComponent implements OnInit {
   userprofileURL: string = '';
   nftcontentURL: string = '';
   count: number = 0;
+  buttonvalue:string="Buy Now"
 
   constructor(
     private service: NftServicesService,
@@ -815,7 +816,9 @@ export class BuyViewComponent implements OnInit {
           )
           .subscribe((data: any) => {
             this.NFTList = data.Response[0];
-
+            if(this.NFTList.isfiat==true){
+              this.buttonvalue="PRE-ORDER"
+            }
             if (this.NFTList == null) {
               this.ngOnInit();
             }
@@ -945,30 +948,30 @@ export class BuyViewComponent implements OnInit {
               blockchain: this.NFTList.blockchain,
               attachment_type: this.NFTList.attachmenttype,
             });
-            if (this.NFTList.blockchain == 'ethereum') {
+            if (this.NFTList.blockchain == 'ethereum' && this.NFTList.isfiat==false) {
               this.image =
                 '../../../assets/images/blockchain-icons/ethereum.png';
               this.icon = '../../../assets/images/blockchain-icons/ether.png';
               this.crypto = 'ETH';
             }
-            if (this.NFTList.blockchain == 'polygon') {
+            if (this.NFTList.blockchain == 'polygon' && this.NFTList.isfiat==false) {
               this.image = '../../../assets/images/polygon-dd.png';
               this.icon = '../../../assets/images/blockchain-icons/poly.png';
               this.crypto = 'MATIC';
             }
-            if (this.NFTList.blockchain == 'stellar') {
+            if (this.NFTList.blockchain == 'stellar' && this.NFTList.isfiat==false) {
               this.image = '../../../assets/images/stellar-dd.png';
               this.icon = '../../../assets/images/blockchain-icons/xlm.png';
               this.crypto = 'XLM';
             }
-            if (this.NFTList.blockchain == 'solana') {
+            if (this.NFTList.blockchain == 'solana' && this.NFTList.isfiat==false) {
               this.image = '../../../assets/images/solana-dd.png';
               this.icon = '../../../assets/images/blockchain-icons/sol.png';
               this.crypto = 'SOL';
             }
-            if (this.nftbe.Blockchain === 'usd') {
+            if (this.NFTList.isfiat == true) {
               this.image = '../../assets/images/usd.png';
-              this.crypto = 'USD';
+              this.crypto = 'JPY';
             }
 
             this.svg.Hash = this.NFTList.imagebase64;

@@ -910,7 +910,6 @@ export class SellNftComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.data = JSON.parse(params['data']);
-      this.setCurrency();
     });
     this.isLoading = true;
     if (this.data != null) {
@@ -927,6 +926,7 @@ export class SellNftComponent implements OnInit {
           this.currency='JPY'
           this.NFTList.royalty=0
           }
+          this.setCurrency();
           this.getCurrencyRate();
           // this.currencyRate=0.1;
           if (this.NFTList == null) {

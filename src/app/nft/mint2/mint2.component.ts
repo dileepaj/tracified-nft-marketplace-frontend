@@ -69,6 +69,7 @@ import { Collection } from 'src/app/models/collection';
 import { FirebaseAnalyticsService } from 'src/app/services/firebase/firebase-analytics.service';
 import { stringify } from 'querystring';
 import { SVGDataExtraction } from 'src/app/models/enums/SVGDataExtraction';
+import { error } from 'console';
 
 @Component({
   selector: 'app-mint2',
@@ -719,6 +720,9 @@ export class Mint2Component implements OnInit {
         this.svg.blockchain = 'ethereum';
         this.svg.AttachmentType = this.type;
         //  this.apiService.addSVG(this.svg).subscribe();
+        if( this.formValue('Currency') != 'crypto'){
+          this.mint.Royalty="0"
+         }
         this.dialogService
           .confirmMintDialog({
             promtHeading: 'You are Minting',
@@ -832,6 +836,9 @@ export class Mint2Component implements OnInit {
         this.svg.blockchain = 'polygon';
         this.svg.AttachmentType = this.type;
         // this.apiService.addSVG(this.svg).subscribe();
+       if( this.formValue('Currency') != 'crypto'){
+        this.mint.Royalty="0"
+       }
         this.dialogService
           .confirmMintDialog({
             promtHeading: 'You are Minting',
@@ -1380,10 +1387,10 @@ export class Mint2Component implements OnInit {
     return isMobileDevice;
   }
 
-  mintNftSolana(ownerPK: string, _callback?: any) {
-    console.log('hey')
+  async mintNftSolana(ownerPK: string, _callback?: any) {
     const networkURL: any = BlockchainConfig.solananetworkURL;
     const connection = new Connection(networkURL);
+    const latestBlockHash = await connection.getLatestBlockhash();
     return new Promise((resolve, reject) => {
       this.servicecharge
         .transferServiceCharge(ownerPK)
@@ -1399,10 +1406,14 @@ export class Mint2Component implements OnInit {
             } else {
               const { signature } = await (
                 window as any
-              ).solana.signAndSendTransaction(result);
-               tx=await connection.confirmTransaction(signature);
+              ).solana.signAndSendTransaction(result)
+              tx=await connection.confirmTransaction(signature);
+              //  tx=await connection.confirmTransaction({
+              //   blockhash: latestBlockHash.blockhash,
+              //   lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+              //   signature: signature,
+              //})
             }
-           
             if(tx != null){
             this.service
               .minNFTSolana(
@@ -1568,6 +1579,8 @@ export class Mint2Component implements OnInit {
         this.file.type.toLowerCase().includes('jpg') ||
         this.file.type.toLowerCase().includes('jpeg')
       ) {
+        let text = await this.file.text();
+        this.SVGData = this.extractVariables(text)
         this.type = this.file.type;
         var reader = new FileReader();
         reader.readAsDataURL(this.file);

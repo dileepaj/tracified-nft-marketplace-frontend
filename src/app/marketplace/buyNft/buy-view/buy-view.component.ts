@@ -416,6 +416,7 @@ export class BuyViewComponent implements OnInit {
                                   err,
                                 'error'
                               );
+                              loadingAnimation.close();
                             }
                           });
                       }
@@ -425,6 +426,7 @@ export class BuyViewComponent implements OnInit {
                           err,
                         'error'
                       );
+                      loadingAnimation.close();
                     }
                   });
               });
@@ -538,6 +540,7 @@ export class BuyViewComponent implements OnInit {
                       err,
                     'error'
                   );
+                  loadingAnimation.close();
                 }
               });
           }

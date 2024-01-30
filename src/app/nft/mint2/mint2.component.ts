@@ -715,6 +715,9 @@ export class Mint2Component implements OnInit {
         this.svg.blockchain = 'ethereum';
         this.svg.AttachmentType = this.type;
         //  this.apiService.addSVG(this.svg).subscribe();
+        if( this.formValue('Currency') != 'crypto'){
+          this.mint.Royalty="0"
+         }
         this.dialogService
           .confirmMintDialog({
             promtHeading: 'You are Minting',
@@ -828,6 +831,9 @@ export class Mint2Component implements OnInit {
         this.svg.blockchain = 'polygon';
         this.svg.AttachmentType = this.type;
         // this.apiService.addSVG(this.svg).subscribe();
+       if( this.formValue('Currency') != 'crypto'){
+        this.mint.Royalty="0"
+       }
         this.dialogService
           .confirmMintDialog({
             promtHeading: 'You are Minting',

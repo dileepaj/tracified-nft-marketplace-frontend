@@ -50,12 +50,19 @@
           </mat-list-item> -->
           <mat-list-item
             class="nav-list-item"
+            [class.active-item]="isActiveRoute('myitems')"
+            (click)="myItems(this.pk)"
+          >
+            <label>My Items</label>
+          </mat-list-item>
+          <mat-list-item
+            class="nav-list-item"
             [class.active-item]="
               isActiveRoute('mycollections') || isActiveRoute('mynfts')
             "
             (click)="myCollections(this.pk)"
           >
-            <label>My Items</label>
+            <label>My Collections</label>
           </mat-list-item>
           <mat-list-item
             class="nav-list-item"

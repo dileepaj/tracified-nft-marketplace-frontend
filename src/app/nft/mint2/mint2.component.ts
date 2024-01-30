@@ -1381,6 +1381,7 @@ export class Mint2Component implements OnInit {
   }
 
   mintNftSolana(ownerPK: string, _callback?: any) {
+    console.log('hey')
     const networkURL: any = BlockchainConfig.solananetworkURL;
     const connection = new Connection(networkURL);
     return new Promise((resolve, reject) => {
@@ -1434,6 +1435,10 @@ export class Mint2Component implements OnInit {
                 }
               })
               .catch((error) => {
+                this.snackbar.openSnackBar(
+                  'Something went wrong, please try again!',
+                  'error'
+                );
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }

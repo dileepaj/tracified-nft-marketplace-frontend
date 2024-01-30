@@ -65,7 +65,7 @@ export class ViewDashboardComponent implements OnInit {
     this.route.queryParams.subscribe(async (params) => {
       this.selectedBlockchain = params['blockchain'];
       let pkBlockchain = this.selectedBlockchain;
-      if (this.selectedBlockchain === 'usd') {
+      if (this.selectedBlockchain === 'jpy') {
         pkBlockchain = 'solana';
       }
       this.pk = await this.validatorService.GetActivePubKey(
@@ -153,7 +153,7 @@ export class ViewDashboardComponent implements OnInit {
       }
     }
 
-    if (blockchain == 'solana' || blockchain == 'usd') {
+    if (blockchain == 'solana' || blockchain == 'jpy') {
       this.api.getEndorsement(pk).subscribe((res: any) => {
         if (res.Name != '') {
           if (res.profilepic != '') {
@@ -298,7 +298,7 @@ export class ViewDashboardComponent implements OnInit {
         }
       } else if (
         this.selectedBlockchain === 'solana' ||
-        this.selectedBlockchain === 'usd'
+        this.selectedBlockchain === 'jpy'
       ) {
         this.bccommingsoon = '';
         try {

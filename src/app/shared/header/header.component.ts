@@ -192,7 +192,7 @@ export class HeaderComponent implements OnInit {
         this.sideNavOpened = false;
         this.accListExpanded = false;
       }
-    } else if (blockchain == 'solana' || blockchain == 'usd') {
+    } else if (blockchain == 'solana' || blockchain == 'jpy') {
       // this.snackBar.openSnackBar("Solana NFTs coming soon!","info");
       // return
       let phantomWallet = new UserWallet();

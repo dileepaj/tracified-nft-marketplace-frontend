@@ -254,17 +254,17 @@
         <button
           mat-menu-item
           fxLayout="row"
-          (click)="goToOverview('usd')"
+          (click)="goToOverview('jpy')"
           fxLayoutAlign="center center"
         >
           <div fxFlex="20%" fxLayout="row" fxLayoutAlign="center center">
             <img
               class="bc-icon"
               style="width: 17px; height: 17px"
-              src="../../../assets/images/usd.png"
+              src="../../../assets/images/jpy.svg"
             />
           </div>
-          <div fxFlex="80%">USD</div>
+          <div fxFlex="80%">JPY</div>
         </button>
       </div>
     </div>
@@ -521,9 +521,9 @@
           class="sidenav-text"
           mat-button
           [routerLinkActive]="['active-link']"
-          (click)="goToOverview('usd')"
+          (click)="goToOverview('jpy')"
         >
-          USD
+          JPY
         </a>
       </div>
     </div>

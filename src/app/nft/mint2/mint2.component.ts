@@ -124,7 +124,7 @@ export class Mint2Component implements OnInit {
     '',
     '',
     '',
-    'usd',
+    'jpy',
     '0',
     '',
     [],
@@ -1909,7 +1909,7 @@ export class Mint2Component implements OnInit {
   }
 
   currencyChanged(event: any) {
-    if (event === 'usd') {
+    if (event === 'jpy') {
       this.controlGroup.get('Blockchain')?.setValue('');
     }
   }

@@ -104,7 +104,7 @@ export class UserCollectionNFTComponent implements OnInit {
 
     let bc = this.blockchain;
     let isfiat = false;
-    if (this.blockchain === 'usd') {
+    if (this.blockchain === 'jpy') {
       bc = 'solana';
       isfiat = true;
     }

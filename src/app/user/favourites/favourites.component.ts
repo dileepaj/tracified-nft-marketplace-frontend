@@ -120,7 +120,7 @@ export class FavouritesComponent implements OnInit {
       }
     }
 
-    if (blockchain == 'solana' || blockchain == 'usd') {
+    if (blockchain == 'solana' || blockchain == 'jpy') {
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();
@@ -284,8 +284,8 @@ export class FavouritesComponent implements OnInit {
     card.SellingStatus = response.sellingstatus;
     card.CurrentPrice = response.currentprice;
     if (
-      this.blockchain !== 'usd' ||
-      (this.blockchain === 'usd' && response.isfiat === true)
+      this.blockchain !== 'jpy' ||
+      (this.blockchain === 'jpy' && response.isfiat === true)
     ) {
       this.List.push(card);
     }

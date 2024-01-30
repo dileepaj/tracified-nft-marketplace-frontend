@@ -47,7 +47,7 @@ export class EditProfileComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(async (params) => {
       let pkBlockchain = params['blockchain'];
-      if (params['blockchain'] === 'usd') {
+      if (params['blockchain'] === 'jpy') {
         pkBlockchain = 'solana';
       }
       this.data = await this.pubkeyveirfy.GetActivePubKey(

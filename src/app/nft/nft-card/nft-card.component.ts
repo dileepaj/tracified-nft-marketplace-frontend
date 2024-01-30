@@ -89,7 +89,7 @@ export class NftCardComponent implements OnInit {
       }
     }
 
-    if (blockchain == 'solana' || blockchain == 'usd') {
+    if (blockchain == 'solana' || blockchain == 'jpy') {
       let phantomWallet = new UserWallet();
       phantomWallet = new PhantomComponent(phantomWallet);
       await phantomWallet.initWallelt();

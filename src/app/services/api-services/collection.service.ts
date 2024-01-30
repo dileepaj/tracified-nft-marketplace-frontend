@@ -85,7 +85,7 @@ export class CollectionService {
     const bcFilter =
       blockchain === 'all' ? '' : 'blockchain=' + blockchain + '&';
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${collection}?${bcFilter}limit=${pageSize}&page=${pageIndex}&sort=-1&type=${type}`
+      `${this.baseUrlNFT}?collection=${collection}&${bcFilter}limit=${pageSize}&page=${pageIndex}&sort=-1&type=${type}`
     );
   }
 
@@ -98,7 +98,7 @@ export class CollectionService {
     const bcFilter =
       blockchain === 'all' ? '' : 'blockchain=' + blockchain + '&';
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${collection}?${bcFilter}limit=${pageSize}&page=${pageIndex}&nfttype=ON SALE&sort=-1`
+      `${this.baseUrlNFT}?collection=${collection}&${bcFilter}limit=${pageSize}&page=${pageIndex}&nfttype=ON SALE&sort=-1`
     );
   }
 

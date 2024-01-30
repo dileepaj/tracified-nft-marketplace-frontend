@@ -69,6 +69,12 @@ export class HomeComponent implements OnInit {
   bestPicksOverflowing: boolean = false;
   trendingOverflowing: boolean = false;
 
+  bestPicksLeftScroll: boolean = false;
+  trendingLeftScroll: boolean = false;
+
+  bestPicksRightScroll: boolean = true;
+  trendingRightScroll: boolean = true;
+
   private readonly tracifiedhelp = APIConfigENV.tracifiedhelpDocsbaseURL;
   readonly helpDocsMK: string = `${this.tracifiedhelp}docs/NFTPlatform/marketplace/introtoMarketplace`;
   constructor(
@@ -272,6 +278,7 @@ export class HomeComponent implements OnInit {
                 setTimeout(() => {
                   this.bestPicksOverflowing =
                     this.isScrollable('hot-picks-content');
+                  this.listenToScroll('hot-picks-content');
                 });
               }
             },
@@ -350,6 +357,7 @@ export class HomeComponent implements OnInit {
                 setTimeout(() => {
                   this.trendingOverflowing =
                     this.isScrollable('category-content');
+                  this.listenToScroll('category-content');
                 }, 1000);
               }
             },
@@ -391,5 +399,40 @@ export class HomeComponent implements OnInit {
   onResize(event) {
     this.bestPicksOverflowing = this.isScrollable('hot-picks-content');
     this.trendingOverflowing = this.isScrollable('category-content');
+  }
+
+  public listenToScroll(el: any) {
+    document.getElementById(el)!.addEventListener('scroll', (e: any) => {
+      if (e.target.id === 'hot-picks-content') {
+        if (e.target.scrollLeft == 0) {
+          this.bestPicksLeftScroll = false;
+          this.bestPicksRightScroll = true;
+        } else if (
+          Math.ceil(e.target.scrollLeft) >=
+          e.target.scrollWidth - e.target.offsetWidth
+        ) {
+          this.bestPicksLeftScroll = true;
+          this.bestPicksRightScroll = false;
+        } else {
+          this.bestPicksLeftScroll = true;
+          this.bestPicksRightScroll = true;
+        }
+      }
+      if (e.target.id === 'category-content') {
+        if (e.target.scrollLeft == 0) {
+          this.trendingLeftScroll = false;
+          this.trendingRightScroll = true;
+        } else if (
+          Math.ceil(e.target.scrollLeft) >=
+          e.target.scrollWidth - e.target.offsetWidth
+        ) {
+          this.trendingLeftScroll = true;
+          this.trendingRightScroll = false;
+        } else {
+          this.trendingLeftScroll = true;
+          this.trendingRightScroll = true;
+        }
+      }
+    });
   }
 }

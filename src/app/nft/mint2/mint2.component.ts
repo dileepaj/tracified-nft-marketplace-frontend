@@ -982,7 +982,8 @@ export class Mint2Component implements OnInit {
               break;
             }
           }
-          this.serviceCol
+          if(Boolean(newColl)) {
+            this.serviceCol
             .add(newColl.collection, newColl.fileDetails)
             .subscribe((res) => {
               if (res != null || res != '') {
@@ -1003,6 +1004,8 @@ export class Mint2Component implements OnInit {
                 });
               }
             });
+          }
+          
         } else {
           this.pendingDialog.close(true);
           this.proceed.emit({

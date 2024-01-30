@@ -1,4 +1,4 @@
-<div class="card-parent" (click)="goToNfts()" matRipple>
+<div class="card-parent" (click)="goToNfts($event)" matRipple>
   <div class="thumbnail-wrapper">
     <img
       [src]="thumbnail"
@@ -9,7 +9,24 @@
   </div>
 
   <div class="title-div">
-    <label class="title">{{ data.CollectionName }}</label>
+    <div class="title-wrapper">
+      <label class="title">{{ data.CollectionName }}</label>
+      <mat-icon
+        [matMenuTriggerFor]="menu"
+        *ngIf="isUserProfile"
+        id="more-icon"
+        class="material-symbols-outlined more-vert"
+        matRipple
+      >
+        more_vert
+      </mat-icon>
+      <mat-menu #menu="matMenu" class="menu">
+        <button mat-menu-item class="menu-btn" (click)="changeVisibility()">
+          <span class="menu-text">Change Visibility</span>
+        </button>
+      </mat-menu>
+    </div>
+
     <label class="nft-count">{{ data.nftcount }} NFTs</label>
   </div>
   <button class="btn-view-collection">

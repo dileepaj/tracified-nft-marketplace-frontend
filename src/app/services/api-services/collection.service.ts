@@ -20,6 +20,7 @@ export class CollectionService {
   baseUrlEndorsing: string = this.nftBackendBaseURL + 'endorsement';
   baseUrlNFT: string = this.nftBackendBaseURL + 'nftcollection';
   baseUrlCollection: string = this.nftBackendBaseURL + 'collection';
+  baseUrlVisibility: string = this.nftBackendBaseURL + 'collection-visibility';
   sortBy: number = -1;
 
   readonly headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -125,5 +126,16 @@ export class CollectionService {
     return this.http.get<Collection[]>(
       `${this.baseUrlGetCollectionbyEndorsement}/${objectid}`
     );
+  }
+
+  updateCollectionVisibility(id: string, ispublic: boolean) {
+    const payload: any = {
+      id,
+      ispublic,
+    };
+    //request to update collection inthe nft backend DB
+    return this.http.put<Collection>(this.baseUrlVisibility, payload, {
+      headers: this.headers,
+    });
   }
 }

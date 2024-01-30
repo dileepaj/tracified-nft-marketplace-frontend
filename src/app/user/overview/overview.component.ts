@@ -80,7 +80,7 @@ export class OverviewComponent implements OnInit {
         this.selectedBlockchain
       );
       this.connectedWallet = '';
-      this.getConnectedWallet();
+      //this.getConnectedWallet();
       // this.router.navigate(['/user-dashboard'], {
       //   queryParams: {  user:this.user,blockchain: this.selectedBlockchain },
       // });

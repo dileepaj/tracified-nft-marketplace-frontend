@@ -12,6 +12,10 @@ import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import albedo from '@albedo-link/intent';
 import { PubkeyvalidatorService } from 'src/app/services/common/pubkeyvalidator.service';
+import { Connection, PublicKey } from '@solana/web3.js';
+import { ethers } from 'ethers';
+import { BlockchainConfig } from 'src/environments/environment';
+import { WalletSidenavService } from 'src/app/services/wallet-sidenav.service';
 @Component({
   selector: 'app-view-dashboard',
   templateUrl: './view-dashboard.component.html',
@@ -35,6 +39,8 @@ export class ViewDashboardComponent implements OnInit {
   imagePath: any;
   greeting: string = '';
   pk: any;
+  connectedWallet: string = '';
+  bccommingsoon: string;
 
   constructor(
     private api: ApiServicesService,
@@ -43,7 +49,8 @@ export class ViewDashboardComponent implements OnInit {
     private collection: CollectionService,
     private router: Router,
     private route: ActivatedRoute,
-    private validatorService : PubkeyvalidatorService,
+    private validatorService: PubkeyvalidatorService,
+    private walletSideNav: WalletSidenavService
   ) {}
 
   goToOverview() {
@@ -57,7 +64,14 @@ export class ViewDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(async (params) => {
       this.selectedBlockchain = params['blockchain'];
-      this.pk = await this.validatorService.GetActivePubKey(params['user'],this.selectedBlockchain)
+      let pkBlockchain = this.selectedBlockchain;
+      if (this.selectedBlockchain === 'jpy') {
+        pkBlockchain = 'solana';
+      }
+      this.pk = await this.validatorService.GetActivePubKey(
+        params['user'],
+        pkBlockchain
+      );
       this.retrive(this.selectedBlockchain, this.pk).then((res) => {
         this.setGreeting();
         if (window.innerWidth < 1280) {
@@ -68,6 +82,9 @@ export class ViewDashboardComponent implements OnInit {
           this.smallScreen = false;
         }
       });
+      this.connectedWallet = '';
+      this.Name = '';
+      this.getConnectedWallet();
     });
   }
 
@@ -136,7 +153,7 @@ export class ViewDashboardComponent implements OnInit {
       }
     }
 
-    if (blockchain == 'solana') {
+    if (blockchain == 'solana' || blockchain == 'jpy') {
       this.api.getEndorsement(pk).subscribe((res: any) => {
         if (res.Name != '') {
           if (res.profilepic != '') {
@@ -196,6 +213,20 @@ export class ViewDashboardComponent implements OnInit {
     this.closeSideNav();
   }
 
+  myWatchlist(id: any) {
+    this.router.navigate(['./user-dashboard/watchlist'], {
+      queryParams: { user: id, blockchain: this.selectedBlockchain },
+    });
+    this.closeSideNav();
+  }
+
+  myFavourites(id: any) {
+    this.router.navigate(['./user-dashboard/favourites'], {
+      queryParams: { user: id, blockchain: this.selectedBlockchain },
+    });
+    this.closeSideNav();
+  }
+
   public closeSideNav() {
     if (this.smallScreen) {
       this.opened = false;
@@ -205,5 +236,95 @@ export class ViewDashboardComponent implements OnInit {
     this.router.navigate(['/user-dashboard/overview'], {
       queryParams: { user: this.pk, blockchain: this.selectedBlockchain },
     });
+  }
+
+  private checkIfMobileDevice(): boolean {
+    let details = navigator.userAgent;
+    let regexp = /android|iphone|kindle|ipad/i;
+
+    let isMobileDevice = regexp.test(details);
+
+    if (isMobileDevice) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public async getConnectedWallet() {
+    if (Boolean(this.pk)) {
+      if (
+        this.selectedBlockchain === 'ethereum' ||
+        this.selectedBlockchain === 'polygon'
+      ) {
+        let metmaskWallet = new UserWallet();
+        metmaskWallet = new MetamaskComponent(metmaskWallet);
+
+        metmaskWallet.initWallelt((address: string) => {
+          console.log(address);
+          const user = address;
+
+          if (user !== '' && user !== undefined) {
+            this.connectedWallet = 'Metamask';
+            this.bccommingsoon = '';
+          } else {
+            this.connectedWallet = '';
+          }
+        });
+        /* const provider = new ethers.providers.Web3Provider(window.ethereum!);
+        provider.listAccounts().then((data) => {
+          if (data.length > 0) {
+            this.connectedWallet = 'Metamask';
+            this.bccommingsoon = '';
+          } else {
+            this.connectedWallet = '';
+          }
+        }); */
+      } else if (this.selectedBlockchain === 'stellar') {
+        this.bccommingsoon = '';
+        if (this.checkIfMobileDevice()) {
+          this.connectedWallet = 'Albedo';
+        } else {
+          let freighterWallet = new UserWallet();
+          freighterWallet = new FreighterComponent(freighterWallet);
+          freighterWallet.initWallelt();
+          const userPK = await freighterWallet.getWalletaddress();
+
+          if (userPK !== '' && userPK !== undefined) {
+            this.connectedWallet = 'Freighter';
+          } else {
+            this.connectedWallet = '';
+          }
+        }
+      } else if (
+        this.selectedBlockchain === 'solana' ||
+        this.selectedBlockchain === 'jpy'
+      ) {
+        this.bccommingsoon = '';
+        try {
+          const connection = new Connection(BlockchainConfig.solananetworkURL);
+          const pk = new PublicKey(this.pk);
+          connection.getAccountInfo(pk).then((data) => {
+            this.connectedWallet = 'Phantom';
+          });
+        } catch (e) {
+          this.connectedWallet = '';
+        }
+      }
+    } else {
+    }
+  }
+
+  public openWalletSideBar() {
+    this.walletSideNav.setWallet(this.connectedWallet.toLowerCase());
+    this.walletSideNav.open();
+  }
+
+  public isActiveRoute(route: string): boolean {
+    if (this.router.url.includes(route)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

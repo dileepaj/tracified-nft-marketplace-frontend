@@ -15,28 +15,70 @@
       </button>
       <div id="drawerContent">
         <div id="profile-cont">
-          <img id="profile-img" [src]="imagePath" />
-          <!-- <h2 style="font-size: 20px; font-weight: 500">Hi</h2> -->
-          <label
-            style="
-              font-size: 25px;
-              font-weight: 700;
-              text-align: center;
-              line-height: 28px;
-            "
-            >{{ this.greeting }} {{ this.Name }}</label
+          <img
+            id="profile-img"
+            [src]="imagePath"
+            onerror="this.onerror=null;this.src='../../../assets/images/default_profile.png'"
+          />
+          <div
+            class="selected-bc"
+            style="cursor: pointer"
+            *ngIf="connectedWallet !== ''"
+            (click)="openWalletSideBar()"
+            matRipple
           >
+            <img
+              style="width: 21px; height: 21px; cursor: pointer"
+              [src]="
+                '../../../assets/images/' +
+                connectedWallet.toLowerCase() +
+                '.png'
+              "
+            />
+            <label style="cursor: pointer">
+              {{ connectedWallet }} Connected
+            </label>
+            <span class="connected-dot" style="cursor: pointer"></span>
+          </div>
+          <!-- <h2 style="font-size: 20px; font-weight: 500">Hi</h2> -->
+          <label class="greeting-txt">{{ this.greeting }} </label>
+          <label class="user-name-txt">{{ this.Name }}</label>
         </div>
         <mat-nav-list id="navlist">
-          <mat-list-item class="nav-list-item" (click)="backtoHome()">
+          <!-- <mat-list-item class="nav-list-item" (click)="backtoHome()">
             <label>Overview</label>
+          </mat-list-item> -->
+          <mat-list-item
+            class="nav-list-item"
+            [class.active-item]="
+              isActiveRoute('mycollections') || isActiveRoute('mynfts')
+            "
+            (click)="myCollections(this.pk)"
+          >
+            <label>My Items</label>
           </mat-list-item>
-          <mat-list-item class="nav-list-item" (click)="goToEdit(this.pk)">
+          <mat-list-item
+            class="nav-list-item"
+            [class.active-item]="isActiveRoute('watchlist')"
+            (click)="myWatchlist(this.pk)"
+          >
+            <label>Watch List</label>
+          </mat-list-item>
+          <mat-list-item
+            class="nav-list-item"
+            [class.active-item]="isActiveRoute('favourites')"
+            (click)="myFavourites(this.pk)"
+          >
+            <label>Favourites</label>
+          </mat-list-item>
+          <mat-list-item
+            class="nav-list-item"
+            [class.active-item]="isActiveRoute('edit-profile')"
+            (click)="goToEdit(this.pk)"
+          >
             <label>Edit Profile</label>
           </mat-list-item>
-          <mat-list-item class="nav-list-item" (click)="myCollections(this.pk)">
-            <label>My Collections</label>
-          </mat-list-item>
+
           <!-- <mat-list-item
         class="nav-list-item"
         (click)="goToOverview()"
@@ -65,6 +107,7 @@
           left: 0;
           border-bottom-right-radius: 0%;
           border-top-right-radius: 0%;
+          width: 30px;
         "
         *ngIf="!opened"
       >

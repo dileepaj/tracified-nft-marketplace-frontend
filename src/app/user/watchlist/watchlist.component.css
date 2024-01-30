@@ -1,0 +1,308 @@
+.overview-main-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 0px;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .overview-main-wrapper {
+    width: 100%;
+  }
+  
+  .overview-picks-header {
+    margin-top: 22px;
+  }
+  
+  .overview-picks-header-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: #FFF;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-bottom: 10px;
+    margin-bottom: 31px;
+    
+  }
+  
+  .rounded {
+    width: fit-content;
+    border-radius: 50%;
+    padding: 5px 5px 5px 5px;
+  }
+  
+  .overview-nft-item {
+    min-width: 295px;
+    height: 245px;
+    border-radius: 20px;
+    background-color: #2d2d2d;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .overview-nft-img {
+    width: 295px;
+    height: 160px;
+  }
+  
+  .overview-nft-title {
+    width: 100%;
+    background-color: #648873;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+  }
+  
+  .overview-nft-actions {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 15px;
+  }
+  
+  .overview-nft-action-btn {
+    cursor: pointer;
+    transform: scale(0.9);
+  }
+  
+  .overview-nft-content {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    column-gap: 50px;
+    overflow: auto;
+    scroll-behavior: smooth;
+  }
+  
+  .explore-content {
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .cont-inner {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(295px, 295px));
+    row-gap: 30px;
+    column-gap: 30px;
+  }
+  
+  .cont-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .explore-loading {
+    height: calc(100vh - 350px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .explore-no-content {
+    height: calc(100vh - 350px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 20px;
+  }
+  
+  .explore-no-content label {
+    font-size: 22px;
+  }
+  
+  .explore-no-content img {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .breadcrumb-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 18px;
+    width: 350px;
+    margin-bottom: 20px;
+  }
+  
+  .breadcrumb-link {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+  }
+  
+  .breadcrumb-div a {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
+  .filter-dd-btn {
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .filter-dd-btn {
+    cursor: pointer;
+  }
+  
+  .filter-dd-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .filter-dropdown {
+    /* margin-right: 4%; */
+    position: relative;
+    display: inline-block;
+    border-radius: 20px;
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.05) 100%
+      ),
+      #121212;
+    width: 168px;
+    padding: 7px 7px;
+    flex-shrink: 0;
+    color: #fff;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    align-self: flex-end;
+  }
+  
+  .filter-dropdown-content {
+    display: none;
+    position: absolute;
+    border-radius: 10px;
+    top: 45px;
+    right: 0px;
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.05) 100%
+      ),
+      #121212;
+    width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+  
+  /* .filter-dd-wrapper:hover .filter-dropdown-content {
+    display: block;
+  } */
+  
+  .filter-dropdown-content div {
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    padding: 15px 10px 15px 10px;
+    border-bottom: 1px solid #000;
+  }
+  
+  .filter-dropdown-content div:last-child {
+    border-bottom: none;
+  }
+  
+  .filter-dropdown-content div:hover {
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.15) 100%
+      ),
+      #121212;
+  }
+  
+  .filter-dropdown-content div:last-child:hover {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.15) 100%
+      ),
+      #121212;
+  }
+  
+  .filter-dropdown-content div:first-child:hover {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.15) 100%
+      ),
+      #121212;
+  }
+  
+  .filters-parent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    column-gap: 14px;
+  }
+  
+  
+  @media screen and (max-width: 1279px) {
+    .overview-main-div {
+      align-items: center;
+      margin-top: 80px;
+      margin-bottom: 20px;
+      color: white;
+      padding-left: 0px;
+      padding-right: 0px;
+      width: 100%;
+    }
+    .overview-nft-content {
+      column-gap: 20px;
+    }
+  
+    .overview-main-wrapper {
+      width: 90%;
+    }
+  }
+  
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 689px) {
+    .cont-inner {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  

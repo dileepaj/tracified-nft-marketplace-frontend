@@ -57,6 +57,7 @@ export class MyNFTCard {
     public Blockchain: string,
     public SellingStatus: string,
     public thumbnail: string,
-    public CurrentPrice: string
+    public CurrentPrice: string,
+    public CurrentOwnerPK: string
   ) {}
 }

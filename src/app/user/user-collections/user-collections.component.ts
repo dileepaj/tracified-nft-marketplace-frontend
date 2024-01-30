@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CollectionService } from 'src/app/services/api-services/collection.service';
 import { Location } from '@angular/common';
@@ -9,7 +15,7 @@ import { Collection, MyCollection } from 'src/app/models/collection';
 @Component({
   selector: 'app-user-collections',
   templateUrl: './user-collections.component.html',
-  styleUrls: ['./user-collections.component.css']
+  styleUrls: ['./user-collections.component.css'],
 })
 export class UserCollectionsComponent implements OnInit {
   @ViewChildren('theLastItem', { read: ElementRef })
@@ -21,30 +27,40 @@ export class UserCollectionsComponent implements OnInit {
   currentPage: number = 1;
   paginationInfo: any;
   responseArrayLength: number = 0;
-  key :string = ''
-  selectedblockchain: string = ''
-  
-  constructor(private route:ActivatedRoute, private service:NftServicesService, private _location: Location,  private router: Router,private collection: CollectionService) { }
+  key: string = '';
+  selectedblockchain: string = '';
+
+  constructor(
+    private route: ActivatedRoute,
+    private service: NftServicesService,
+    private _location: Location,
+    private router: Router,
+    private collection: CollectionService
+  ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params)=>{
-      this.key=(params['user']);
-      this.selectedblockchain=(params['blockchain'])
-    })
+    this.route.queryParams.subscribe((params) => {
+      this.key = params['user'];
+      this.selectedblockchain = params['blockchain'];
 
-    if (this.key != null) {
-      this.loading = true;
-    this.collections = [];
+      if (this.key != null) {
+        this.loading = true;
+        this.collections = [];
 
-    this.intersectionObserver();
-    this.getAllCollections();
+        this.intersectionObserver();
+        this.getAllCollections();
+      }
+    });
   }
 
-}
-
-  showNFT(collection){
+  showNFT(collection) {
     this.router.navigate(['./user-dashboard/mynfts'], {
-      queryParams: { collection: collection,user:this.key,blockchain:this.selectedblockchain},//this.data
+      queryParams: {
+        collection: collection,
+        user: this.key,
+        blockchain: this.selectedblockchain,
+        filter: 'BOUGHT',
+      }, //this.data
     });
   }
 
@@ -53,15 +69,20 @@ export class UserCollectionsComponent implements OnInit {
       this.nextPageLoading = true;
     }
 
-    this.collection.getCollectionPK(this.key, 8, this.currentPage).subscribe(async (data: any) => {
-        
+    this.collection.getCollectionPK(this.key, 8, this.currentPage).subscribe(
+      async (data: any) => {
         if (data != undefined || data.Content != null) {
           this.collections.push(...data.Content);
           this.paginationInfo = data.PaginationInfo;
         }
         this.loading = false;
         this.nextPageLoading = false;
-      });
+      },
+      (err) => {
+        this.loading = false;
+        this.nextPageLoading = false;
+      }
+    );
   }
 
   ngAfterViewInit() {
@@ -90,5 +111,4 @@ export class UserCollectionsComponent implements OnInit {
   public back() {
     this._location.back();
   }
-
 }

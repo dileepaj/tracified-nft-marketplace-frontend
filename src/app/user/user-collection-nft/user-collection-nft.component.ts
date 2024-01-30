@@ -1,18 +1,25 @@
 import {
   Component,
   ElementRef,
+  HostListener,
   OnInit,
   QueryList,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { Location } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SnackbarServiceService } from 'src/app/services/snackbar-service/snackbar-service.service';
 import { CollectionService } from 'src/app/services/api-services/collection.service';
 import { NftServicesService } from 'src/app/services/api-services/nft-services/nft-services.service';
 import { Card, MyNFTCard } from 'src/app/models/marketPlaceModel';
 import { timeStamp } from 'console';
+import albedo from '@albedo-link/intent';
+import { UserWallet } from 'src/app/models/userwallet';
+import { FreighterComponent } from 'src/app/wallet/freighter/freighter.component';
+import { MetamaskComponent } from 'src/app/wallet/metamask/metamask.component';
+import { PhantomComponent } from 'src/app/wallet/phantom/phantom.component';
 
 @Component({
   selector: 'app-user-collection-nft',
@@ -21,6 +28,8 @@ import { timeStamp } from 'console';
 })
 export class UserCollectionNFTComponent implements OnInit {
   @ViewChildren('theLastItem', { read: ElementRef })
+  @ViewChild('ddRef')
+  ddRef: ElementRef<HTMLElement>;
   theLastItem: QueryList<ElementRef>;
   List: any[] = [];
   MyList: any[] = [];
@@ -41,6 +50,9 @@ export class UserCollectionNFTComponent implements OnInit {
   nextPage: number = 1;
   nextPageLoading: boolean = false;
   responseArrayLength: number = 0;
+  isOnBcDropdown: boolean = false;
+  isOnOtherDropdown: boolean = false;
+  selectedFilter: string = 'All';
 
   constructor(
     private router: Router,
@@ -57,18 +69,20 @@ export class UserCollectionNFTComponent implements OnInit {
       this.data = params['collection'];
       this.pk = params['user'];
       this.blockchain = params['blockchain'];
+      this.selectedFilter = params['filter'];
+
+      this.collection = this.data;
+      this.key = this.pk;
+      this.MyList.splice(0);
+      this.List.splice(0);
+      this.loading = true;
+      if (this.collection !== '' && this.blockchain !== '') {
+        this.getNFts();
+        this.intersectionFilterObserver();
+      } else {
+        this.loading = false;
+      }
     });
-    this.collection = this.data;
-    this.key = this.pk;
-    this.MyList.splice(0);
-    this.List.splice(0);
-    this.loading = true;
-    if (this.collection !== '' && this.blockchain !== '') {
-      this.getNFts();
-      this.intersectionFilterObserver();
-    } else {
-      this.loading = false;
-    }
   }
 
   ngAfterViewInit() {
@@ -88,17 +102,25 @@ export class UserCollectionNFTComponent implements OnInit {
       this.responseArrayLength = 0;
     }
 
+    let bc = this.blockchain;
+    let isfiat = false;
+    if (this.blockchain === 'jpy') {
+      bc = 'solana';
+      isfiat = true;
+    }
+
     this.service
       .getNFTByCollectionName(
         this.collection,
-        this.blockchain,
+        bc,
         8,
         this.currentPage,
-        this.pk
+        this.pk,
+        this.selectedFilter,
+        isfiat
       )
       .subscribe(
         (res: any) => {
-          
           if (Boolean(res)) {
             this.nfts = res.Response.content;
             this.nextPage = res.Response.PaginationInfo.nextpage;
@@ -117,7 +139,6 @@ export class UserCollectionNFTComponent implements OnInit {
             this.loading = false;
             this.nextPageLoading = false;
           }
-          
         },
         (err) => {
           this.loading = false;
@@ -128,19 +149,20 @@ export class UserCollectionNFTComponent implements OnInit {
 
   showNFT(arr: any[]) {
     this.List.splice(0);
-    const currLength = this.List.length
+    const currLength = this.List.length;
     for (let a = 0; a < arr.length; a++) {
       if (this.paginationflag == false) {
-        let card: MyNFTCard = new MyNFTCard('', '', '', '', '', '', '', '');
-        card.Id = arr[a].Id
-        card.thumbnail = ''
+        let card: MyNFTCard = new MyNFTCard('', '', '', '', '', '', '', '', '');
+        card.Id = arr[a].Id;
+        card.thumbnail = '';
         card.ImageBase64 = this.imageSrc;
         // card.thumbnail=this.thumbnailSRC
         card.NFTIdentifier = arr[a].nftidentifier;
         card.NFTName = arr[a].nftname;
         card.Blockchain = arr[a].blockchain;
         card.SellingStatus = arr[a].sellingstatus;
-        card.CurrentPrice = arr[a].currentprice
+        card.CurrentPrice = arr[a].currentprice;
+        card.CurrentOwnerPK = arr[a].currentownerpk;
         this.List.push(card);
         if (this.List.length === this.responseArrayLength) {
           this.loading = false;
@@ -149,32 +171,32 @@ export class UserCollectionNFTComponent implements OnInit {
       }
     }
 
-    this.setThumbnails(currLength)
+    this.setThumbnails(currLength);
   }
 
-  public setThumbnails (curLength: number) {
+  public setThumbnails(curLength: number) {
     let count = 0;
     for (let x = curLength; x < this.List.length; x++) {
       this.thumbnailSRC = '';
       //this.paginationflag = true;
-   
-      this.nft.getThumbnailId(this.List[x].Id).subscribe(async (thumbnail: any) => {
-        //this.paginationflag = true;
-        if (thumbnail == '') {
-          this.thumbnailSRC = this.imageSrc;
-        } else {
-          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
-            thumbnail.Response.thumbnail
-          );
-        }
-        this.List[x].thumbnail = this.thumbnailSRC;
-        /* if (count >= 7) {
+
+      this.nft
+        .getThumbnailId(this.List[x].Id)
+        .subscribe(async (thumbnail: any) => {
+          //this.paginationflag = true;
+          if (thumbnail == '') {
+            this.thumbnailSRC = this.imageSrc;
+          } else {
+            this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
+              thumbnail.Response.thumbnail
+            );
+          }
+          this.List[x].thumbnail = this.thumbnailSRC;
+          /* if (count >= 7) {
           this.paginationflag = false;
         } */
-        count++;
-      });
-
-      
+          count++;
+        });
     }
   }
 
@@ -214,5 +236,193 @@ export class UserCollectionNFTComponent implements OnInit {
         }
       }
     }, option);
+  }
+
+  public goBack() {
+    this.router.navigate(['./user-dashboard/mycollections'], {
+      queryParams: {
+        collection: this.data,
+        user: this.key,
+        blockchain: this.blockchain,
+      }, //this.data
+    });
+  }
+
+  public closeFilterDropdown(dropdown?: string) {
+    if (dropdown) {
+      (document.querySelector(dropdown) as HTMLElement).style.display = 'none';
+    } else {
+      (
+        document.querySelector('.filter-dropdown-content') as HTMLElement
+      ).style.display = 'none';
+    }
+  }
+
+  public openFilterDropdown(dropdown?: string) {
+    if (dropdown) {
+      (document.querySelector(dropdown) as HTMLElement).style.display = 'block';
+    } else {
+      (
+        document.querySelector('.filter-dropdown-content') as HTMLElement
+      ).style.display = 'block';
+    }
+  }
+
+  public clickedOnDropdown(dropdown: string) {
+    if (dropdown === '.bc-filters') {
+      this.isOnBcDropdown = true;
+    } else {
+      this.isOnOtherDropdown = true;
+    }
+  }
+
+  @HostListener('document:click')
+  clickedOut() {
+    /* if (!this.isOnBcDropdown) {
+      this.closeFilterDropdown('.bc-filters');
+    } */
+    if (!this.isOnOtherDropdown) {
+      this.closeFilterDropdown('.other-filters');
+    }
+    this.isOnBcDropdown = false;
+    this.isOnOtherDropdown = false;
+  }
+
+  public setFilter(filter: string) {
+    if (filter !== this.selectedFilter) {
+      this.List.splice(0);
+
+      this.closeFilterDropdown();
+      this.router.navigate(['/user-dashboard/mynfts'], {
+        queryParams: {
+          collection: this.collection,
+          user: this.pk,
+          blockchain: this.blockchain,
+          filter,
+        },
+      });
+      /* .then(() => {
+          window.location.reload();
+        }); */
+    }
+  }
+
+  public async setBlockchain(blockchain: string) {
+    /* if (blockchain == 'stellar') {
+      let details = navigator.userAgent;
+
+      let regexp = /android|iphone|kindle|ipad/i;
+
+      let isMobileDevice = await regexp.test(details);
+
+      if (isMobileDevice) {
+        await albedo.publicKey({ require_existing: true }).then((re1s: any) => {
+          
+
+          this.List.splice(0);
+    
+          this.closeFilterDropdown();
+          this.router
+            .navigate(['/user-dashboard/mynfts'], {
+              queryParams: {
+                collection: this.collection,
+                user: re1s.pubkey,
+                blockchain
+              },
+            })
+
+        });
+      } else {
+        let freighterWallet = new UserWallet();
+        freighterWallet = new FreighterComponent(freighterWallet);
+        await freighterWallet.initWallelt();
+        let user = await freighterWallet.getWalletaddress();
+
+        this.List.splice(0);
+    
+      this.closeFilterDropdown();
+      this.router
+        .navigate(['/user-dashboard/mynfts'], {
+          queryParams: {
+            collection: this.collection,
+            user,
+            blockchain
+          },
+        }).then((res) => {
+          window.location.reload();
+        });
+        
+      }
+    } else if (blockchain == 'solana') {
+     
+      let phantomWallet = new UserWallet();
+      phantomWallet = new PhantomComponent(phantomWallet);
+      await phantomWallet.initWallelt();
+      let user = await phantomWallet.getWalletaddress();
+
+      this.List.splice(0);
+    
+      this.closeFilterDropdown();
+      this.router
+        .navigate(['/user-dashboard/mynfts'], {
+          queryParams: {
+            collection: this.collection,
+            user,
+            blockchain
+          },
+        }).then((res) => {
+          window.location.reload();
+        });
+     
+    } else if (blockchain == 'ethereum' || blockchain == 'polygon') {
+      // this.snackBar.openSnackBar("Ethereum and Polygon NFTs coming soon!","info");
+      // return
+      let metamaskwallet = new UserWallet();
+      metamaskwallet = new MetamaskComponent(metamaskwallet);
+      await metamaskwallet.initWallelt();
+      let user = await metamaskwallet.getWalletaddress();
+
+      this.List.splice(0);
+    
+      this.closeFilterDropdown();
+      this.router
+        .navigate(['/user-dashboard/mynfts'], {
+          queryParams: {
+            collection: this.collection,
+            user,
+            blockchain
+          },
+        }).then((res) => {
+          window.location.reload();
+        });
+      
+    } else if (blockchain == 'usd') {
+      this.List.splice(0);
+    
+      this.closeFilterDropdown();
+      this.router
+        .navigate(['/user-dashboard/mynfts'], {
+          queryParams: {
+            collection: this.collection,
+            user: this.pk,
+            blockchain
+          },
+        }).then((res) => {
+          window.location.reload();
+        });
+     
+    } */
+
+    this.router
+      .navigate(['/user-dashboard/mynfts'], {
+        queryParams: {
+          collection: this.collection,
+          user: this.pk,
+          blockchain,
+        },
+      })
+      .then((res) => {
+        window.location.reload();
+      });
   }
 }

@@ -3,23 +3,24 @@
     <!--header-->
     <div id="homeHeader" class="home-header-section cont-wrapper">
       <div class="home-header">
-        <div>
-          <label class="home-title">Buy, sell, showcase NFTs</label>
+        <div class="title-wrapper">
+          <label class="home-title">Discover, trade & showcase</label>
         </div>
         <div class="sub-title-wrapper">
-          <label class="home-subtitle"
-            >Trace your NFTs for better value. Create yours now!</label
+          <label class="home-subtitle">
+            Digital Twin NFTs spotlighting the unique journey of a
+            product.</label
           >
         </div>
         <button class="btn-create-home" [routerLink]="'/mint'">
-          <label>CREATE >></label>
+          <label>Create Yours Now</label>
         </button>
       </div>
     </div>
 
     <!--intro-->
     <div class="home-section cont-wrapper">
-      <div class="card-wrapper" (click)="routeTo('/explore')">
+      <div class="card-wrapper" (click)="routeTo('/explore/collections')">
         <div class="intro-header">
           <img src="../../../assets/images/intro_buy.png" />
         </div>
@@ -48,7 +49,7 @@
           </div>
         </div>
       </div>
-      <div class="card-wrapper" (click)="routeTo('/explore')">
+      <div class="card-wrapper" (click)="routeTo('/explore/collections')">
         <div class="intro-header">
           <img src="../../../assets/images/intro_explore.png" />
         </div>

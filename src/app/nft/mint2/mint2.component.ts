@@ -203,6 +203,8 @@ export class Mint2Component implements OnInit {
   mycontract: any;
   signature;
   SVGData: Record<SVGDataExtraction, string>;
+  newCollectionCreated: boolean = false;
+  newCollectionPayload: any[] = [];
   constructor(
     private route: ActivatedRoute,
     private service: MintService,
@@ -969,11 +971,48 @@ export class Mint2Component implements OnInit {
   updateMinter(): void {
     if (this.minter.NFTIssuerPK != null) {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
-        this.pendingDialog.close(true);
-        this.proceed.emit({
-          blockchain: this.mint.Blockchain,
-          user: this.mint.CreatorUserId,
-        });
+        if (this.newCollectionCreated) {
+          let newColl;
+          for (let i = 0; i < this.newCollectionPayload.length; i++) {
+            if (
+              this.newCollectionPayload[i].collection.CollectionName ===
+              this.mint.Collection
+            ) {
+              newColl = this.newCollectionPayload[i];
+              break;
+            }
+          }
+          if(Boolean(newColl)) {
+            this.serviceCol
+            .add(newColl.collection, newColl.fileDetails)
+            .subscribe((res) => {
+              if (res != null || res != '') {
+                this.pendingDialog.close(true);
+                this.proceed.emit({
+                  blockchain: this.mint.Blockchain,
+                  user: this.mint.CreatorUserId,
+                });
+              } else {
+                this.snackbar.openSnackBar(
+                  SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE,
+                  'error'
+                );
+                this.pendingDialog.close(true);
+                this.proceed.emit({
+                  blockchain: this.mint.Blockchain,
+                  user: this.mint.CreatorUserId,
+                });
+              }
+            });
+          }
+          
+        } else {
+          this.pendingDialog.close(true);
+          this.proceed.emit({
+            blockchain: this.mint.Blockchain,
+            user: this.mint.CreatorUserId,
+          });
+        }
       });
     } else {
       this.Minter();
@@ -1140,6 +1179,7 @@ export class Mint2Component implements OnInit {
                   err,
                 'error'
               );
+
               this.flag = false;
             }
           });
@@ -1341,6 +1381,7 @@ export class Mint2Component implements OnInit {
   }
 
   mintNftSolana(ownerPK: string, _callback?: any) {
+    console.log('hey')
     const networkURL: any = BlockchainConfig.solananetworkURL;
     const connection = new Connection(networkURL);
     return new Promise((resolve, reject) => {
@@ -1397,6 +1438,10 @@ export class Mint2Component implements OnInit {
                 }
               })
               .catch((error) => {
+                this.snackbar.openSnackBar(
+                  'Something went wrong, please try again!',
+                  'error'
+                );
                 if (this.isLoadingPresent) {
                   this.dissmissLoading();
                 }
@@ -1406,7 +1451,6 @@ export class Mint2Component implements OnInit {
               this.snackbar.openSnackBar("Transaction failed! Transaction: ", tx);
             }
           } catch (err: any) {
-            console.log(err);
             this.snackbar.openSnackBar(
               'Something went wrong, please try again!',
               'error'
@@ -1622,6 +1666,11 @@ export class Mint2Component implements OnInit {
             CollectionName: data.CollectionName,
             UserId: data.UserId,
             OrganizationName: data.OrganizationName,
+          });
+          this.newCollectionCreated = true;
+          this.newCollectionPayload.push({
+            collection: data.RequestPayload.Collection,
+            fileDetails: data.RequestPayload.FileDetails,
           });
         }
       });

@@ -105,6 +105,7 @@ import { CollectionCardComponent } from './collections/collection-card/collectio
 import { WatchlistComponent } from './user/watchlist/watchlist.component';
 import { FavouritesComponent } from './user/favourites/favourites.component';
 import { ChangeVisibilityDialogComponent } from './collections/change-visibility-dialog/change-visibility-dialog.component';
+import { MyItemsComponent } from './user/my-items/my-items.component';
 
 firebase.initializeApp(FirebaseConfig.firebaseConfig);
 
@@ -178,6 +179,10 @@ const appRoutes: Routes = [
         path: 'overview',
         component: OverviewComponent,
       }, */
+      {
+        path: 'myitems',
+        component: MyItemsComponent,
+      },
       {
         path: 'mycollections',
         component: UserCollectionsComponent,
@@ -362,7 +367,8 @@ const appRoutes: Routes = [
     CollectionCardComponent,
     WatchlistComponent,
     FavouritesComponent,
-    ChangeVisibilityDialogComponent
+    ChangeVisibilityDialogComponent,
+    MyItemsComponent,
   ],
   imports: [
     BrowserModule,

@@ -213,6 +213,17 @@ export class ViewDashboardComponent implements OnInit {
     this.closeSideNav();
   }
 
+  myItems(id: any) {
+    this.router.navigate(['./user-dashboard/myitems'], {
+      queryParams: {
+        user: id,
+        blockchain: this.selectedBlockchain,
+        filter: 'All',
+      },
+    });
+    this.closeSideNav();
+  }
+
   myWatchlist(id: any) {
     this.router.navigate(['./user-dashboard/watchlist'], {
       queryParams: { user: id, blockchain: this.selectedBlockchain },

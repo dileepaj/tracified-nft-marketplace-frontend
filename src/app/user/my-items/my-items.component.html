@@ -1,0 +1,141 @@
+<div class="overview-main-div">
+  <div class="overview-main-wrapper">
+    <div class="overview-picks-header" fxLayout="column" fxLayoutAlign="center">
+      <div class="overview-picks-header-title" fxFlex.lt-sm="100%" id="hotpick">
+        <label>My Items</label>
+        <div class="filters-parent">
+          <!--blockchain filter-->
+          <!-- <div class="filter-dd-wrapper">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+              "
+            >
+              <div
+                #ddRef
+                class="filter-dropdown"
+                (click)="clickedOnDropdown('.bc-filters')"
+              >
+                <div
+                  class="filter-dd-btn"
+                  (click)="openFilterDropdown('.bc-filters')"
+                  matRipple
+                >
+                  <mat-icon class="material-symbols-outlined">
+                    swap_vert
+                  </mat-icon>
+                  <span *ngIf="blockchain === 'stellar'">Stellar</span>
+                  <span *ngIf="blockchain === 'ethereum'">Ethereum</span>
+                  <span *ngIf="blockchain === 'polygon'">Polygon</span>
+                  <span *ngIf="blockchain === 'solana'">Solana</span>
+                  <span *ngIf="blockchain === 'usd'">USD</span>
+                  <mat-icon class="material-symbols-outlined">
+                    arrow_drop_down
+                  </mat-icon>
+                </div>
+
+                <div class="filter-dropdown-content bc-filters">
+                  <div (click)="setBlockchain('stellar')" matRipple>
+                    Stellar
+                  </div>
+                  <div (click)="setBlockchain('ethereum')" matRipple>
+                    Ethereum
+                  </div>
+                  <div (click)="setBlockchain('polygon')" matRipple>
+                    Polygon
+                  </div>
+                  <div (click)="setBlockchain('solana')" matRipple>Solana</div>
+                  <div (click)="setBlockchain('usd')" matRipple>USD</div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <!--filters-->
+          <div class="filter-dd-wrapper">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+              "
+            >
+              <div
+                #ddRef
+                class="filter-dropdown"
+                (click)="clickedOnDropdown('.other-filters')"
+              >
+                <div
+                  class="filter-dd-btn"
+                  (click)="openFilterDropdown('.other-filters')"
+                  matRipple
+                >
+                  <mat-icon class="material-symbols-outlined">
+                    swap_vert
+                  </mat-icon>
+                  <span *ngIf="selectedFilter === 'All'">All</span>
+                  <span *ngIf="selectedFilter === 'NOTFORSALE'">Purchased</span>
+                  <span *ngIf="selectedFilter === 'ON SALE'">On Sale</span>
+                  <span *ngIf="selectedFilter === 'Minted'">Minted</span>
+                  <mat-icon class="material-symbols-outlined">
+                    arrow_drop_down
+                  </mat-icon>
+                </div>
+
+                <div #gFilter class="filter-dropdown-content other-filters">
+                  <div (click)="setFilter('All')" matRipple>All</div>
+                  <div (click)="setFilter('NOTFORSALE')" matRipple>
+                    Purchased
+                  </div>
+                  <div (click)="setFilter('ON SALE')" matRipple>On Sale</div>
+                  <div (click)="setFilter('Minted')" matRipple>Minted</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="explore-content cont-wrapper" fxLayout="row wrap">
+      <div class="cont-inner" *ngIf="!loading">
+        <div *ngFor="let item of List; index as i">
+          <app-nft-card
+            *ngIf="i !== List.length - 1"
+            [item]="item"
+            [itemId]="i.toString()"
+            [blockchain]="item.Blockchain"
+            [creatoruserid]="item.CreatorUserId"
+            [sellingstatus]="item.SellingStatus"
+            [currentownerpk]="item.CurrentOwnerPK"
+          ></app-nft-card>
+
+          <!--last item-->
+          <app-nft-card
+            *ngIf="i === List.length - 1"
+            [item]="item"
+            [itemId]="i.toString()"
+            [blockchain]="item.Blockchain"
+            [creatoruserid]="item.CreatorUserId"
+            [sellingstatus]="item.SellingStatus"
+            [currentownerpk]="item.CurrentOwnerPK"
+            #theLastItem
+          ></app-nft-card>
+        </div>
+      </div>
+      <div class="cont-inner" *ngIf="loading || nextPageLoading">
+        <app-nft-card-skeleton
+          *ngFor="let item of [0, 1, 2, 3]"
+        ></app-nft-card-skeleton>
+      </div>
+      <div
+        class="explore-no-content"
+        *ngIf="!loading && !nextPageLoading && List.length === 0"
+      >
+        <img src="../../../assets/images/no-nfts.svg" />
+        <label>No NFTs Found</label>
+      </div>
+    </div>
+  </div>
+</div>

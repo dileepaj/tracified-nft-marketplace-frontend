@@ -68,9 +68,10 @@ export class CollectionService {
     isfiat: boolean
   ): Observable<NFT[]> {
     const sFilter = nfttype === 'All' ? '' : 'nfttype=' + nfttype + '&';
+    const coll = collection === '' ? '' : 'collection=' + nfttype + '&';
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}/${collection}?blockchain=${blockchain}&pubkey=${publickey}&limit=${pageSize}&page=${pageIndex}&${sFilter}isfiat=${isfiat}&sort=-1`
+      `${this.baseUrlNFT}?${coll}&blockchain=${blockchain}&pubkey=${publickey}&limit=${pageSize}&page=${pageIndex}&${sFilter}isfiat=${isfiat}&sort=-1`
     );
   }
 

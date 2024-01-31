@@ -286,7 +286,7 @@ export class NftgridComponent implements OnInit {
         .subscribe(
           (result: any) => {
             try {
-              const curLength = this.List.length
+              const curLength = this.List.length;
               this.nextPage = result.Response.PaginationInfo.nextpage;
               this.responseArrayLength += result.Response.content.length;
               result.Response.content.forEach((cont) => {
@@ -302,10 +302,11 @@ export class NftgridComponent implements OnInit {
                   '',
                   false,
                   false,
-                  ''
+                  '',
+                  false
                 );
                 card.Id = cont.Id;
-                card.thumbnail = ''
+                card.thumbnail = '';
                 card.ImageBase64 = this.imageSrc;
                 // card.thumbnail= cont.thumbnail;
                 card.Blockchain = cont.blockchain;
@@ -316,64 +317,38 @@ export class NftgridComponent implements OnInit {
                 card.SellingStatus = cont.sellingstatus;
                 card.CurrentOwnerPK = cont.currentownerpk;
                 card.CurrentPrice = cont.currentprice;
+                card.isfiat = cont.isfiat;
                 this.List.push(card);
                 if (this.List.length === this.responseArrayLength) {
                   this.loading = false;
-                   this.nextPageLoading = false;
-
+                  this.nextPageLoading = false;
                 }
-                    
-                
               });
 
-              this.setThumbnails(curLength)
-
+              this.setThumbnails(curLength);
             } catch (e) {
               this.loading = false;
               this.nextPageLoading = false;
-
             }
           },
           (err) => {
             this.loading = false;
             this.nextPageLoading = false;
-
           }
         );
     }
   }
 
-  public setThumbnails (curLength: number) {
+  public setThumbnails(curLength: number) {
     let count = 0;
     for (let x = curLength; x < this.List.length; x++) {
       this.thumbnailSRC = '';
       //this.paginationflag = true;
-   
-      this.service.getThumbnailId(this.List[x].Id).subscribe(async (thumbnail: any) => {
-        //this.paginationflag = true;
-        if (thumbnail == '') {
-          this.thumbnailSRC = this.imageSrc;
-        } else {
-          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
-            thumbnail.Response.thumbnail
-          );
-        }
-        this.List[x].thumbnail = this.thumbnailSRC;
-        /* if (count >= 7) {
-          this.paginationflag = false;
-        } */
-        count++;
-      });
 
-      
-    }
-  }
-
-  Filter(response: any) {
       this.service
-        .getThumbnailId(response.id)
+        .getThumbnailId(this.List[x].Id)
         .subscribe(async (thumbnail: any) => {
-          this.paginationflag = true;
+          //this.paginationflag = true;
           if (thumbnail == '') {
             this.thumbnailSRC = this.imageSrc;
           } else {
@@ -381,37 +356,59 @@ export class NftgridComponent implements OnInit {
               thumbnail.Response.thumbnail
             );
           }
-          card.thumbnail = this.thumbnailSRC;
-          if (card.thumbnail != '') {
-            this.paginationflag = false;
-          }
+          this.List[x].thumbnail = this.thumbnailSRC;
+          /* if (count >= 7) {
+          this.paginationflag = false;
+        } */
+          count++;
         });
-      let card: NFTCard = new NFTCard(
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        '',
-        false,
-        false,
-        ''
-      );
-      card.ImageBase64 = this.imageSrc;
-      // card.thumbnail=this.thumbnailSRC
-      card.NFTIdentifier = response.nftidentifier;
-      card.NFTName = response.nftname;
-      card.Blockchain = response.blockchain;
-      card.CreatorUserId = response.creatoruserid;
-      card.CurrentOwnerPK = response.currentownerpk;
-      card.SellingStatus = response.sellingstatus;
-      card.CurrentPrice = response.currentprice;
-      this.List.push(card);
-      this.loading = false;
-    
+    }
+  }
+
+  Filter(response: any) {
+    this.service
+      .getThumbnailId(response.id)
+      .subscribe(async (thumbnail: any) => {
+        this.paginationflag = true;
+        if (thumbnail == '') {
+          this.thumbnailSRC = this.imageSrc;
+        } else {
+          this.thumbnailSRC = this._sanitizer.bypassSecurityTrustResourceUrl(
+            thumbnail.Response.thumbnail
+          );
+        }
+        card.thumbnail = this.thumbnailSRC;
+        if (card.thumbnail != '') {
+          this.paginationflag = false;
+        }
+      });
+    let card: NFTCard = new NFTCard(
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      false,
+      false,
+      '',
+      false
+    );
+    card.ImageBase64 = this.imageSrc;
+    // card.thumbnail=this.thumbnailSRC
+    card.NFTIdentifier = response.nftidentifier;
+    card.NFTName = response.nftname;
+    card.Blockchain = response.blockchain;
+    card.CreatorUserId = response.creatoruserid;
+    card.CurrentOwnerPK = response.currentownerpk;
+    card.SellingStatus = response.sellingstatus;
+    card.CurrentPrice = response.currentprice;
+    card.isfiat = response.isfiat;
+    this.List.push(card);
+    this.loading = false;
   }
 
   intersectionFilterObserver() {

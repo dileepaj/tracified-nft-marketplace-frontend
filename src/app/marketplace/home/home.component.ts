@@ -258,7 +258,8 @@ export class HomeComponent implements OnInit {
                 '',
                 false,
                 false,
-                ''
+                '',
+                false
               );
               card.Id = cont.Id;
               card.thumbnail = '';
@@ -272,6 +273,7 @@ export class HomeComponent implements OnInit {
               card.SellingStatus = cont.sellingstatus;
               card.CurrentOwnerPK = cont.currentownerpk;
               card.CurrentPrice = cont.currentprice;
+              card.isfiat = cont.isfiat;
               this.List.push(card);
               if (this.List.length === responseArrayLength) {
                 this.bestPicksLoading = false;
@@ -337,7 +339,8 @@ export class HomeComponent implements OnInit {
                 '',
                 false,
                 false,
-                ''
+                '',
+                false
               );
               card.Id = cont.Id;
               card.thumbnail = '';
@@ -351,6 +354,7 @@ export class HomeComponent implements OnInit {
               card.SellingStatus = cont.sellingstatus;
               card.CurrentOwnerPK = cont.currentownerpk;
               card.CurrentPrice = cont.currentprice;
+              card.isfiat = cont.isfiat;
               this.List2.push(card);
               if (this.List2.length === responseArrayLength) {
                 this.trendingLoading = false;

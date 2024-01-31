@@ -21,6 +21,7 @@ export interface userAgreementPromt {
   blockchain?: string;
   nftName?: string;
   buttonAction?: string;
+  isfiat?:boolean;
 }
 
 export interface userAgreementPromt2 {
@@ -36,6 +37,7 @@ export interface userAgreementPromt2 {
   royaltyfee?: number;
   grandTotal?: string;
   grandTotalfee?: number;
+  isfiat?:boolean
 }
 
 export interface selectWalletDialog {

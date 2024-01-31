@@ -40,17 +40,19 @@ export class ConfirmSellComponent implements OnInit {
     this.blockchain = this.data.blockchain?.toString()
     this.royalty = this.data.royaltyfee?.toString()
     this.grandTotal = this.data.grandTotalfee?.toString()
-    if(this.blockchain === 'ethereum') {
+    if(this.blockchain === 'ethereum' && this.data.isfiat===false) {
       this.currency = 'ETH'
     }
-    else if(this.blockchain == 'polygon'){
+    else if(this.blockchain == 'polygon' && this.data.isfiat===false){
       this.currency = 'MATIC'
     }
-    else if(this.blockchain === 'stellar') {
+    else if(this.blockchain === 'stellar' && this.data.isfiat===false) {
       this.currency = 'XLM'
     }
-    else if(this.blockchain === 'solana') {
+    else if(this.blockchain === 'solana' && this.data.isfiat===false) {
       this.currency = 'SOL'
+    }else{
+      this.currency='JPY'
     }
     this.getCurrencyRate().then(res=>{
       this.convertToUSD();
@@ -73,10 +75,17 @@ export class ConfirmSellComponent implements OnInit {
 
 
   public async getCurrencyRate(){
-    this.currencyConverter.GetUSDratebyBC(this.blockchain).subscribe(res => {
-      this.currencyRate = res.data.priceUsd;
-      return this.currencyRate;
-    })
+    if(this.data.isfiat==true){
+      this.currencyConverter.GetUSDratebyFiat("japanese-yen").subscribe(res => {
+        this.currencyRate = res.data.rateUsd;
+        return this.currencyRate;
+      })
+    }else{
+      this.currencyConverter.GetUSDratebyBC(this.blockchain).subscribe(res => {
+        this.currencyRate = res.data.priceUsd;
+        return this.currencyRate;
+      })
+    }
   }
   private async convertToUSD() {
     const rate = this.currencyRate;
@@ -84,15 +93,23 @@ export class ConfirmSellComponent implements OnInit {
     const tot = parseFloat(this.total);
     const roy = parseFloat(this.royalty);
     const gtot = parseFloat(this.grandTotal)
-    this.currencyConverter.GetUSDratebyBC(this.blockchain).subscribe(res => {
-      this.currencyRate = res.data.priceUsd;
-      this.serviceFeeUSD = (src * this.currencyRate).toFixed(4);
-      this.totalUSD = (tot * this.currencyRate).toFixed(4);
-      this.royaltyUSD =(roy * this.currencyRate).toFixed(4);
-      this.gtotalUSD = (gtot * this.currencyRate).toFixed(4);
-    })
-    
-
+    if(this.data.isfiat==true){
+      this.currencyConverter.GetUSDratebyFiat("japanese-yen").subscribe(res => {
+        this.currencyRate = res.data.rateUsd;
+        this.serviceFeeUSD = (src * this.currencyRate).toFixed(4);
+        this.totalUSD = (tot * this.currencyRate).toFixed(4);
+        this.royaltyUSD =(roy * this.currencyRate).toFixed(4);
+        this.gtotalUSD = (gtot * this.currencyRate).toFixed(4);
+      })
+    }else{
+      this.currencyConverter.GetUSDratebyBC(this.blockchain).subscribe(res => {
+        this.currencyRate = res.data.priceUsd;
+        this.serviceFeeUSD = (src * this.currencyRate).toFixed(4);
+        this.totalUSD = (tot * this.currencyRate).toFixed(4);
+        this.royaltyUSD =(roy * this.currencyRate).toFixed(4);
+        this.gtotalUSD = (gtot * this.currencyRate).toFixed(4);
+      })
+    }
   }
 
 }

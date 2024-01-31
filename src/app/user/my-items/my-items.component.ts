@@ -129,7 +129,7 @@ export class MyItemsComponent implements OnInit {
             } else {
               this.responseArrayLength += this.nfts.length;
               for (let x = 0; x < this.nfts.length; x++) {
-                if (this.nfts[x].creatoruserid == this.key) {
+                if (this.nfts[x].currentownerpk == this.key) {
                   this.MyList.push(this.nfts[x]);
                 }
               }

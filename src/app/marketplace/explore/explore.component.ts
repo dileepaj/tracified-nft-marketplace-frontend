@@ -259,7 +259,8 @@ export class ExploreComponent implements OnInit, AfterViewInit {
         '',
         false,
         false,
-        ''
+        '',
+        false
       );
       card.Id = arr[x].Id;
       card.thumbnail = '';
@@ -272,9 +273,11 @@ export class ExploreComponent implements OnInit, AfterViewInit {
       card.Hotpicks = arr[x].hotpicks;
       card.Trending = arr[x].trending;
       card.CurrentPrice = arr[x].currentprice;
+      card.isfiat = arr[x].isfiat;
       if (
         this.selectedBlockchain === 'all' ||
-        card.Blockchain == this.selectedBlockchain
+        card.Blockchain == this.selectedBlockchain ||
+        (this.selectedBlockchain === 'jpy' && card.isfiat)
       ) {
         this.List.push(card);
       }

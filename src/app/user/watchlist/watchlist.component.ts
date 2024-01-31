@@ -272,7 +272,8 @@ export class WatchlistComponent implements OnInit {
       '',
       false,
       false,
-      ''
+      '',
+      false
     );
     card.ImageBase64 = this.imageSrc;
     // card.thumbnail=this.thumbnailSRC
@@ -283,6 +284,7 @@ export class WatchlistComponent implements OnInit {
     card.CurrentOwnerPK = response.currentownerpk;
     card.SellingStatus = response.sellingstatus;
     card.CurrentPrice = response.currentprice;
+    card.isfiat = response.isfiat;
     if (
       this.blockchain !== 'jpy' ||
       (this.blockchain === 'jpy' && response.isfiat === true)

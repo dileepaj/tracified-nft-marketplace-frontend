@@ -9,7 +9,7 @@
     />
     <div class="bc-icon-wrapper">
       <img
-        *ngIf="item.Blockchain !== 'usd' && item.Blockchain !== 'jpy'"
+        *ngIf="!item.isfiat"
         style="
           vertical-align: middle;
 
@@ -18,7 +18,7 @@
         [src]="'../../../assets/images/' + item.Blockchain + '.png'"
       />
       <img
-        *ngIf="item.Blockchain === 'usd' || item.Blockchain === 'jpy'"
+        *ngIf="item.isfiat"
         style="
           vertical-align: middle;
 
@@ -50,7 +50,9 @@
 
     <label *ngIf="item.CurrentPrice !== ''" class="nft-count"
       >{{ item.CurrentPrice }}&nbsp;{{
-        item.Blockchain === "stellar"
+        item.isfiat
+          ? "JPY"
+          : item.Blockchain === "stellar"
           ? "XLM"
           : item.Blockchain === "ethereum"
           ? "ETH"

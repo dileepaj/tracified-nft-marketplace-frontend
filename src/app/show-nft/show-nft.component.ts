@@ -186,7 +186,8 @@ export class ShowNFTComponent implements OnInit {
                 '',
                 false,
                 false,
-                ''
+                '',
+                false
               );
               card.Id = this.nfts[x].Id;
               card.thumbnail = '';
@@ -199,6 +200,7 @@ export class ShowNFTComponent implements OnInit {
               card.CurrentOwnerPK = this.nfts[x].currentownerpk;
               card.SellingStatus = this.nfts[x].sellingstatus;
               card.CurrentPrice = this.nfts[x].currentprice;
+              card.isfiat = this.nfts[x].isfiat;
               this.List.push(card);
               this.loading = false;
             }
@@ -263,7 +265,8 @@ export class ShowNFTComponent implements OnInit {
                 '',
                 false,
                 false,
-                ''
+                '',
+                false
               );
               card.Id = cont.Id;
               card.thumbnail = '';
@@ -277,6 +280,7 @@ export class ShowNFTComponent implements OnInit {
               card.SellingStatus = cont.sellingstatus;
               card.CurrentOwnerPK = cont.currentownerpk;
               card.CurrentPrice = cont.currentprice;
+              card.isfiat = cont.isfiat;
               this.List.push(card);
               if (this.List.length === this.responseArrayLength) {
                 this.nextPageLoading = false;
@@ -328,7 +332,8 @@ export class ShowNFTComponent implements OnInit {
                 '',
                 false,
                 false,
-                ''
+                '',
+                false
               );
               card.Id = this.NFTList.Response.content[x].Id;
               card.thumbnail = '';
@@ -345,6 +350,7 @@ export class ShowNFTComponent implements OnInit {
               card.SellingStatus =
                 this.NFTList.Response.content[x].sellingstatus;
               card.CurrentPrice = this.NFTList.Response.content[x].currentprice;
+              card.isfiat = this.NFTList.Response.content[x].isfiat;
               this.List.push(card);
               if (this.List.length === this.responseArrayLength) {
                 this.nextPageLoading = false;

@@ -44,7 +44,8 @@ export class NFTCard {
     public thumbnail: string,
     public Hotpicks: boolean,
     public Trending: boolean,
-    public CurrentPrice: string
+    public CurrentPrice: string,
+    public isfiat: boolean
   ) {}
 }
 
@@ -58,6 +59,7 @@ export class MyNFTCard {
     public SellingStatus: string,
     public thumbnail: string,
     public CurrentPrice: string,
-    public CurrentOwnerPK: string
+    public CurrentOwnerPK: string,
+    public isfiat: boolean
   ) {}
 }

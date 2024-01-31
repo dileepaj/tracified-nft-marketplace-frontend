@@ -69,6 +69,7 @@ export class CollectionService {
   ): Observable<NFT[]> {
     const sFilter = nfttype === 'All' ? '' : 'nfttype=' + nfttype + '&';
     const coll = collection === '' ? '' : 'collection=' + collection + '&';
+
     //request to get collection name according to user public key
     return this.http.get<NFT[]>(
       `${this.baseUrlNFT}?${coll}&blockchain=${blockchain}&pubkey=${publickey}&limit=${pageSize}&page=${pageIndex}&${sFilter}isfiat=${isfiat}&sort=-1`
@@ -83,9 +84,19 @@ export class CollectionService {
     type: number
   ): Observable<NFT[]> {
     const bcFilter =
-      blockchain === 'all' ? '' : 'blockchain=' + blockchain + '&';
+      blockchain === 'all'
+        ? ''
+        : blockchain === 'jpy'
+        ? 'blockchain=solana&'
+        : 'blockchain=' + blockchain + '&';
+    const isfiat =
+      blockchain === 'all'
+        ? ''
+        : blockchain === 'jpy'
+        ? '&isfiat=true'
+        : '&isfiat=false';
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}?collection=${collection}&${bcFilter}limit=${pageSize}&page=${pageIndex}&sort=-1&type=${type}`
+      `${this.baseUrlNFT}?collection=${collection}&${bcFilter}limit=${pageSize}&page=${pageIndex}&sort=-1&type=${type}${isfiat}`
     );
   }
 
@@ -96,9 +107,19 @@ export class CollectionService {
     pageIndex: number
   ): Observable<NFT[]> {
     const bcFilter =
-      blockchain === 'all' ? '' : 'blockchain=' + blockchain + '&';
+      blockchain === 'all'
+        ? ''
+        : blockchain === 'jpy'
+        ? 'blockchain=solana&'
+        : 'blockchain=' + blockchain + '&';
+    const isfiat =
+      blockchain === 'all'
+        ? ''
+        : blockchain === 'jpy'
+        ? '&isfiat=true'
+        : '&isfiat=false';
     return this.http.get<NFT[]>(
-      `${this.baseUrlNFT}?collection=${collection}&${bcFilter}limit=${pageSize}&page=${pageIndex}&nfttype=ON SALE&sort=-1`
+      `${this.baseUrlNFT}?collection=${collection}&${bcFilter}limit=${pageSize}&page=${pageIndex}&nfttype=ON SALE&sort=-1${isfiat}`
     );
   }
 

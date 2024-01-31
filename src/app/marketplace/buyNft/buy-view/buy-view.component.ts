@@ -307,6 +307,7 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
+          isfiat:this.NFTList.isfiat
         })
         .subscribe((res) => {
           if (res) {
@@ -342,6 +343,7 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
+          isfiat:this.NFTList.isfiat
         })
         .subscribe((res) => {
           if (res) {
@@ -453,6 +455,7 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
+          isfiat:this.NFTList.isfiat
         })
         .subscribe((res) => {
           if (res) {
@@ -509,6 +512,7 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
+          isfiat:this.NFTList.isfiat
         })
         .subscribe((res) => {
           if (res) {
@@ -776,10 +780,11 @@ export class BuyViewComponent implements OnInit {
       operation_result: 'success',
     });
     sessionStorage.setItem('refreshProfile', '1');
-    this.router.navigate(['/user-dashboard'], {
+    this.router.navigate(['/user-dashboard/myitems'], {
       queryParams: {
         user: this.saleBE.CurrentOwnerPK,
         blockchain: this.nftbe.Blockchain,
+        filter:"NOTFORSALE"
       },
     });
   }

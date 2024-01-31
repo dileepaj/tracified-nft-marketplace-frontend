@@ -36,8 +36,8 @@ export class Mint3Component implements OnInit {
   save(): void {}
 
   showInProfile() {
-    this.router.navigate(['/user-dashboard/overview'], {
-      queryParams: { user: this.user, blockchain: this.blockchain },
+    this.router.navigate(['/user-dashboard/myitems'], {
+      queryParams: { user: this.user, blockchain: this.blockchain,filter:"All" },
     });
   }
 

@@ -395,6 +395,7 @@ export class SellNftComponent implements OnInit {
                 royaltyfee: this.royaltyCharge,
                 grandTotal: 'Total',
                 grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
+                isfiat:this.NFTList.isfiat
               })
               .subscribe((res) => {
                 if (res) {
@@ -493,6 +494,7 @@ export class SellNftComponent implements OnInit {
             royaltyfee: this.royaltyCharge,
             grandTotal: 'Total',
             grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
+            isfiat:this.NFTList.isfiat
           })
           .subscribe((res) => {
             if (res) {
@@ -588,6 +590,7 @@ export class SellNftComponent implements OnInit {
           royaltyfee: this.royaltyCharge,
           grandTotal: 'Total',
           grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
+          isfiat:this.NFTList.isfiat
         })
         .subscribe((res) => {
           if (res) {
@@ -689,6 +692,7 @@ export class SellNftComponent implements OnInit {
           royaltyfee: this.royaltyCharge,
           grandTotal: 'Total',
           grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
+          isfiat:this.NFTList.isfiat
         })
         .subscribe((res) => {
           if (res) {
@@ -811,6 +815,7 @@ export class SellNftComponent implements OnInit {
           royaltyfee: this.royaltyCharge,
           grandTotal: 'Total',
           grandTotalfee: parseFloat(this.sellingPriceForNonContracts),
+          isfiat:this.NFTList.isfiat
         })
         .subscribe((res) => {
           if (res) {
@@ -890,8 +895,8 @@ export class SellNftComponent implements OnInit {
     });
     let data: any = this.NFTList.blockchain;
     sessionStorage.setItem('refreshProfile', '1');
-    this.router.navigate(['/user-dashboard'], {
-      queryParams: { user: this.NFTList.currentownerpk, blockchain: data },
+    this.router.navigate(['/user-dashboard/myitems'], {
+      queryParams: { user: this.NFTList.currentownerpk, blockchain: data ,filter:"ON SALE"},
     });
   }
 

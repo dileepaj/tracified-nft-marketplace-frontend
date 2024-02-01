@@ -720,9 +720,9 @@ export class Mint2Component implements OnInit {
         this.svg.blockchain = 'ethereum';
         this.svg.AttachmentType = this.type;
         //  this.apiService.addSVG(this.svg).subscribe();
-        if( this.formValue('Currency') != 'crypto'){
-          this.mint.Royalty="0"
-         }
+        if (this.formValue('Currency') != 'crypto') {
+          this.mint.Royalty = '0';
+        }
         this.dialogService
           .confirmMintDialog({
             promtHeading: 'You are Minting',
@@ -836,9 +836,9 @@ export class Mint2Component implements OnInit {
         this.svg.blockchain = 'polygon';
         this.svg.AttachmentType = this.type;
         // this.apiService.addSVG(this.svg).subscribe();
-       if( this.formValue('Currency') != 'crypto'){
-        this.mint.Royalty="0"
-       }
+        if (this.formValue('Currency') != 'crypto') {
+          this.mint.Royalty = '0';
+        }
         this.dialogService
           .confirmMintDialog({
             promtHeading: 'You are Minting',
@@ -989,30 +989,29 @@ export class Mint2Component implements OnInit {
               break;
             }
           }
-          if(Boolean(newColl)) {
+          if (Boolean(newColl)) {
             this.serviceCol
-            .add(newColl.collection, newColl.fileDetails)
-            .subscribe((res) => {
-              if (res != null || res != '') {
-                this.pendingDialog.close(true);
-                this.proceed.emit({
-                  blockchain: this.mint.Blockchain,
-                  user: this.mint.CreatorUserId,
-                });
-              } else {
-                this.snackbar.openSnackBar(
-                  SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE,
-                  'error'
-                );
-                this.pendingDialog.close(true);
-                this.proceed.emit({
-                  blockchain: this.mint.Blockchain,
-                  user: this.mint.CreatorUserId,
-                });
-              }
-            });
+              .add(newColl.collection, newColl.fileDetails)
+              .subscribe((res) => {
+                if (res != null || res != '') {
+                  this.pendingDialog.close(true);
+                  this.proceed.emit({
+                    blockchain: this.mint.Blockchain,
+                    user: this.mint.CreatorUserId,
+                  });
+                } else {
+                  this.snackbar.openSnackBar(
+                    SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE,
+                    'error'
+                  );
+                  this.pendingDialog.close(true);
+                  this.proceed.emit({
+                    blockchain: this.mint.Blockchain,
+                    user: this.mint.CreatorUserId,
+                  });
+                }
+              });
           }
-          
         } else {
           this.pendingDialog.close(true);
           this.proceed.emit({
@@ -1068,14 +1067,26 @@ export class Mint2Component implements OnInit {
               this.mint.CreatorUserId,
               data.NFTIssuerPK
             )
-            .subscribe((res: any) => {
-              try {
-                this.sendToMint3();
-                this.saveTXNs();
-                this.apiService.addSVG(this.svg).subscribe((res) => {
-                  this.updateMinter();
-                });
-              } catch (err) {
+            .subscribe(
+              (res: any) => {
+                try {
+                  this.sendToMint3();
+                  this.saveTXNs();
+                  this.apiService.addSVG(this.svg).subscribe((res) => {
+                    this.updateMinter();
+                  });
+                } catch (err) {
+                  this.pendingDialog.close(true);
+                  this.snackbar.openSnackBar(
+                    'Something went wrong, please try again! More information: ' +
+                      err,
+                    'error'
+                  );
+                  this.flag = false;
+                }
+              },
+              (err) => {
+                this.pendingDialog.close(true);
                 this.snackbar.openSnackBar(
                   'Something went wrong, please try again! More information: ' +
                     err,
@@ -1083,7 +1094,7 @@ export class Mint2Component implements OnInit {
                 );
                 this.flag = false;
               }
-            });
+            );
         });
     }
   }
@@ -1181,6 +1192,7 @@ export class Mint2Component implements OnInit {
                 this.flag = false;
               }
             } catch (err) {
+              this.pendingDialog(false);
               this.snackbar.openSnackBar(
                 'Something went wrong, please try again! More information: ' +
                   err,
@@ -1191,9 +1203,15 @@ export class Mint2Component implements OnInit {
             }
           });
       } catch (err) {
+        this.pendingDialog(false);
         this.flag = false;
+        this.snackbar.openSnackBar(
+          'Something went wrong, please try again! More information: ' + err,
+          'error'
+        );
       }
     } else {
+      this.pendingDialog(false);
       this.snackbar.openSnackBar(
         'User PK not connected or not endorsed',
         'info'
@@ -1396,70 +1414,76 @@ export class Mint2Component implements OnInit {
         .transferServiceCharge(ownerPK)
         .then(async (result: solanaTransaction) => {
           try {
-            let tx
+            let tx;
             let isMobile = await this.getDeviceType();
             if (isMobile) {
               const { signature } = await (
                 window as any
               ).solana.signAndSendTransaction(result, ['finalized']);
-               tx=await connection.confirmTransaction(signature);
+              tx = await connection.confirmTransaction(signature);
             } else {
               const { signature } = await (
                 window as any
-              ).solana.signAndSendTransaction(result)
-              tx=await connection.confirmTransaction(signature);
+              ).solana.signAndSendTransaction(result);
+              tx = await connection.confirmTransaction(signature);
               //  tx=await connection.confirmTransaction({
               //   blockhash: latestBlockHash.blockhash,
               //   lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
               //   signature: signature,
               //})
             }
-            if(tx != null){
-            this.service
-              .minNFTSolana(
-                ownerPK, //distributer Public key
-                this.mint.NFTName,
-                this.mint.Imagebase64,
-                this.mint.Description,
-                this.mint.Collection,
-                this.mint.Blockchain,
-                this.mint.Tags,
-                this.mint.Categories,
-                this.mint.Copies,
-                this.mint.NftContentURL,
-                this.mint.ArtistName,
-                this.mint.ArtistProfileLink,
-                this.mint.Royalty,
-                this.SVGData
-              )
-              .then((nft) => {
-                if (this.isLoadingPresent) {
-                  this.dissmissLoading();
-                }
-                try {
-                  this.Minter();
-                } catch (err) {
-                  _callback();
+            if (tx != null) {
+              this.service
+                .minNFTSolana(
+                  ownerPK, //distributer Public key
+                  this.mint.NFTName,
+                  this.mint.Imagebase64,
+                  this.mint.Description,
+                  this.mint.Collection,
+                  this.mint.Blockchain,
+                  this.mint.Tags,
+                  this.mint.Categories,
+                  this.mint.Copies,
+                  this.mint.NftContentURL,
+                  this.mint.ArtistName,
+                  this.mint.ArtistProfileLink,
+                  this.mint.Royalty,
+                  this.SVGData
+                )
+                .then((nft) => {
+                  if (this.isLoadingPresent) {
+                    this.dissmissLoading();
+                  }
+                  try {
+                    this.Minter();
+                  } catch (err) {
+                    _callback();
+                    this.snackbar.openSnackBar(
+                      'Something went wrong, please try again! More information: ' +
+                        err,
+                      'error'
+                    );
+                    this.flag = false;
+                  }
+                })
+                .catch((error) => {
                   this.snackbar.openSnackBar(
-                    'Something went wrong, please try again! More information: ' +
-                      err,
+                    'Something went wrong, please try again!',
                     'error'
                   );
+                  if (this.isLoadingPresent) {
+                    this.dissmissLoading();
+                  }
+                  this.pendingDialog.close(false);
                   this.flag = false;
-                }
-              })
-              .catch((error) => {
-                this.snackbar.openSnackBar(
-                  'Something went wrong, please try again!',
-                  'error'
-                );
-                if (this.isLoadingPresent) {
-                  this.dissmissLoading();
-                }
-                this.pendingDialog.close(false);
-              });
-            }else{
-              this.snackbar.openSnackBar("Transaction failed! Transaction: ", tx);
+                });
+            } else {
+              this.snackbar.openSnackBar(
+                'Transaction failed! Transaction: ',
+                tx
+              );
+              this.pendingDialog.close(false);
+              this.flag = false;
             }
           } catch (err: any) {
             this.snackbar.openSnackBar(
@@ -1580,7 +1604,7 @@ export class Mint2Component implements OnInit {
         this.file.type.toLowerCase().includes('jpeg')
       ) {
         let text = await this.file.text();
-        this.SVGData = this.extractVariables(text)
+        this.SVGData = this.extractVariables(text);
         this.type = this.file.type;
         var reader = new FileReader();
         reader.readAsDataURL(this.file);

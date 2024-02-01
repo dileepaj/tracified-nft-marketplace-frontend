@@ -21,7 +21,7 @@ export interface userAgreementPromt {
   blockchain?: string;
   nftName?: string;
   buttonAction?: string;
-  isfiat?:boolean;
+  isfiat?: boolean;
 }
 
 export interface userAgreementPromt2 {
@@ -37,7 +37,7 @@ export interface userAgreementPromt2 {
   royaltyfee?: number;
   grandTotal?: string;
   grandTotalfee?: number;
-  isfiat?:boolean
+  isfiat?: boolean;
 }
 
 export interface selectWalletDialog {
@@ -162,6 +162,7 @@ export const SnackBarText = {
     ' collection has been created successfully.',
   CREATE_COLLECTION_FAILED_MESSAGE:
     'Error occurred! Failed to create collection.',
+  COLLECTION_ALREADY_EXISTS_MESSAGE: 'Collection name is already taken.',
 
   //Admin add edit FAQ
   FAQ_SUBMISSION_SUCCESS: 'Answer has been submitted. User notified via email.',

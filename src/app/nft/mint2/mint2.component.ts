@@ -234,7 +234,7 @@ export class Mint2Component implements OnInit {
     );
   }
 
-  sendToMint3(): void {
+  sendToMint3(callback: () => void) {
     //getting form data to mint and post
     this.mint.Timestamp = new Date().toString();
     this.mint.Collection = this.formValue('Collection');
@@ -271,6 +271,8 @@ export class Mint2Component implements OnInit {
       blockchain: this.mint.Blockchain,
       user: this.mint.CreatorUserId,
     });
+
+    callback();
   }
   pushOwner(): void {
     //posting owner data via service to backend
@@ -796,7 +798,7 @@ export class Mint2Component implements OnInit {
                           this.saveTXNs();
                           this.apiService.addSVG(this.svg).subscribe();
                           this.saveContractInGateway();
-                          this.sendToMint3();
+                          this.sendToMint3(() => {})
                           dialog.close();
                           this.snackbar.openSnackBar(
                             SnackBarText.MINTING_SUCCESSFUL_MESSAGE,
@@ -913,7 +915,7 @@ export class Mint2Component implements OnInit {
                             this.saveTXNs();
                             this.apiService.addSVG(this.svg).subscribe();
                             this.saveContractInGateway();
-                            this.sendToMint3();
+                            this.sendToMint3(() => {});
                             dialog.close();
                             this.snackbar.openSnackBar(
                               SnackBarText.MINTING_SUCCESSFUL_MESSAGE,
@@ -1054,7 +1056,8 @@ export class Mint2Component implements OnInit {
         .subscribe((data: any) => {
           if (data == null) {
             this.Minter();
-          }
+          }else{
+            if(data.NFTIssuerPK!=null && data.CreatorUserID!=null){
           this.mint.NFTIssuerPK = data.NFTIssuerPK;
           this.mint.NFTTxnHash = data.NFTTxnHash;
           this.minter.NFTIssuerPK = this.mint.NFTIssuerPK;
@@ -1070,11 +1073,12 @@ export class Mint2Component implements OnInit {
             )
             .subscribe((res: any) => {
               try {
-                this.sendToMint3();
+                this.sendToMint3(() => {
                 this.saveTXNs();
                 this.apiService.addSVG(this.svg).subscribe((res) => {
                   this.updateMinter();
                 });
+              })
               } catch (err) {
                 this.snackbar.openSnackBar(
                   'Something went wrong, please try again! More information: ' +
@@ -1084,6 +1088,8 @@ export class Mint2Component implements OnInit {
                 this.flag = false;
               }
             });
+          }
+        }
         });
     }
   }
@@ -1124,7 +1130,7 @@ export class Mint2Component implements OnInit {
             }
           )
           .then((transactionResult: any) => {
-            this.sendToMint3();
+            this.sendToMint3(() => {});
             try {
               if (transactionResult.successful) {
                 this.service
@@ -1220,7 +1226,7 @@ export class Mint2Component implements OnInit {
           }
         )
         .then((transactionResult: any) => {
-          this.sendToMint3();
+          this.sendToMint3(() => {});
           try {
             this.service
               .minNFTStellar(

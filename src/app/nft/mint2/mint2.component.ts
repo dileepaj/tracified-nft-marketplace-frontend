@@ -266,11 +266,50 @@ export class Mint2Component implements OnInit {
         });
     }
 
-    this.proceed.emit({
-      email: this.email,
-      blockchain: this.mint.Blockchain,
-      user: this.mint.CreatorUserId,
-    });
+    if (this.newCollectionCreated) {
+      let newColl;
+      for (let i = 0; i < this.newCollectionPayload.length; i++) {
+        if (
+          this.newCollectionPayload[i].collection.CollectionName ===
+          this.mint.Collection
+        ) {
+          newColl = this.newCollectionPayload[i];
+          break;
+        }
+      }
+      if (Boolean(newColl)) {
+        this.serviceCol
+          .add(newColl.collection, newColl.fileDetails)
+          .subscribe((res) => {
+            if (res != null || res != '') {
+              this.pendingDialog.close(true);
+              this.proceed.emit({
+                email: this.email,
+                blockchain: this.mint.Blockchain,
+                user: this.mint.CreatorUserId,
+              });
+            } else {
+              this.snackbar.openSnackBar(
+                SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE,
+                'error'
+              );
+              this.pendingDialog.close(true);
+              this.proceed.emit({
+                email: this.email,
+                blockchain: this.mint.Blockchain,
+                user: this.mint.CreatorUserId,
+              });
+            }
+          });
+      }
+    } else {
+      this.pendingDialog.close(true);
+      this.proceed.emit({
+        email: this.email,
+        blockchain: this.mint.Blockchain,
+        user: this.mint.CreatorUserId,
+      });
+    }
   }
   pushOwner(): void {
     //posting owner data via service to backend
@@ -1029,12 +1068,47 @@ export class Mint2Component implements OnInit {
   updateStellarTXN(): void {
     if (this.stxn.NFTTxnHash != null) {
       this.service.updateTXNStellar(this.stxn).subscribe((res) => {
-        this.pendingDialog.close(true);
-
-        this.proceed.emit({
-          blockchain: this.mint.Blockchain,
-          user: this.mint.CreatorUserId,
-        });
+        if (this.newCollectionCreated) {
+          let newColl;
+          for (let i = 0; i < this.newCollectionPayload.length; i++) {
+            if (
+              this.newCollectionPayload[i].collection.CollectionName ===
+              this.mint.Collection
+            ) {
+              newColl = this.newCollectionPayload[i];
+              break;
+            }
+          }
+          if (Boolean(newColl)) {
+            this.serviceCol
+              .add(newColl.collection, newColl.fileDetails)
+              .subscribe((res) => {
+                if (res != null || res != '') {
+                  this.pendingDialog.close(true);
+                  this.proceed.emit({
+                    blockchain: this.mint.Blockchain,
+                    user: this.mint.CreatorUserId,
+                  });
+                } else {
+                  this.snackbar.openSnackBar(
+                    SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE,
+                    'error'
+                  );
+                  this.pendingDialog.close(true);
+                  this.proceed.emit({
+                    blockchain: this.mint.Blockchain,
+                    user: this.mint.CreatorUserId,
+                  });
+                }
+              });
+          }
+        } else {
+          this.pendingDialog.close(true);
+          this.proceed.emit({
+            blockchain: this.mint.Blockchain,
+            user: this.mint.CreatorUserId,
+          });
+        }
       });
     } else {
       try {

@@ -192,7 +192,7 @@ export class BuyViewComponent implements OnInit {
   userprofileURL: string = '';
   nftcontentURL: string = '';
   count: number = 0;
-  buttonvalue:string="Buy Now"
+  buttonvalue: string = 'Buy Now';
 
   constructor(
     private service: NftServicesService,
@@ -307,7 +307,7 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
-          isfiat:this.NFTList.isfiat
+          isfiat: this.NFTList.isfiat,
         })
         .subscribe((res) => {
           if (res) {
@@ -343,98 +343,117 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
-          isfiat:this.NFTList.isfiat
+          isfiat: this.NFTList.isfiat,
         })
-        .subscribe((res) => {
-          if (res) {
-            const loadingAnimation = this.dialogService.mintingDialog({
-              processTitle: 'Buying',
-              message: PendingDialogText.MINTING_IN_PROGRESS,
-              nftName: this.NFTList.nftname,
-              thumbnail: this.NFTList.thumbnail,
-            });
-
-            this.servicesell
-              .findATA(user, this.NFTList.nftissuerpk)
-              .then((resAta: any) => {
-                if (resAta == null) {
-                  this.atastatus = '0';
-                } else {
-                  this.atastatus = '1';
-                }
-              })
-              .then((res) => {
-                this.saleBE.Timestamp = new Date().toString();
-                this.ata
-                  .createATAforBuyer(
-                    this.total,
-                    user,
-                    this.royaltyCharge,
-                    this.NFTList.creatoruserid,
-                    this.NFTList.currentownerpk,
-                    this.services.toString()
-                  )
-                  .then(async (result: solanaTransaction) => {
-                    try {
-                      let isMobile = await this.getDeviceType();
-                      let tx;
-                      if (isMobile) {
-                        const { signature } = await (
-                          window as any
-                        ).solana.signAndSendTransaction(result);
-                        tx = await connection.confirmTransaction(signature);
-                      } else {
-                        const { signature } = await (
-                          window as any
-                        ).solana.signAndSendTransaction(result);
-                        tx = await connection.confirmTransaction(signature);
-                      }
-                      if (tx != null) {
-                        //check
-                        this.transfer
-                          .createServiceATAforTransfer(
-                            environment.fromWallet,
-                            user,
-                            this.NFTList.nftissuerpk
-                          )
-
-                          .subscribe(async (res: any) => {
-                            try {
-                              loadingAnimation.close();
-                              this.buytxn = res;
-                              this.saveTXNs();
-                              this.service
-                                .updateNFTStatusBackend(this.saleBE)
-                                .subscribe((res) => {
-                                  this.updateGateway();
-                                  this.snackbar.openSnackBar(
-                                    SnackBarText.BOUGHT_SUCCESS_MESSAGE,
-                                    'success'
-                                  );
-                                  //this.showInProfile();
-                                });
-                            } catch (err) {
-                              this.snackbar.openSnackBar(
-                                'Something went wrong, please try again! More information: ' +
-                                  err,
-                                'error'
-                              );
-                              loadingAnimation.close();
-                            }
-                          });
-                      }
-                    } catch (err) {
-                      this.snackbar.openSnackBar(
-                        'Something went wrong, please try again! More information: ' +
-                          err,
-                        'error'
-                      );
-                      loadingAnimation.close();
-                    }
-                  });
+        .subscribe(
+          (res) => {
+            if (res) {
+              const loadingAnimation = this.dialogService.mintingDialog({
+                processTitle: 'Buying',
+                message: PendingDialogText.MINTING_IN_PROGRESS,
+                nftName: this.NFTList.nftname,
+                thumbnail: this.NFTList.thumbnail,
               });
+
+              this.servicesell
+                .findATA(user, this.NFTList.nftissuerpk)
+                .then((resAta: any) => {
+                  if (resAta == null) {
+                    this.atastatus = '0';
+                  } else {
+                    this.atastatus = '1';
+                  }
+                })
+                .then((res) => {
+                  this.saleBE.Timestamp = new Date().toString();
+                  this.ata
+                    .createATAforBuyer(
+                      this.total,
+                      user,
+                      this.royaltyCharge,
+                      this.NFTList.creatoruserid,
+                      this.NFTList.currentownerpk,
+                      this.services.toString()
+                    )
+                    .then(async (result: solanaTransaction) => {
+                      try {
+                        let isMobile = await this.getDeviceType();
+                        let tx;
+                        if (isMobile) {
+                          const { signature } = await (
+                            window as any
+                          ).solana.signAndSendTransaction(result);
+                          tx = await connection.confirmTransaction(signature);
+                        } else {
+                          const { signature } = await (
+                            window as any
+                          ).solana.signAndSendTransaction(result);
+                          tx = await connection.confirmTransaction(signature);
+                        }
+                        if (tx != null) {
+                          //check
+                          this.transfer
+                            .createServiceATAforTransfer(
+                              environment.fromWallet,
+                              user,
+                              this.NFTList.nftissuerpk
+                            )
+
+                            .subscribe(
+                              async (res: any) => {
+                                try {
+                                  loadingAnimation.close();
+                                  this.buytxn = res;
+                                  this.saveTXNs();
+                                  this.service
+                                    .updateNFTStatusBackend(this.saleBE)
+                                    .subscribe((res) => {
+                                      this.updateGateway();
+                                      this.snackbar.openSnackBar(
+                                        SnackBarText.BOUGHT_SUCCESS_MESSAGE,
+                                        'success'
+                                      );
+                                      //this.showInProfile();
+                                    });
+                                } catch (err) {
+                                  this.snackbar.openSnackBar(
+                                    'Something went wrong, please try again! More information: ' +
+                                      err,
+                                    'error'
+                                  );
+                                  loadingAnimation.close();
+                                }
+                              },
+                              (err) => {
+                                this.snackbar.openSnackBar(
+                                  'Something went wrong, please try again! More information: ' +
+                                    err,
+                                  'error'
+                                );
+                                loadingAnimation.close();
+                              }
+                            );
+                        }
+                      } catch (err) {
+                        this.snackbar.openSnackBar(
+                          'Something went wrong, please try again! More information: ' +
+                            err,
+                          'error'
+                        );
+                        loadingAnimation.close();
+                      }
+                    });
+                });
+            }
+          },
+          (err) => {
+            this.snackbar.openSnackBar(
+              'Something went wrong, please try again! More information: ' +
+                err,
+              'error'
+            );
           }
-        });
+        );
     }
     if (this.NFTList.blockchain == 'polygon') {
       this.saleBE.MarketContract = environment.contractAddressMKPolygon;
@@ -455,7 +474,7 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
-          isfiat:this.NFTList.isfiat
+          isfiat: this.NFTList.isfiat,
         })
         .subscribe((res) => {
           if (res) {
@@ -512,7 +531,7 @@ export class BuyViewComponent implements OnInit {
           total: parseFloat(this.fullTotal),
           blockchain: this.NFTList.blockchain,
           buttonAction: 'Buy Now',
-          isfiat:this.NFTList.isfiat
+          isfiat: this.NFTList.isfiat,
         })
         .subscribe((res) => {
           if (res) {
@@ -784,7 +803,7 @@ export class BuyViewComponent implements OnInit {
       queryParams: {
         user: this.saleBE.CurrentOwnerPK,
         blockchain: this.nftbe.Blockchain,
-        filter:"NOTFORSALE"
+        filter: 'NOTFORSALE',
       },
     });
   }
@@ -825,8 +844,8 @@ export class BuyViewComponent implements OnInit {
           )
           .subscribe((data: any) => {
             this.NFTList = data.Response[0];
-            if(this.NFTList.isfiat==true){
-              this.buttonvalue="PRE-ORDER"
+            if (this.NFTList.isfiat == true) {
+              this.buttonvalue = 'PRE-ORDER';
             }
             if (this.NFTList == null) {
               this.ngOnInit();
@@ -957,23 +976,35 @@ export class BuyViewComponent implements OnInit {
               blockchain: this.NFTList.blockchain,
               attachment_type: this.NFTList.attachmenttype,
             });
-            if (this.NFTList.blockchain == 'ethereum' && this.NFTList.isfiat==false) {
+            if (
+              this.NFTList.blockchain == 'ethereum' &&
+              this.NFTList.isfiat == false
+            ) {
               this.image =
                 '../../../assets/images/blockchain-icons/ethereum.png';
               this.icon = '../../../assets/images/blockchain-icons/ether.png';
               this.crypto = 'ETH';
             }
-            if (this.NFTList.blockchain == 'polygon' && this.NFTList.isfiat==false) {
+            if (
+              this.NFTList.blockchain == 'polygon' &&
+              this.NFTList.isfiat == false
+            ) {
               this.image = '../../../assets/images/polygon-dd.png';
               this.icon = '../../../assets/images/blockchain-icons/poly.png';
               this.crypto = 'MATIC';
             }
-            if (this.NFTList.blockchain == 'stellar' && this.NFTList.isfiat==false) {
+            if (
+              this.NFTList.blockchain == 'stellar' &&
+              this.NFTList.isfiat == false
+            ) {
               this.image = '../../../assets/images/stellar-dd.png';
               this.icon = '../../../assets/images/blockchain-icons/xlm.png';
               this.crypto = 'XLM';
             }
-            if (this.NFTList.blockchain == 'solana' && this.NFTList.isfiat==false) {
+            if (
+              this.NFTList.blockchain == 'solana' &&
+              this.NFTList.isfiat == false
+            ) {
               this.image = '../../../assets/images/solana-dd.png';
               this.icon = '../../../assets/images/blockchain-icons/sol.png';
               this.crypto = 'SOL';

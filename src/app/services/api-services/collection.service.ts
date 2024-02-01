@@ -21,6 +21,7 @@ export class CollectionService {
   baseUrlNFT: string = this.nftBackendBaseURL + 'nftcollection';
   baseUrlCollection: string = this.nftBackendBaseURL + 'collection';
   baseUrlVisibility: string = this.nftBackendBaseURL + 'collection-visibility';
+  baseUrlAvailability: string = this.baseUrlCollection + '/available';
   sortBy: number = -1;
 
   readonly headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -159,5 +160,9 @@ export class CollectionService {
     return this.http.put<Collection>(this.baseUrlVisibility, payload, {
       headers: this.headers,
     });
+  }
+
+  checkAvailabilityOfCollectionName(collectionName: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrlAvailability}/${collectionName}`);
   }
 }

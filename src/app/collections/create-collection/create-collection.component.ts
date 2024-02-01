@@ -121,15 +121,54 @@ export class CreateCollectionComponent implements OnInit {
       })
       .subscribe((result) => {
         if (result) {
-          this.dialogRef.close({
-            UserId: this.collection.UserId,
-            OrganizationName: this.collection.OrganizationName,
-            CollectionName: this.collection.CollectionName,
-            RequestPayload: {
-              Collection: this.collection,
-              FileDetails: this.fileDetails,
-            },
+          const pendingDialog = this.dialogService.pendingDialog({
+            message: PendingDialogText.PLEASE_WAIT,
           });
+          this.addSubscription = this.service
+            .checkAvailabilityOfCollectionName(this.collection.CollectionName)
+            .subscribe(
+              (res) => {
+                if (res != null || res != '') {
+                  pendingDialog.close();
+                  this.snackbarService.openSnackBar(
+                    this.collection.CollectionName +
+                      SnackBarText.CREATE_COLLECTION_SUCCESS_MESSAGE,
+                    'success'
+                  );
+                  this.selectVal = this.collection.CollectionName;
+                  this.dialogRef.close({
+                    UserId: this.collection.UserId,
+                    OrganizationName: this.collection.OrganizationName,
+                    CollectionName: this.collection.CollectionName,
+                    RequestPayload: {
+                      Collection: this.collection,
+                      FileDetails: this.fileDetails,
+                    },
+                  });
+                } else {
+                  pendingDialog.close();
+                  this.snackbarService.openSnackBar(
+                    SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE,
+                    'error'
+                  );
+                }
+              },
+              (err) => {
+                if (err.status == 400) {
+                  pendingDialog.close();
+                  this.snackbarService.openSnackBar(
+                    SnackBarText.COLLECTION_ALREADY_EXISTS_MESSAGE,
+                    'error'
+                  );
+                } else {
+                  pendingDialog.close();
+                  this.snackbarService.openSnackBar(
+                    SnackBarText.CREATE_COLLECTION_FAILED_MESSAGE,
+                    'error'
+                  );
+                }
+              }
+            );
           //sending data to the service
           /* const pendingDialog = this.dialogService.pendingDialog({
             message: PendingDialogText.PLEASE_WAIT,

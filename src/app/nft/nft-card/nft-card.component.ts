@@ -40,7 +40,6 @@ export class NftCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('item', this.item);
     if (this.sellingstatus == 'Minted') {
       this.tip = 'PUT ON SALE';
     } else if (this.sellingstatus == 'ON SALE') {

@@ -309,59 +309,65 @@ export class ShowNFTComponent implements OnInit {
     try {
       this.mint.getNFTByTag(tag, 8, this.currentPage).subscribe(
         (res: any) => {
-          const curLength = this.List.length;
-          this.nextPage = res.Response.PaginationInfo.nextpage;
-          this.NFTList = res;
-          if (this.NFTList.Response == null) {
-            this.loading = false;
-            this.nextPageLoading = false;
-          }
-
-          this.responseArrayLength += this.NFTList.Response.content.length;
-          for (let x = 0; x < this.NFTList.Response.content.length; x++) {
-            if (this.NFTList.Response.content[x].sellingstatus == 'ON SALE') {
-              let card: NFTCard = new NFTCard(
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                '',
-                false,
-                false,
-                '',
-                false
-              );
-              card.Id = this.NFTList.Response.content[x].Id;
-              card.thumbnail = '';
-              card.ImageBase64 = this.imageSrc;
-              // card.thumbnail=this.thumbnailSRC
-              card.NFTIdentifier =
-                this.NFTList.Response.content[x].nftidentifier;
-              card.NFTName = this.NFTList.Response.content[x].nftname;
-              card.Blockchain = this.NFTList.Response.content[x].blockchain;
-              card.CreatorUserId =
-                this.NFTList.Response.content[x].creatoruserid;
-              card.CurrentOwnerPK =
-                this.NFTList.Response.content[x].currentownerpk;
-              card.SellingStatus =
-                this.NFTList.Response.content[x].sellingstatus;
-              card.CurrentPrice = this.NFTList.Response.content[x].currentprice;
-              card.isfiat = this.NFTList.Response.content[x].isfiat;
-              this.List.push(card);
-              if (this.List.length === this.responseArrayLength) {
-                this.nextPageLoading = false;
-                this.loading = false;
-              }
-            } else {
+          if (res != null) {
+            const curLength = this.List.length;
+            this.nextPage = res.Response.PaginationInfo.nextpage;
+            this.NFTList = res;
+            if (this.NFTList.Response == null) {
               this.loading = false;
               this.nextPageLoading = false;
             }
+
+            this.responseArrayLength += this.NFTList.Response.content.length;
+            for (let x = 0; x < this.NFTList.Response.content.length; x++) {
+              if (this.NFTList.Response.content[x].sellingstatus == 'ON SALE') {
+                let card: NFTCard = new NFTCard(
+                  '',
+                  '',
+                  '',
+                  '',
+                  '',
+                  '',
+                  '',
+                  '',
+                  '',
+                  false,
+                  false,
+                  '',
+                  false
+                );
+                card.Id = this.NFTList.Response.content[x].Id;
+                card.thumbnail = '';
+                card.ImageBase64 = this.imageSrc;
+                // card.thumbnail=this.thumbnailSRC
+                card.NFTIdentifier =
+                  this.NFTList.Response.content[x].nftidentifier;
+                card.NFTName = this.NFTList.Response.content[x].nftname;
+                card.Blockchain = this.NFTList.Response.content[x].blockchain;
+                card.CreatorUserId =
+                  this.NFTList.Response.content[x].creatoruserid;
+                card.CurrentOwnerPK =
+                  this.NFTList.Response.content[x].currentownerpk;
+                card.SellingStatus =
+                  this.NFTList.Response.content[x].sellingstatus;
+                card.CurrentPrice =
+                  this.NFTList.Response.content[x].currentprice;
+                card.isfiat = this.NFTList.Response.content[x].isfiat;
+                this.List.push(card);
+                if (this.List.length === this.responseArrayLength) {
+                  this.nextPageLoading = false;
+                  this.loading = false;
+                }
+              } else {
+                this.loading = false;
+                this.nextPageLoading = false;
+              }
+            }
+            this.setThumbnails(curLength);
+          } else {
+            this.loading = false;
+            this.nextPageLoading = false;
           }
-          this.setThumbnails(curLength);
         },
         (err) => {
           this.loading = false;

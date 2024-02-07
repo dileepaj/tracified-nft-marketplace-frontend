@@ -418,8 +418,10 @@
                 <label class="secondary-txt"> (ETH, XLM, etc.)</label>
               </div>
             </mat-select-trigger>
-            <mat-option value="jpy"
-              ><label class="collection-dropdown"
+            <mat-option value="jpy" [disabled]="!this.isFiatEnabled"
+              ><label
+                class="collection-dropdown"
+                [class.curr-dd-disabled]="!this.isFiatEnabled"
                 >Japanese Yen (JPY)</label
               ></mat-option
             >

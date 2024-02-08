@@ -528,6 +528,11 @@ mat-hint.tags {
   margin-left: 0px;
 }
 
+.curr-dd-disabled {
+  cursor: not-allowed;
+  color: #595959 !important;
+}
+
 ::ng-deep
   .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid
   .mat-form-field-outline-thick {

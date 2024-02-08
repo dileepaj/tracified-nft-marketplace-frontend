@@ -206,6 +206,8 @@ export class Mint2Component implements OnInit {
   SVGData: Record<SVGDataExtraction, string>;
   newCollectionCreated: boolean = false;
   newCollectionPayload: any[] = [];
+  isFiatEnabled: boolean = true;
+
   constructor(
     private route: ActivatedRoute,
     private service: MintService,
@@ -1017,12 +1019,12 @@ export class Mint2Component implements OnInit {
   updateMinter(): void {
     if (this.minter.NFTIssuerPK != null) {
       this.service.updateNFTSolana(this.minter).subscribe((res) => {
-          this.pendingDialog.close(true);
-          this.proceed.emit({
-            blockchain: this.mint.Blockchain,
-            user: this.mint.CreatorUserId,
-          });
-       // }
+        this.pendingDialog.close(true);
+        this.proceed.emit({
+          blockchain: this.mint.Blockchain,
+          user: this.mint.CreatorUserId,
+        });
+        // }
       });
     } else {
       this.Minter();
@@ -1069,12 +1071,12 @@ export class Mint2Component implements OnInit {
         //       });
         //   }
         // } else {
-          this.pendingDialog.close(true);
-          this.proceed.emit({
-            blockchain: this.mint.Blockchain,
-            user: this.mint.CreatorUserId,
-          });
-       // }
+        this.pendingDialog.close(true);
+        this.proceed.emit({
+          blockchain: this.mint.Blockchain,
+          user: this.mint.CreatorUserId,
+        });
+        // }
       });
     } else {
       try {
@@ -1373,24 +1375,32 @@ export class Mint2Component implements OnInit {
       this.stellar = true;
       this.ethereum = false;
       this.solana = true;
+      this.isFiatEnabled = false;
+      this.mint.Currency = 'crypto';
     }
     if (this.wallet == 'phantom') {
       this.polygon = true;
       this.stellar = true;
       this.ethereum = true;
       this.solana = false;
+      this.isFiatEnabled = true;
+      this.mint.Currency = 'jpy';
     }
     if (this.wallet == 'freighter') {
       this.polygon = true;
       this.stellar = false;
       this.ethereum = true;
       this.solana = true;
+      this.isFiatEnabled = false;
+      this.mint.Currency = 'crypto';
     }
     if (this.wallet == 'albedo') {
       this.polygon = true;
       this.stellar = false;
       this.ethereum = true;
       this.solana = true;
+      this.isFiatEnabled = false;
+      this.mint.Currency = 'crypto';
     }
 
     if (this.email != null && this.key != null && this.objectId != null) {

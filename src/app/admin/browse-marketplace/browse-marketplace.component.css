@@ -105,7 +105,7 @@
 }
 
 .notification-card {
-  width:80%;
+  width: 80%;
   padding-bottom: 40px;
   margin-bottom: 40px;
   background-color: red;
@@ -145,7 +145,7 @@
 
 .btn-view {
   margin: 30px 0px 30px 0px;
-  background: #10ceac;
+  background: #80cca3;
   color: black;
   font-size: medium;
   border-radius: 20px;
@@ -195,14 +195,14 @@
   color: #fff;
   opacity: 1;
 }
-.content-tbl{
+.content-tbl {
   width: 100%;
   background-color: red;
 }
-table td{
+table td {
   width: 100%;
 }
-.FAQ-list{
+.FAQ-list {
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -212,11 +212,11 @@ table td{
   font-size: 16px;
   color: #fff;
 }
-#endorsment-status{
-  color: #10CEAC;
+#endorsment-status {
+  color: #10ceac;
 }
 
-.inbox-separator{
+.inbox-separator {
   margin-bottom: 10px;
   border-top: 3px solid #393939;
   width: 80%;
@@ -232,19 +232,19 @@ table td{
 }
 
 .endorse-list label {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
 
-  color: #FFFFFF;
+  color: #ffffff;
 
   word-break: break-all;
 }
 
 .status {
-  background: #2D2D2D;
-  color:rgba(16, 206, 172, 1);
+  background: #2d2d2d;
+  color: #80cca3;
   padding: 5px;
 }
 
@@ -267,7 +267,7 @@ table td{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;

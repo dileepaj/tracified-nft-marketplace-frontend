@@ -8,7 +8,7 @@
 }
 
 .faq-title {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -25,7 +25,7 @@
 }
 
 .label-title {
-  color: #10ceac;
+  color: #80cca3;
   font-weight: 700;
   font-size: 20px;
 
@@ -44,7 +44,7 @@
 }
 
 .btn-submit {
-  background: #10ceac;
+  background: #80cca3;
   color: black;
   font-size: medium;
   border-radius: 20px;

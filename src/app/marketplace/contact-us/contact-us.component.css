@@ -198,7 +198,7 @@ mat-form-field {
   width: 614px;
   max-width: calc(100% - 6px);
   height: 60px;
-  border: 3px dashed #10ceac;
+  border: 3px dashed #80cca3;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -213,13 +213,13 @@ mat-form-field {
   font-size: 20px;
   line-height: 24px;
 
-  color: #10ceac;
+  color: #80cca3;
 }
 
 .btn-submit {
   width: 146px;
   height: 35px;
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
   font-family: "Open Sans", sans-serif;
   font-style: normal;
@@ -317,7 +317,7 @@ mat-form-field {
 }
 
 .selected-tab {
-  background-color: #10ceac;
+  background-color: #80cca3;
   color: #2d2d2d;
 }
 
@@ -346,7 +346,7 @@ mat-form-field {
   font-size: 20px;
   line-height: 24px;
 
-  color: #10ceac;
+  color: #80cca3;
   max-width: 90%;
   word-break: break-all;
 
@@ -370,7 +370,7 @@ mat-form-field {
 ::ng-deep
   .mat-form-field-appearance-outline.mat-focused
   .mat-form-field-outline-thick {
-  color: rgba(16, 206, 172, 1) !important;
+  color: #80cca3 !important;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {

@@ -21,7 +21,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 3px dashed #10ceac;
+  border: 3px dashed #80cca3;
   width: 250px;
   height: 250px;
   cursor: pointer;
@@ -75,7 +75,7 @@
 }
 
 .btn-post {
-  background: #10ceac;
+  background: #80cca3;
   color: black;
   font-size: medium;
   border-radius: 20px;

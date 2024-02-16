@@ -72,7 +72,7 @@ body {
 
   color: #000000;
 
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 10px !important;
 }
 
@@ -86,7 +86,7 @@ body {
 
   text-align: center;
 
-  color: #10ceac;
+  color: #80cca3;
 }
 
 .cursor-p {
@@ -219,7 +219,7 @@ p.normal-text {
 }
 
 .btn-sm {
-  background: #10ceac;
+  background: #80cca3;
   border: none;
   border-radius: 20px !important;
   font-family: "Open Sans", sans-serif;
@@ -294,7 +294,7 @@ p.normal-text {
   bottom: 0;
   left: 0;
   right: 0;
-  border: 2px solid rgba(16, 206, 172, 1);
+  border: 2px solid #80cca3;
   border-radius: 16px;
 }
 
@@ -305,7 +305,7 @@ p.normal-text {
   bottom: 0;
   left: 0;
   right: 0;
-  border: 2px solid rgba(16, 206, 172, 1);
+  border: 2px solid #80cca3;
   border-radius: 16px;
 }
 

@@ -34,7 +34,7 @@
   height: 300px;
   background: transparent;
   color: white;
-  border: 3px solid #10ceac;
+  border: 3px solid #80cca3;
   border-radius: 20px;
   margin-left: 370px;
 }
@@ -91,13 +91,13 @@
 }
 
 .viewnftnavbtn:hover {
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
   transition: 0.5s;
 }
 
 .viewnftnavbtn-active {
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
 }
 
@@ -137,7 +137,7 @@
   flex-direction: column;
 
   min-height: 425px;
-  border: 3px solid #10ceac;
+  border: 3px solid #80cca3;
   border-radius: 20px;
 }
 
@@ -152,7 +152,7 @@
 }
 
 .btn-buy {
-  background: #10ceac;
+  background: #80cca3;
   color: black;
   font-size: medium;
   border-radius: 20px;
@@ -170,7 +170,7 @@
 }
 
 .link {
-  color: #10ceac;
+  color: #80cca3;
   cursor: pointer;
   text-decoration: none;
   font-size: 16px;
@@ -312,7 +312,7 @@
   line-height: 32px;
   /* or 178% */
 
-  color: #10ceac;
+  color: #80cca3;
 }
 
 .owner-l {
@@ -604,7 +604,7 @@ mat-hint {
   margin-top: 36px;
   /* identical to box height, or 132% */
 
-  color: #10ceac !important;
+  color: #80cca3 !important;
 
   margin-right: 20px;
 }
@@ -628,7 +628,7 @@ mat-hint {
   bottom: 0;
   left: 0;
   right: 0;
-  border: 2px solid rgba(16, 206, 172, 1);
+  border: 2px solid #80cca3;
   border-radius: 10px;
 }
 

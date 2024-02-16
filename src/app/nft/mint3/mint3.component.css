@@ -41,7 +41,7 @@
 }
 
 .heading {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 40px;
@@ -51,7 +51,7 @@
 }
 
 .subheading {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 22px;
@@ -97,9 +97,9 @@ p.text {
   width: 190px;
   height: 35px;
 
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 20px;

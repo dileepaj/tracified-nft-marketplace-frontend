@@ -58,7 +58,7 @@
   height: calc(100vh - 66px);
   padding-right: 50px;
   overflow: auto;
-  scrollbar-color: #10ceac #3c3c3c;
+  scrollbar-color: #80cca3 #3c3c3c;
 }
 
 .nft-info {
@@ -149,7 +149,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  scrollbar-color: #10ceac #3c3c3c;
+  scrollbar-color: #80cca3 #3c3c3c;
 }
 
 .nft-story-sidebar h3 {
@@ -227,7 +227,7 @@
 
   color: #000000;
   padding: 8px 10px 8px 10px;
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
 }
 
@@ -289,7 +289,7 @@
 
 /* Handle */
 .nft-story-sidebar::-webkit-scrollbar-thumb {
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 0px;
 }
 
@@ -311,7 +311,7 @@
 
 /* Handle */
 .nft-story-content::-webkit-scrollbar-thumb {
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 0px;
 }
 

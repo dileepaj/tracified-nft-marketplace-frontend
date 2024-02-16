@@ -86,11 +86,11 @@
   line-height: 29px;
   /* identical to box height */
 
-  color: #10ceac;
+  color: #80cca3;
 }
 
 .link-section button {
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
   font-style: normal;
   font-weight: 500;
@@ -115,11 +115,11 @@
   line-height: 29px;
   /* identical to box height */
 
-  color: #10ceac;
+  color: #80cca3;
 }
 
 .link-section-2 button {
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
   font-style: normal;
   font-weight: 500;
@@ -228,7 +228,7 @@ input.check-toggle-round-flat + label:after {
   left: 4px;
   bottom: 4px;
   width: 48px;
-  background-color: #10ceac;
+  background-color: #80cca3;
   -webkit-border-radius: 52px;
   -moz-border-radius: 52px;
   -ms-border-radius: 52px;

@@ -84,17 +84,17 @@
   height: fit-content;
   margin: 42px 0px 40px 0px;
   padding: 10px 25px 10px 25px;
-  border: 3px solid #10ceac;
+  border: 3px solid #80cca3;
   border-radius: 10px;
   box-sizing: border-box;
-  color: #10ceac;
+  color: #80cca3;
   cursor: pointer;
   transition: 0.5s ease-out;
   background: transparent;
 }
 
 .btn-create-home:hover {
-  background: #10ceac;
+  background: #80cca3;
   color: white;
 }
 

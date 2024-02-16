@@ -23,7 +23,7 @@
         >
           navigate_next
         </mat-icon>
-        <a style="color: #00c853">TOMATOE - T0001</a>
+        <a style="color: #80cca3">TOMATOE - T0001</a>
       </div>
       <div>
         <h1 style="font-size: 40px" fxHide.lt-md="true">Review</h1>
@@ -58,19 +58,19 @@
           <div fxFlex.lg="50%" fxLayout="row wrap" style="row-gap: 30px">
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >NFT Name</label
-            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >{{data.nftname}}</label
-            >
+            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data">{{
+              data.nftname
+            }}</label>
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >Artist</label
-            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >{{data.artistname}}</label
-            >
+            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data">{{
+              data.artistname
+            }}</label>
             <label class="label-title" fxFlex="20%" fxFlex.lt-sm="80%"
               >Public Key</label
-            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data"
-              >{{data.currentownerpk}}</label
-            >
+            ><label fxFlex="60%" fxFlex.lt-sm="80%" class="label-data">{{
+              data.currentownerpk
+            }}</label>
           </div>
           <div
             fxFlex.lg="50%"
@@ -215,17 +215,23 @@
           </div>
         </form>
       </div>
-      <div  *ngFor="let item5 of List">
+      <div *ngFor="let item5 of List">
         <table [border]="0">
           <tr>
             <td [width]="100">
-              Rater: <a href="https://stellar.expert/explorer/testnet/tx/{{item5.UserID}}">{{item5.UserID}}</a><br>
-              Rating: {{item5.Rating}}<br>
-            Description: {{item5.Description}}
-         </td>
+              Rater:
+              <a
+                href="https://stellar.expert/explorer/testnet/tx/{{
+                  item5.UserID
+                }}"
+                >{{ item5.UserID }}</a
+              ><br />
+              Rating: {{ item5.Rating }}<br />
+              Description: {{ item5.Description }}
+            </td>
           </tr>
         </table>
-        </div>
+      </div>
     </div>
   </div>
 </div>

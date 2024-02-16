@@ -72,12 +72,12 @@
 ::ng-deep .mat-list-item.nav-list-item :hover {
   border-radius: 10px;
   color: #000;
-  background-color: #10ceac !important;
+  background-color: #80cca3 !important;
 }
 
 .active-item {
   color: #000;
-  background-color: #10ceac;
+  background-color: #80cca3;
 }
 
 .nav-list-item label {
@@ -89,5 +89,5 @@
 .mat-nav-list .mat-list-item:focus,
 .mat-action-list .mat-list-item:focus,
 .mat-list-option:focus {
-  background: #10ceac !important;
+  background: #80cca3 !important;
 }

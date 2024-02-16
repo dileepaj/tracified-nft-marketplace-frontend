@@ -72,13 +72,15 @@
 ::ng-deep .mat-list-item.nav-list-item :hover {
   border-radius: 10px;
   color: #000;
-  background-color: #10ceac !important;
+  background-color: #80CCA3
+ !important;
   font-weight: 600;
 }
 
 .active-item {
   color: #000;
-  background-color: #10ceac;
+  background-color: #80CCA3
+;
   font-weight: 600;
 }
 
@@ -91,7 +93,8 @@
 .mat-nav-list .mat-list-item:focus,
 .mat-action-list .mat-list-item:focus,
 .mat-list-option:focus {
-  background: #10ceac !important;
+  background: #80CCA3
+ !important;
 }
 
 .greeting-txt {
@@ -141,5 +144,6 @@
   height: 8px;
   border-radius: 100%;
 
-  background: #10ceac;
+  background: #80CCA3
+;
 }

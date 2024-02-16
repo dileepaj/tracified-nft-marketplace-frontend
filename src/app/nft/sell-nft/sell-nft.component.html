@@ -14,7 +14,7 @@
           navigate_next
         </mat-icon>
 
-        <a style="color: #00c853">{{ this.NFTList.nftname }}</a>
+        <a style="color: #80cca3">{{ this.NFTList.nftname }}</a>
       </div>
     </div>
   </div>
@@ -269,7 +269,7 @@
                   >${{ sellingPriceUSD.toFixed(2) }}</label
                 >
                 <div
-                *ngIf="royaltycontent"
+                  *ngIf="royaltycontent"
                   class="sell-input-grp"
                   ngStyle.lt-sm="width : 100%"
                   ngStyle.sm="width : 20%"
@@ -277,7 +277,6 @@
                   ngStyle.lg="width : 20%"
                   ngStyle.xl="width : 20%"
                   ngStyle.gt-xl="width : 10%"
-                  
                 >
                   <label>Royalty</label>
                   <div class="input-field-wrapper sell-view-input-wrapper">
@@ -298,7 +297,10 @@
                     <label class="prefix">%</label>
                   </div>
                 </div>
-                <label *ngIf="royaltycontent" class="usd-label" ngStyle.lt-sm="margin-top: -20px"
+                <label
+                  *ngIf="royaltycontent"
+                  class="usd-label"
+                  ngStyle.lt-sm="margin-top: -20px"
                   >${{ royaltyPriceUSD.toFixed(2) }}</label
                 >
               </div>

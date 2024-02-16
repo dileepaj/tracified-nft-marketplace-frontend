@@ -33,15 +33,15 @@
   line-height: 29px;
   /* identical to box height */
 
-  color: #10ceac;
+  color: #80cca3;
 }
 
 .login-input-group mat-icon {
-  color: #10ceac;
+  color: #80cca3;
 }
 
 .btn-login {
-  background: #10ceac;
+  background: #80cca3;
   width: 120px;
   font-style: normal;
   font-weight: 700;
@@ -67,10 +67,9 @@
   justify-content: center;
 }
 
-.login-title{
+.login-title {
   font-weight: 400;
   font-size: 36px;
-
 }
 
 .login-input-wrapper {

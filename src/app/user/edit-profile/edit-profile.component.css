@@ -62,7 +62,7 @@
 
 #ep-header-title label {
   max-width: 128px;
-  color: #FFF;
+  color: #fff;
   font-size: 25px;
   font-style: normal;
   font-weight: 400;
@@ -80,7 +80,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 3px dashed #10ceac;
+  border: 3px dashed #80cca3;
   width: 122px;
   height: 122px;
   cursor: pointer;
@@ -97,7 +97,7 @@
 }
 
 .btn-save {
-  background: #10ceac;
+  background: #80cca3;
   float: right;
   font-style: normal;
   font-weight: 500;
@@ -123,7 +123,6 @@
 }
 
 .back-icon-ep {
-
 }
 
 @media screen and (max-width: 1279px) {

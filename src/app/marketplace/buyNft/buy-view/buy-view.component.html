@@ -14,7 +14,7 @@
           navigate_next
         </mat-icon>
 
-        <a style="color: #00c853">{{ this.NFTList.nftname }}</a>
+        <a style="color: #80cca3">{{ this.NFTList.nftname }}</a>
       </div>
     </div>
   </div>
@@ -135,7 +135,7 @@
           [class.hidden]="selectedTab === 1"
           (click)="buyNFT()"
         >
-          {{this.buttonvalue}}
+          {{ this.buttonvalue }}
         </button>
       </div>
       <mat-tab-group class="buy-view-tabs" [selectedIndex]="selectedTab">
@@ -550,7 +550,8 @@
         >
           navigate_next
         </mat-icon>
-        <a style="color: #00c853">TOMATOE - T0001</a>
+        <a style="color: #80CCA3
+">TOMATOE - T0001</a>
       </div>
       <div>
         <h1 style="font-size: 40px" fxHide.lt-md="true">Buy NFT</h1>

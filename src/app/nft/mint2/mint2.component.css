@@ -157,7 +157,7 @@
   align-items: center;
   width: 614px;
   height: 306px;
-  border: 3px dashed #10ceac;
+  border: 3px dashed #80cca3;
 }
 
 #thumb-dnd {
@@ -172,7 +172,7 @@
 }
 
 .dnd-text-top {
-  color: #10ceac;
+  color: #80cca3;
 }
 
 .dnd-txt {
@@ -298,6 +298,7 @@
   width: 35px;
   height: 35px;
   cursor: pointer;
+  color: #80cca3;
 }
 
 .add-btn-sm {
@@ -305,6 +306,7 @@
   width: 35px;
   height: 35px;
   cursor: pointer;
+  color: #80cca3;
 }
 
 .myPanelClass {
@@ -383,7 +385,7 @@ mat-form-field {
 
 .btn-create {
   height: 35px;
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
   font-family: "Open Sans", sans-serif;
   font-style: normal;
@@ -543,7 +545,7 @@ mat-hint.tags {
 ::ng-deep
   .mat-form-field-appearance-outline.mat-focused
   .mat-form-field-outline-thick {
-  color: rgba(16, 206, 172, 1) !important;
+  color: #80cca3 !important;
 }
 
 ::ng-deep

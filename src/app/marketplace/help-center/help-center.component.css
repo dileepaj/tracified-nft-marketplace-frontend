@@ -79,7 +79,7 @@
 }
 
 .btn-search {
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
   font-family: "Open Sans", sans-serif;
   font-style: normal;
@@ -131,11 +131,11 @@
   line-height: 29px;
   /* identical to box height */
 
-  color: #10ceac;
+  color: #80cca3;
 }
 
 .btn-large {
-  background: #10ceac;
+  background: #80cca3;
   width: 261px;
   height: 60px;
   border-radius: 16px;

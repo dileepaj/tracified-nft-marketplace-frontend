@@ -76,7 +76,7 @@
 }
 
 .mat-expansion-panel-header-title {
-  color: #10ceac;
+  color: #80cca3;
   font-weight: 400;
   font-size: medium;
   word-break: break-all;
@@ -164,12 +164,12 @@
 
   text-align: center;
 
-  color: #10ceac;
+  color: #80cca3;
 }
 
 .btn-contact {
   margin-top: 10px;
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
   border: none;
   font-family: "Open Sans", sans-serif;

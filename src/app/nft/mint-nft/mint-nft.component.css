@@ -40,19 +40,19 @@ mat-stepper {
 }
 
 .mat-step-header .mat-step-icon-selected {
-  background: #0baa08;
+  background: #80cca3;
   border: 3px solid #ffffff;
   transform: scale(1.5);
 }
 
 .mat-step-header .mat-step-icon-state-done {
   color: #fff;
-  background: #0baa08;
+  background: #80cca3;
   border: 3px solid #ffffff;
   transform: scale(1.5);
 }
 .mat-step-header .mat-step-icon-state-edit {
-  background: #0baa08;
+  background: #80cca3;
   border: 3px solid #ffffff;
   transform: scale(1.5);
 }

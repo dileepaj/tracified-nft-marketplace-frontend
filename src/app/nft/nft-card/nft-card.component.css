@@ -138,7 +138,7 @@
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #10ceac;
+  color: #80cca3;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -187,7 +187,7 @@
 .card-parent:hover .btn-view-collection {
   color: black;
   font-weight: 600;
-  background-color: #10ceac;
+  background-color: #80cca3;
 }
 
 .card-parent:hover .thumbnail {

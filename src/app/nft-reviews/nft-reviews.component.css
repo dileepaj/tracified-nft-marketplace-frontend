@@ -53,7 +53,7 @@
   left: 563px;
   top: 304px;
 
-  border: 3px solid #10ceac;
+  border: 3px solid #80cca3;
   border-radius: 20px;
   background: transparent;
   color: white;
@@ -91,13 +91,13 @@
 }
 
 .viewnftnavbtn:hover {
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
   transition: 0.5s;
 }
 
 .viewnftnavbtn-active {
-  background: #10ceac;
+  background: #80cca3;
   border-radius: 20px;
 }
 
@@ -155,7 +155,7 @@
   flex-direction: column;
 
   min-height: 425px;
-  border: 3px solid #10ceac;
+  border: 3px solid #80cca3;
   border-radius: 20px;
 }
 
@@ -206,7 +206,7 @@
 }
 
 .btn-submit {
-  background: #10ceac;
+  background: #80cca3;
   color: black;
   font-size: medium;
   border-radius: 20px;
@@ -224,7 +224,7 @@
 }
 
 .link {
-  color: #10ceac;
+  color: #80cca3;
   cursor: pointer;
   text-decoration: none;
   font-size: 16px;
@@ -316,7 +316,7 @@
 }
 
 .label-title {
-  color: #10ceac;
+  color: #80cca3;
   font-weight: 700;
   font-size: 16px;
 
